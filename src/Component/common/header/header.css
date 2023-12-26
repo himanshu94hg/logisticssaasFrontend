@@ -1,0 +1,193 @@
+#navbarNav {
+  display: flex;
+  align-items: center;
+  /* overflow: hidden;  */
+  /* Prevent content from going outside the navbar */
+}
+
+#shipEaseNavbarNav .nav .nav-link {
+  width: 100%;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+/* #shipEaseNavbarNav .nav-link:active,
+.nav-link:focus,
+.nav-link:hover {
+  background-color: #f3f3f3;
+  background-color: #dbdbdb;
+  border-radius: 4px;
+  color: #315872;
+} */
+
+.iconContainer {
+  width: 38px;
+  height: 38px;
+  font-size: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.navItemsContainer {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  align-items: center;
+}
+
+.buisnessItem {
+  color: #fda005;
+}
+
+.buisnessItem span {
+  background-color: #ffe2b0;
+}
+
+.rateCalculatorColor {
+  color: #845adf;
+}
+
+.rateCalculatorColor span {
+  background-color: #dcccff;
+}
+
+.referColor {
+  color: #0b3b5b;
+}
+
+.referColor span {
+  background-color: #dadde8;
+}
+
+.notificationIcon {
+  color: #2d9cdb;
+  background-color: #dff0fa;
+}
+
+.settingIcon {
+  color: #ff5b5b;
+  background-color: #ffe6e6;
+}
+
+.walletIcon {
+  color: #7e0300;
+  background-color: #f0e1e0;
+}
+
+.icons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.walletContainer {
+  display: flex;
+  justify-content: flex-start;
+  gap: 10px;
+  align-items: center;
+}
+
+.alignContent {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.bell,
+.cart {
+  position: relative;
+  cursor: pointer;
+}
+
+.links span {
+  position: absolute;
+  font-size: 12px;
+  width: 20px;
+  color: #ffffff;
+  border-radius: 50%;
+  top: -10px;
+  right: -10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.bellColor {
+  background: #2d9cdb;
+}
+
+.settingColor {
+  background: #ff5b5b;
+}
+
+.user-photo {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.walletBalance {
+  font-size: 20px;
+  font-weight: 700;
+  color: #7e0300;
+}
+
+.walletDays {
+  font-size: 12px;
+  font-weight: 400;
+  color: #7e0300;
+}
+
+.navbar-expand .navbar-nav .dropdown-menu {
+  right: 0;
+}
+
+.user-name {
+  padding-inline: 10px;
+  max-width: 112px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.dropdown-divider {
+  opacity: 0.2;
+}
+
+#basic-nav-dropdown:hover,
+#basic-nav-dropdown:focus {
+  background-color: transparent;
+}
+
+#shipEaseNavbarNav{
+  width: calc(100vw - 226px) !important;
+}
+
+/* Media query for tablets */
+@media only screen and (min-width: 1601px) {
+  #shipEaseNavbarNav{
+    width: calc(100vw - 267px) !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  /* Adjust styles for tablet screens here */
+  /* For example, you might want to change the layout, font sizes, etc. */
+  .navItemsContainer {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .icons {
+    justify-content: space-around;
+  }
+
+  .walletContainer {
+    justify-content: center;
+  }
+}

@@ -1,0 +1,13 @@
+.dx-datagrid .dx-header-filter-empty{
+    color: #315872;
+    font-size: 12px;
+}
+
+.dx-datagrid-text-content.dx-text-content-alignment-left.dx-header-filter-indicator{
+    font-weight: 500;
+    color: #315872;
+}
+
+.dx-datagrid-rowsview .dx-row:nth-of-type(odd){
+    background-color: #f2f2f2;
+}

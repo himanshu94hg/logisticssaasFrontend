@@ -1,0 +1,22 @@
+
+#navTabs .alignContent {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 25px;
+}
+
+.alignContent a{
+    text-decoration: none;
+}
+
+.navbar-expand .navbar-nav .nav-link{
+    padding: 5px 7px;
+}
+
+.navbar-expand .navbar-nav .nav-link.active{
+background-color: #E5E3F4;
+border-radius: 4px;
+color: #315872;
+}

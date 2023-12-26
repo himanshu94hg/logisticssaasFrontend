@@ -1,0 +1,153 @@
+.navtabs{
+    list-style: none;
+}
+
+.navtabs li{
+    background-color: burlywood;
+    padding: 20px;
+    border: 1px solid;
+    cursor: pointer;
+}
+
+.top-selling-page table td{
+    max-width: 250px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top-selling-page .table-ui th,
+.last-orders .table-ui th{
+    background: transparent;
+}
+
+.top-selling-page .table>:not(:last-child)>:last-child>*,
+.last-orders .table>:not(:last-child)>:last-child>*{
+    border-bottom-color: inherit;
+}
+
+.top-selling-page .table-hover>tbody>tr:hover,
+.last-orders .table-hover>tbody>tr:hover {
+    --bs-table-accent-bg: transparent;
+}
+
+.top-selling-page .table tbody tr:nth-of-type(odd),
+.last-orders .table tbody tr:nth-of-type(odd) {
+    --bs-table-accent-bg: #E5E3F4;
+}
+
+.state-wise-card .card-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.state-wise-card .export-report{
+    font-size: 12px;
+    padding: 5px;
+    background: #E5E3F4;
+    border-radius: 4px;
+    color: #4E46B4;
+    margin-bottom: 15px;
+}
+
+.state-wise-card .card-count{
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+}
+
+.state-wise-card h5{
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.state-wise-card h5 span{
+    font-weight: 400;
+}
+
+.state-wise-card p{
+    margin-bottom: 0;
+}
+
+.state-wise-card .list-ui{
+    margin-top: 1rem;
+}
+
+.state-wise-card .list-ui li{
+    margin-bottom: 0;
+    padding-block: 2;
+}
+
+.content-container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.content-container .gender-side{
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.content-container .gender-side svg{
+    height: 22px;
+}
+
+.content-container .gender-side svg path{
+    fill: #6A49E5;
+}
+
+.content-container .gender-side .male svg path{
+    fill: #DB445B;
+}
+
+.content-container .gender-icon{
+    background-color: #E7E1FD;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+    justify-content: center;
+}
+
+.content-container .gender-icon.male{
+    background-color: #F8D8DE;
+}
+
+.best-sku-products table{
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.best-sku-products table tr{
+    border-bottom: 1px solid #F2F2F2;
+    padding-block: 1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.best-sku-products table td{
+    white-space: nowrap;
+    font-size: 12px;
+    padding-block: 7px;
+}
+
+.best-sku-products table tr:last-of-type{
+    border-bottom: none;
+}
+
+.best-sku-products table tr:last-of-type td{
+    padding-bottom: 0px;
+}
+
+.graph-image{
+    max-width: -webkit-fill-available;
+}
+
+@media screen and (max-width: 1600px) {
+    .top-selling-page table td {
+        max-width: 178px;
+    }
+}
