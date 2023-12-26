@@ -9,48 +9,33 @@ import Graph from "../../../../common/Graph/Graph";
 import LineGraph from "../../../../common/Graph/LineGraph";
 import DataTable from "./DataTable/DataTable";
 
-function TotalInfoDashboard() {
-  const [shipmentCounter, setShipmentCounter] = useState(null);
+function TotalInfoDashboard() { 
   const [totalCustomer, setTotalCustomer] = useState(null);
-  const [dailyShipment, setDailyShipment] = useState(null);
-  const [averageSelling, setAverageSelling] = useState(null);
-  const [todayRevenue, setTodayRevenue] = useState(null);
-  const requestData = {
-    sellerId: "16",
-    start: "2023-10-01 00:00:00",
-    end: "2023-10-30 00:00:00",
-  };
-
+  const [dailyShipment,setDailyShipment]=useState(null);
+  const [avarageSelling, setAverageSelling] = useState(null);
+  const [todayRevenue,setTodayRevenue]=useState(null);
+  
   useEffect(() => {
-    axios
-      .post(
-        "https://www.shipease.in/api/microservices/dashboard/overview/get-summary-counter",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        setShipmentCounter(response.data.data);
-        if (response.data.data) {
-          const newTotalRevenue = response.data.data;
-          const toBePickedPercentage = newTotalRevenue?.total_customer + newTotalRevenue?.daily_shipment + newTotalRevenue?.average_selling + newTotalRevenue?.today_revenue;
-          const total = newTotalRevenue?.total_customer * 100 / toBePickedPercentage;
-          setTotalCustomer(total.toFixed(2));
-          const daily = newTotalRevenue?.daily_shipment * 100 / toBePickedPercentage;
-          setDailyShipment(daily.toFixed(2));
-          const average = newTotalRevenue?.average_selling * 100 / toBePickedPercentage;
-          setAverageSelling(average.toFixed(2));
-          const today = newTotalRevenue?.today_revenue * 100 / toBePickedPercentage;
-          setTodayRevenue(today.toFixed(2));
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setShipmentCounter(null);
-      });
+    const fetchData = async () => {
+      try {
+        const [customerResponse, shipmentResponse, sellingResponse, revenueResponse] =
+          await Promise.all([
+            axios.get('http://127.0.0.1:8000/api/v1/top-customer/'),
+            axios.get('http://127.0.0.1:8000/api/v1/daly-shipment/'),
+            axios.get('http://127.0.0.1:8000/api/v1/avg-sellingprice/'),
+            axios.get('http://127.0.0.1:8000/api/v1/today-revenue/'),
+          ]);
+
+        setTotalCustomer(customerResponse.data);
+        setDailyShipment(shipmentResponse.data);
+        setAverageSelling(sellingResponse.data);
+        setTodayRevenue(revenueResponse.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -72,8 +57,13 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Total Customer</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.total_customer)}</h2>
-                    <p className="font12 text-green">Best customers ({shipmentCounter?.total_customer})</p>
+                    <h2 className="font20 title-text p-y bold-600 m0">
+                      {totalCustomer?.total_customer} 
+                      </h2>
+                    <p className="font12 text-blue-dark">Best customers 
+                     {totalCustomer?.top_customer}
+                    
+                    </p>
                   </div>
                 </div>
               </div>
@@ -81,7 +71,7 @@ function TotalInfoDashboard() {
                 <LineGraph cardColor="#55B685" />
                 <div className="card-footer">
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    +{totalCustomer}%
+                    {/* +{totalCustomer}% */}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     this month
@@ -105,8 +95,14 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Daily Shipment</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.daily_shipment)}</h2>
-                    <p className="font12 text-yellow">Pending ({shipmentCounter?.daily_shipment})</p>
+                    <h2 className="font20 title-text p-y bold-600 m0">
+                    {dailyShipment?.daily_shipment}
+                      </h2>
+                    <p className="font12 text-yellow">Pending 
+                    
+                  {dailyShipment?.total_pending_data}
+                    
+                    </p>
                   </div>
                 </div>
               </div>
@@ -116,7 +112,7 @@ function TotalInfoDashboard() {
                 <LineGraph cardColor="#F6B954" />
                 <div className="card-footer">
                   <span className="text-yellow font13 pt20 bold-600 d-block text-end">
-                    +{dailyShipment}%
+                    {/* +{dailyShipment}% */}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     this month
@@ -141,7 +137,10 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Average Selling Price</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h2>
+                    <h2 className="font20 title-text p-y bold-600 m0">
+                      {avarageSelling?.average_invoice_amount}
+                      
+                      </h2>
                     <p className="font12 text-blue">Seller </p>
                   </div>
                 </div>
@@ -150,7 +149,7 @@ function TotalInfoDashboard() {
                 <LineGraph cardColor="rgba(75, 192, 192, 1)" />
                 <div className="card-footer">
                   <span className="text-blue font13 pt20 bold-600 d-block text-end">
-                    +{averageSelling}%
+                    {/* +{averageSelling}% */}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     comparative analysis</p>
@@ -173,8 +172,14 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Today’s Revenue</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.today_revenue)}</h2>
-                    <p className="font12 text-red">Yesterday {shipmentCounter?.today_revenue} </p>
+                    <h2 className="font20 title-text p-y bold-600 m0">
+                      
+                      
+                       {todayRevenue?.today_revenue}
+                      </h2>
+                    <p className="font12 text-red">Yesterday 
+                    {todayRevenue?.yesterday_revenue}  
+                    </p>
                   </div>
                 </div>
               </div>
@@ -183,7 +188,7 @@ function TotalInfoDashboard() {
                 <div className="card-footer">
 
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    +{todayRevenue}%
+                    {/* +{todayRevenue}% */}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     comparative analysis
