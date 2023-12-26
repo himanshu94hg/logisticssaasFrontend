@@ -1,46 +1,54 @@
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer} from 'recharts';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer
+} from 'recharts';
 
-const pdata = [
-  {
-    name: 'Python',
-    student: 13,
-    fees: 10
-  },
-  {
-    name: 'Javascript',
-    student: 15,
-    fees: 12
-  },
-  {
-    name: 'PHP',
-    student: 5,
-    fees: 10
-  },
-  {
-    name: 'Java',
-    student: 10,
-    fees: 5
-  },
-  {
-    name: 'C#',
-    student: 9,
-    fees: 4
-  },
-  {
-    name: 'C++',
-    student: 10,
-    fees: 8
-  },
-];
+function DailyPreferences() {
+  const [prefData, setPrefData] = useState([]);
+  const apiData = {
+    "one_day": 100,
+    "one_week": 333,
+    "one_month": 444,
+    "three_month": 222,
+    "six_month": 344,
+    "one_year": 82926
+  };
 
-function DailyPrefrences() {
+  useEffect(() => {
+   
+    axios.get('http://127.0.0.1:8000/api/v1/daily-prefrences/')
+      .then(response => {
+        setPrefData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []); // Empty dependency array ensures the effect runs once on component mount
+
   return (
     <>
-      <h1 className="chart-heading">Daily Prefrence</h1>
+      <h1 className="chart-heading">Daily Preference</h1>
       <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart data={pdata} width={200} height={100} margin={{ top: 5, right: 300, left: 20, bottom: 5 }}>
+        <LineChart
+          data={apiData}
+          width={200}
+          height={100}
+          margin={{ top: 5, right: 300, left: 20, bottom: 5 }}
+        >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value + " Programming"} />
+          <XAxis
+            dataKey="name"
+            interval={'preserveStartEnd'}
+            tickFormatter={(value) => value + ' Programming'}
+          />
           <YAxis />
           <Tooltip contentStyle={{ backgroundColor: 'yellow' }} />
           <Legend />
@@ -52,4 +60,4 @@ function DailyPrefrences() {
   );
 }
 
-export default DailyPrefrences;
+export default DailyPreferences;

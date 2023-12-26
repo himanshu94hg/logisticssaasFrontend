@@ -1,6 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import BestSKU from './BestSKU';
 
-const BestSKU = () => {
+const ParentComponent = () => {
+    const [bestSKUData, setBestSKUData] = useState([]);
+
+    useEffect(() => {
+        axios
+            .get('http://127.0.0.1:8000/api/v1/top-product-sku/')
+            .then(response => {
+                console.log('Data:', response.data);
+                setBestSKUData(response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
+
     return (
         <>
             <div className="box-shadow shadow-sm p10 best-sku-products">
@@ -9,33 +25,20 @@ const BestSKU = () => {
                         <h4 className="title">Best SKU Products</h4>
                     </div>
                 </div>
-                <table>
+                <table className="">
+
                     <tbody>
-                        <tr>
-                            <td>Ethnic School bag for children (24L)</td>
-                            <td className='text-green'>In Stock</td>
-                        </tr>
-                        <tr>
-                            <td>Leather jacket for men (S,M,L,XL)</td>
-                            <td className='text-purple'>In Stock</td>
-                        </tr>
-                        <tr>
-                            <td>Childrens Teddy toy of high quality</td>
-                            <td className='text-red'>Out Of Stock</td>
-                        </tr>
-                        <tr>
-                            <td>Orange smart watch dial (24mm)</td>
-                            <td>Out Of Stock</td>
-                        </tr>
-                        <tr>
-                            <td>Orange smart watch dial (24mm)</td>
-                            <td>Out Of Stock</td>
-                        </tr>
+                        {bestSKUData.map((sku, index) => (
+                            <tr key={index}>
+                                <td>{sku.product_sku || 'N/A'}</td>
+                                <td className="text-green">In Stock</td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default BestSKU
+export default ParentComponent;

@@ -11,69 +11,57 @@ import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png'
 import iconOrders from '../../../../../assets/image/icons/Orders_icon.png'
 
 function TotalOrderInfo() {
-  const [shipmentCounter, setShipmentCounter] = useState("345");
-  const [totalCustomer, setTotalCustomer] = useState("200");
-  const [dailyShipment, setDailyShipment] = useState("367");
-  const [averageSelling, setAverageSelling] = useState("456");
-  const [todayRevenue, setTodayRevenue] = useState("987");
-  const requestData = {
-    sellerId: "16",
-    start: "2023-10-01 00:00:00",
-    end: "2023-10-30 00:00:00",
-  };
-
+  const[totalOrder,setTotalOrder] = useState(null);
+  const[cancelOrder,setCancelOrder] = useState(null);
+  const[totalDeveloper,setTotalDeveloper]=useState(null)
+  const[totalRtoOrder,setTotalRtoOrder]=useState(null)
+  
   useEffect(() => {
-    axios
-      .post(
-        "https://www.shipease.in/api/microservices/dashboard/overview/get-summary-counter",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        setShipmentCounter(response.data.data);
-        if (response.data.data) {
-          const newTotalRevenue = response.data.data;
-          const toBePickedPercentage = newTotalRevenue?.total_customer + newTotalRevenue?.daily_shipment + newTotalRevenue?.average_selling + newTotalRevenue?.today_revenue;
-          const total = newTotalRevenue?.total_customer * 100 / toBePickedPercentage;
-          setTotalCustomer(total.toFixed(2));
-          const daily = newTotalRevenue?.daily_shipment * 100 / toBePickedPercentage;
-          setDailyShipment(daily.toFixed(2));
-          const average = newTotalRevenue?.average_selling * 100 / toBePickedPercentage;
-          setAverageSelling(average.toFixed(2));
-          const today = newTotalRevenue?.today_revenue * 100 / toBePickedPercentage;
-          setTodayRevenue(today.toFixed(2));
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setShipmentCounter(null);
-      });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const [totalorderResponse, cancelorderResponse, totaldeleverdResponse, totalrtoResponse] =
+          await Promise.all([
+            axios.get('http://127.0.0.1:8000/api/v1/totalorder/'),
+            axios.get('http://127.0.0.1:8000/api/v1/totalcancelorder/'),
+            axios.get('http://127.0.0.1:8000/api/v1/totaldeleverdorder/'),
+            axios.get('http://127.0.0.1:8000/api/v1/totalrtoordercount/'),
+          ]);
 
+        setTotalOrder(totalorderResponse.data);
+        setCancelOrder(cancelorderResponse.data);
+        setTotalDeveloper(totaldeleverdResponse.data);
+        setTotalRtoOrder(totalrtoResponse.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
   return (
     <>
-      <div className="grid gap-3">
+       <div className="grid gap-3">
         {/* Card 1 */}
         <div className="">
           <div className="box-shadow shadow-sm p10 card-height wave-bg green-wave">
             <div className="row">
               <div className="col-12">
                 <div className="row align-items-center">
-                <div className="col-10 left-text">
-                  <div className="CardIconContainer icon-bg">
-                    <img src={iconOrders} alt="iconOrders" width={24} />
+                  <div className="col-10 left-text">
+                    <div className="CardIconContainer icon-bg">
+                      <img src={iconOrders} alt="iconOrders" width={24} />
+                    </div>
+                    <p className="font14 text-gray m-0 ws-no-wrap">Total Orders</p>
+                    {totalOrder ? (
+                      <h3 className="font20 title-text p-y bold-600 m0">{totalOrder.total_orders_count}</h3>
+                    ) : (
+                      <p>Loading...</p>
+                    )}
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Total Orders</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
-                </div>
                   <div className="col-2">
-                  <HiTrendingUp className="trending-icon" />
+                    <HiTrendingUp className="trending-icon" />
                   </div>
-              </div>
+                </div>
               </div>
               <div className="col-12">
                 {/* <img src={redSineWave} alt="redSineWave" /> */}
@@ -81,6 +69,7 @@ function TotalOrderInfo() {
             </div>
           </div>
         </div>
+     
 
         {/* Card 2 */}
         <div className="">
@@ -93,8 +82,10 @@ function TotalOrderInfo() {
                   <img src={iconDelivery} alt="iconDelivery" width={24}/>
 
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Dispatch Orders</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Cancel Order</p>
+                  <h3 className="font20 title-text p-y bold-600 m0">
+                    {cancelOrder?.total_cancel_order_count} 
+                    </h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingUp className="trending-icon"/>
@@ -119,7 +110,7 @@ function TotalOrderInfo() {
                     <img src={iconDelivery} alt="iconDelivery" width={24}/>
                   </div>
                   <p className="font14 text-gray m-0 ws-no-wrap">Delivery Orders</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <h3 className="font20 title-text p-y bold-600 m0">{totalDeveloper?.total_Delivered_order_count}</h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingUp className="trending-icon" />
@@ -144,7 +135,9 @@ function TotalOrderInfo() {
                     <img src={iconRTO} alt="iconRTO" width={24}/>
                   </div>
                   <p className="font14 text-gray m-0 ws-no-wrap">RTO Orders</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <h3 className="font20 title-text p-y bold-600 m0">
+                    {totalRtoOrder?.total_return_to_origin_order_count}
+                    </h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingDown className="trending-icon"/>
