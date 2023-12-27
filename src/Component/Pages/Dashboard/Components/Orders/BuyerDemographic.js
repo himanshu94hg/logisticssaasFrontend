@@ -9,7 +9,7 @@ const BuyerDemographic = () => {
                 <div className="row">
                     <div className="col">
                         <h4 className="title">Buyer Demographic</h4>
-                        <div className='content-container'>
+                        <div className='content-container p10'>
                             <div className='gender-side'>
                                 <div className='gender-icon female'>
                                     <FaFemale height={30} />
