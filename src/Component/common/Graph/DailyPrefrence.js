@@ -36,16 +36,15 @@ const pdata = [
 function DailyPrefrences() {
   return (
     <>
-      <h1 className="chart-heading">Daily Prefrence</h1>
-      <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart data={pdata} width={200} height={100} margin={{ top: 5, right: 300, left: 20, bottom: 5 }}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value + " Programming"} />
+      {/* <h1 className="chart-heading">Daily Prefrence</h1> */}
+      <ResponsiveContainer width="100%" aspect={1}>
+        <LineChart data={pdata}>
+          <CartesianGrid stroke="#ccc" strokeDasharray="10 10" />
+          <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value} />
           <YAxis />
-          <Tooltip contentStyle={{ backgroundColor: 'yellow' }} />
+          <Tooltip contentStyle={{ backgroundColor: '#E5E3F4', color: '#093A5A' }} />
           <Legend />
-          <Line type="monotone" dataKey="student" stroke="red" activeDot={{ r: 8 }} />
-          <Line type="monotone" dataKey="fees" stroke="green" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="student" strokeWidth="3" stroke="#093A5A" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     </>

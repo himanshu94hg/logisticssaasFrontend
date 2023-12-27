@@ -6,11 +6,11 @@ import TotalOrderInfo from '../Components/Orders/TotalOrderInfo'
 import CancelOrder from '../Components/Orders/CancelOrder'
 import BuyerDemographic from '../Components/Orders/BuyerDemographic'
 import PrepaidCOD from '../Components/Orders/PrepaidCOD'
-import StateSplitDashboard from '../Components/Overview/StateSplitDashboard'
 import TableDashboard from '../Components/Overview/TableDashboard'
 import DomesticInternational from '../Components/Orders/DomesticInternational'
 import BestSKU from '../Components/Orders/BestSKU'
 import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
+import WarehouseInformation from '../Components/Orders/WarehouseInformation'
 
 const Orders = () => {
   return (
@@ -18,7 +18,7 @@ const Orders = () => {
       <Row>
         <Col className="col-3 cardsSpace">
           <ChannelByOrder />
-          <StateSplitDashboard />
+          <WarehouseInformation />
         </Col>
         <Col className="col-6 cardsSpace">
           <TotalOrderInfo />

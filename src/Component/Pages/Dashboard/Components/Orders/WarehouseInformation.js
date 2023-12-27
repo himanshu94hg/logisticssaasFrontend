@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import IndiaMap from '../../../../../assets/image/IndiaMap.png'
 
-function StateSplitDashboard() {
+const WarehouseInformation = () => {
     const [stateAllocation, setStateAllocation] = useState([]);
 
     const requestData = {
@@ -40,15 +40,11 @@ function StateSplitDashboard() {
 
         <div className="box-shadow shadow-sm p10 state-wise-card">
             <div className="card-heading">
-                <h4 className="title">State Wise Split</h4>
+                <h4 className="title">Warehouse Information</h4>
                 <p className="export-report">Export Report</p>
             </div>
-            <div className="card-count">
-                <h5 className="total-count">{totalCount} <span className="font12 text-gray">Sales</span></h5>
-                <p className="font12 text-gray">Compared To Last Month</p>
-            </div>
-            <div className="d-flex justify-content-end">
-            <img src={IndiaMap} style={{width: '60%'}}/>
+            <div className="d-flex ">
+                <img src={IndiaMap} style={{width: '60%'}}/>
             <ul className="list-ui">
                 {stateAllocation.map((state) => (
                     <li className="">
@@ -67,4 +63,4 @@ function StateSplitDashboard() {
     );
 }
 
-export default StateSplitDashboard;
+export default WarehouseInformation

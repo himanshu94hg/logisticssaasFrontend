@@ -6,6 +6,7 @@ import Header from "./Component/common/header/Header";
 import "./App.css";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import Orders from './Component/Pages/Dashboard/DashboardTabs/Orders';
+import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
            </div>
            <Routes>            
              <Route path="/Orders" element={<Orders/>} />
+             <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>
