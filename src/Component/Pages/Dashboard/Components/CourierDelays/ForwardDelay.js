@@ -8,7 +8,8 @@ const ForwardDelay = () => {
                 <h4 className="title">Forward Delay</h4>
                 <img className="graph-image" src={ForwardDelayGraph} alt="ForwardDelayGraph" />
             </div>
-        </>)
+        </>
+    )
 }
 
 export default ForwardDelay

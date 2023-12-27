@@ -5,7 +5,7 @@ const RTOCount = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10">
-                <h4 className="title">RTO Status</h4>
+                <h4 className="title">RTO Count</h4>
                 <img className="graph-image" src={CancelOrders} alt="CancelOrders" />
             </div>
         </>
