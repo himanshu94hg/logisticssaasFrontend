@@ -47,12 +47,12 @@ html{
   flex-direction: column;
   justify-content: flex-start;
   gap: 15px;
-  margin-inline: 207px 10px;
+  margin-inline: 72px 10px;
 }
 
 @media screen and (min-width: 1601px) {
   .rightContainer{
-    margin-inline: 247px 10px;
+    margin-inline: 72px 10px;
   }
 }
 

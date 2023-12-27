@@ -1,7 +1,7 @@
 import 'devextreme/dist/css/dx.light.css';
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Sidebar from "./Component/common/sidebar/Sidebar";
+import Sidebar from "./Component/common/sidebar/SideNav";
 import Header from "./Component/common/header/Header";
 import "./App.css";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
@@ -12,9 +12,9 @@ function App() {
   return (
      <Router>
        <div className="container p-0 m-0" style={{ display: "flex" }}>
-         <div>
+        
            <Sidebar />
-         </div>
+        
          <div className="rightContainer">
            <div>
              <Header />

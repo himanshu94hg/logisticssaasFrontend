@@ -165,13 +165,13 @@
 }
 
 #shipEaseNavbarNav{
-  width: calc(100vw - 226px) !important;
+  width: calc(100vw - 92px) !important;
 }
 
 /* Media query for tablets */
 @media only screen and (min-width: 1601px) {
   #shipEaseNavbarNav{
-    width: calc(100vw - 267px) !important;
+    width: calc(100vw - 92px) !important;
   }
 }
 

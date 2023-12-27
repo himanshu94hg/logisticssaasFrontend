@@ -1,0 +1,66 @@
+.SideNav {
+    width: 50px;
+    height: 100%;
+    max-height: 100vh;
+    background-color: #FFFFFF;
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 4;
+    font-weight: 400;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.SideNav.expanded {
+    width: 200px;
+}
+
+.logo-container img{
+    height: auto;
+    padding: 0 10px;
+    margin: 20px 0;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.logo-container .full-logo{
+    width: 187px;
+}
+.logo-container .mobile-logo{
+    width: 51px;
+}
+
+#sidenav .nav-link {
+    /* width: 176px; */
+    color: #727986;
+    cursor: pointer;
+    padding-inline: 7px;
+    margin-inline: 7px;
+    white-space: nowrap;
+    padding-block: 7px;
+}
+
+#sidenav .nav-link:active,
+#sidenav .nav-link:focus,
+#sidenav .nav-link:hover {
+  /* background-color: #E5E3F4; */
+  font-weight: 700;
+  color: #315872;
+  border-radius: 4px;
+  padding-inline: 7px 0px;
+  /* border-left: 4px solid #315872; */
+}
+
+.sidebar-label-wrapper svg{
+    vertical-align: -7px;
+}
+
+.menu-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100vh - 97px);
+}
