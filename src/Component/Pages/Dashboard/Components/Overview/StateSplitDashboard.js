@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import IndiaMap from '../../../../../assets/image/IndiaMap.png'
 
 function StateSplitDashboard() {
   const [stateAllocation, setStateAllocation] = useState([]);
