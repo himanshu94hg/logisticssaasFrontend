@@ -11,6 +11,7 @@ import DomesticInternational from '../Components/Orders/DomesticInternational'
 import BestSKU from '../Components/Orders/BestSKU'
 import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
 import WarehouseInformation from '../Components/Orders/WarehouseInformation'
+import OrderDetails from '../Components/Orders/OrderDetails'
 
 const Orders = () => {
   return (
@@ -18,6 +19,7 @@ const Orders = () => {
       <Row>
         <Col className="col-3 cardsSpace">
           <ChannelByOrder />
+          <OrderDetails />
           <WarehouseInformation />
         </Col>
         <Col className="col-6 cardsSpace">
