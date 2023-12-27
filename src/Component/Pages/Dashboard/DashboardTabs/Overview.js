@@ -10,6 +10,7 @@ import DeliveryPerformance from '../Components/Overview/DeliveryPerformance'
 import StateSplitDashboard from '../Components/Overview/StateSplitDashboard'
 import TableDashboard from '../Components/Overview/TableDashboard'
 import OverviewDetails from '../Components/Overview/OverviewDetails'
+import WeightDiterpenes from '../Components/Overview/WeightDiterpenes'
 
 const Overview = () => {
   return (
@@ -30,6 +31,7 @@ const Overview = () => {
           <RevenueDashboard />
           <CourierWiseDashboard />
           <PopularCustomerDashboard />
+          <WeightDiterpenes />
         </Col>
       </Row>
     </>
