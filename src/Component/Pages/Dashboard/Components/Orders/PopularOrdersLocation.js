@@ -1,42 +1,42 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const PopularOrdersLocation = () => {
-    return (
-        <>
-            <div className="box-shadow shadow-sm p10">
-                <div className="row">
-                    <div className="col">
-                        <h4 className="title">Popular Orders Location</h4>
-                        <ul className="list-ui mt20">
-                            <li className="bg-red-light text-red">
-                                <p>Tamil Nadu</p>
-                                <p>₹ 429885</p>
-                            </li>
+  const [popularLocations, setPopularLocations] = useState([]);
 
-                            <li className="bg-green-light text-green">
-                                <p>Haryana</p>
-                                <p>₹ 258850</p>
-                            </li>
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/api/v1/state-wise-order/')
+      .then(response => {
+        setPopularLocations(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
 
-                            <li className="bg-blue-light text-blue">
-                                <p>Karnataka</p>
-                                <p>₹ 210131</p>
-                            </li>
+  return (
+    <div className="box-shadow shadow-sm p10">
+      <div className="row">
+        <div className="col">
+          <h4 className="title">Popular Orders Location</h4>
+          <ul className="list-ui mt20">
+            {popularLocations.map((location, index) => (
+              <li key={index} className={`bg-${getColor(index)}-light text-${getColor(index)}`}>
+                <p>{location.p_state}</p>
+                <p>₹ {location.total_orders}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-                            <li className="bg-purple-light text-purple">
-                                <p>Delhi</p>
-                                <p>₹ 144448</p>
-                            </li>
-                            <li className="bg-sky-light text-aqua">
-                                <p>West Bengal</p>
-                                <p>₹ 78400</p>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </>
-    )
-}
+// Helper function to get color based on index
+const getColor = (index) => {
+  const colors = ['red', 'green', 'blue', 'purple', 'sky'];
+  return colors[index % colors.length];
+};
 
-export default PopularOrdersLocation
+export default PopularOrdersLocation;

@@ -37,7 +37,7 @@ function DailyPreferences() {
     <>
       <h1 className="chart-heading">Daily Prefrence</h1>
       <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart data={pdata} width={200} height={100} margin={{ top: 5, right: 300, left: 20, bottom: 5 }}>
+        <LineChart data={apiData} width={200} height={100} margin={{ top: 5, right: 300, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value + " Programming"} />
           <YAxis />
