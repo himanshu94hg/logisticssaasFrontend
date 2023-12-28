@@ -16,25 +16,26 @@ import CustomerIcon from "./Icons/CustomerIcon";
 import MISIcon from "./Icons/MISIcon";
 import Logo from '../../../assets/image/logo/logo.svg'
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
+import { NavLink } from 'react-router-dom';
 
 const Dropdown = ({ links }) => {
   return (
     <div className="dropdown-content">
       {links.map((link, index) => (
-        <Link key={index} to={link.to}>
+        <NavLink key={index} to={link.to}>
           {link.label}
-        </Link>
+        </NavLink>
       ))}
     </div>
   );
 };
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
-    const [isDropdownOpen, setDropdownOpen] = useState(false);
-  
-    const handleDropdownToggle = () => {
-      setDropdownOpen(!isDropdownOpen);
-    };
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+
+  const handleDropdownToggle = () => {
+    setDropdownOpen(!isDropdownOpen);
+  };
 
   return (
     <div className="nav-link" onClick={hasDropdown ? handleDropdownToggle : null}>
@@ -44,7 +45,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
             &#9662;
           </div>
         )}
-        { /* Use appropriate icon component based on the menu item */ }
+        { /* Use appropriate icon component based on the menu item */}
+        <NavLink to={to} activeClassName="active">
         {label === "Dashboard" && <DashboardIcon />}
         {label === "Orders" && <OrdersIcon />}
         {label === "More On Orders" && <MoreOnOrdersIcon />}
@@ -58,15 +60,19 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
         {label === "MIS" && <MISIcon />}
         {label === "Customer Support" && <CustomerSupportIcon />}
         {/* Add other icons based on the menu item */}
-        {isExpanded && <span className="mx-2">{label}</span>}
+
+        
+          {isExpanded && <span className="mx-2">{label}</span>}
+        </NavLink>
       </div>
+
       {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />}
     </div>
   );
 };
 
 const SideNav = () => {
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
 
   const handleMouseEnter = () => {
     setExpanded(true);
@@ -77,13 +83,15 @@ const SideNav = () => {
   };
 
   const menuItems = [
-    { o: "/", label: "Dashboard" },
+    { to: "/", label: "Dashboard" },
     { to: "/Orders", label: "Orders" },
-    { to: "/MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
-        { to: "/dashboard-details", label: "Details 1" },
-        { to: "/dashboard-summary", label: "Summary" },
-      ],
-    },
+    { to: "/MoreOnOrders", label: "More On Orders" },
+    // {
+    //   to: "/MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
+    //     { to: "/dashboard-details", label: "Details 1" },
+    //     { to: "/dashboard-summary", label: "Summary" },
+    //   ],
+    // },
     { to: "/Shipments", label: "Shipments" },
     { to: "/Channels", label: "Channels" },
     { to: "/OMS", label: "OMS" },
@@ -103,11 +111,11 @@ const SideNav = () => {
       onMouseLeave={handleMouseLeave}
     >
       <div className="logo-container">
-      <img
-                    src={isExpanded ? Logo : mobileLogo}
-                    alt="Logo"
-                    className={`${isExpanded? 'full-logo' : 'mobile-logo'}`}
-                />
+        <img
+          src={isExpanded ? Logo : mobileLogo}
+          alt="Logo"
+          className={`${isExpanded ? 'full-logo' : 'mobile-logo'}`}
+        />
       </div>
       <div className="menu-container">
         {menuItems.map((item, index) => (
