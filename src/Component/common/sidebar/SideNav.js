@@ -1,7 +1,7 @@
 // Import necessary modules and components
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './SideNav.css'; // Import your CSS file for styling
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import DashboardIcon from "./Icons/DashboardIcon";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
@@ -14,7 +14,7 @@ import WeightRecordsIcon from "./Icons/WeightRecordsIcon";
 import ToolsIcons from "./Icons/ToolsIcons";
 import CustomerIcon from "./Icons/CustomerIcon";
 import MISIcon from "./Icons/MISIcon";
-import Logo from '../../../assets/image/logo/logo.svg'
+import FullLogo from '../../../assets/image/logo/logo.svg'
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 import { NavLink } from 'react-router-dom';
 
@@ -31,39 +31,62 @@ const Dropdown = ({ links }) => {
 };
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(true);
+  const location = useLocation();
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
-  return (
-    <div className="nav-link" onClick={hasDropdown ? handleDropdownToggle : null}>
-      <div className="sidebar-label-wrapper">
-        {hasDropdown && (
-          <div className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>
-            &#9662;
-          </div>
-        )}
-        { /* Use appropriate icon component based on the menu item */}
-        <NavLink to={to} activeClassName="active">
-        {label === "Dashboard" && <DashboardIcon />}
-        {label === "Orders" && <OrdersIcon />}
-        {label === "More On Orders" && <MoreOnOrdersIcon />}
-        {label === "Shipments" && <ShipmentsIcon />}
-        {label === "Channels" && <ChannelsIcon />}
-        {label === "OMS" && <OMSIcon />}
-        {label === "Billing" && <BillingIcon />}
-        {label === "Weight Reco." && <WeightRecordsIcon />}
-        {label === "Customer" && <CustomerIcon />}
-        {label === "Tools" && <ToolsIcons />}
-        {label === "MIS" && <MISIcon />}
-        {label === "Customer Support" && <CustomerSupportIcon />}
-        {/* Add other icons based on the menu item */}
+  useEffect(() => {
+    if (!isExpanded) {
+      setDropdownOpen(false);
+    }
+  }, [isExpanded]);
 
-        
-          {isExpanded && <span className="mx-2">{label}</span>}
-        </NavLink>
+  const NavLinkComponent = hasDropdown ? 'div' : NavLink;
+
+  const isActive = () => {
+    if (!hasDropdown) {
+      // If there's no dropdown, check if the current route matches the main menu item
+      return location.pathname === to;
+    }
+
+    // If there's a dropdown, check if the current route matches either the main menu item or any dropdown option
+    return (
+      location.pathname === to ||
+      dropdownLinks.some((link) => location.pathname === link.to)
+    );
+  };
+
+  return (
+    <div className="nav-link main" onClick={hasDropdown ? handleDropdownToggle : null}>
+      <div className="sidebar-label-wrapper">
+
+        <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeClassName="active">
+          {label === "Dashboard" && <DashboardIcon />}
+          {label === "Orders" && <OrdersIcon />}
+          {label === "More On Orders" && <MoreOnOrdersIcon />}
+          {label === "Shipments" && <ShipmentsIcon />}
+          {label === "Channels" && <ChannelsIcon />}
+          {label === "OMS" && <OMSIcon />}
+          {label === "Billing" && <BillingIcon />}
+          {label === "Weight Reco." && <WeightRecordsIcon />}
+          {label === "Customer" && <CustomerIcon />}
+          {label === "Tools" && <ToolsIcons />}
+          {label === "MIS" && <MISIcon />}
+          {label === "Customer Support" && <CustomerSupportIcon />}
+          {/* Add other icons based on the menu item */}
+
+
+          {isExpanded && <span className="mx-2">{label}
+            {hasDropdown && (
+              <span className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>
+                &#9662;
+              </span>
+            )}
+          </span>}
+        </NavLinkComponent>
       </div>
 
       {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />}
@@ -73,6 +96,16 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
 
 const SideNav = () => {
   const [isExpanded, setExpanded] = useState(true);
+  const [Logo, setLogo] = useState(mobileLogo);
+
+  useEffect(() => {
+    if(isExpanded===true){
+      setLogo(FullLogo)
+    }else{
+      setLogo(mobileLogo)
+    }
+  }, [isExpanded])
+  
 
   const handleMouseEnter = () => {
     setExpanded(true);
@@ -85,13 +118,12 @@ const SideNav = () => {
   const menuItems = [
     { to: "/", label: "Dashboard" },
     { to: "/Orders", label: "Orders" },
-    { to: "/MoreOnOrders", label: "More On Orders" },
-    // {
-    //   to: "/MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
-    //     { to: "/dashboard-details", label: "Details 1" },
-    //     { to: "/dashboard-summary", label: "Summary" },
-    //   ],
-    // },
+    {
+      to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
+        { to: "/dashboard-details", label: "Details 1" },
+        { to: "/dashboard-summary", label: "Summary" },
+      ],
+    },
     { to: "/Shipments", label: "Shipments" },
     { to: "/Channels", label: "Channels" },
     { to: "/OMS", label: "OMS" },
@@ -112,9 +144,9 @@ const SideNav = () => {
     >
       <div className="logo-container">
         <img
-          src={isExpanded ? Logo : mobileLogo}
+          src={Logo}
           alt="Logo"
-          className={`${isExpanded ? 'full-logo' : 'mobile-logo'}`}
+          // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
         />
       </div>
       <div className="menu-container">

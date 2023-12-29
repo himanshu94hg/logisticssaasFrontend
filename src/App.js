@@ -8,6 +8,7 @@ import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import Orders from './Component/Pages/Dashboard/DashboardTabs/Orders';
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 import Shipment from './Component/Pages/Dashboard/DashboardTabs/Shipment';
+import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 
 function App() {
   return (
@@ -21,7 +22,7 @@ function App() {
              <Header />
            </div>
            <Routes>            
-             <Route path="/Orders" element={<Orders/>} />
+             <Route path="/MoreOnOrders" element={<MoreOnOrders/>} />
              <Route path="/Shipments" element={<Shipment/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
              <Route path="/" element={<Dashboard/>} />
