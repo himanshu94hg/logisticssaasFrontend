@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -27,7 +27,6 @@ export default function Header() {
           <div className="alignContent">
             <Nav.Link>
               <div className="navItemsContainer buisnessItem">
-                {" "}
                 Business Plan
                 <span className="iconContainer">
                   <FontAwesomeIcon icon={faIndianRupeeSign} />
@@ -36,7 +35,6 @@ export default function Header() {
             </Nav.Link>
             <Nav.Link>
               <div className="navItemsContainer rateCalculatorColor">
-                {" "}
                 Rate Calculator
                 <span className="iconContainer">
                   <FontAwesomeIcon icon={faCalculator} />
@@ -45,7 +43,6 @@ export default function Header() {
             </Nav.Link>
             <Nav.Link>
               <div className="navItemsContainer referColor">
-                {" "}
                 Refer to earn coins
                 <span className="iconContainer">
                   <FontAwesomeIcon icon={faHandHoldingDollar} />
@@ -53,7 +50,7 @@ export default function Header() {
               </div>
             </Nav.Link>
           </div>
-          <div className="icons links ">
+          {/* <div className="icons links ">
             <div className="iconContainer notificationIcon bell">
               <FontAwesomeIcon icon={faBell} />
               <span className="bellColor">3</span>
@@ -62,10 +59,30 @@ export default function Header() {
               <FontAwesomeIcon icon={faCog} />
               <span className="settingColor">5</span>
             </div>
-          </div>
+          </div> */}
 
           <div className="d-flex" style={{ gap: "10px" }}>
-            <NavDropdown
+            
+            <Nav.Link>
+              <div className="walletContainer">
+                <div>
+                  <span className="iconContainer walletIcon">
+                    <FontAwesomeIcon icon={faWallet} />
+                  </span>
+                </div>
+                <div>
+                  <div className="walletBalance">₹ 6206.45</div>
+                  <div className="walletDays">Last 30 Days</div>
+                </div>
+              </div>
+            </Nav.Link>
+            <div className="icons links ">
+            <div className="iconContainer notificationIcon bell">
+              <FontAwesomeIcon icon={faBell} />
+              <span className="bellColor">3</span>
+            </div>
+          </div>
+          <NavDropdown
               title={
                 <span>
                   <img
@@ -93,19 +110,6 @@ export default function Header() {
                 <FontAwesomeIcon icon={faSignOutAlt} /> Logout
               </NavDropdown.Item>
             </NavDropdown>
-            <Nav.Link>
-              <div className="walletContainer">
-                <div>
-                  <span className="iconContainer walletIcon">
-                    <FontAwesomeIcon icon={faWallet} />
-                  </span>
-                </div>
-                <div>
-                  <div className="walletBalance">₹ 6206.45</div>
-                  <div className="walletDays">Last 30 Days</div>
-                </div>
-              </div>
-            </Nav.Link>
           </div>
         </Nav>
       </Navbar.Collapse>

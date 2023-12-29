@@ -12,6 +12,7 @@ import BestSKU from '../Components/Orders/BestSKU'
 import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
 import WarehouseInformation from '../Components/Orders/WarehouseInformation'
 import OrderDetails from '../Components/Orders/OrderDetails'
+import ForwardReverseOrder from '../Components/Orders/ForwardReverseOrder'
 
 const Orders = () => {
   return (
@@ -24,13 +25,12 @@ const Orders = () => {
         </Col>
         <Col className="col-6 cardsSpace">
           <TotalOrderInfo />
-          <TableDashboard />
-          <TopSellingDashboard />
+          <ForwardReverseOrder />
           <Row>
-            <Col className='col-7'>
+            <Col className='col-6'>
               <BestSKU />
             </Col>
-            <Col className='col-5'>
+            <Col className='col-6'>
               <DomesticInternational />
             </Col>
           </Row>

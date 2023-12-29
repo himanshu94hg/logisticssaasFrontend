@@ -11,6 +11,10 @@ import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
 import PickupDelay from '../Components/CourierDelays/PickupDelay'
 import ForwardDelay from '../Components/CourierDelays/ForwardDelay'
 import CourierDelaysInfo from '../Components/CourierDelays/CourierDelaysInfo'
+import LastMileDelay from '../Components/CourierDelays/LastMileDelay'
+import InTransitDelay from '../Components/CourierDelays/InTransitDelay'
+import ReverseDelay from '../Components/CourierDelays/ReverseDelay'
+import NetworkDelays from '../Components/CourierDelays/NetworkDelays'
 
 const CourierDelays = () => {
   return (
@@ -22,22 +26,12 @@ const CourierDelays = () => {
         </Col>
         <Col className="col-6 cardsSpace">
           <CourierDelaysInfo />
-          <TableDashboard />
-          <TopSellingDashboard />
-          <Row>
-            <Col className='col-7'>
-              <BestSKU />
-            </Col>
-            <Col className='col-5'>
-              <DomesticInternational />
-            </Col>
-          </Row>
+          <LastMileDelay />
         </Col>
         <Col className="col-3 cardsSpace">
-          <CancelOrder />
-          <BuyerDemographic />
-          <PrepaidCOD />
-          <PopularOrdersLocation />
+          <InTransitDelay />
+          <ReverseDelay />
+          <NetworkDelays />
         </Col>
       </Row>
     </>

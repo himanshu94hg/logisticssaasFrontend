@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import "./sidebar.css";
 import { Link } from "react-router-dom";
-import { MdOutlineDashboard } from "react-icons/md";
 import DashboardIcon from "./Icons/DashboardIcon";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
@@ -14,7 +13,8 @@ import WeightRecordsIcon from "./Icons/WeightRecordsIcon";
 import ToolsIcons from "./Icons/ToolsIcons";
 import CustomerIcon from "./Icons/CustomerIcon";
 import MISIcon from "./Icons/MISIcon";
-
+import Logo from '../../../assets/image/logo/logo.svg'
+import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 
 const sidebarItems = [
   { icon: DashboardIcon, to: "/", label: "Dashboard" },
@@ -35,20 +35,33 @@ export default function Sidebar() {
   const [expanded, setExpanded] = useState(true);
 
   return (
-    <div>
+    <div
+      onMouseEnter={(e) => {
+        console.log("move in");
+        setExpanded(true);
+      }}
+      onMouseLeave={(e) => {
+        console.log(e.target, "leave");
+        setExpanded(false);
+      }}
+    >
+      <div className={`${expanded ? "placeholder" : ""}`} />
       <div
-        className="absolute-sidebar side-navbar active-nav d-flex justify-content-between flex-wrap"
+        className={`${
+          expanded ? "absolute-sidebar" : ""
+        } side-navbar active-nav d-flex justify-content-between flex-wrap`}
         id="sidebar"
       >
         <ul className="nav flex-column text-white w-100">
           <div
-            className={` ${expanded ? "large-img-wrapper" : "small-img-wrapper"
-              } company-logo`}
+            className={`m-2 ${
+              expanded ? "large-img-wrapper" : "small-img-wrapper"
+            } company-logo`}
           >
             {expanded ? (
               <img
                 alt="company-logo"
-                src="./assets/logo/companyLogo.png"
+                src={Logo}
                 className="inline-block"
                 width="100%"
                 height="100%"
@@ -56,21 +69,26 @@ export default function Sidebar() {
             ) : (
               <img
                 alt="company-logo"
-                src="./assets/logo/ShipEaseLogo.jpeg"
+                src={mobileLogo}
                 className="inline-block"
+                width="100%"
+                height="100%"
               />
             )}
           </div>
-
+     
           {sidebarItems.map((item, index) => (
             <Link
               key={`${item.label}_${index}`}
               to={item.to}
               className="nav-link"
+              onClick={()=>{setExpanded(false)}}
             >
               <div className="sidebar-label-wrapper">
-                <item.icon size={20} />
-                {expanded && <span className="mx-2">{item.label}</span>}
+                <item.icon />
+                {expanded && <span className="mx-2">{item.label}
+                
+                </span>}
               </div>
             </Link>
           ))}

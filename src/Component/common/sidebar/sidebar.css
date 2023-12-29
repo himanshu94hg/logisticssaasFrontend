@@ -2,9 +2,9 @@
   .side-navbar {
     max-width: 50px;
     height: 100%;
-    /* position: fixed;
+    position: fixed;
     left: 0;
-    top: 0; */
+    top: 0;
     margin-left: -300px;
     background-color: #FFFFFF;
     /* transition: 0.5s; */
@@ -23,7 +23,6 @@
     top: 0;
     left: 0;
     z-index: 2;
-    max-width: 191px;
   }
 
   .placeholder{
@@ -75,7 +74,7 @@
   } */
 
   #sidebar .nav-link{
-    width: 176px;
+    /* width: 176px; */
     color: #727986;
     cursor: pointer;
     padding-inline: 7px;
@@ -179,9 +178,9 @@
 
 
 @media screen and (min-width: 1601px) {
-  #sidebar .nav-link{
+  /* #sidebar .nav-link{
     width: 188px;
-  }
+  } */
   .absolute-sidebar {
     max-width: 230px;
 }

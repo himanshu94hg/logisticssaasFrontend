@@ -28,12 +28,26 @@ const ParentComponent = () => {
                 <table className="">
 
                     <tbody>
-                        {bestSKUData.map((sku, index) => (
-                            <tr key={index}>
-                                <td>{sku.product_sku || 'N/A'}</td>
-                                <td className="text-green">In Stock</td>
-                            </tr>
-                        ))}
+                        <tr>
+                            <td>Ethnic School bag for children (24L)</td>
+                            <td className='text-green'>In Stock</td>
+                        </tr>
+                        <tr>
+                            <td>Leather jacket for men (S,M,L,XL)</td>
+                            <td className='text-purple'>In Stock</td>
+                        </tr>
+                        <tr>
+                            <td>Childrens Teddy toy of high quality</td>
+                            <td className='text-red'>Out Of Stock</td>
+                        </tr>
+                        <tr>
+                            <td>Orange smart watch dial (24mm)</td>
+                            <td>Out Of Stock</td>
+                        </tr>
+                        <tr>
+                            <td>Orange smart watch dial (24mm)</td>
+                            <td>Out Of Stock</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>

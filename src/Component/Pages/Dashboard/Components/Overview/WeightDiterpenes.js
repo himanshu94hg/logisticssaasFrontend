@@ -6,7 +6,7 @@ const WeightDiterpenes = () => {
     <div className="box-shadow shadow-sm p10">
             <div className="row">
                 <div className="col">
-                    <h4 className="title">Weight Diterpenes</h4>
+                    <h4 className="title">Weight Discrepancies</h4>
                     <img className="graph-image p10" src={WeightDiterpenesGraph} alt="WeightDiterpenesGraph"/>
                 </div>
             </div>

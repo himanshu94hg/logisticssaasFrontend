@@ -1,0 +1,119 @@
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
+
+.SideNav {
+    width: 50px;
+    height: 100%;
+    max-height: 100vh;
+    background-color: #FFFFFF;
+    color: white;
+    transition: width 0.3s ease;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 4;
+    font-weight: 400;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* height: calc(100vh - 97px); */
+    gap: 10px;
+}
+
+.SideNav.expanded {
+    width: 200px;
+}
+
+.logo-container img {
+    height: auto;
+    padding: 0 10px;
+    margin: 20px 0;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+.logo-container .full-logo {
+    width: 187px;
+}
+
+.logo-container .mobile-logo {
+    width: 51px;
+}
+
+#sidenav .nav-link {
+    /* width: 176px; */
+    color: #315872;
+    cursor: pointer;
+    padding-inline: 7px;
+    /* margin-inline: 7px; */
+    white-space: nowrap;
+    padding-block: 7px;
+}
+
+#sidenav .nav-link:active,
+#sidenav .nav-link:focus,
+#sidenav .nav-link:hover {
+    /* background-color: #E5E3F4; */
+    font-weight: 700;
+    color: #315872;
+    border-radius: 4px;
+    padding-inline: 7px 0px;
+    /* border-left: 4px solid #315872; */
+}
+
+.sidebar-label-wrapper svg {
+    vertical-align: -7px;
+}
+
+.sidebar-label-wrapper a {
+    padding: 10px 6px;
+}
+
+.sidebar-label-wrapper a.active {
+    background-color: #E5E3F4;
+    border-radius: 0.2rem;
+    font-weight: 700;
+}
+
+.SideNav .dropdown-content{
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* Width and color of the scrollbar track */
+::-webkit-scrollbar {
+    width: 4px;
+    /* scrollbar-width: thin; */
+/* scrollbar-color: #f1f1f1 #888; */
+  }
+  
+  ::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+  }
+  
+  /* Style of the scrollbar handle */
+  ::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 6px;
+  }
+  
+  /* On hover, style the scrollbar handle */
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+    scrollbar-color: #f1f1f1 #555;
+  }
+  
