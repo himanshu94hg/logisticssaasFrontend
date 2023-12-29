@@ -48,7 +48,7 @@ function StateSplitDashboard() {
                 <p className="font12 text-gray">Compared To Last Month</p>
             </div>
             <div className="d-flex justify-content-end">
-            <img src={IndiaMap} style={{width: '60%'}}/>
+            {/* <img src={IndiaMap} style={{width: '60%'}}/> */}
             <ul className="list-ui">
                 {stateAllocation.map((state) => (
                     <li className="">

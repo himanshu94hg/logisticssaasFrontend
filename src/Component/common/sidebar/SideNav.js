@@ -31,7 +31,7 @@ const Dropdown = ({ links }) => {
 };
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(true);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const location = useLocation();
 
   const handleDropdownToggle = () => {
@@ -81,7 +81,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
 
           {isExpanded && <span className="mx-2">{label}
             {hasDropdown && (
-              <span className={`dropdown-arrow ${isDropdownOpen ? 'open' : ''}`}>
+              <span className={`dropdown-arrow ms-2 ${isDropdownOpen ? 'open' : ''}`}>
                 &#9662;
               </span>
             )}
@@ -95,7 +95,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
 };
 
 const SideNav = () => {
-  const [isExpanded, setExpanded] = useState(true);
+  const [isExpanded, setExpanded] = useState(false);
   const [Logo, setLogo] = useState(mobileLogo);
 
   useEffect(() => {
@@ -120,8 +120,10 @@ const SideNav = () => {
     { to: "/Orders", label: "Orders" },
     {
       to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
-        { to: "/dashboard-details", label: "Details 1" },
-        { to: "/dashboard-summary", label: "Summary" },
+        { to: "/quick-order", label: "Quick Order" },
+        { to: "/re-assign", label: "Reassign Orders" },
+        { to: "/merge-orders", label: "Merge Orders" },
+        { to: "/add-reverse-order", label: "Reverse Order" },
       ],
     },
     { to: "/Shipments", label: "Shipments" },
