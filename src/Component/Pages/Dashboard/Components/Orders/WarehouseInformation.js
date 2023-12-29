@@ -44,7 +44,7 @@ const WarehouseInformation = () => {
                 <p className="export-report">Export Report</p>
             </div>
             <div className="d-flex ">
-                <img src={IndiaMap} style={{width: '60%'}}/>
+                {/* <img src={IndiaMap} style={{width: '60%'}}/> */}
             <ul className="list-ui">
                 {stateAllocation.map((state) => (
                     <li className="">

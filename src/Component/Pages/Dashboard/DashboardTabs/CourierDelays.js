@@ -27,7 +27,6 @@ const CourierDelays = () => {
         <Col className="col-6 cardsSpace">
           <CourierDelaysInfo />
           <LastMileDelay />
-          <TopSellingDashboard />
         </Col>
         <Col className="col-3 cardsSpace">
           <InTransitDelay />
