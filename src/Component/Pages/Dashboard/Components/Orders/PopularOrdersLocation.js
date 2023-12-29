@@ -5,7 +5,7 @@ const PopularOrdersLocation = () => {
   const [popularLocations, setPopularLocations] = useState([]);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/api/v1/state-wise-order/')
+    axios.get('http://35.154.133.143/api/v1/state-wise-order/')
       .then(response => {
         setPopularLocations(response.data);
       })

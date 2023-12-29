@@ -7,7 +7,7 @@ function StateSplitDashboard() {
   const [totalSumOrder, setTotalSumOrder] = useState(0);
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/api/v1/statewiseproduct/')
+      .get('http://35.154.133.143/api/v1/statewiseproduct/')
       .then(response => {
         console.log('Data:', response.data);
         setStateAllocation(response.data.top_product_data);

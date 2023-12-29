@@ -20,10 +20,10 @@ function TotalInfoDashboard() {
       try {
         const [customerResponse, shipmentResponse, sellingResponse, revenueResponse] =
           await Promise.all([
-            axios.get('http://127.0.0.1:8000/api/v1/top-customer/'),
-            axios.get('http://127.0.0.1:8000/api/v1/daly-shipment/'),
-            axios.get('http://127.0.0.1:8000/api/v1/avg-sellingprice/'),
-            axios.get('http://127.0.0.1:8000/api/v1/today-revenue/'),
+            axios.get('http://35.154.133.143/api/v1/top-customer/'),
+            axios.get('http://35.154.133.143/api/v1/daly-shipment/'),
+            axios.get('http://35.154.133.143/api/v1/avg-sellingprice/'),
+            axios.get('http://35.154.133.143/api/v1/today-revenue/'),
           ]);
 
         setTotalCustomer(customerResponse.data);

@@ -8,7 +8,7 @@ function PopularCustomerDashboard() {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/api/v1/top-customer-count/') // Corrected API endpoint
+      .get('http://35.154.133.143/api/v1/top-customer-count/') // Corrected API endpoint
       .then(response => {
         console.log('Data:', response.data);
         setPopularCustomers(response.data.top_customers); // Corrected state variable

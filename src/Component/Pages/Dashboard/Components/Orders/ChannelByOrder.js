@@ -7,7 +7,7 @@ const ChannelByOrder = () => {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/api/v1/channal-wise-order/') // Replace with your API endpoint
+      .get('http://35.154.133.143/api/v1/channal-wise-order/') // Replace with your API endpoint
       .then(response => {
         console.log('Data:', response.data);
         setShipmentData(response.data);

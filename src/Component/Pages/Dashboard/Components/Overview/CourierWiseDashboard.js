@@ -8,7 +8,7 @@ function CourierWiseDashboard() {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/api/v1/top-couriar-pathner/')
+      .get('http://35.154.133.143/api/v1/top-couriar-pathner/')
       .then(response => {
         setcData(response.data);
         setIsLoading(false);

@@ -7,7 +7,7 @@ const ParentComponent = () => {
 
     useEffect(() => {
         axios
-            .get('http://127.0.0.1:8000/api/v1/top-product-sku/')
+            .get('http://35.154.133.143/api/v1/top-product-sku/')
             .then(response => {
                 console.log('Data:', response.data);
                 setBestSKUData(response.data);

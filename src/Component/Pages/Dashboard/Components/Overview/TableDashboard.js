@@ -8,7 +8,7 @@ function TableDashboard() {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/api/v1/lastthirtydata/')
+      .get('http://35.154.133.143/api/v1/lastthirtydata/')
       .then(response => {
         console.log('Data:', response.data);
         setLastThirtyDayaData(response.data);

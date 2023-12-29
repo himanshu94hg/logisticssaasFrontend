@@ -21,10 +21,10 @@ function TotalOrderInfo() {
       try {
         const [totalorderResponse, cancelorderResponse, totaldeleverdResponse, totalrtoResponse] =
           await Promise.all([
-            axios.get('http://127.0.0.1:8000/api/v1/totalorder/'),
-            axios.get('http://127.0.0.1:8000/api/v1/totalcancelorder/'),
-            axios.get('http://127.0.0.1:8000/api/v1/totaldeleverdorder/'),
-            axios.get('http://127.0.0.1:8000/api/v1/totalrtoordercount/'),
+            axios.get('http://35.154.133.143/api/v1/totalorder/'),
+            axios.get('http://35.154.133.143/api/v1/totalcancelorder/'),
+            axios.get('http://35.154.133.143/api/v1/totaldeleverdorder/'),
+            axios.get('http://35.154.133.143/api/v1/totalrtoordercount/'),
           ]);
 
         setTotalOrder(totalorderResponse.data);
