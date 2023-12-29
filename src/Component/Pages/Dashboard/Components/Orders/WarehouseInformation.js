@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import IndiaMap from '../../../../../assets/image/IndiaMap.png';
@@ -14,7 +15,7 @@ const WarehouseInformation = () => {
                 console.error('Error fetching data:', error);
             });
     }, []);
-
+    
     return (
         <div className="box-shadow shadow-sm p10 state-wise-card">
             <div className="card-heading">
@@ -27,8 +28,8 @@ const WarehouseInformation = () => {
                     {stateAllocation.map((state, index) => (
                         <li key={index} className="">
                             <p className="font12 bold-600 mb-10">
-                                {state.p_state}&nbsp;&nbsp;&nbsp;&nbsp;
-                                {state.total_orders}
+                            {state.p_state}&nbsp;&nbsp;&nbsp;&nbsp;
+                            {state.total_orders}
                             </p>
                         </li>
                     ))}

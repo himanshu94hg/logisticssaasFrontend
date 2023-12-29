@@ -12,19 +12,10 @@ import {
 } from 'recharts';
 
 function DailyPreferences() {
-  const [prefData, setPrefData] = useState([]);
-  const apiData = {
-    "one_day": 100,
-    "one_week": 333,
-    "one_month": 444,
-    "three_month": 222,
-    "six_month": 344,
-    "one_year": 82926
-  };
-
+  const [prefData, setPrefData] = useState({});
+  
   useEffect(() => {
-   
-    axios.get('http://127.0.0.1:8000/api/v1/daily-prefrences/')
+    axios.get('http://35.154.133.143/api/v1/daily-prefrences/')
       .then(response => {
         setPrefData(response.data);
       })
@@ -33,17 +24,19 @@ function DailyPreferences() {
       });
   }, []); // Empty dependency array ensures the effect runs once on component mount
 
+  const chartData = Object.entries(prefData).map(([key, value]) => ({ name: key, delevery: value }));
+
   return (
     <>
-      <h1 className="chart-heading">Daily Prefrence</h1>
+      <h1 className="chart-heading">Daily Preference</h1>
       <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart data={apiData} width={200} height={100} margin={{ top: 5, right: 300, left: 20, bottom: 5 }}>
+        <LineChart data={chartData} width={200} height={100} margin={{ top: 5, right: 300, left: 20, bottom: 5 }}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value + " Programming"} />
+          <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value} />
           <YAxis />
           <Tooltip contentStyle={{ backgroundColor: '#E5E3F4', color: '#093A5A' }} />
           <Legend />
-          <Line type="monotone" dataKey="student" strokeWidth="3" stroke="#093A5A" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="delevery" strokeWidth="3" stroke="#093A5A" activeDot={{ r: 8 }} />
         </LineChart>
       </ResponsiveContainer>
     </>

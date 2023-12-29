@@ -1,6 +1,25 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 const TopRTOPincodes = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    axios
+      .get('http://35.154.133.143/api/v1/top-rto-pincode/')
+      .then((response) => {
+        setData(response.data || []); // Ensure data is an array
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+        setError('Error fetching data. Please try again.');
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <>
       <div className="box-shadow shadow-sm p10">
@@ -8,47 +27,30 @@ const TopRTOPincodes = () => {
           <div className="col">
             <h4 className="title">Top RTO - Pincodes</h4>
             <ul className="list-ui mt20">
-
               <li className="mb-0">
                 <p>PIN CODE</p>
                 <p>CITY</p>
-                <p>DISTRICT</p>
+                <p>RTO COUNT</p>
               </li>
-
-              <li className="bg-red-light text-red">
-                <p>246736</p>
-                <p>Akondha</p>
-                <p>Bijnor</p>
-              </li>
-
-              <li className="bg-green-light text-green">
-                <p>246736</p>
-                <p>Akondha</p>
-                <p>Bijnor</p>
-              </li>
-
-              <li className="bg-blue-light text-blue">
-                <p>246736</p>
-                <p>Akondha</p>
-                <p>Bijnor</p>
-              </li>
-
-              <li className="bg-purple-light text-purple">
-                <p>246736</p>
-                <p>Akondha</p>
-                <p>Bijnor</p>
-              </li>
-              <li className="bg-sky-light text-aqua">
-                <p>246736</p>
-                <p>Akondha</p>
-                <p>Bijnor</p>
-              </li>
+              {loading ? (
+                <p>Loading data...</p>
+              ) : error ? (
+                <p>{error}</p>
+              ) : (
+                data.map((item, index) => (
+                  <li key={index} className={`bg-${index % 2 === 0 ? 'red' : 'green'}-light text-${index % 2 === 0 ? 'red' : 'green'}`}>
+                    <p>{item.pincode}</p>
+                    <p>{item.city_name}</p>
+                    <p>{item.rto_count}</p>
+                  </li>
+                ))
+              )}
             </ul>
           </div>
         </div>
       </div>
     </>
-  )
-}
+  );
+};
 
-export default TopRTOPincodes
+export default TopRTOPincodes;

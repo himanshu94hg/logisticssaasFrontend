@@ -4,28 +4,16 @@ import Table from "react-bootstrap/Table";
 
 const ShipmentOverview = () => {
 
-    const [popularProduct, setPopularProduct] = useState([]);
-    const requestData = {
-        "sellerId" : "150",
-        "start" : "2023-10-01",
-        "end" : "2023-10-30"
-    };
-    useEffect(()=>{
-        axios.post(
-            "https://www.shipease.in/api/microservices/dashboard/overview/most-popular-products",
-            requestData,
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            }
-        ).then((response)=>{
-            setPopularProduct(response.data.data.slice(0, 5));
-        }).catch((error)=>{
-            console.error(error);
-        })
-    },[requestData]);
-
+    const [courierPartner, setCourierPartner] = useState([]);
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/v1/shipment-overview/')
+            .then(response => {
+                setCourierPartner(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    }, []);
 
     return (
         <>
@@ -37,27 +25,27 @@ const ShipmentOverview = () => {
                     <Table hover className="table-ui">
                         <thead>
                             <tr>
-                                <th scope="col" style={{ width: '12%' }}>Courier Name</th>
+                                <th scope="col" style={{ width: '30%' }}>Courier Partner</th>
                                 <th scope="col">Allocation Number</th>
-                                <th scope="col" style={{ width: '15%' }}>Average TAT</th>
-                                <th scope="col" style={{ width: '16%' }}>Average Shipment</th>
-                                <th scope="col" style={{ width: '12%' }}>Total RTO %</th>
-                                <th scope="col" style={{ width: '12%' }}>Total NDR %</th>
+                                <th scope="col" style={{ width: '20%' }}>Average TAT</th>
+                                <th scope="col" style={{ width: '20%' }}>Average Shipment</th>
+                                <th scope="col" style={{ width: '15%' }}>Total RTO %</th>
+                                <th scope="col" style={{ width: '15%' }}>Total NDR %</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {popularProduct.map((product, cnt) => (
-                                <tr className="text-nowrap">
-                                    <td>{cnt + 1}</td>
-                                    <td title={product?.product_name}>{product?.product_name}</td>
+                            {courierPartner.map((partner, index) => (
+                                <tr className="text-nowrap" key={index}>
+                                    <td>{partner.courier_partner}</td>
+                                    <td>{partner.total_awb_count}</td>
                                     <td>Glossary</td>
                                     <td>
                                         <span className="text-green">
                                             In Stock
                                         </span>
                                     </td>
-                                    <td>{product?.total}</td>
-                                    <td>{product?.total}</td>
+                                    <td>{/* Your RTO % value */}</td>
+                                    <td>{/* Your NDR % value */}</td>
                                 </tr>
                             ))}
                         </tbody>
@@ -68,4 +56,4 @@ const ShipmentOverview = () => {
     )
 }
 
-export default ShipmentOverview
+export default ShipmentOverview;
