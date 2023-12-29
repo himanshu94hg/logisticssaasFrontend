@@ -76,7 +76,7 @@
 .state-wise-card .list-ui li{
     margin-bottom: 0;
     padding-block: 2px;
-    align-items: center;
+    justify-content: flex-end;
 }
 
 .content-container{

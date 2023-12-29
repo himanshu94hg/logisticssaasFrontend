@@ -25,20 +25,22 @@ function DailyPreferences() {
       });
   }, []); // Empty dependency array ensures the effect runs once on component mount
 
-  const chartData = Object.entries(prefData).map(([key, value]) => ({ name: key, delevery: value }));
+  // const chartData = Object.entries(prefData).map(([key, value]) => ({ name: key, delevery: value }));
+  const chartData = Object.entries(prefData).map(([key, value]) => ({ name: key, LateDeliveries: value }));
+
 
   return (
     <>
       {/* <h1 className="chart-heading">Daily Preference</h1> */}
-      <ResponsiveContainer width="100%" aspect={3}>
-        <LineChart data={chartData} width={200} height={100}>
-          <CartesianGrid strokeDasharray="3 3" />
+      <ResponsiveContainer width="100%" aspect={2}>
+        <LineChart data={chartData} width={200}>
+          <CartesianGrid strokeDasharray="4 4" />
           <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value} />
           <YAxis />
           <Tooltip contentStyle={{ backgroundColor: '#E5E3F4', color: '#315872' , border:'none', borderRadius:'4px', fontSize:'12px'}} />
           <Legend />
-          <Line type="monotone" dataKey="On Time Deliveries" strokeWidth="2" stroke="#FF6470" activeDot={{ r: 8 }} style={{fontSize:'12px'}} />
-          <Line type="monotone" dataKey="Late Deliveries" strokeWidth="2" stroke="#1975C9" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="LateDeliveries" strokeWidth="2" stroke="#FF6470" activeDot={{ r: 8 }} style={{fontSize:'12px'}} />
+          {/* <Line type="monotone" dataKey="LateDeliveries" strokeWidth="2" stroke="#1975C9" activeDot={{ r: 8 }} /> */}
         </LineChart>
       </ResponsiveContainer>
     </>
