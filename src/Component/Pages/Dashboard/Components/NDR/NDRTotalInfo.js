@@ -12,47 +12,35 @@ import NDRicon from '../../../../../assets/image/icons/NDRicon.png'
 import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
 
 function NDRTotalInfo() {
-  const [shipmentCounter, setShipmentCounter] = useState("345");
-  const [totalCustomer, setTotalCustomer] = useState("200");
-  const [dailyShipment, setDailyShipment] = useState("367");
-  const [averageSelling, setAverageSelling] = useState("456");
-  const [todayRevenue, setTodayRevenue] = useState("987");
-  const requestData = {
-    sellerId: "16",
-    start: "2023-10-01 00:00:00",
-    end: "2023-10-30 00:00:00",
-  };
+  const [totalNdr, setTotalNdr] = useState(null);
+  const [actionRequested, setActionRequested] = useState(null);
+  const [actionReq, setActionreq] = useState(null);
+  const [ndrdeleverd, setndrDeleverd] = useState(null);
 
   useEffect(() => {
-    axios
-      .post(
-        "https://www.shipease.in/api/microservices/dashboard/overview/get-summary-counter",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
-      .then((response) => {
-        setShipmentCounter(response.data.data);
-        if (response.data.data) {
-          const newTotalRevenue = response.data.data;
-          const toBePickedPercentage = newTotalRevenue?.total_customer + newTotalRevenue?.daily_shipment + newTotalRevenue?.average_selling + newTotalRevenue?.today_revenue;
-          const total = newTotalRevenue?.total_customer * 100 / toBePickedPercentage;
-          setTotalCustomer(total.toFixed(2));
-          const daily = newTotalRevenue?.daily_shipment * 100 / toBePickedPercentage;
-          setDailyShipment(daily.toFixed(2));
-          const average = newTotalRevenue?.average_selling * 100 / toBePickedPercentage;
-          setAverageSelling(average.toFixed(2));
-          const today = newTotalRevenue?.today_revenue * 100 / toBePickedPercentage;
-          setTodayRevenue(today.toFixed(2));
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        setShipmentCounter(null);
-      });
+    const fetchData = async () => {
+      try {
+        const [
+          totalNdrResponse,
+          actionRequestedResponse,
+          actionReqResponse,
+          ndrdeleverdResponse,
+        ] = await Promise.all([
+          axios.get('http://35.154.133.143/api/v1/total-ndr/'),
+          axios.get('http://35.154.133.143/api/v1/total-requested-ndr/'),
+          axios.get('http://35.154.133.143/api/v1/total-required-ndr/'),
+          axios.get('http://35.154.133.143/api/v1/total-deleverd-ndr/'),
+        ]);
+        setTotalNdr(totalNdrResponse.data);
+        setActionreq(actionReqResponse.data);
+        setActionRequested(actionRequestedResponse.data);
+        setndrDeleverd(ndrdeleverdResponse.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+
+    fetchData();
   }, []);
 
   return (
@@ -69,7 +57,7 @@ function NDRTotalInfo() {
                     <img src={NDRicon} alt="iconOrders" width={24} />
                   </div>
                   <p className="font14 text-gray m-0 ws-no-wrap">Total NDR</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingUp className="trending-icon" />
@@ -95,7 +83,7 @@ function NDRTotalInfo() {
 
                   </div>
                   <p className="font14 text-gray m-0 ws-no-wrap">Action Required</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <h3 className="font20 title-text p-y bold-600 m0">{actionReq?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingUp className="trending-icon"/>
@@ -120,7 +108,7 @@ function NDRTotalInfo() {
                     <img src={iconDelivery} alt="iconDelivery" width={24}/>
                   </div>
                   <p className="font14 text-gray m-0 ws-no-wrap">Action Requested</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingUp className="trending-icon" />
@@ -145,7 +133,7 @@ function NDRTotalInfo() {
                     <img src={NDRdelivered} alt="iconRTO" width={24}/>
                   </div>
                   <p className="font14 text-gray m-0 ws-no-wrap">NDR Delivered</p>
-                  <h3 className="font20 title-text p-y bold-600 m0">{parseInt(shipmentCounter?.average_selling)}</h3>
+                  <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count}</h3>
                 </div>
                   <div className="col-2">
                   <HiTrendingDown className="trending-icon"/>
