@@ -1,0 +1,21 @@
+.recharts-legend-item-text{
+    font-size: 12px;
+}
+
+.recharts-legend-item.legend-item-0 svg.recharts-surface{
+    background: #ff6470;
+    width: 33px;
+    height: 10px;
+    border-radius: 4px;
+}
+
+.recharts-legend-item.legend-item-1 svg.recharts-surface{
+    background: #1975c9;
+    width: 33px;
+    height: 10px;
+    border-radius: 4px;
+}
+
+.recharts-layer.recharts-cartesian-axis-tick{
+    font-size: 12px;
+}
