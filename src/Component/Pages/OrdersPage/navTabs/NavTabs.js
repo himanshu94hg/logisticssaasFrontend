@@ -1,21 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Card,
   Navbar,
   Nav
 } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBinoculars,
-  faCube,
-  faCartFlatbed,
-} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import "./navTabs.css";
 
 export default function NavTabs(props) {
+  const [selectedOption, setSelectedOption] = useState("Domestic");
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOptionSelect = (option) => {
+    setSelectedOption(option);
+    setIsOpen(false);
+  };
+
+  const toggleOptions = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <Navbar
-      className="w-100 box-shadow shadow-sm p7"
+      className="w-100 box-shadow shadow-sm p7 gap-10"
       bg="light"
       variant="light"
       id="shipEaseNavTabs"
@@ -30,7 +36,7 @@ export default function NavTabs(props) {
               }}
             >
               <div className="navItemsContainer">
-                <FontAwesomeIcon icon={faBinoculars} />
+                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
                 Overview
               </div>
             </Nav.Link>
@@ -41,7 +47,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                <FontAwesomeIcon icon={faCube} />
+                {/* <FontAwesomeIcon icon={faCube} /> */}
                 Orders
               </div>
             </Nav.Link>
@@ -52,7 +58,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                <FontAwesomeIcon icon={faCartFlatbed} />
+                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
                 Shipment
               </div>
             </Nav.Link>
@@ -63,7 +69,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                <FontAwesomeIcon icon={faCube} />
+                {/* <FontAwesomeIcon icon={faCube} /> */}
                 NDR
               </div>
             </Nav.Link>
@@ -74,7 +80,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                <FontAwesomeIcon icon={faCube} />
+                {/* <FontAwesomeIcon icon={faCube} /> */}
                 RTO
               </div>
             </Nav.Link>
@@ -85,13 +91,41 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                <FontAwesomeIcon icon={faCube} />
+                {/* <FontAwesomeIcon icon={faCube} /> */}
                 Courier Delays
               </div>
             </Nav.Link>
           </div>
         </Nav>
       </Navbar.Collapse>
+      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={()=>{setIsOpen(true);}} onMouseLeave={()=>{setIsOpen(false);}}>
+        <div className="selected-option">
+          {selectedOption || "Select an option"}
+          <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+
+        </div>
+       
+          <div className={`options-container ${isOpen?"open":""}`}>
+            <div
+              className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
+              onClick={() => handleOptionSelect("Domestic")}
+            >
+              Domestic
+            </div>
+            <div
+              className={`option ${selectedOption === "International" ? "selected" : ""}`}
+              onClick={() => handleOptionSelect("International")}
+            >
+              International
+            </div>
+          </div>
+        
+      </div>
+      <div className="d-flex gap-10">
+        <button className="btn main-button">Sync Orders</button>
+        <button className="btn main-button">Import CSV</button>
+        <button className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</button>
+      </div>
     </Navbar>
   );
 }
