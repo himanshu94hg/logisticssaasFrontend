@@ -15,11 +15,66 @@
 }
 
 .orders-menu-header .form-select{
-    width: 150px;
+    width: 320px;
     color: rgba(0,0,0,.55);
-    background-color: #CEDBF2;
+    background-color: #fff;
     border-radius: 0.2rem;
     /* font-weight: 700; */
     font-size: 16px;
     padding: 5px 7px;
+    border-radius: 4px;
 }
+
+.orders-menu-header .form-select *{
+    padding-block: 15px;
+}
+
+.down-sliding-select {
+    position: relative;
+    width: 200px;
+  }
+  
+  .selected-option {
+    padding: 5px 7px;
+    /* border: 1px solid #0F3C5B; */
+    cursor: pointer;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #111;
+    border-radius: 4px;
+  }
+  
+  .options-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    z-index: 1;
+    background: #fff;
+  }
+  
+  .option {
+    padding: 10px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+  }
+  
+  .option:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .option.selected {
+    background-color: #0F3C5B;
+    color: #fff;
+  }
+  
+  .down-sliding-select:hover .options-container {
+    max-height: 100px; 
+  }
+  
