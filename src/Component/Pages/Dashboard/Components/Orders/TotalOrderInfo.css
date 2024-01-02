@@ -43,7 +43,7 @@
 }
 
 .green-wave .icon-bg{
-    background-color: #55B685;
+    background-color: #3BB54B;
 }
 
 .yellow-wave .icon-bg{
@@ -55,11 +55,11 @@
 }
 
 .red-wave .icon-bg{
-    background-color: #FF6470;
+    background-color: #F31429;
 }
 
 .green-wave .trending-icon path{
-    fill: #55B685;
+    fill: #3BB54B;
 }
 
 .yellow-wave .trending-icon{
@@ -71,7 +71,7 @@
 }
 
 .red-wave .trending-icon{
-    fill: #FF6470;
+    fill: #F31429;
 }
 
 .trending-icon{

@@ -68,7 +68,7 @@ function TotalInfoDashboard() {
                 </div>
               </div>
               <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
-                <LineGraph cardColor="#55B685" />
+                <LineGraph cardColor="#3BB54B" />
                 <div className="card-footer">
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
                     {/* +{totalCustomer}% */}

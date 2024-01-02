@@ -32,7 +32,7 @@
 
 .top-selling-page .table tbody tr:nth-of-type(odd),
 .last-orders .table tbody tr:nth-of-type(odd) {
-    --bs-table-accent-bg: #E5E3F4;
+    --bs-table-accent-bg: #CEDBF2;
 }
 
 .state-wise-card .card-heading{
@@ -44,9 +44,9 @@
 .state-wise-card .export-report{
     font-size: 12px;
     padding: 5px;
-    background: #E5E3F4;
+    background: #CEDBF2;
     border-radius: 4px;
-    color: #4E46B4;
+    color: #111;
     margin-bottom: 15px;
 }
 
@@ -145,6 +145,11 @@
 
 .graph-image{
     max-width: -webkit-fill-available;
+}
+
+.table-hover>tbody>tr:hover>* {
+    --bs-table-color-state: var(--bs-table-hover-color);
+    --bs-table-bg-state: #CEDBF2;
 }
 
 @media screen and (max-width: 1600px) {

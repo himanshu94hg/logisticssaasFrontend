@@ -57,7 +57,7 @@ a:hover {
 
 #sidenav .nav-link {
     /* width: 176px; */
-    color: #315872;
+    color: #0F3C5B;
     cursor: pointer;
     padding-inline: 6px;
     /* margin-inline: 7px; */
@@ -68,11 +68,11 @@ a:hover {
 #sidenav .nav-link:active span,
 #sidenav .nav-link:focus span,
 #sidenav .nav-link:hover span {
-    /* background-color: #E5E3F4; */
+    /* background-color: #CEDBF2; */
     font-weight: 700;
-    color: #315872;
+    color: #0F3C5B;
     border-radius: 4px;
-    /* border-left: 4px solid #315872; */
+    /* border-left: 4px solid #0F3C5B; */
 }
 
 .sidebar-label-wrapper svg {
@@ -88,7 +88,7 @@ a:hover {
 }
 
 .sidebar-label-wrapper a.active {
-    background-color: #E5E3F4;
+    background-color: #CEDBF2;
     border-radius: 0.2rem;
     font-weight: 700;
 }
@@ -126,7 +126,7 @@ a:hover {
   }
 
   .nav-link.active{
-    background-color: #E5E3F4;
+    background-color: #CEDBF2;
     border-radius: 0.2rem;
     font-weight: 700;
   }

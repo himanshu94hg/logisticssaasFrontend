@@ -69,7 +69,7 @@
 /*   
   #sidebar .nav .nav-link :hover{
     background-color: #dbdbdb;
-    color: #315872;
+    color: #0F3C5B;
     font-weight: 700;
   } */
 
@@ -89,12 +89,12 @@
   #sidebar .nav-link:active,
   #sidebar .nav-link:focus,
   #sidebar .nav-link:hover {
-    background-color: #E5E3F4;
+    background-color: #CEDBF2;
     font-weight: 700;
-    color: #315872;
+    color: #0F3C5B;
     border-radius: 4px;
     padding-inline: 7px 0px;
-    /* border-left: 4px solid #315872; */
+    /* border-left: 4px solid #0F3C5B; */
   }
   
   .company-logo img {
@@ -106,7 +106,7 @@
   .sidebar_icon{
     width: 30px;
     height: 30px;
-    background-color: #315872;
+    background-color: #0F3C5B;
   }
 
 
@@ -116,7 +116,7 @@
   height: 10px;
 }
 .side-navbar::-webkit-scrollbar-thumb {
-  background-color: #315872;
+  background-color: #0F3C5B;
   border-radius: 3px;
 }
 .side-navbar::-webkit-scrollbar-track {

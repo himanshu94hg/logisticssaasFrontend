@@ -13,7 +13,7 @@ code {
 }
 
 body {
-  background-color: #e3e4ea !important;
+  background-color: #CEDBF2 !important;
   font-family: "Roboto", sans-serif;
 }
 
@@ -23,7 +23,7 @@ html::-webkit-scrollbar {
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: #315872;
+  background-color: #0F3C5B;
   border-radius: 3px;
 }
 
@@ -79,7 +79,7 @@ p{
 }
 
 .bg-red {
-  background: #FF6470 !important;
+  background: #F31429 !important;
 }
 
 .text-gray {
@@ -135,7 +135,7 @@ p{
 }
 
 .text-red {
-  color: #FF6470;
+  color: #F31429;
 }
 
 .text-white {
@@ -147,7 +147,7 @@ p{
 }
 
 .text-green {
-  color: #55B685;
+  color: #3BB54B;
 }
 
 .text-yellow {
@@ -199,7 +199,7 @@ p{
 }
 
 .bg-blue {
-  background-color: #A278FD;
+  background-color: #0B3B5B;
 }
 
 .bg-blue-dark {
@@ -207,11 +207,11 @@ p{
 }
 
 .bg-red {
-  background-color: #FF6470;
+  background-color: #F31429;
 }
 
 .bg-green {
-  background-color: #55B685;
+  background-color: #3BB54B;
 }
 
 .bg-orange {
@@ -384,15 +384,15 @@ p{
 
 .btn-red-light {
   background-color: #FCEAEA !important;
-  color: #FF6470 !important;
+  color: #F31429 !important;
   border: #FCEAEA !important;
 }
 
 .btn-red-light:hover,
 .btn-red-light:active {
-  background-color: #FF6470 !important;
+  background-color: #F31429 !important;
   color: #FCEAEA !important;
-  border: #FF6470 !important;
+  border: #F31429 !important;
 }
 
 

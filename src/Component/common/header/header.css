@@ -17,7 +17,7 @@
   background-color: #f3f3f3;
   background-color: #dbdbdb;
   border-radius: 4px;
-  color: #315872;
+  color: #0F3C5B;
 } */
 
 .iconContainer {
@@ -35,6 +35,8 @@
   justify-content: center;
   gap: 5px;
   align-items: center;
+  color: #111;
+  font-weight: 400;
 }
 
 .buisnessItem {

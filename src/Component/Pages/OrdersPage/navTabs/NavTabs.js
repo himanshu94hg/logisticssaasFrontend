@@ -30,7 +30,7 @@ export default function NavTabs(props) {
               }}
             >
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+                <FontAwesomeIcon icon={faBinoculars} />
                 Overview
               </div>
             </Nav.Link>
@@ -41,7 +41,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
+                <FontAwesomeIcon icon={faCube} />
                 Orders
               </div>
             </Nav.Link>
@@ -52,7 +52,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
+                <FontAwesomeIcon icon={faCartFlatbed} />
                 Shipment
               </div>
             </Nav.Link>
@@ -63,7 +63,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
+                <FontAwesomeIcon icon={faCube} />
                 NDR
               </div>
             </Nav.Link>
@@ -74,7 +74,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
+                <FontAwesomeIcon icon={faCube} />
                 RTO
               </div>
             </Nav.Link>
@@ -85,7 +85,7 @@ export default function NavTabs(props) {
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
+                <FontAwesomeIcon icon={faCube} />
                 Courier Delays
               </div>
             </Nav.Link>

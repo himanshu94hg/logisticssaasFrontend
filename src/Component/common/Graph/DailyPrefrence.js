@@ -37,9 +37,9 @@ function DailyPreferences() {
           <CartesianGrid strokeDasharray="4 4" />
           <XAxis dataKey="name" interval={'preserveStartEnd'} tickFormatter={(value) => value} />
           <YAxis />
-          <Tooltip contentStyle={{ backgroundColor: '#E5E3F4', color: '#315872' , border:'none', borderRadius:'4px', fontSize:'12px'}} />
+          <Tooltip contentStyle={{ backgroundColor: '#CEDBF2', color: '#0F3C5B' , border:'none', borderRadius:'4px', fontSize:'12px'}} />
           <Legend />
-          <Line type="monotone" dataKey="LateDeliveries" strokeWidth="2" stroke="#FF6470" activeDot={{ r: 8 }} style={{fontSize:'12px'}} />
+          <Line type="monotone" dataKey="LateDeliveries" strokeWidth="2" stroke="#F31429" activeDot={{ r: 8 }} style={{fontSize:'12px'}} />
           {/* <Line type="monotone" dataKey="LateDeliveries" strokeWidth="2" stroke="#1975C9" activeDot={{ r: 8 }} /> */}
         </LineChart>
       </ResponsiveContainer>

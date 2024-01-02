@@ -8,6 +8,7 @@ import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 import Shipment from './Component/Pages/Dashboard/DashboardTabs/ShipmentDashboard';
 import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
+import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
            </div>
            <Routes>            
              <Route path="/MoreOnOrders" element={<MoreOnOrders/>} />
+             <Route path="/Orders" element={<OrdersPage/>} />
              <Route path="/Shipments" element={<Shipment/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
              <Route path="/" element={<Dashboard/>} />
