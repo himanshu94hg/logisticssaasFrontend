@@ -5,9 +5,8 @@ import Sidebar from "./Component/common/sidebar/SideNav";
 import Header from "./Component/common/header/Header";
 import "./App.css";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
-import Orders from './Component/Pages/Dashboard/DashboardTabs/Orders';
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
-import Shipment from './Component/Pages/Dashboard/DashboardTabs/Shipment';
+import Shipment from './Component/Pages/Dashboard/DashboardTabs/ShipmentDashboard';
 import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 
 function App() {

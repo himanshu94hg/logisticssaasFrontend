@@ -27,12 +27,12 @@ function PopularCustomerDashboard() {
         <ul key={index} className="d-flex justify-content-between align-items-center p0 list-none">
           <li>
             <div className="d-flex align-items-top justify-content-center">
-              <div className="me-2">
+              {/*<div className="me-2">
                 <span className="avatar">
-                  {/* Assuming the image source is available in the API response */}
+                   Assuming the image source is available in the API response 
                   <img src={customer.b_customer_image} className="inline-block" alt={customer.b_customer_name} />
                 </span>
-              </div>
+              </div>*/}
               <div>
                 <p className="mb-0 bold-600 font13 mr-5" style={{ width: '150px' }}>{customer.b_customer_name}</p>
                 <span className="font13 text-gray">

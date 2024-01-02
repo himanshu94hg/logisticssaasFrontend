@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import Row from "react-bootstrap/Row";
 import NavTabs from "./navTabs/NavTabs";
 import "./Dashboard.css";
-import Shipment from "./DashboardTabs/Shipment";
-import NDR from "./DashboardTabs/NDR";
-import RTO from "./DashboardTabs/RTO";
+import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
+import NDRDashboard from "./DashboardTabs/NDRDashboard";
+import RTODashboard from "./DashboardTabs/RTODashboard";
 import CourierDelays from "./DashboardTabs/CourierDelays";
 import Overview from "./DashboardTabs/Overview";
-import Orders from "./DashboardTabs/Orders";
+import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -23,23 +23,23 @@ function Dashboard() {
 
       {/* Orders */}
       <div className={`${activeTab === "Orders" ? "d-block" : "d-none"}`}>
-        <Orders />
+        <OrdersDashboard />
       </div>
 
       {/* Shipment */}
       <div className={`${activeTab === "Shipment" ? "d-block" : "d-none"}`}>
-      <Shipment />
+      <ShipmentDashboard />
       </div>
 
       {/* NDR */}
       <div className={`${activeTab === "NDR" ? "d-block" : "d-none"}`}>
-      <NDR />
+      <NDRDashboard />
       </div>
 
 
       {/* RTO */}
       <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-      <RTO />
+      <RTODashboard />
       </div>
 
       {/* Courier Delays */}

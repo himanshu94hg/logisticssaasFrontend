@@ -6,7 +6,7 @@ import ZoneWiseData from '../Components/Shipment/ZoneWiseData'
 import OFDDataCard from '../Components/Shipment/OFDDataCard'
 import ExpectedDate from '../Components/Shipment/ExpectedDate'
 
-const Shipment = () => {
+const ShipmentDashboard = () => {
   return (
     <>
       <Row>
@@ -26,4 +26,4 @@ const Shipment = () => {
   )
 }
 
-export default Shipment
+export default ShipmentDashboard

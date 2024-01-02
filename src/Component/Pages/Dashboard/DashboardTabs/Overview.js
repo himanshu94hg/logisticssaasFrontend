@@ -20,18 +20,19 @@ const Overview = () => {
           <TotalShipment />
           <DeliveryPerformance />
           <StateSplitDashboard />
+          <WeightDiterpenes />
+          <OverviewDetails />
         </Col>
         <Col className="col-6 cardsSpace">
           <TotalInfoDashboard />
-          <TableDashboard />
-          <OverviewDetails />
+          {/* <TableDashboard /> */}
           <TopSellingDashboard />
         </Col>
         <Col className="col-3 cardsSpace">
           <RevenueDashboard />
           <CourierWiseDashboard />
           <PopularCustomerDashboard />
-          <WeightDiterpenes />
+          
         </Col>
       </Row>
     </>

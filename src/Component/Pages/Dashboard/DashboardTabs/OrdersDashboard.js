@@ -14,7 +14,7 @@ import WarehouseInformation from '../Components/Orders/WarehouseInformation'
 import OrderDetails from '../Components/Orders/OrderDetails'
 import ForwardReverseOrder from '../Components/Orders/ForwardReverseOrder'
 
-const Orders = () => {
+const OrdersDashboard = () => {
   return (
     <>
       <Row>
@@ -46,4 +46,4 @@ const Orders = () => {
   )
 }
 
-export default Orders
+export default OrdersDashboard

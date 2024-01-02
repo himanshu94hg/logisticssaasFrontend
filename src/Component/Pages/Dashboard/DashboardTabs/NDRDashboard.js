@@ -10,7 +10,7 @@ import SellerBuyerResponse from '../Components/NDR/SellerBuyerResponse'
 import NDRResponse from '../Components/NDR/NDRResponse'
 import NDRFunnel from '../Components/NDR/NDRFunnel'
 
-const NDR = () => {
+const NDRDashboard = () => {
   return (
     <>
       <Row className='cardsSpace'>
@@ -48,4 +48,4 @@ const NDR = () => {
   )
 }
 
-export default NDR
+export default NDRDashboard
