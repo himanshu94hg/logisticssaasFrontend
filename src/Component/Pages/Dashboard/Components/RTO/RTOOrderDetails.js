@@ -67,8 +67,7 @@ const RTOOrderDetails = () => {
                 <p>Loading data...</p>
               ) : error ? (
                 <p>{error}</p>
-              ) : data.status_wise_percentages &&
-                data.status_wise_percentages.length > 0 ? (
+              ) : data && data.status_wise_percentages && data.status_wise_percentages.length > 0 ? (
                 data.status_wise_percentages.map((status, index) => (
                   <div key={index}>
                     <div className="d-flex justify-content-between">

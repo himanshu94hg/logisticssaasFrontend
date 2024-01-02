@@ -19,8 +19,9 @@ function TotalShipment() {
 
   return (
     <>
-      {data && (
-        <div className="box-shadow shadow-sm p10">
+    <div className="box-shadow shadow-sm p10">
+      {data && Array.isArray(data) && data.length > 0 ? (
+        <div className="">
           <div className="row">
             <div className="col-8">
               <div className="d-flex justify-content-start align-items-center">
@@ -49,8 +50,8 @@ function TotalShipment() {
           <div className="row">
             <div className="col">
               <div className="progress-widget">
-                {data.map((item, index) => (
-                  <div key={index} className="mb-3">
+              {data.map((item, index) => (
+                <div key={index} className="mb-3">
                     <p className="font12 bold-600 mb-2">{item.name}</p>
                     <div className="progress mb-2">
                       <div
@@ -70,8 +71,12 @@ function TotalShipment() {
               </div>
             </div>
           </div>
-        </div>
+          </div>
+        
+      ) : (
+        <p>Loading...</p>
       )}
+      </div>
     </>
   );
 }
