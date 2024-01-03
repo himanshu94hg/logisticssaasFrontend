@@ -33,7 +33,7 @@ function RevenueDashboard() {
   useEffect(() => {
     fetchRevenueData(selectedInterval);
   }, [selectedInterval]);
-
+ console.log("@@@@@@@@@@@@@@@",revenueData)
   return (
     <div className="box-shadow shadow-sm p10">
       <div className="row">

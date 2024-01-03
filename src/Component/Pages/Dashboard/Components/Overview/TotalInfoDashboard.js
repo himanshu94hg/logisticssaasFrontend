@@ -10,7 +10,7 @@ import LineGraph from "../../../../common/Graph/LineGraph";
 import DataTable from "./DataTable/DataTable";
 
 function TotalInfoDashboard() { 
-  const [totalCustomer, setTotalCustomer] = useState(null);
+  // const [totalCustomer, setTotalCustomer] = useState(null);
   const [dailyShipment,setDailyShipment]=useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
   const [todayRevenue,setTodayRevenue]=useState(null);
@@ -18,15 +18,15 @@ function TotalInfoDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [customerResponse, shipmentResponse, sellingResponse, revenueResponse] =
+        const [shipmentResponse, sellingResponse, revenueResponse] =
           await Promise.all([
-            axios.get('http://35.154.133.143/api/v1/top-customer/'),
+            // axios.get('http://35.154.133.143/api/v1/top-customer/'),
             axios.get('http://35.154.133.143/api/v1/daly-shipment/'),
             axios.get('http://35.154.133.143/api/v1/avg-sellingprice/'),
             axios.get('http://35.154.133.143/api/v1/today-revenue/'),
           ]);
 
-        setTotalCustomer(customerResponse.data);
+        // setTotalCustomer(customerResponse.data);
         setDailyShipment(shipmentResponse.data);
         setAverageSelling(sellingResponse.data);
         setTodayRevenue(revenueResponse.data);
@@ -37,7 +37,9 @@ function TotalInfoDashboard() {
 
     fetchData();
   }, []);
-
+console.log("@@@@@@@@@@@@@@ dailyShipment",dailyShipment)
+console.log("@@@@@@@@@@@@@@ avarageSelling",avarageSelling)
+console.log("@@@@@@@@@@@@@@ todayRevenue",todayRevenue)
   return (
     <>
       <div className="grid gap-3">
@@ -58,10 +60,11 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Total Customer</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                      {totalCustomer?.total_customer} 
+                      685785
                       </h2>
                     <p className="font12 text-blue-dark">Best customers 
-                     {totalCustomer?.top_customer}
+                     {/* {totalCustomer?.top_customer} */}
+                     743675
                     
                     </p>
                   </div>
@@ -72,6 +75,7 @@ function TotalInfoDashboard() {
                 <div className="card-footer">
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
                     {/* +{totalCustomer}% */}
+                    +7.0
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     this month
@@ -96,12 +100,12 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Daily Shipment</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                    {dailyShipment?.daily_shipment}
+
+                    {dailyShipment?.total_shipment_count || 0}
                       </h2>
                     <p className="font12 text-yellow">Pending 
                     
                   {dailyShipment?.total_pending_data}
-                    
                     </p>
                   </div>
                 </div>
@@ -112,7 +116,7 @@ function TotalInfoDashboard() {
                 <LineGraph cardColor="#F6B954" />
                 <div className="card-footer">
                   <span className="text-yellow font13 pt20 bold-600 d-block text-end">
-                    {/* +{dailyShipment}% */}
+                  {dailyShipment ? `+${dailyShipment.average_shipment_per_day}%` : '+0%'}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     this month
@@ -138,7 +142,9 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Average Selling Price</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                      {avarageSelling?.average_invoice_amount}
+                    {avarageSelling?.average_invoice_amount_30_days||0}
+                    
+                      {/* {avarageSelling?.average_invoice_amount_30_days} */}
                       
                       </h2>
                     <p className="font12 text-blue">Seller </p>
@@ -149,7 +155,7 @@ function TotalInfoDashboard() {
                 <LineGraph cardColor="rgba(75, 192, 192, 1)" />
                 <div className="card-footer">
                   <span className="text-blue font13 pt20 bold-600 d-block text-end">
-                    {/* +{averageSelling}% */}
+                    +{avarageSelling?.percentage_change}%
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     comparative analysis</p>
@@ -173,9 +179,8 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Today’s Revenue</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                      
-                      
-                       {todayRevenue?.today_revenue}
+                     {todayRevenue?.today_revenue || 0} 
+                       {/* {todayRevenue?.today_revenue} */}
                       </h2>
                     <p className="font12 text-red">Yesterday 
                     {todayRevenue?.yesterday_revenue}  
@@ -188,7 +193,8 @@ function TotalInfoDashboard() {
                 <div className="card-footer">
 
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    {/* +{todayRevenue}% */}
+                  {todayRevenue ? `+${todayRevenue.percentage_change}%` : '+0%'}
+                  
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     comparative analysis

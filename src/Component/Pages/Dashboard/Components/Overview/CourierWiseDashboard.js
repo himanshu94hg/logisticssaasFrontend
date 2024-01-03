@@ -27,7 +27,7 @@ function CourierWiseDashboard() {
           <li key={index} className="">
             <p className="font12 bold-600 mb-10">
               {/* <img src={`https://shipease.in/${courier.courier_partner.image}`} className="inline-block" alt={courier.courier_partner.title} style={{ width: '35px', height: '35px', borderRadius: '50%' }} /> */}
-              &nbsp;&nbsp;&nbsp;{courier.courier_partner.title}
+              {courier.courier_partner}
             </p>
             <img src="graph-red.png" className="inline-block" style={{ width: '60px' }} />
 
