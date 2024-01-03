@@ -518,3 +518,7 @@ p{
   background-color: #1975C9;
   color: #fff;
 }
+
+.btn-check:focus+.btn, .btn:focus{
+  box-shadow: 0 0px 2px 1px rgba(13,110,253,.25);
+}

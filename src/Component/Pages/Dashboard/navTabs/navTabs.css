@@ -16,7 +16,7 @@
 }
 
 .navbar-expand .navbar-nav .nav-link.active{
-background-color: #CEDBF2;
+background-color: #1975C9;
+color: #fff;
 border-radius: 4px;
-color: #0F3C5B;
 }
