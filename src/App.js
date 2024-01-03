@@ -6,6 +6,7 @@ import Header from "./Component/common/header/Header";
 import "./App.css";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
+import IndiaMapp from './Component/common/Graph/IndiaMapp';
 import Shipment from './Component/Pages/Dashboard/DashboardTabs/ShipmentDashboard';
 import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
@@ -26,6 +27,7 @@ function App() {
              <Route path="/Orders" element={<OrdersPage/>} />
              <Route path="/Shipments" element={<Shipment/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
+             <Route path="/IndiaMapp" element={<IndiaMapp />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>
