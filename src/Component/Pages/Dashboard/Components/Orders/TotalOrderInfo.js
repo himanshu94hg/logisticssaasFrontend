@@ -134,7 +134,7 @@ function TotalOrderInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={iconRTO} alt="iconRTO" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">RTO Orders</p>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Reverse Orders</p>
                   <h3 className="font20 title-text p-y bold-600 m0">
                     {totalRtoOrder?.total_return_to_origin_order_count}
                     </h3>
