@@ -508,3 +508,13 @@ p{
 .gap-10{
   gap: 10px;
 }
+
+.main-button{
+  background-color: #1975C9;
+  color: #fff;
+  padding: 5px 10px;
+}
+.main-button:hover{
+  background-color: #1975C9;
+  color: #fff;
+}
