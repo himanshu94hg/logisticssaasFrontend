@@ -2,10 +2,6 @@ import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import axios from "axios";
 
-
-
-// ... (previous imports)
-
 function TotalShipment() {
   const [data, setData] = useState(null);
 
