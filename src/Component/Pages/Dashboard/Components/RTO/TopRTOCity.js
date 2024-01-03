@@ -10,7 +10,6 @@ const TopRTOCity = () => {
     axios
       .get('http://35.154.133.143/api/v1/top-rto-city/')
       .then((response) => {
-        console.log("@@@@@@@@@@@@@@@", response.data);
         setData(response.data || []); // Ensure data is an array
         setLoading(false);
       })
@@ -20,8 +19,7 @@ const TopRTOCity = () => {
         setLoading(false);
       });
   }, []);
-  console.log("data value is", data);
-
+  
   return (
     <>
       <div className="box-shadow shadow-sm p10">
