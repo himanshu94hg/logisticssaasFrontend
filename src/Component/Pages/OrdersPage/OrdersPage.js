@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import Form from 'react-bootstrap/Form';
-import NavTabs from './navTabs/NavTabs';
+import NavTabs from './Components/navTabs/NavTabs';
 import './OrdersPage.css'
+import AllOrderss from './Components/AllOrders';
 
 
 const OrdersPage = () => {
@@ -24,6 +22,7 @@ const OrdersPage = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <AllOrderss />
         </>
     )
 }

@@ -37,7 +37,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Overview
+                All Orders
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Orders" ? "active" : ""}`}
@@ -48,7 +48,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Orders
+                Unprocessable
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Shipment" ? "active" : ""}`}
@@ -59,7 +59,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Shipment
+                Processing
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "NDR" ? "active" : ""}`}
@@ -70,7 +70,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                NDR
+                Ready to Ship
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "RTO" ? "active" : ""}`}
@@ -81,7 +81,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                RTO
+                Manifest
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Courier Delays" ? "active" : ""}`}
@@ -92,7 +92,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Courier Delays
+                Returns
               </div>
             </Nav.Link>
           </div>
