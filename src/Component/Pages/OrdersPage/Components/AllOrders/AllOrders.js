@@ -58,8 +58,10 @@ const AllOrders = () => {
                         </label>
                         <p className='font10'>Most Popular Search by COD, Prepaid, Yesterday, One Week, Last Month, Delivered, Cancel order </p>
                     </div>
-                    <button className='btn main-button'></button>
-                    <button className='btn main-button'></button>
+                    <div className='button-container'>
+                        <button className='btn main-button'></button>
+                        <button className='btn main-button'></button>
+                    </div>
                 </div>
 
                 <table className="w-100">

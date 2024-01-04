@@ -178,3 +178,7 @@
 .checkbox-cell input{
   vertical-align: -1px;
 }
+
+.filter-container .button-container{
+  display: flex;
+}
