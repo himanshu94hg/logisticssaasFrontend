@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import './OrdersPage.css'
-import AllOrderss from './Components/AllOrders';
+import AllOrderss from './Components/AllOrders/AllOrders';
 
 
 const OrdersPage = () => {
