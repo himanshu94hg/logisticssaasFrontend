@@ -137,9 +137,8 @@ const AllOrders = () => {
                                             <p>{row.order_number}</p>
                                             <p>{row.inserted}</p>
                                             <p>{row.channel}</p>
-                                            <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
+                                            <p className="product-details">View Product
+                                            <span>{row.product_name}{row.product_sku}</span>
                                             
                                             </p>
                                         </div>
