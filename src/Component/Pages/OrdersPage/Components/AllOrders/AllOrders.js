@@ -94,7 +94,7 @@ const AllOrders = () => {
 
                 <table className="w-100">
                     <thead>
-                        <tr className="table-row">
+                        <tr className="table-row box-shadow">
                             <th className='checkbox-cell'>
                                 <input
                                     type="checkbox"
@@ -116,7 +116,7 @@ const AllOrders = () => {
                         {orders.map((row, index) => (
                             <React.Fragment key={row.id}>
                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
-                                <tr className='table-row'>
+                                <tr className='table-row box-shadow'>
                                     <td className='checkbox-cell'>
                                         <input
                                             type="checkbox"
@@ -130,8 +130,8 @@ const AllOrders = () => {
                                             <p>{row.order_number}</p>
                                             <p>{row.inserted}</p>
                                             <p>{row.channel}</p>
-                                            <p>viewProduct
-                                            <span className='d-none'>{row.product_name}{row.product_sku}</span>
+                                            <p className='product-details'>viewProduct
+                                            <span>{row.product_name}{row.product_sku}</span>
                                             
                                             </p>
                                         </div>

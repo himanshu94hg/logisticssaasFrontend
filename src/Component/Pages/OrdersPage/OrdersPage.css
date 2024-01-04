@@ -106,7 +106,7 @@
 
 .table-row td,
 .table-row th {
-  background-color: #fff;
+  background-color: #F6F7F8;
   padding: 0.5rem;
   border-bottom: none;
 }
@@ -222,4 +222,8 @@ z-index: 5;
 .cell-inside-box p{
   margin-bottom: 0;
   font-size: 14px;
+}
+
+.product-details span{
+  display: none;
 }
