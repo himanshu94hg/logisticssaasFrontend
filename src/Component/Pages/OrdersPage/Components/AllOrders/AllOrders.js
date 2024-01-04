@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
@@ -12,18 +12,18 @@ const AllOrders = () => {
     const [orders, setAllOrders] = useState([]);
 
     useEffect(() => {
-      axios
-        .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
-        .then(response => {
-          console.log('Data is data:', response.data);
-          setAllOrders(response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
+        axios
+            .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
+            .then(response => {
+                console.log('Data is data:', response.data);
+                setAllOrders(response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55",orders)
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
     // const tableData = [
     //     { id: 1, orderDetails: 'Details 1', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 1', packagingDetails: 'Packaging 1', payment: 'Payment 1', deliveryAddress: 'Address 1', courierPartner: 'Courier 1', status: 'Status 1', action: 'Action 1' },
     //     { id: 2, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
@@ -84,7 +84,14 @@ const AllOrders = () => {
                                 <img src={SearchIcon} alt="Search" />
                             </button>
                         </label>
-                        <p className='font10'>Most Popular Search by COD, Prepaid, Yesterday, One Week, Last Month, Delivered, Cancel order </p>
+                        <p className='font10'>Most Popular Search by
+                            <span>COD</span> |
+                            <span>Prepaid</span> |
+                            <span>Yesterday</span> |
+                            <span>One Week</span> |
+                            <span>Last Month</span> |
+                            <span>Delivered</span> |
+                            <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
@@ -131,8 +138,8 @@ const AllOrders = () => {
                                             <p>{row.inserted}</p>
                                             <p>{row.channel}</p>
                                             <p className='product-details'>viewProduct
-                                            <span>{row.product_name}{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
@@ -142,9 +149,9 @@ const AllOrders = () => {
                                             <p>{row.b_customer_name}</p>
                                             <p>{row.timeStamp}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}</span>
+                                                <span>{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
@@ -154,9 +161,9 @@ const AllOrders = () => {
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}</span>
+                                                <span>{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
@@ -166,9 +173,9 @@ const AllOrders = () => {
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}</span>
+                                                <span>{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
@@ -178,9 +185,9 @@ const AllOrders = () => {
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}</span>
+                                                <span>{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
@@ -190,9 +197,9 @@ const AllOrders = () => {
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}</span>
+                                                <span>{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
@@ -202,9 +209,9 @@ const AllOrders = () => {
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                                <span>{row.product_name}</span>
+                                                <span>{row.product_sku}</span>
+
                                             </p>
                                         </div>
                                     </td>
