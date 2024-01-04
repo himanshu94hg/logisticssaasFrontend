@@ -1,28 +1,43 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "axios";
 
 const AllOrders = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
+    const [shipmentData, setShipmentData] = useState([]);
+    const [orders, setAllOrders] = useState([]);
 
-    // Sample data for the table
-    const tableData = [
-        { id: 1, orderDetails: 'Details 1', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 1', packagingDetails: 'Packaging 1', payment: 'Payment 1', deliveryAddress: 'Address 1', courierPartner: 'Courier 1', status: 'Status 1', action: 'Action 1' },
-        { id: 2, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
-        { id: 3, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
-        { id: 5, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
-        { id: 6, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
-        // Add more rows as needed
-    ];
+    useEffect(() => {
+      axios
+        .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
+        .then(response => {
+          console.log('Data is data:', response.data);
+          setAllOrders(response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }, []);
+
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55",orders)
+    // const tableData = [
+    //     { id: 1, orderDetails: 'Details 1', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 1', packagingDetails: 'Packaging 1', payment: 'Payment 1', deliveryAddress: 'Address 1', courierPartner: 'Courier 1', status: 'Status 1', action: 'Action 1' },
+    //     { id: 2, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
+    //     { id: 3, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
+    //     { id: 5, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
+    //     { id: 6, orderDetails: 'Details 2', orderNumber: '2763812736', timeStamp: '04 Jan 2024 | 11:26 AM', channelDetails: 'Amazon', viewProduct: 'view Product', customerDetails: 'Customer 2', packagingDetails: 'Packaging 2', payment: 'Payment 2', deliveryAddress: 'Address 2', courierPartner: 'Courier 2', status: 'Status 2', action: 'Action 2' },
+    //     // Add more rows as needed
+    // ];
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(tableData.map(row => row.id));
+            setSelectedRows(orders.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -39,7 +54,7 @@ const AllOrders = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === tableData.length - 1 && isSelected) {
+        if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -98,7 +113,7 @@ const AllOrders = () => {
                         <tr className="blank-row"><td></td></tr>
                     </thead>
                     <tbody>
-                        {tableData.map((row, index) => (
+                        {orders.map((row, index) => (
                             <React.Fragment key={row.id}>
                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                                 <tr className='table-row'>
@@ -110,11 +125,28 @@ const AllOrders = () => {
                                         />
                                     </td>
                                     <td>
+                                        {/* order detail */}
                                         <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
+                                            <p>{row.order_number}</p>
+                                            <p>{row.inserted}</p>
+                                            <p>{row.channel}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* customer detail */}
+                                        <div className='cell-inside-box'>
+                                            <p>{row.b_customer_name}</p>
                                             <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
                                         </div>
                                     </td>
                                     <td>
@@ -122,7 +154,11 @@ const AllOrders = () => {
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
                                         </div>
                                     </td>
                                     <td>
@@ -130,7 +166,11 @@ const AllOrders = () => {
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
                                         </div>
                                     </td>
                                     <td>
@@ -138,7 +178,11 @@ const AllOrders = () => {
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
                                         </div>
                                     </td>
                                     <td>
@@ -146,7 +190,11 @@ const AllOrders = () => {
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
                                         </div>
                                     </td>
                                     <td>
@@ -154,15 +202,11 @@ const AllOrders = () => {
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
                                             <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
-                                            <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>{row.viewProduct}</p>
+                                            <p>viewProduct
+                                            <span>{row.product_name}</span>
+                                            <span>{row.product_sku}</span>
+                                            
+                                            </p>
                                         </div>
                                     </td>
                                 </tr>
