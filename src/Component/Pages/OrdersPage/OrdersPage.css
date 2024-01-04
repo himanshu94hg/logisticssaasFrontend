@@ -106,7 +106,7 @@
 
 .table-row td,
 .table-row th {
-  background-color: #fff;
+  background-color: #F6F7F8;
   padding: 0.5rem;
   border-bottom: none;
 }
@@ -143,17 +143,23 @@
   align-items: center;
 }
 
-.search-container label {
-  position: relative;
+.search-container{
+  width: 50%;
 }
 
-.search-container input {
+.search-container label {
+  position: relative;
+  width: 100%;
+}
+
+.search-container label input {
   padding-block: 5px;
   padding-inline: 29px 7px;
   width: 100%;
   border: 1px solid #ccc;
   border-radius: 5px;
   border-color: #E4E4E4;
+  width: 100%;
 }
 
 .search-container input:focus-visible {
@@ -173,6 +179,10 @@
 .search-container button img {
   width: 20px;
   height: 20px;
+}
+
+.search-container p{
+  margin-bottom: 0;
 }
 
 .checkbox-cell input {
@@ -207,4 +217,13 @@ z-index: 5;
 .cell-inside-box{
   display: flex;
   flex-direction: column;
+}
+
+.cell-inside-box p{
+  margin-bottom: 0;
+  font-size: 14px;
+}
+
+.product-details span{
+  display: none;
 }
