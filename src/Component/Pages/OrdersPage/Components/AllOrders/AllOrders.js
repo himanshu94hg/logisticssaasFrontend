@@ -149,6 +149,7 @@ const AllOrders = () => {
                                         <div className='cell-inside-box'>
                                             <p>{row.b_customer_name}</p>
                                             <p>{row.timeStamp}</p>
+                                            
                                             <p>viewProduct
                                                 <span>{row.product_name}</span>
                                                 <span>{row.product_sku}</span>
