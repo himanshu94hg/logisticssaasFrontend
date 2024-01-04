@@ -131,8 +131,7 @@ const AllOrders = () => {
                                             <p>{row.inserted}</p>
                                             <p>{row.channel}</p>
                                             <p>viewProduct
-                                            <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
+                                            <span className='d-none'>{row.product_name}{row.product_sku}</span>
                                             
                                             </p>
                                         </div>
