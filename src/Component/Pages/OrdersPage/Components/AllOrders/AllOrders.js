@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 
 const AllOrders = () => {
 
@@ -46,28 +47,36 @@ const AllOrders = () => {
 
     return (
         <section>
-            <div className="mt-1">
+            <div className="">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-
+                    <div class="search-container">
+                        <label>
+                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                            <button>
+                                <img src={SearchIcon} alt="Search" />
+                            </button>
+                        </label>
+                        <p className='font10'>Most Popular Search by COD, Prepaid, Yesterday, One Week, Last Month, Delivered, Cancel order </p>
+                    </div>
+                    <button className='btn main-button'></button>
+                    <button className='btn main-button'></button>
                 </div>
 
                 <table className="w-100">
                     <thead>
                         <tr className="table-row">
-                            <th>
+                            <th className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectAll}
                                     onChange={handleSelectAll}
                                 />
                             </th>
-                            <th>AWB Number</th>
                             <th>Order Details</th>
-                            <th>Customer Details</th>
-                            <th>Packaging Details</th>
+                            <th>Customer details</th>
+                            <th>Package Details</th>
                             <th>Payment</th>
-                            <th>Delivery Address</th>
-                            <th>Courier Partner</th>
+                            <th>Pickup Address</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -78,20 +87,18 @@ const AllOrders = () => {
                             <React.Fragment key={row.id}>
                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                                 <tr className='table-row'>
-                                    <td>
+                                    <td className='checkbox-cell'>
                                         <input
                                             type="checkbox"
                                             checked={selectedRows.includes(row.id)}
                                             onChange={() => handleSelectRow(row.id)}
                                         />
                                     </td>
-                                    <td>{row.id}</td>
                                     <td>{row.orderDetails}</td>
                                     <td>{row.customerDetails}</td>
                                     <td>{row.packagingDetails}</td>
                                     <td>{row.payment}</td>
                                     <td>{row.deliveryAddress}</td>
-                                    <td>{row.courierPartner}</td>
                                     <td>{row.status}</td>
                                     <td>{row.action}</td>
                                 </tr>
