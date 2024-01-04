@@ -132,8 +132,7 @@ const AllOrders = () => {
                                             <p>{row.channel}</p>
                                             <p>viewProduct
                                             <span>{row.product_name}</span>
-                                            <span>{row.product_sku}</span>
-                                            
+                                            <span>{row.product_sku}</span>  
                                             </p>
                                         </div>
                                     </td>
@@ -150,6 +149,7 @@ const AllOrders = () => {
                                         </div>
                                     </td>
                                     <td>
+                                        {/* package  details */}
                                         <div className='cell-inside-box'>
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
@@ -162,6 +162,7 @@ const AllOrders = () => {
                                         </div>
                                     </td>
                                     <td>
+                                        {/* payment section here */}
                                         <div className='cell-inside-box'>
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
@@ -174,6 +175,7 @@ const AllOrders = () => {
                                         </div>
                                     </td>
                                     <td>
+                                        {/* pickup adress */}
                                         <div className='cell-inside-box'>
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
@@ -186,6 +188,7 @@ const AllOrders = () => {
                                         </div>
                                     </td>
                                     <td>
+                                        {/* status section here */}
                                         <div className='cell-inside-box'>
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
@@ -198,6 +201,7 @@ const AllOrders = () => {
                                         </div>
                                     </td>
                                     <td>
+                                        {/*  action section  */}
                                         <div className='cell-inside-box'>
                                             <p>{row.orderNumber}</p>
                                             <p>{row.timeStamp}</p>
