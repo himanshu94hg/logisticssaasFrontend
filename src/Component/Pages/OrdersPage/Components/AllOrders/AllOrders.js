@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
+// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel';
+import InfoIcon from '../Icons/InfoIcon';
 
 const AllOrders = () => {
 
@@ -142,7 +143,8 @@ const AllOrders = () => {
                                                     {row.order_number}
                                                     <span className="product-details ms-2">
                                                         {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        <img src={InfoIcon} alt="InfoIcon" width={18}/>
+                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                        <InfoIcon />
                                                         <span>{row.product_name}{row.product_sku}</span>
                                                     </span>
                                                 </p>
@@ -165,7 +167,8 @@ const AllOrders = () => {
                                                 <p>20.00 x 22.00 x 33.00 (cm)
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        <img src={InfoIcon} alt="InfoIcon" width={18}/>
+                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                        <InfoIcon />
                                                         {/* <span>{row.product_name}</span> */}
                                                         <span>Volumetric wt.:  2.904 Kg</span>
                                                     </span>
