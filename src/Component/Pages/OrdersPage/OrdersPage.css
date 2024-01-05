@@ -104,12 +104,23 @@
   padding-left: 26px;
 }
 
+.table-container {
+  overflow-x: auto;
+  max-height: 500px;
+}
+
+.sticky-header th {
+  position: sticky;
+  top: 0;
+  background-color: #ffffff;
+  z-index: 1;
+}
+
 .table-row td,
 .table-row th {
   background-color: #fff;
   padding: 0.5rem;
   border-bottom: none;
-  vertical-align: baseline;
 }
 .table-row th{
   min-width: 140px;

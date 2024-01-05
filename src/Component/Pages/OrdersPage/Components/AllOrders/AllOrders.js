@@ -101,8 +101,8 @@ const AllOrders = () => {
                     </div>
                 </div>
 
-                <table className="w-100">
-                    <thead>
+                <table className="table-container w-100">
+                    <thead className="sticky-header">
                         <tr className="table-row box-shadow">
                             <th className='checkbox-cell'>
                                 <input
