@@ -106,9 +106,17 @@
 
 .table-row td,
 .table-row th {
-  background-color: #F6F7F8;
+  background-color: #fff;
   padding: 0.5rem;
   border-bottom: none;
+  vertical-align: baseline;
+}
+.table-row th{
+  min-width: 140px;
+}
+
+.table-row .checkbox-cell{
+  min-width: 10px;
 }
 
 .table-row td {
@@ -224,14 +232,18 @@
   font-size: 14px;
 }
 
-.cell-inside-box .product-details {
+.cell-inside-box .product-details,
+.cell-inside-box .details-on-hover {
   text-decoration: underline;
   color: #1975C9;
   position: relative;
+  cursor: pointer;
+  width: fit-content;
 }
 
 
-.cell-inside-box .product-details span {
+.cell-inside-box .product-details span,
+.cell-inside-box .details-on-hover span {
   display: none;
   padding: 13px;
   text-decoration: none;
@@ -240,25 +252,37 @@
   position: absolute;
   background-color: #fff;
   bottom: 30px;
-  left: -49px;
+  left: -18px;
   border-radius: 7px;
   box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
   filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
   width: 190px;
 }
 
-.cell-inside-box .product-details span:after {
+.cell-inside-box .product-details span:after,
+.cell-inside-box .details-on-hover span:after {
   content: '';
   position: absolute;
   bottom: -16px;
-  left: 50%;
+  left: 13%;
   margin-left: -8px;
   border-width: 8px;
   border-style: solid;
-  border-color: transparent transparent #e6ebf6 transparent;
+  border-color: transparent transparent #fff transparent;
   transform: rotate(180deg);
 }
 
-.cell-inside-box .product-details:hover span {
+.cell-inside-box .product-details:hover span,
+.cell-inside-box .details-on-hover:hover span {
   display: block;
+}
+
+
+.order-Status-box {
+background-color: #c5dcf1;
+padding: 5px 10px;
+color: #1975C9;
+/* font-size: 14px; */
+width: fit-content;
+border-radius: 4px;
 }

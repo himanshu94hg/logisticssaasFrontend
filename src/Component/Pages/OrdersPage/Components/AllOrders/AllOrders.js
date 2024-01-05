@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
+import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 
 const AllOrders = () => {
 
@@ -134,92 +136,61 @@ const AllOrders = () => {
                                     <td>
                                         {/* order detail */}
                                         <div className='cell-inside-box'>
-                                            <p>{row.order_number}</p>
-                                            <p>{row.inserted}</p>
-                                            <p>{row.channel}</p>
-                                            <p className="product-details">View Product
-                                            <span>{row.product_name}{row.product_sku}</span>
-                                            
+                                            <p className=''>
+                                                <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' />
+                                                {row.order_number}
+                                                <span className="product-details ms-2">
+                                                    <FontAwesomeIcon icon={faCircleInfo} />
+                                                    <span>{row.product_name}{row.product_sku}</span>
+                                                </span>
                                             </p>
+                                            <p className='ws-no-wrap'>{row.inserted}
+                                            </p>
+                                            {/* <p>{row.channel}</p> */}
                                         </div>
                                     </td>
                                     <td>
                                         {/* customer detail */}
                                         <div className='cell-inside-box'>
-                                            <p>{row.b_customer_name}</p>
-                                            <p>{row.timeStamp}</p>
-                                            
-                                            <p>viewProduct
-                                                <span>{row.product_name}</span>
-                                                <span>{row.product_sku}</span>
-
-                                            </p>
+                                            <p>Vijay Nathani</p>
+                                            <p>9820332115</p>
                                         </div>
                                     </td>
                                     <td>
                                         {/* package  details */}
                                         <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
-                                            <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>viewProduct
-                                                <span>{row.product_name}</span>
-                                                <span>{row.product_sku}</span>
-
+                                            <p>Dead wt. : 5.6 kg</p>
+                                            <p>20.00 x 22.00 x 33.00 (cm)
+                                                <span className='details-on-hover ms-2 align-middle'>
+                                                    <FontAwesomeIcon icon={faCircleInfo} />
+                                                    {/* <span>{row.product_name}</span> */}
+                                                    <span>Volumetric wt.:  2.904 Kg</span>
+                                                </span>
                                             </p>
                                         </div>
                                     </td>
                                     <td>
                                         {/* payment section here */}
                                         <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
-                                            <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>viewProduct
-                                                <span>{row.product_name}</span>
-                                                <span>{row.product_sku}</span>
-
-                                            </p>
+                                            <p>₹ 2157.30</p>
+                                            <p className='order-Status-box mt-1'>Prepaid</p>
                                         </div>
                                     </td>
-                                    <td>
+                                    <td className='align-middle'>
                                         {/* pickup adress */}
                                         <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
-                                            <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>viewProduct
-                                                <span>{row.product_name}</span>
-                                                <span>{row.product_sku}</span>
-
+                                            <p className='details-on-hover'>WH Sarasvati Kunj
+                                                <span>WH Sarasvati Kunj Plot 74$ Sac asvau Kunj, Sector 53 I lantana -122002 7011424112 </span>
                                             </p>
                                         </div>
                                     </td>
-                                    <td>
-                                        {/* status section here */}
-                                        <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
-                                            <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>viewProduct
-                                                <span>{row.product_name}</span>
-                                                <span>{row.product_sku}</span>
-
-                                            </p>
-                                        </div>
+                                    <td className='align-middle'>
+                                        {/*  Status section  */}
+                                        <span className='order-Status-box'>New</span>
                                     </td>
-                                    <td>
+                                    <td className='align-middle'>
                                         {/*  action section  */}
-                                        <div className='cell-inside-box'>
-                                            <p>{row.orderNumber}</p>
-                                            <p>{row.timeStamp}</p>
-                                            <p>{row.channelDetails}</p>
-                                            <p>viewProduct
-                                                <span>{row.product_name}</span>
-                                                <span>{row.product_sku}</span>
-
-                                            </p>
-                                        </div>
+                                        <button className='btn main-button'>Ship Now</button>
                                     </td>
                                 </tr>
                             </React.Fragment>
