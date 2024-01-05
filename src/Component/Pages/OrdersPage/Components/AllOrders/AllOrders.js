@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
+import SidePanel from './SidePanel';
 
 const AllOrders = () => {
 
@@ -198,9 +199,13 @@ const AllOrders = () => {
                     </tbody>
                 </table>
 
-                <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'><FontAwesomeIcon icon="fa-solid fa-chevron-right" /></div>
-                </div>
+                <SidePanel />
+
+                {/* <div id='sidePanel' className="side-panel">
+                    <div className='sidepanel-closer'>
+                        <FontAwesomeIcon icon={faChevronRight} />
+                    </div>
+                </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
