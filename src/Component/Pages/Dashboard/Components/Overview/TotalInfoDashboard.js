@@ -10,7 +10,7 @@ import LineGraph from "../../../../common/Graph/LineGraph";
 import DataTable from "./DataTable/DataTable";
 
 function TotalInfoDashboard() { 
-  // const [totalCustomer, setTotalCustomer] = useState(null);
+  const [totalCustomer, setTotalCustomer] = useState(null);
   const [dailyShipment,setDailyShipment]=useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
   const [todayRevenue,setTodayRevenue]=useState(null);
@@ -18,15 +18,15 @@ function TotalInfoDashboard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [shipmentResponse, sellingResponse, revenueResponse] =
+        const [customerResponse,shipmentResponse, sellingResponse, revenueResponse] =
           await Promise.all([
-            // axios.get('http://35.154.133.143/api/v1/top-customer/'),
+             axios.get('http://35.154.133.143/api/v1/top-customer/'),
             axios.get('http://35.154.133.143/api/v1/daly-shipment/'),
             axios.get('http://35.154.133.143/api/v1/avg-sellingprice/'),
             axios.get('http://35.154.133.143/api/v1/today-revenue/'),
           ]);
 
-        // setTotalCustomer(customerResponse.data);
+        setTotalCustomer(customerResponse.data);
         setDailyShipment(shipmentResponse.data);
         setAverageSelling(sellingResponse.data);
         setTodayRevenue(revenueResponse.data);
@@ -37,9 +37,10 @@ function TotalInfoDashboard() {
 
     fetchData();
   }, []);
-console.log("@@@@@@@@@@@@@@ dailyShipment",dailyShipment)
-console.log("@@@@@@@@@@@@@@ avarageSelling",avarageSelling)
-console.log("@@@@@@@@@@@@@@ todayRevenue",todayRevenue)
+console.log("##############33 totalCustomer",totalCustomer)
+// console.log("@@@@@@@@@@@@@@ dailyShipment",dailyShipment)
+// console.log("@@@@@@@@@@@@@@ avarageSelling",avarageSelling)
+// console.log("@@@@@@@@@@@@@@ todayRevenue",todayRevenue)
   return (
     <>
       <div className="grid gap-3">
@@ -60,11 +61,11 @@ console.log("@@@@@@@@@@@@@@ todayRevenue",todayRevenue)
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Total Customer</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                      685785
+                    {totalCustomer?.total_customer_last_30_days || 0}
                       </h2>
                     <p className="font12 text-blue-dark">Best customers 
-                     {/* {totalCustomer?.top_customer} */}
-                     743675
+                     {totalCustomer?.top_customer_last_30_days} 
+                    
                     
                     </p>
                   </div>
@@ -74,8 +75,10 @@ console.log("@@@@@@@@@@@@@@ todayRevenue",todayRevenue)
                 <LineGraph cardColor="#3BB54B" />
                 <div className="card-footer">
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    {/* +{totalCustomer}% */}
-                    +7.0
+                  {totalCustomer?.percentage_increase_last_30_days_vs_last_60_days
+                    ? `+${totalCustomer.percentage_increase_last_30_days_vs_last_60_days}%`
+                    : '+0%'}
+                   
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
                     this month

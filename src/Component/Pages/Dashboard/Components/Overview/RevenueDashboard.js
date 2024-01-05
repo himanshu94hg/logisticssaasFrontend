@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import axios from "axios";
-import Col from "react-bootstrap/Col";
 
 function RevenueDashboard() {
   const [selectedInterval, setSelectedInterval] = useState("1W");
-  const [revenueData, setRevenueData] = useState({ today_revenue: 0, yesterday_revenue: 0 });
+  const [revenueData, setRevenueData] = useState({ prepade_revenue_data: 0, cod_revenue_data: 0 });
   const [totalSumOrder, setTotalSumOrder] = useState(0);
 
   const fetchRevenueData = (interval) => {
@@ -33,7 +32,7 @@ function RevenueDashboard() {
   useEffect(() => {
     fetchRevenueData(selectedInterval);
   }, [selectedInterval]);
- console.log("@@@@@@@@@@@@@@@",revenueData)
+
   return (
     <div className="box-shadow shadow-sm p10">
       <div className="row">
@@ -51,19 +50,21 @@ function RevenueDashboard() {
 
       <ul className="list-ui mt20">
         <li className={`bg-red-light text-red`}>
-          <p>Today's Revenue</p>
+          <p>Prepaid Revenue</p>
           <p className="text-red">
-            <AiOutlineArrowUp className=" font15" /> {revenueData.data_count}%
+            <AiOutlineArrowUp className=" font15" /> 
+            {/* {revenueData.prepade_revenue_data}% */}
           </p>
-          <p className="text-red">{revenueData.data_count}</p>
+          <p className="text-red">{revenueData.prepade_revenue_data}</p>
         </li>
 
         <li className={`bg-green-light text-green`}>
-          <p>Yesterday's Revenue</p>
+          <p>COD Revenue</p>
           <p>
-            <AiOutlineArrowUp className=" font15" /> {revenueData.data_count}%
+            <AiOutlineArrowUp className=" font15" /> 
+            {/* {revenueData.cod_revenue_data}% */}
           </p>
-          <p>{revenueData.data_count}</p>
+          <p>{revenueData.cod_revenue_data}</p>
         </li>
 
         {/* Add other items based on your API response structure */}
@@ -71,7 +72,7 @@ function RevenueDashboard() {
         <li>
           <p></p>
           <p><AiOutlineArrowUp className="text-white font30" /></p>
-          <p>{totalSumOrder !== null ? totalSumOrder.toFixed(2) : 'N/A'}</p>
+          {/* <p>{revenueData?.total_revenue_data}||0</p> */}
         </li>
       </ul>
     </div>
