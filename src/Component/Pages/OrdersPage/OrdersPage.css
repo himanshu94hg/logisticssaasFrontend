@@ -295,8 +295,7 @@
   background-color: #c5dcf1;
   padding: 1px 10px;
   color: #1975C9;
-  /* font-size: 14px; */
-  width: -moz-fit-content;
+  font-size: 11px !important;
   width: fit-content;
   border-radius: 10px;
 }
@@ -318,6 +317,6 @@
 
 .sidepanel-header{
   width: 100%;
-  background-color: #9ac2e5;
-  padding: 30px 10px;
+  background-color: #CEDBF2;
+  padding: 30px 30px;
 }
