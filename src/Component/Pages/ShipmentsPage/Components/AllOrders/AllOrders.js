@@ -106,21 +106,21 @@ const AllOrders = () => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
+                                <th className='checkbox-cell'>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '20%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '10%' }}>Shipping Details</th>
-                                <th style={{ width: '8%' }}>Status</th>
-                                <th style={{ width: '10%' }}>Action</th>
+                                <th>NDR Raised At</th>
+                                <th>Order ID Status</th>
+                                <th>NDR Reason</th>
+                                <th>Product Details</th>
+                                <th>Customer Details</th>
+                                <th>Courier Partner</th>
+                                <th>Delivery Address</th>
+                                <th>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -161,14 +161,7 @@ const AllOrders = () => {
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{width:'150px'}}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
+                                                <p>{row.s_contact}</p>
                                                 {/* <p>{row.s_city}</p>
                                                 <p>{row.s_pincode}</p>
                                                 <p>{row.s_state}</p> */}
@@ -177,14 +170,13 @@ const AllOrders = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
+                                                <p>Volumetric wt.:  {row.weight} Kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
                                                         {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
                                                         {/* <span>{row.product_name}</span> */}
-                                                        <span style={{width:'250px'}}>
+                                                        <span>
                                                             {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
                                                         </span>
                                                     </span>
@@ -211,7 +203,7 @@ const AllOrders = () => {
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                    <span className=''>AWB Number</span>
                                                 </p>
                                                 <p className='mt-1'><img src='https://www.dtdc.in/img/logos/logo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                             </div>

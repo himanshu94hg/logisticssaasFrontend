@@ -26,12 +26,6 @@
     height: calc(100vh - 140px);
 }
 
-.sidepanel-body form{
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
 .filter-row{
     display: flex;
     gap: 15px;

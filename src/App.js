@@ -10,6 +10,8 @@ import IndiaMapp from './Component/common/Graph/IndiaMapp';
 import Shipment from './Component/Pages/Dashboard/DashboardTabs/ShipmentDashboard';
 import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
+import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
+import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
 
 function App() {
   return (
@@ -23,9 +25,9 @@ function App() {
              <Header />
            </div>
            <Routes>            
-             <Route path="/MoreOnOrders" element={<MoreOnOrders/>} />
+             {/* <Route path="/Reassign-orders" element={<AllOrders/>} /> */}
              <Route path="/Orders" element={<OrdersPage/>} />
-             <Route path="/Shipments" element={<Shipment/>} />
+             <Route path="/Shipments" element={<ShipmentsPage/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
              <Route path="/IndiaMapp" element={<IndiaMapp />}/>
              <Route path="/" element={<Dashboard/>} />

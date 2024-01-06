@@ -330,16 +330,8 @@
   font-size: 13px !important;
   width: fit-content;
   border-radius: 10px;
-  text-transform: capitalize;
 }
 
 .icon-rotate {
   transform: rotate(180deg);
-}
-
-.width-eclipse{
-  max-width: 200px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
 }

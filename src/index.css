@@ -527,3 +527,8 @@ p{
 input::placeholder {
   font-size: 11px; 
 }
+
+.seconadary-button{
+  background-color: grey;
+  color: #fff;
+}

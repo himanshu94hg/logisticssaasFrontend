@@ -121,7 +121,7 @@ const SideNav = () => {
     {
       to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
         { to: "/quick-order", label: "Quick Order" },
-        { to: "/re-assign", label: "Reassign Orders" },
+        { to: "/Reassign-orders", label: "Reassign Orders" },
         { to: "/merge-orders", label: "Merge Orders" },
         { to: "/add-reverse-order", label: "Reverse Order" },
       ],
