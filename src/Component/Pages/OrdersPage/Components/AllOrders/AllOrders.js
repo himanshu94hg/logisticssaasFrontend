@@ -151,19 +151,30 @@ const AllOrders = () => {
                                                 <p className='ws-no-wrap'>{row.inserted}
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
+                                                {row.o_tpe}
+                                                {row.product_sku}
+                                                {row.product_qty}
+                                                {row.p_warehouse_name}
                                             </div>
                                         </td>
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>Vijay Nathani</p>
-                                                <p>9820332115</p>
+                                                <p>{row.s_customer_name}</p>
+                                                <p>{row.s_contact}</p>
+                                                <p>{row.s_city}</p>
+                                                <p>{row.s_pincode}</p>
+                                                <p>{row.s_state}</p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>Dead wt. : 5.6 kg</p>
+                                                <p>{row.weight}</p>
+                                               <p> {row.length} </p>
+                                               <p>{row.breadth}</p>
+                                               <p>{row.height}</p>
+                                               
                                                 <p>20.00 x 22.00 x 33.00 (cm)
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
@@ -178,8 +189,8 @@ const AllOrders = () => {
                                         <td>
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
-                                                <p>₹ 2157.30</p>
-                                                <p className='order-Status-box mt-1'>Prepaid</p>
+                                                <p>{row.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -188,21 +199,23 @@ const AllOrders = () => {
                                                 <p className='details-on-hover'>WH Sarasvati Kunj
                                                     <span>WH Sarasvati Kunj Plot 74$ Sac asvau Kunj, Sector 53 I lantana -122002 7011424112 </span>
                                                 </p>
+                                               {row.pickup_address}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
+                                            {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p>₹ 2157.30</p>
-                                                <p className='order-Status-box mt-1'>Prepaid</p>
+                                                <p>{row.awb_number}</p>
+                                                <p className='order-Status-box mt-1'>{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <span className='order-Status-box'>New</span>
+                                            <span className='order-Status-box'>{row.status}</span>
                                         </td>
                                         <td className='align-middle'>
-                                            {/*  action section  */}
+                                             {/* {row.ndr_action}
+                                             {row.ndr_status} */}
                                             <button className='btn main-button'>Ship Now</button>
                                         </td>
                                     </tr>
