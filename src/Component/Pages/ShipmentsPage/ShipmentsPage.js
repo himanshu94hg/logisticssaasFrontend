@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
-import './ShipmentsPage.css'
+// import './ShipmentsPage.css'
 import AllOrderss from './Components/AllOrders/AllOrders';
 
 

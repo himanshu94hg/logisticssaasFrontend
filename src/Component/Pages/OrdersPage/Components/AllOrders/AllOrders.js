@@ -5,9 +5,37 @@ import axios from "axios";
 import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel';
 import InfoIcon from '../Icons/InfoIcon';
+
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
+  
+    useEffect(() => {
+      const formattedDateTime = formatDateTime(dateTimeString);
+      setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+  
+    const formatDateTime = (dateTimeString) => {
+      const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+  
+      const dateObject = new Date(dateTimeString);
+      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+  
+      return formattedDateTime;
+    };
+  
+    return <p>{formattedDate}</p>;
+  };
 
 const AllOrders = () => {
 
@@ -113,14 +141,22 @@ const AllOrders = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '20%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
+                                <th style={{ width: '25%' }}>Order Details</th>
+                                <th>Customer details</th>
                                 <th>Package Details</th>
+                                <th>Payment</th>
+                                <th>Pickup Address</th>
+                                <th>Shipping Details</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                                {/* <th style={{ width: '25%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Customer details</th>
+                                <th style={{ width: '10%' }}>Package Details</th>
                                 <th style={{ width: '5%' }}>Payment</th>
                                 <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '10%' }}>Shipping Details</th>
-                                <th style={{ width: '8%' }}>Status</th>
-                                <th style={{ width: '10%' }}>Action</th>
+                                <th style={{ width: '8%' }}>Shipping Details</th>
+                                <th style={{ width: '5%' }}>Status</th>
+                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -140,9 +176,9 @@ const AllOrders = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' />
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span>{row.channel}</span>
                                                     {row.order_number}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+
                                                     {/* <span className="product-details ms-2"> */}
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
                                                     {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
@@ -150,7 +186,10 @@ const AllOrders = () => {
                                                     {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
                                                     {/* </span> */}
                                                 </p>
-                                                <p className='ws-no-wrap'>{row.inserted}
+                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                    {/* {formatDate(row.inserted)} */}
+                                                <DateFormatter dateTimeString={row.inserted} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -164,7 +203,7 @@ const AllOrders = () => {
                                                 <p>{row.s_contact}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
-                                                        <span style={{width:'150px'}}>
+                                                        <span style={{ width: '150px' }}>
                                                             {row.s_city}, {row.s_state}, {row.s_pincode}
                                                         </span>
                                                     </span>
@@ -184,7 +223,7 @@ const AllOrders = () => {
                                                         {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
                                                         {/* <span>{row.product_name}</span> */}
-                                                        <span style={{width:'250px'}}>
+                                                        <span style={{ width: '250px' }}>
                                                             {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
                                                         </span>
                                                     </span>
@@ -218,12 +257,32 @@ const AllOrders = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <span className='order-Status-box'>{row.status}</span>
+                                            <p className='order-Status-box'>{row.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
-                                            <button className='btn main-button'>Ship Now</button>
+                                            <div className='d-flex align-items-center gap-2'>
+                                                <button className='btn main-button'>Ship Now</button>
+                                                <div className='action-options'>
+                                                    <div className='threedots-img'>
+                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                    </div>
+                                                    <div className='action-list'>
+                                                        <ul>
+                                                            <li>Download Invoice</li>
+                                                            <li>Edit Order</li>
+                                                            <li>Verify Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Call Buyer</li>
+                                                            <li>Marl As Verified</li>
+                                                            <li>Clone Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Cancel Order</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </React.Fragment>
