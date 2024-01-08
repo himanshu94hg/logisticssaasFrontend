@@ -37,7 +37,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
   };
 
-const AllOrders = () => {
+const Unprocessable = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -46,7 +46,7 @@ const AllOrders = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/api/v1/unprocessable/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data);
@@ -161,15 +161,15 @@ const AllOrders = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                        {Array.isArray(orders) && orders.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
@@ -189,7 +189,7 @@ const AllOrders = () => {
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                 <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -305,4 +305,4 @@ const AllOrders = () => {
     );
 };
 
-export default AllOrders;
+export default Unprocessable;

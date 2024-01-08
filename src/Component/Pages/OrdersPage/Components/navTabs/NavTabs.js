@@ -30,9 +30,9 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "Overview" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "All Orders" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Overview");
+                props.setActiveTab("All Orders");
               }}
             >
               <div className="navItemsContainer">
@@ -40,9 +40,9 @@ export default function NavTabs(props) {
                 All Orders
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Orders" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Orders");
+                props.setActiveTab("Unprocessable");
               }}
             >
               {" "}
@@ -51,9 +51,9 @@ export default function NavTabs(props) {
                 Unprocessable
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Shipment" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Processing" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Shipment");
+                props.setActiveTab("Processing");
               }}
             >
               {" "}
@@ -62,9 +62,9 @@ export default function NavTabs(props) {
                 Processing
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "NDR" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Ready to Ship" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("NDR");
+                props.setActiveTab("Ready to Ship");
               }}
             >
               {" "}
@@ -73,9 +73,9 @@ export default function NavTabs(props) {
                 Ready to Ship
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "RTO" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("RTO");
+                props.setActiveTab("Manifest");
               }}
             >
               {" "}
@@ -84,9 +84,9 @@ export default function NavTabs(props) {
                 Manifest
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Courier Delays" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Courier Delays");
+                props.setActiveTab("Returns");
               }}
             >
               {" "}

@@ -37,7 +37,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
   };
 
-const AllOrders = () => {
+const ReadyToShip = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -305,4 +305,4 @@ const AllOrders = () => {
     );
 };
 
-export default AllOrders;
+export default ReadyToShip;

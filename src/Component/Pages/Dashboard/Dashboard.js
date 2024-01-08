@@ -28,23 +28,23 @@ function Dashboard() {
 
       {/* Shipment */}
       <div className={`${activeTab === "Shipment" ? "d-block" : "d-none"}`}>
-      <ShipmentDashboard />
+        <ShipmentDashboard />
       </div>
 
       {/* NDR */}
       <div className={`${activeTab === "NDR" ? "d-block" : "d-none"}`}>
-      <NDRDashboard />
+        <NDRDashboard />
       </div>
 
 
       {/* RTO */}
       <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-      <RTODashboard />
+        <RTODashboard />
       </div>
 
       {/* Courier Delays */}
       <div className={`${activeTab === "Courier Delays" ? "d-block" : "d-none"}`}>
-      <CourierDelays />
+        <CourierDelays />
       </div>
 
     </>

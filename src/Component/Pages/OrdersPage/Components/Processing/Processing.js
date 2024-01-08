@@ -37,7 +37,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
   };
 
-const AllOrders = () => {
+const Processing = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -46,9 +46,9 @@ const AllOrders = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/api/v1/processableorder/') // Replace with your API endpoint
             .then(response => {
-                console.log('Data is data:', response.data);
+                console.log('Data is data(processing):', response.data);
                 setAllOrders(response.data);
             })
             .catch(error => {
@@ -161,7 +161,7 @@ const AllOrders = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                        {Array.isArray(orders) && orders.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -305,4 +305,4 @@ const AllOrders = () => {
     );
 };
 
-export default AllOrders;
+export default Processing;

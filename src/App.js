@@ -25,7 +25,9 @@ function App() {
              <Header />
            </div>
            <Routes>            
-             {/* <Route path="/Reassign-orders" element={<AllOrders/>} /> */}
+             <Route path="/Reassign-orders" element={<AllOrders/>} />
+             <Route path="/merge-orders" element={<AllOrders/>} />
+             <Route path="/split-orders" element={<AllOrders/>} />
              <Route path="/Orders" element={<OrdersPage/>} />
              <Route path="/Shipments" element={<ShipmentsPage/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
