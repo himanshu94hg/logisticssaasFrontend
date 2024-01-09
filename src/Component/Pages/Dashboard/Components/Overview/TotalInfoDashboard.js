@@ -75,9 +75,8 @@ console.log("##############33 totalCustomer",totalCustomer)
                 <LineGraph cardColor="#3BB54B" />
                 <div className="card-footer">
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                  {totalCustomer?.percentage_increase_last_30_days_vs_last_60_days
-                    ? `+${totalCustomer.percentage_increase_last_30_days_vs_last_60_days}%`
-                    : '+0%'}
+                  {totalCustomer?.percentage_increase_last_30_days_vs_last_60_days |0} %
+                    
                    
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
