@@ -217,12 +217,9 @@ const AllOrders = () => {
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
+                                                <p>Wt:  {row.weight} kg <span className='text-blue'>||</span> LBH: {row.length}x{row.breadth}x{row.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
-                                                        {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
-                                                        {/* <span>{row.product_name}</span> */}
                                                         <span style={{ width: '250px' }}>
                                                             {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
                                                         </span>
