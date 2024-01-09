@@ -100,6 +100,28 @@ export default function NavTabs(props) {
                 WhatsApp Comm
               </div>
             </Nav.Link>
+            <Nav.Link className={`${props.activeTab === "Sub Accounts" ? "active" : ""}`}
+              onClick={() => {
+                props.setActiveTab("Sub Accounts");
+              }}
+            >
+              {" "}
+              <div className="navItemsContainer">
+                {/* <FontAwesomeIcon icon={faCube} /> */}
+                Sub Accounts
+              </div>
+            </Nav.Link>
+            <Nav.Link className={`${props.activeTab === "Employees" ? "active" : ""}`}
+              onClick={() => {
+                props.setActiveTab("Employees");
+              }}
+            >
+              {" "}
+              <div className="navItemsContainer">
+                {/* <FontAwesomeIcon icon={faCube} /> */}
+                Employees
+              </div>
+            </Nav.Link>
             <Nav.Link className={`${props.activeTab === "P & L" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("P & L");
