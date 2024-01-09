@@ -46,10 +46,10 @@ const RTOShipment = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/api/v1/ndrshipment/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setAllOrders(response.data.shipment_data);
             })
             .catch(error => {
                 console.error('Error:', error);
