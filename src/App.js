@@ -12,6 +12,7 @@ import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
+import ChannelsPage from './Component/Pages/ChannelsPage/ChannelsPage';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
              <Route path="/Orders" element={<OrdersPage/>} />
              <Route path="/Shipments" element={<ShipmentsPage/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
+             <Route path="/channels" element={<ChannelsPage />}/>
              <Route path="/IndiaMapp" element={<IndiaMapp />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
