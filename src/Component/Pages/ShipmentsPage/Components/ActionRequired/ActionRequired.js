@@ -5,11 +5,39 @@ import axios from "axios";
 import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import SidePanel from './SidePanel';
+import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../Icons/InfoIcon';
 
-const AllOrders = () => {
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
+  
+    useEffect(() => {
+      const formattedDateTime = formatDateTime(dateTimeString);
+      setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+  
+    const formatDateTime = (dateTimeString) => {
+      const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+  
+      const dateObject = new Date(dateTimeString);
+      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+  
+      return formattedDateTime;
+    };
+  
+    return <p>{formattedDate}</p>;
+  };
+
+const ActionRequired = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -106,21 +134,29 @@ const AllOrders = () => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th className='checkbox-cell'>
+                                <th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>NDR Raised At</th>
-                                <th>Order ID Status</th>
-                                <th>NDR Reason</th>
-                                <th>Product Details</th>
-                                <th>Customer Details</th>
-                                <th>Courier Partner</th>
-                                <th>Delivery Address</th>
+                                <th style={{ width: '25%' }}>Order Details</th>
+                                <th>Customer details</th>
+                                <th>Package Details</th>
+                                <th>Payment</th>
+                                <th>Pickup Address</th>
+                                <th>Shipping Details</th>
+                                <th>Status</th>
                                 <th>Action</th>
+                                {/* <th style={{ width: '25%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Customer details</th>
+                                <th style={{ width: '10%' }}>Package Details</th>
+                                <th style={{ width: '5%' }}>Payment</th>
+                                <th style={{ width: '12%' }}>Pickup Address</th>
+                                <th style={{ width: '8%' }}>Shipping Details</th>
+                                <th style={{ width: '5%' }}>Status</th>
+                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -140,9 +176,9 @@ const AllOrders = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' />
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
                                                     {row.order_number}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+
                                                     {/* <span className="product-details ms-2"> */}
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
                                                     {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
@@ -150,7 +186,10 @@ const AllOrders = () => {
                                                     {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
                                                     {/* </span> */}
                                                 </p>
-                                                <p className='ws-no-wrap'>{row.inserted}
+                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                    {/* {formatDate(row.inserted)} */}
+                                                <DateFormatter dateTimeString={row.inserted} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -161,7 +200,14 @@ const AllOrders = () => {
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}</p>
+                                                <p>{row.s_contact}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '150px' }}>
+                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
+                                                        </span>
+                                                    </span>
+                                                </p>
                                                 {/* <p>{row.s_city}</p>
                                                 <p>{row.s_pincode}</p>
                                                 <p>{row.s_state}</p> */}
@@ -170,13 +216,14 @@ const AllOrders = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>Volumetric wt.:  {row.weight} Kg
+                                                <p className='width-eclipse'>{row.product_name}</p>
+                                                <p>Wt:  {row.weight} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
                                                         {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
                                                         {/* <span>{row.product_name}</span> */}
-                                                        <span>
+                                                        <span style={{ width: '250px' }}>
                                                             {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
                                                         </span>
                                                     </span>
@@ -203,19 +250,39 @@ const AllOrders = () => {
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                    <span className=''>AWB Number</span>
+                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
                                                 <p className='mt-1'><img src='https://www.dtdc.in/img/logos/logo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <span className='order-Status-box'>{row.status}</span>
+                                            <p className='order-Status-box'>{row.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
-                                            <button className='btn main-button'>Ship Now</button>
+                                            <div className='d-flex align-items-center gap-3'>
+                                                <button className='btn main-button'>Ship Now</button>
+                                                <div className='action-options'>
+                                                    <div className='threedots-img'>
+                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                    </div>
+                                                    <div className='action-list'>
+                                                        <ul>
+                                                            <li>Download Invoice</li>
+                                                            <li>Edit Order</li>
+                                                            <li>Verify Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Call Buyer</li>
+                                                            <li>Marl As Verified</li>
+                                                            <li>Clone Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Cancel Order</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
                                 </React.Fragment>
@@ -238,4 +305,4 @@ const AllOrders = () => {
     );
 };
 
-export default AllOrders;
+export default ActionRequired;

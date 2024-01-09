@@ -1,0 +1,59 @@
+.sidepanel-header {
+    width: 100%;
+    background-color: #CEDBF2;
+    padding: 15px 20px;
+}
+
+#sidepanel-closer {
+    position: absolute;
+    top: 45%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    left: -19px;
+    background-color: #fff;
+    border-radius: 120px;
+    /* padding: 11px; */
+    /* border: 1px solid; */
+    align-items: center;
+    justify-content: center;
+}
+
+.sidepanel-body {
+    margin-block: 20px;
+    margin-inline: 20px;
+    position: relative;
+    height: calc(100vh - 140px);
+}
+
+/* .sidepanel-body form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+} */
+
+.form-input-fields {
+    max-height: calc(100vh - 190px);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: scroll;
+}
+
+.filter-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.filter-row label {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.advanced-filter-footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
-// import './ShipmentsPage.css'
-import AllOrderss from './Components/AllOrders/AllOrders';
+import ActionRequired from './Components/ActionRequired/ActionRequired';
 
 
 const ShipmentsPage = () => {
@@ -22,7 +21,7 @@ const ShipmentsPage = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            <AllOrderss />
+            <ActionRequired />
         </>
     )
 }

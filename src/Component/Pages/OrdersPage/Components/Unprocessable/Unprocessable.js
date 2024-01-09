@@ -6,7 +6,7 @@ import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SidePanel from './SidePanel';
+import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../Icons/InfoIcon';
 
 const DateFormatter = ({ dateTimeString }) => {

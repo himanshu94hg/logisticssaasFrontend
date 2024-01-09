@@ -26,19 +26,33 @@
     height: calc(100vh - 140px);
 }
 
-.filter-row{
+/* .sidepanel-body form{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+} */
+
+.form-input-fields {
+    max-height: calc(100vh - 190px);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    overflow-y: scroll;
+}
+
+.filter-row {
     display: flex;
     gap: 15px;
     width: 100%;
 }
 
-.filter-row label{
+.filter-row label {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
-.advanced-filter-footer{
+.advanced-filter-footer {
     position: absolute;
     bottom: 0;
     right: 0;
