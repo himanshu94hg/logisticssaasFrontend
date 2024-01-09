@@ -49,7 +49,7 @@ const Processing = () => {
             .get('http://35.154.133.143/api/v1/processableorder/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data(processing):', response.data);
-                setAllOrders(response.data);
+                setAllOrders(response.data.processable_order);
             })
             .catch(error => {
                 console.error('Error:', error);
