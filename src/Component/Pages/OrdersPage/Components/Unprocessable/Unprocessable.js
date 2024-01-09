@@ -186,7 +186,7 @@ const Unprocessable = () => {
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                        <strong>Product Name:</strong> {row.product_name} <br /> <strong>Product SKU:</strong> {row.product_sku}<br /> <strong>Quantity:</strong> {row.product_qty}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -245,15 +245,14 @@ const Unprocessable = () => {
                                         </td>
                                     </tr>
                                     {/* Additional information row */}
-                                    <tr>
+                                    {/* <tr>
                                         <td colSpan="9">
                                             <div>
                                                 <p><strong>Product Name:</strong> {row.product_name}</p>
                                                 <p><strong>Product SKU:</strong> {row.product_sku}</p>
-                                                {/* Add more details as needed */}
                                             </div>
                                         </td>
-                                    </tr>
+                                    </tr> */}
                                 </React.Fragment>
                             ))}
                         </tbody>
