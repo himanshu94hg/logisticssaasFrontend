@@ -9,6 +9,9 @@ import CourierDelays from "./DashboardTabs/CourierDelays";
 import Overview from "./DashboardTabs/Overview";
 import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
 import WhatsappComm from "./DashboardTabs/WhatsappComm";
+import SubAccounts from "./DashboardTabs/SubAccounts";
+import EmployeeDash from "./DashboardTabs/EmployeeDash";
+import PnL from "./DashboardTabs/PnL";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -46,11 +49,26 @@ function Dashboard() {
       {/* Courier Delays */}
       <div className={`${activeTab === "Courier Delays" ? "d-block" : "d-none"}`}>
         <CourierDelays />
-      </div> 
-      
+      </div>
+
       {/* Whatsapp Comm */}
       <div className={`${activeTab === "Whatsapp Comm" ? "d-block" : "d-none"}`}>
         <WhatsappComm />
+      </div>
+
+      {/* SubAccounts*/}
+      <div className={`${activeTab === "Sub Accounts" ? "d-block" : "d-none"}`}>
+        <SubAccounts />
+      </div>
+
+      {/* Employees*/}
+      <div className={`${activeTab === "Employees" ? "d-block" : "d-none"}`}>
+        <EmployeeDash />
+      </div>
+
+      {/* Employees*/}
+      <div className={`${activeTab === "P & L" ? "d-block" : "d-none"}`}>
+        <PnL />
       </div>
 
     </>

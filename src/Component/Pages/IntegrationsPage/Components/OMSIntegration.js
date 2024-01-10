@@ -5,14 +5,14 @@ const OMSIntegration = () => {
     const OMSData = [
         { title: 'EasyShip', imageUrl: 'https://www.shipease.in/public/assets/images/oms/easyship.png' },
         { title: 'EasyEcom', imageUrl: 'https://www.shipease.in/public/assets/images/oms/easyecom.png' },
-        { title: 'ClickPost', imageUrl: 'https://www.shipease.in/public/assets/images/oms/clickpost2.png' },
         { title: 'VineRetail', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
         { title: 'Unicommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
+        { title: 'OMSGuru', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
         // Add more data as needed
     ];
 
     const OtherOMS = [
-        { title: 'OMSGuru', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
+        { title: 'ClickPost', imageUrl: 'https://www.shipease.in/public/assets/images/oms/clickpost2.png' },
         // Add more data as needed
     ];
 
@@ -36,7 +36,7 @@ const OMSIntegration = () => {
             </div>
             
             <div className=' integration-container mb-3'>
-                <h4>Other OMS</h4>
+                <h4>OtherS</h4>
                 <div className="card-grid-container">
                     {OtherOMS.map((item, index) => (
                         <div key={index} className="card">
