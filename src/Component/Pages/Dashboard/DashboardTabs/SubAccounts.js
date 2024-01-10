@@ -1,23 +1,25 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
 import MostViewedStatus from '../Components/WhatsAppComm/MostViewedStatus'
 import SentOverTime from '../Components/WhatsAppComm/SentOverTime'
+import SubAccountsInfo from '../Components/SubAccounts/SubAccountsInfo'
+import PerformanceSubAccounts from '../Components/SubAccounts/PerformanceSubAccounts'
+import PerformanceRefAccounts from '../Components/SubAccounts/PerformanceRefAccounts'
 
 const SubAccounts = () => {
   return (
     <>
       <Row className='cardsSpace'>
         <Col className='col-12'>
-          <WhatsAppTotalInfo />
+          <SubAccountsInfo />
         </Col>
         <Col className='col-12'>
           <Row>
             <Col className='col-6 cardsSpace'>
-              <MostViewedStatus />
+              <PerformanceSubAccounts />
             </Col>
             <Col className='col-6 cardsSpace'>
-              <SentOverTime />
+              <PerformanceRefAccounts />
             </Col>
           </Row>
         </Col>

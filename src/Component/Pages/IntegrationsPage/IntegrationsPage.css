@@ -32,7 +32,7 @@
 }
 
 .card .card-img-container.Shopify img{
-    transition: 1s;
+    transition: 2s;
 }
 
 .card:hover .card-img-container.Shopify img{
@@ -96,6 +96,7 @@
 .card-title {
     font-size: 1.2rem;
     margin-bottom: 0px;
+    white-space: nowrap;
 }
 
 .card-description {

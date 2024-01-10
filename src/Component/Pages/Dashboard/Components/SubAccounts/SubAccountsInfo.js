@@ -4,14 +4,14 @@ import Col from "react-bootstrap/Col";
 import '../Overview/totalInfoDashboard.css'
 import DataTable from "../Overview/DataTable/DataTable";
 import TableDashboard from '../Overview/TableDashboard'
-import './WhatsAppTotalInfo.css'
+import './SubAccountsInfo.css'
 import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 import iconRTO from '../../../../../assets/image/icons/RTO_icon.png'
 import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png'
 import NDRicon from '../../../../../assets/image/icons/NDRicon.png'
 import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
 
-function WhatsAppTotalInfo() {
+function SubAccountsInfo() {
   const [totalNdr, setTotalNdr] = useState(null);
   const [actionRequested, setActionRequested] = useState(null);
   const [actionReq, setActionreq] = useState(null);
@@ -56,7 +56,7 @@ function WhatsAppTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={NDRicon} alt="iconOrders" width={24} />
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Total Orders</p>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Total Accounts</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -82,7 +82,7 @@ function WhatsAppTotalInfo() {
                   <img src={iconDelivery} alt="iconDelivery" width={24}/>
 
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Total Message Sent</p>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Sub Accounts</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{actionReq?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -107,7 +107,7 @@ function WhatsAppTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={iconDelivery} alt="iconDelivery" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Message read rate</p>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Referral Accounts</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -132,7 +132,7 @@ function WhatsAppTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={NDRdelivered} alt="iconRTO" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Queries resolved</p>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Refferal Amount</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -156,4 +156,4 @@ function WhatsAppTotalInfo() {
   );
 }
 
-export default WhatsAppTotalInfo;
+export default SubAccountsInfo;
