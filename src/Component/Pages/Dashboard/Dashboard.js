@@ -8,6 +8,7 @@ import RTODashboard from "./DashboardTabs/RTODashboard";
 import CourierDelays from "./DashboardTabs/CourierDelays";
 import Overview from "./DashboardTabs/Overview";
 import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
+import WhatsappComm from "./DashboardTabs/WhatsappComm";
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("Overview");
@@ -45,6 +46,11 @@ function Dashboard() {
       {/* Courier Delays */}
       <div className={`${activeTab === "Courier Delays" ? "d-block" : "d-none"}`}>
         <CourierDelays />
+      </div> 
+      
+      {/* Whatsapp Comm */}
+      <div className={`${activeTab === "Whatsapp Comm" ? "d-block" : "d-none"}`}>
+        <WhatsappComm />
       </div>
 
     </>
