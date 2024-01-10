@@ -48,7 +48,7 @@ const ActionRequested = () => {
         axios
             .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
             .then(response => {
-              
+              console.log("Requested")
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data);
             })
@@ -56,8 +56,6 @@ const ActionRequested = () => {
                 console.error('Error:', error);
             });
     }, []);
-
-    alert("###########333333333",orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -142,7 +140,7 @@ const ActionRequested = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Date</th>
+                                <th>Date requested</th>
                                 <th>NDR Reason</th>
                                 <th>Package Details</th>
                                 <th>Customer details</th>
