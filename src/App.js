@@ -7,12 +7,14 @@ import "./App.css";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 import IndiaMapp from './Component/common/Graph/IndiaMapp';
-import Shipment from './Component/Pages/Dashboard/DashboardTabs/ShipmentDashboard';
-import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
-import ChannelsPage from './Component/Pages/ChannelsPage/ChannelsPage';
+import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration';
+import OMSIntegration from './Component/Pages/IntegrationsPage/Components/OMSIntegration';
+import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
+import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
+import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
 
 function App() {
   return (
@@ -32,7 +34,11 @@ function App() {
              <Route path="/Orders" element={<OrdersPage/>} />
              <Route path="/Shipments" element={<ShipmentsPage/>} />
              <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
-             <Route path="/channels" element={<ChannelsPage />}/>
+             <Route path="/channels-integration" element={<ChannelsIntegration />}/>
+             <Route path="/OMS-integration" element={<OMSIntegration />}/>
+             <Route path="/couriers-integration" element={<CouriersIntegration />}/>
+             <Route path="/API-integration" element={<APIIntegration />}/>
+             <Route path="/other-integration" element={<OtherIntegration />}/>
              <Route path="/IndiaMapp" element={<IndiaMapp />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>

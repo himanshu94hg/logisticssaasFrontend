@@ -130,9 +130,9 @@ const SideNav = () => {
     { to: "/Shipments", label: "Shipments" },
     {
       to: "Integration", label: "Integration", hasDropdown: true, dropdownLinks: [
-        { to: "/channels", label: "Channels" },
-        { to: "/OMS", label: "OMS" },
-        { to: "/couriers", label: "Couriers" },
+        { to: "/channels-integration", label: "Channels" },
+        { to: "/OMS-integration", label: "OMS" },
+        { to: "/couriers-integration", label: "Couriers" },
         { to: "/API-integration", label: "API Integration" },
         { to: "/other-integration", label: "Other Integration" },
       ],
