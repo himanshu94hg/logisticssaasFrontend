@@ -73,17 +73,16 @@ export default function NavTabs(props) {
                 Ready to Ship
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
+            {/* <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Manifest");
               }}
             >
               {" "}
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
                 Manifest
               </div>
-            </Nav.Link>
+            </Nav.Link> */}
             <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Returns");
