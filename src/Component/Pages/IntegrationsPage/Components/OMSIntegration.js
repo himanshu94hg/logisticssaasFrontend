@@ -24,7 +24,7 @@ const OMSIntegration = () => {
                     {OMSData.map((item, index) => (
                         <div key={index} className="card">
                             <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={30} />
+                                <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
@@ -41,7 +41,7 @@ const OMSIntegration = () => {
                     {OtherOMS.map((item, index) => (
                         <div key={index} className="card">
                             <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={30} />
+                                <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>

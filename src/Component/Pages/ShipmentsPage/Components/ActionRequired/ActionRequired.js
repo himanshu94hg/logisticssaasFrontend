@@ -190,7 +190,7 @@ const ActionRequired = () => {
                                         <td>
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-                                            <p>{getRandomCount(reasons)}</p>
+                                            <p><strong>Attepmts: </strong>{getRandomCount(reasons)}</p>
                                             <p>{getRandomReason(reasons)}</p>
                                             </div>
                                         </td>

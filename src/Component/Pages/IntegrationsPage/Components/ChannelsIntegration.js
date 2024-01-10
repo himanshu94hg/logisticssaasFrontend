@@ -3,7 +3,7 @@ import '../IntegrationsPage.css'
 
 const ChannelsIntegration = () => {
     const ShoppingCarts = [
-        { title: 'Shopify', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
+        { title: 'Shopify', imageUrl: '../shopify.jpg' },
         { title: 'WooCommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/woocommerce.png' },
         { title: 'Opencart', imageUrl: 'https://www.shipease.in/public/assets/images/channel/opencart.png' },
         { title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
@@ -30,7 +30,7 @@ const ChannelsIntegration = () => {
                     {ShoppingCarts.map((item, index) => (
                         <div key={index} className="card">
                             <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={30} />
+                                <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
@@ -46,7 +46,7 @@ const ChannelsIntegration = () => {
                     {OnlineMarketplaces.map((item, index) => (
                         <div key={index} className="card">
                             <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={30} />
+                                <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
@@ -63,7 +63,7 @@ const ChannelsIntegration = () => {
                     {OtherChannels.map((item, index) => (
                         <div key={index} className="card">
                             <div className={`card-img-container ${item.title}`}>
-                                <img src={item.imageUrl} alt={item.title} width={30} />
+                                <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>

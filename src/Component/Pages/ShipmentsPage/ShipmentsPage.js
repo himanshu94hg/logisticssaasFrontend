@@ -29,9 +29,9 @@ const ShipmentsPage = () => {
                 <ActionRequired />
             </div>
             
-            {/* <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
+            <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
                 <ActionRequested />
-            </div> */}
+            </div>
             
             <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
                 <RTOShipment />

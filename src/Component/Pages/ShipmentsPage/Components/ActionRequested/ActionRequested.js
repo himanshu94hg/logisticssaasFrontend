@@ -196,7 +196,7 @@ const ActionRequested = () => {
                                                 <p key={ndrAttempt.order_id}>{ndrAttempt.ndr_reason}</p>
                                             )
                                             ))} */}
-                                             <p>{getRandomCount(reasons)}</p>
+                                             <p><strong>Attepmts: </strong>{getRandomCount(reasons)}</p>
                                             <p>{getRandomReason(reasons)}</p>
                                             </div>
                                         </td>

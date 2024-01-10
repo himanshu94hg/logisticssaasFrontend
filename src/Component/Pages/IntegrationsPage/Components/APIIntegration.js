@@ -23,7 +23,8 @@ const APIIntegration = () => {
                         <p><b>Expand and automate your online business with Shipease API.</b></p>
                         <h6 class="mb-3">Your API Key: <span class="text-muted">wElKnVJcXAHTFeFVOJXK2fClHy211QpDAxOccUaz</span></h6>
                         <form method="post" action="https://www.shipease.in/generate_api_key" onsubmit="return confirm('Are you sure?');">
-                            <input type="hidden" name="_token" value="X8xK2HQGv8RIJl0FI2ZlgGAb7uRyAdinLAh33awl" />                                    <button type="submit" name="generate" value="generate" class="btn main-button">Generate API Key</button>
+                            <input type="hidden" name="_token" value="X8xK2HQGv8RIJl0FI2ZlgGAb7uRyAdinLAh33awl" />
+                            <button type="submit" name="generate" value="generate" class="btn main-button">Generate API Key</button>
                         </form>
                     </div>
                     <div class="col-sm-12 mt-3">

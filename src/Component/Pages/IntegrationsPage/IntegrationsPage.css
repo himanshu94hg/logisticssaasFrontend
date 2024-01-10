@@ -23,18 +23,32 @@
     gap: 15px;
 }
 
-.card:hover {
+/* .card:hover {
     transform: scale(1.05);
+} */
+
+.card:hover .card-img-container{
+    flex-basis: 80%;
+}
+
+.card .card-img-container.Shopify img{
+    transition: 1s;
+}
+
+.card:hover .card-img-container.Shopify img{
+    transform: rotate(360deg);
 }
 
 .card-img-container {
-    flex-basis: 8%;
+    flex-basis: 10%;
     position: relative;
     height: 100%;
+    transition: flex-basis 0.5s;
 }
 
 .card-img-container.Shopify {
-    border-right: 1px solid #96BF48;
+    /* border-right: 1px solid #96BF48; */
+    background-color: rgb(150 191 72 / 25%);
 }
 
 .card-img-container.WooCommerce {
@@ -67,8 +81,8 @@
 
 .card-img-container img {
     position: absolute;
-    right: -14px;
-    top: 28%;
+    right: -18px;
+    top: 21%;
 }
 
 .card-content {
