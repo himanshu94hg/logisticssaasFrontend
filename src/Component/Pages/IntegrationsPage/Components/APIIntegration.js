@@ -16,20 +16,20 @@ const APIIntegration = () => {
 
     return (
         <>
-            <h4>API</h4>
-
-            <div className="card-grid-container">
-                {data.map((item, index) => (
-                    <div key={index} className="card">
-                        <div className={`card-img-container ${item.title}`}>
-                            <img src={item.imageUrl} alt={item.title} width={30} />
-                        </div>
-                        <div className="card-content">
-                            <h3 className="card-title">{item.title}</h3>
-                            <button className='btn main-button'>Integrate</button>
-                        </div>
+            <div class="box-shadow shadow-sm p10">
+                <h3 class="h4 mb-4">Shipease API</h3>
+                <div class="row mt-3">
+                    <div class="col-sm-12">
+                        <p><b>Expand and automate your online business with Shipease API.</b></p>
+                        <h6 class="mb-3">Your API Key: <span class="text-muted">wElKnVJcXAHTFeFVOJXK2fClHy211QpDAxOccUaz</span></h6>
+                        <form method="post" action="https://www.shipease.in/generate_api_key" onsubmit="return confirm('Are you sure?');">
+                            <input type="hidden" name="_token" value="X8xK2HQGv8RIJl0FI2ZlgGAb7uRyAdinLAh33awl" />                                    <button type="submit" name="generate" value="generate" class="btn main-button">Generate API Key</button>
+                        </form>
                     </div>
-                ))}
+                    <div class="col-sm-12 mt-3">
+                        API Documentation: <a href="https://documenter.getpostman.com/view/14597142/2s9Y5R26CS" target="_blank&quot;" class="text-info">Click Here</a>
+                    </div>
+                </div>
             </div>
         </>
     )
