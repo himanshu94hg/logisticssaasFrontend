@@ -8,7 +8,7 @@ import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
-  const [selectedOption, setSelectedOption] = useState("Domestic");
+  const [selectedOption, setSelectedOption] = useState("Action Required");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionSelect = (option) => {
@@ -30,9 +30,9 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "Overview" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Action Required" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Overview");
+                props.setActiveTab("Action Required");
               }}
             >
               <div className="navItemsContainer">
@@ -40,9 +40,9 @@ export default function NavTabs(props) {
                 Action Required
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Orders" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Action Requested" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Orders");
+                props.setActiveTab("Action Requested");
               }}
             >
               {" "}
@@ -51,9 +51,9 @@ export default function NavTabs(props) {
                 Action Requested
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Shipment" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Delivered" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Shipment");
+                props.setActiveTab("Delivered");
               }}
             >
               {" "}
@@ -62,9 +62,9 @@ export default function NavTabs(props) {
                 Delivered
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "NDR" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "RTO" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("NDR");
+                props.setActiveTab("RTO");
               }}
             >
               {" "}
