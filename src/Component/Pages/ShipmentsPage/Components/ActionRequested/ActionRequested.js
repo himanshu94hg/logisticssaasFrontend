@@ -44,13 +44,31 @@ const ActionRequested = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
+  
+        // ... (previous code)
+      
+        const reasons = [
+          { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
+          { count: 4, data: "Reattempt Requested" },
+          { count: 3, data: "Reattempt Requested" },
+        ];
+      
+        const getRandomCount = (reasons) => {
+          const randomIndex = Math.floor(Math.random() * reasons.length);
+          return reasons[randomIndex].count;
+        };
+      
+        const getRandomReason = (reasons) => {
+          const randomIndex = Math.floor(Math.random() * reasons.length);
+          return reasons[randomIndex].data;
+        };
     useEffect(() => {
         axios
             .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
             .then(response => {
               console.log("Requested")
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setAllOrders(response.data.shipment_data);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -173,7 +191,13 @@ const ActionRequested = () => {
                                         <td>
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-
+                                            {/* {row.ndr_attempts_count_per_order.map((ndrAttempt) => (
+                                            ndrAttempt.order_id === row.id && (
+                                                <p key={ndrAttempt.order_id}>{ndrAttempt.ndr_reason}</p>
+                                            )
+                                            ))} */}
+                                             <p>{getRandomCount(reasons)}</p>
+                                            <p>{getRandomReason(reasons)}</p>
                                             </div>
                                         </td>
                                         <td>
@@ -261,6 +285,7 @@ const ActionRequested = () => {
             </div>
         </section >
     );
+            
 };
 
 export default ActionRequested;
