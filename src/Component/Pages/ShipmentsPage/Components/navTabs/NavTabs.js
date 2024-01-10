@@ -8,7 +8,7 @@ import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
-  const [selectedOption, setSelectedOption] = useState("Action Required");
+  const [selectedOption, setSelectedOption] = useState("Domestic");
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionSelect = (option) => {

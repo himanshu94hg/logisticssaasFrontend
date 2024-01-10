@@ -4,7 +4,7 @@ import ActionRequired from './Components/ActionRequired/ActionRequired';
 
 
 const ShipmentsPage = () => {
-    const [activeTab, setActiveTab] = useState("Overview");
+    const [activeTab, setActiveTab] = useState("Action Required");
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
