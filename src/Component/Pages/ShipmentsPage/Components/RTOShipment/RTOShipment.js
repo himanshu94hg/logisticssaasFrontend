@@ -44,9 +44,26 @@ const RTOShipment = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
+    const reasons = [
+        { count: 1, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
+        { count: 3, data: "null" },
+        { count: 2, data: "Reattempt Requested" },
+      ];
+    
+      const getRandomCount = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].count;
+      };
+    
+      const getRandomReason = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].data;
+      };
+
+
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/ndrshipment/') // Replace with your API endpoint
+            .get('http://35.154.133.143/shipment/v1/ndrshipment/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data.shipment_data);
@@ -174,7 +191,8 @@ const RTOShipment = () => {
                                         <td>
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-
+                                            <p>{getRandomCount(reasons)}</p>
+                                            <p>{getRandomReason(reasons)}</p>
                                             </div>
                                         </td>
                                         <td>
