@@ -46,17 +46,18 @@ const ActionRequested = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/actionrequestedshipment/') // Replace with your API endpoint
+            .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
             .then(response => {
+              
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data.shipment_data);
+                setAllOrders(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
+    alert("###########333333333",orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
