@@ -1,0 +1,105 @@
+.integration-container{
+    padding: 15px;
+}
+
+
+/* CardGrid.css */
+
+.card-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+    gap: 30px;
+}
+
+.card {
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+}
+
+/* .card:hover {
+    transform: scale(1.05);
+} */
+
+.card:hover .card-img-container{
+    flex-basis: 80%;
+}
+
+.card .card-img-container.Shopify img{
+    transition: 2s;
+}
+
+.card:hover .card-img-container.Shopify img{
+    transform: rotate(360deg);
+}
+
+.card-img-container {
+    flex-basis: 10%;
+    position: relative;
+    height: 100%;
+    transition: flex-basis 0.5s;
+}
+
+.card-img-container.Shopify {
+    /* border-right: 1px solid #96BF48; */
+    background-color: rgb(150 191 72 / 25%);
+}
+
+.card-img-container.WooCommerce {
+    border-right: 1px solid #bba2bd;
+}
+
+.card-img-container.Magento{
+    border-right: 1px solid #f37b20;
+}
+
+.card-img-container.StoreHippo {
+    border-right: 1px solid #7fb53c;
+}
+
+.card-img-container.Amazon {
+    border-right: 1px solid #d78b01;
+}
+
+.card-img-container.Amazon.Direct {
+    border-right: 1px solid #d78b01;
+}
+
+.card-img-container.Opencart {
+    border-right: 1px solid #73beea;
+}
+
+.card-img-container.Manual {
+    border-right: 1px solid #8bc04a;
+}
+
+.card-img-container img {
+    position: absolute;
+    right: -18px;
+    top: 21%;
+}
+
+.card-content {
+    padding: 16px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-title {
+    font-size: 1.2rem;
+    margin-bottom: 0px;
+    white-space: nowrap;
+}
+
+.card-description {
+    font-size: 1rem;
+    color: #555;
+}

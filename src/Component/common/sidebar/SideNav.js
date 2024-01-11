@@ -68,7 +68,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
           {label === "Orders" && <OrdersIcon />}
           {label === "More On Orders" && <MoreOnOrdersIcon />}
           {label === "Shipments" && <ShipmentsIcon />}
-          {label === "Channels" && <ChannelsIcon />}
+          {label === "Integration" && <ChannelsIcon />}
           {label === "OMS" && <OMSIcon />}
           {label === "Billing" && <BillingIcon />}
           {label === "Weight Reco." && <WeightRecordsIcon />}
@@ -99,13 +99,13 @@ const SideNav = () => {
   const [Logo, setLogo] = useState(mobileLogo);
 
   useEffect(() => {
-    if(isExpanded===true){
+    if (isExpanded === true) {
       setLogo(FullLogo)
-    }else{
+    } else {
       setLogo(mobileLogo)
     }
   }, [isExpanded])
-  
+
 
   const handleMouseEnter = () => {
     setExpanded(true);
@@ -128,7 +128,15 @@ const SideNav = () => {
       ],
     },
     { to: "/Shipments", label: "Shipments" },
-    { to: "/channels", label: "Channels" },
+    {
+      to: "Integration", label: "Integration", hasDropdown: true, dropdownLinks: [
+        { to: "/channels-integration", label: "Channels" },
+        { to: "/OMS-integration", label: "OMS" },
+        { to: "/couriers-integration", label: "Couriers" },
+        { to: "/API-integration", label: "API Integration" },
+        { to: "/other-integration", label: "Other Integration" },
+      ],
+    },
     { to: "/billing", label: "Billing" },
     { to: "/WeightReconciliation", label: "Weight Reco." },
     { to: "/Customer", label: "Customer" },
@@ -148,7 +156,7 @@ const SideNav = () => {
         <img
           src={Logo}
           alt="Logo"
-          // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
+        // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
         />
       </div>
       <div className="menu-container">

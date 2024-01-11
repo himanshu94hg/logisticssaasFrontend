@@ -89,9 +89,9 @@ export default function NavTabs(props) {
                 Courier
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "WhatsApp Comm" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Whatsapp Comm" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("WhatsApp Comm");
+                props.setActiveTab("Whatsapp Comm");
               }}
             >
               {" "}

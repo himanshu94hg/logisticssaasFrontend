@@ -12,60 +12,44 @@ import InfoIcon from '../Icons/InfoIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-
+  
     useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
+      const formattedDateTime = formatDateTime(dateTimeString);
+      setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
-
+  
     const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
+      const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+  
+      const dateObject = new Date(dateTimeString);
+      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+  
+      return formattedDateTime;
     };
-
+  
     return <p>{formattedDate}</p>;
-};
+  };
 
-const DeliveredShipment = () => {
+const ReturnOrders = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
-    const reasons = [
-        { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
-        { count: 4, data: "Reattempt Requested" },
-        { count: 3, data: "Reattempt Requested" },
-      ];
-    
-      const getRandomCount = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].count;
-      };
-    
-      const getRandomReason = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].data;
-      };
-
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/shipment/v1/deleverdshipment/') // Replace with your API endpoint
+            .get('http://35.154.133.143/api/v1/pickedallorders/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data.shipment_data);
+                setAllOrders(response.data.data);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -157,13 +141,22 @@ const DeliveredShipment = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Date </th>
-                                <th>NDR Reason</th>
-                                <th>Package Details</th>
+                                <th style={{ width: '25%' }}>Order Details</th>
                                 <th>Customer details</th>
-                                <th>Tracking Detail</th>
+                                <th>Package Details</th>
+                                <th>Payment</th>
+                                <th>Pickup Address</th>
+                                <th>Shipping Details</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                {/* <th style={{ width: '25%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Customer details</th>
+                                <th style={{ width: '10%' }}>Package Details</th>
+                                <th style={{ width: '5%' }}>Payment</th>
+                                <th style={{ width: '12%' }}>Pickup Address</th>
+                                <th style={{ width: '8%' }}>Shipping Details</th>
+                                <th style={{ width: '5%' }}>Status</th>
+                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -180,35 +173,27 @@ const DeliveredShipment = () => {
                                             />
                                         </td>
                                         <td>
-                                            {/* Date detail */}
+                                            {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <div className='d-flex align-items-center'><DateFormatter dateTimeString={row.ndr_raised_time} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* NDR Reason*/}
-                                            <div className='cell-inside-box'>
-                                            <p><strong>Attepmts: </strong>{getRandomCount(reasons)}</p>
-                                            <p>{getRandomReason(reasons)}</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                        <InfoIcon />
-                                                        {/* <span>{row.product_name}</span> */}
-                                                        <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
-                                                        </span>
-                                                    </span>
+                                                <p className=''>
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
+                                                    {row.order_number}
+
+                                                    {/* <span className="product-details ms-2"> */}
+                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
+                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                    {/* <InfoIcon /> */}
+                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
+                                                    {/* </span> */}
                                                 </p>
+                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                    {/* {formatDate(row.inserted)} */}
+                                                <DateFormatter dateTimeString={row.inserted} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                </p>
+                                                {/* <p>{row.channel}</p> */}
+                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
+                                                {/* <p>W {row.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -229,7 +214,40 @@ const DeliveredShipment = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Tracking section here */}
+                                            {/* package  details */}
+                                            <div className='cell-inside-box'>
+                                                <p className='width-eclipse'>{row.product_name}</p>
+                                                <p>Wt:  {row.weight} kg
+                                                    <span className='details-on-hover ms-2 align-middle'>
+                                                        {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
+                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                        <InfoIcon />
+                                                        {/* <span>{row.product_name}</span> */}
+                                                        <span style={{ width: '250px' }}>
+                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* payment section here */}
+                                            <div className='cell-inside-box'>
+                                                <p>&#x20B9; {row.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* pickup adress */}
+                                            <div className='cell-inside-box'>
+                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
+                                                    <span>{row.pickup_address}</span>
+                                                </p>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* shiping section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
@@ -239,22 +257,28 @@ const DeliveredShipment = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.ndr_status}</p>
+                                            <p className='order-Status-box'>{row.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
+                                                <button className='btn main-button'>Ship Now</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
-                                                            <li>Escalate</li>
+                                                            <li>Download Invoice</li>
+                                                            <li>Edit Order</li>
+                                                            <li>Verify Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Call Buyer</li>
+                                                            <li>Marl As Verified</li>
+                                                            <li>Clone Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -281,4 +305,4 @@ const DeliveredShipment = () => {
     );
 };
 
-export default DeliveredShipment;
+export default ReturnOrders;
