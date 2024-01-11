@@ -115,9 +115,14 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         <div>
             {/* Step 1 content */}
             <label>
-                Enter something:
+                Input 1:
                 <input type="text" value={formData.step1} onChange={handleChange} />
             </label>
+            <label>
+                Input 2:
+                <input type="text" value={formData.step1} onChange={handleChange} />
+            </label>
+            {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onNext}>Next</button>
         </div>
     );
@@ -132,9 +137,14 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
         <div>
             {/* Step 2 content */}
             <label>
-                Enter something else:
+                Input 1:
                 <input type="text" value={formData.step2} onChange={handleChange} />
             </label>
+            <label>
+                Input 2:
+                <input type="text" value={formData.step2} onChange={handleChange} />
+            </label>
+            {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onPrev}>Previous</button>
             <button className='btn main-button' onClick={onNext}>Next</button>
         </div>
@@ -150,9 +160,14 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
         <div>
             {/* Step 3 content */}
             <label>
-                Final input:
+                Input 1:
                 <input type="text" value={formData.step3} onChange={handleChange} />
             </label>
+            <label>
+                Input 2:
+                <input type="text" value={formData.step3} onChange={handleChange} />
+            </label>
+            {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onPrev}>Previous</button>
             <button className='btn main-button' onClick={onNext}>Next</button>
         </div>
@@ -168,13 +183,19 @@ const Step4 = ({ onPrev, onSubmit, formData, setFormData }) => {
         <div>
             {/* Step 4 content */}
             <label>
-                Additional details:
+                Input 1:
                 <input type="text" value={formData.step4} onChange={handleChange} />
             </label>
+            <label>
+                Input 2:
+                <input type="text" value={formData.step4} onChange={handleChange} />
+            </label>
+            {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onPrev}>Previous</button>
             <button className='btn main-button' onClick={onSubmit}>Submit</button>
         </div>
     );
 };
+
 
 export default CreateOrderFlow;
