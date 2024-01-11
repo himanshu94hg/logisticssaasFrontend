@@ -43,37 +43,45 @@ const ActionRequested = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    const [ndrAttempt,setndrAttempt]= useState([]);
+    const [ndrAttemptCount,setndrAttemptCount]= useState([])
+     const [allData,setAllData]= useState([])
 
   
         // ... (previous code)
       
-        const reasons = [
-          { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
-          { count: 4, data: "Reattempt Requested" },
-          { count: 3, data: "Reattempt Requested" },
-        ];
+        // const reasons = [
+        //   { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
+        //   { count: 4, data: "Reattempt Requested" },
+        //   { count: 3, data: "Reattempt Requested" },
+        // ];
       
-        const getRandomCount = (reasons) => {
-          const randomIndex = Math.floor(Math.random() * reasons.length);
-          return reasons[randomIndex].count;
-        };
+        // const getRandomCount = (reasons) => {
+        //   const randomIndex = Math.floor(Math.random() * reasons.length);
+        //   return reasons[randomIndex].count;
+        // };
       
-        const getRandomReason = (reasons) => {
-          const randomIndex = Math.floor(Math.random() * reasons.length);
-          return reasons[randomIndex].data;
-        };
+        // const getRandomReason = (reasons) => {
+        //   const randomIndex = Math.floor(Math.random() * reasons.length);
+        //   return reasons[randomIndex].data;
+        // };
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
+            // .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
+            .get('http://35.154.133.143/shipment/v1/action-req-org/')
             .then(response => {
               console.log("Requested")
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data.shipment_data);
+                setAllOrders(response.data);
+                // setAllOrders(response.data.shipment_data)
+                // setndrAttempt(response.data.last_30_days_ndr_attempts);
+                // setndrAttemptCount(response.data.ndr_attempts_count_per_order);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
+    console.log("@@@@@@@@@@@@@@@",orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -112,16 +120,7 @@ const ActionRequested = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
-
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
-
+    console.log("*********************",ndrAttempt)
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -183,22 +182,25 @@ const ActionRequested = () => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
+                                                <p>{row.order_id}</p>
                                                 <div className='d-flex align-items-center'><DateFormatter dateTimeString={row.ndr_raised_time} />
                                                     <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* NDR Reason*/}
-                                            <div className='cell-inside-box'>
-                                            {/* {row.ndr_attempts_count_per_order.map((ndrAttempt) => (
-                                            ndrAttempt.order_id === row.id && (
-                                                <p key={ndrAttempt.order_id}>{ndrAttempt.ndr_reason}</p>
-                                            )
-                                            ))} */}
-                                             <p>{getRandomCount(reasons)}</p>
-                                            <p>{getRandomReason(reasons)}</p>
-                                            </div>
+                                         {/* NDR Reason*/}
+                                         <div className='cell-inside-box'>
+                                    {/* Find NDR attempts for the current order */}
+                                           {row?.ndr_attempts_data?.length > 0 && (
+                                           <React.Fragment key={row.ndr_attempts_data[row.ndr_attempts_data.length - 1].id}>
+                                            <p>{row.ndr_attempts_data[row.ndr_attempts_data.length - 1]?.reason}</p>
+                                            </React.Fragment>
+                                            )}
+                                            {row.ndr_attempts_data.length}
+                                          
+                    
+                                </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
@@ -245,7 +247,13 @@ const ActionRequested = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.ndr_status}</p>
+                                            <p className='order-Status-box'>
+                                            {row?.ndr_attempts_data?.length > 0 && (
+                                           <React.Fragment key={row.ndr_attempts_data[row.ndr_attempts_data.length - 1].id}>
+                                            <p>{row.ndr_attempts_data[row.ndr_attempts_data.length - 1]?.action_status}</p>
+                                            </React.Fragment>
+                                            )}
+                                            </p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
