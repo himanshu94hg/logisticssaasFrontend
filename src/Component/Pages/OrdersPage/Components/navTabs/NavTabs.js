@@ -5,6 +5,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -120,10 +121,10 @@ export default function NavTabs(props) {
           </div>
         
       </div>
-      <div className="d-flex gap-10">
+      <div className="d-flex gap-10 align-items-center">
         <button className="btn main-button">Sync Orders</button>
         <button className="btn main-button">Import CSV</button>
-        <button className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</button>
+        <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
       </div>
     </Navbar>
   );

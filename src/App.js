@@ -15,6 +15,7 @@ import OMSIntegration from './Component/Pages/IntegrationsPage/Components/OMSInt
 import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
 import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
+import CreateOrderFlow from './Component/Pages/OrdersPage/Components/CreateOrderFlow/CreateOrderFlow';
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
              <Route path="/API-integration" element={<APIIntegration />}/>
              <Route path="/other-integration" element={<OtherIntegration />}/>
              <Route path="/IndiaMapp" element={<IndiaMapp />}/>
+             <Route path="/create-order" element={<CreateOrderFlow />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>
