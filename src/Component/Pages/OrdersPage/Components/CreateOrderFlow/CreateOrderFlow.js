@@ -10,6 +10,7 @@ const CreateOrderFlow = () => {
         step1: '',
         step2: '',
         step3: '',
+        step4: '', // New step added
     });
 
     const handleNext = () => {
@@ -34,6 +35,10 @@ const CreateOrderFlow = () => {
             // Redirect to another page after clicking OK
             navigation('/Orders'); // Replace '/another-page' with the desired route
         });
+
+        console.log(
+            formData.step1, formData.step2, formData.step3, formData.step4
+        )
     };
 
 
@@ -63,7 +68,7 @@ const CreateOrderFlow = () => {
             </div>
             <div className="progress-container">
                 {/* Progress Bar */}
-                <progress max="3" value={step}></progress>
+                <progress max="4" value={step}></progress>
             </div>
             {/* Steps */}
             {step === 1 && (
@@ -84,6 +89,14 @@ const CreateOrderFlow = () => {
             {step === 3 && (
                 <Step3
                     onPrev={handlePrev}
+                    onNext={handleNext}
+                    formData={formData}
+                    setFormData={setFormData}
+                />
+            )}
+            {step === 4 && (
+                <Step4
+                    onPrev={handlePrev}
                     onSubmit={handleFormSubmit}
                     formData={formData}
                     setFormData={setFormData}
@@ -93,11 +106,9 @@ const CreateOrderFlow = () => {
     );
 };
 
-const Step1 = ({ onNext }) => {
-    const [inputValue, setInputValue] = useState('');
-
+const Step1 = ({ onNext, formData, setFormData }) => {
     const handleChange = (e) => {
-        setInputValue(e.target.value);
+        setFormData({ ...formData, step1: e.target.value });
     };
 
     return (
@@ -105,18 +116,16 @@ const Step1 = ({ onNext }) => {
             {/* Step 1 content */}
             <label>
                 Enter something:
-                <input type="text" value={inputValue} onChange={handleChange} />
+                <input type="text" value={formData.step1} onChange={handleChange} />
             </label>
             <button className='btn main-button' onClick={onNext}>Next</button>
         </div>
     );
 };
 
-const Step2 = ({ onPrev, onNext }) => {
-    const [inputValue, setInputValue] = useState('');
-
+const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e) => {
-        setInputValue(e.target.value);
+        setFormData({ ...formData, step2: e.target.value });
     };
 
     return (
@@ -124,7 +133,7 @@ const Step2 = ({ onPrev, onNext }) => {
             {/* Step 2 content */}
             <label>
                 Enter something else:
-                <input type="text" value={inputValue} onChange={handleChange} />
+                <input type="text" value={formData.step2} onChange={handleChange} />
             </label>
             <button className='btn main-button' onClick={onPrev}>Previous</button>
             <button className='btn main-button' onClick={onNext}>Next</button>
@@ -132,7 +141,7 @@ const Step2 = ({ onPrev, onNext }) => {
     );
 };
 
-const Step3 = ({ onPrev, onSubmit, formData, setFormData }) => {
+const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e) => {
         setFormData({ ...formData, step3: e.target.value });
     };
@@ -143,6 +152,24 @@ const Step3 = ({ onPrev, onSubmit, formData, setFormData }) => {
             <label>
                 Final input:
                 <input type="text" value={formData.step3} onChange={handleChange} />
+            </label>
+            <button className='btn main-button' onClick={onPrev}>Previous</button>
+            <button className='btn main-button' onClick={onNext}>Next</button>
+        </div>
+    );
+};
+
+const Step4 = ({ onPrev, onSubmit, formData, setFormData }) => {
+    const handleChange = (e) => {
+        setFormData({ ...formData, step4: e.target.value });
+    };
+
+    return (
+        <div>
+            {/* Step 4 content */}
+            <label>
+                Additional details:
+                <input type="text" value={formData.step4} onChange={handleChange} />
             </label>
             <button className='btn main-button' onClick={onPrev}>Previous</button>
             <button className='btn main-button' onClick={onSubmit}>Submit</button>
