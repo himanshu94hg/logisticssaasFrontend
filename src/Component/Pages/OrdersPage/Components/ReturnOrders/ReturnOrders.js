@@ -46,7 +46,7 @@ const ReturnOrders = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/pickedallorders/') // Replace with your API endpoint
+            .get('http://35.154.133.143/order/v1/returnallorder/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data.data);
@@ -55,8 +55,6 @@ const ReturnOrders = () => {
                 console.error('Error:', error);
             });
     }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {

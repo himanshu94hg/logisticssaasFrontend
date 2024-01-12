@@ -46,7 +46,7 @@ const Processing = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/processableorder/') // Replace with your API endpoint
+            .get('http://35.154.133.143/order/v1/processableorder/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data(processing):', response.data);
                 setAllOrders(response.data.processable_order);
