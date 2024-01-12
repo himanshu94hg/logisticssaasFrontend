@@ -13,14 +13,26 @@ const CreateOrderFlow = () => {
         step3: '',
         step4: '', // New step added
     });
+    const [progressBarWidth, setProgressBarWidth] = useState('10%');
+
+    const updateProgressBarWidth = () => {
+        const width = step > totalSteps ? '100%' : `${((step) / totalSteps) * 100}%`;
+        setProgressBarWidth(width);
+      };
+
+      console.log(progressBarWidth)
+
 
     const handleNext = () => {
         setStep(step + 1);
+        updateProgressBarWidth();
     };
 
     const handlePrev = () => {
         setStep(step - 1);
+        updateProgressBarWidth();
     };
+
 
     const handleFormSubmit = () => {
         // Here you can send the formData to your server or perform any necessary actions
@@ -40,11 +52,13 @@ const CreateOrderFlow = () => {
         console.log(
             formData.step1, formData.step2, formData.step3, formData.step4
         )
+        setProgressBarWidth('100%');
     };
 
-    const calculateProgressBarWidth = () => {
-        return `${((step - 0.9) / (totalSteps)) * 100}%`;
-    };
+    // const calculateProgressBarWidth = () => {
+    //     return `${((step - 0.9) / (totalSteps)) * 100}%`;
+    // };
+
 
 
 
@@ -72,7 +86,7 @@ const CreateOrderFlow = () => {
                 </div>
                 <div className="progress-container">
                     {/* Manual Progress Bar */}
-                    <div className="progress-bar" style={{ width: calculateProgressBarWidth() }}></div>
+                    <div className="progress-bar" style={{ width: progressBarWidth }}></div>
                 </div>
             </div>
 
