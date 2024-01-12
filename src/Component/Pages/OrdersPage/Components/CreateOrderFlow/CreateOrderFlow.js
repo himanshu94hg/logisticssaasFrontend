@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './CreateOrderFlow.css'; // Import the CSS file
@@ -13,25 +13,26 @@ const CreateOrderFlow = () => {
         step3: '',
         step4: '', // New step added
     });
-    const [progressBarWidth, setProgressBarWidth] = useState('10%');
+    const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
-    const updateProgressBarWidth = () => {
-        const width = step > totalSteps ? '100%' : `${((step) / totalSteps) * 100}%`;
-        setProgressBarWidth(width);
-      };
 
-      console.log(progressBarWidth)
+    useEffect(() => {
+        const updateProgressBarWidth = () => {
+            const width = step > totalSteps ? '100%' : `${((step-1) / totalSteps) * 100}%`;
+            setProgressBarWidth(width);
+        };
 
+        updateProgressBarWidth();
+    }, [step, totalSteps]);
 
     const handleNext = () => {
         setStep(step + 1);
-        updateProgressBarWidth();
     };
 
     const handlePrev = () => {
         setStep(step - 1);
-        updateProgressBarWidth();
     };
+
 
 
     const handleFormSubmit = () => {
@@ -46,26 +47,18 @@ const CreateOrderFlow = () => {
             },
         }).then(() => {
             // Redirect to another page after clicking OK
-            navigation('/Orders'); // Replace '/another-page' with the desired route
+            navigation('/Orders');
         });
-
         console.log(
             formData.step1, formData.step2, formData.step3, formData.step4
         )
         setProgressBarWidth('100%');
     };
 
-    // const calculateProgressBarWidth = () => {
-    //     return `${((step - 0.9) / (totalSteps)) * 100}%`;
-    // };
-
-
-
-
     return (
         <div className="stepper-form-container">
-            <div className='box-shadow shadow-sm p10 w-100 steps-header'>
-                <div className="stepper-line mx-auto">
+            <div className='box-shadow shadow-sm p10 w-100 steps-header mb-4'>
+                <div className="stepper-line mx-auto mb-3">
                     {/* Stepper line with markers for each step */}
                     <div className="step-marker">
                         <span className={`${step > 1 ? 'completed' : ''}`}>1</span>
@@ -87,6 +80,10 @@ const CreateOrderFlow = () => {
                 <div className="progress-container">
                     {/* Manual Progress Bar */}
                     <div className="progress-bar" style={{ width: progressBarWidth }}></div>
+                </div>
+                <div className="progress-container">
+                    {/* Manual Progress Bar */}
+                    <div className="progress-bar" style={{ width: '5%' }}></div>
                 </div>
             </div>
 
