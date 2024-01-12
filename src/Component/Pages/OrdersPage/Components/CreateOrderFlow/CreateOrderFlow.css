@@ -53,13 +53,15 @@
     border: 2px solid transparent
 }
 
-.step-marker.completed {
-    background-color: #4caf50;
-    /* Green color for completed steps */
-}
-
 .inputs-container {
     width: 80%;
+    transition: 0.5s;
+}
+
+.inputs-container label {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
 }
 
 /* Add responsiveness for smaller screens */
