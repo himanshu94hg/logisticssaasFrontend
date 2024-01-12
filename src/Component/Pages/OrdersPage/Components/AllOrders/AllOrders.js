@@ -46,7 +46,7 @@ const AllOrders = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/api/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data);

@@ -43,28 +43,8 @@ const ActionRequested = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
-    const [ndrAttempt,setndrAttempt]= useState([]);
-    const [ndrAttemptCount,setndrAttemptCount]= useState([])
-     const [allData,setAllData]= useState([])
-
-  
-        // ... (previous code)
-      
-        // const reasons = [
-        //   { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
-        //   { count: 4, data: "Reattempt Requested" },
-        //   { count: 3, data: "Reattempt Requested" },
-        // ];
-      
-        // const getRandomCount = (reasons) => {
-        //   const randomIndex = Math.floor(Math.random() * reasons.length);
-        //   return reasons[randomIndex].count;
-        // };
-      
-        // const getRandomReason = (reasons) => {
-        //   const randomIndex = Math.floor(Math.random() * reasons.length);
-        //   return reasons[randomIndex].data;
-        // };
+    const [ndrAttempt,setndrAttempt]= useState([])
+   
     useEffect(() => {
         axios
             // .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
@@ -81,7 +61,6 @@ const ActionRequested = () => {
                 console.error('Error:', error);
             });
     }, []);
-    console.log("@@@@@@@@@@@@@@@",orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -197,7 +176,8 @@ const ActionRequested = () => {
                                             <p>{row.ndr_attempts_data[row.ndr_attempts_data.length - 1]?.reason}</p>
                                             </React.Fragment>
                                             )}
-                                            {row.ndr_attempts_data.length}
+                                            <p><strong>Attepmts: </strong>{row.ndr_attempts_data.length}</p>
+                                           
                                           
                     
                                 </div>
