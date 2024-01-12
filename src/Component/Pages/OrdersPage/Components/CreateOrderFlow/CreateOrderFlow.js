@@ -6,6 +6,7 @@ import './CreateOrderFlow.css'; // Import the CSS file
 const CreateOrderFlow = () => {
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
+    const totalSteps = 4;
     const [formData, setFormData] = useState({
         step1: '',
         step2: '',
@@ -41,11 +42,15 @@ const CreateOrderFlow = () => {
         )
     };
 
+    const calculateProgressBarWidth = () => {
+        return `${((step - 0.9) / (totalSteps)) * 100}%`;
+    };
+
 
 
     return (
         <div className="stepper-form-container">
-            <div className='box-shadow shadow-sm p10 w-100'>
+            <div className='box-shadow shadow-sm p10 w-100 steps-header'>
                 <div className="stepper-line mx-auto">
                     {/* Stepper line with markers for each step */}
                     <div className="step-marker">
@@ -65,43 +70,48 @@ const CreateOrderFlow = () => {
                         Package Details
                     </div>
                 </div>
+                <div className="progress-container">
+                    {/* Manual Progress Bar */}
+                    <div className="progress-bar" style={{ width: calculateProgressBarWidth() }}></div>
+                </div>
             </div>
-            <div className="progress-container">
-                {/* Progress Bar */}
-                <progress max="4" value={step}></progress>
+
+            <div className='box-shadow shadow-sm p10 w-100'>
+                <div className='inputs-container mx-auto'>
+                    {/* Steps */}
+                    {step === 1 && (
+                        <Step1
+                            onNext={handleNext}
+                            formData={formData}
+                            setFormData={setFormData}
+                        />
+                    )}
+                    {step === 2 && (
+                        <Step2
+                            onPrev={handlePrev}
+                            onNext={handleNext}
+                            formData={formData}
+                            setFormData={setFormData}
+                        />
+                    )}
+                    {step === 3 && (
+                        <Step3
+                            onPrev={handlePrev}
+                            onNext={handleNext}
+                            formData={formData}
+                            setFormData={setFormData}
+                        />
+                    )}
+                    {step === 4 && (
+                        <Step4
+                            onPrev={handlePrev}
+                            onSubmit={handleFormSubmit}
+                            formData={formData}
+                            setFormData={setFormData}
+                        />
+                    )}
+                </div>
             </div>
-            {/* Steps */}
-            {step === 1 && (
-                <Step1
-                    onNext={handleNext}
-                    formData={formData}
-                    setFormData={setFormData}
-                />
-            )}
-            {step === 2 && (
-                <Step2
-                    onPrev={handlePrev}
-                    onNext={handleNext}
-                    formData={formData}
-                    setFormData={setFormData}
-                />
-            )}
-            {step === 3 && (
-                <Step3
-                    onPrev={handlePrev}
-                    onNext={handleNext}
-                    formData={formData}
-                    setFormData={setFormData}
-                />
-            )}
-            {step === 4 && (
-                <Step4
-                    onPrev={handlePrev}
-                    onSubmit={handleFormSubmit}
-                    formData={formData}
-                    setFormData={setFormData}
-                />
-            )}
         </div>
     );
 };
@@ -114,6 +124,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
     return (
         <div>
             {/* Step 1 content */}
+            <h3 className='mb-4'>Buyer Details</h3>
             <label>
                 Input 1:
                 <input type="text" value={formData.step1} onChange={handleChange} />
@@ -136,6 +147,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     return (
         <div>
             {/* Step 2 content */}
+            <h3 className='mb-4'>Pickup Details</h3>
             <label>
                 Input 1:
                 <input type="text" value={formData.step2} onChange={handleChange} />
@@ -159,6 +171,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     return (
         <div>
             {/* Step 3 content */}
+            <h3 className='mb-4'>Order Details</h3>
             <label>
                 Input 1:
                 <input type="text" value={formData.step3} onChange={handleChange} />
@@ -182,6 +195,7 @@ const Step4 = ({ onPrev, onSubmit, formData, setFormData }) => {
     return (
         <div>
             {/* Step 4 content */}
+            <h3 className='mb-4'>Package Details</h3>
             <label>
                 Input 1:
                 <input type="text" value={formData.step4} onChange={handleChange} />
