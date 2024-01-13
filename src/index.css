@@ -1,4 +1,4 @@
-:root{
+:root {
   --sh-primary: #1975C9;
   --sh-primary-light: #c5dcf1;
 }
@@ -38,7 +38,7 @@ html::-webkit-scrollbar-track {
   border-radius: 3px;
 }
 
-p{
+p {
   margin-bottom: 0.5rem;
 }
 
@@ -292,7 +292,7 @@ p{
   font-weight: 600;
 }
 
-.list-ui li:last-of-type{
+.list-ui li:last-of-type {
   margin-bottom: 0;
 }
 
@@ -485,56 +485,76 @@ p{
   list-style: none;
 }
 
-.cardsSpace{
+.cardsSpace {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.p10-inline{
+.p10-inline {
   padding-inline: 10px;
 }
 
-.p7{
+.p7 {
   padding: 7px;
 }
 
-.card-height{
+.card-height {
   height: 132px;
 }
 
-.ws-no-wrap{
+.ws-no-wrap {
   white-space: nowrap;
 }
 
-.text-end{
+.text-end {
   text-align: end;
 }
 
-.gap-10{
+.gap-10 {
   gap: 10px;
 }
 
-.main-button{
+.main-button {
   background-color: #1975C9 !important;
   color: #fff;
   padding: 5px 10px;
   white-space: nowrap;
 }
-.main-button:hover{
+
+.main-button:hover {
   background-color: #1975C9 !important;
   color: #fff;
 }
 
-.btn-check:focus+.btn, .btn:focus{
-  box-shadow: 0 0px 2px 1px rgba(13,110,253,.25);
+.btn-check:focus+.btn,
+.btn:focus {
+  box-shadow: 0 0px 2px 1px rgba(13, 110, 253, .25);
+}
+
+.input-field,
+.select-field {
+  height: 30px;
+  border: 1px solid #ddd;
+  min-width: 200px;
+}
+
+.select-field *{
+  border-radius: 0;
+}
+
+input:focus-visible,
+select:focus-visible,
+.input-fields:focus-visible,
+.select-fields:focus-visible {
+  outline: none;
 }
 
 input::placeholder {
-  font-size: 11px; 
+  font-size: 11px;
 }
 
-.seconadary-button{
+.seconadary-button {
   background-color: grey;
   color: #fff;
 }

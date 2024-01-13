@@ -2,19 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './CreateOrderFlow.css'; // Import the CSS file
-import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
-import { Row } from 'react-bootstrap';
 
 const CreateOrderFlow = () => {
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
-    const totalSteps = 4;
+    const totalSteps = 5;
     const [formData, setFormData] = useState({
         step1: '',
         step2: '',
         step3: '',
         step4: '',
+        step5: '',
         sameAsShipping: true,// New step added
     });
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
@@ -66,19 +65,23 @@ const CreateOrderFlow = () => {
                     {/* Stepper line with markers for each step */}
                     <div className="step-marker">
                         <span className={`${step > 1 ? 'completed' : ''}`}>1</span>
-                        Buyer Details
-                    </div>
-                    <div className="step-marker">
-                        <span className={`${step > 2 ? 'completed' : ''}`}>2</span>
-                        Pickup Details
-                    </div>
-                    <div className="step-marker">
-                        <span className={`${step > 3 ? 'completed' : ''}`}>3</span>
                         Order Details
                     </div>
                     <div className="step-marker">
+                        <span className={`${step > 2 ? 'completed' : ''}`}>2</span>
+                        Shipping Details
+                    </div>
+                    <div className="step-marker">
+                        <span className={`${step > 3 ? 'completed' : ''}`}>3</span>
+                        Product Details
+                    </div>
+                    <div className="step-marker">
                         <span className={`${step > 4 ? 'completed' : ''}`}>4</span>
-                        Package Details
+                        Other Details
+                    </div>
+                    <div className="step-marker">
+                        <span className={`${step > 5 ? 'completed' : ''}`}>5</span>
+                        Warehouse Details
                     </div>
                 </div>
                 <div className="progress-container">
@@ -120,6 +123,15 @@ const CreateOrderFlow = () => {
                     {step === 4 && (
                         <Step4
                             onPrev={handlePrev}
+                            onNext={handleNext}
+                            formData={formData}
+                            setFormData={setFormData}
+                        />
+                    )}
+
+                    {step === 5 && (
+                        <Step5
+                            onPrev={handlePrev}
                             onSubmit={handleFormSubmit}
                             formData={formData}
                             setFormData={setFormData}
@@ -132,7 +144,6 @@ const CreateOrderFlow = () => {
 };
 
 const Step1 = ({ onNext, formData, setFormData }) => {
-
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
@@ -141,167 +152,82 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
 
-    const handleCheckboxChange = () => {
-        setFormData({ ...formData, sameAsShipping: !formData.sameAsShipping });
+    const handleToggleChange = (field) => {
+        setFormData({ ...formData, [field]: !formData[field] });
     };
 
     return (
         <>
+            {/* Order Details Section */}
             <div className='box-shadow shadow-sm p10 w-100'>
-                <div className='inputs-container mx-auto'>
-                    {/* Step 1 content */}
-                    <h3 className='mb-4'>Buyer Details</h3>
-
-                    <Row>
+                <div className='inputs-container mx-auto mb-3'>
+                    <h3 className='mb-4'>Order Details</h3>
+                    <div className='row'>
+                        {/* Customer Order Number */}
                         <label className='col'>
-                            Mobile Number:
-                            <div className="mobile-number-input">
-                                {/* Disabled Dropdown for Country Code */}
-                                <select
-                                    value={formData.countryCode}
-                                    onChange={(e) => handleSelectChange(e, 'countryCode')}
-                                    disabled
-                                >
-                                    <option value="+91">+91</option>
-                                    <option value="+1">+1 (US)</option>
-                                    {/* Add more options as needed */}
-                                </select>
-                                {/* Input for Mobile Number */}
-                                <input
-                                    type="text"
-                                    value={formData.mobileNumber}
-                                    onChange={(e) => handleChange(e, 'mobileNumber')}
-                                />
+                            Customer Order Number:
+                            <input
+                                type="text"
+                                className='input-field'
+                                value={formData.customerOrderNumber}
+                                onChange={(e) => handleChange(e, 'customerOrderNumber')}
+                            />
+                        </label>
+
+                        {/* Payment Type */}
+                        <label className='col'>
+                            Payment Type:
+                            <select
+                                className='select-field'
+                                value={formData.paymentType}
+                                onChange={(e) => handleSelectChange(e, 'paymentType')}
+                            >
+                                <option value="prepaid">Prepaid</option>
+                                <option value="cod">COD</option>
+                            </select>
+                        </label>
+
+                        {/* Order Type */}
+                        <label className='col'>
+                            Order Type:
+                            <select
+                                className='select-field'
+                                value={formData.orderType}
+                                onChange={(e) => handleSelectChange(e, 'orderType')}
+                            >
+                                <option value="forward">Forward</option>
+                                <option value="reverse">Reverse</option>
+                            </select>
+                        </label>
+
+                        {/* MPS Toggle Switch */}
+                        <label className='col'>
+                            MPS:
+                            <div className="toggle-switch">
+                                <label className='col'>
+                                    <input
+                                        type="checkbox"
+                                        checked={formData.mps}
+                                        onChange={() => handleToggleChange('mps')}
+                                    />
+                                    <span className="slider"></span>
+                                </label>
                             </div>
                         </label>
-
-                        <label className='col'>
-                            Full Name:
-                            <input type="text" value={formData.fullName} onChange={(e) => handleChange(e, 'fullName')} />
-                        </label>
-
-                        <label className='col'>
-                            Email ID:
-                            <input type="email" value={formData.emailId} onChange={(e) => handleChange(e, 'emailId')} />
-                        </label>
-
-                        <label className='col'>
-                            Complete Address:
-                            <input type="text" value={formData.completeAddress} onChange={(e) => handleChange(e, 'completeAddress')} />
-                        </label>
-
-                        <label className='col'>
-                            Landmark:
-                            <input type="text" value={formData.landmark} onChange={(e) => handleChange(e, 'landmark')} />
-                        </label>
-
-                        <label className='col'>
-                            Pincode:
-                            <input type="number" value={formData.pincode} onChange={(e) => handleChange(e, 'pincode')} />
-                            {/* City, State, Country can be auto-populated based on Pincode */}
-                        </label>
-
-                        <label className='col'>
-                            City:
-                            <input type="text" value={formData.city} onChange={(e) => handleChange(e, 'city')} />
-                        </label>
-
-                        <label className='col'>
-                            State:
-                            <input type="text" value={formData.state} onChange={(e) => handleChange(e, 'state')} />
-                        </label>
-
-                        <label className='col'>
-                            Country:
-                            <input type="text" value={formData.country} onChange={(e) => handleChange(e, 'country')} />
-                        </label>
-                    </Row>
-                    <label>
-                        <input
-                            type="checkbox"
-                            checked={formData.sameAsShipping}
-                            onChange={handleCheckboxChange}
-                        />
-                        Billing address is same as the shipping address:
-                    </label>
-                    {/* Billing Address (conditionally rendered) */}
-                    {!formData.sameAsShipping && (
-                        <div>
-                            <h3 className='mb-4'>Billing Address</h3>
-                            <Row>
-                                <label className='col'>
-                                    Mobile Number:
-                                    <div className="mobile-number-input">
-                                        {/* Disabled Dropdown for Country Code */}
-                                        <select
-                                            value={formData.countryCode}
-                                            onChange={(e) => handleSelectChange(e, 'countryCode')}
-                                            disabled
-                                        >
-                                            <option value="+91">+91</option>
-                                            <option value="+1">+1 (US)</option>
-                                            {/* Add more options as needed */}
-                                        </select>
-                                        {/* Input for Mobile Number */}
-                                        <input
-                                            type="text"
-                                            value={formData.mobileNumber}
-                                            onChange={(e) => handleChange(e, 'mobileNumber')}
-                                        />
-                                    </div>
-                                </label>
-
-                                <label className='col'>
-                                    Full Name:
-                                    <input type="text" value={formData.fullName} onChange={(e) => handleChange(e, 'fullName')} />
-                                </label>
-
-                                <label className='col'>
-                                    Email ID:
-                                    <input type="email" value={formData.emailId} onChange={(e) => handleChange(e, 'emailId')} />
-                                </label>
-
-                                <label className='col'>
-                                    Complete Address:
-                                    <input type="text" value={formData.completeAddress} onChange={(e) => handleChange(e, 'completeAddress')} />
-                                </label>
-
-                                <label className='col'>
-                                    Landmark:
-                                    <input type="text" value={formData.landmark} onChange={(e) => handleChange(e, 'landmark')} />
-                                </label>
-
-                                <label className='col'>
-                                    Pincode:
-                                    <input type="number" value={formData.pincode} onChange={(e) => handleChange(e, 'pincode')} />
-                                    {/* City, State, Country can be auto-populated based on Pincode */}
-                                </label>
-
-                                <label className='col'>
-                                    City:
-                                    <input type="text" value={formData.city} onChange={(e) => handleChange(e, 'city')} />
-                                </label>
-
-                                <label className='col'>
-                                    State:
-                                    <input type="text" value={formData.state} onChange={(e) => handleChange(e, 'state')} />
-                                </label>
-
-                                <label className='col'>
-                                    Country:
-                                    <input type="text" value={formData.country} onChange={(e) => handleChange(e, 'country')} />
-                                </label>
-                            </Row>
-                        </div>
-                    )}
+                    </div>
                 </div>
             </div>
+            {/* Next Button */}
             <div className='d-flex justify-content-end mt-2'>
-                <button className='btn main-button' onClick={onNext}>Next</button>
+                <button className='btn main-button' onClick={onNext}>
+                    Next
+                </button>
             </div>
         </>
     );
 };
+
+
 
 const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e) => {
@@ -311,14 +237,17 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     return (
         <div>
             {/* Step 2 content */}
-            <h3 className='mb-4'>Pickup Details</h3>
-            <label>
+            <h3 className='mb-4'>Shipping Details</h3>
+            <label className='col'>
                 Input 1:
-                <input type="text" value={formData.step2} onChange={handleChange} />
+                <input
+                    className='input-field'
+                    type="text" value={formData.step2} onChange={handleChange} />
             </label>
-            <label>
+            <label className='col'>
                 Input 2:
-                <input type="text" value={formData.step2} onChange={handleChange} />
+                <input className='input-field'
+                    type="text" value={formData.step2} onChange={handleChange} />
             </label>
             {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onPrev}>Previous</button>
@@ -335,14 +264,16 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     return (
         <div>
             {/* Step 3 content */}
-            <h3 className='mb-4'>Order Details</h3>
-            <label>
+            <h3 className='mb-4'>Product Details</h3>
+            <label className='col'>
                 Input 1:
-                <input type="text" value={formData.step3} onChange={handleChange} />
+                <input className='input-field'
+                    type="text" value={formData.step3} onChange={handleChange} />
             </label>
-            <label>
+            <label className='col'>
                 Input 2:
-                <input type="text" value={formData.step3} onChange={handleChange} />
+                <input className='input-field'
+                    type="text" value={formData.step3} onChange={handleChange} />
             </label>
             {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onPrev}>Previous</button>
@@ -351,7 +282,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     );
 };
 
-const Step4 = ({ onPrev, onSubmit, formData, setFormData }) => {
+const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e) => {
         setFormData({ ...formData, step4: e.target.value });
     };
@@ -359,14 +290,43 @@ const Step4 = ({ onPrev, onSubmit, formData, setFormData }) => {
     return (
         <div>
             {/* Step 4 content */}
-            <h3 className='mb-4'>Package Details</h3>
-            <label>
+            <h3 className='mb-4'>Other Details</h3>
+            <label className='col'>
                 Input 1:
-                <input type="text" value={formData.step4} onChange={handleChange} />
+                <input className='input-field'
+                    type="text" value={formData.step4} onChange={handleChange} />
             </label>
-            <label>
+            <label className='col'>
                 Input 2:
-                <input type="text" value={formData.step4} onChange={handleChange} />
+                <input className='input-field'
+                    type="text" value={formData.step4} onChange={handleChange} />
+            </label>
+            {/* Add three more input fields as needed */}
+            <button className='btn main-button' onClick={onPrev}>Previous</button>
+            <button className='btn main-button' onClick={onNext}>Next</button>
+        </div>
+    );
+};
+
+
+const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
+    const handleChange = (e) => {
+        setFormData({ ...formData, step5: e.target.value });
+    };
+
+    return (
+        <div>
+            {/* Step 5 content */}
+            <h3 className='mb-4'>Warehouse Details</h3>
+            <label className='col'>
+                Input 1:
+                <input className='input-field'
+                    type="text" value={formData.step5} onChange={handleChange} />
+            </label>
+            <label className='col'>
+                Input 2:
+                <input className='input-field'
+                    type="text" value={formData.step5} onChange={handleChange} />
             </label>
             {/* Add three more input fields as needed */}
             <button className='btn main-button' onClick={onPrev}>Previous</button>
@@ -374,6 +334,5 @@ const Step4 = ({ onPrev, onSubmit, formData, setFormData }) => {
         </div>
     );
 };
-
 
 export default CreateOrderFlow;
