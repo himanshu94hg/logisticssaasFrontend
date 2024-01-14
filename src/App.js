@@ -16,6 +16,7 @@ import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/C
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
 import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
 import CreateOrderFlow from './Component/Pages/OrdersPage/Components/CreateOrderFlow/CreateOrderFlow';
+import BillingPage from './Component/Pages/BillingPage/BillingPage'
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
              <Route path="/other-integration" element={<OtherIntegration />}/>
              <Route path="/IndiaMapp" element={<IndiaMapp />}/>
              <Route path="/create-order" element={<CreateOrderFlow />}/>
+             <Route path="/billing" element={<BillingPage />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>
