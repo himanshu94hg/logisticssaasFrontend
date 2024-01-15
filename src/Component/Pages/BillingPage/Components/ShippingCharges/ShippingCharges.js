@@ -108,26 +108,21 @@ const ShippingCharges = () => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div class="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
+                <div className="mb-3 billing-count-container">
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Total Freight Charges: <span>&#8377; 234232</span></p>
                     </div>
-                    <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Billed Freight Charges: <span>&#8377; 234232</span></p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Unbilled Freight Charges: <span>&#8377; 234232</span></p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Total On-Hold Amount: <span>&#8377; 234232</span></p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Invoice Due Amount: <span>&#8377; 234232</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -150,14 +145,6 @@ const ShippingCharges = () => {
                                 <th>Entered Weight and dimensions</th>
                                 <th>Charged Weight and Dimensions</th>
                                 <th>View Transaction Details</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -176,96 +163,76 @@ const ShippingCharges = () => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className='ws-no-wrap'>
+                                                <p className=''>
                                                     {row.order_number}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
+                                            {/* Courier detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg <span className='text-blue'>||</span> LBH: {row.length}x{row.breadth}x{row.height}
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
-                                                        </span>
-                                                    </span>
+                                                <p className=''>
+                                                    {row.order_number}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
+                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/* pickup adress */}
+                                        <td>
+                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
+                                                <p className=''>
+                                                    {row.order_number}
                                                 </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Applied Weight Charges */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Excess Weight Charges */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Entered Weight and dimensions */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Charged Weight and Dimensions */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* View Transaction Details */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
+                                            </div>
+                                        </td>
 
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
-                                                <p className='mt-1'><img src='https://www.dtdc.in/img/logos/logo.png' height={10} className='me-2' />{row.courier_partner}</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
                                     </tr>
                                 </React.Fragment>
                             ))}

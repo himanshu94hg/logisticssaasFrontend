@@ -6,6 +6,7 @@ import CreditReceipt from './Components/CreditReceipt/CreditReceipt';
 import RechargeLogs from './Components/RechargeLogs/RechargeLogs';
 import InvoicesTab from './Components/InvoicesTab/InvoicesTab';
 import PassbookTab from './Components/PassbookTab/PassbookTab';
+import './BillingPage.css'
 
 
 const BillingPage = () => {

@@ -62,7 +62,7 @@ export default function Header() {
           </div> */}
 
           <div className="d-flex" style={{ gap: "10px" }}>
-            
+
             <Nav.Link>
               <div className="walletContainer">
                 <div>
@@ -77,12 +77,12 @@ export default function Header() {
               </div>
             </Nav.Link>
             <div className="icons links ">
-            <div className="iconContainer notificationIcon bell">
-              <FontAwesomeIcon icon={faBell} />
-              <span className="bellColor">3</span>
+              <div className="iconContainer notificationIcon bell">
+                <FontAwesomeIcon icon={faBell} />
+                <span className="bellColor">3</span>
+              </div>
             </div>
-          </div>
-          <NavDropdown
+            <NavDropdown
               title={
                 <span>
                   <img
@@ -96,7 +96,7 @@ export default function Header() {
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item eventKey="4.1">
-                Hello, Rishabh
+                Hello, Himanshu
               </NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item eventKey="4.2">
@@ -115,7 +115,7 @@ export default function Header() {
       </Navbar.Collapse>
 
       {/* Edit Profile Modal */}
-      <Modal show={false} onHide={() => {}}>
+      <Modal show={false} onHide={() => { }}>
         <Modal.Header closeButton>
           <Modal.Title>Edit Profile</Modal.Title>
         </Modal.Header>
@@ -124,7 +124,7 @@ export default function Header() {
           <p>Edit Profile Form</p>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => {}}>
+          <Button variant="secondary" onClick={() => { }}>
             Close
           </Button>
           <Button variant="primary" onClick={() => alert("Save changes")}>

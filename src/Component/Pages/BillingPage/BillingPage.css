@@ -1,0 +1,43 @@
+.billing-count-container {
+    display: flex;
+    gap: 12px;
+}
+
+.billing-count-container .count-card {
+    height: 50px;
+    width: 245px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 7px;
+}
+
+.billing-count-container p {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.count-card span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--sh-primary);
+}
+
+.invoiceTab .count-card {
+    cursor: pointer;
+    width: 245px;
+    padding: 7px;
+    height: 50px;
+    border: 2px solid transparent;
+}
+
+.invoiceTab .count-card p{
+    font-size: large;
+}
+
+.invoiceTab .count-card.selected {
+    background: linear-gradient(white, white) padding-box,
+        linear-gradient(to right, var(--sh-primary), var(--sh-primary-middle)) border-box;
+    border-radius: 0.5em;
+    box-sizing: border-box
+}

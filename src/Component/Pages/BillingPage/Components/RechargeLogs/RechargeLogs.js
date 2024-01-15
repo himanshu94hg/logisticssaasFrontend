@@ -12,30 +12,30 @@ import InfoIcon from '../Icons/InfoIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
+
     useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
-  
+
     const formatDateTime = (dateTimeString) => {
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
-  
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
-      return formattedDateTime;
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
     };
-  
+
     return <p>{formattedDate}</p>;
-  };
+};
 
 const RechargeLogs = () => {
 
@@ -108,26 +108,15 @@ const RechargeLogs = () => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div class="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
+                <div className="mb-3 billing-count-container">
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Successful Recharge: <span>&#8377; 234232</span></p>
                     </div>
-                    <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Total Credit: <span>&#8377; 234232</span></p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Total Debit: <span>&#8377; 234232</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -141,22 +130,10 @@ const RechargeLogs = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
+                                <th>Date</th>
+                                <th>Transaction Id</th>
+                                <th>Amount</th>
+                                <th>Description</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -172,113 +149,37 @@ const RechargeLogs = () => {
                                                 onChange={() => handleSelectRow(row.id)}
                                             />
                                         </td>
+
                                         <td>
-                                            {/* order detail */}
+                                            {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
                                                     {row.order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
-                                                </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
-                                                    {/* {formatDate(row.inserted)} */}
-                                                <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* customer detail */}
-                                            <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg <span className='text-blue'>||</span> LBH: {row.length}x{row.breadth}x{row.height}
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
-                                                        </span>
-                                                    </span>
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
+                                            {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* pickup adress */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
+                                                <p className=''>
+                                                    {row.order_number}
                                                 </p>
-
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
+                                            {/* Shipment Status */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                <p className=''>
+                                                    {row.order_number}
                                                 </p>
-                                                <p className='mt-1'><img src='https://www.dtdc.in/img/logos/logo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                        <td>
+                                            {/* Applied Weight Charges */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    {row.order_number}
+                                                </p>
                                             </div>
                                         </td>
                                     </tr>
