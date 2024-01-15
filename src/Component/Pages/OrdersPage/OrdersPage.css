@@ -323,11 +323,12 @@
   background-color: #c5dcf1;
   padding: 4px 10px;
   color: #1975C9;
-  font-size: 13px !important;
+  font-size: 12px !important;
   width: fit-content;
   border-radius: 10px;
   text-transform: capitalize;
   margin-bottom: 0;
+  font-weight: 700;
 }
 
 .icon-rotate {
@@ -395,4 +396,10 @@
   background-color: #fff;
   width: 150px;
   z-index: 1;
+}
+
+@media screen and (max-width:1366px) {
+  .cell-inside-box p {
+    font-size: 12px;
+  }
 }

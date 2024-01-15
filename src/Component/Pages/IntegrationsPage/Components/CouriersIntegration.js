@@ -7,7 +7,7 @@ const CouriersIntegration = () => {
         { title: 'Blue Dart Surface', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Bluedart.png' },
         { title: 'Xpressbees', imageUrl: 'https://app.shiprocket.in/app/img/couriers/ExpressBees-Surface.png' },
         { title: 'Xpressbees Surface', imageUrl: 'https://app.shiprocket.in/app/img/couriers/ExpressBees-Surface.png' },
-        { title: 'Ekart', imageUrl: 'https://app.shiprocket.in/app/img/couriers/ekart.png' },
+        { title: 'Ekart', imageUrl: 'https://ekartlogistics.com/assets/images/ekblueLogo.png' },
         { title: 'Delhivery', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Delhivery.png' },
         { title: 'DTDC', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Dtdc.png' },
         { title: 'Ecom Express', imageUrl: 'https://app.shiprocket.in/app/img/couriers/EcomEx.png' },

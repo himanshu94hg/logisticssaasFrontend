@@ -41,9 +41,9 @@ export default function NavTabs(props) {
                 Weight Reconciliation
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "On Hold Reconciliation" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Unprocessable");
+                props.setActiveTab("On Hold Reconciliation");
               }}
             >
               {" "}
@@ -52,9 +52,9 @@ export default function NavTabs(props) {
                 On-Hold Reconciliation
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Processing" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Settled Reconciliation" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Processing");
+                props.setActiveTab("Settled Reconciliation");
               }}
             >
               {" "}

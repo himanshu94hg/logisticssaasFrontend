@@ -252,7 +252,7 @@ const Processing = () => {
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                <p className='mt-1'><img src='https://www.dtdc.in/img/logos/logo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

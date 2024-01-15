@@ -37,30 +37,26 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequested = () => {
+const SettledReco = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
-    const [ndrAttempt,setndrAttempt]= useState([])
-   
+
     useEffect(() => {
         axios
-            // .get('http://35.154.133.143/shipment/v1/actionrequestedshipment/') // Replace with your API endpoint
-            .get('http://35.154.133.143/shipment/v1/action-req-org/')
+            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
             .then(response => {
-              console.log("Requested")
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data);
-                // setAllOrders(response.data.shipment_data)
-                // setndrAttempt(response.data.last_30_days_ndr_attempts);
-                // setndrAttemptCount(response.data.ndr_attempts_count_per_order);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
+
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -99,32 +95,10 @@ const ActionRequested = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
-    console.log("*********************",ndrAttempt)
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div class="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
@@ -136,13 +110,23 @@ const ActionRequested = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Date requested</th>
-                                <th>NDR Reason</th>
-                                <th>Package Details</th>
-                                <th>Customer details</th>
-                                <th>Tracking Detail</th>
+                                <th style={{ width: '25%' }}>Order Details</th>
+                                <th>Product Details</th>
+                                <th>Order Total</th>
+                                <th>Shipping Details</th>
+                                <th>Entered Weight & Dimensions (CM)</th>
+                                <th>Charged Weight & Dimensions (CM)</th>
+                                <th>Settled Weight & Dimensions (CM)</th>
                                 <th>Status</th>
                                 <th>Action</th>
+                                {/* <th style={{ width: '25%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Customer details</th>
+                                <th style={{ width: '10%' }}>Package Details</th>
+                                <th style={{ width: '5%' }}>Payment</th>
+                                <th style={{ width: '12%' }}>Pickup Address</th>
+                                <th style={{ width: '8%' }}>Shipping Details</th>
+                                <th style={{ width: '5%' }}>Status</th>
+                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -159,44 +143,27 @@ const ActionRequested = () => {
                                             />
                                         </td>
                                         <td>
-                                            {/* Date detail */}
+                                            {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.order_id}</p>
-                                                <div className='d-flex align-items-center'><DateFormatter dateTimeString={row.ndr_raised_time} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                         {/* NDR Reason*/}
-                                         <div className='cell-inside-box'>
-                                    {/* Find NDR attempts for the current order */}
-                                           {row?.ndr_attempts_data?.length > 0 && (
-                                           <React.Fragment key={row.ndr_attempts_data[row.ndr_attempts_data.length - 1].id}>
-                                            <p>{row.ndr_attempts_data[row.ndr_attempts_data.length - 1]?.reason}</p>
-                                            </React.Fragment>
-                                            )}
-                                            <p><strong>Attepmts: </strong>{row.ndr_attempts_data.length}</p>
-                                           
-                                          
-                    
-                                </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                        <InfoIcon />
-                                                        {/* <span>{row.product_name}</span> */}
-                                                        <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
-                                                        </span>
-                                                    </span>
+                                                <p className=''>
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
+                                                    {row.order_number}
+
+                                                    {/* <span className="product-details ms-2"> */}
+                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
+                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                    {/* <InfoIcon /> */}
+                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
+                                                    {/* </span> */}
                                                 </p>
+                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                    {/* {formatDate(row.inserted)} */}
+                                                    <DateFormatter dateTimeString={row.inserted} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                </p>
+                                                {/* <p>{row.channel}</p> */}
+                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
+                                                {/* <p>W {row.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -217,7 +184,13 @@ const ActionRequested = () => {
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Tracking section here */}
+                                            {/* package  details */}
+                                            <div className='cell-inside-box'>
+                                                <p>2000</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* shiping section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
@@ -226,29 +199,50 @@ const ActionRequested = () => {
                                             </div>
                                         </td>
                                         <td className='align-middle'>
+                                            {/* Entered Weight & Dimensions (CM) */}
+                                            <div className='cell-inside-box'>
+                                                <p>Wt:  {row.weight} kg</p>
+                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* Charged Weight & Dimensions (CM) */}
+                                            <div className='cell-inside-box'>
+                                                <p>Wt:  {row.weight} kg</p>
+                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* Settled Weight & Dimensions (CM) */}
+                                            <div className='cell-inside-box'>
+                                                <p>Wt:  {row.weight} kg</p>
+                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>
-                                            {row?.ndr_attempts_data?.length > 0 && (
-                                           <React.Fragment key={row.ndr_attempts_data[row.ndr_attempts_data.length - 1].id}>
-                                            <p>{row.ndr_attempts_data[row.ndr_attempts_data.length - 1]?.action_status}</p>
-                                            </React.Fragment>
-                                            )}
-                                            </p>
+                                            <p className='order-Status-box'>{row.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
+                                                <button className='btn main-button'>Ship Now</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
-                                                            <li>Escalate</li>
+                                                            <li>Download Invoice</li>
+                                                            <li>Edit Order</li>
+                                                            <li>Verify Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Call Buyer</li>
+                                                            <li>Marl As Verified</li>
+                                                            <li>Clone Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -273,7 +267,6 @@ const ActionRequested = () => {
             </div>
         </section >
     );
-            
 };
 
-export default ActionRequested;
+export default SettledReco;

@@ -37,7 +37,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightReconciliationTab = () => {
+const OnHoldReco = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -112,10 +112,11 @@ const WeightReconciliationTab = () => {
                                 </th>
                                 <th style={{ width: '25%' }}>Order Details</th>
                                 <th>Product Details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
+                                <th>Order Total</th>
                                 <th>Shipping Details</th>
+                                <th>Entered Weight & Dimensions (CM)</th>
+                                <th>Charged Weight & Dimensions (CM)</th>
+                                <th>Settled Weight & Dimensions (CM)</th>
                                 <th>Status</th>
                                 <th>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
@@ -185,31 +186,7 @@ const WeightReconciliationTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg <span className='text-blue'>||</span> LBH: {row.length}x{row.breadth}x{row.height}
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* payment section here */}
-                                            <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* pickup adress */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
-                                                </p>
-
+                                                <p>2000</p>
                                             </div>
                                         </td>
                                         <td>
@@ -218,7 +195,28 @@ const WeightReconciliationTab = () => {
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                <p className='mt-1'><img src='https://www.dtdc.in/img/logos/logo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* Entered Weight & Dimensions (CM) */}
+                                            <div className='cell-inside-box'>
+                                                <p>Wt:  {row.weight} kg</p>
+                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* Charged Weight & Dimensions (CM) */}
+                                            <div className='cell-inside-box'>
+                                                <p>Wt:  {row.weight} kg</p>
+                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* Settled Weight & Dimensions (CM) */}
+                                            <div className='cell-inside-box'>
+                                                <p>Wt:  {row.weight} kg</p>
+                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -271,4 +269,4 @@ const WeightReconciliationTab = () => {
     );
 };
 
-export default WeightReconciliationTab;
+export default OnHoldReco;
