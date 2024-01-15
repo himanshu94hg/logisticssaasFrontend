@@ -138,7 +138,7 @@ const SideNav = () => {
       ],
     },
     { to: "/billing", label: "Billing" },
-    { to: "/WeightReconciliation", label: "Weight Reco." },
+    { to: "/weight-reconciliation", label: "Weight Reco." },
     { to: "/Customer", label: "Customer" },
     { to: "/Tools", label: "Tools" },
     { to: "/MIS", label: "MIS" },
