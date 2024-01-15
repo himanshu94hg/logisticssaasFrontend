@@ -17,7 +17,6 @@ const CreateOrderFlow = () => {
         sameAsShipping: true,// New step added
     });
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
-    console.log("&&&&&&&&&&&&",formData)
 
 
     useEffect(() => {
@@ -31,7 +30,6 @@ const CreateOrderFlow = () => {
 
     const handleNext = () => {
         setStep(step + 1);
-        console.log(formData.step1)
     };
 
     const handlePrev = () => {
@@ -40,58 +38,24 @@ const CreateOrderFlow = () => {
 
 
 
-    const handleFormSubmit = async () => {
-        try {
-            const response = await fetch('http://35.154.133.143/order/v1/createorder/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-    
-            if (response.ok) {
-                const responseData = await response.json();
-                // Handle the API response as needed
-                console.log('API Response:', responseData);
-    
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Order Created!',
-                    text: 'You can view your Order in Orders Page.',
-                    customClass: {
-                        confirmButton: 'btn main-button', // Add your custom class here
-                    },
-                }).then(() => {
-                    // Redirect to another page after clicking OK
-                    navigation('/Orders');
-                });
-            } else {
-                // Handle error responses
-                const errorData = await response.json();
-                console.error('API Error:', errorData);
-    
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Creating Order',
-                    text: 'An error occurred while creating the order. Please try again.',
-                    customClass: {
-                        confirmButton: 'btn main-button', // Add your custom class here
-                    },
-                });
-            }
-        } catch (error) {
-            console.error('Fetch Error:', error);
-    
-            Swal.fire({
-                icon: 'error',
-                title: 'Error Creating Order',
-                text: 'An error occurred while creating the order. Please try again.',
-                customClass: {
-                    confirmButton: 'btn main-button', // Add your custom class here
-                },
-            });
-        }
+    const handleFormSubmit = () => {
+        // Here you can send the formData to your server or perform any necessary actions
+        // For this example, we'll just show a SweetAlert
+        Swal.fire({
+            icon: 'success',
+            title: 'Order Created!',
+            text: 'You can view your Order in Orders Page.',
+            customClass: {
+                confirmButton: 'btn main-button', // Add your custom class here
+            },
+        }).then(() => {
+            // Redirect to another page after clicking OK
+            navigation('/Orders');
+        });
+        console.log(
+            formData.step1, formData.step2, formData.step3, formData.step4
+        )
+        setProgressBarWidth('100%');
     };
 
     return (
@@ -180,7 +144,6 @@ const CreateOrderFlow = () => {
 };
 
 const Step1 = ({ onNext, formData, setFormData }) => {
-
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
@@ -190,8 +153,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
     };
 
     const handleToggleChange = (field) => {
-        const charValue = formData[field] ? null : "1";
-        setFormData({ ...formData, [field]: charValue });
+        setFormData({ ...formData, [field]: !formData[field] });
     };
 
     return (
@@ -207,8 +169,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_order_number}
-                                onChange={(e) => handleChange(e, 'customer_order_number')}
+                                value={formData.customerOrderNumber}
+                                onChange={(e) => handleChange(e, 'customerOrderNumber')}
                             />
                         </label>
 
@@ -217,8 +179,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             Payment Type:
                             <select
                                 className='select-field'
-                                value={formData.o_type}
-                                onChange={(e) => handleSelectChange(e, 'o_type')}
+                                value={formData.paymentType}
+                                onChange={(e) => handleSelectChange(e, 'paymentType')}
                             >
                                 <option value="prepaid">Prepaid</option>
                                 <option value="cod">COD</option>
@@ -230,8 +192,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             Order Type:
                             <select
                                 className='select-field'
-                                value={formData.order_type}
-                                onChange={(e) => handleSelectChange(e, 'order_type')}
+                                value={formData.orderType}
+                                onChange={(e) => handleSelectChange(e, 'orderType')}
                             >
                                 <option value="forward">Forward</option>
                                 <option value="reverse">Reverse</option>
@@ -245,8 +207,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                 <label className='col'>
                                     <input
                                         type="checkbox"
-                                        checked={formData.shipment_type}
-                                        onChange={() => handleToggleChange('shipment_type')}
+                                        checked={formData.mps}
+                                        onChange={() => handleToggleChange('mps')}
                                     />
                                     <span className="slider"></span>
                                 </label>
@@ -255,13 +217,13 @@ const Step1 = ({ onNext, formData, setFormData }) => {
 
                     </div>
                     <div className='row mt-3'>
-                        <label className={`col ${formData.shipment_type === "1" ? 'd-flex' : 'd-none'}`}>
+                        <label className={`col ${formData.mps === true ? 'd-flex' : 'd-none'}`}>
                             Number of packets
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.number_of_packets}
-                                onChange={(e) => handleChange(e, 'number_of_packets')}
+                                value={formData.numberOfPackets}
+                                onChange={(e) => handleChange(e, 'numberOfPackets')}
                             />
                         </label>
                     </div>
@@ -300,7 +262,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         Customer Name:
                         <input
                             className='input-field'
-                            type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
+                            type="text" value={formData.customerName} onChange={(e) => handleChange(e, 'customerName')} />
                     </label>
 
                     {/* Mobile Number with Country Code Select */}
@@ -319,8 +281,8 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 type="text"
-                                value={formData.s_contact}
-                                onChange={(e) => handleChange(e, 's_contact')}
+                                value={formData.mobileNumber}
+                                onChange={(e) => handleChange(e, 'mobileNumber')}
                             />
                         </div>
                     </label>
@@ -330,7 +292,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         Address:
                         <input
                             className='input-field'
-                            type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
+                            type="text" value={formData.address} onChange={(e) => handleChange(e, 'address')} />
                     </label>
 
                     {/* Address 2 (Optional) */}
@@ -338,7 +300,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         Address 2 (Optional):
                         <input
                             className='input-field'
-                            type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
+                            type="text" value={formData.address2} onChange={(e) => handleChange(e, 'address2')} />
                     </label>
 
                     {/* Pincode */}
@@ -346,7 +308,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         Pincode:
                         <input
                             className='input-field'
-                            type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
+                            type="text" value={formData.pincode} onChange={(e) => handleChange(e, 'pincode')} />
                     </label>
 
                     {/* Country */}
@@ -354,7 +316,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         Country:
                         <input
                             className='input-field'
-                            type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
+                            type="text" value={formData.country} onChange={(e) => handleChange(e, 'country')} />
                     </label>
 
                     {/* State */}
@@ -362,7 +324,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         State:
                         <input
                             className='input-field'
-                            type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
+                            type="text" value={formData.state} onChange={(e) => handleChange(e, 'state')} />
                     </label>
 
                     {/* City */}
@@ -370,7 +332,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         City:
                         <input
                             className='input-field'
-                            type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
+                            type="text" value={formData.city} onChange={(e) => handleChange(e, 'city')} />
                     </label>
 
                 </div>
@@ -402,7 +364,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                         SKU:
                         <input
                             className='input-field'
-                            type="text" value={formData.product_sku} onChange={(e) => handleChange(e, 'product_sku')} />
+                            type="text" value={formData.sku} onChange={(e) => handleChange(e, 'sku')} />
                     </label>
 
                     {/* Product Name */}
@@ -410,7 +372,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                         Product Name:
                         <input
                             className='input-field'
-                            type="text" value={formData.product_name} onChange={(e) => handleChange(e, 'product_name')} />
+                            type="text" value={formData.productName} onChange={(e) => handleChange(e, 'productName')} />
                     </label>
 
                     {/* Quantity */}
@@ -418,7 +380,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                         Quantity:
                         <input
                             className='input-field'
-                            type="number" value={formData.product_qty} onChange={(e) => handleChange(e, 'product_qty')} />
+                            type="number" value={formData.quantity} onChange={(e) => handleChange(e, 'quantity')} />
                     </label>
 
                     {/* Weight (kg) */}
@@ -481,7 +443,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                         Invoice Amount:
                         <input
                             className='input-field'
-                            type="number" value={formData.invoice_amount} onChange={(e) => handleChange(e, 'invoice_amount')} />
+                            type="number" value={formData.invoiceAmount} onChange={(e) => handleChange(e, 'invoiceAmount')} />
                     </label>
 
                     {/* Shipping Charges */}
@@ -489,7 +451,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                         Shipping Charges:
                         <input
                             className='input-field'
-                            type="number" value={formData.shipping_charges} onChange={(e) => handleChange(e, 'shipping_charges')} />
+                            type="number" value={formData.shippingCharges} onChange={(e) => handleChange(e, 'shippingCharges')} />
                     </label>
 
                     {/* COD Charges */}
@@ -497,7 +459,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                         COD Charges:
                         <input
                             className='input-field'
-                            type="number" value={formData.cod_charges} onChange={(e) => handleChange(e, 'cod_charges')} />
+                            type="number" value={formData.codCharges} onChange={(e) => handleChange(e, 'codCharges')} />
                     </label>
 
                     {/* Discount */}
@@ -513,7 +475,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                         Reseller Name:
                         <input
                             className='input-field'
-                            type="text" value={formData.reseller_name} onChange={(e) => handleChange(e, 'reseller_name')} />
+                            type="text" value={formData.resellerName} onChange={(e) => handleChange(e, 'resellerName')} />
                     </label>
 
                 </div>
@@ -548,7 +510,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                 <input
                                     type="radio"
                                     value="warehouse1"
-                                    checked={formData.p_warehouse_name === 'warehouse1'}
+                                    checked={formData.selectedWarehouse === 'warehouse1'}
                                     onChange={handleRadioChange}
                                 />
                                 Warehouse 1 Address
@@ -558,7 +520,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                 <input
                                     type="radio"
                                     value="warehouse2"
-                                    checked={formData.p_warehouse_name === 'warehouse2'}
+                                    checked={formData.selectedWarehouse === 'warehouse2'}
                                     onChange={handleRadioChange}
                                 />
                                 Warehouse 2 Address
@@ -568,7 +530,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                 <input
                                     type="radio"
                                     value="warehouse3"
-                                    checked={formData.p_warehouse_name === 'warehouse3'}
+                                    checked={formData.selectedWarehouse === 'warehouse3'}
                                     onChange={handleRadioChange}
                                 />
                                 Warehouse 3 Address
@@ -578,7 +540,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                 <input
                                     type="radio"
                                     value="warehouse4"
-                                    checked={formData.p_warehouse_name === 'warehouse4'}
+                                    checked={formData.selectedWarehouse === 'warehouse4'}
                                     onChange={handleRadioChange}
                                 />
                                 Warehouse 4 Address
