@@ -31,62 +31,41 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "All Orders" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "OrdersMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("All Orders");
+                props.setActiveTab("OrdersMIS");
               }}
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                All Orders
+                Orders
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "ShipmentsMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Unprocessable");
+                props.setActiveTab("ShipmentsMIS");
               }}
             >
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Unprocessable
+                Shipments
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Processing" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "BillingMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Processing");
+                props.setActiveTab("BillingMIS");
               }}
             >
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Processing
+                Billing
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Ready to Ship" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "ReturnsMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Ready to Ship");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Ready to Ship
-              </div>
-            </Nav.Link>
-            {/* <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Manifest");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                Manifest
-              </div>
-            </Nav.Link> */}
-            <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Returns");
+                props.setActiveTab("ReturnsMIS");
               }}
             >
               {" "}
@@ -98,28 +77,28 @@ export default function NavTabs(props) {
           </div>
         </Nav>
       </Navbar.Collapse>
-      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={()=>{setIsOpen(true);}} onMouseLeave={()=>{setIsOpen(false);}}>
+      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
         <div className="selected-option">
           {selectedOption || "Select an option"}
           <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
 
         </div>
-       
-          <div className={`options-container ${isOpen?"open":""}`}>
-            <div
-              className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
-              onClick={() => handleOptionSelect("Domestic")}
-            >
-              Domestic
-            </div>
-            <div
-              className={`option ${selectedOption === "International" ? "selected" : ""}`}
-              onClick={() => handleOptionSelect("International")}
-            >
-              International
-            </div>
+
+        <div className={`options-container ${isOpen ? "open" : ""}`}>
+          <div
+            className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("Domestic")}
+          >
+            Domestic
           </div>
-        
+          <div
+            className={`option ${selectedOption === "International" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("International")}
+          >
+            International
+          </div>
+        </div>
+
       </div>
       <div className="d-flex gap-10 align-items-center">
         <button className="btn main-button">Sync Orders</button>

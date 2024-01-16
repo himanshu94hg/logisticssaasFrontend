@@ -37,7 +37,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
   };
 
-const MISTable = () => {
+const ReturnsMIS = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -302,4 +302,4 @@ const MISTable = () => {
     );
 };
 
-export default MISTable;
+export default ReturnsMIS;
