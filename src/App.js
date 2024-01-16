@@ -18,6 +18,7 @@ import OtherIntegration from './Component/Pages/IntegrationsPage/Components/Othe
 import CreateOrderFlow from './Component/Pages/OrdersPage/Components/CreateOrderFlow/CreateOrderFlow';
 import BillingPage from './Component/Pages/BillingPage/BillingPage'
 import WeightReco from './Component/Pages/WeightReco/WeightReco';
+import MISPage from './Component/Pages/MISPage/MISPage';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
              <Route path="/create-order" element={<CreateOrderFlow />}/>
              <Route path="/billing" element={<BillingPage />}/>
              <Route path="/weight-reconciliation" element={<WeightReco />}/>
+             <Route path="/MIS" element={<MISPage />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>

@@ -110,19 +110,19 @@ const ShippingCharges = () => {
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Freight Charges: <span>&#8377; 234232</span></p>
+                        <p>Total Freight Charges: <span>&#8377; 1743</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Billed Freight Charges: <span>&#8377; 234232</span></p>
+                        <p>Billed Freight Charges: <span>&#8377; 245</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Unbilled Freight Charges: <span>&#8377; 234232</span></p>
+                        <p>Unbilled Freight Charges: <span>&#8377; 568</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total On-Hold Amount: <span>&#8377; 234232</span></p>
+                        <p>Total On-Hold Amount: <span>&#8377; 565</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Invoice Due Amount: <span>&#8377; 234232</span></p>
+                        <p>Invoice Due Amount: <span>&#8377; 565</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
