@@ -549,9 +549,11 @@ p {
 .input-field,
 .select-field {
   height: 30px;
-  border: 1px solid #ddd;
-  min-width: 200px;
+  border: 1px solid var(--sh-primary-middle);
+  /* background-color: var(--sh-primary-light); */
+  min-width: 100%;
   padding-left: 10px;
+  border-radius: 4px;
 }
 
 .select-field *{

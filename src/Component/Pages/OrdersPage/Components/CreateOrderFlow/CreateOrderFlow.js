@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import './CreateOrderFlow.css'; // Import the CSS file
 import 'react-toggle/style.css';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const CreateOrderFlow = () => {
     const navigation = useNavigate();
@@ -194,16 +196,24 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         setFormData({ ...formData, [field]: charValue });
     };
 
+    const handleDateChange = (date) => {
+        setFormData({ ...formData, order_date: date });
+    };
+
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
     return (
         <>
             {/* Order Details Section */}
-            <div className='box-shadow shadow-sm p10 w-100'>
+            <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-4'>Order Details</h3>
                     <div className='row'>
                         {/* Customer Order Number */}
                         <label className='col'>
-                            Customer Order Number:
+                            Customer Order Number
                             <input
                                 type="text"
                                 className='input-field'
@@ -212,9 +222,35 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             />
                         </label>
 
+                        {/* Order Date with react-datepicker */}
+                        <label className='col'>
+                            Order Date
+                            <DatePicker
+                                selected={formData.order_date}
+                                onChange={(date) => handleDateChange(date)}
+                                dateFormat="MM/dd/yyyy"
+                                minDate={startOfMonth}  // Set the minimum date to the start of the current month
+                                maxDate={new Date()}  // Set the maximum date to today
+                                className='input-field'
+                            />
+                        </label>
+
+                        <label className='col'>
+                            Order Channel
+                            <select
+                                className='select-field'
+                                value={formData.o_type}
+                                onChange={(e) => handleSelectChange(e, 'o_type')}
+                            >
+                                <option value="prepaid">Custom</option>
+                            </select>
+                        </label>
+                    </div>
+                    <hr />
+                    <div className='row mt-3'>
                         {/* Payment Type */}
                         <label className='col'>
-                            Payment Type:
+                            Payment Type
                             <select
                                 className='select-field'
                                 value={formData.o_type}
@@ -227,7 +263,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
 
                         {/* Order Type */}
                         <label className='col'>
-                            Order Type:
+                            Order Type
                             <select
                                 className='select-field'
                                 value={formData.order_type}
@@ -237,34 +273,37 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                 <option value="reverse">Reverse</option>
                             </select>
                         </label>
-
+                    </div>
+                    <div className='row mt-2'>
                         {/* MPS Toggle Switch */}
-                        <label className='col'>
-                            MPS:
-                            <div className="toggle-switch">
-                                <label className='col'>
-                                    <input
-                                        type="checkbox"
-                                        checked={formData.shipment_type}
-                                        onChange={() => handleToggleChange('shipment_type')}
-                                    />
-                                    <span className="slider"></span>
-                                </label>
-                            </div>
-                        </label>
+                        <div className='col d-flex gap-3'>
+                            <label>
+                                MPS
+                                <div className="toggle-switch mt-1">
+                                    <label className='col'>
+                                        <input
+                                            type="checkbox"
+                                            checked={formData.shipment_type}
+                                            onChange={() => handleToggleChange('shipment_type')}
+                                        />
+                                        <span className="slider"></span>
+                                    </label>
+                                </div>
+                            </label>
+                            <label className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
+                                Number of packets
+                                <input
+                                disabled
+                                    type="text"
+                                    className='input-field'
+                                    value={formData.number_of_packets}
+                                    onChange={(e) => handleChange(e, 'number_of_packets')}
+                                />
+                            </label>
+                        </div>
+                    </div>
+                    <hr />
 
-                    </div>
-                    <div className='row mt-3'>
-                        <label className={`col ${formData.shipment_type === "1" ? 'd-flex' : 'd-none'}`}>
-                            Number of packets
-                            <input
-                                type="text"
-                                className='input-field'
-                                value={formData.number_of_packets}
-                                onChange={(e) => handleChange(e, 'number_of_packets')}
-                            />
-                        </label>
-                    </div>
                 </div>
             </div>
             {/* Next Button */}
@@ -277,8 +316,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
     );
 };
 
-
-
 const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
@@ -290,14 +327,14 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
     return (
         <div>
-            <div className='box-shadow shadow-sm p10 w-100'>
+            <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>Shipping Details</h3>
                     <div className='row'>
                         {/* Customer Name */}
                         <label className='col'>
-                            Customer Name:
+                            Customer Name
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
@@ -305,14 +342,13 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Mobile Number with Country Code Select */}
                         <label className='col'>
-                            Mobile Number:
-                            <div className='d-flex'>
+                            Mobile Number
+                            <div className='d-flex mobile-number-field'>
                                 <select
-                                    className='input-field'
+                                    className='input-field '
                                     value={formData.countryCode}
                                     onChange={(e) => handleSelectChange(e, 'countryCode')}
                                     disabled
-                                    style={{ minWidth: '25px' }}
                                 >
                                     <option value="+91">+91</option>
                                     {/* Add more country codes as needed */}
@@ -322,13 +358,15 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                                     type="text"
                                     value={formData.s_contact}
                                     onChange={(e) => handleChange(e, 's_contact')}
+                                    placeholder='X X X X X X X X X X'
                                 />
                             </div>
                         </label>
-
+                    </div>
+                    <div className='row mt-4'>
                         {/* Address */}
                         <label className='col'>
-                            Address:
+                            Address
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
@@ -336,7 +374,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Address 2 (Optional) */}
                         <label className='col'>
-                            Address 2 (Optional):
+                            Address 2 (Optional)
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
@@ -345,7 +383,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                     <div className='row mt-4'>
                         {/* Pincode */}
                         <label className='col'>
-                            Pincode:
+                            Pincode
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
@@ -353,7 +391,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Country */}
                         <label className='col'>
-                            Country:
+                            Country
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
@@ -361,7 +399,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* State */}
                         <label className='col'>
-                            State:
+                            State
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
@@ -369,7 +407,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* City */}
                         <label className='col'>
-                            City:
+                            City
                             <input
                                 className='input-field'
                                 type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
@@ -396,14 +434,14 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
     return (
         <div>
-            <div className='box-shadow shadow-sm p10 w-100'>
+            <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 3 content */}
                     <h3 className='mb-4'>Product Details</h3>
                     <div className='row'>
                         {/* SKU */}
                         <label className='col'>
-                            SKU:
+                            SKU
                             <input
                                 className='input-field'
                                 type="text" value={formData.product_sku} onChange={(e) => handleChange(e, 'product_sku')} />
@@ -411,7 +449,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Product Name */}
                         <label className='col'>
-                            Product Name:
+                            Product Name
                             <input
                                 className='input-field'
                                 type="text" value={formData.product_name} onChange={(e) => handleChange(e, 'product_name')} />
@@ -419,7 +457,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Quantity */}
                         <label className='col'>
-                            Quantity:
+                            Quantity
                             <input
                                 className='input-field'
                                 type="number" value={formData.product_qty} onChange={(e) => handleChange(e, 'product_qty')} />
@@ -427,7 +465,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Weight (kg) */}
                         <label className='col'>
-                            Weight (kg):
+                            Weight (kg)
                             <input
                                 className='input-field'
                                 type="number" value={formData.weight} onChange={(e) => handleChange(e, 'weight')} />
@@ -436,7 +474,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                     <div className='row mt-4'>
                         {/* Length (cm) */}
                         <label className='col'>
-                            Length (cm):
+                            Length (cm)
                             <input
                                 className='input-field'
                                 type="number" value={formData.length} onChange={(e) => handleChange(e, 'length')} />
@@ -444,7 +482,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Breadth (cm) */}
                         <label className='col'>
-                            Breadth (cm):
+                            Breadth (cm)
                             <input
                                 className='input-field'
                                 type="number" value={formData.breadth} onChange={(e) => handleChange(e, 'breadth')} />
@@ -452,7 +490,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Height (cm) */}
                         <label className='col'>
-                            Height (cm):
+                            Height (cm)
                             <input
                                 className='input-field'
                                 type="number" value={formData.height} onChange={(e) => handleChange(e, 'height')} />
@@ -478,14 +516,14 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
 
     return (
         <div>
-            <div className='box-shadow shadow-sm p10 w-100'>
+            <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 4 content */}
                     <h3 className='mb-4'>Other Details</h3>
                     <div className='row'>
                         {/* Invoice Amount */}
                         <label className='col'>
-                            Invoice Amount:
+                            Invoice Amount
                             <input
                                 className='input-field'
                                 type="number" value={formData.invoice_amount} onChange={(e) => handleChange(e, 'invoice_amount')} />
@@ -493,7 +531,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Shipping Charges */}
                         <label className='col'>
-                            Shipping Charges:
+                            Shipping Charges
                             <input
                                 className='input-field'
                                 type="number" value={formData.shipping_charges} onChange={(e) => handleChange(e, 'shipping_charges')} />
@@ -501,7 +539,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* COD Charges */}
                         <label className='col'>
-                            COD Charges:
+                            COD Charges
                             <input
                                 className='input-field'
                                 type="number" value={formData.cod_charges} onChange={(e) => handleChange(e, 'cod_charges')} />
@@ -509,7 +547,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
 
                         {/* Discount */}
                         <label className='col'>
-                            Discount:
+                            Discount
                             <input
                                 className='input-field'
                                 type="number" value={formData.discount} onChange={(e) => handleChange(e, 'discount')} />
@@ -518,7 +556,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                     <div className='row mt-4'>
                         {/* Reseller Name */}
                         <label className='col'>
-                            Reseller Name:
+                            Reseller Name
                             <input
                                 className='input-field'
                                 type="text" value={formData.reseller_name} onChange={(e) => handleChange(e, 'reseller_name')} />
@@ -545,45 +583,46 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
 
     return (
         <div>
-            <div className='box-shadow shadow-sm p10 w-100'>
+            <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 5 content */}
                     <h3 className='mb-4'>Warehouse Details</h3>
 
                     {/* Select Warehouse */}
-                    <label className='col'>
-                        Select Warehouse:
-                        <div className='warehouse-options'>
-                            <div className="row">
-                                <div className="col">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value="warehouse1"
-                                            checked={formData.selectedWarehouse === 'warehouse2'}
-                                            onChange={handleRadioChange}
-                                        />
-                                        Warehouse 1 Address
-                                    </label>
-                                    <p>Description</p>
-                                </div>
-                                <div className="col">
-                                    <label>
-                                        <input
-                                            type="radio"
-                                            value="warehouse2"
-                                            checked={formData.selectedWarehouse === 'warehouse2'}
-                                            onChange={handleRadioChange}
-                                        />
-                                        Warehouse 2 Address
-                                    </label>
-                                    <p>Description</p>
-                                </div>
-
-                                {/* Add more warehouse options as needed */}
+                    Select Warehouse
+                    <div className='warehouse-options mt-3'>
+                        <div className="row">
+                            <div className="col">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        value="warehouse1"
+                                        checked={formData.selectedWarehouse === 'warehouse2'}
+                                        onChange={handleRadioChange}
+                                    />
+                                    <div>
+                                        <h4>Warehouse 1 Address</h4>
+                                        <p>Description</p>
+                                    </div>
+                                </label>
                             </div>
+                            <div className="col">
+                                <label>
+                                    <input
+                                        type="radio"
+                                        value="warehouse2"
+                                        checked={formData.selectedWarehouse === 'warehouse2'}
+                                        onChange={handleRadioChange}
+                                    />
+                                    <div>
+                                        <h4>Warehouse 2 Address</h4>
+                                        <p>Description</p>
+                                    </div>
+                                </label>
+                            </div>
+                            {/* Add more warehouse options as needed */}
                         </div>
-                    </label>
+                    </div>
                 </div>
             </div>
             <div className='d-flex justify-content-end mt-3'>
