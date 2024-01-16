@@ -17,7 +17,7 @@ const CreateOrderFlow = () => {
         sameAsShipping: true,// New step added
     });
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
-    console.log("&&&&&&&&&&&&",formData)
+    console.log("&&&&&&&&&&&&", formData)
 
 
     useEffect(() => {
@@ -49,12 +49,12 @@ const CreateOrderFlow = () => {
                 },
                 body: JSON.stringify(formData),
             });
-    
+
             if (response.ok) {
                 const responseData = await response.json();
                 // Handle the API response as needed
                 console.log('API Response:', responseData);
-    
+
                 Swal.fire({
                     icon: 'success',
                     title: 'Order Created!',
@@ -70,7 +70,7 @@ const CreateOrderFlow = () => {
                 // Handle error responses
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
-    
+
                 Swal.fire({
                     icon: 'error',
                     title: 'Error Creating Order',
@@ -82,7 +82,7 @@ const CreateOrderFlow = () => {
             }
         } catch (error) {
             console.error('Fetch Error:', error);
-    
+
             Swal.fire({
                 icon: 'error',
                 title: 'Error Creating Order',
@@ -268,7 +268,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                 </div>
             </div>
             {/* Next Button */}
-            <div className='d-flex justify-content-end mt-2'>
+            <div className='d-flex justify-content-end mt-3'>
                 <button className='btn main-button' onClick={onNext}>
                     Next
                 </button>
@@ -294,91 +294,95 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>Shipping Details</h3>
-
-                    {/* Customer Name */}
-                    <label className='col'>
-                        Customer Name:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
-                    </label>
-
-                    {/* Mobile Number with Country Code Select */}
-                    <label className='col'>
-                        Mobile Number:
-                        <div className='d-flex'>
-                            <select
-                                className='input-field'
-                                value={formData.countryCode}
-                                onChange={(e) => handleSelectChange(e, 'countryCode')}
-                            >
-                                <option value="+1">+1</option>
-                                <option value="+91">+91</option>
-                                {/* Add more country codes as needed */}
-                            </select>
+                    <div className='row'>
+                        {/* Customer Name */}
+                        <label className='col'>
+                            Customer Name:
                             <input
                                 className='input-field'
-                                type="text"
-                                value={formData.s_contact}
-                                onChange={(e) => handleChange(e, 's_contact')}
-                            />
-                        </div>
-                    </label>
+                                type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
+                        </label>
 
-                    {/* Address */}
-                    <label className='col'>
-                        Address:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
-                    </label>
+                        {/* Mobile Number with Country Code Select */}
+                        <label className='col'>
+                            Mobile Number:
+                            <div className='d-flex'>
+                                <select
+                                    className='input-field'
+                                    value={formData.countryCode}
+                                    onChange={(e) => handleSelectChange(e, 'countryCode')}
+                                    disabled
+                                    style={{ minWidth: '25px' }}
+                                >
+                                    <option value="+91">+91</option>
+                                    {/* Add more country codes as needed */}
+                                </select>
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    value={formData.s_contact}
+                                    onChange={(e) => handleChange(e, 's_contact')}
+                                />
+                            </div>
+                        </label>
 
-                    {/* Address 2 (Optional) */}
-                    <label className='col'>
-                        Address 2 (Optional):
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
-                    </label>
+                        {/* Address */}
+                        <label className='col'>
+                            Address:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
+                        </label>
 
-                    {/* Pincode */}
-                    <label className='col'>
-                        Pincode:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
-                    </label>
+                        {/* Address 2 (Optional) */}
+                        <label className='col'>
+                            Address 2 (Optional):
+                            <input
+                                className='input-field'
+                                type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
+                        </label>
+                    </div>
+                    <div className='row mt-4'>
+                        {/* Pincode */}
+                        <label className='col'>
+                            Pincode:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
+                        </label>
 
-                    {/* Country */}
-                    <label className='col'>
-                        Country:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
-                    </label>
+                        {/* Country */}
+                        <label className='col'>
+                            Country:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
+                        </label>
 
-                    {/* State */}
-                    <label className='col'>
-                        State:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
-                    </label>
+                        {/* State */}
+                        <label className='col'>
+                            State:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
+                        </label>
 
-                    {/* City */}
-                    <label className='col'>
-                        City:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
-                    </label>
+                        {/* City */}
+                        <label className='col'>
+                            City:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
+                        </label>
 
+                    </div>
                 </div>
             </div>
-
-            {/* Add three more input fields as needed */}
-            <button className='btn main-button' onClick={onPrev}>Previous</button>
-            <button className='btn main-button' onClick={onNext}>Next</button>
+            <div className='d-flex justify-content-end mt-3'>
+                {/* Add three more input fields as needed */}
+                <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
+                <button className='btn main-button ms-3' onClick={onNext}>Next</button>
+            </div>
         </div>
     );
 };
@@ -396,69 +400,72 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 3 content */}
                     <h3 className='mb-4'>Product Details</h3>
+                    <div className='row'>
+                        {/* SKU */}
+                        <label className='col'>
+                            SKU:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.product_sku} onChange={(e) => handleChange(e, 'product_sku')} />
+                        </label>
 
-                    {/* SKU */}
-                    <label className='col'>
-                        SKU:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.product_sku} onChange={(e) => handleChange(e, 'product_sku')} />
-                    </label>
+                        {/* Product Name */}
+                        <label className='col'>
+                            Product Name:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.product_name} onChange={(e) => handleChange(e, 'product_name')} />
+                        </label>
 
-                    {/* Product Name */}
-                    <label className='col'>
-                        Product Name:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.product_name} onChange={(e) => handleChange(e, 'product_name')} />
-                    </label>
+                        {/* Quantity */}
+                        <label className='col'>
+                            Quantity:
+                            <input
+                                className='input-field'
+                                type="number" value={formData.product_qty} onChange={(e) => handleChange(e, 'product_qty')} />
+                        </label>
 
-                    {/* Quantity */}
-                    <label className='col'>
-                        Quantity:
-                        <input
-                            className='input-field'
-                            type="number" value={formData.product_qty} onChange={(e) => handleChange(e, 'product_qty')} />
-                    </label>
+                        {/* Weight (kg) */}
+                        <label className='col'>
+                            Weight (kg):
+                            <input
+                                className='input-field'
+                                type="number" value={formData.weight} onChange={(e) => handleChange(e, 'weight')} />
+                        </label>
+                    </div>
+                    <div className='row mt-4'>
+                        {/* Length (cm) */}
+                        <label className='col'>
+                            Length (cm):
+                            <input
+                                className='input-field'
+                                type="number" value={formData.length} onChange={(e) => handleChange(e, 'length')} />
+                        </label>
 
-                    {/* Weight (kg) */}
-                    <label className='col'>
-                        Weight (kg):
-                        <input
-                            className='input-field'
-                            type="number" value={formData.weight} onChange={(e) => handleChange(e, 'weight')} />
-                    </label>
+                        {/* Breadth (cm) */}
+                        <label className='col'>
+                            Breadth (cm):
+                            <input
+                                className='input-field'
+                                type="number" value={formData.breadth} onChange={(e) => handleChange(e, 'breadth')} />
+                        </label>
 
-                    {/* Length (cm) */}
-                    <label className='col'>
-                        Length (cm):
-                        <input
-                            className='input-field'
-                            type="number" value={formData.length} onChange={(e) => handleChange(e, 'length')} />
-                    </label>
+                        {/* Height (cm) */}
+                        <label className='col'>
+                            Height (cm):
+                            <input
+                                className='input-field'
+                                type="number" value={formData.height} onChange={(e) => handleChange(e, 'height')} />
+                        </label>
 
-                    {/* Breadth (cm) */}
-                    <label className='col'>
-                        Breadth (cm):
-                        <input
-                            className='input-field'
-                            type="number" value={formData.breadth} onChange={(e) => handleChange(e, 'breadth')} />
-                    </label>
-
-                    {/* Height (cm) */}
-                    <label className='col'>
-                        Height (cm):
-                        <input
-                            className='input-field'
-                            type="number" value={formData.height} onChange={(e) => handleChange(e, 'height')} />
-                    </label>
-
+                    </div>
                 </div>
             </div>
-
-            {/* Add more input fields as needed */}
-            <button className='btn main-button' onClick={onPrev}>Previous</button>
-            <button className='btn main-button' onClick={onNext}>Next</button>
+            <div className='d-flex justify-content-end mt-3'>
+                {/* Add more input fields as needed */}
+                <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
+                <button className='btn main-button ms-3' onClick={onNext}>Next</button>
+            </div>
         </div>
     );
 };
@@ -475,53 +482,56 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 4 content */}
                     <h3 className='mb-4'>Other Details</h3>
+                    <div className='row'>
+                        {/* Invoice Amount */}
+                        <label className='col'>
+                            Invoice Amount:
+                            <input
+                                className='input-field'
+                                type="number" value={formData.invoice_amount} onChange={(e) => handleChange(e, 'invoice_amount')} />
+                        </label>
 
-                    {/* Invoice Amount */}
-                    <label className='col'>
-                        Invoice Amount:
-                        <input
-                            className='input-field'
-                            type="number" value={formData.invoice_amount} onChange={(e) => handleChange(e, 'invoice_amount')} />
-                    </label>
+                        {/* Shipping Charges */}
+                        <label className='col'>
+                            Shipping Charges:
+                            <input
+                                className='input-field'
+                                type="number" value={formData.shipping_charges} onChange={(e) => handleChange(e, 'shipping_charges')} />
+                        </label>
 
-                    {/* Shipping Charges */}
-                    <label className='col'>
-                        Shipping Charges:
-                        <input
-                            className='input-field'
-                            type="number" value={formData.shipping_charges} onChange={(e) => handleChange(e, 'shipping_charges')} />
-                    </label>
+                        {/* COD Charges */}
+                        <label className='col'>
+                            COD Charges:
+                            <input
+                                className='input-field'
+                                type="number" value={formData.cod_charges} onChange={(e) => handleChange(e, 'cod_charges')} />
+                        </label>
 
-                    {/* COD Charges */}
-                    <label className='col'>
-                        COD Charges:
-                        <input
-                            className='input-field'
-                            type="number" value={formData.cod_charges} onChange={(e) => handleChange(e, 'cod_charges')} />
-                    </label>
+                        {/* Discount */}
+                        <label className='col'>
+                            Discount:
+                            <input
+                                className='input-field'
+                                type="number" value={formData.discount} onChange={(e) => handleChange(e, 'discount')} />
+                        </label>
+                    </div>
+                    <div className='row mt-4'>
+                        {/* Reseller Name */}
+                        <label className='col'>
+                            Reseller Name:
+                            <input
+                                className='input-field'
+                                type="text" value={formData.reseller_name} onChange={(e) => handleChange(e, 'reseller_name')} />
+                        </label>
 
-                    {/* Discount */}
-                    <label className='col'>
-                        Discount:
-                        <input
-                            className='input-field'
-                            type="number" value={formData.discount} onChange={(e) => handleChange(e, 'discount')} />
-                    </label>
-
-                    {/* Reseller Name */}
-                    <label className='col'>
-                        Reseller Name:
-                        <input
-                            className='input-field'
-                            type="text" value={formData.reseller_name} onChange={(e) => handleChange(e, 'reseller_name')} />
-                    </label>
-
+                    </div>
                 </div>
             </div>
-
-            {/* Add more input fields as needed */}
-            <button className='btn main-button' onClick={onPrev}>Previous</button>
-            <button className='btn main-button' onClick={onNext}>Next</button>
+            <div className='d-flex justify-content-end mt-3'>
+                {/* Add more input fields as needed */}
+                <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
+                <button className='btn main-button ms-3' onClick={onNext}>Next</button>
+            </div>
         </div>
     );
 };
@@ -544,55 +554,44 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                     <label className='col'>
                         Select Warehouse:
                         <div className='warehouse-options'>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="warehouse1"
-                                    checked={formData.p_warehouse_name === 'warehouse1'}
-                                    onChange={handleRadioChange}
-                                />
-                                Warehouse 1 Address
-                            </label>
+                            <div className="row">
+                                <div className="col">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value="warehouse1"
+                                            checked={formData.selectedWarehouse === 'warehouse2'}
+                                            onChange={handleRadioChange}
+                                        />
+                                        Warehouse 1 Address
+                                    </label>
+                                    <p>Description</p>
+                                </div>
+                                <div className="col">
+                                    <label>
+                                        <input
+                                            type="radio"
+                                            value="warehouse2"
+                                            checked={formData.selectedWarehouse === 'warehouse2'}
+                                            onChange={handleRadioChange}
+                                        />
+                                        Warehouse 2 Address
+                                    </label>
+                                    <p>Description</p>
+                                </div>
 
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="warehouse2"
-                                    checked={formData.p_warehouse_name === 'warehouse2'}
-                                    onChange={handleRadioChange}
-                                />
-                                Warehouse 2 Address
-                            </label>
-                            
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="warehouse3"
-                                    checked={formData.p_warehouse_name === 'warehouse3'}
-                                    onChange={handleRadioChange}
-                                />
-                                Warehouse 3 Address
-                            </label>
-                            
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="warehouse4"
-                                    checked={formData.p_warehouse_name === 'warehouse4'}
-                                    onChange={handleRadioChange}
-                                />
-                                Warehouse 4 Address
-                            </label>
-
-                            {/* Add more warehouse options as needed */}
+                                {/* Add more warehouse options as needed */}
+                            </div>
                         </div>
                     </label>
                 </div>
             </div>
-            {/* Add more input fields as needed */}
-            <button className='btn main-button' onClick={onPrev}>Previous</button>
-            <button className='btn main-button' onClick={onSubmit}>Submit</button>
-        </div>
+            <div className='d-flex justify-content-end mt-3'>
+                {/* Add more input fields as needed */}
+                <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
+                <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
+            </div>
+        </div >
     );
 };
 

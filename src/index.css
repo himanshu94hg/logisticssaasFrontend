@@ -528,6 +528,19 @@ p {
   color: #fff;
 }
 
+.main-button-outline {
+  border-color: #1975C9 !important;
+  color: #1975C9;
+  background-color: #fff;
+  padding: 5px 10px;
+  white-space: nowrap;
+}
+
+.main-button-outline:hover {
+  background-color: #1975C9 !important;
+  color: #fff;
+}
+
 .btn-check:focus+.btn,
 .btn:focus {
   box-shadow: 0 0px 2px 1px rgba(13, 110, 253, .25);
@@ -538,6 +551,7 @@ p {
   height: 30px;
   border: 1px solid #ddd;
   min-width: 200px;
+  padding-left: 10px;
 }
 
 .select-field *{

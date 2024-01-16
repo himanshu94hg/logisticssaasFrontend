@@ -62,6 +62,8 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    width: fit-content;
+    max-width: fit-content;
 }
 
 .toggle-switch label {
