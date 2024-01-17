@@ -248,7 +248,7 @@ const WeightRecoTab = () => {
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
+                                                {/* <button className='btn main-button'>Ship Now</button> */}
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
