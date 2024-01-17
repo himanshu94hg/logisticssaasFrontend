@@ -61,6 +61,7 @@
     display: flex;
     align-items: flex-start;
     flex-direction: column;
+    gap: 0.3rem;
     /* width: fit-content;
     max-width: fit-content; */
 }
@@ -125,35 +126,59 @@
 .warehouse-options label {
     flex-direction: row;
     gap: 10px;
+    border-radius: 16px;
+    box-shadow: 2px 2px 6px rgba(0,0,0,.102);
+    border: solid 1.3px #afcfff;
+    background-color: #f4f8ff;
+    height: 8rem;
+    padding: 1em;
 }
 
 .warehouse-options input {
     margin-top: 6px;
 }
 
+.warehouse-heading{
+    color: #191919;
+    font-size: 14px;
+    line-height: 27px;
+    letter-spacing: .24px;
+    text-transform: capitalize;
+}
+
+.warehouse-description{
+    font-size: 11px;
+    line-height: 1.45;
+    letter-spacing: .22px;
+    color: #4c4c4c;
+    min-height: 30px;
+    max-height: 30px;
+    overflow: hidden;
+}
+
 .form-box-h {
-    height: calc(100vh - 262px);
+    min-height: calc(100vh - 327px);
     overflow-y: scroll;
 }
 
 .form-box-h hr {
     border: none;
-    border-top: 3px double #333;
-    color: #333;
+    /* border-top: 3px solid #ddd; */
+    color: #ddd;
     color: var(--sh-primary);
     overflow: visible;
     text-align: center;
-    height: 5px;
-    margin-block: 45px 30px;
+    height: 1px;
+    margin-block: 2rem;
 }
 
-hr::after {
+/* hr::after {
     background: #fff;
     content: '§';
     padding: 0 4px;
     position: relative;
     top: -13px;
-}
+} */
 
 .react-datepicker-wrapper {
     width: 100%;
@@ -162,6 +187,7 @@ hr::after {
 
 .mobile-number-field {
     position: relative;
+    width: 100%;
 }
 
 .mobile-number-field select.input-field {
@@ -176,6 +202,32 @@ hr::after {
 .mobile-number-field input.input-field {
     border-radius: 0 4px 4px 0;
     padding-left: 80px;
+}
+
+.date-picker-container {
+    position: relative;
+    width: 100%;
+}
+
+.calendar-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #777;
+    z-index: 1;
+}
+
+.add-fields-text{
+    color: var(--sh-primary);
+}
+
+.volumetric-weight{
+    margin-top: 40px;
+    width: 100%;
+    font-weight: 700;
+    font-size: 18px;
 }
 
 /* Add responsiveness for smaller screens */
