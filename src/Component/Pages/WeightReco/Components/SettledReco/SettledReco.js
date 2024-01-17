@@ -37,32 +37,52 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const SettledReco = () => {
+const WeightRecoTab = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    const [data, setData] = useState([]);
+
+
+    const reasons = [
+        { count: "Dabur Hingoli Gas Par Asar Zabardast 90N Tablets Unique B0BKSVZG23", data: "dtdc_surface" },
+       
+        { count: "Bru Green Label Ground Coffee, 500g Pouch,Bag B075MN16MZ", data: "dtdc_surface" },
+       
+        { count: "UNIQUE FORTUNE KACHI GHANI PURE MUSTARD OIL 1lt  4V-7JZR-OL83", data:  "dtdc_surface"},
+       
+      ];
+    
+      const getRandomCount = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].count;
+      };
+    
+      const getRandomReason = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].data;
+      };
+
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/weight/v1/weight-recancel-data/') // Replace with your API endpoint
             .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setData(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
+    
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(data.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -79,7 +99,7 @@ const SettledReco = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -131,15 +151,15 @@ const SettledReco = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                            {data.map((row, index) => (
+                                <React.Fragment key={row?.reconciliation_details?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.reconciliation_details?.id)}
+                                                onChange={() => handleSelectRow(row?.reconciliation_details?.id)}
                                             />
                                         </td>
                                         <td>
@@ -147,7 +167,8 @@ const SettledReco = () => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.order_number}
+                                                    {row?.order_details?.order_number}
+                                                    
 
                                                     {/* <span className="product-details ms-2"> */}
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
@@ -158,8 +179,8 @@ const SettledReco = () => {
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                    <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <DateFormatter dateTimeString={row?.reconciliation_details?.created} />
+                                                    {/* <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -169,15 +190,15 @@ const SettledReco = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
+                                                <p>{row.order_details?.product_name}</p>
+                                                {/* <p>{row.s_contact}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
                                                             {row.s_city}, {row.s_state}, {row.s_pincode}
                                                         </span>
                                                     </span>
-                                                </p>
+                                                </p> */}
                                                 {/* <p>{row.s_city}</p>
                                                 <p>{row.s_pincode}</p>
                                                 <p>{row.s_state}</p> */}
@@ -186,13 +207,13 @@ const SettledReco = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>2000</p>
+                                                <p>{row.charged_amount}</p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
+                                                <p className='details-on-hover anchor-awb'>{row?.order_details?.courier_partner}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
@@ -201,27 +222,27 @@ const SettledReco = () => {
                                         <td className='align-middle'>
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row.weight} kg</p>
-                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                                <p>Wt:  {row?.reconciliation_details?.e_weight} kg</p>
+                                                <p>LBH: {row?.reconciliation_details?.e_length}x{row?.reconciliation_details?.e_breadth}x{row?.reconciliation_details?.e_height}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* Charged Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row.weight} kg</p>
-                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                                <p>Wt:  {row?.reconciliation_details?.c_weight} kg</p>
+                                                <p>LBH: {row?.reconciliation_details?.c_length}x{row?.reconciliation_details?.c_breadth}x{row?.reconciliation_details?.c_height}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* Settled Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row.weight} kg</p>
-                                                <p>LBH: {row.length}x{row.breadth}x{row.height}</p>
+                                                <p>Wt:  {row?.reconciliation_details?.s_weight} kg</p>
+                                                <p>LBH: {row?.reconciliation_details?.s_length}x{row?.reconciliation_details?.s_breadth}x{row?.reconciliation_details?.s_height}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                            <p className='order-Status-box'>{row?.reconciliation_details?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
@@ -269,4 +290,4 @@ const SettledReco = () => {
     );
 };
 
-export default SettledReco;
+export default WeightRecoTab;

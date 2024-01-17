@@ -42,27 +42,50 @@ const PassbookTab = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    const [data, setData] = useState([]);
+    
+    const reasons = [
+        { count: 247483644, credit_blance: 0.0, dr_blance: 100, cr_pathner_name:'bluedart_surface'},
+        { count: 395645666, credit_blance: 3463, dr_blance: 200,cr_pathner_name:'bluedart_surface'},
+        { count: 746465788, credit_blance:  200,dr_blance: 6000,cr_pathner_name:'bluedart_surface'},
+        { count: 746465788, credit_blance:  700,dr_blance: 100,cr_pathner_name:'bluedart_surface'},
+      ];
+    
+      const awbcount = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].count;
+      };
+    
+      const creditData = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].credit_blance;
+      };
+      const drData = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].dr_blance;
+      };
+      const cr_pathner_name = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].cr_pathner_name;
+      };
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/billing/v1/passbooklog/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setData(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
-
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(data.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -79,7 +102,7 @@ const PassbookTab = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -110,13 +133,13 @@ const PassbookTab = () => {
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Current Usable Balance:     <span>&#8377; 234232</span></p>
+                        <p>Current Usable Balance:     <span>&#8377; {data?.current_unavailable_balance}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Balance On Hold:     <span>&#8377; 234232</span></p>
+                        <p>Balance On Hold:     <span>&#8377; {data?.corrent_on_hold_blance}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Balance:     <span>&#8377; 234232</span></p>
+                        <p>Total Balance:     <span>&#8377; {data?.corrent_blance}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -141,7 +164,7 @@ const PassbookTab = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {data?.passbook_log?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -156,7 +179,7 @@ const PassbookTab = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.datetime}
                                                 </p>
                                             </div>
                                         </td>
@@ -164,7 +187,7 @@ const PassbookTab = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                {awbcount(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -172,7 +195,7 @@ const PassbookTab = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                 {cr_pathner_name(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -180,7 +203,7 @@ const PassbookTab = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {creditData(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -188,7 +211,7 @@ const PassbookTab = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                {drData(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -196,7 +219,7 @@ const PassbookTab = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                  {row.balance}
                                                 </p>
                                             </div>
                                         </td>
@@ -204,7 +227,7 @@ const PassbookTab = () => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.description}
                                                 </p>
                                             </div>
                                         </td>

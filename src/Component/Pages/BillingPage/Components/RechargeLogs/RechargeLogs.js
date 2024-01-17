@@ -42,27 +42,26 @@ const RechargeLogs = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/billing/v1/rechargelog/') // Replace with your API endpoint
             .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setData(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(data.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -79,7 +78,7 @@ const RechargeLogs = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -110,13 +109,13 @@ const RechargeLogs = () => {
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Successful Recharge: <span>&#8377; 234232</span></p>
+                        <p>Successful Recharge: <span>&#8377; {data?.total_sucefully_recharge}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Credit: <span>&#8377; 234232</span></p>
+                        <p>Total Credit: <span>&#8377; {data?.total_credit}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Debit: <span>&#8377; 234232</span></p>
+                        <p>Total Debit: <span>&#8377; {data?.total_devit}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -138,7 +137,7 @@ const RechargeLogs = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {data?.recharge_log?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -154,7 +153,7 @@ const RechargeLogs = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.datetime}
                                                 </p>
                                             </div>
                                         </td>
@@ -162,7 +161,7 @@ const RechargeLogs = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.razorpay_payment_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -170,7 +169,7 @@ const RechargeLogs = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.amount}
                                                 </p>
                                             </div>
                                         </td>
@@ -178,7 +177,7 @@ const RechargeLogs = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.description}
                                                 </p>
                                             </div>
                                         </td>

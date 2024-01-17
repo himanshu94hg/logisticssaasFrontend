@@ -42,27 +42,25 @@ const ShippingCharges = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/billing/v1/shiping-charges/') // Replace with your API endpoint
             .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setData(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(data.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -79,7 +77,7 @@ const ShippingCharges = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -110,7 +108,7 @@ const ShippingCharges = () => {
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Freight Charges: <span>&#8377; 1743</span></p>
+                        <p>Total Freight Charges: <span>&#8377; {data?.Total_freight_charges}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p>Billed Freight Charges: <span>&#8377; 245</span></p>
@@ -149,7 +147,7 @@ const ShippingCharges = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {data?.shipment_data?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -172,7 +170,10 @@ const ShippingCharges = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.awb_number}
+                                                </p>
+                                                <p className=''>
+                                                    {row.courier_partner}
                                                 </p>
                                             </div>
                                         </td>
@@ -180,7 +181,7 @@ const ShippingCharges = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.awb_assigned_date}
                                                 </p>
                                             </div>
                                         </td>
@@ -188,7 +189,7 @@ const ShippingCharges = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.status}
                                                 </p>
                                             </div>
                                         </td>
@@ -196,7 +197,7 @@ const ShippingCharges = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.shipping_charges}
                                                 </p>
                                             </div>
                                         </td>
@@ -204,7 +205,7 @@ const ShippingCharges = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.excess_weight_charges}
                                                 </p>
                                             </div>
                                         </td>
@@ -212,7 +213,7 @@ const ShippingCharges = () => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.invoice_amount}
                                                 </p>
                                             </div>
                                         </td>
@@ -220,16 +221,16 @@ const ShippingCharges = () => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.vol_weight}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
+                                                {/* <p className=''>
                                                     {row.order_number}
-                                                </p>
+                                                </p> */}
                                             </div>
                                         </td>
 
