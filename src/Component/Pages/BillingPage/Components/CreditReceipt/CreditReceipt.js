@@ -42,27 +42,26 @@ const CreditReceipt = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/billing/v1/creditreceptlog/') // Replace with your API endpoint
             .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setData(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", data)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(data.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -79,7 +78,7 @@ const CreditReceipt = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -128,7 +127,7 @@ const CreditReceipt = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {data?.cerdit_recept_log?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -143,7 +142,7 @@ const CreditReceipt = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.id}
                                                 </p>
                                             </div>
                                         </td>
@@ -151,7 +150,7 @@ const CreditReceipt = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.note_number}
                                                 </p>
                                             </div>
                                         </td>
@@ -159,7 +158,7 @@ const CreditReceipt = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.note_date}
                                                 </p>
                                             </div>
                                         </td>
@@ -167,7 +166,7 @@ const CreditReceipt = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.total}
                                                 </p>
                                             </div>
                                         </td>
@@ -175,7 +174,7 @@ const CreditReceipt = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.note_reason}
                                                 </p>
                                             </div>
                                         </td>

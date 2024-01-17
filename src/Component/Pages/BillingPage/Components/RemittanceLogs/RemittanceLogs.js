@@ -42,27 +42,43 @@ const RemittanceLogs = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    const [data, setData] = useState([]);
+
+    const reasons = [
+        { count: 300, data: 207 },
+        { count: 446, data: 605 },
+        { count: 206, data:  403},
+      ];
+    
+      const getRandomCount = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].count;
+      };
+    
+      const getRandomReason = (reasons) => {
+        const randomIndex = Math.floor(Math.random() * reasons.length);
+        return reasons[randomIndex].data;
+      };
+
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .get('http://35.154.133.143/billing/v1/remitancelog/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setData(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(data.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -79,7 +95,7 @@ const RemittanceLogs = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -151,7 +167,7 @@ const RemittanceLogs = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {data?.shipment_data?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -166,7 +182,7 @@ const RemittanceLogs = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.datetime}
                                                 </p>
                                             </div>
                                         </td>
@@ -174,7 +190,7 @@ const RemittanceLogs = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.crf_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -182,7 +198,7 @@ const RemittanceLogs = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.utr_number}
                                                 </p>
                                             </div>
                                         </td>
@@ -190,7 +206,7 @@ const RemittanceLogs = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.type}
                                                 </p>
                                             </div>
                                         </td>
@@ -198,7 +214,7 @@ const RemittanceLogs = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.amount}
                                                 </p>
                                             </div>
                                         </td>
@@ -206,7 +222,7 @@ const RemittanceLogs = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.early_cod_charge}
                                                 </p>
                                             </div>
                                         </td>
@@ -214,7 +230,7 @@ const RemittanceLogs = () => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                {getRandomReason(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -230,7 +246,8 @@ const RemittanceLogs = () => {
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                {getRandomCount(reasons)}
+                                                    
                                                 </p>
                                             </div>
                                         </td>
@@ -238,7 +255,7 @@ const RemittanceLogs = () => {
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    {row.description}
                                                 </p>
                                             </div>
                                         </td>
