@@ -767,7 +767,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                     Select Warehouse
                     <div className='warehouse-options mt-3'>
                         <div className="row">
-                            <div className="col-lg-3 col-md-6 mb-4 cursor-pointer">
+                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
                                 <label>
                                     <input
                                         type="radio"
@@ -782,7 +782,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     </div>
                                 </label>
                             </div>
-                            <div className="col-lg-3 col-md-6 mb-4 cursor-pointer">
+                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
                                 <label>
                                     <input
                                         type="radio"
@@ -797,7 +797,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     </div>
                                 </label>
                             </div>
-                            <div className="col-lg-3 col-md-6 mb-4 cursor-pointer">
+                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
                                 <label>
                                     <input
                                         type="radio"
@@ -812,7 +812,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     </div>
                                 </label>
                             </div>
-                            <div className="col-lg-3 col-md-6 mb-4 cursor-pointer">
+                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
                                 <label>
                                     <input
                                         type="radio"

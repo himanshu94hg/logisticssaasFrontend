@@ -130,7 +130,7 @@
     box-shadow: 2px 2px 6px rgba(0,0,0,.102);
     border: solid 1.3px #afcfff;
     background-color: #f4f8ff;
-    height: 8rem;
+    min-height: 8rem;
     padding: 1em;
 }
 
