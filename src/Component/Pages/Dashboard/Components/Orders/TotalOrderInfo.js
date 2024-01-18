@@ -109,7 +109,7 @@ function TotalOrderInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={iconDelivery} alt="iconDelivery" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Delivery Orders</p>
+                  <p className="font14 text-gray m-0 ws-no-wrap">Yet To Pick</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{totalDeveloper?.total_Delivered_order_count}</h3>
                 </div>
                   <div className="col-2">

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import './OrdersPage.css'
-import AllOrderss from './Components/AllOrders/AllOrders';
 import Unprocessable from './Components/Unprocessable/Unprocessable';
 import Processing from './Components/Processing/Processing';
 import ReadyToShip from './Components/ReadyToShip/ReadyToShip';
 import Manifest from './Components/Manifest/Manifest';
 import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
+import AllOrders from './Components/AllOrders/AllOrders';
 
 
 const OrdersPage = () => {
@@ -31,7 +31,7 @@ const OrdersPage = () => {
 
             {/* All Orders */}
             <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                <AllOrderss />
+                <AllOrders />
             </div>
             
             {/* Unprocessable */}

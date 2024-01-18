@@ -34,9 +34,9 @@ function TopSellingDashboard() {
               <tr>
                 <th scope="col" style={{ width: '7%' }}>S.No</th>
                 <th scope="col">Product Name</th>
-                <th scope="col" style={{ width: '15%' }}>Category</th>
-                <th scope="col" style={{ width: '10%' }}>Stock</th>
-                <th scope="col" style={{ width: '8%' }}>Total</th>
+                <th scope="col" style={{ width: '15%' }}>Revenue</th>
+                <th scope="col" style={{ width: '10%' }}>Delivered %</th>
+                <th scope="col" style={{ width: '8%' }}>RTO %</th>
               </tr>
             </thead>
             <tbody>
@@ -44,13 +44,14 @@ function TopSellingDashboard() {
                 <tr key={index} className="text-nowrap">
                   <td>{index + 1}</td>
                   <td title={product?.product_name}>{product?.product_name}</td>
-                  <td>Glossary</td>
+                  <td>34,647</td>
                   <td>
                     <span className="text-green">
-                      In Stock
+                      35%
                     </span>
                   </td>
-                  <td>{product?.order_count}</td>
+                  {/* <td>{product?.order_count}</td> */}
+                  <td>5%</td>
                 </tr>
               ))}
             </tbody>
