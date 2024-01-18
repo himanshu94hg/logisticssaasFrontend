@@ -47,22 +47,22 @@ const WeightRecoTab = () => {
 
     const reasons = [
         { count: "Dabur Hingoli Gas Par Asar Zabardast 90N Tablets Unique B0BKSVZG23", data: "dtdc_surface" },
-       
+
         { count: "Bru Green Label Ground Coffee, 500g Pouch,Bag B075MN16MZ", data: "dtdc_surface" },
-       
-        { count: "UNIQUE FORTUNE KACHI GHANI PURE MUSTARD OIL 1lt  4V-7JZR-OL83", data:  "dtdc_surface"},
-       
-      ];
-    
-      const getRandomCount = (reasons) => {
+
+        { count: "UNIQUE FORTUNE KACHI GHANI PURE MUSTARD OIL 1lt  4V-7JZR-OL83", data: "dtdc_surface" },
+
+    ];
+
+    const getRandomCount = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].count;
-      };
-    
-      const getRandomReason = (reasons) => {
+    };
+
+    const getRandomReason = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].data;
-      };
+    };
 
 
     useEffect(() => {
@@ -76,7 +76,7 @@ const WeightRecoTab = () => {
             });
     }, []);
 
-    
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -201,7 +201,7 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                               
+
                                                 <p className='mt-1'>
 
                                                     <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' />
@@ -213,42 +213,13 @@ const WeightRecoTab = () => {
                                         <td className='align-middle'>
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p> {row?.reconciliation_details?.charged_amount} </p>
-                                                {/* <p>LBH: {row?.reconciliation_details?.e_length}cm x {row?.reconciliation_details?.e_breadth}cm x {row?.reconciliation_details?.e_height}</p> */}
+                                                <p>₹{row?.reconciliation_details?.charged_amount} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* Charged Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.reconciliation_details?.c_weight} kg</p>
-                                                <p>LBH: {row?.reconciliation_details?.c_length}cm x {row?.reconciliation_details?.c_breadth}cm x {row?.reconciliation_details?.c_height}</p>
-                                            </div>
-                                        </td>
-                                        
-                                        
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                {/* <button className='btn main-button'>Ship Now</button> */}
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <p>₹{row?.reconciliation_details?.charged_amount} </p>
                                             </div>
                                         </td>
                                     </tr>
