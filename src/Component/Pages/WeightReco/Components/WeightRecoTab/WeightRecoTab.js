@@ -207,7 +207,7 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.charged_amount}</p>
+                                                <p>{row?.reconciliation_details?.charged_amount}</p>
                                             </div>
                                         </td>
                                         <td>
