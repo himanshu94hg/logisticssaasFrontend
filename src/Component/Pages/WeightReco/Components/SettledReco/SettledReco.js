@@ -207,17 +207,22 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.charged_amount}</p>
+                                                <p>{row?.reconciliation_details?.charged_amount}</p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.order_details?.courier_partner}
+                                                <p className='details-on-hover anchor-awb'>{row?.order_details?.awb_number}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='mt-1'>
+        
+                                                <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' />
+                                                {/* {row.courier_partner} */}
+                                                </p>
                                             </div>
+                                            
                                         </td>
                                         <td className='align-middle'>
                                             {/* Entered Weight & Dimensions (CM) */}
