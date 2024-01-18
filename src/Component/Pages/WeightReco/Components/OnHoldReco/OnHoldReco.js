@@ -162,10 +162,10 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
+                                                {/* <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
                                                     {row?.order_details?.order_number}
-                                                </p>
+                                                </p> */}
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     <DateFormatter dateTimeString={row?.reconciliation_details?.created} />
                                                     {/* <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -178,7 +178,7 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.order_details?.product_name}</p>
+                                                <p>{row?.order_details?.order_number}</p>
                                                 {/* <p>{row.s_contact}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -195,15 +195,13 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>₹{row?.reconciliation_details?.charged_amount}</p>
+                                                <p>₹{row?.order_details?.awb_number}</p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.order_details?.awb_number}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
+                                               
                                                 <p className='mt-1'>
 
                                                     <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' />
@@ -215,8 +213,8 @@ const WeightRecoTab = () => {
                                         <td className='align-middle'>
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.reconciliation_details?.e_weight} kg</p>
-                                                <p>LBH: {row?.reconciliation_details?.e_length}cm x {row?.reconciliation_details?.e_breadth}cm x {row?.reconciliation_details?.e_height}</p>
+                                                <p> {row?.reconciliation_details?.charged_amount} </p>
+                                                {/* <p>LBH: {row?.reconciliation_details?.e_length}cm x {row?.reconciliation_details?.e_breadth}cm x {row?.reconciliation_details?.e_height}</p> */}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -226,17 +224,8 @@ const WeightRecoTab = () => {
                                                 <p>LBH: {row?.reconciliation_details?.c_length}cm x {row?.reconciliation_details?.c_breadth}cm x {row?.reconciliation_details?.c_height}</p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/* Settled Weight & Dimensions (CM) */}
-                                            <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.reconciliation_details?.s_weight || '0'} kg</p>
-                                                <p>LBH: {row?.reconciliation_details?.s_length || '0'}cm x {row?.reconciliation_details?.s_breadth || '0'}cm x {row?.reconciliation_details?.s_height || '0'}cm</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.reconciliation_details?.status}</p>
-                                        </td>
+                                        
+                                        
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
