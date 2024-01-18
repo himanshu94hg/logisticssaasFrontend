@@ -222,8 +222,10 @@ const ShippingCharges = () => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.vol_weight}
+                                                    {row.c_length} {row.c_weight} {row.c_length}
                                                 </p>
                                             </div>
+                                            
                                         </td>
                                         <td>
                                             {/* View Transaction Details */}
