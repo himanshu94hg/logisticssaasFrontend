@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FaShippingFast } from 'react-icons/fa';
+import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import axios from 'axios';
 
 const ChannelByOrder = () => {
@@ -38,22 +39,23 @@ const ChannelByOrder = () => {
 
   return (
     <div className="box-shadow shadow-sm p10">
-      <h4 className="title">Channel by Order</h4>
+      <h4 className="title">Store Based Orders</h4>
       {shipmentData && shipmentData.length > 0 ? (
         <div className="">
-          <div className="row">
-            <div className="col-8">
-              <div className="d-flex justify-content-start align-items-center">
-              </div>
-            </div>
-           
-          </div>
           <div className="row">
             <div className="col">
               <div className="progress-widget">
                 {shipmentData.map((item, index) => (
                   <div key={index} className="mb-3">
-                    <p className="font12 bold-600 mb-2">{item.name || 'Unknown'}</p>
+                    <div className='d-flex justify-content-between'>
+                      <div className='d-flex'>
+                        <img src={AmazonLogo} alt="AmazonLogo" width={24}/>
+                      <p className="font12 bold-600 mb-1 ms-2">{item.name || 'Unknown'}</p>
+                      </div>
+                      <p className="font12 text-gray mb-0">
+                        {item.total_count} ({item.total_percentage}%)
+                      </p>
+                    </div>
                     <div className="progress mb-2">
                       <div
                         className="progress-bar"
@@ -67,9 +69,7 @@ const ChannelByOrder = () => {
                         aria-valuemax="100"
                       ></div>
                     </div>
-                    <p className="font12 text-gray mb-0">
-                      {item.total_count} ({item.total_percentage}%)
-                    </p>
+
                   </div>
                 ))}
               </div>
