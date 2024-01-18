@@ -12,30 +12,30 @@ import InfoIcon from '../Icons/InfoIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
+
     useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
-  
+
     const formatDateTime = (dateTimeString) => {
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
-  
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
-      return formattedDateTime;
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
     };
-  
+
     return <p>{formattedDate}</p>;
-  };
+};
 
 const ReadyToShip = () => {
 
@@ -138,14 +138,14 @@ const ReadyToShip = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '12.5%' }}>Customer details</th>
+                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '8%' }}>Payment</th>
+                                <th style={{ width: '12.5%' }}>Pickup Address</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                <th style={{ width: '6%' }}>Status</th>
+                                <th style={{ width: '6%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Customer details</th>
                                 <th style={{ width: '10%' }}>Package Details</th>
@@ -185,7 +185,7 @@ const ReadyToShip = () => {
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                <DateFormatter dateTimeString={row.inserted} />
+                                                    <DateFormatter dateTimeString={row.inserted} />
                                                     <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
@@ -269,6 +269,7 @@ const ReadyToShip = () => {
                                                         <ul>
                                                             <li>Download Invoice</li>
                                                             <li>Edit Order</li>
+                                                            <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>

@@ -141,14 +141,14 @@ const AllOrders = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '12.5%' }}>Customer details</th>
+                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '8%' }}>Payment</th>
+                                <th style={{ width: '12.5%' }}>Pickup Address</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                <th style={{ width: '6%' }}>Status</th>
+                                <th style={{ width: '6%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Customer details</th>
                                 <th style={{ width: '10%' }}>Package Details</th>
@@ -221,7 +221,9 @@ const AllOrders = () => {
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                            {row.product_name}<br />
+                                                            <strong>SKU:</strong> {row.product_sku}<br />
+                                                            <strong>Qt.:</strong> {row.product_qty}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -246,15 +248,15 @@ const AllOrders = () => {
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
+                                            <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                            <p className='order-Status-box'>{row.status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
@@ -269,10 +271,11 @@ const AllOrders = () => {
                                                         <ul>
                                                             <li>Download Invoice</li>
                                                             <li>Edit Order</li>
+                                                            <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
+                                                            <li>Mark As Verified</li>
                                                             <li>Clone Order</li>
                                                             <li><hr /></li>
                                                             <li>Cancel Order</li>

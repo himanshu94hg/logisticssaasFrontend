@@ -139,14 +139,14 @@ const ReturnOrders = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '12.5%' }}>Customer details</th>
+                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '8%' }}>Payment</th>
+                                <th style={{ width: '12.5%' }}>Pickup Address</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                <th style={{ width: '6%' }}>Status</th>
+                                <th style={{ width: '6%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Customer details</th>
                                 <th style={{ width: '10%' }}>Package Details</th>
@@ -270,6 +270,7 @@ const ReturnOrders = () => {
                                                         <ul>
                                                             <li>Download Invoice</li>
                                                             <li>Edit Order</li>
+                                                            <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>

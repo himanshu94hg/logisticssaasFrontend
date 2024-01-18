@@ -8,6 +8,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../Icons/InfoIcon';
+import InfoMissingIcon from '../Icons/InfoMissingIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -35,6 +36,14 @@ const DateFormatter = ({ dateTimeString }) => {
 
     return <p>{formattedDate}</p>;
 };
+
+const InfoMissing = () => {
+    return (
+        <>
+            <span className='info-missing-content'><InfoMissingIcon /> Info Missing</span>
+        </>
+    );
+}
 
 const Unprocessable = () => {
     const [selectAll, setSelectAll] = useState(false);
@@ -128,14 +137,14 @@ const Unprocessable = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
+                                <th style={{ width: '27%' }}>Order Details</th>
                                 <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th style={{ width: '22%' }}>Package Details</th>
+                                <th style={{ width: '9%' }}>Payment</th>
+                                <th style={{ width: '25%' }}>Pickup Address</th>
+                                {/* <th>Shipping Details</th> */}
+                                <th style={{ width: '10%' }}>Status</th>
+                                <th style={{width:'6%'}}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -167,15 +176,14 @@ const Unprocessable = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.s_customer_name}</p>
-                                                <p>{row?.s_contact}
+                                                <p>{row?.s_customer_name}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                        {row?.s_city}, {row?.s_state}, {row?.s_pincode} 
+                                                            {row?.s_city}, {row?.s_state}, {row?.s_pincode}
                                                         </span>
-                                                    </span>
-                                                </p>
+                                                    </span></p>
+                                                <p>{row?.s_contact || <InfoMissing />}</p>
                                             </div>
                                         </td>
                                         <td>
@@ -186,7 +194,7 @@ const Unprocessable = () => {
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                        <strong>Product Name:</strong> {row.product_name} <br /> <strong>Product SKU:</strong> {row.product_sku}<br /> <strong>Quantity:</strong> {row.product_qty}
+                                                            <strong>Product Name:</strong> {row.product_name} <br /> <strong>Product SKU:</strong> {row.product_sku}<br /> <strong>Quantity:</strong> {row.product_qty}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -207,14 +215,7 @@ const Unprocessable = () => {
                                                 </p>
                                             </div>
                                         </td>
-                                        <td>
-                                            {/* shipping details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                </p>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
-                                            </div>
-                                        </td>
+
                                         <td className='align-middle'>
                                             {/* status section */}
                                             <p className='order-Status-box'>{row.status}</p>
@@ -231,6 +232,7 @@ const Unprocessable = () => {
                                                         <ul>
                                                             <li>Download Invoice</li>
                                                             <li>Edit Order</li>
+                                                            <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
