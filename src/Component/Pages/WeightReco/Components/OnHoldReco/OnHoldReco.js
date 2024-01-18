@@ -195,7 +195,8 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>₹{row?.order_details?.awb_number}</p>
+                                                <p>{row?.order_details?.awb_number}</p>
+                                                
                                             </div>
                                         </td>
                                         <td>
@@ -205,7 +206,7 @@ const WeightRecoTab = () => {
                                                 <p className='mt-1'>
 
                                                     <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' />
-                                                    {/* {row.courier_partner} */}
+                                                    <span className='text-capitalize'>{row?.order_details?.courier_partner}</span>
                                                 </p>
                                             </div>
 
