@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
-import './WeightReco.css'
+import './WeightRecoPage.css'
 import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import SettledReco from './Components/SettledReco/SettledReco';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
 
 
-const WeightReco = () => {
+const WeightRecoPage = () => {
     const [activeTab, setActiveTab] = useState("Weight Reconciliation");
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
@@ -47,4 +47,4 @@ const WeightReco = () => {
     )
 }
 
-export default WeightReco
+export default WeightRecoPage

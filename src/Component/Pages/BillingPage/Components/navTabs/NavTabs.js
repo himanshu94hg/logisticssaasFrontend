@@ -60,7 +60,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Reacharge Logs
+                Recharge Logs
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Invoices" ? "active" : ""}`}

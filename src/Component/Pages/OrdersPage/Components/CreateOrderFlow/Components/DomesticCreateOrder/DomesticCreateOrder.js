@@ -353,9 +353,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_order_tag}
-                                onChange={(e) => handleChange(e, 'customer_order_tag')}
-                                placeholder='Enter Customer Order Tag'
+                                value={formData.shipping_charges}
+                                onChange={(e) => handleChange(e, 'shipping_charges')}
+                                placeholder='Enter Shipping Charges'
                             />
                         </label>
                         <label className='col'>
@@ -363,9 +363,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_reseller_name}
-                                onChange={(e) => handleChange(e, 'customer_reseller_name')}
-                                placeholder='Enter Reseller Name'
+                                value={formData.gift_wrap}
+                                onChange={(e) => handleChange(e, 'gift_wrap')}
+                                placeholder='Yes / NO'
                             />
                         </label>
                         <label className='col'>
@@ -373,9 +373,9 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_reseller_name}
-                                onChange={(e) => handleChange(e, 'customer_reseller_name')}
-                                placeholder='Enter Reseller Name'
+                                value={formData.transaction_fee}
+                                onChange={(e) => handleChange(e, 'transaction_fee')}
+                                placeholder='Enter Transaction fee'
                             />
                         </label>
                     </div>
@@ -559,7 +559,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Unit Price"
-                                type="text" value={formData.price} onChange={(e) => handleChange(e, 'product_sku')} />
+                                type="text" value={formData.price} onChange={(e) => handleChange(e, 'price')} />
                         </label>
 
 
@@ -573,12 +573,38 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                 type="number" value={formData.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty')} />
                         </label>
                         {/* Quantity */}
-                        <label className='col'>
+                        {/* <label className='col'>
                             Product Category
                             <input
                                 className='input-field'
                                 placeholder='Enter Product Quantity'
                                 type="number" value={formData.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty')} />
+                        </label> */}
+
+                        <label className='col'>
+                            Product Category
+                            <select
+                                className='select-field'
+                                value={formData.order_type}
+                            // onChange={(e) => handleSelectChange(e, 'order_type')}
+                            >
+                                <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
+                                <option value="Automotive">Automotive</option>
+                                <option value="Baby Products">Baby Products </option>
+                                <option value="Clothing, Shoes & Jewelry">Clothing, Shoes & Jewelry </option>
+                                <option value="Collectibles & Fine Art">Collectibles & Fine Art </option>
+                                <option value="Electronics">Electronics </option>
+                                <option value="Handmade Products">Handmade Products </option>
+                                <option value="Health & Household">Health & Household</option>
+                                <option value="Home & Kitchen">Home & Kitchen</option>
+                                <option value="Industrial & Scientific">Industrial & Scientific </option>
+                                <option value="Office Products">Office Products </option>
+                                <option value="Patio, Lawn & Garden">Patio, Lawn & Garden</option>
+                                <option value="Pet Supplies">Pet Supplies</option>
+                                <option value="Sports & Outdoors">Sports & Outdoors </option>
+                                <option value="Tools & Home Improvement">Tools & Home Improvement</option>
+                                <option value="Toys & Games">Toys & Games</option>
+                            </select>
                         </label>
 
 
@@ -599,9 +625,9 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_reseller_name}
-                                onChange={(e) => handleChange(e, 'customer_reseller_name')}
-                                placeholder='Enter Reseller Name'
+                                value={formData.sku}
+                                onChange={(e) => handleChange(e, 'sku')}
+                                placeholder='Enter SKU'
                             />
                         </label>
                     </div>
@@ -618,9 +644,9 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_order_tag}
-                                onChange={(e) => handleChange(e, 'customer_order_tag')}
-                                placeholder='Enter Customer Order Tag'
+                                value={formData.hsn_code}
+                                onChange={(e) => handleChange(e, 'hsn_code')}
+                                placeholder='Enter HSN Code'
                             />
                         </label>
 
@@ -629,9 +655,9 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_reseller_name}
-                                onChange={(e) => handleChange(e, 'customer_reseller_name')}
-                                placeholder='Enter Reseller Name'
+                                value={formData.tax_rate}
+                                onChange={(e) => handleChange(e, 'tax_rate')}
+                                placeholder='Enter Tax Rate'
                             />
                         </label>
 
@@ -640,9 +666,9 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_reseller_name}
-                                onChange={(e) => handleChange(e, 'customer_reseller_name')}
-                                placeholder='Enter Reseller Name'
+                                value={formData.discount}
+                                onChange={(e) => handleChange(e, 'discount')}
+                                placeholder='Enter Product Discount'
                             />
                         </label>
                     </div>
@@ -693,8 +719,8 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 style={{ minWidth: '15    0px' }}
-                                type="number" value={formData.length || '0'}
-                                onChange={(e) => handleChange(e, 'length')} />
+                                type="number" value={formData.deadWeight || '0'}
+                                onChange={(e) => handleChange(e, 'deadWeight')} />
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
                             </span>
@@ -778,7 +804,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     <div>
                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p class="warehouse-description font13 mt-3">Mobile : 7011424112</p>    
+                                        <p class="warehouse-description font13 mt-3">Mobile : 7011424112</p>
                                     </div>
                                 </label>
                             </div>

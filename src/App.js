@@ -17,8 +17,11 @@ import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIInt
 import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
 import CreateOrderFlow from './Component/Pages/OrdersPage/Components/CreateOrderFlow/CreateOrderFlow';
 import BillingPage from './Component/Pages/BillingPage/BillingPage'
-import WeightReco from './Component/Pages/WeightReco/WeightReco';
+import WeightRecoPage from './Component/Pages/WeightRecoPage/WeightRecoPage';
 import MISPage from './Component/Pages/MISPage/MISPage';
+import CustomerPage from './Component/Pages/CustomerPage/CustomerPage';
+import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerSupportPage';
+import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 
 function App() {
   return (
@@ -46,8 +49,11 @@ function App() {
              <Route path="/IndiaMapp" element={<IndiaMapp />}/>
              <Route path="/create-order" element={<CreateOrderFlow />}/>
              <Route path="/billing" element={<BillingPage />}/>
-             <Route path="/weight-reconciliation" element={<WeightReco />}/>
+             <Route path="/weight-reconciliation" element={<WeightRecoPage />}/>
              <Route path="/MIS" element={<MISPage />}/>
+             <Route path="/customer" element={<CustomerPage />}/>
+             <Route path="/customer-support" element={<CustomerSupportPage />}/>
+             <Route path="/settings" element={<SettingsPage />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>

@@ -172,7 +172,7 @@ const ShippingCharges = () => {
                                                 <p className=''>
                                                     {row.awb_number}
                                                 </p>
-                                                <p className=''>
+                                                <p className='text-capitalize'>
                                                     {row.courier_partner}
                                                 </p>
                                             </div>
@@ -181,14 +181,14 @@ const ShippingCharges = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.awb_assigned_date}
+                                                    <DateFormatter dateTimeString={row.awb_assigned_date} />
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
+                                                <p className='text-capitalize'>
                                                     {row.status}
                                                 </p>
                                             </div>
@@ -197,7 +197,7 @@ const ShippingCharges = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.shipping_charges}
+                                                    ₹ {row.shipping_charges}
                                                 </p>
                                             </div>
                                         </td>
@@ -205,7 +205,7 @@ const ShippingCharges = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.excess_weight_charges}
+                                                    ₹ {row.excess_weight_charges || '0'}
                                                 </p>
                                             </div>
                                         </td>
@@ -213,7 +213,10 @@ const ShippingCharges = () => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.invoice_amount}
+                                                    {row?.weight}kg
+                                                </p>
+                                                <p>
+                                                    LBH: {row?.length || '0'}cm x {row?.weight || '0'}cm x {row?.length || '0'}cm
                                                 </p>
                                             </div>
                                         </td>
@@ -221,18 +224,18 @@ const ShippingCharges = () => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.vol_weight}
-                                                    {row.c_length} {row.c_weight} {row.c_length}
+                                                    {row.vol_weight}kg
+                                                </p>
+                                                <p>
+                                                    LBH: {row.c_length || '0'}cm x {row.c_weight || '0'}cm x {row.c_length || '0'}cm
                                                 </p>
                                             </div>
-                                            
+
                                         </td>
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className=''>
-                                                    {row.order_number}
-                                                </p> */}
+                                               <button className='btn main-button'>View</button>
                                             </div>
                                         </td>
 

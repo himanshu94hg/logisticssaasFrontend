@@ -1,0 +1,53 @@
+.main-container {
+    flex: 0 0 auto;
+    width: 25%;
+    margin-bottom: 30px;
+}
+
+.main-container .tile {
+    position: relative;
+    background-color: #fff;
+    border-radius: 10px;
+    height: 220px;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+
+.main-container .tile::before {
+    position: absolute;
+    content: "";
+    height: 272%;
+    top: -191px;
+    right: 84px;
+    background: rgb(25, 117, 201);
+    background: linear-gradient(90deg, rgba(25, 117, 201, 1) 0%, rgba(96, 169, 235, 1) 80%, rgba(197, 220, 241, 1) 100%);
+    width: 40%;
+    transform: rotate(64deg);
+}
+
+.main-container .tile:hover::before {
+    animation: border_animate 20s linear infinite;
+}
+
+@keyframes border_animate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(3600deg);
+    }
+}
+
+.main-container .tile::after {
+    position: absolute;
+    content: '';
+    background-color: #fff;
+    inset: 5px;
+    border-radius: 8px;
+}
+
+.tile-body{
+    z-index: 1;
+}

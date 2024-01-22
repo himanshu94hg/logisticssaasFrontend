@@ -17,6 +17,7 @@ import MISIcon from "./Icons/MISIcon";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 import { NavLink } from 'react-router-dom';
+import SettingsIcon from './Icons/SettingsIcon';
 
 const Dropdown = ({ links }) => {
   return (
@@ -76,6 +77,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
           {label === "Tools" && <ToolsIcons />}
           {label === "MIS" && <MISIcon />}
           {label === "Customer Support" && <CustomerSupportIcon />}
+          {label === "Settings" && <SettingsIcon />}
           {/* Add other icons based on the menu item */}
 
 
@@ -139,10 +141,11 @@ const SideNav = () => {
     },
     { to: "/billing", label: "Billing" },
     { to: "/weight-reconciliation", label: "Weight Reco." },
-    { to: "/Customer", label: "Customer" },
+    { to: "/customer", label: "Customer" },
     { to: "/Tools", label: "Tools" },
     { to: "/MIS", label: "MIS" },
-    { to: "/CustomerSupport", label: "Customer Support" },
+    { to: "/customer-support", label: "Customer Support" },
+    { to: "/settings", label: "Settings" },
   ];
 
   return (

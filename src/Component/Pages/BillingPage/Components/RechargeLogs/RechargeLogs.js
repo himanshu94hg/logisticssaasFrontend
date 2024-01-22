@@ -153,7 +153,7 @@ const RechargeLogs = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.datetime}
+                                                    <DateFormatter dateTimeString={row.datetime} />
                                                 </p>
                                             </div>
                                         </td>
@@ -169,7 +169,7 @@ const RechargeLogs = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.amount}
+                                                    ₹ {row.amount}
                                                 </p>
                                             </div>
                                         </td>

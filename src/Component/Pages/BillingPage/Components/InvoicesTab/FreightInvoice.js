@@ -1,6 +1,33 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+
+    const formatDateTime = (dateTimeString) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
+    };
+
+    return <p>{formattedDate}</p>;
+};
+
 const FreightInvoice = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -90,7 +117,7 @@ const FreightInvoice = () => {
                                     {/* Courier detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.invoice_date}
+                                        <DateFormatter dateTimeString={row.invoice_date} />
                                         </p>
                                     </div>
                                 </td>
@@ -98,7 +125,7 @@ const FreightInvoice = () => {
                                     {/* AWB Assigned Date */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.due_date}
+                                        <DateFormatter dateTimeString={row.due_date} />
                                         </p>
                                     </div>
                                 </td>
@@ -106,7 +133,7 @@ const FreightInvoice = () => {
                                     {/* Shipment Status */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.total}
+                                        ₹ {row.total}
                                         </p>
                                     </div>
                                 </td>
@@ -121,9 +148,7 @@ const FreightInvoice = () => {
                                 <td>
                                     {/* Excess Weight Charges */}
                                     <div className='cell-inside-box'>
-                                        <p className=''>
-                                            {row.order_number}
-                                        </p>
+                                        <button className='btn main-button' style={{width:'100px'}}>View</button>
                                     </div>
                                 </td>
 

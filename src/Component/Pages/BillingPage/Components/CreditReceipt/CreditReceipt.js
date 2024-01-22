@@ -158,7 +158,7 @@ const CreditReceipt = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.note_date}
+                                                    <DateFormatter dateTimeString={row.note_date} />
                                                 </p>
                                             </div>
                                         </td>
@@ -166,7 +166,7 @@ const CreditReceipt = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.total}
+                                                    ₹ {row.total}
                                                 </p>
                                             </div>
                                         </td>
@@ -174,7 +174,7 @@ const CreditReceipt = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.note_reason}
+                                                    <button className='btn main-button' style={{ width: '100px' }}>View</button>
                                                 </p>
                                             </div>
                                         </td>

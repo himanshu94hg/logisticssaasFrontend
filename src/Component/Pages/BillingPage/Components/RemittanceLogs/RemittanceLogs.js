@@ -47,18 +47,18 @@ const RemittanceLogs = () => {
     const reasons = [
         { count: 300, data: 207 },
         { count: 446, data: 605 },
-        { count: 206, data:  403},
-      ];
-    
-      const getRandomCount = (reasons) => {
+        { count: 206, data: 403 },
+    ];
+
+    const getRandomCount = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].count;
-      };
-    
-      const getRandomReason = (reasons) => {
+    };
+
+    const getRandomReason = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].data;
-      };
+    };
 
 
     useEffect(() => {
@@ -160,7 +160,6 @@ const RemittanceLogs = () => {
                                 <th>Early COD Charges</th>
                                 <th>RTO Reversal Amount</th>
                                 <th>Remmitance Amount</th>
-                                <th>Remmitance Amount</th>
                                 <th>Description</th>
                                 <th>Action</th>
                             </tr>
@@ -182,7 +181,7 @@ const RemittanceLogs = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.datetime}
+                                                    <DateFormatter dateTimeString={row.datetime} />
                                                 </p>
                                             </div>
                                         </td>
@@ -190,7 +189,7 @@ const RemittanceLogs = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.crf_id}
+                                                    {row.crf_id || '00000000'}
                                                 </p>
                                             </div>
                                         </td>
@@ -198,7 +197,7 @@ const RemittanceLogs = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.utr_number}
+                                                    {row.utr_number || 'SETTLE0000000000'}
                                                 </p>
                                             </div>
                                         </td>
@@ -206,7 +205,7 @@ const RemittanceLogs = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.type}
+                                                    {row.type === 'c' ? 'Credit' : 'Debit'}
                                                 </p>
                                             </div>
                                         </td>
@@ -214,7 +213,7 @@ const RemittanceLogs = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.amount}
+                                                    ₹ {row.amount}
                                                 </p>
                                             </div>
                                         </td>
@@ -222,7 +221,7 @@ const RemittanceLogs = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.early_cod_charge}
+                                                    ₹ {row.early_cod_charge || '0'}
                                                 </p>
                                             </div>
                                         </td>
@@ -230,7 +229,7 @@ const RemittanceLogs = () => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {getRandomReason(reasons)}
+                                                    ₹ {getRandomReason(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -238,19 +237,11 @@ const RemittanceLogs = () => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.order_number}
+                                                    ₹ {row.amount}
                                                 </p>
                                             </div>
                                         </td>
-                                        <td>
-                                            {/* View Transaction Details */}
-                                            <div className='cell-inside-box'>
-                                                <p className=''>
-                                                {getRandomCount(reasons)}
-                                                    
-                                                </p>
-                                            </div>
-                                        </td>
+                                        
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>

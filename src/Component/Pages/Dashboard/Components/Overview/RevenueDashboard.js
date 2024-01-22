@@ -70,7 +70,7 @@ function RevenueDashboard() {
         {/* Add other items based on your API response structure */}
 
         <li className={`bg-red-light text-red`}>
-          <p>Top Delivered Orders</p>
+          <p>Total Delivered Orders</p>
           <AiOutlineArrowUp className=" font15" />
           <p>{revenueData?.total_revenue_data || '0'}</p>
         </li>

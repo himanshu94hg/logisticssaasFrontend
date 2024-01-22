@@ -179,7 +179,7 @@ const PassbookTab = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.datetime}
+                                                <DateFormatter dateTimeString={row.datetime} />
                                                 </p>
                                             </div>
                                         </td>
@@ -194,7 +194,7 @@ const PassbookTab = () => {
                                         <td>
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
+                                                <p className='text-capitalize'>
                                                  {cr_pathner_name(reasons)}
                                                 </p>
                                             </div>
@@ -203,7 +203,7 @@ const PassbookTab = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {creditData(reasons)}
+                                                    ₹ {creditData(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -211,7 +211,7 @@ const PassbookTab = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {drData(reasons)}
+                                                ₹ {drData(reasons)}
                                                 </p>
                                             </div>
                                         </td>
@@ -219,7 +219,7 @@ const PassbookTab = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                  {row.balance}
+                                                ₹ {row.balance}
                                                 </p>
                                             </div>
                                         </td>
