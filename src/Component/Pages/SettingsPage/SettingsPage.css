@@ -2,19 +2,33 @@
     flex: 0 0 auto;
     width: 25%;
     margin-bottom: 30px;
+    position: relative;
 }
 
 .main-container .tile {
     position: relative;
     background-color: #fff;
     border-radius: 10px;
-    height: 220px;
+    min-height: 325px;
     cursor: pointer;
-    overflow: hidden;
+    /* overflow: hidden; */
+    transition: 0.2s;
+    border-bottom: 3px solid var(--sh-primary);
 }
 
+.main-container:hover .tile {
+    border-bottom: 10px solid var(--sh-primary);
+}
 
-.main-container .tile::before {
+.main-container img{
+    position: absolute;
+    opacity: 0.4;
+    bottom: 0;
+    right: 11px;
+    height: 12rem;
+}
+
+/* .main-container .tile::before {
     position: absolute;
     content: "";
     height: 272%;
@@ -24,13 +38,13 @@
     background: linear-gradient(90deg, rgba(25, 117, 201, 1) 0%, rgba(96, 169, 235, 1) 80%, rgba(197, 220, 241, 1) 100%);
     width: 40%;
     transform: rotate(64deg);
-}
+} */
 
-.main-container .tile:hover::before {
+/* .main-container .tile:hover::before {
     animation: border_animate 20s linear infinite;
-}
+} */
 
-@keyframes border_animate {
+/* @keyframes border_animate {
     from {
         transform: rotate(0deg);
     }
@@ -38,16 +52,55 @@
     to {
         transform: rotate(3600deg);
     }
-}
+} */
 
-.main-container .tile::after {
+/* .main-container .tile::after {
     position: absolute;
     content: '';
     background-color: #fff;
     inset: 5px;
     border-radius: 8px;
+} */
+
+.tile-content {
+    position: relative;
+    z-index: 1;
+    padding: 15px;
 }
 
-.tile-body{
-    z-index: 1;
+.tile-body ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.tile-body ul li {
+    white-space: nowrap;
+    overflow-x: clip;
+    line-height: 2rem;
+    width: max-content;
+}
+
+.icon-container {
+    width: 35px;
+    display: inline-block;
+}
+
+.icon-container svg{
+    padding-left: 0;
+    transition: 0.5s;
+}
+
+.tile-body ul li:hover .icon-container svg{
+    animation: iconMove 0.5s linear infinite;
+}
+
+@keyframes iconMove {
+    from{
+        padding-left: 0;
+    }
+
+    to{
+        padding-left: 18px;
+    }
+    
 }
