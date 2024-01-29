@@ -63,8 +63,9 @@
 }
 
 .notificationIcon {
-  color: #2d9cdb;
-  background-color: #dff0fa;
+  color: #FFC107;
+  font-size: 24px;
+  /* background-color: #dff0fa; */
 }
 
 .settingIcon {
@@ -73,8 +74,12 @@
 }
 
 .walletIcon {
-  color: #7e0300;
-  background-color: #f0e1e0;
+  color: var(--sh-primary);
+  /* background-color: var(--sh-primary-light); */
+  border: 1px solid var(--sh-primary);
+  width: 150px;
+  display: flex;
+  justify-content: space-around;
 }
 
 .icons {
@@ -104,21 +109,18 @@
   cursor: pointer;
 }
 
-.links span {
+.bellColor{
   position: absolute;
   font-size: 12px;
   width: 20px;
   color: #ffffff;
   border-radius: 50%;
-  top: -10px;
-  right: -10px;
+  top: 6px;
+  right: -2px;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.bellColor {
-  background: #2d9cdb;
+  background: #F44336;
 }
 
 .settingColor {
@@ -126,15 +128,15 @@
 }
 
 .user-photo {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
 .walletBalance {
   font-size: 20px;
   font-weight: 700;
-  color: #7e0300;
+  color: var(--sh-primary);
 }
 
 .walletDays {
@@ -144,7 +146,7 @@
 }
 
 .navbar-expand .navbar-nav .dropdown-menu {
-  left: -54px;
+  left: -6.3rem;
 }
 
 .user-name {

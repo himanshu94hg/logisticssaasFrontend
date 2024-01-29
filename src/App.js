@@ -22,6 +22,7 @@ import MISPage from './Component/Pages/MISPage/MISPage';
 import CustomerPage from './Component/Pages/CustomerPage/CustomerPage';
 import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerSupportPage';
 import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
+import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles';
 
 function App() {
   return (
@@ -54,6 +55,7 @@ function App() {
              <Route path="/customer" element={<CustomerPage />}/>
              <Route path="/customer-support" element={<CustomerSupportPage />}/>
              <Route path="/settings" element={<SettingsPage />}/>
+             <Route path="/help-articles" element={<HelpArticles />}/>
              <Route path="/" element={<Dashboard/>} />
            </Routes>
          </div>

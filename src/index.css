@@ -517,14 +517,15 @@ p {
 }
 
 .main-button {
-  background-color: #1975C9 !important;
+  /* background-color: #1975C9 !important; */
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
   color: #fff;
   padding: 5px 10px;
   white-space: nowrap;
 }
 
 .main-button:hover {
-  background-color: #1975C9 !important;
+  /* background-color: #1975C9 !important; */
   color: #fff;
 }
 
@@ -537,9 +538,17 @@ p {
 }
 
 .main-button-outline:hover {
-  background-color: #1975C9 !important;
+  /* background-color: #1975C9 !important; */
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
   color: #fff;
 }
+
+.cancel-button{
+  padding: 5px 10px;
+  white-space: nowrap;
+  background-color: rgb(240, 240, 240);
+}
+
 
 .btn-check:focus+.btn,
 .btn:focus {

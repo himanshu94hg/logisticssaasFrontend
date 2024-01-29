@@ -16,7 +16,8 @@
 }
 
 .navbar-expand .navbar-nav .nav-link.active{
-background-color: #1975C9;
+/* background-color: #1975C9; */
+background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
 color: #fff;
 border-radius: 4px;
 }

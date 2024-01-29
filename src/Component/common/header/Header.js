@@ -12,6 +12,8 @@ import {
   faHandHoldingDollar,
 } from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
+import UserImage from '../../../assets/image/icons/UserImage.png'
+import WalletIcon from "./WalletIcon";
 
 export default function Header() {
   return (
@@ -65,15 +67,11 @@ export default function Header() {
 
             <Nav.Link>
               <div className="walletContainer">
-                <div>
                   <span className="iconContainer walletIcon">
-                    <FontAwesomeIcon icon={faWallet} />
+                    <div className="walletBalance">₹ 6206.45</div>
+                    <WalletIcon />
+                    {/* <FontAwesomeIcon icon={faWallet} /> */}
                   </span>
-                </div>
-                <div>
-                  <div className="walletBalance">₹ 6206.45</div>
-                  <div className="walletDays">Last 30 Days</div>
-                </div>
               </div>
             </Nav.Link>
             <div className="icons links ">
@@ -86,9 +84,9 @@ export default function Header() {
               title={
                 <span>
                   <img
-                    src="./assets/logo/user-profile-avatar.jpg"
+                    src={UserImage}
                     className="user-photo"
-                    style={{ width: "50px", height: "50px" }}
+                  // style={{ width: "50px", height: "50px" }}
                   />
                   {/* <FontAwesomeIcon icon={faUser} /> */}
                 </span>
