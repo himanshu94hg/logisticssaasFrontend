@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const OpenTickets = () => {
+const OpenTickets = (props) => {
 
     const [filter, setFilter] = useState('All'); // Initial filter state
 
@@ -119,8 +121,13 @@ const OpenTickets = () => {
                 <td>{ticket.status}</td>
                 <td>{ticket.resolutionDueBy}</td>
                 <td>{ticket.lastUpdated}</td>
-                <td>
-                    <div className='action-options'>
+                <td className='d-flex'>
+                    <button
+                        onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
+                        className='btn main-button'>
+                        <FontAwesomeIcon icon={faEye} /> View Comments
+                    </button>
+                    <div className='action-options ms-3'>
                         <div className='threedots-img'>
                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                         </div>
@@ -146,7 +153,7 @@ const OpenTickets = () => {
                 <div>{renderFilterDropdown()}</div>
                 <div>{renderFilterDropdown()}</div>
             </div> */}
-            <table>
+            <table className='Tickets-table w-100'>
                 <thead>
                     <tr>{renderTableHeaders()}</tr>
                 </thead>
