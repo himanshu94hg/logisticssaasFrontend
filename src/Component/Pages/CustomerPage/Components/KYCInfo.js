@@ -8,7 +8,10 @@ const KYCInfo = () => {
   const [documentName, setDocumentName] = useState('');
   const [documentType, setDocumentType] = useState('');
   const [documentTypeList, setDocumentTypeList] = useState([]);
+  const[kycListInfo,setKycInfoList]=useState()
 
+  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
+    
   useEffect(() => {
     axios
       .get('http://127.0.0.1:8000/core-api/master/all-doc/')
@@ -16,6 +19,29 @@ const KYCInfo = () => {
         setDocumentTypeList(response.data);
       })
       .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get('http://127.0.0.1:8000/core-api/seller/kyc-info/', {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+        },
+      })
+      .then(response => {
+        setKycInfoList(response.data);
+        const docData = response.data[0] || {};
+        setDocumentUpload(docData.document_upload || ''); 
+        setCompanyType(docData.company_type || '');
+        setDocumentId(docData.document_id || '');
+        setDocumentName(docData.document_name || '');
+        setDocumentType(docData.company_type || '');
+       
+    
+      })
+      .catch(error => {  
         console.error('Error:', error);
       });
   }, []);
@@ -30,7 +56,7 @@ const KYCInfo = () => {
     formData.append('document_id', documentId);
     formData.append('document_name', documentName);
 
-    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODQxMTU4LCJpYXQiOjE3MDY1OTQ3NTgsImp0aSI6IjM1NDQ4YzNhMDI3OTQ1NThiMzc1YzE5ZTI4YTJlNWI1IiwidXNlcl9pZCI6OH0.jnVhETWWWW8lD0OvmwUsG0w2B5Ybqg2jtLtqztWOpRg'; // Replace with your actual token
+    
 
     try {
       const response = await axios.post('http://127.0.0.1:8000/core-api/seller/kyc-info/', formData, {

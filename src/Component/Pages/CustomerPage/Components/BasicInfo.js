@@ -16,6 +16,7 @@ const BasicInfo = () => {
   const [companyLogo, setCompanyLogo] = useState(null);
   const [getBasicInfoList, setBasicinfo] = useState([]);
 
+
   const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
   useEffect(() => {
     axios
@@ -27,7 +28,7 @@ const BasicInfo = () => {
       .then(response => {
         setBasicinfo(response.data);
         const basicInfoData = response.data[0] || {};
-        setCompanyName(basicInfoData.company_name || '');
+        setCompanyName(basicInfoData.company_name || ''); 
         setEmail(basicInfoData.email || '');
         setPanNumber(basicInfoData.pan_number || '');
         setGstNumber(basicInfoData.gst_number || '');
@@ -35,7 +36,13 @@ const BasicInfo = () => {
         setZipCode(basicInfoData.pincode || '');
         setCityName(basicInfoData.city || '');
         setStateName(basicInfoData.state || '');
+        setWebsite(basicInfoData.website_url || '');
+        setMobileNumber(basicInfoData.mobile || '');
+
         // Set other fields similarly
+
+
+        // setWebsite
       })
       .catch(error => {  // Add a .catch block here
         console.error('Error:', error);
@@ -102,6 +109,15 @@ const BasicInfo = () => {
                 <input className="input-field" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
               </label>
               <label>
+                Website Name
+                <input className="input-field" type="text" value={website} onChange={(e) => setWebsite(e.target.value)} />
+              </label>
+              <label>
+              Mobile Number
+                <input className="input-field" type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
+              </label>
+
+              <label>
                 Email
                 <input className="input-field" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
               </label>
@@ -116,6 +132,11 @@ const BasicInfo = () => {
               <label>
                 GST Certificate
                 <input className="input-field" type="file" onChange={uploadGstFile} />
+              </label>
+
+              <label>
+              Company logo
+                <input className="input-field" type="file" onChange={uploadLogo} />
               </label>
               {/* ... (Other input fields) */}
             </div>

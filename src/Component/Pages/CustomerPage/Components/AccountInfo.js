@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 
 const AccountInfo = () => {
@@ -8,6 +8,34 @@ const AccountInfo = () => {
   const [bankName, setBankName] = useState('');
   const [branchName, setBranchName] = useState('');
   const [chequeImage, setChequeImage] = useState(null);
+  const [bankDetail,setBankDetail]=useState()
+
+
+  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
+
+  useEffect(() => {
+      axios
+        .get('http://127.0.0.1:8000/core-api/seller/bank-info/', {
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+          },
+        })
+        .then(response => {
+            setBankDetail(response.data);
+          const bankData = response.data[0] || {};
+          setAccountHolderName(bankData.account_holder_name || ''); 
+          setAccountNumber(bankData.account_number || '');
+          setIfscCode(bankData.ifsc_code || '');
+          setBankName(bankData.bank_name || '');
+          setBranchName(bankData.bank_branch || '');
+          setChequeImage(bankData.cheque_image || '');
+      
+        })
+        .catch(error => {  
+          console.error('Error:', error);
+        });
+    }, []);
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,32 +48,24 @@ const AccountInfo = () => {
     formData.append('bank_branch', branchName);
     formData.append('cheque_image', chequeImage);
 
-    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODQxMTU4LCJpYXQiOjE3MDY1OTQ3NTgsImp0aSI6IjM1NDQ4YzNhMDI3OTQ1NThiMzc1YzE5ZTI4YTJlNWI1IiwidXNlcl9pZCI6OH0.jnVhETWWWW8lD0OvmwUsG0w2B5Ybqg2jtLtqztWOpRg';
+    
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/core-api/seller/bank-info/', formData, {
+      headers: {
+        'Authorization': `Bearer ${hardcodedToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/core-api/seller/bank-info/', formData, {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.status === 200) {
-        console.log('Form submitted successfully');
-        setAccountHolderName('');
-        setAccountNumber('');
-        setIfscCode('');
-        setBankName('');
-        setBranchName('');
-        setChequeImage(null);
-      } else {
-        console.error('Form submission failed');
-      }
-    } catch (error) {
-      console.error('API call error:', error);
+    if (response.status === 200) {
+    } else {
+      console.error('Form submission failed');
     }
-  };
-
+  } catch (error) {
+    console.error('API call error:', error);
+  }
+};
+    
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     setChequeImage(file);
