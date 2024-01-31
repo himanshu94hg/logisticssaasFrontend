@@ -8,7 +8,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../Icons/InfoIcon';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
 import FreightInvoice from './FreightInvoice';
 import AllOtherInvoices from './AllOtherInvoices';
 

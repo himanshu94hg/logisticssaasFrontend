@@ -50,6 +50,12 @@ const ViewTicketSlider = ({ }) => {
             </div>
           ))}
         </div>
+        <div className='new-comment-input mt-4'>
+          <form action="">
+            <input className='input-field' placeholder='Add your Comment' type="text" />
+            <button className='btn main-button ms-3'>Submit</button>
+          </form>
+        </div>
       </section>
     </>
   )

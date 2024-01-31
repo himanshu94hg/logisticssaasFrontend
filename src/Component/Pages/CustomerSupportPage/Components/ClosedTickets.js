@@ -125,7 +125,7 @@ const ClosedTickets = (props) => {
                     <button
                         onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
                         className='btn main-button'>
-                        <FontAwesomeIcon icon={faEye} /> View Comments
+                        <FontAwesomeIcon icon={faEye} /> View
                     </button>                    <div className='action-options ms-3'>
                         <div className='threedots-img'>
                             <img src={ThreeDots} alt="ThreeDots" width={24} />

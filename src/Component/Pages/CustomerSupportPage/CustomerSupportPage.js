@@ -13,6 +13,7 @@ import OpenTickets from './Components/OpenTickets'
 import ClosedTickets from './Components/ClosedTickets'
 import { RiFilterLine } from "react-icons/ri";
 import ViewTicketSlider from './Components/ViewTicketSlider'
+import NavTabs from './Components/navTabs/NavTabs'
 
 const CustomerSupportPage = () => {
 
@@ -32,7 +33,7 @@ const CustomerSupportPage = () => {
 
   return (
     <>
-      <div className='box-shadow shadow-sm p10 support-page position-relative'>
+      <div className='p10 support-page position-relative'>
         <div
           onClick={() => navigate('/help-articles')}
           className='help-button'
@@ -53,34 +54,13 @@ const CustomerSupportPage = () => {
         </div>
         <h4>Support</h4>
         <p className='text-blue fw-700'>Seek assistance by either generating a support ticket or perusing through informative help articles.</p>
-        <div className="support-nav">
-          <div className='support-left-section'>
-            <div onClick={() => setActiveTab('AllTickets')} className={`${ActiveTab === 'AllTickets' ? 'active' : ''}`}>All Tickets</div>
-            <div onClick={() => setActiveTab('OpenTickets')} className={`${ActiveTab === 'OpenTickets' ? 'active' : ''}`}>Open</div>
-            <div onClick={() => setActiveTab('InProgressTickets')} className={`${ActiveTab === 'InProgressTickets' ? 'active' : ''}`}>In Progress</div>
-            <div onClick={() => setActiveTab("ClosedTickets")} className={`${ActiveTab === 'ClosedTickets' ? 'active' : ''}`}>Closed</div>
-          </div>
-          <div className="support-right-section">
-            <div class="search-container">
-              <button>
-                <img src={SearchIcon} alt="Search" />
-              </button>
-              <input required="" type="text" name="text" class="input-field" />
-              <label class="label">Search by Ticket ID || AWB || Pickup ID</label>
-            </div>
-            <button
-              onClick={() => setFilterTickets(!FilterTickets)}
-              className="btn main-button-outline">
-              <RiFilterLine /> More Filters
-            </button>
+        <NavTabs
+          activeTab={ActiveTab} setActiveTab={setActiveTab}
+          FilterTickets={FilterTickets} setFilterTickets={setFilterTickets}
+          setNewTicket={setNewTicket} NewTicket={NewTicket}
+        />
+        
 
-            <button
-              onClick={() => setNewTicket(!NewTicket)}
-              className="btn main-button">
-              <FontAwesomeIcon icon={faPlus} /> New Ticket
-            </button>
-          </div>
-        </div>
         <div className='row mt-3'>
           {ActiveTab === 'AllTickets' ?
             (
@@ -154,7 +134,7 @@ const CustomerSupportPage = () => {
         </section>
 
       </div>
-      
+
       {/* View Ticket */}
       <div className={`ticket-slider ${ViewTicketInfo ? 'open' : ''}`}>
         <div
@@ -165,7 +145,7 @@ const CustomerSupportPage = () => {
         </div>
 
         <section className='ticket-slider-header'>
-          <h2 className='mb-0'>View Comments</h2>
+          <h2 className='mb-0'>View Ticket</h2>
         </section>
         <section className='ticket-slider-body'>
           <ViewTicketSlider />

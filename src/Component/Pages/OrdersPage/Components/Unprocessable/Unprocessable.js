@@ -7,8 +7,8 @@ import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../Icons/InfoIcon';
-import InfoMissingIcon from '../Icons/InfoMissingIcon';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');

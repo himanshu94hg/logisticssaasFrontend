@@ -1,165 +1,266 @@
-import React, { useState } from 'react';
-import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
+import SearchIcon from '../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "axios";
+import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import AmazonLogo from '../../../../assets/image/logo/AmazonLogo.png'
+import ForwardIcon from '../../../../assets/image/icons/ForwardIcon.png'
+import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
+// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
+import InfoIcon from '../../../common/Icons/InfoIcon';
 
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
+  
+    useEffect(() => {
+      const formattedDateTime = formatDateTime(dateTimeString);
+      setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+  
+    const formatDateTime = (dateTimeString) => {
+      const options = {
+        year: 'numeric',
+        month: 'short',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true,
+      };
+  
+      const dateObject = new Date(dateTimeString);
+      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+  
+      return formattedDateTime;
+    };
+  
+    return <p>{formattedDate}</p>;
+  };
 
-const AllTickets = (props) => {
+const AllTickets = () => {
 
-    const [filter, setFilter] = useState('All'); // Initial filter state
+    const [selectAll, setSelectAll] = useState(false);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [backDrop, setBackDrop] = useState(false);
+    const [orders, setAllOrders] = useState([]);
 
-    // Sample data for demonstration
-    const ticketData = [
-        {
-            id: 1,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        {
-            id: 2,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        {
-            id: 3,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        {
-            id: 4,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        // Add more data as needed
-    ];
+    useEffect(() => {
+        axios
+            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+            .then(response => {
+                console.log('Data is data:', response.data);
+                setAllOrders(response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
 
-    // State to manage sorting (if needed)
-    const [sortColumn, setSortColumn] = useState(null);
-    const [sortDirection, setSortDirection] = useState('asc');
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
-    // Function to handle sorting
-    const handleSort = (column) => {
-        if (sortColumn === column) {
-            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    // Handler for "Select All" checkbox
+    const handleSelectAll = () => {
+        setSelectAll(!selectAll);
+        if (!selectAll) {
+            setSelectedRows(orders.map(row => row.id));
         } else {
-            setSortColumn(column);
-            setSortDirection('asc');
+            setSelectedRows([]);
         }
     };
 
-    // Function to render table headers
-    const renderTableHeaders = () => {
-        const headers = [
-            'Ticket ID',
-            'AWB(s)',
-            'Subcategory',
-            'Ticket Status',
-            'Resolution Due By',
-            'Last Updated',
-            'Action',
-        ];
+    // Handler for individual checkbox
+    const handleSelectRow = (orderId) => {
+        const isSelected = selectedRows.includes(orderId);
 
-        return headers.map((header, index) => (
-            <th key={index} onClick={() => handleSort(header)}>
-                {header}
-                {/* {sortColumn === header && (sortDirection === 'asc' ? '↑' : '↓')} */}
-            </th>
-        ));
-    };
-
-    const filterTickets = (ticket) => {
-        if (filter === 'All') {
-            return true; // Show all tickets if no specific filter is selected
+        if (isSelected) {
+            setSelectedRows(selectedRows.filter(id => id !== orderId));
+        } else {
+            setSelectedRows([...selectedRows, orderId]);
         }
 
-        // Implement your logic to match the ticket's subcategory with the selected filter
-        // For simplicity, we are assuming that the subcategory is a direct match with the filter
-        return ticket.subcategory === filter;
+        // Check if all rows are selected, then select/deselect "Select All"
+        if (selectedRows.length === orders.length - 1 && isSelected) {
+            setSelectAll(false);
+        } else {
+            setSelectAll(false);
+        }
     };
 
-    const renderFilterDropdown = () => {
-        const filterOptions = [
-            // Define your filter options here
-            'All',
-            'Delay in Forward Delivery',
-            'Delay in RTO Delivery',
-            'Delay in Pickup',
-            'Shipment Showing as Lost/Damaged in Tracking',
-            // ... (other options)
-        ];
-        return (
-            <select className="select-field" value={filter} onChange={(e) => setFilter(e.target.value)}>
-                {filterOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
-        );
-    };
 
-    const renderTableRows = () => {
-        const filteredData = ticketData.filter(filterTickets);
 
-        return filteredData.map((ticket) => (
-            <tr key={ticket.id}>
-                <td>{ticket.id}</td>
-                <td>{ticket.awb}</td>
-                <td>{ticket.subcategory}</td>
-                <td>{ticket.status}</td>
-                <td>{ticket.resolutionDueBy}</td>
-                <td>{ticket.lastUpdated}</td>
-                <td className='d-flex'>
-                    <button
-                        onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
-                        className='btn main-button'>
-                        <FontAwesomeIcon icon={faEye} /> View Comments
-                    </button>
-                    <div className='action-options ms-3'>
-                        <div className='threedots-img'>
-                            <img src={ThreeDots} alt="ThreeDots" width={24} />
-                        </div>
-                        <div className='action-list'>
-                            <ul>
-                                <li>Escalate</li>
-                                <li>Re-open</li>
-                                <li>Close</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        ));
-    };
 
+    // useEffect(() => {
+    //   first
+
+
+    // }, [])
 
 
     return (
-        <div>
-            {/* <div className='d-flex'>
-                <div>{renderFilterDropdown()}</div>
-                <div>{renderFilterDropdown()}</div>
-                <div>{renderFilterDropdown()}</div>
-            </div> */}
-            <table className='Tickets-table w-100'>
-                <thead>
-                    <tr>{renderTableHeaders()}</tr>
-                </thead>
-                <tbody>{renderTableRows()}</tbody>
-            </table>
-        </div>
+        <section className='position-relative'>
+            <div className="position-relative">
+              
+                <div className='table-container'>
+                    <table className=" w-100">
+                        <thead className="sticky-header">
+                            <tr className="table-row box-shadow">
+                                <th style={{ width: '1%' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectAll}
+                                        onChange={handleSelectAll}
+                                    />
+                                </th>
+                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '12.5%' }}>Customer details</th>
+                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '8%' }}>Payment</th>
+                                <th style={{ width: '12.5%' }}>Pickup Address</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                <th style={{ width: '6%' }}>Status</th>
+                                <th style={{ width: '6%' }}>Action</th>
+                                {/* <th style={{ width: '25%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Customer details</th>
+                                <th style={{ width: '10%' }}>Package Details</th>
+                                <th style={{ width: '5%' }}>Payment</th>
+                                <th style={{ width: '12%' }}>Pickup Address</th>
+                                <th style={{ width: '8%' }}>Shipping Details</th>
+                                <th style={{ width: '5%' }}>Status</th>
+                                <th style={{ width: '5%' }}>Action</th> */}
+                            </tr>
+                            <tr className="blank-row"><td></td></tr>
+                        </thead>
+                        <tbody>
+                            {orders.map((row, index) => (
+                                <React.Fragment key={row.id}>
+                                    {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                    <tr className='table-row box-shadow'>
+                                        <td className='checkbox-cell'>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedRows.includes(row.id)}
+                                                onChange={() => handleSelectRow(row.id)}
+                                            />
+                                        </td>
+                                        <td>
+                                            {/* order detail */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
+                                                    {row.order_number}
+
+                                                    {/* <span className="product-details ms-2"> */}
+                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
+                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                    {/* <InfoIcon /> */}
+                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
+                                                    {/* </span> */}
+                                                </p>
+                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                    {/* {formatDate(row.inserted)} */}
+                                                <DateFormatter dateTimeString={row.inserted} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                </p>
+                                                {/* <p>{row.channel}</p> */}
+                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
+                                                {/* <p>W {row.p_warehouse_name}</p> */}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* customer detail */}
+                                            <div className='cell-inside-box'>
+                                                <p>{row.s_customer_name}</p>
+                                                <p>{row.s_contact}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '150px' }}>
+                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                                {/* <p>{row.s_city}</p>
+                                                <p>{row.s_pincode}</p>
+                                                <p>{row.s_state}</p> */}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* package  details */}
+                                            <div className='cell-inside-box'>
+                                                <p className='width-eclipse'>{row.product_name}</p>
+                                                <p>Wt:  {row.weight} kg <span className='text-blue'>||</span> LBH: {row.length}x{row.breadth}x{row.height}
+                                                    <span className='details-on-hover ms-2 align-middle'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row.product_name}<br />
+                                                            <strong>SKU:</strong> {row.product_sku}<br />
+                                                            <strong>Qt.:</strong> {row.product_qty}
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* payment section here */}
+                                            <div className='cell-inside-box'>
+                                                <p>&#x20B9; {row.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* pickup adress */}
+                                            <div className='cell-inside-box'>
+                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
+                                                    <span>{row.pickup_address}</span>
+                                                </p>
+
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* shiping section here */}
+                                            <div className='cell-inside-box'>
+                                            <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
+                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/*  Status section  */}
+                                            <p className='order-Status-box'>{row.status || 'New'}</p>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* {row.ndr_action}
+                                             {row.ndr_status} */}
+                                            <div className='d-flex align-items-center gap-3'>
+                                                <button className='btn main-button'>Ship Now</button>
+                                                <div className='action-options'>
+                                                    <div className='threedots-img'>
+                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                    </div>
+                                                    <div className='action-list'>
+                                                        <ul>
+                                                            <li>Download Invoice</li>
+                                                            <li>Edit Order</li>
+                                                            <li>Add Tag</li>
+                                                            <li>Verify Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Call Buyer</li>
+                                                            <li>Mark As Verified</li>
+                                                            <li>Clone Order</li>
+                                                            <li><hr /></li>
+                                                            <li>Cancel Order</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </React.Fragment>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section >
     );
 };
 

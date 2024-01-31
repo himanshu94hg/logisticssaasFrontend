@@ -543,7 +543,7 @@ p {
   color: #fff;
 }
 
-.cancel-button{
+.cancel-button {
   padding: 5px 10px;
   white-space: nowrap;
   background-color: rgb(240, 240, 240);
@@ -565,7 +565,7 @@ p {
   border-radius: 4px;
 }
 
-.select-field *{
+.select-field * {
   border-radius: 0;
 }
 
@@ -583,4 +583,51 @@ input::placeholder {
 .seconadary-button {
   background-color: grey;
   color: #fff;
+}
+
+.status-field-container {
+  position: relative;
+}
+
+.status-open {
+  color: #3BB54B;
+}
+
+.status-closed {
+  color: #F31429;
+}
+
+.status-progress {
+  color: #F6B954;
+}
+
+
+.circle-blink::after {
+  content: '';
+  position: absolute;
+  color: inherit;
+  width: 1rem;
+  height: 1rem;
+  left: 1px;
+  border-radius: 50px;
+  margin-top: 3px;
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.status-open span::after {
+  background-color: #3BB54B;
+}
+
+.status-closed span::after {
+  background-color: #F31429;
+}
+
+.status-progress span::after {
+  background-color: #F6B954;
 }
