@@ -1,97 +1,115 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 
 const AccountInfo = () => {
-    const [companyName, setCompanyName] = useState('');
-    const [email, setEmail] = useState('');
-    const [website, setWebsite] = useState('');
-    const [mobileNumber, setMobileNumber] = useState('');
-    const [gstNumber, setGstNumber] = useState('');
-    const [gstCertificate, setGstCertificate] = useState(null);
-    const [panNumber, setPanNumber] = useState('');
-    const [streetName, setStreetName] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [cityName, setCityName] = useState('');
-    const [stateName, setStateName] = useState('');
+  const [accountHolderName, setAccountHolderName] = useState('');
+  const [accountNumber, setAccountNumber] = useState('');
+  const [ifscCode, setIfscCode] = useState('');
+  const [bankName, setBankName] = useState('');
+  const [branchName, setBranchName] = useState('');
+  const [chequeImage, setChequeImage] = useState(null);
+  const [bankDetail,setBankDetail]=useState()
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
 
-        // Do something with the form data, like sending it to the server
-        console.log({
-            companyName,
-            email,
-            website,
-            mobileNumber,
-            gstNumber,
-            gstCertificate,
-            panNumber,
-            streetName,
-            zipCode,
-            cityName,
-            stateName,
+  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
+
+  useEffect(() => {
+      axios
+        .get('http://127.0.0.1:8000/core-api/seller/bank-info/', {
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+          },
+        })
+        .then(response => {
+            setBankDetail(response.data);
+          const bankData = response.data[0] || {};
+          setAccountHolderName(bankData.account_holder_name || ''); 
+          setAccountNumber(bankData.account_number || '');
+          setIfscCode(bankData.ifsc_code || '');
+          setBankName(bankData.bank_name || '');
+          setBranchName(bankData.bank_branch || '');
+          setChequeImage(bankData.cheque_image || '');
+      
+        })
+        .catch(error => {  
+          console.error('Error:', error);
         });
+    }, []);
+  
 
-        // Reset form fields
-        setCompanyName('');
-        setEmail('');
-        setWebsite('');
-        setMobileNumber('');
-        setGstNumber('');
-        setGstCertificate(null);
-        setPanNumber('');
-        setStreetName('');
-        setZipCode('');
-        setCityName('');
-        setStateName('');
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const handleFileChange = (e) => {
-        // Assuming single file upload, you can modify for multiple files
-        const file = e.target.files[0];
-        setGstCertificate(file);
-    };
+    const formData = new FormData();
+    formData.append('account_holder_name', accountHolderName);
+    formData.append('account_number', accountNumber);
+    formData.append('ifsc_code', ifscCode);
+    formData.append('bank_name', bankName);
+    formData.append('bank_branch', branchName);
+    formData.append('cheque_image', chequeImage);
 
-    return (
-        <form onSubmit={handleSubmit}>
-            <div className='customer-details-container'>
-                <div className='customer-details-form'>
-                    <div className='details-form-row'>
-                        <h5>Account Details</h5>
-                        <div className='d-flex gap-5 flex-wrap'>
-                            <label>
-                                Account Holder Name
-                                <input className="input-field" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
-                            </label>
+    
+  try {
+    const response = await axios.post('http://127.0.0.1:8000/core-api/seller/bank-info/', formData, {
+      headers: {
+        'Authorization': `Bearer ${hardcodedToken}`,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
 
-                            <label>
-                                Account Number
-                                <input className="input-field" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-                            </label>
+    if (response.status === 200) {
+    } else {
+      console.error('Form submission failed');
+    }
+  } catch (error) {
+    console.error('API call error:', error);
+  }
+};
+    
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setChequeImage(file);
+  };
 
-                            <label>
-                                IFSC Code
-                                <input className="input-field" type="text" value={website} onChange={(e) => setWebsite(e.target.value)} />
-                            </label>
-
-                            <label>
-                                Bank Name
-                                <input className="input-field" type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
-                            </label>
-                            <label>
-                                Branch Name
-                                <input className="input-field" type="text" value={gstNumber} onChange={(e) => setGstNumber(e.target.value)} />
-                            </label>
-                            <label>
-                                Please Upload Cheque Image
-                                <input className="input-field" type="file" onChange={handleFileChange} />
-                            </label>
-                        </div>
-                    </div>
-                </div>
+  return (
+    <form onSubmit={handleSubmit}>
+      <div className='customer-details-container'>
+        <div className='customer-details-form'>
+          <div className='details-form-row'>
+            <h5>Account Details</h5>
+            <div className='d-flex gap-5 flex-wrap'>
+              {/* Your form fields */}
+              <label>
+                Account Holder Name
+                <input className="input-field" type="text" value={accountHolderName} onChange={(e) => setAccountHolderName(e.target.value)} />
+              </label>
+              <label>
+                Account Number
+                <input className="input-field" type="text" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
+              </label>
+              <label>
+                IFSC Code
+                <input className="input-field" type="text" value={ifscCode} onChange={(e) => setIfscCode(e.target.value)} />
+              </label>
+              <label>
+                Bank Name
+                <input className="input-field" type="text" value={bankName} onChange={(e) => setBankName(e.target.value)} />
+              </label>
+              <label>
+                Branch Name
+                <input className="input-field" type="text" value={branchName} onChange={(e) => setBranchName(e.target.value)} />
+              </label>
+              <label>
+                Please Upload Cheque Image
+                <input className="input-field" type="file" onChange={handleFileChange} />
+              </label>
             </div>
-            {/* <button type="submit">Submit</button> */}
-        </form>
-    );
+          </div>
+        </div>
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
 };
 
 export default AccountInfo;
