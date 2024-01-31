@@ -126,8 +126,10 @@ const KYCInfo = () => {
             </div>
           </div>
         </div>
+        <div className='d-flex justify-content-end mt-5'>
+          <button className='btn main-button' type="submit">Save</button>
+        </div>
       </div>
-      <button type="submit">Submit</button>
     </form>
   );
 };

@@ -1,3 +1,5 @@
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react'
 
 const ViewTicketSlider = ({ }) => {
@@ -38,6 +40,15 @@ const ViewTicketSlider = ({ }) => {
           <div className='d-flex gap-2'>
             <p>Subcategory:</p>
             <p className='fw-bold'>Issue with Direct orders</p>
+          </div>
+        </div>
+        <div className='ticket-view-field'>
+          <div className='d-flex gap-2'>
+            <p>AWB(s):</p>
+            <p className='fw-bold'>12132123123123,..<span className='fw-normal'>2 others</span></p>
+          </div>
+          <div className='d-flex gap-2'>
+            <p><FontAwesomeIcon icon={faEye} /> View Attachment</p>
           </div>
         </div>
       </section>

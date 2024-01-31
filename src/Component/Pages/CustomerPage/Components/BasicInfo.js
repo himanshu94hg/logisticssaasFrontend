@@ -28,7 +28,7 @@ const BasicInfo = () => {
       .then(response => {
         setBasicinfo(response.data);
         const basicInfoData = response.data[0] || {};
-        setCompanyName(basicInfoData.company_name || ''); 
+        setCompanyName(basicInfoData.company_name || '');
         setEmail(basicInfoData.email || '');
         setPanNumber(basicInfoData.pan_number || '');
         setGstNumber(basicInfoData.gst_number || '');
@@ -109,11 +109,17 @@ const BasicInfo = () => {
                 <input className="input-field" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
               </label>
               <label>
-                Website Name
+                Website URL
                 <input className="input-field" type="text" value={website} onChange={(e) => setWebsite(e.target.value)} />
               </label>
               <label>
-              Mobile Number
+                Company logo
+                <input className="input-field" type="file" onChange={uploadLogo} />
+              </label>
+
+
+              <label>
+                Mobile Number
                 <input className="input-field" type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
               </label>
 
@@ -134,10 +140,52 @@ const BasicInfo = () => {
                 <input className="input-field" type="file" onChange={uploadGstFile} />
               </label>
 
+              
+              {/* ... (Other input fields) */}
+            </div>
+          </div>
+          <hr />
+          <div className='details-form-row'>
+            <h5>Primary Details</h5>
+            <div className='d-flex gap-5 flex-wrap'>
+              {/* ... (Other input fields) */}
               <label>
-              Company logo
+                Company Name
+                <input className="input-field" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+              </label>
+              <label>
+                Website URL
+                <input className="input-field" type="text" value={website} onChange={(e) => setWebsite(e.target.value)} />
+              </label>
+              <label>
+                Company logo
                 <input className="input-field" type="file" onChange={uploadLogo} />
               </label>
+
+              
+              <label>
+                Mobile Number
+                <input className="input-field" type="text" value={mobileNumber} onChange={(e) => setMobileNumber(e.target.value)} />
+              </label>
+
+              <label>
+                Email
+                <input className="input-field" type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+              </label>
+              <label>
+                Pan Number
+                <input className="input-field" type="text" value={panNumber} onChange={(e) => setPanNumber(e.target.value)} />
+              </label>
+              <label>
+                GST Number
+                <input className="input-field" type="text" value={gstNumber} onChange={(e) => setGstNumber(e.target.value)} />
+              </label>
+              <label>
+                GST Certificate
+                <input className="input-field" type="file" onChange={uploadGstFile} />
+              </label>
+
+              
               {/* ... (Other input fields) */}
             </div>
           </div>
@@ -166,8 +214,10 @@ const BasicInfo = () => {
             </div>
           </div>
         </div>
+        <div className='d-flex justify-content-end mt-5'>
+          <button className='btn main-button' type="submit">Save</button>
+        </div>
       </div>
-      <button type="submit">Submit</button>
     </form>
   );
 };
