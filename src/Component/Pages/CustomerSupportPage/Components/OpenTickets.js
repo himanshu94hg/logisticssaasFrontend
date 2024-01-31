@@ -1,165 +1,226 @@
-import React, { useState } from 'react';
-import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
-import { faEye } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from "axios";
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 
+const dummyData = [
+    {
+        id: 1,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    {
+        id: 2,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    {
+        id: 3,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    {
+        id: 4,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    // Add more data as needed
+];
+
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+
+    const formatDateTime = (dateTimeString) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
+    };
+
+    return <p>{formattedDate}</p>;
+};
 
 const OpenTickets = (props) => {
 
-    const [filter, setFilter] = useState('All'); // Initial filter state
+    const [selectAll, setSelectAll] = useState(false);
+    const [selectedRows, setSelectedRows] = useState([]);
+    // const [orders, setAllOrders] = useState([]);  //for API
+    const [orders, setAllOrders] = useState(dummyData); //for dummy data
 
-    // Sample data for demonstration
-    const ticketData = [
-        {
-            id: 1,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        {
-            id: 2,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        {
-            id: 3,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        {
-            id: 4,
-            awb: '24235235234234',
-            subcategory: 'Technical Support',
-            status: 'Open',
-            resolutionDueBy: '2024-01-30',
-            lastUpdated: '2024-01-20',
-        },
-        // Add more data as needed
-    ];
+    // useEffect(() => {
+    //     axios
+    //         .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+    //         .then(response => {
+    //             console.log('Data is data:', response.data);
+    //             setAllOrders(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    // }, []);
 
-    // State to manage sorting (if needed)
-    const [sortColumn, setSortColumn] = useState(null);
-    const [sortDirection, setSortDirection] = useState('asc');
+    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
-    // Function to handle sorting
-    const handleSort = (column) => {
-        if (sortColumn === column) {
-            setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    // Handler for "Select All" checkbox
+    const handleSelectAll = () => {
+        setSelectAll(!selectAll);
+        if (!selectAll) {
+            setSelectedRows(orders.map(ticket => ticket.id));
         } else {
-            setSortColumn(column);
-            setSortDirection('asc');
+            setSelectedRows([]);
         }
     };
 
-    // Function to render table headers
-    const renderTableHeaders = () => {
-        const headers = [
-            'Ticket ID',
-            'AWB(s)',
-            'Subcategory',
-            'Ticket Status',
-            'Resolution Due By',
-            'Last Updated',
-            'Action',
-        ];
+    // Handler for individual checkbox
+    const handleSelectRow = (TicketId) => {
+        const isSelected = selectedRows.includes(TicketId);
 
-        return headers.map((header, index) => (
-            <th key={index} onClick={() => handleSort(header)}>
-                {header}
-                {/* {sortColumn === header && (sortDirection === 'asc' ? '↑' : '↓')} */}
-            </th>
-        ));
-    };
-
-    const filterTickets = (ticket) => {
-        if (filter === 'All') {
-            return true; // Show all tickets if no specific filter is selected
+        if (isSelected) {
+            setSelectedRows(selectedRows.filter(id => id !== TicketId));
+        } else {
+            setSelectedRows([...selectedRows, TicketId]);
         }
 
-        // Implement your logic to match the ticket's subcategory with the selected filter
-        // For simplicity, we are assuming that the subcategory is a direct match with the filter
-        return ticket.subcategory === filter;
+        // Check if all rows are selected, then select/deselect "Select All"
+        if (selectedRows.length === orders.length - 1 && !isSelected) {
+            setSelectAll(true);
+        } else if (selectedRows.length === orders.length && isSelected) {
+            setSelectAll(false);
+        }
     };
-
-    const renderFilterDropdown = () => {
-        const filterOptions = [
-            // Define your filter options here
-            'All',
-            'Delay in Forward Delivery',
-            'Delay in RTO Delivery',
-            'Delay in Pickup',
-            'Shipment Showing as Lost/Damaged in Tracking',
-            // ... (other options)
-        ];
-        return (
-            <select className="select-field" value={filter} onChange={(e) => setFilter(e.target.value)}>
-                {filterOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                        {option}
-                    </option>
-                ))}
-            </select>
-        );
-    };
-
-    const renderTableRows = () => {
-        const filteredData = ticketData.filter(filterTickets);
-
-        return filteredData.map((ticket) => (
-            <tr key={ticket.id}>
-                <td>{ticket.id}</td>
-                <td>{ticket.awb}</td>
-                <td>{ticket.subcategory}</td>
-                <td>{ticket.status}</td>
-                <td>{ticket.resolutionDueBy}</td>
-                <td>{ticket.lastUpdated}</td>
-                <td className='d-flex'>
-                    <button
-                        onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
-                        className='btn main-button'>
-                        <FontAwesomeIcon icon={faEye} /> View
-                    </button>
-                    <div className='action-options ms-3'>
-                        <div className='threedots-img'>
-                            <img src={ThreeDots} alt="ThreeDots" width={24} />
-                        </div>
-                        <div className='action-list'>
-                            <ul>
-                                <li>Escalate</li>
-                                <li>Re-open</li>
-                                <li>Close</li>
-                            </ul>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        ));
-    };
-
-
 
     return (
-        <div>
-            {/* <div className='d-flex'>
-                <div>{renderFilterDropdown()}</div>
-                <div>{renderFilterDropdown()}</div>
-                <div>{renderFilterDropdown()}</div>
-            </div> */}
-            <table className='Tickets-table w-100'>
-                <thead>
-                    <tr>{renderTableHeaders()}</tr>
-                </thead>
-                <tbody>{renderTableRows()}</tbody>
-            </table>
-        </div>
+        <section className='position-relative'>
+            <div className="position-relative">
+
+                <div className='table-container'>
+                    <table className=" w-100">
+                        <thead className="sticky-header">
+                            <tr className="table-row box-shadow">
+                                <th style={{ width: '1%' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={selectAll}
+                                        onChange={handleSelectAll}
+                                    />
+                                </th>
+                                <th>Ticket ID</th>
+                                <th>AWB(s)</th>
+                                <th>Subcategory</th>
+                                <th>Ticket Status</th>
+                                <th>Resolution Due By</th>
+                                <th>Last Updated</th>
+                                <th style={{ width: '6%' }}>Action</th>
+                            </tr>
+                            <tr className="blank-row"><td></td></tr>
+                        </thead>
+                        <tbody>
+                            {orders.map((ticket, index) => (
+                                <React.Fragment key={ticket.id}>
+                                    {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                    <tr className='table-row box-shadow'>
+                                        <td className='checkbox-cell'>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectedRows.includes(ticket.id)}
+                                                onChange={() => handleSelectRow(ticket.id)}
+                                            />
+                                        </td>
+                                        <td>
+                                            {/* order detail */}
+                                            <div className='cell-inside-box'>
+                                                {ticket.id}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* AWB */}
+                                            <div className='cell-inside-box'>
+                                                {ticket.awb}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* subcategory */}
+                                            <div className='cell-inside-box'>
+                                                {ticket.subcategory}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Status */}
+                                            <div className='cell-inside-box'>
+                                                {ticket.status}
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* resolutionDueBy */}
+                                            <div className='cell-inside-box'>
+                                                {ticket.resolutionDueBy}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* last Updated */}
+                                            <div className='cell-inside-box'>
+                                                {ticket.lastUpdated}
+                                            </div>
+                                        </td>
+
+                                        <td className='align-middle'>
+                                            {/* {row.ndr_action}
+                                             {row.ndr_status} */}
+                                            <div className='d-flex align-items-center gap-3'>
+                                                <button
+                                                    onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
+                                                    className='btn main-button'>
+                                                    <FontAwesomeIcon icon={faEye} /> View
+                                                </button>
+                                                <div className='action-options'>
+                                                    <div className='threedots-img'>
+                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                    </div>
+                                                    <div className='action-list'>
+                                                        <ul>
+                                                            <li>Escalate</li>
+                                                            <li>Re-open</li>
+                                                            <li>Close</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </React.Fragment>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section >
     );
 };
 

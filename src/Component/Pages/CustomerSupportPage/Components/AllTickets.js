@@ -1,59 +1,90 @@
 import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../assets/image/icons/ForwardIcon.png'
+import { faEye } from '@fortawesome/free-solid-svg-icons';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import InfoIcon from '../../../common/Icons/InfoIcon';
+
+const dummyData = [
+    {
+        id: 1,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    {
+        id: 2,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    {
+        id: 3,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    {
+        id: 4,
+        awb: '24235235234234',
+        subcategory: 'Technical Support',
+        status: 'In Progress',
+        resolutionDueBy: '2024-01-30',
+        lastUpdated: '2024-01-20',
+    },
+    // Add more data as needed
+];
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
-    useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-  
-    const formatDateTime = (dateTimeString) => {
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
-  
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
-      return formattedDateTime;
-    };
-  
-    return <p>{formattedDate}</p>;
-  };
 
-const AllTickets = () => {
+    useEffect(() => {
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+
+    const formatDateTime = (dateTimeString) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
+    };
+
+    return <p>{formattedDate}</p>;
+};
+
+const AllTickets = (props) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
+    // const [orders, setAllOrders] = useState([]);  //for API
+    const [orders, setAllOrders] = useState(dummyData); //for dummy data
 
-    useEffect(() => {
-        axios
-            .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get('http://35.154.133.143/order/v1/allorderdetail/') // Replace with your API endpoint
+    //         .then(response => {
+    //             console.log('Data is data:', response.data);
+    //             setAllOrders(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    // }, []);
 
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
@@ -61,44 +92,34 @@ const AllTickets = () => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(orders.map(ticket => ticket.id));
         } else {
             setSelectedRows([]);
         }
     };
 
     // Handler for individual checkbox
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+    const handleSelectRow = (TicketId) => {
+        const isSelected = selectedRows.includes(TicketId);
 
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedRows(selectedRows.filter(id => id !== TicketId));
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            setSelectedRows([...selectedRows, TicketId]);
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
+        if (selectedRows.length === orders.length - 1 && !isSelected) {
+            setSelectAll(true);
+        } else if (selectedRows.length === orders.length && isSelected) {
             setSelectAll(false);
         }
     };
 
-
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
-
     return (
         <section className='position-relative'>
             <div className="position-relative">
-              
+
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
@@ -110,144 +131,83 @@ const AllTickets = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
-                                <th style={{ width: '8%' }}>Payment</th>
-                                <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '12.5%' }}>Shipping Details</th>
-                                <th style={{ width: '6%' }}>Status</th>
+                                <th>Ticket ID</th>
+                                <th>AWB(s)</th>
+                                <th>Subcategory</th>
+                                <th>Ticket Status</th>
+                                <th>Resolution Due By</th>
+                                <th>Last Updated</th>
                                 <th style={{ width: '6%' }}>Action</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                            {orders.map((ticket, index) => (
+                                <React.Fragment key={ticket.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(ticket.id)}
+                                                onChange={() => handleSelectRow(ticket.id)}
                                             />
                                         </td>
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
-                                                </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
-                                                    {/* {formatDate(row.inserted)} */}
-                                                <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
+                                                {ticket.id}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
+                                            {/* AWB */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
+                                                {ticket.awb}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
+                                            {/* subcategory */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg <span className='text-blue'>||</span> LBH: {row.length}x{row.breadth}x{row.height}
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />
-                                                            <strong>SKU:</strong> {row.product_sku}<br />
-                                                            <strong>Qt.:</strong> {row.product_qty}
-                                                        </span>
-                                                    </span>
-                                                </p>
+                                                {ticket.subcategory}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
+                                            {/* Status */}
                                             <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
+                                                {ticket.status}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* pickup adress */}
+                                            {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
-                                                </p>
-
+                                                {ticket.resolutionDueBy}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
+                                            {/* last Updated */}
                                             <div className='cell-inside-box'>
-                                            <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
+                                                {ticket.lastUpdated}
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status || 'New'}</p>
-                                        </td>
+
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
+                                                <button
+                                                    onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
+                                                    className='btn main-button'>
+                                                    <FontAwesomeIcon icon={faEye} /> View
+                                                </button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Mark As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li>Escalate</li>
+                                                            <li>Re-open</li>
+                                                            <li>Close</li>
                                                         </ul>
                                                     </div>
                                                 </div>
