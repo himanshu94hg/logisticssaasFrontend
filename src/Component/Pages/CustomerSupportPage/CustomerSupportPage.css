@@ -283,12 +283,35 @@ table tr td {
     max-width: 80%;
 }
 
-.new-comment-input form{
+.new-comment-input form {
     display: flex;
 }
 
-.new-comment-input input{
+.new-comment-input input {
     min-width: unset;
     height: 36px;
     width: -webkit-fill-available;
 }
+
+.attachment-container {
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    width: 100%;
+    max-width: 600px;
+    z-index: 6;
+    margin: 0 auto;
+}
+
+.attachment-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+.view-attachment,
+.download{
+    cursor: pointer;
+}
+
