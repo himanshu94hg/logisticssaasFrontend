@@ -125,7 +125,6 @@ const BasicInfo = () => {
     else {
       setViewAttachmentContent(!ViewAttachmentContent)
     }
-
   }
 
 
@@ -245,23 +244,22 @@ const BasicInfo = () => {
                     GST Number
                     <input className="input-field" type="text" value={gstNumber} onChange={(e) => setGstNumber(e.target.value)} />
                   </label>
-                </div>
-                <div className='d-flex gap-3 mt-3 align-items-end'>
-                  <label>
+                  <label className='position-relative'>
                     GST Certificate
                     <input className="input-field" type="file" accept=".pdf" onChange={uploadGstFile} />
+                    <button
+                      className='eye-button'
+                      onClick={handlePreview}
+                    >
+                      <FontAwesomeIcon icon={faEye} />
+                    </button>
                   </label>
-                  <button
-                    className='eye-button'
-                    onClick={handlePreview}
-                  >
-                    <FontAwesomeIcon icon={faEye} />
-                  </button>
+
                 </div>
               </div>
             </div>
           </div>
-          <div className='d-flex justify-content-end mt-3'>
+          <div className='d-flex justify-content-end mt-4'>
             <button className='btn main-button' type="submit">Submit</button>
           </div>
         </div>
