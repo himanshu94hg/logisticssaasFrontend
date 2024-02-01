@@ -83,3 +83,7 @@
     width: 70%;
     height: 70%;
 }
+
+.add-account-text{
+    color: var(--sh-primary);
+}
