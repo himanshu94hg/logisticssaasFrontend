@@ -65,10 +65,10 @@ const KYCInfo = () => {
             <div className='details-form-row row'>
               <h5 className='col-3'></h5>
               <div className='col-9'>
-                <label>
+                <label style={{width:'49%'}}>
                   Company Type:
                   <select className='select-field' name="companyType" value={formData.companyType} onChange={handleChange}>
-                    <option value="">Select Document Type</option>
+                    <option value="">Select Company Type</option>
                     <option value="Proprietorship">Proprietorship</option>
                     <option value="Private" selected="">Private</option>
                     <option value="Partnership Firm">Partnership Firm</option>
@@ -131,15 +131,15 @@ const KYCInfo = () => {
                 {formList.map((item, index) => (
                   <li key={index} className='row'>
                     <p className='col-11'>
-                      <span className='me-4'>Document Type: {item.documentType}</span>|
-                      <span className='mx-4'>Document Name: {item.documentName}</span>|
-                      <span className='mx-4'>Document Number: {item.documentNumber}</span>
+                      <span className='me-4'>Document Type: <strong>{item.documentType}</strong></span>|
+                      <span className='mx-4'>Document Name: <strong>{item.documentName}</strong></span>|
+                      <span className='mx-4'>Document Number: <strong>{item.documentNumber}</strong></span>
                     </p>
-                    <div className='col-1 d-flex gap-2'>
-                      <button className=''>
+                    <div className='col-1 d-flex gap-2 align-items-center'>
+                      <button type='button' className='btn preview-btn'>
                         <FontAwesomeIcon icon={faEye} />
                       </button>
-                      <button className='btn delete-btn' onClick={() => handleDelete(index)}>
+                      <button type='button' className='btn delete-btn' onClick={() => handleDelete(index)}>
                         <FontAwesomeIcon icon={faTrashCan} />
                       </button>
                     </div>

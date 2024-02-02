@@ -98,16 +98,25 @@
 }
 
 .upload-doc-list li .delete-btn{
-    width: 30px;
-    height: 30px;
     display: flex;
     align-items: center;
     background-color: #F31429;
     color: #fff;
     justify-content: center;
+    padding: 5px 10px;
 }
 
 .upload-doc-list li .delete-btn:hover{
     background-color: #F31429;
     color: #fff;
 }
+
+.agreement-section{
+    width: 95%;
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+

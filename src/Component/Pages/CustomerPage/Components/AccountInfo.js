@@ -153,6 +153,7 @@ const AccountInfo = () => {
                         <input className="input-field" accept=".pdf" type="file" onChange={handleFileChange} />
                         <button
                           className='eye-button'
+                          type='button'
                           onClick={handlePreview}
                         >
                           <FontAwesomeIcon icon={faEye} />
