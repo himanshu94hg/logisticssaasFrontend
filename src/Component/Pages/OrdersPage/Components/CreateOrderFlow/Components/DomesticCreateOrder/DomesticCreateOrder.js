@@ -8,15 +8,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 const DomesticCreateOrder = () => {
+    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
     const totalSteps = 5;
     const [formData, setFormData] = useState({
-        step1: '',
-        step2: '',
-        step3: '',
-        step4: '',
-        step5: '',
+        seller_id: 1,
         sameAsShipping: true,// New step added
     });
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
@@ -47,13 +44,87 @@ const DomesticCreateOrder = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await fetch('http://35.154.133.143/order/v1/createorder/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
+            const formDataObject = new FormData();
+
+// Order Details
+formDataObject.append('order_details', JSON.stringify({
+  customer_order_number: 790,
+  invoice_amount: 314.42,
+  is_mps: true,
+  warehouse_id: 1,
+  seller_id: 3,
+  order_tag: 'order_tag',
+  payment_type: 'Prepaid',
+  order_date: '2024-01-22',
+  order_type: 'Forward'
+}));
+
+// Shipping Details
+formDataObject.append('shipping_details', JSON.stringify({
+  recipient_name: 'customer name',
+  address: 'customer address',
+  landmark: 'address landmark',
+  country: 'India',
+  state: 'Uttar Pradesh',
+  city: 'Fatehpur',
+  pincode: '212601',
+  mobile_number: '8090831662',
+  email: 'dhananjay@gmail.com',
+  company_name: 'company name',
+  contact_code: '4134'
+}));
+
+// Billing Details
+formDataObject.append('billing_details', JSON.stringify({
+  customer_name: 'customer name',
+  address: 'customer address',
+  landmark: 'address landmark',
+  country: 'India',
+  state: 'Uttar Pradesh',
+  city: 'Fatehpur',
+  pincode: '212601',
+  mobile_number: '8090831662',
+  email: 'dhananjay@gmail.com',
+  company_name: 'company name',
+  contact_code: '4134'
+}));
+
+// Other Details
+formDataObject.append('other_details', JSON.stringify({
+  product_name: 'Iphone 15',
+  product_qty: 2,
+  unit_price: 53.53,
+  product_category: 'Automotive',
+  product_weight: 41.52,
+  product_sku: 'product_sku',
+  hsn_code: 'hsn code',
+  tax_rate: 42.12,
+  product_discount: 24.43,
+  number_of_packets: 34,
+  reseller_name: 'reseller name'
+}));
+
+// Charge Details
+formDataObject.append('charge_details', JSON.stringify({
+  cod_charges: 4231.34,
+  shipping_charges: 4324.13,
+  transaction_fee: 41.43,
+  c_weight: 23.1,
+  c_length: 423.2,
+  c_breadth: 34,
+  c_height: 42,
+  is_gift_wrap: true
+}));
+
+// Now you can use this FormData object in your fetch request
+const response = await fetch('http://127.0.0.1:8000/orders-api/orders/', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${hardcodedToken}`,
+  },
+  body: formDataObject
+});
+    
 
             if (response.ok) {
                 const responseData = await response.json();
@@ -294,8 +365,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.customer_reseller_name}
-                                onChange={(e) => handleChange(e, 'customer_reseller_name')}
+                                value={formData.reseller_name}
+                                onChange={(e) => handleChange(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
                             />
                         </label>
@@ -307,8 +378,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             Payment Type
                             <select
                                 className='select-field'
-                                value={formData.o_type}
-                                onChange={(e) => handleSelectChange(e, 'o_type')}
+                                value={formData.payment_type}
+                                onChange={(e) => handleSelectChange(e, 'payment_type')}
                             >
                                 <option value="prepaid">Prepaid</option>
                                 <option value="cod">COD</option>
@@ -321,14 +392,14 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                     <label className='col'>
                                         <input
                                             type="checkbox"
-                                            checked={formData.shipment_type}
-                                            onChange={() => handleToggleChange('shipment_type')}
+                                            checked={formData.is_mps}
+                                            onChange={() => handleToggleChange('is_mps')}
                                         />
                                         <span className="slider"></span>
                                     </label>
                                 </div>
                             </label>
-                            <label style={{ width: '100%' }} className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
+                            <label style={{ width: '100%' }} className={`${formData.is_mps === "1" ? '' : 'd-none'}`}>
                                 Number of packets
                                 <input
                                     type="number"
@@ -363,8 +434,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.gift_wrap}
-                                onChange={(e) => handleChange(e, 'gift_wrap')}
+                                value={formData.is_gift_wrap}
+                                onChange={(e) => handleChange(e, 'is_gift_wrap')}
                                 placeholder='Yes / NO'
                             />
                         </label>
@@ -415,7 +486,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder='Enter Recipient Name'
-                                type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
+                                type="text" value={formData.customer_name} onChange={(e) => handleChange(e, 'customer_name')} />
                         </label>
 
                         {/* Mobile Number with Country Code Select */}
@@ -434,8 +505,8 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                                 <input
                                     className='input-field'
                                     type="text"
-                                    value={formData.s_contact}
-                                    onChange={(e) => handleChange(e, 's_contact')}
+                                    value={formData.mobile_number}
+                                    onChange={(e) => handleChange(e, 'mobile_number')}
                                     placeholder='X X X X X X X X X X'
                                 />
                             </div>
@@ -447,14 +518,14 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder='i.e. abc@gmail.com'
-                                type="email" value={formData.s_customer_email} onChange={(e) => handleChange(e, 's_customer_mail')} />
+                                type="email" value={formData.email} onChange={(e) => handleChange(e, 'email')} />
                         </label>
                         <label className='col'>
                             <span>Company Name <span className='text-gray'>(optional)</span></span>
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's Company Name"
-                                type="email" value={formData.s_customer_cname} onChange={(e) => handleChange(e, 's_customer_cname')} />
+                                type="email" value={formData.company_name} onChange={(e) => handleChange(e, 'company_name')} />
                         </label>
                     </div>
 
@@ -466,7 +537,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="House/Floor No. Building Name or Street, Locality"
-                                type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
+                                type="text" value={formData.address} onChange={(e) => handleChange(e, 'address')} />
                         </label>
                     </div>
                     <div className='row mt-3'>
@@ -476,7 +547,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Any nearby post office, market, Hospital as the landmark"
-                                type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
+                                type="text" value={formData.landmark} onChange={(e) => handleChange(e, 'landmark')} />
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -486,7 +557,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's Pincode"
-                                type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
+                                type="text" value={formData.pincode} onChange={(e) => handleChange(e, 'pincode')} />
                         </label>
 
                         {/* City */}
@@ -495,7 +566,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's City"
-                                type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
+                                type="text" value={formData.city} onChange={(e) => handleChange(e, 'city')} />
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -505,7 +576,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's State"
-                                type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
+                                type="text" value={formData.state} onChange={(e) => handleChange(e, 'state')} />
                         </label>
 
                         {/* Country */}
@@ -514,7 +585,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's State"
-                                type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
+                                type="text" value={formData.country} onChange={(e) => handleChange(e, 'country')} />
                         </label>
                     </div>
                 </div>
@@ -559,7 +630,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Unit Price"
-                                type="text" value={formData.price} onChange={(e) => handleChange(e, 'price')} />
+                                type="text" value={formData.unit_price} onChange={(e) => handleChange(e, 'unit_price')} />
                         </label>
 
 
@@ -585,7 +656,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             Product Category
                             <select
                                 className='select-field'
-                                value={formData.order_type}
+                                value={formData.product_category}
                             // onChange={(e) => handleSelectChange(e, 'order_type')}
                             >
                                 <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
@@ -617,16 +688,16 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 type="number"
-                                value={formData.weight || '0'}
-                                onChange={(e) => handleChange(e, 'weight')} />
+                                value={formData.product_weight || '0'}
+                                onChange={(e) => handleChange(e, 'product_weight')} />
                         </label>
                         <label className='col'>
                             SKU
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.sku}
-                                onChange={(e) => handleChange(e, 'sku')}
+                                value={formData.product_sku}
+                                onChange={(e) => handleChange(e, 'product_sku')}
                                 placeholder='Enter SKU'
                             />
                         </label>
@@ -666,8 +737,8 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.discount}
-                                onChange={(e) => handleChange(e, 'discount')}
+                                value={formData.product_discount}
+                                onChange={(e) => handleChange(e, 'product_discount')}
                                 placeholder='Enter Product Discount'
                             />
                         </label>
@@ -719,8 +790,8 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 style={{ minWidth: '15    0px' }}
-                                type="number" value={formData.deadWeight || '0'}
-                                onChange={(e) => handleChange(e, 'deadWeight')} />
+                                type="number" value={formData.c_weight || '0'}
+                                onChange={(e) => handleChange(e, 'c_weight')} />
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
                             </span>
@@ -742,8 +813,8 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Length (cm)
                             <input
                                 className='input-field'
-                                type="number" value={formData.length || '0'}
-                                onChange={(e) => handleChange(e, 'length')} />
+                                type="number" value={formData.c_length || '0'}
+                                onChange={(e) => handleChange(e, 'c_length')} />
                         </label>
 
                         {/* Breadth (cm) */}
@@ -751,7 +822,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Breadth (cm)
                             <input
                                 className='input-field'
-                                type="number" value={formData.breadth || '0'} onChange={(e) => handleChange(e, 'breadth')} />
+                                type="number" value={formData.c_breadth || '0'} onChange={(e) => handleChange(e, 'c_breadth')} />
                         </label>
 
                         {/* Height (cm) */}
@@ -759,7 +830,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Height (cm)
                             <input
                                 className='input-field'
-                                type="number" value={formData.height || '0'} onChange={(e) => handleChange(e, 'height')} />
+                                type="number" value={formData.c_height || '0'} onChange={(e) => handleChange(e, 'c_height')} />
                         </label>
                     </div>
                     <div className="volumetric-weight">
