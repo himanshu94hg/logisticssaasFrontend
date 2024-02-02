@@ -16,6 +16,8 @@ const AccountInfo = () => {
       isPrimary: true, // The first account is the primary account by default
     },
   ]);
+
+
   const [bankDetail, setBankDetail] = useState();
   const [pdfPreviews, setPdfPreviews] = useState(Array(accounts.length).fill(null));
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
@@ -52,8 +54,7 @@ const AccountInfo = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Your existing form data code...
+    console.log("submit")
 
     setAccounts((prevAccounts) => [
       ...prevAccounts,
@@ -101,8 +102,10 @@ const AccountInfo = () => {
 
       // Reset the showNoPreviewAlert state
       setViewAttachmentContent(false);
+      console.log('no PDF')
     } else {
       setViewAttachmentContent(!viewAttachmentContent);
+      console.log('Yes PDF')
     }
   };
 

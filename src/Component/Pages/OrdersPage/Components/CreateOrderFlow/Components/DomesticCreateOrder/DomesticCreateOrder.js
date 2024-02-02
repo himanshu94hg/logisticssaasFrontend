@@ -402,12 +402,150 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
 
+    const [isChecked, setIsChecked] = useState(true);
+    const [BillingDetails, setBillingDetails] = useState(false)
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+
+        if (!isChecked) {
+            setBillingDetails(false)
+        }
+        else{
+            setBillingDetails(true)
+        }
+    };
+
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>Shipping Details</h3>
+                    <div className='row'>
+                        {/* Customer Name */}
+                        <label className='col'>
+                            Recipient Name
+                            <input
+                                className='input-field'
+                                placeholder='Enter Recipient Name'
+                                type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
+                        </label>
+
+                        {/* Mobile Number with Country Code Select */}
+                        <label className='col'>
+                            Mobile Number
+                            <div className='d-flex mobile-number-field'>
+                                <select
+                                    className='input-field '
+                                    value={formData.countryCode}
+                                    onChange={(e) => handleSelectChange(e, 'countryCode')}
+                                    disabled
+                                >
+                                    <option value="+91">+91</option>
+                                    {/* Add more country codes as needed */}
+                                </select>
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    value={formData.s_contact}
+                                    onChange={(e) => handleChange(e, 's_contact')}
+                                    placeholder='X X X X X X X X X X'
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div className='row mt-3'>
+                        <label className='col'>
+                            <span>Email <span className='text-gray'>(optional)</span></span>
+                            <input
+                                className='input-field'
+                                placeholder='i.e. abc@gmail.com'
+                                type="email" value={formData.s_customer_email} onChange={(e) => handleChange(e, 's_customer_mail')} />
+                        </label>
+                        <label className='col'>
+                            <span>Company Name <span className='text-gray'>(optional)</span></span>
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's Company Name"
+                                type="email" value={formData.s_customer_cname} onChange={(e) => handleChange(e, 's_customer_cname')} />
+                        </label>
+                    </div>
+
+                    <hr />
+                    <div className='row'>
+                        {/* Address */}
+                        <label className='col'>
+                            Address
+                            <input
+                                className='input-field'
+                                placeholder="House/Floor No. Building Name or Street, Locality"
+                                type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3'>
+                        {/* Address 2 (Optional) */}
+                        <label className='col'>
+                            Landmark
+                            <input
+                                className='input-field'
+                                placeholder="Any nearby post office, market, Hospital as the landmark"
+                                type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3 gap-2'>
+                        {/* Pincode */}
+                        <label className='col'>
+                            Pincode
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's Pincode"
+                                type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
+                        </label>
+
+                        {/* City */}
+                        <label className='col'>
+                            City
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's City"
+                                type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3 gap-2'>
+                        {/* State */}
+                        <label className='col'>
+                            State
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
+                                type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
+                        </label>
+
+                        {/* Country */}
+                        <label className='col'>
+                            Country
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
+                                type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
+                        </label>
+                    </div>
+                </div>
+
+                <div className='inputs-container mx-auto mb-3'>
+                    <div className='d-flex gap-2'>
+                        <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={handleCheckboxChange}
+                        />
+                        <label>Billing Address is the same as Shipping address</label>
+                    </div>
+                </div>
+                <div className={`inputs-container mx-auto mb-3 ${BillingDetails?'':'d-none'}`}>
+                    {/* Step 2 content */}
+                    <h3 className='mb-4'>Billing Details</h3>
                     <div className='row'>
                         {/* Customer Name */}
                         <label className='col'>
@@ -551,6 +689,31 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                 placeholder="Enter or search your product name"
                                 type="text" value={formData.product_name} onChange={(e) => handleChange(e, 'product_name')} />
                         </label>
+                        <label className='col'>
+                            Product Category
+                            <select
+                                className='select-field'
+                                value={formData.order_type}
+                            // onChange={(e) => handleSelectChange(e, 'order_type')}
+                            >
+                                <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
+                                <option value="Automotive">Automotive</option>
+                                <option value="Baby Products">Baby Products </option>
+                                <option value="Clothing, Shoes & Jewelry">Clothing, Shoes & Jewelry </option>
+                                <option value="Collectibles & Fine Art">Collectibles & Fine Art </option>
+                                <option value="Electronics">Electronics </option>
+                                <option value="Handmade Products">Handmade Products </option>
+                                <option value="Health & Household">Health & Household</option>
+                                <option value="Home & Kitchen">Home & Kitchen</option>
+                                <option value="Industrial & Scientific">Industrial & Scientific </option>
+                                <option value="Office Products">Office Products </option>
+                                <option value="Patio, Lawn & Garden">Patio, Lawn & Garden</option>
+                                <option value="Pet Supplies">Pet Supplies</option>
+                                <option value="Sports & Outdoors">Sports & Outdoors </option>
+                                <option value="Tools & Home Improvement">Tools & Home Improvement</option>
+                                <option value="Toys & Games">Toys & Games</option>
+                            </select>
+                        </label>
                     </div>
                     <div className='row mt-3'>
                         {/* SKU */}
@@ -581,46 +744,9 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                 type="number" value={formData.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty')} />
                         </label> */}
 
-                        <label className='col'>
-                            Product Category
-                            <select
-                                className='select-field'
-                                value={formData.order_type}
-                            // onChange={(e) => handleSelectChange(e, 'order_type')}
-                            >
-                                <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
-                                <option value="Automotive">Automotive</option>
-                                <option value="Baby Products">Baby Products </option>
-                                <option value="Clothing, Shoes & Jewelry">Clothing, Shoes & Jewelry </option>
-                                <option value="Collectibles & Fine Art">Collectibles & Fine Art </option>
-                                <option value="Electronics">Electronics </option>
-                                <option value="Handmade Products">Handmade Products </option>
-                                <option value="Health & Household">Health & Household</option>
-                                <option value="Home & Kitchen">Home & Kitchen</option>
-                                <option value="Industrial & Scientific">Industrial & Scientific </option>
-                                <option value="Office Products">Office Products </option>
-                                <option value="Patio, Lawn & Garden">Patio, Lawn & Garden</option>
-                                <option value="Pet Supplies">Pet Supplies</option>
-                                <option value="Sports & Outdoors">Sports & Outdoors </option>
-                                <option value="Tools & Home Improvement">Tools & Home Improvement</option>
-                                <option value="Toys & Games">Toys & Games</option>
-                            </select>
-                        </label>
 
 
-                    </div>
-
-                    <div className="row mt-3">
-                        {/* Weight (kg) */}
-                        <label className='col'>
-                            Weight (kg)
-                            <input
-                                className='input-field'
-                                type="number"
-                                value={formData.weight || '0'}
-                                onChange={(e) => handleChange(e, 'weight')} />
-                        </label>
-                        <label className='col'>
+                        <label className='col-3'>
                             SKU
                             <input
                                 type="text"
@@ -630,6 +756,10 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                 placeholder='Enter SKU'
                             />
                         </label>
+                    </div>
+
+                    <div className="row mt-3">
+
                     </div>
                     <div className="row mt-4">
                         <p className='add-fields-text'>

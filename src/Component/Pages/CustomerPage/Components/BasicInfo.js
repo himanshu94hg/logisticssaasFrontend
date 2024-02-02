@@ -88,6 +88,12 @@ const BasicInfo = () => {
 
       if (response.ok) {
         console.log('Form submitted successfully');
+        Swal.fire({
+          icon: 'success',
+          title: 'Your Basic Information is added Successfully!',
+          showConfirmButton: false,
+          timer: 1500,
+        });
       } else {
         console.error('Form submission failed');
       }
@@ -260,7 +266,7 @@ const BasicInfo = () => {
             </div>
           </div>
           <div className='d-flex justify-content-end mt-4'>
-            <button className='btn main-button' type="submit">Submit</button>
+            <button className='btn main-button' type="submit">Save</button>
           </div>
         </div>
       </form >

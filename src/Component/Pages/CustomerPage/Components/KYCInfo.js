@@ -1,115 +1,61 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
 
 const KYCInfo = () => {
-  const [documentUpload, setDocumentUpload] = useState(null);
-  const [companyType, setCompanyType] = useState('');
-  const [documentId, setDocumentId] = useState('');
-  const [documentName, setDocumentName] = useState('');
-  const [documentType, setDocumentType] = useState('');
-  const [documentTypeList, setDocumentTypeList] = useState([]);
-  const [kycListInfo, setKycInfoList] = useState()
-  const [pdfPreview, setPdfPreview] = useState(null);
-  const [ViewAttachmentContent, setViewAttachmentContent] = useState(false)
+  const [formData, setFormData] = useState({
+    companyType: '',
+    documentType: '',
+    uploadDocument: null,
+    documentName: '',
+    documentNumber: '',
+  });
+  const [formList, setFormList] = useState([]);
 
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
+  const handleChange = (e) => {
+    const { name, value, type, files } = e.target;
+    const updatedValue = type === 'file' ? files[0] : value;
 
-  useEffect(() => {
-    axios
-      .get('http://127.0.0.1:8000/core-api/master/all-doc/')
-      .then(response => {
-        setDocumentTypeList(response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
+    setFormData({
+      ...formData,
+      [name]: updatedValue,
+    });
+  };
 
-  useEffect(() => {
-    axios
-      .get('http://127.0.0.1:8000/core-api/seller/kyc-info/', {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-        },
-      })
-      .then(response => {
-        setKycInfoList(response.data);
-        const docData = response.data[0] || {};
-        setDocumentUpload(docData.document_upload || '');
-        setCompanyType(docData.company_type || '');
-        setDocumentId(docData.document_id || '');
-        setDocumentName(docData.document_name || '');
-        setDocumentType(docData.company_type || '');
-
-
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    // Handle form submission logic here
+    console.log('Form submitted:', formData);
 
-    const formData = new FormData();
-    formData.append('document_upload', documentUpload);
-    formData.append('company_type', companyType);
-    formData.append('document_type', documentType);
-    formData.append('document_id', documentId);
-    formData.append('document_name', documentName);
+    // Display SweetAlert on successful form submission
+    Swal.fire({
+      icon: 'success',
+      title: 'Document Added Successfully!',
+      showConfirmButton: false,
+      timer: 1500,
+    });
 
+    // Add form data to the list
+    setFormList([...formList, formData]);
 
-
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/core-api/seller/kyc-info/', formData, {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      if (response.status === 201) {
-        console.log('Form submitted successfully');
-        // Reset form fields if needed
-        setCompanyType('');
-        setDocumentType('');
-        setDocumentId('');
-        setDocumentName('');
-        setDocumentUpload(null);
-      } else {
-        console.error('Form submission failed');
-      }
-    } catch (error) {
-      console.error('API call error:', error);
-    }
+    // Clear form data after submission
+    setFormData({
+      companyType: '',
+      documentType: '',
+      uploadDocument: null,
+      documentName: '',
+      documentNumber: '',
+    });
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setDocumentUpload(file);
-
-    const previewURL = URL.createObjectURL(file);
-    setPdfPreview(previewURL);
+  const handleDelete = (index) => {
+    // Remove the item at the specified index from the list
+    const updatedList = [...formList];
+    updatedList.splice(index, 1);
+    setFormList(updatedList);
   };
-
-  const handlePreview = () => {
-    if (pdfPreview === null) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'No PDF to preview',
-        text: 'Please upload a PDF file to preview.',
-      });
-
-      // Reset the showNoPreviewAlert state
-      setViewAttachmentContent(false);
-    }
-    else {
-      setViewAttachmentContent(!ViewAttachmentContent)
-    }
-  }
 
   return (
     <>
@@ -120,8 +66,14 @@ const KYCInfo = () => {
               <h5 className='col-3'></h5>
               <div className='col-9'>
                 <label>
-                  Company Type
-                  <input className="input-field" type="text" value={companyType} onChange={(e) => setCompanyType(e.target.value)} />
+                  Company Type:
+                  <select className='select-field' name="companyType" value={formData.companyType} onChange={handleChange}>
+                    <option value="">Select Document Type</option>
+                    <option value="Proprietorship">Proprietorship</option>
+                    <option value="Private" selected="">Private</option>
+                    <option value="Partnership Firm">Partnership Firm</option>
+                    <option value="Other">Other</option>
+                  </select>
                 </label>
               </div>
             </div>
@@ -129,54 +81,81 @@ const KYCInfo = () => {
             <div className='details-form-row row'>
               <h5 className='col-3'>KYC Documents</h5>
               <div className='col-9'>
+
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    Document Type
-                    <select className="select-field" value={documentType} onChange={(e) => setDocumentType(e.target.value)}>
+                    Document Type:
+                    <select className='select-field' name="documentType" value={formData.documentType} onChange={handleChange}>
                       <option value="">Select Document Type</option>
-                      {documentTypeList.map(doc => (
-                        <option key={doc.id} value={doc.slug}>{doc.doc_name}</option>
-                      ))}
+                      <option value="Aadhar Card">Aadhar Card</option>
+                      <option value="Pan Card" selected="">Pan Card</option>
+                      <option value="Driving License">Driving License</option>
+                      <option value="Voter ID Card">Voter ID Card</option>
+                      {/* Add more options as needed */}
                     </select>
                   </label>
-                  <label className='position-relative'>
-                    Upload Document
-                    <input className="input-field" type="file" onChange={handleFileChange} />
-                    <button
-                      className='eye-button'
-                      onClick={handlePreview}
-                    >
-                      <FontAwesomeIcon icon={faEye} />
-                    </button>
+
+                  <label>
+                    Upload Document:
+                    <input className='input-field' type="file" name="uploadDocument" onChange={handleChange} />
                   </label>
                 </div>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    Document Name
-                    <input className="input-field" type="text" value={documentName} onChange={(e) => setDocumentName(e.target.value)} />
+                    Document Name:
+                    <input
+                      className='input-field'
+                      type="text"
+                      name="documentName"
+                      value={formData.documentName}
+                      onChange={handleChange}
+                    />
                   </label>
                   <label>
-                    Document Number
-                    <input className="input-field" type="text" value={documentId} onChange={(e) => setDocumentId(e.target.value)} />
+                    Document Number:
+                    <input
+                      className='input-field'
+                      type="text"
+                      name="documentNumber"
+                      value={formData.documentNumber}
+                      onChange={handleChange}
+                    />
                   </label>
                 </div>
               </div>
             </div>
+            <hr />
+            <div className='details-form-row row'>
+              <h5 className='col-3'>Uploaded Documents</h5>
+              <ul className="col-9 upload-doc-list">
+                {formList.map((item, index) => (
+                  <li key={index} className='row'>
+                    <p className='col-11'>
+                      <span className='me-4'>Document Type: {item.documentType}</span>|
+                      <span className='mx-4'>Document Name: {item.documentName}</span>|
+                      <span className='mx-4'>Document Number: {item.documentNumber}</span>
+                    </p>
+                    <div className='col-1 d-flex gap-2'>
+                      <button className=''>
+                        <FontAwesomeIcon icon={faEye} />
+                      </button>
+                      <button className='btn delete-btn' onClick={() => handleDelete(index)}>
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </button>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <hr />
           </div>
-          <div className='d-flex justify-content-end mt-5'>
+
+          <div className='d-flex justify-content-end mt-4'>
             <button className='btn main-button' type="submit">Save</button>
           </div>
         </div>
       </form>
-      <section className={`pdf-preview-section ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        {pdfPreview && (
-          <embed src={pdfPreview} type="application/pdf" width="100%" height="100%" />
-        )}
-      </section>
 
-      <div
-        onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
-        className={`backdrop ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
     </>
   );
 };
