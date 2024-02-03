@@ -473,6 +473,20 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
 
+    const [isChecked, setIsChecked] = useState(true);
+    const [BillingDetails, setBillingDetails] = useState(false)
+
+    const handleCheckboxChange = () => {
+        setIsChecked(!isChecked);
+
+        if (!isChecked) {
+            setBillingDetails(false)
+        }
+        else{
+            setBillingDetails(true)
+        }
+    };
+
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -526,6 +540,254 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                                 className='input-field'
                                 placeholder="Enter Recipient's Company Name"
                                 type="email" value={formData.company_name} onChange={(e) => handleChange(e, 'company_name')} />
+                        </label>
+                    </div>
+
+                    <hr />
+                    <div className='row'>
+                        {/* Address */}
+                        <label className='col'>
+                            Address
+                            <input
+                                className='input-field'
+                                placeholder="House/Floor No. Building Name or Street, Locality"
+                                type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3'>
+                        {/* Address 2 (Optional) */}
+                        <label className='col'>
+                            Landmark
+                            <input
+                                className='input-field'
+                                placeholder="Any nearby post office, market, Hospital as the landmark"
+                                type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3 gap-2'>
+                        {/* Pincode */}
+                        <label className='col'>
+                            Pincode
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's Pincode"
+                                type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
+                        </label>
+
+                        {/* City */}
+                        <label className='col'>
+                            City
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's City"
+                                type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3 gap-2'>
+                        {/* State */}
+                        <label className='col'>
+                            State
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
+                                type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
+                        </label>
+
+                        {/* Country */}
+                        <label className='col'>
+                            Country
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
+                                type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
+                        </label>
+                    </div>
+                </div>
+
+                <div className='inputs-container mx-auto mb-3'>
+                    <div className='d-flex gap-2'>
+                        <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={handleCheckboxChange}
+                        />
+                        <label>Billing Address is the same as Shipping address</label>
+                    </div>
+                </div>
+                <div className={`inputs-container mx-auto mb-3 ${BillingDetails?'':'d-none'}`}>
+                    {/* Step 2 content */}
+                    <h3 className='mb-4'>Billing Details</h3>
+                    <div className='row'>
+                        {/* Customer Name */}
+                        <label className='col'>
+                            Recipient Name
+                            <input
+                                className='input-field'
+                                placeholder='Enter Recipient Name'
+                                type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
+                        </label>
+
+                        {/* Mobile Number with Country Code Select */}
+                        <label className='col'>
+                            Mobile Number
+                            <div className='d-flex mobile-number-field'>
+                                <select
+                                    className='input-field '
+                                    value={formData.countryCode}
+                                    onChange={(e) => handleSelectChange(e, 'countryCode')}
+                                    disabled
+                                >
+                                    <option value="+91">+91</option>
+                                    {/* Add more country codes as needed */}
+                                </select>
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    value={formData.s_contact}
+                                    onChange={(e) => handleChange(e, 's_contact')}
+                                    placeholder='X X X X X X X X X X'
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div className='row mt-3'>
+                        <label className='col'>
+                            <span>Email <span className='text-gray'>(optional)</span></span>
+                            <input
+                                className='input-field'
+                                placeholder='i.e. abc@gmail.com'
+                                type="email" value={formData.s_customer_email} onChange={(e) => handleChange(e, 's_customer_mail')} />
+                        </label>
+                        <label className='col'>
+                            <span>Company Name <span className='text-gray'>(optional)</span></span>
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's Company Name"
+                                type="email" value={formData.s_customer_cname} onChange={(e) => handleChange(e, 's_customer_cname')} />
+                        </label>
+                    </div>
+
+                    <hr />
+                    <div className='row'>
+                        {/* Address */}
+                        <label className='col'>
+                            Address
+                            <input
+                                className='input-field'
+                                placeholder="House/Floor No. Building Name or Street, Locality"
+                                type="text" value={formData.s_address_line1} onChange={(e) => handleChange(e, 's_address_line1')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3'>
+                        {/* Address 2 (Optional) */}
+                        <label className='col'>
+                            Landmark
+                            <input
+                                className='input-field'
+                                placeholder="Any nearby post office, market, Hospital as the landmark"
+                                type="text" value={formData.s_address_line2} onChange={(e) => handleChange(e, 's_address_line2')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3 gap-2'>
+                        {/* Pincode */}
+                        <label className='col'>
+                            Pincode
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's Pincode"
+                                type="text" value={formData.s_pincode} onChange={(e) => handleChange(e, 's_pincode')} />
+                        </label>
+
+                        {/* City */}
+                        <label className='col'>
+                            City
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's City"
+                                type="text" value={formData.s_city} onChange={(e) => handleChange(e, 's_city')} />
+                        </label>
+                    </div>
+                    <div className='row mt-3 gap-2'>
+                        {/* State */}
+                        <label className='col'>
+                            State
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
+                                type="text" value={formData.s_state} onChange={(e) => handleChange(e, 's_state')} />
+                        </label>
+
+                        {/* Country */}
+                        <label className='col'>
+                            Country
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
+                                type="text" value={formData.s_country} onChange={(e) => handleChange(e, 's_country')} />
+                        </label>
+                    </div>
+                </div>
+
+                <div className='inputs-container mx-auto mb-3'>
+                    <div className='d-flex gap-2'>
+                        <input
+                            type="checkbox"
+                            checked={isChecked}
+                            onChange={handleCheckboxChange}
+                        />
+                        <label>Billing Address is the same as Shipping address</label>
+                    </div>
+                </div>
+                <div className={`inputs-container mx-auto mb-3 ${BillingDetails?'':'d-none'}`}>
+                    {/* Step 2 content */}
+                    <h3 className='mb-4'>Billing Details</h3>
+                    <div className='row'>
+                        {/* Customer Name */}
+                        <label className='col'>
+                            Recipient Name
+                            <input
+                                className='input-field'
+                                placeholder='Enter Recipient Name'
+                                type="text" value={formData.s_customer_name} onChange={(e) => handleChange(e, 's_customer_name')} />
+                        </label>
+
+                        {/* Mobile Number with Country Code Select */}
+                        <label className='col'>
+                            Mobile Number
+                            <div className='d-flex mobile-number-field'>
+                                <select
+                                    className='input-field '
+                                    value={formData.countryCode}
+                                    onChange={(e) => handleSelectChange(e, 'countryCode')}
+                                    disabled
+                                >
+                                    <option value="+91">+91</option>
+                                    {/* Add more country codes as needed */}
+                                </select>
+                                <input
+                                    className='input-field'
+                                    type="text"
+                                    value={formData.s_contact}
+                                    onChange={(e) => handleChange(e, 's_contact')}
+                                    placeholder='X X X X X X X X X X'
+                                />
+                            </div>
+                        </label>
+                    </div>
+                    <div className='row mt-3'>
+                        <label className='col'>
+                            <span>Email <span className='text-gray'>(optional)</span></span>
+                            <input
+                                className='input-field'
+                                placeholder='i.e. abc@gmail.com'
+                                type="email" value={formData.s_customer_email} onChange={(e) => handleChange(e, 's_customer_mail')} />
+                        </label>
+                        <label className='col'>
+                            <span>Company Name <span className='text-gray'>(optional)</span></span>
+                            <input
+                                className='input-field'
+                                placeholder="Enter Recipient's Company Name"
+                                type="email" value={formData.s_customer_cname} onChange={(e) => handleChange(e, 's_customer_cname')} />
                         </label>
                     </div>
 
@@ -630,7 +892,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Unit Price"
-                                type="text" value={formData.unit_price} onChange={(e) => handleChange(e, 'unit_price')} />
+                                type="text" value={formData.price} onChange={(e) => handleChange(e, 'price')} />
                         </label>
 
 
@@ -677,21 +939,40 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                 <option value="Toys & Games">Toys & Games</option>
                             </select>
                         </label>
-
-
                     </div>
-
-                    <div className="row mt-3">
-                        {/* Weight (kg) */}
+                    <div className='row mt-3'>
+                        {/* SKU */}
                         <label className='col'>
-                            Weight (kg)
+                            Unit Price
+                            <input
+                                className='input-field'
+                                placeholder="Enter Unit Price"
+                                type="text" value={formData.price} onChange={(e) => handleChange(e, 'price')} />
+                        </label>
+
+
+
+                        {/* Quantity */}
+                        <label className='col'>
+                            Quantity
                             <input
                                 className='input-field'
                                 type="number"
-                                value={formData.product_weight || '0'}
-                                onChange={(e) => handleChange(e, 'product_weight')} />
+                                value={formData.weight || '0'}
+                                onChange={(e) => handleChange(e, 'weight')} />
                         </label>
-                        <label className='col'>
+                        {/* Quantity */}
+                        {/* <label className='col'>
+                            Product Category
+                            <input
+                                className='input-field'
+                                placeholder='Enter Product Quantity'
+                                type="number" value={formData.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty')} />
+                        </label> */}
+
+
+
+                        <label className='col-3'>
                             SKU
                             <input
                                 type="text"
@@ -701,6 +982,10 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                 placeholder='Enter SKU'
                             />
                         </label>
+                    </div>
+
+                    <div className="row mt-3">
+
                     </div>
                     <div className="row mt-4">
                         <p className='add-fields-text'>

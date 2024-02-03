@@ -1,6 +1,12 @@
-import React from 'react'
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState } from 'react'
+import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
+import { AiOutlineDownload } from "react-icons/ai";
 
 const ViewTicketSlider = ({ }) => {
+
+  const [ViewAttachmentContent, setViewAttachmentContent] = useState(false)
 
   const comments = [
     { text: 'Hello! I am not able to create an Order', type: 'user' },
@@ -40,6 +46,21 @@ const ViewTicketSlider = ({ }) => {
             <p className='fw-bold'>Issue with Direct orders</p>
           </div>
         </div>
+        <div className='ticket-view-field'>
+          <div className='d-flex gap-2'>
+            <p>AWB(s):</p>
+            <p className='fw-bold'>12132123123123,..<span className='fw-normal'>2 others</span></p>
+          </div>
+          <div className='d-flex gap-2 align-items-center'>
+            <p
+              className='view-attachment'
+              onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
+            >
+              <FontAwesomeIcon icon={faEye} /> View Attachment
+            </p>
+            <p title="Download Attachment" className='download'><AiOutlineDownload /></p>
+          </div>
+        </div>
       </section>
       <h4 className='mt-4'>Comments</h4>
       <section className='comments-section'>
@@ -57,6 +78,14 @@ const ViewTicketSlider = ({ }) => {
           </form>
         </div>
       </section>
+      <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
+        <img src={AttachmentImage} alt="" />
+      </section>
+
+      <div
+        onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
+        className={`backdrop ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
+
     </>
   )
 }
