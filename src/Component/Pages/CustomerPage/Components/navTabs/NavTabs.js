@@ -9,8 +9,8 @@ import { Link } from "react-router-dom";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
-  const [selectedOption, setSelectedOption] = useState("Domestic");
-  const [isOpen, setIsOpen] = useState(false);
+  const [selectedOption, setSelectedOption] = useState("Parent Account");
+  const [isOpen, setIsOpen] = useState(true);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -77,7 +77,38 @@ export default function NavTabs(props) {
           </div>
         </Nav>
       </Navbar.Collapse>
-     
+      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
+        <div className="selected-option">
+          {selectedOption || "Select an option"}
+          <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
+
+        </div>
+
+        <div className={`options-container ${isOpen ? "open" : ""}`}>
+          <div
+            className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("Domestic")}
+          >
+            Parent Account
+          </div>
+          <div
+            className={`option ${selectedOption === "International" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("International")}
+          >
+            Sub Acount One
+          </div>
+          <div
+            className={`option ${selectedOption === "International" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("International")}
+          >
+            Sub Acount Two
+          </div>
+        </div>
+
+      </div>
+      <div className="d-flex gap-10 align-items-center">
+        <button className="btn main-button-outline">Sub Acount: <strong>2</strong></button>
+      </div>
     </Navbar>
   );
 }

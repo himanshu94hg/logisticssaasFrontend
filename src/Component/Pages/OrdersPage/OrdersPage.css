@@ -59,7 +59,7 @@
 }
 
 .options-container.open {
-  max-height: 100px;
+  max-height: fit-content;
 }
 
 .option {
