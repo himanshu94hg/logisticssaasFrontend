@@ -30,7 +30,7 @@ const BasicInfo = () => {
   const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/core-api/seller/basic-info/', {
+      .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
         },

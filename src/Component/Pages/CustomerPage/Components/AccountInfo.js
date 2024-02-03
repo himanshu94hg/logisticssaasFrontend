@@ -32,7 +32,7 @@ const AccountInfo = () => {
 
   useEffect(() => {
     axios
-      .get('http://127.0.0.1:8000/core-api/seller/bank-info/', {
+      .get('http://65.2.38.87:8088/core-api/seller/bank-info/', {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
         },

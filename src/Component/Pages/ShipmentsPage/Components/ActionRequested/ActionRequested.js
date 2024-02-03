@@ -44,7 +44,7 @@ const ActionRequested = () => {
 
     useEffect(() => {
         axios
-            .get('http://127.0.0.1:8000/shipment/v1/actionrequestedshipment/')
+            .get('http://65.2.38.87:8088/shipment/v1/actionrequestedshipment/')
             .then(response => {
                 console.log("Requested", response.data)
                 setAllOrders(response.data.shipment_data);
