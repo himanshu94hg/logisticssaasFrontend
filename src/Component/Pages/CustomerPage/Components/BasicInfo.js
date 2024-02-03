@@ -27,7 +27,7 @@ const BasicInfo = () => {
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false)
 
 
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODYxNDk3LCJpYXQiOjE3MDY2MTUwOTcsImp0aSI6IjI0MTllNzg2NWY0NDRjNjM5OGYxZjAxMzlmM2Y2Y2M2IiwidXNlcl9pZCI6OX0.LNk9C0BFIgkIZpkYHNz2CvjzzcdwXkwYSOVpcK5A7Sw'
+  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
   useEffect(() => {
     axios
       .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
