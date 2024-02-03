@@ -8,7 +8,7 @@ function TopSellingDashboard() {
 
   useEffect(() => {
     axios
-      .get('http://35.154.133.143/api/v1/topproduct/')
+      .get('http://65.2.38.87:8088/api/v1/topproduct/')
       .then(response => {
         console.log('Data:', response.data);
         setPopularProduct(response.data);

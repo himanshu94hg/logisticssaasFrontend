@@ -10,7 +10,7 @@ const TopRTOPincodes = () => {
 
   useEffect(() => {
     axios
-      .get('http://35.154.133.143/api/v1/top-rto-pincode/')
+      .get('http://65.2.38.87:8088/api/v1/top-rto-pincode/')
       .then((response) => {
         setData(response.data || []); // Ensure data is an array
         setFilteredData(response.data || []);

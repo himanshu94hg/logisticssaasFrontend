@@ -16,7 +16,7 @@ function DailyPreferences() {
   const [prefData, setPrefData] = useState({});
   
   useEffect(() => {
-    axios.get('http://35.154.133.143/api/v1/daily-prefrences/')
+    axios.get('http://65.2.38.87:8088/api/v1/daily-prefrences/')
       .then(response => {
         setPrefData(response.data);
       })

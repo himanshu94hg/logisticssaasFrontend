@@ -6,7 +6,7 @@ import { Table } from 'react-bootstrap';
 const MostViewedStatus = () => {
     const [courierPartner, setCourierPartner] = useState([]);
     useEffect(() => {
-        axios.get('http://35.154.133.143/api/v1/shipment-overview/')
+        axios.get('http://65.2.38.87:8088/api/v1/shipment-overview/')
             .then(response => {
                 setCourierPartner(response.data);
             })

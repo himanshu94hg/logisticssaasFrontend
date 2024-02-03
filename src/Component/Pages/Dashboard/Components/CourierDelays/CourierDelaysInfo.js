@@ -22,10 +22,10 @@ function CourierDelaysInfo() {
           damageDeleyResponse,
           destroyedDeleyResponse,
         ] = await Promise.all([
-          axios.get('http://35.154.133.143/api/v1/misrouted-deley/'),
-          axios.get('http://35.154.133.143/api/v1/lost-deley/'),
-          axios.get('http://35.154.133.143/api/v1/damage-deley/'),
-          axios.get('http://35.154.133.143/api/v1/destroyed-deley/'),
+          axios.get('http://65.2.38.87:8088/api/v1/misrouted-deley/'),
+          axios.get('http://65.2.38.87:8088/api/v1/lost-deley/'),
+          axios.get('http://65.2.38.87:8088/api/v1/damage-deley/'),
+          axios.get('http://65.2.38.87:8088/api/v1/destroyed-deley/'),
         ]);
         setMisroutedDeley(misroutedDeleyResponse.data);
         setLostdeley(lostdeleyResponse.data);

@@ -62,7 +62,7 @@ const ShipmentsMIS = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/shipment/v1/actionreqshipment/') // Replace with your API endpoint
+            .get('http://65.2.38.87:8088/shipment/v1/actionreqshipment/') // Replace with your API endpoint
             .then(response => {
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data.shipment_data);

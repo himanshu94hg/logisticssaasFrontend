@@ -35,7 +35,7 @@ const FreightInvoice = () => {
 
     useEffect(() => {
         axios
-            .get('http://35.154.133.143/billing/v1/invoicelog/') // Replace with your API endpoint
+            .get('http://65.2.38.87:8088/billing/v1/invoicelog/') // Replace with your API endpoint
             .then(response => {
                 setData(response.data);
             })

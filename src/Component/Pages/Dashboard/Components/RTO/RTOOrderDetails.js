@@ -9,7 +9,7 @@ const RTOOrderDetails = () => {
 
   useEffect(() => {
     axios
-      .get("http://35.154.133.143/api/v1/calculate-status-wise-rto/")
+      .get("http://65.2.38.87:8088/api/v1/calculate-status-wise-rto/")
       .then((response) => {
         setData(response.data);
         setLoading(false); // Set loading to false when data is received
