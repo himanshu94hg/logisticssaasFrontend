@@ -120,3 +120,23 @@
     flex-direction: column;
 }
 
+
+.Sign-section{
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    width: 100%;
+}
+
+.Sign-section span{
+    min-width: 5rem;
+    border-bottom: 1px solid;
+    display: inline-block;
+}
+
+
+.agreement-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1.5rem;
+}
