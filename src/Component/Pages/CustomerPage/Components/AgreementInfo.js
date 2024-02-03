@@ -1,57 +1,163 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useEffect, useRef, useState } from 'react';
+import { useReactToPrint } from 'react-to-print';
+import Swal from 'sweetalert2';
 
 const AgreementInfo = () => {
-  const [documentUpload, setDocumentUpload] = useState(null);
+  const [dynamicContent, setDynamicContent] = useState({
+    name: '',
+    place: '',
+    date: '',
+  });
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    const formData = new FormData();
-    formData.append('document_upload', documentUpload);
-  
-    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4ODQxMTU4LCJpYXQiOjE3MDY1OTQ3NTgsImp0aSI6IjM1NDQ4YzNhMDI3OTQ1NThiMzc1YzE5ZTI4YTJlNWI1IiwidXNlcl9pZCI6OH0.jnVhETWWWW8lD0OvmwUsG0w2B5Ybqg2jtLtqztWOpRg';
-  
-    try {
-      const response = await axios.post('http://127.0.0.1:8000/core-api/seller/agreement-info/', formData, {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-  
-      if (response.status === 200) {
-        setDocumentUpload(); 
-      } else {
-        console.error('Form submission failed');
+  const [currentLocation, setCurrentLocation] = useState(null);
+  const [currentPlace, setCurrentPlace] = useState(null);
+
+  const componentRef = useRef();
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  const updateContent = () => {
+    // Display a sweet alert before updating content
+    // console.log(currentPlace)
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You are about to update the content!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, update it!',
+      cancelButtonText: 'No, cancel!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const newDate = new Date().toLocaleDateString();
+        const newPlace = 'New Dynamic Place';
+        // Update the content dynamically
+        setDynamicContent({
+          name: 'New Name',
+          place: 'Gurugram',
+          date: newDate,
+        });
+
+        // Show success sweet alert
+        Swal.fire('Updated!', 'Content has been updated.', 'success');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // Show cancellation sweet alert
+        Swal.fire('Cancelled', 'Content update was cancelled.', 'error');
       }
-    } catch (error) {
-      console.error('API call error:', error);
-    }
-  };
-  
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setDocumentUpload(file);
+    });
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <>
       <div className='customer-details-container'>
         <div className='customer-details-form'>
-          <div className='details-form-row'>
-            <h5>Upload Agreement</h5>
-            <div className='d-flex gap-5'>
-            <label>
-                Please Upload File
-                <input className="input-field" type="file" onChange={handleFileChange} />
-              </label>
+          {/* <h5>Agreement</h5>
+          <p style={{ color: 'blue' }}>View and Download Agreement</p> */}
+          <div className='agreement-section'>
+            <h5>MERCHANT AGREEMENT</h5>
+            <h5>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</h5>
+            <p>This Merchant Agreement <strong>(“Agreement”)</strong> is between you
+              company/individual/firm/partnership/body corporate), together with any company or other
+              business entity you are representing, if any (hereinafter collectively referred as “<strong>Merchant</strong>” or
+              “<strong>you</strong>” or “<strong>User</strong>”); and <strong>Shipease Technologies Private Limited</strong>, a company registered under the
+              Companies Act, 1956, having its registered office at 81A, Road Number 41, Punjabi Bagh
+              (West), New Delhi 110026 and corporate office at Plot No B, Khasra-360, Sultanpur, M.G.
+              Road, New Delhi-110030, offering ‘ Logistics Management Services’, under the name
+              ‘Shiprocket’ (hereinafter referred to as “BFRS” or “we” or “Shiprocket” or “Company”, and
+              together with the User referred jointly as the “Parties” and individually as a “Party”).</p>
+            <h5>BACKGROUND</h5>
+            <p>This Agreement comes into effect when you register to use the Services (as defined below),
+              or click on “Continue” box, and accept the terms and conditions provided herein.
+              By registering or clicking on the ‘Continue’ box, you signify your absolute, irrevocable and
+              unconditional consent to all the provisions of this Agreement in its entirety. This Agreement
+              constitutes a legally binding agreement between you and BFRS. This Agreement defines the
+              terms and conditions under which you’re allowed to use the Shiprocket’s website (“Website”)
+              and Shiprocket’s mobile application (“Mobile App”), and how BFRS will treat your account
+              while you are a member. If you have any questions about our terms, feel free to contact us at
+              support@shiprocket.in.
+              You are advised to read this Agreement carefully. You expressly represent and warrant that
+              you will not avail the Services if you do not understand, agree to become a party to, and abide
+              by all of the terms and conditions specified below. Any violation of this Agreement may result
+              in legal liability upon you.
+              The Website/ Mobile App and the online/ offline services of BFRS or its affiliates, provides
+              access to a platform that facilitates more comfortable form of e-commerce where you can use
+              the logistics services according to your requirements within India and in countries designated
+              by BFRS from time to time (“Service(s)”).
+              This Agreement, among other things, provides the terms and conditions for use of the Services,
+              primarily through a web-based practice management software hosted and managed remotely
+              through the Website/Mobile App.
+              This Agreement is an electronic record in terms of Information Technology Act, 2000 and
+              generated by a computer system, and does not require any physical or digital signatures. This
+              Agreement is published in accordance with the provisions of Rule 3(1) of the Information
+              Technology (Intermediaries guidelines) Rules, 2011 that require publishing of the rules and
+              regulations, privacy policy and terms of usage for access or usage of the website/ service.</p>
+            <div className='Sign-section'>
+              <p>Name: <span>{dynamicContent.name}</span></p>
+              <p>Place: <span>{dynamicContent.place}</span></p>
+              <p>Date: <span>{dynamicContent.date}</span></p>
             </div>
-            <button className='btn main-button mt-5'>View Agreement</button>
           </div>
+          <div className='agreement-buttons mt-4'>
+            <button className='btn btn-success' onClick={updateContent}>Accept and Sign Agreement</button>
+            <button className='btn main-button' onClick={handlePrint}><FontAwesomeIcon icon={faDownload} /> Download Agreement</button>
+          </div>
+          <div style={{ display: 'none' }}>
+            <div ref={componentRef}>
+              {/* Content to be printed */}
+              <div className='agreement-section'>
+                <h5>MERCHANT AGREEMENT</h5>
+                <h5>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</h5>
+                <p>This Merchant Agreement <strong>(“Agreement”)</strong> is between you
+                  company/individual/firm/partnership/body corporate), together with any company or other
+                  business entity you are representing, if any (hereinafter collectively referred as “<strong>Merchant</strong>” or
+                  “<strong>you</strong>” or “<strong>User</strong>”); and <strong>Shipease Technologies Private Limited</strong>, a company registered under the
+                  Companies Act, 1956, having its registered office at 81A, Road Number 41, Punjabi Bagh
+                  (West), New Delhi 110026 and corporate office at Plot No B, Khasra-360, Sultanpur, M.G.
+                  Road, New Delhi-110030, offering ‘ Logistics Management Services’, under the name
+                  ‘Shiprocket’ (hereinafter referred to as “BFRS” or “we” or “Shiprocket” or “Company”, and
+                  together with the User referred jointly as the “Parties” and individually as a “Party”).</p>
+                <h5>BACKGROUND</h5>
+                <p>This Agreement comes into effect when you register to use the Services (as defined below),
+                  or click on “Continue” box, and accept the terms and conditions provided herein.
+                  By registering or clicking on the ‘Continue’ box, you signify your absolute, irrevocable and
+                  unconditional consent to all the provisions of this Agreement in its entirety. This Agreement
+                  constitutes a legally binding agreement between you and BFRS. This Agreement defines the
+                  terms and conditions under which you’re allowed to use the Shiprocket’s website (“Website”)
+                  and Shiprocket’s mobile application (“Mobile App”), and how BFRS will treat your account
+                  while you are a member. If you have any questions about our terms, feel free to contact us at
+                  support@shiprocket.in.
+                  You are advised to read this Agreement carefully. You expressly represent and warrant that
+                  you will not avail the Services if you do not understand, agree to become a party to, and abide
+                  by all of the terms and conditions specified below. Any violation of this Agreement may result
+                  in legal liability upon you.
+                  The Website/ Mobile App and the online/ offline services of BFRS or its affiliates, provides
+                  access to a platform that facilitates more comfortable form of e-commerce where you can use
+                  the logistics services according to your requirements within India and in countries designated
+                  by BFRS from time to time (“Service(s)”).
+                  This Agreement, among other things, provides the terms and conditions for use of the Services,
+                  primarily through a web-based practice management software hosted and managed remotely
+                  through the Website/Mobile App.
+                  This Agreement is an electronic record in terms of Information Technology Act, 2000 and
+                  generated by a computer system, and does not require any physical or digital signatures. This
+                  Agreement is published in accordance with the provisions of Rule 3(1) of the Information
+                  Technology (Intermediaries guidelines) Rules, 2011 that require publishing of the rules and
+                  regulations, privacy policy and terms of usage for access or usage of the website/ service.</p>
+                <div className='Sign-section'>
+                  <p>Name: <span>{dynamicContent.name}</span></p>
+                  <p>Place: <span>{dynamicContent.place}</span></p>
+                  <p>Date: <span>{dynamicContent.date}</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
-    </form>
+
+    </>
   );
 };
 
