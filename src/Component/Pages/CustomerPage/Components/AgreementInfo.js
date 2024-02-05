@@ -145,7 +145,7 @@ const AgreementInfo = () => {
                 <h5>MERCHANT AGREEMENT</h5>
                 <h5>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</h5>
                 <p>This Merchant Agreement <strong>(“Agreement”)</strong> is between you
-                  company/individual/firm/partnership/body corporate), together with any company or other
+                  (company/individual/firm/partnership/body corporate), together with any company or other
                   business entity you are representing, if any (hereinafter collectively referred as “<strong>Merchant</strong>” or
                   “<strong>you</strong>” or “<strong>User</strong>”); and <strong>Shipease Technologies Private Limited</strong>, a company registered under the
                   Companies Act, 1956, having its registered office at 81A, Road Number 41, Punjabi Bagh
