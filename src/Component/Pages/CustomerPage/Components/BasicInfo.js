@@ -78,7 +78,7 @@ const BasicInfo = () => {
       formData.append('city', cityName);
       formData.append('state', stateName);
 
-      const response = await fetch('http://65.2.38.87:8000/core-api/seller/basic-info/', {
+      const response = await fetch('http://65.2.38.87:8088/core-api/seller/basic-info/', {
         method: 'POST',
         body: formData,
         headers: {
