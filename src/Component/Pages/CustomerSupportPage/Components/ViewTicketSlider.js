@@ -24,7 +24,7 @@ const ViewTicketSlider = (props) => {
         <FontAwesomeIcon icon={faChevronRight} />
       </div>
       <section className='ticket-slider-header'>
-        <h2 className='mb-0'>View Ticket</h2>
+        <h2 className='mb-0'>View Ticket : 01</h2>
       </section>
       <section className='ticket-slider-body'>
         <div className='status-container mb-2'>
