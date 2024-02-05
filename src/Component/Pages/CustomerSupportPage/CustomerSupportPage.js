@@ -59,7 +59,7 @@ const CustomerSupportPage = () => {
           FilterTickets={FilterTickets} setFilterTickets={setFilterTickets}
           setNewTicket={setNewTicket} NewTicket={NewTicket}
         />
-        
+
 
         <div className='row mt-3'>
           {ActiveTab === 'AllTickets' ?
@@ -137,20 +137,7 @@ const CustomerSupportPage = () => {
 
       {/* View Ticket */}
       <div className={`ticket-slider ${ViewTicketInfo ? 'open' : ''}`}>
-        <div
-          id='sidepanel-closer'
-          onClick={() => setViewTicketInfo(!ViewTicketInfo)}
-        >
-          <FontAwesomeIcon icon={faChevronRight} />
-        </div>
-
-        <section className='ticket-slider-header'>
-          <h2 className='mb-0'>View Ticket</h2>
-        </section>
-        <section className='ticket-slider-body'>
-          <ViewTicketSlider />
-        </section>
-
+        <ViewTicketSlider setViewTicketInfo={setViewTicketInfo} ViewTicketInfo={ViewTicketInfo} />
       </div>
       <div className={`backdrop ${NewTicket || FilterTickets || ViewTicketInfo ? 'd-block' : 'd-none'}`}></div>
     </>
