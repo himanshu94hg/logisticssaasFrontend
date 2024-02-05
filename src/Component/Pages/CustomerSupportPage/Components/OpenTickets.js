@@ -72,27 +72,31 @@ const OpenTickets = (props) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     // const [orders, setAllOrders] = useState([]);  //for API
-    const [orders, setAllOrders] = useState(dummyData); //for dummy data
+    const [allTicket, setAllTicket] = useState(); //for dummy data
 
-    // useEffect(() => {
-    //     axios
-    //         .get('http://65.2.38.87:8088/order/v1/allorderdetail/') // Replace with your API endpoint
-    //         .then(response => {
-    //             console.log('Data is data:', response.data);
-    //             setAllOrders(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //         });
-    // }, []);
+    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
+    useEffect(() => {
+        axios
+            .get('http://65.2.38.87:8088/core-api/features/support-tickets/', {
+                headers: {
+                    'Authorization': `Bearer ${hardcodedToken}`,
+                },
+            })
+            .then(response => {
+                console.log('Data is data:', response.data);
+                setAllTicket(response.data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, []);
 
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
-
+    console.log("########################all ticket is",allTicket)
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(ticket => ticket.id));
+            setSelectedRows(allTicket.map(ticket => ticket.id));
         } else {
             setSelectedRows([]);
         }
@@ -109,9 +113,9 @@ const OpenTickets = (props) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && !isSelected) {
+        if (selectedRows.length === allTicket.length - 1 && !isSelected) {
             setSelectAll(true);
-        } else if (selectedRows.length === orders.length && isSelected) {
+        } else if (selectedRows.length === allTicket.length && isSelected) {
             setSelectAll(false);
         }
     };
@@ -142,51 +146,51 @@ const OpenTickets = (props) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((ticket, index) => (
+                            {allTicket?.map((ticket, index) => (
                                 <React.Fragment key={ticket.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(ticket.id)}
-                                                onChange={() => handleSelectRow(ticket.id)}
+                                                checked={selectedRows.includes(ticket?.id)}
+                                                onChange={() => handleSelectRow(ticket?.id)}
                                             />
                                         </td>
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                {ticket.id}
+                                                {ticket?.id}
                                             </div>
                                         </td>
                                         <td>
                                             {/* AWB */}
                                             <div className='cell-inside-box'>
-                                                {ticket.awb}
+                                                {ticket?.awb_number}
                                             </div>
                                         </td>
                                         <td>
                                             {/* subcategory */}
                                             <div className='cell-inside-box'>
-                                                {ticket.subcategory}
+                                                {ticket?.category}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Status */}
                                             <div className='cell-inside-box'>
-                                                {ticket.status}
+                                                {ticket?.status}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {ticket.resolutionDueBy}
+                                                {ticket?.resolutionDueBy}
                                             </div>
                                         </td>
                                         <td>
                                             {/* last Updated */}
                                             <div className='cell-inside-box'>
-                                                {ticket.lastUpdated}
+                                                {ticket?.lastUpdated}
                                             </div>
                                         </td>
 

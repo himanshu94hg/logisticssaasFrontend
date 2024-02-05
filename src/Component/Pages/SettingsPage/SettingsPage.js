@@ -15,6 +15,7 @@ import UserRoleBG from '../../../assets/image/settingsBG/UserRoleBG.png'
 import TrackingBG from '../../../assets/image/settingsBG/TrackingBG.png'
 import ReturnBG from '../../../assets/image/settingsBG/codBG.png'
 import ApiBG from '../../../assets/image/settingsBG/ApiBG.png'
+import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 
 const SettingsPage = () => {
     return (
@@ -417,6 +418,26 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <img src={ApiBG} alt="CompanyBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Sub Accounts Management</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Manage Sub Accounts
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={SubAccountBG} alt="SubAccountBG" />
                 </div>
             </section>
         </>

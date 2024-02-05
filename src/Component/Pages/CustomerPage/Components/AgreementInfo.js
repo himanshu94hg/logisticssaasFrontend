@@ -1,18 +1,52 @@
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
 
 const AgreementInfo = () => {
+  const [Basicinfo, setBasicinfo] = useState([])
   const [dynamicContent, setDynamicContent] = useState({
     name: '',
     place: '',
     date: '',
   });
 
-  const [currentLocation, setCurrentLocation] = useState(null);
-  const [currentPlace, setCurrentPlace] = useState(null);
+
+  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
+  useEffect(() => {
+    axios
+      .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+        },
+      })
+      .then(response => {
+        setBasicinfo(response.data);
+        // const basicInfoData = response.data[0] || {};
+        // setCompanyName(basicInfoData.company_name || '');
+        // setEmail(basicInfoData.email || '');
+        // setPanNumber(basicInfoData.pan_number || '');
+        // setGstNumber(basicInfoData.gst_number || '');
+        // setStreetName(basicInfoData.street || '');
+        // setZipCode(basicInfoData.pincode || '');
+        // setCityName(basicInfoData.city || '');
+        // setStateName(basicInfoData.state || '');
+        // setWebsite(basicInfoData.website_url || '');
+        // setMobileNumber(basicInfoData.mobile || '');
+
+        // Set other fields similarly
+
+
+        // setWebsite
+      })
+      .catch(error => {  // Add a .catch block here
+        console.error('Error fetching basic info:', error);
+      });
+  }, []);
+
+  console.log(Basicinfo.company_name)
 
   const componentRef = useRef();
 
@@ -36,7 +70,7 @@ const AgreementInfo = () => {
         const newPlace = 'New Dynamic Place';
         // Update the content dynamically
         setDynamicContent({
-          name: 'New Name',
+          name: 'Shipease',
           place: 'Gurugram',
           date: newDate,
         });
@@ -60,13 +94,13 @@ const AgreementInfo = () => {
             <h5>MERCHANT AGREEMENT</h5>
             <h5>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</h5>
             <p>This Merchant Agreement <strong>(“Agreement”)</strong> is between you
-              company/individual/firm/partnership/body corporate), together with any company or other
+              (company/individual/firm/partnership/body corporate), together with any company or other
               business entity you are representing, if any (hereinafter collectively referred as “<strong>Merchant</strong>” or
               “<strong>you</strong>” or “<strong>User</strong>”); and <strong>Shipease Technologies Private Limited</strong>, a company registered under the
               Companies Act, 1956, having its registered office at 81A, Road Number 41, Punjabi Bagh
               (West), New Delhi 110026 and corporate office at Plot No B, Khasra-360, Sultanpur, M.G.
               Road, New Delhi-110030, offering ‘ Logistics Management Services’, under the name
-              ‘Shiprocket’ (hereinafter referred to as “BFRS” or “we” or “Shiprocket” or “Company”, and
+              ‘Shipease’ (hereinafter referred to as “BFRS” or “we” or “Shipease” or “Company”, and
               together with the User referred jointly as the “Parties” and individually as a “Party”).</p>
             <h5>BACKGROUND</h5>
             <p>This Agreement comes into effect when you register to use the Services (as defined below),
@@ -74,10 +108,10 @@ const AgreementInfo = () => {
               By registering or clicking on the ‘Continue’ box, you signify your absolute, irrevocable and
               unconditional consent to all the provisions of this Agreement in its entirety. This Agreement
               constitutes a legally binding agreement between you and BFRS. This Agreement defines the
-              terms and conditions under which you’re allowed to use the Shiprocket’s website (“Website”)
-              and Shiprocket’s mobile application (“Mobile App”), and how BFRS will treat your account
+              terms and conditions under which you’re allowed to use the Shipease’s website (“Website”)
+              and Shipease’s mobile application (“Mobile App”), and how BFRS will treat your account
               while you are a member. If you have any questions about our terms, feel free to contact us at
-              support@shiprocket.in.
+              support@Shipease.in.
               You are advised to read this Agreement carefully. You expressly represent and warrant that
               you will not avail the Services if you do not understand, agree to become a party to, and abide
               by all of the terms and conditions specified below. Any violation of this Agreement may result
@@ -117,7 +151,7 @@ const AgreementInfo = () => {
                   Companies Act, 1956, having its registered office at 81A, Road Number 41, Punjabi Bagh
                   (West), New Delhi 110026 and corporate office at Plot No B, Khasra-360, Sultanpur, M.G.
                   Road, New Delhi-110030, offering ‘ Logistics Management Services’, under the name
-                  ‘Shiprocket’ (hereinafter referred to as “BFRS” or “we” or “Shiprocket” or “Company”, and
+                  ‘Shipease’ (hereinafter referred to as “BFRS” or “we” or “Shipease” or “Company”, and
                   together with the User referred jointly as the “Parties” and individually as a “Party”).</p>
                 <h5>BACKGROUND</h5>
                 <p>This Agreement comes into effect when you register to use the Services (as defined below),
@@ -125,10 +159,10 @@ const AgreementInfo = () => {
                   By registering or clicking on the ‘Continue’ box, you signify your absolute, irrevocable and
                   unconditional consent to all the provisions of this Agreement in its entirety. This Agreement
                   constitutes a legally binding agreement between you and BFRS. This Agreement defines the
-                  terms and conditions under which you’re allowed to use the Shiprocket’s website (“Website”)
-                  and Shiprocket’s mobile application (“Mobile App”), and how BFRS will treat your account
+                  terms and conditions under which you’re allowed to use the Shipease’s website (“Website”)
+                  and Shipease’s mobile application (“Mobile App”), and how BFRS will treat your account
                   while you are a member. If you have any questions about our terms, feel free to contact us at
-                  support@shiprocket.in.
+                  support@Shipease.in.
                   You are advised to read this Agreement carefully. You expressly represent and warrant that
                   you will not avail the Services if you do not understand, agree to become a party to, and abide
                   by all of the terms and conditions specified below. Any violation of this Agreement may result

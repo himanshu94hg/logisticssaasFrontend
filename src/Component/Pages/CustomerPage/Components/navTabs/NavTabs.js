@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function NavTabs(props) {
   const [selectedOption, setSelectedOption] = useState("Parent Account");
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -86,20 +86,20 @@ export default function NavTabs(props) {
 
         <div className={`options-container ${isOpen ? "open" : ""}`}>
           <div
-            className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Domestic")}
+            className={`option ${selectedOption === "Parent Account" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("Parent Account")}
           >
             Parent Account
           </div>
           <div
-            className={`option ${selectedOption === "International" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("International")}
+            className={`option ${selectedOption === "Sub Acount One" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("Sub Acount One")}
           >
             Sub Acount One
           </div>
           <div
-            className={`option ${selectedOption === "International" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("International")}
+            className={`option ${selectedOption === "Sub Acount Two" ? "selected" : ""}`}
+            onClick={() => handleOptionSelect("Sub Acount Two")}
           >
             Sub Acount Two
           </div>

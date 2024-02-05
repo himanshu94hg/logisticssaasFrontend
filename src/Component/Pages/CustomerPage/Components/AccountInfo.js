@@ -55,7 +55,9 @@ const AccountInfo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("submit")
+  };
 
+  const addAnotherAccount = () => {
     setAccounts((prevAccounts) => [
       ...prevAccounts,
       {
@@ -69,7 +71,7 @@ const AccountInfo = () => {
       },
     ]);
     setPdfPreviews((prevPreviews) => [...prevPreviews, null]);
-  };
+  }
 
   const handleDelete = (index) => {
     // Only delete non-primary accounts
@@ -126,27 +128,27 @@ const AccountInfo = () => {
                     <div className='d-flex w-100 gap-3 mt-4'>
                       <label>
                         Account Holder Name
-                        <input className="input-field" type="text" value={account.accountHolderName} onChange={(e) => setAccountHolderName(e.target.value)} />
+                        <input className="input-field" type="text" value={accountHolderName} onChange={(e) => setAccountHolderName(e.target.value)} />
                       </label>
                       <label>
                         Account Number
-                        <input className="input-field" type="text" value={account.accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
+                        <input className="input-field" type="text" value={accountNumber} onChange={(e) => setAccountNumber(e.target.value)} />
                       </label>
                     </div>
                     <div className='d-flex w-100 gap-3 mt-4'>
                       <label>
                         IFSC Code
-                        <input className="input-field" type="text" value={account.ifscCode} onChange={(e) => setIfscCode(e.target.value)} />
+                        <input className="input-field" type="text" value={ifscCode} onChange={(e) => setIfscCode(e.target.value)} />
                       </label>
                       <label>
                         Bank Name
-                        <input className="input-field" type="text" value={account.bankName} onChange={(e) => setBankName(e.target.value)} />
+                        <input className="input-field" type="text" value={bankName} onChange={(e) => setBankName(e.target.value)} />
                       </label>
                     </div>
                     <div className='d-flex w-100 gap-3 mt-4'>
                       <label>
                         Branch Name
-                        <input className="input-field" type="text" value={account.branchName} onChange={(e) => setBranchName(e.target.value)} />
+                        <input className="input-field" type="text" value={branchName} onChange={(e) => setBranchName(e.target.value)} />
                       </label>
                       <label className='position-relative'>
                         Please Upload Cheque Image
@@ -178,7 +180,7 @@ const AccountInfo = () => {
             ))}
             {/* Additional button to add another account */}
             <div className='d-flex justify-content-end'>
-              <div className='add-account-text' type="submit" onClick={handleSubmit}>
+              <div className='add-account-text' type="submit" onClick={addAnotherAccount}>
               <FontAwesomeIcon icon={faPlus} /> Add Another Account
               </div>
             </div>

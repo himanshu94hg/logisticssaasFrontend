@@ -130,7 +130,7 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'>Create a new Ticket!</h2>
         </section>
         <section className='ticket-slider-body'>
-          <CreateTicketForm />
+          <CreateTicketForm setNewTicket={setNewTicket} NewTicket={NewTicket} />
         </section>
 
       </div>
