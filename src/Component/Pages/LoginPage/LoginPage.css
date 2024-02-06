@@ -1,0 +1,160 @@
+.login-section {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    flex-wrap: wrap;
+    overflow: hidden;
+    left: 0;
+    top: 0;
+}
+
+.login-section::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(var(--sh-primary), var(--sh-primary-light), var(--sh-primary));
+    animation: animate 5s linear infinite;
+}
+
+@keyframes animate {
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
+}
+
+.login-section span {
+    position: relative;
+    display: block;
+    width: calc(6.25vw - 2px);
+    height: calc(6.25vw - 2px);
+    background: #fff;
+    z-index: 2;
+    transition: 1.5s;
+}
+
+.login-section span:hover {
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    transition: 0s;
+}
+
+.login-section .signin {
+    position: absolute;
+    width: 400px;
+    background: #fff;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 9);
+}
+
+.login-section .signin .content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.login-section .signin .content h2 {
+    font-size: 2em;
+    color: var(--sh-primary);
+    text-transform: uppercase;
+}
+
+.login-section .signin .content .form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.login-section .signin .content .form .inputBox {
+    position: relative;
+    width: 100%;
+}
+
+.login-section .signin .content .form .inputBox input {
+    position: relative;
+    width: 100%;
+    padding: 25px 10px 7.5px;
+    border-radius: 4px;
+    color: #fff;
+    font-weight: 500;
+    font-size: 1em;
+}
+
+.login-section .signin .content .form .inputBox i {
+    position: absolute;
+    left: 0;
+    padding: 6px 10px;
+    font-style: normal;
+    color: #aaa;
+    transition: 0.5s;
+    pointer-events: none;
+}
+
+.login-section .signin .content .form .inputBox input:focus~i,
+.login-section .signin .content .form .inputBox input:valid~i {
+    transform: translateY(-7.5px);
+    font-size: 0.8em;
+    color: #fff;
+}
+
+.login-section .signin .content .form .links {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.login-section .signin .content .form .links a {
+    color: var(--sh-primary);
+    text-decoration: none;
+}
+
+.login-section .signin .content .form .links a:nth-child(2) {
+    color: var(--sh-primary);
+    font-weight: 600;
+}
+
+.login-section .signin .content .form .inputBox input[type="submit"] {
+    padding: 10px;
+    background: var(--sh-primary);
+    color: #000;
+    font-weight: 600;
+    font-size: 1.35em;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+}
+
+.login-section input[type="submit"]:active {
+    opacity: 0.6;
+}
+
+@media (max-width: 900px) {
+    .login-section span {
+        width: calc(10vw - 2px);
+        height: calc(10vw - 2px);
+    }
+}
+
+@media (max-width: 600px) {
+    .login-section span {
+        width: calc(20vw - 2px);
+        height: calc(20vw - 2px);
+    }
+}

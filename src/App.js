@@ -23,44 +23,43 @@ import CustomerPage from './Component/Pages/CustomerPage/CustomerPage';
 import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerSupportPage';
 import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles';
+import LoginPage from './Component/Pages/LoginPage/LoginPage';
 
 function App() {
   return (
-     <Router>
-       <div className="container p-0 m-0" style={{ display: "flex" }}>
-        
-           <Sidebar />
-        
-         <div className="rightContainer">
-           <div>
-             <Header />
-           </div>
-           <Routes>            
-             <Route path="/Reassign-orders" element={<AllOrders/>} />
-             <Route path="/merge-orders" element={<AllOrders/>} />
-             <Route path="/split-orders" element={<AllOrders/>} />
-             <Route path="/Orders" element={<OrdersPage/>} />
-             <Route path="/Shipments" element={<ShipmentsPage/>} />
-             <Route path="/dailyprefrences" element={<DailyPrefrences/>}/>
-             <Route path="/channels-integration" element={<ChannelsIntegration />}/>
-             <Route path="/OMS-integration" element={<OMSIntegration />}/>
-             <Route path="/couriers-integration" element={<CouriersIntegration />}/>
-             <Route path="/API-integration" element={<APIIntegration />}/>
-             <Route path="/other-integration" element={<OtherIntegration />}/>
-             <Route path="/IndiaMapp" element={<IndiaMapp />}/>
-             <Route path="/create-order" element={<CreateOrderFlow />}/>
-             <Route path="/billing" element={<BillingPage />}/>
-             <Route path="/weight-reconciliation" element={<WeightRecoPage />}/>
-             <Route path="/MIS" element={<MISPage />}/>
-             <Route path="/customer" element={<CustomerPage />}/>
-             <Route path="/customer-support" element={<CustomerSupportPage />}/>
-             <Route path="/settings" element={<SettingsPage />}/>
-             <Route path="/help-articles" element={<HelpArticles />}/>
-             <Route path="/" element={<Dashboard/>} />
-           </Routes>
-         </div>
-       </div>
-     </Router>
+      <div className="container p-0 m-0" style={{ display: "flex" }}>
+
+        <Sidebar />
+
+        <div className="rightContainer">
+          <div>
+            <Header />
+          </div>
+          <Routes>
+            <Route path="/Reassign-orders" element={<AllOrders />} />
+            <Route path="/merge-orders" element={<AllOrders />} />
+            <Route path="/split-orders" element={<AllOrders />} />
+            <Route path="/Orders" element={<OrdersPage />} />
+            <Route path="/Shipments" element={<ShipmentsPage />} />
+            <Route path="/dailyprefrences" element={<DailyPrefrences />} />
+            <Route path="/channels-integration" element={<ChannelsIntegration />} />
+            <Route path="/OMS-integration" element={<OMSIntegration />} />
+            <Route path="/couriers-integration" element={<CouriersIntegration />} />
+            <Route path="/API-integration" element={<APIIntegration />} />
+            <Route path="/other-integration" element={<OtherIntegration />} />
+            <Route path="/IndiaMapp" element={<IndiaMapp />} />
+            <Route path="/create-order" element={<CreateOrderFlow />} />
+            <Route path="/billing" element={<BillingPage />} />
+            <Route path="/weight-reconciliation" element={<WeightRecoPage />} />
+            <Route path="/MIS" element={<MISPage />} />
+            <Route path="/customer" element={<CustomerPage />} />
+            <Route path="/customer-support" element={<CustomerSupportPage />} />
+            <Route path="/settings" element={<SettingsPage />} />
+            <Route path="/help-articles" element={<HelpArticles />} />
+            <Route path="/" element={<Dashboard />} />
+          </Routes>
+        </div>
+      </div>
   );
 }
 
