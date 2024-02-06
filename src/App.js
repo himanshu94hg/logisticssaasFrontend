@@ -24,6 +24,7 @@ import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerS
 import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles';
 import LoginPage from './Component/Pages/LoginPage/LoginPage';
+import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 
 function App() {
   return (
@@ -56,6 +57,7 @@ function App() {
             <Route path="/customer-support" element={<CustomerSupportPage />} />
             <Route path="/settings" element={<SettingsPage />} />
             <Route path="/help-articles" element={<HelpArticles />} />
+            <Route path="/manage-warehouses" element={<ManageWarehouse />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>

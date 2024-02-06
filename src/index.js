@@ -25,6 +25,7 @@ import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerS
 import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles';
 import Dashboard from './Component/Pages/Dashboard/Dashboard';
+import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -52,6 +53,7 @@ ReactDOM.render(
           <Route path="/customer-support" element={<CustomerSupportPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/help-articles" element={<HelpArticles />} />
+          <Route path="/manage-warehouses" element={<ManageWarehouse />} />
           <Route path="/" element={<Dashboard />} />
         </Route>
       </Routes>

@@ -16,6 +16,7 @@ import TrackingBG from '../../../assets/image/settingsBG/TrackingBG.png'
 import ReturnBG from '../../../assets/image/settingsBG/codBG.png'
 import ApiBG from '../../../assets/image/settingsBG/ApiBG.png'
 import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
+import { Link } from 'react-router-dom'
 
 const SettingsPage = () => {
     return (
@@ -62,10 +63,12 @@ const SettingsPage = () => {
                             <div className='tile-body'>
                                 <ul>
                                     <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Manage Pickup Addresses
+                                        <Link to='/manage-warehouses'>
+                                            <span className='icon-container'>
+                                                <FontAwesomeIcon icon={faAnglesRight} />
+                                            </span>
+                                            Manage Pickup Addresses
+                                        </Link>
                                     </li>
                                 </ul>
                             </div>
