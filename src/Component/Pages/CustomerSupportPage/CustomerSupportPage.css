@@ -315,3 +315,16 @@ table tr td {
     cursor: pointer;
 }
 
+.comment-container{
+    position: relative;
+    padding-bottom: 24px;
+    min-width: 150px;
+}
+
+.comment-container p{
+    position: absolute;
+    bottom: 0;
+    right: 8px;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+}

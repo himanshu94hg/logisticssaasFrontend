@@ -4,44 +4,11 @@ import axios from "axios";
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 
-const dummyData = [
-    {
-        id: 1,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 2,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 3,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 4,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    // Add more data as needed
-];
+
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
+  
 
     useEffect(() => {
         const formattedDateTime = formatDateTime(dateTimeString);
@@ -71,32 +38,43 @@ const OpenTickets = (props) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    // const [orders, setAllOrders] = useState([]);  //for API
-    const [allTicket, setAllTicket] = useState(); //for dummy data
+    const[openTicket,setOpenTicket]=useState()
+    
 
-    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
     useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/core-api/features/support-tickets/', {
-                headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,
-                },
-            })
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllTicket(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        const fetchData = async () => {
+            try {
+                const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY'
+                const response = await axios.get(
+                    'http://65.2.38.87:8088/core-api/features/support-tickets/',
+                    {
+                        params: {
+                            // sub_category: 14,
+                            status: 'Open',
+                            // resolution_due_by: '2024-01-01',
+                            // last_updated: '2024-02-01',
+                        },
+                        headers: {
+                            Authorization: `Bearer ${hardcodedToken}`,
+                        },
+                    }
+                );
+                setOpenTicket(response.data);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        fetchData();
     }, []);
 
-    console.log("########################all ticket is",allTicket)
+   
+
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(allTicket.map(ticket => ticket.id));
+            setSelectedRows(openTicket.map(ticket => ticket.id));
         } else {
             setSelectedRows([]);
         }
@@ -113,9 +91,9 @@ const OpenTickets = (props) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === allTicket.length - 1 && !isSelected) {
+        if (selectedRows.length === openTicket.length - 1 && !isSelected) {
             setSelectAll(true);
-        } else if (selectedRows.length === allTicket.length && isSelected) {
+        } else if (selectedRows.length === openTicket.length && isSelected) {
             setSelectAll(false);
         }
     };
@@ -146,7 +124,7 @@ const OpenTickets = (props) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {allTicket?.map((ticket, index) => (
+                            {openTicket?.map((ticket, index) => (
                                 <React.Fragment key={ticket.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -166,13 +144,13 @@ const OpenTickets = (props) => {
                                         <td>
                                             {/* AWB */}
                                             <div className='cell-inside-box'>
-                                                {ticket?.awb_number}
+                                                {ticket.awb_number}
                                             </div>
                                         </td>
                                         <td>
                                             {/* subcategory */}
                                             <div className='cell-inside-box'>
-                                                {ticket?.category}
+                                                {ticket.category}
                                             </div>
                                         </td>
                                         <td>
@@ -190,7 +168,7 @@ const OpenTickets = (props) => {
                                         <td>
                                             {/* last Updated */}
                                             <div className='cell-inside-box'>
-                                                {ticket?.lastUpdated}
+                                                {ticket.updated_at}
                                             </div>
                                         </td>
 

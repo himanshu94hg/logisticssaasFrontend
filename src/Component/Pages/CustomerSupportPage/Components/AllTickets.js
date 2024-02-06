@@ -4,41 +4,6 @@ import axios from "axios";
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 
-const dummyData = [
-    {
-        id: 1,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 2,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 3,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 4,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    // Add more data as needed
-];
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -74,25 +39,35 @@ const AllTickets = (props) => {
     // const [orders, setAllOrders] = useState([]);  //for API
     const [allTicket, setAllTicket] = useState(); //for dummy data
 
-    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/core-api/features/support-tickets/', {
-                headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,
-                },
-            })
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllTicket(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
-    console.log("########################all ticket is",allTicket)
-    // Handler for "Select All" checkbox
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzI5MzczLCJpYXQiOjE3MDcxMjQ1NzMsImp0aSI6ImVjNDkwMGEzN2Q4YjRhN2U4YzM0Zjg3OGQyZTc3YzRlIiwidXNlcl9pZCI6Mn0.0cZBgN8Zzphn9WiQY37XcXUDCL-aI5TXlgsdjMZdqYU'
+    //             const response = await axios.get(
+    //                 'http://65.2.38.87:8088/core-api/features/support-tickets/',
+    //                 {
+    //                     // params: {
+    //                     //     // sub_category: 14,
+    //                     //     status: 'Closed',
+    //                     //     // resolution_due_by: '2024-01-01',
+    //                     //     // last_updated: '2024-02-01',
+    //                     // },
+    //                     headers: {
+    //                         Authorization: `Bearer ${hardcodedToken}`,
+    //                     },
+    //                 }
+    //             );
+    //             setAllTicket(response.data);
+    //         } catch (error) {
+    //             console.error('Error fetching data:', error);
+    //         }
+    //     };
+
+    //     fetchData();
+    // }, []);
+    // console.log("########################all ticket is",allTicket)
+
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -146,7 +121,7 @@ const AllTickets = (props) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {allTicket?.map((ticket, index) => (
+                            {props.allTicket?.map((ticket, index) => (
                                 <React.Fragment key={ticket.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -190,7 +165,7 @@ const AllTickets = (props) => {
                                         <td>
                                             {/* last Updated */}
                                             <div className='cell-inside-box'>
-                                                {ticket?.lastUpdated}
+                                                {ticket?.updated_at}
                                             </div>
                                         </td>
 
@@ -199,10 +174,14 @@ const AllTickets = (props) => {
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button
-                                                    onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
+                                                    onClick={() => {
+                                                        props.setViewTicketInfo(!props.ViewTicketInfo);
+                                                        props.handleViewButtonClick(ticket?.id);
+                                                    }}
                                                     className='btn main-button'>
                                                     <FontAwesomeIcon icon={faEye} /> View
                                                 </button>
+
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />

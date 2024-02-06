@@ -1,158 +1,129 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import axios from 'axios';
 
-const FilterTicketsForm = () => {
-  const categories = [
-    { value: '', label: 'Choose a Subcategory' },
+const FilterTicketsForm = (props) => {
+  const [subcatList, setSubcategory] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [resolutionDate, setResolutionDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
 
-    {
-      label: 'Pickup & Delivery',
-      options: [
-        { value: 'delay_forward_delivery', label: 'Delay in Forward Delivery' },
-        { value: 'delay_rto_delivery', label: 'Delay in RTO Delivery' },
-        { value: 'delay_pickup', label: 'Delay in Pickup' },
-        { value: 'lost_damaged_tracking', label: 'Shipment Showing as Lost/Damaged in Tracking' },
-      ],
-    },
-    {
-      label: 'Shipment NDR & RTO',
-      options: [
-        { value: 'undelivered_shipment', label: 'Issue Over Undelivered Shipment' },
-        { value: 'mark_as_rto', label: 'Request to Mark Shipment as RTO' },
-      ],
-    },
-    {
-      label: 'Shipment Dispute',
-      options: [
-        { value: 'delivered_shipment', label: 'Issues with Delivered Shipment' },
-        { value: 'weight_discrepancy', label: 'Issue Over Weight Discrepancy' },
-      ],
-    },
-    {
-      label: 'Finance',
-      options: [
-        { value: 'delay_cod_remittance', label: 'Delay in COD Remittance' },
-        { value: 'hold_cod_remittance', label: 'Request to Hold COD Remittance' },
-        { value: 'transfer_wallet_to_bank', label: 'Transfer Wallet Amount into My Bank Account' },
-        { value: 'recharge_issue', label: 'Issue in Recharging Wallet' },
-        { value: 'plan_upgrade_downgrade', label: 'Upgrade/Downgrade Shiprocket Plan' },
-        { value: 'negative_wallet_balance', label: 'Wallet Showing Negative Balance' },
-      ],
-    },
-    {
-      label: 'KYC & Bank Verification',
-      options: [
-        { value: 'kyc_verification', label: 'Issues with KYC Verification' },
-        { value: 'bank_verification_issue', label: 'Facing Issues in Verifying Bank Account Details' },
-      ],
-    },
-    {
-      label: 'International Shipping',
-      options: [
-        { value: 'general_enquiry', label: 'General Enquiry' },
-      ],
-    },
-    {
-      label: 'Technical Support',
-      options: [
-        { value: 'channel_api_integration', label: 'Issues With Channel & API Integration' },
-        { value: 'order_management_issue', label: 'Issue In Managing Orders' },
-        { value: 'cancellation_issue', label: 'Order/Shipment Cancellation' },
-      ],
-    },
-    {
-      label: 'Billing & Taxation',
-      options: [
-        { value: 'account_ledger_statement', label: 'Account Ledger Statement Needed' },
-        { value: 'tds_form', label: 'TDS Form Required for Tax Return' },
-        { value: 'invoice_issue', label: 'Issue with Invoice' },
-        { value: 'help_with_gst', label: 'Need Help with GST' },
-      ],
-    },
-    {
-      label: 'Claims',
-      options: [
-        { value: 'refund_to_bank', label: 'Transfer Lost Shipment Refund to My Bank Account' },
-        { value: 'amount_not_received', label: 'Amount Not Received for Lost Shipment' },
-        { value: 'credit_note_details', label: 'Credit Note Details Required' },
-        { value: 'claim_request', label: 'Request Claim for Secure Shipment' },
-      ],
-    },
-    {
-      label: 'Others',
-      options: [
-        { value: 'engage_services_issue', label: 'Issue with Engage Services' },
-        { value: 'srf_services_issue', label: 'Issue with SRF services' },
-        { value: 'direct_orders_issue', label: 'Issue with Direct orders' },
-        { value: 'not_listed_issue', label: 'My Issue is Not Listed' },
-        { value: 'not_listed_issue', label: 'My Issue is Not Listed' }, // Duplicate entry for 'not_listed_issue'
-      ],
-    },
-  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const hardcodedToken =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY';
+        const response = await axios.get(
+          'http://65.2.38.87:8088/core-api/features/ticket-sub-category/',
+          {
+            headers: {
+              Authorization: `Bearer ${hardcodedToken}`,
+            },
+          }
+        );
+
+        // Format the data to match the expected structure for Select options
+        const formattedOptions = response.data.map((category) => ({
+          value: category.id,
+          label: category.name,
+        }));
+
+        setSubcategory(formattedOptions);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (selectedOption) => {
-    console.log(`Selected option:`, selectedOption);
+    setSelectedCategories(selectedOption);
+  };
+
+  const handleStatusChange = (selectedOption) => {
+    setSelectedStatus(selectedOption.value);
+  };
+
+  const handleResolutionDateChange = (date) => {
+    setResolutionDate(date);
+  };
+
+  const handleEndDateChange = (date) => {
+    setEndDate(date);
+  };
+
+  const handleApply = () => {
+    props.handleFormSubmit(selectedCategories,selectedStatus,resolutionDate,endDate,"filter")
+    // Here you can perform further actions with the selected values, such as submitting the form data to an API
   };
 
   const StatusOptions = [
     { value: '', label: 'Select Status' },
-    { value: 'open', label: 'Open' },
-    { value: 'wip', label: 'Work In Progress' },
-    { value: 'closed', label: 'Closed' },
+    { value: 'Open', label: 'Open' },
+    { value: 'In-progess', label: 'In-progess' },
+    { value: 'Closed', label: 'Closed' },
   ];
 
-  const defaultDate = new Date();
-
+  
   return (
-    <section className="ticket-slider-body">
-            
-            <div className='ticket-filter-inputs'>
-              <Select
-                options={categories}
-                onChange={handleChange}
-                placeholder="Choose a Subcategory"
-                isMulti // Enables multi-select
-              />
-              <Select
-                options={StatusOptions}
-                placeholder="Select Status"
-              />
-            </div>
-            <hr />
-            <div className='ticket-filter-inputs'>
-              <div>
-                <h6>Resolution Due By</h6>
-                <div className="date-picker-container">
-                  <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                  <DatePicker
-                    selected={defaultDate}
-                    dateFormat="MM/dd/yyyy"
-                    className='input-field'
-                  />
-                </div>
-              </div>
-              <div>
-                <h6>Last Updated</h6>
-                <div className="date-picker-container">
-                  <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                  <DatePicker
-                    selected={defaultDate}
-                    dateFormat="MM/dd/yyyy"
-                    className='input-field'
-                  />
-                </div>
-              </div>
-            </div>
+    <section className='ticket-slider-body'>
+      <div className='ticket-filter-inputs'>
+        <Select
+          options={subcatList}
+          onChange={handleChange}
+          value={selectedCategories}
+          placeholder='Choose a Subcategory'
+          isMulti // Enables multi-select
+        />
+        <Select
+          options={StatusOptions}
+          onChange={handleStatusChange}
+          placeholder='Select Status'
+        />
+      </div>
 
-            <div className='mt-4 d-flex'>
-              <button className='btn main-button-outline'>Reset</button>
-              <button className='btn main-button ms-3'>Apply</button>
-            </div>
-        </section>
-  )
-}
+      <hr />
 
-export default FilterTicketsForm
+      <div className='ticket-filter-inputs'>
+        <div>
+          <h6>Resolution Due By</h6>
+          <div className='date-picker-container'>
+            <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+            <DatePicker
+              selected={resolutionDate}
+              onChange={handleResolutionDateChange}
+              dateFormat='MM/dd/yyyy'
+              className='input-field'
+            />
+          </div>
+        </div>
+        <div>
+          <h6>Last Updated</h6>
+          <div className='date-picker-container'>
+            <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+            <DatePicker
+              selected={endDate}
+              onChange={handleEndDateChange}
+              dateFormat='MM/dd/yyyy'
+              className='input-field'
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className='mt-4 d-flex'>
+        <button className='btn main-button-outline'>Reset</button>
+        <button className='btn main-button ms-3' onClick={handleApply}>
+          Apply
+        </button>
+      </div>
+    </section>
+  );
+};
+
+export default FilterTicketsForm;
