@@ -221,6 +221,25 @@
 
 .add-fields-text {
     color: var(--sh-primary);
+    cursor: pointer;
+    width: fit-content;
+}
+
+.optional-fields {
+    overflow: hidden;
+    /* transition: max-height 2s ease-in; */
+    transition: transform 0.2s ease-in;
+    transform: scaleY(0);
+    height: auto;
+}
+
+.optional-fields.open {
+    transform:scaleY(1);
+    transform-origin: top;
+}
+
+.height-0 {
+    height: 0;
 }
 
 .volumetric-weight {
@@ -235,7 +254,7 @@
     overflow-y: scroll;
 }
 
-.bulk-import-input{
+.bulk-import-input {
     position: relative;
     width: 60%;
     border: 1px dashed #ddd;
@@ -246,7 +265,7 @@
     justify-content: center;
 }
 
-.bulk-import-input input{
+.bulk-import-input input {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -255,10 +274,16 @@
     opacity: 0;
 }
 
-.bulk-import-input .mid-text-container{
+.bulk-import-input .mid-text-container {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.add-product-onclick {
+    color: var(--sh-primary);
+    margin-top: -20px;
+    cursor: pointer;
 }
 
 /* Add responsiveness for smaller screens */

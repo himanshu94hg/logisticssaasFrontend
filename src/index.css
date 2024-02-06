@@ -552,6 +552,20 @@ p {
   white-space: nowrap;
   background-color: rgb(240, 240, 240);
 }
+.delete-btn{
+  display: flex;
+  align-items: center;
+  background-color: #F31429;
+  color: #fff;
+  justify-content: center;
+  padding: 5px 10px;
+  width: max-content;
+}
+
+.delete-btn:hover{
+  background-color: #F31429;
+  color: #fff;
+}
 
 
 .btn-check:focus+.btn,

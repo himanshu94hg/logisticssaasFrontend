@@ -5,7 +5,7 @@ import 'react-toggle/style.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarAlt, faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 const DomesticCreateOrder = () => {
     const navigation = useNavigate();
@@ -411,7 +411,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
         if (!isChecked) {
             setBillingDetails(false)
         }
-        else{
+        else {
             setBillingDetails(true)
         }
     };
@@ -543,7 +543,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         <label>Billing Address is the same as Shipping address</label>
                     </div>
                 </div>
-                <div className={`inputs-container mx-auto mb-3 ${BillingDetails?'':'d-none'}`}>
+                <div className={`inputs-container mx-auto mb-3 ${BillingDetails ? '' : 'd-none'}`}>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>Billing Details</h3>
                     <div className='row'>
@@ -667,76 +667,121 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 };
 
 const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
+    const [addFieldsStates, setAddFieldsStates] = useState([]);
 
-    const [AddFields, SetAddFields] = useState(false)
-
-    const handleChange = (e, field) => {
-        setFormData({ ...formData, [field]: e.target.value });
+    const handleChange = (e, field, index) => {
+        const updatedProducts = [...formData.products];
+        updatedProducts[index][field] = e.target.value;
+        setFormData({ ...formData, products: updatedProducts });
     };
+
+    const handleAddProduct = () => {
+        setFormData({
+            ...formData,
+            products: [
+                ...(formData.products || []),
+                { product_name: '', order_type: '', price: '', product_qty: '1', sku: '', hsn_code: '', tax_rate: '', discount: '' },
+            ],
+        });
+        setAddFieldsStates([...addFieldsStates, false]);
+    };
+
+    const handleRemoveProduct = (index) => {
+        if (formData.products && formData.products.length > 1) {
+            const updatedProducts = [...formData.products];
+            updatedProducts.splice(index, 1);
+            setFormData({ ...formData, products: updatedProducts });
+            const updatedAddFieldsStates = [...addFieldsStates];
+            updatedAddFieldsStates.splice(index, 1);
+            setAddFieldsStates(updatedAddFieldsStates);
+        }
+    };
+
+    const handleToggleAddFields = (index) => {
+        const updatedAddFieldsStates = [...addFieldsStates];
+        updatedAddFieldsStates[index] = !updatedAddFieldsStates[index];
+        setAddFieldsStates(updatedAddFieldsStates);
+    };
+
+    // Ensure at least one product is initially present
+    useEffect(() => {
+        if (!formData.products || formData.products.length === 0) {
+            handleAddProduct();
+        } else {
+            // Initialize addFieldsStates if it's not defined
+            setAddFieldsStates((prevAddFieldsStates) =>
+                prevAddFieldsStates.length === formData.products.length ? prevAddFieldsStates : Array(formData.products.length).fill(false)
+            );
+        }
+    }, [formData.products]);
 
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
-                    {/* Step 3 content */}
                     <h3 className='mb-4'>Product Details</h3>
-                    <div className='row'>
-                        {/* Product Name */}
-                        <label className='col'>
-                            Product Name
-                            <input
-                                className='input-field'
-                                placeholder="Enter or search your product name"
-                                type="text" value={formData.product_name} onChange={(e) => handleChange(e, 'product_name')} />
-                        </label>
-                        <label className='col'>
-                            Product Category
-                            <select
-                                className='select-field'
-                                value={formData.order_type}
-                            // onChange={(e) => handleSelectChange(e, 'order_type')}
-                            >
-                                <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
-                                <option value="Automotive">Automotive</option>
-                                <option value="Baby Products">Baby Products </option>
-                                <option value="Clothing, Shoes & Jewelry">Clothing, Shoes & Jewelry </option>
-                                <option value="Collectibles & Fine Art">Collectibles & Fine Art </option>
-                                <option value="Electronics">Electronics </option>
-                                <option value="Handmade Products">Handmade Products </option>
-                                <option value="Health & Household">Health & Household</option>
-                                <option value="Home & Kitchen">Home & Kitchen</option>
-                                <option value="Industrial & Scientific">Industrial & Scientific </option>
-                                <option value="Office Products">Office Products </option>
-                                <option value="Patio, Lawn & Garden">Patio, Lawn & Garden</option>
-                                <option value="Pet Supplies">Pet Supplies</option>
-                                <option value="Sports & Outdoors">Sports & Outdoors </option>
-                                <option value="Tools & Home Improvement">Tools & Home Improvement</option>
-                                <option value="Toys & Games">Toys & Games</option>
-                            </select>
-                        </label>
-                    </div>
-                    <div className='row mt-3'>
-                        {/* SKU */}
-                        <label className='col'>
-                            Unit Price
-                            <input
-                                className='input-field'
-                                placeholder="Enter Unit Price"
-                                type="text" value={formData.price} onChange={(e) => handleChange(e, 'price')} />
-                        </label>
+                    {formData.products?.map((product, index) => (
+                        <div key={index}>
+                            {formData.products.length === 1 ? '' : ''}
+                            <div className='row'>
+                                <label className='col'>
+                                    Product Name
+                                    <input
+                                        className='input-field'
+                                        placeholder="Enter or search your product name"
+                                        type="text"
+                                        value={product.product_name}
+                                        onChange={(e) => handleChange(e, 'product_name', index)}
+                                    />
+                                </label>
+                                <label className='col'>
+                                    <span>Product Category <span className='text-gray'>(Optional)</span></span>
+                                    <select
+                                        className='select-field'
+                                        value={product.order_type}
+                                        onChange={(e) => handleChange(e, 'order_type', index)}
+                                    >
+                                        <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
+                                        <option value="Automotive">Automotive</option>
+                                        <option value="Baby Products">Baby Products </option>
+                                        <option value="Clothing, Shoes & Jewelry">Clothing, Shoes & Jewelry </option>
+                                        <option value="Collectibles & Fine Art">Collectibles & Fine Art </option>
+                                        <option value="Electronics">Electronics </option>
+                                        <option value="Handmade Products">Handmade Products </option>
+                                        <option value="Health & Household">Health & Household</option>
+                                        <option value="Home & Kitchen">Home & Kitchen</option>
+                                        <option value="Industrial & Scientific">Industrial & Scientific </option>
+                                        <option value="Office Products">Office Products </option>
+                                        <option value="Patio, Lawn & Garden">Patio, Lawn & Garden</option>
+                                        <option value="Pet Supplies">Pet Supplies</option>
+                                        <option value="Sports & Outdoors">Sports & Outdoors </option>
+                                        <option value="Tools & Home Improvement">Tools & Home Improvement</option>
+                                        <option value="Toys & Games">Toys & Games</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <div className='row mt-3'>
+                                {/* SKU */}
+                                <label className='col'>
+                                    Unit Price
+                                    <input
+                                        className='input-field'
+                                        placeholder="Enter Unit Price"
+                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)} />
+                                </label>
 
 
 
-                        {/* Quantity */}
-                        <label className='col'>
-                            Quantity
-                            <input
-                                className='input-field'
-                                placeholder='Enter Product Quantity'
-                                type="number" value={formData.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty')} />
-                        </label>
-                        {/* Quantity */}
-                        {/* <label className='col'>
+                                {/* Quantity */}
+                                <label className='col'>
+                                    Quantity
+                                    <input
+                                        className='input-field'
+                                        placeholder='Enter Product Quantity'
+                                        type="number" value={product.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty', index)} />
+                                </label>
+                                {/* Quantity */}
+                                {/* <label className='col'>
                             Product Category
                             <input
                                 className='input-field'
@@ -746,72 +791,87 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
 
 
-                        <label className='col-3'>
-                            SKU
-                            <input
-                                type="text"
-                                className='input-field'
-                                value={formData.sku}
-                                onChange={(e) => handleChange(e, 'sku')}
-                                placeholder='Enter SKU'
-                            />
-                        </label>
+                                <label className='col-3'>
+                                    SKU
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        value={product.sku}
+                                        onChange={(e) => handleChange(e, 'sku', index)}
+                                        placeholder='Enter SKU'
+                                    />
+                                </label>
+                            </div>
+
+                            <div className="row mt-3">
+
+                            </div>
+                            <div className='row mt-4'>
+                                <p onClick={() => handleToggleAddFields(index)} className='add-fields-text'>
+                                    <span>+ Add HSN Code, Tax Rate and Discount</span>
+                                    <span className='text-gray'> (Optional) <FontAwesomeIcon icon={addFieldsStates[index] ? faChevronUp : faChevronDown} /></span>
+                                </p>
+                            </div>
+
+                            <div className={`row optional-fields ${!addFieldsStates[index] ? 'height-0' : 'open'}`}>
+                                <label className='col'>
+                                    HSN Code
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        value={product.hsn_code}
+                                        onChange={(e) => handleChange(e, 'hsn_code', index)}
+                                        placeholder='Enter HSN Code'
+                                    />
+                                </label>
+
+                                <label className='col'>
+                                    Tax Rate
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        value={product.tax_rate}
+                                        onChange={(e) => handleChange(e, 'tax_rate', index)}
+                                        placeholder='Enter Tax Rate'
+                                    />
+                                </label>
+
+                                <label className='col'>
+                                    Discount
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        value={product.discount}
+                                        onChange={(e) => handleChange(e, 'discount', index)}
+                                        placeholder='Enter Product Discount'
+                                    />
+                                </label>
+                            </div>
+                            {formData.products.length === 1 ? (<hr />) :
+                                (<>
+                                    <div className='d-flex justify-content-end mt-3'>
+                                        <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
+                                            <FontAwesomeIcon icon={faTrashCan} title='Delete' />
+                                        </button>
+                                    </div>
+                                    <hr className='mt-2' />
+                                </>)}
+                        </div>
+                    ))}
+                    <div className='d-flex justify-content-end'>
+                        <div className='add-product-onclick' onClick={handleAddProduct}>
+                            <FontAwesomeIcon icon={faPlus} /> Add Product
+                        </div>
                     </div>
-
-                    <div className="row mt-3">
-
-                    </div>
-                    <div className="row mt-4">
-                        <p className='add-fields-text'>
-                            <span>Other Details</span>
-                            <span className='text-gray'> (Optional) </span>
-                        </p>
-                    </div>
-
-                    <div className={`row `}>
-                        <label className='col'>
-                            HSN Code
-                            <input
-                                type="text"
-                                className='input-field'
-                                value={formData.hsn_code}
-                                onChange={(e) => handleChange(e, 'hsn_code')}
-                                placeholder='Enter HSN Code'
-                            />
-                        </label>
-
-                        <label className='col'>
-                            Tax Rate
-                            <input
-                                type="text"
-                                className='input-field'
-                                value={formData.tax_rate}
-                                onChange={(e) => handleChange(e, 'tax_rate')}
-                                placeholder='Enter Tax Rate'
-                            />
-                        </label>
-
-                        <label className='col'>
-                            Product Discount
-                            <input
-                                type="text"
-                                className='input-field'
-                                value={formData.discount}
-                                onChange={(e) => handleChange(e, 'discount')}
-                                placeholder='Enter Product Discount'
-                            />
-                        </label>
-                    </div>
-
-
                 </div>
             </div>
             <div className='d-flex justify-content-end my-3'>
                 {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onNext}>Next</button>
+
             </div>
-        </div>
+        </div >
     );
 };
 
