@@ -1,0 +1,72 @@
+.box-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    /* Each row contains 4 boxes */
+    gap: 20px;
+    /* Gap between grid items */
+}
+
+.box {
+    /* padding: 20px; */
+    /* border-radius: 5px; */
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); */
+    margin-bottom: 5px;
+    /* Space between rows */
+    transition: 400ms;
+    transform: scale(0.9, 0.9);
+    perspective: 1000px;
+    background-color: transparent;
+    min-height: 340px;
+    perspective: 1000px;
+    color: white;
+}
+
+.box:hover {
+    transform: scale(1, 1);
+}
+
+
+.box-card-outer {
+    position: relative;
+    text-align: center;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+}
+
+.warehouse-details,
+.rto-details{
+    box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+    position: absolute;
+    display: flex;
+    width: 100%;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    justify-content: center;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    border-radius: 1rem;
+}
+
+.warehouse-details {
+    color: #111;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+}
+
+.rto-details {
+    box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
+    background-color: #171717;
+    transform: rotateY(180deg);
+}
+
+.box:hover .box-card-outer {
+    transform: rotateY(180deg);
+  }
+
+@media (max-width: 768px) {
+    .box-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        /* Adjust column width for smaller screens */
+    }
+}

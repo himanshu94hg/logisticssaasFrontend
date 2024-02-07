@@ -11,14 +11,79 @@ const DomesticCreateOrder = () => {
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
     const totalSteps = 5;
+
     const [formData, setFormData] = useState({
-        step1: '',
-        step2: '',
-        step3: '',
-        step4: '',
-        step5: '',
-        sameAsShipping: true,// New step added
-    });
+        order_details: {
+            customer_order_number: 790,
+            invoice_amount: 314.42,
+            is_mps: true,
+            warehouse_id: 1,
+            seller_id: 3,
+            order_tag: 'order_tag',
+            payment_type: 'Prepaid',
+            order_date: '2024-01-22',
+            order_type: 'Forward'
+        },
+        shipping_details: {
+            recipient_name: "customer name",
+            address: "customer address",
+            landmark: "address landmark",
+            country: "India",
+            state: "Uttar Pradesh",
+            city: "Fatehpur",
+            pincode: "212601",
+            mobile_number: "8090831662",
+            email: "dhananjay@gmail.com",
+            company_name: "company name",
+            contact_code: "4134"
+        },
+        billing_details: {
+            customer_name: "customer name",
+            address: "customer address",
+            landmark: "address landmark",
+            country: "India",
+            state: "Uttar Pradesh",
+            city: "Fatehpur",
+            pincode: "212601",
+            mobile_number: "8090831662",
+            email: "dhananjay@gmail.com",
+            company_name: "company name",
+            contact_code: "4134"
+        },
+        other_details: {
+            number_of_packets: 34,
+            reseller_name: "reseller name"
+        },
+        charge_details: {
+            cod_charges: 4231.34,
+            shipping_charges: 4324.13,
+            transaction_fee: 41.43,
+            is_gift_wrap: true
+        },
+        dimension_details: {
+            weight: 35.24,
+            length: 532.52,
+            breadth: 243.2,
+            height: 413.32,
+            vol_weight: 34
+        },
+        product_details: [
+            {
+                product_name: "Iphone 15",
+                quantity: 2,
+                unit_price: 53.53,
+                product_category: "Automotive",
+                weight: 41.52,
+                sku: "product_sku",
+                hsn_code: "hsn code",
+                tax_rate: 42.12,
+                product_discount: 24.43,
+                hts_number: "q4324",
+                export_reference_number: "fadksjr"
+            }
+        ]
+    })
+
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
     console.log("&&&&&&&&&&&&", formData)
 
@@ -36,18 +101,19 @@ const DomesticCreateOrder = () => {
 
     const handleNext = () => {
         setStep(step + 1);
-        console.log(formData.step1)
+        console.log("################ step 1", formData.step1)
     };
 
     const handlePrev = () => {
         setStep(step - 1);
     };
 
+    const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY'
 
 
     const handleFormSubmit = async () => {
         try {
-            const response = await fetch('http://65.2.38.87:8088/order/v1/createorder/', {
+            const response = await fetch('http://65.2.38.87:8080/orders-api/orders/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
