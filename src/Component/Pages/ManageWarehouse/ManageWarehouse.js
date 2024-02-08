@@ -3,19 +3,29 @@ import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
+import { TbBuildingWarehouse } from "react-icons/tb";
 import './ManageWarehouse.css'
+import { useNavigate } from 'react-router';
 
 const BoxGrid = ({ boxData }) => {
+  const [isOpen, setIsOpen] = useState(null);
+
+  const handleToggle = (index) => {
+    setIsOpen(isOpen === index ? null : index);
+  };
+
   if (boxData.length === 0) {
     return <p>No data available</p>;
   }
+
+
   return (
     <div className="box-grid">
       {boxData.map((box, index) => (
         <div key={index} className={`box`}>
-          <div className='box-card-outer'>
+          <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
-              <h3>{box.heading}</h3>
+              <h4 className='warehouse-heading'><TbBuildingWarehouse fontSize={25} /> {box.heading}</h4>
               <p>{box.registered_name}</p>
               <p>{box.gst_number}</p>
               <p>{box.contact_name}</p>
@@ -25,13 +35,14 @@ const BoxGrid = ({ boxData }) => {
               <p>{box.city}, {box.state}, PIN:{box.pincode}</p>
               <p>{box.support_email}</p>
               <p>{box.support_phone}</p>
-              <p>Show RTO Address</p>
+              <button className='btn main-button' onClick={() => handleToggle(index)}>Show RTO Address</button>
               <label htmlFor="">
                 <input type="checkbox" />
               </label>
             </div>
-            <div className='rto-details'>
-              <h3>{box.heading}</h3>
+            <div className={`rto-details ${isOpen === index ? 'open' : ''}`}>
+              <button className='btn close-button' onClick={() => setIsOpen(null)}>x</button>
+              <h5>{box.heading}</h5>
               <p>{box.registered_name}</p>
               <p>{box.gst_number}</p>
               <p>{box.contact_name}</p>
@@ -53,6 +64,9 @@ const BoxGrid = ({ boxData }) => {
 
 
 const ManageWarehouse = () => {
+
+  let navigate = useNavigate();
+
   const boxes = [
     { heading: 'PickNdel', registered_name: 'URAN Uttarpara test_SE-100188', gst_number: 'NA0000000000000', contact_name: 'URAN', contact_number: '8697616774', address_line1: 'Bhabani Apartment, Ground Floor', address_line2: '5 Dhrubesh Chatterjee Lane', city: 'UTTARPARA', state: 'West Bengal', pincode: '712258', support_email: 'biswas.durjoy123@gmail.com', support_phone: '8697616774' },
     { heading: 'PickNdel', registered_name: 'URAN Uttarpara test_SE-100188', gst_number: 'NA0000000000000', contact_name: 'URAN', contact_number: '8697616774', address_line1: 'Bhabani Apartment, Ground Floor', address_line2: '5 Dhrubesh Chatterjee Lane', city: 'UTTARPARA', state: 'West Bengal', pincode: '712258', support_email: 'biswas.durjoy123@gmail.com', support_phone: '8697616774' },
@@ -77,7 +91,7 @@ const ManageWarehouse = () => {
           <div className='button-container'>
             <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
             <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
-            <button className='btn main-button'><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
+            <button className='btn main-button' onClick={()=>navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
           </div>
         </section>
 

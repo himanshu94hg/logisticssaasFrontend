@@ -26,6 +26,7 @@ import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
 import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles';
 import Dashboard from './Component/Pages/Dashboard/Dashboard';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
+import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -54,6 +55,7 @@ ReactDOM.render(
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/help-articles" element={<HelpArticles />} />
           <Route path="/manage-warehouses" element={<ManageWarehouse />} />
+          <Route path="/add-pickup-address" element={<AddWarehouse />} />
           <Route path="/" element={<Dashboard />} />
         </Route>
       </Routes>

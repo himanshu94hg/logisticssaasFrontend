@@ -1,8 +1,9 @@
 .box-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    grid-template-columns: repeat(4, minmax(150px, 1fr));
+    /* grid-template-columns: repeat(4, 22%); */
     /* Each row contains 4 boxes */
-    gap: 20px;
+    gap: 50px;
     /* Gap between grid items */
 }
 
@@ -13,24 +14,26 @@
     margin-bottom: 5px;
     /* Space between rows */
     transition: 400ms;
-    transform: scale(0.9, 0.9);
+    transform: scale(1, 1);
     perspective: 1000px;
     background-color: transparent;
-    min-height: 340px;
+    min-height: 25.18rem;
     perspective: 1000px;
     color: white;
 }
 
 .box:hover {
-    transform: scale(1, 1);
+    transform: scale(1.1, 1.1);
 }
 
 
 .box-card-outer {
     position: relative;
-    text-align: center;
+    /* text-align: center; */
     transition: transform 0.8s;
     transform-style: preserve-3d;
+    display: flex;
+    min-height: 24.43rem;
 }
 
 .warehouse-details,
@@ -46,6 +49,9 @@
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: 1rem;
+    flex: 1;
+    padding: 10px;
+    min-height: 25.18rem;
 }
 
 .warehouse-details {
@@ -60,8 +66,19 @@
     transform: rotateY(180deg);
 }
 
-.box:hover .box-card-outer {
+.box .box-card-outer.card-flip {
     transform: rotateY(180deg);
+  }
+
+  .box-card-outer .warehouse-heading{
+    display: flex;
+    align-items: center;
+  }
+
+  .close-button{
+    width: 30px;
+    height: 30px;
+    text-align: end;
   }
 
 @media (max-width: 768px) {
