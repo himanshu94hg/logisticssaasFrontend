@@ -172,14 +172,16 @@ const AddWarehouse = () => {
                                 />
                             </label>
                         </div>
+
+
                         <div className="d-flex gap-3 mt-3">
                             <p onClick={() => SetAddFields(!AddFields)} className='add-fields-text'>
                                 <span>Warehouse Timings</span>
-                                <span className='text-gray'> (Optional) <FontAwesomeIcon icon={AddFields ? faChevronUp : faChevronDown} /></span>
+                                {/* <span className='text-gray'> (Optional) <FontAwesomeIcon icon={AddFields ? faChevronUp : faChevronDown} /></span> */}
                             </p>
                         </div>
 
-                        <div className={`gap-3 ${!AddFields ? 'd-none' : 'd-flex'}`}>
+                        <div className={`d-flex gap-3 mt-3`}>
                             <label>
                                 Open at
                                 <select className='select-field'>
@@ -200,34 +202,109 @@ const AddWarehouse = () => {
                             </label>
                         </div>
 
-                        <div className="d-flex gap-3 mt-3">
-                            <p onClick={() => SetAddFields(!AddFields)} className='add-fields-text'>
-                                <span>Warehouse Timings</span>
-                                <span className='text-gray'> (Optional) <FontAwesomeIcon icon={AddFields ? faChevronUp : faChevronDown} /></span>
-                            </p>
-                        </div>
 
-                        <div className={`gap-3 ${!AddFields ? 'd-none' : 'd-flex'}`}>
+                        <h5 className='my-4'>Add RTO Address</h5>
+                        <div className='d-flex gap-3'>
                             <label>
-                                Open at
-                                <select className='select-field'>
-                                    <option value="">Select Time</option>
-                                    {times.map((time, index) => (
-                                        <option key={index} value={time}>{time}</option>
-                                    ))}
-                                </select>
+                                Warehouse Name(do not use special symbols)
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Warehouse Name'
+                                />
                             </label>
                             <label>
-                                Closes at
-                                <select className='select-field'>
-                                    <option value="">Select Time</option>
-                                    {times.map((time, index) => (
-                                        <option key={index} value={time}>{time}</option>
-                                    ))}
-                                </select>
+                                Contact Person Name
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Contact Person Name'
+                                />
                             </label>
                         </div>
-
+                        <div className='d-flex gap-3 mt-3'>
+                            <label>
+                                Contact Number
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Contact Person Name'
+                                />
+                            </label>
+                            <label>
+                                Alternate Number
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Contact Person Name'
+                                />
+                            </label>
+                            <label>
+                                Email
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Contact Person Name'
+                                />
+                            </label>
+                        </div>
+                        <div className='d-flex gap-3 mt-3'>
+                            <label>
+                                Address
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Contact Person Name'
+                                />
+                            </label>
+                            <label>
+                                Landmark
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Contact Person Name'
+                                />
+                            </label>
+                        </div>
+                        <div className='d-flex gap-3 mt-3'>
+                            <label>
+                                Pincode
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    placeholder='Enter Pincode'
+                                    ref={pincodeRef}
+                                    onBlur={handlePincodeChange}
+                                />
+                            </label>
+                            <label>
+                                City
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    ref={cityRef}
+                                    disabled
+                                />
+                            </label>
+                            <label>
+                                State
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    ref={stateRef}
+                                    disabled
+                                />
+                            </label>
+                            <label>
+                                Country
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    ref={countryRef}
+                                    disabled
+                                />
+                            </label>
+                        </div>
 
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-html{
+html {
   font-size: 16px;
 }
 
@@ -36,6 +36,7 @@ html{
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -53,14 +54,14 @@ html{
 }
 
 @media screen and (min-width: 1601px) {
-  .rightContainer{
+  .rightContainer {
     margin-inline: 72px 10px;
   }
 }
 
 
 @media screen and (max-width: 1600px) {
-  html{
+  html {
     font-size: 14px;
   }
 }

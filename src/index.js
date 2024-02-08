@@ -27,6 +27,7 @@ import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpA
 import Dashboard from './Component/Pages/Dashboard/Dashboard';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
+import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -56,6 +57,7 @@ ReactDOM.render(
           <Route path="/help-articles" element={<HelpArticles />} />
           <Route path="/manage-warehouses" element={<ManageWarehouse />} />
           <Route path="/add-pickup-address" element={<AddWarehouse />} />
+          <Route path="/shipping-rates" element={<ShippingRates />} />
           <Route path="/" element={<Dashboard />} />
         </Route>
       </Routes>

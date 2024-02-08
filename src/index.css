@@ -536,7 +536,7 @@ p {
 .main-button-outline {
   border-color: #1975C9 !important;
   color: #1975C9;
-  background-color: #fff;
+  /* background-color: #fff; */
   padding: 5px 10px;
   white-space: nowrap;
 }
