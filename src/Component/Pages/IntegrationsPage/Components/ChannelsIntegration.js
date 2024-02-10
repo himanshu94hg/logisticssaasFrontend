@@ -1,7 +1,9 @@
 import React from 'react'
 import '../IntegrationsPage.css'
+import { useNavigate } from 'react-router';
 
 const ChannelsIntegration = () => {
+    let navigate = useNavigate()
     const ShoppingCarts = [
         { title: 'Shopify', imageUrl: '../shopify.jpg' },
         { title: 'WooCommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/woocommerce.png' },
@@ -34,7 +36,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button className='btn main-button'>Integrate</button>
+                                <button  onClick={()=> navigate('/shopify-integration')} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}
@@ -50,7 +52,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button className='btn main-button'>Integrate</button>
+                                <button onClick={()=> navigate('/shopify-integration')} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}
@@ -67,7 +69,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button className='btn main-button'>Integrate</button>
+                                <button onClick={()=> navigate('/shopify-integration')} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}

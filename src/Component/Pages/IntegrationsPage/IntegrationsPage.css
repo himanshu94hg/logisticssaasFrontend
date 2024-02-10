@@ -103,3 +103,15 @@
     font-size: 1rem;
     color: #555;
 }
+
+/* integration form */
+
+.int-header{
+    background-color: #F6F6F9;
+    width: 100%;
+    display: flex;
+    align-items: center;  
+    padding: 15px; 
+    border-radius: 0.5rem; 
+    justify-content: space-between;
+}
