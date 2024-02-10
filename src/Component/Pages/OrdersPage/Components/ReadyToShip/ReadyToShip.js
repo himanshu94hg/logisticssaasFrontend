@@ -44,17 +44,38 @@ const ReadyToShip = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
+    // useEffect(() => {
+    //     axios
+    //         .get('http://65.2.38.87:8088/order/v1/pickedallorders/') // Replace with your API endpoint
+    //         .then(response => {
+    //             console.log('Data is data:', response.data);
+    //             setAllOrders(response.data.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    // }, []);
+
+    let sellerData = 1;
+    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY";
+
     useEffect(() => {
         axios
-            .get('http://65.2.38.87:8088/order/v1/pickedallorders/') // Replace with your API endpoint
+            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
             .then(response => {
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data.data);
+                setAllOrders(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
             });
     }, []);
+
+
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
