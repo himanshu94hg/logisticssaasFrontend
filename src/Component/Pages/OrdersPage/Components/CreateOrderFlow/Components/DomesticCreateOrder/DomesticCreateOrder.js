@@ -441,6 +441,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
                             >
+                                <option >Select Payment Type</option>
                                 <option value="Prepaid">Prepaid</option>
                                 <option value="COD">COD</option>
                             </select>
@@ -576,16 +577,18 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     };
 
     const [isChecked, setIsChecked] = useState(true);
-    const [BillingDetails, setBillingDetails] = useState(false)
+    const [BillingDetails, setBillingDetails] = useState(true);
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
-
-        if (!isChecked) {
-            setBillingDetails(false)
-        }
-        else {
-            setBillingDetails(true)
+        if (isChecked) {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    ...prevData.shipping_details,
+                    customer_name: prevData.shipping_details.recipient_name
+                }
+            }));
         }
     };
 
@@ -707,128 +710,131 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                 </div>
 
                 <div className='inputs-container mx-auto mb-3'>
+                    {/* Checkbox to toggle billing address visibility */}
                     <div className='d-flex gap-2'>
                         <input
                             type="checkbox"
-                            checked={isChecked}
+                            checked={!isChecked}
                             onChange={handleCheckboxChange}
                         />
                         <label>Billing Address is the same as Shipping address</label>
                     </div>
                 </div>
-                <div className={`inputs-container mx-auto mb-3 ${BillingDetails ? '' : 'd-none'}`}>
-                    {/* Step 2 content */}
-                    <h3 className='mb-4'>Billing Details</h3>
-                    <div className='row'>
-                        {/* Customer Name */}
-                        <label className='col'>
-                            Recipient Name
-                            <input
-                                className='input-field'
-                                placeholder='Enter Recipient Name'
-                                type="text" value={formData.billing_details.customer_name} onChange={(e) => handleChangeBilling(e, 'customer_name')} />
-                        </label>
-
-                        {/* Mobile Number with Country Code Select */}
-                        <label className='col'>
-                            Mobile Number
-                            <div className='d-flex mobile-number-field'>
-                                <select
-                                    className='input-field '
-                                    value={formData.billing_details.contact_code}
-                                    onChange={(e) => handleSelectBilling(e, 'contact_code')}
-                                    disabled
-                                >
-                                    <option value="+91">+91</option>
-                                    {/* Add more country codes as needed */}
-                                </select>
+                {!isChecked && (
+                    <div className={`inputs-container mx-auto mb-3 ${BillingDetails ? '' : 'd-none'}`}>
+                        {/* Step 2 content */}
+                        <h3 className='mb-4'>Billing Details</h3>
+                        <div className='row'>
+                            {/* Customer Name */}
+                            <label className='col'>
+                                Recipient Name
                                 <input
                                     className='input-field'
-                                    type="text"
-                                    value={formData.billing_details.mobile_number}
-                                    onChange={(e) => handleChangeBilling(e, 'mobile_number')}
-                                    placeholder='X X X X X X X X X X'
-                                />
-                            </div>
-                        </label>
-                    </div>
-                    <div className='row mt-3'>
-                        <label className='col'>
-                            <span>Email <span className='text-gray'>(optional)</span></span>
-                            <input
-                                className='input-field'
-                                placeholder='i.e. abc@gmail.com'
-                                type="email" value={formData.billing_details.email} onChange={(e) => handleChangeBilling(e, 'email')} />
-                        </label>
-                        <label className='col'>
-                            <span>Company Name <span className='text-gray'>(optional)</span></span>
-                            <input
-                                className='input-field'
-                                placeholder="Enter Recipient's Company Name"
-                                type="email" value={formData.billing_details.company_name} onChange={(e) => handleChangeBilling(e, 'company_name')} />
-                        </label>
-                    </div>
+                                    placeholder='Enter Recipient Name'
+                                    type="text" value={formData.billing_details.customer_name ?? formData.shipping_details.recipient_name} onChange={(e) => handleChangeBilling(e, 'customer_name')} />
+                            </label>
 
-                    <hr />
-                    <div className='row'>
-                        {/* Address */}
-                        <label className='col'>
-                            Address
-                            <input
-                                className='input-field'
-                                placeholder="House/Floor No. Building Name or Street, Locality"
-                                type="text" value={formData.billing_details.address} onChange={(e) => handleChangeBilling(e, 'address')} />
-                        </label>
-                    </div>
-                    <div className='row mt-3'>
-                        {/* Address 2 (Optional) */}
-                        <label className='col'>
-                            Landmark
-                            <input
-                                className='input-field'
-                                placeholder="Any nearby post office, market, Hospital as the landmark"
-                                type="text" value={formData.billing_details.landmark} onChange={(e) => handleChangeBilling(e, 'landmark')} />
-                        </label>
-                    </div>
-                    <div className='row mt-3 gap-2'>
-                        {/* Pincode */}
-                        <label className='col'>
-                            Pincode
-                            <input
-                                className='input-field'
-                                placeholder="Enter Recipient's Pincode"
-                                type="text" value={formData.billing_details.pincode} onChange={(e) => handleChangeBilling(e, 'pincode')} />
-                        </label>
+                            {/* Mobile Number with Country Code Select */}
+                            <label className='col'>
+                                Mobile Number
+                                <div className='d-flex mobile-number-field'>
+                                    <select
+                                        className='input-field '
+                                        value={formData.billing_details.contact_code}
+                                        onChange={(e) => handleSelectBilling(e, 'contact_code')}
+                                        disabled
+                                    >
+                                        <option value="+91">+91</option>
+                                        {/* Add more country codes as needed */}
+                                    </select>
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        value={formData.billing_details.mobile_number}
+                                        onChange={(e) => handleChangeBilling(e, 'mobile_number')}
+                                        placeholder='X X X X X X X X X X'
+                                    />
+                                </div>
+                            </label>
+                        </div>
+                        <div className='row mt-3'>
+                            <label className='col'>
+                                <span>Email <span className='text-gray'>(optional)</span></span>
+                                <input
+                                    className='input-field'
+                                    placeholder='i.e. abc@gmail.com'
+                                    type="email" value={formData.billing_details.email} onChange={(e) => handleChangeBilling(e, 'email')} />
+                            </label>
+                            <label className='col'>
+                                <span>Company Name <span className='text-gray'>(optional)</span></span>
+                                <input
+                                    className='input-field'
+                                    placeholder="Enter Recipient's Company Name"
+                                    type="email" value={formData.billing_details.company_name} onChange={(e) => handleChangeBilling(e, 'company_name')} />
+                            </label>
+                        </div>
 
-                        {/* City */}
-                        <label className='col'>
-                            City
-                            <input
-                                className='input-field'
-                                placeholder="Enter Recipient's City"
-                                type="text" value={formData.billing_details.city} onChange={(e) => handleChangeBilling(e, 'city')} />
-                        </label>
-                    </div>
-                    <div className='row mt-3 gap-2'>
-                        {/* State */}
-                        <label className='col'>
-                            State
-                            <input
-                                className='input-field'
-                                placeholder="Enter Recipient's State"
-                                type="text" value={formData.billing_details.state} onChange={(e) => handleChangeBilling(e, 'state')} />
-                        </label>
+                        <hr />
+                        <div className='row'>
+                            {/* Address */}
+                            <label className='col'>
+                                Address
+                                <input
+                                    className='input-field'
+                                    placeholder="House/Floor No. Building Name or Street, Locality"
+                                    type="text" value={formData.billing_details.address} onChange={(e) => handleChangeBilling(e, 'address')} />
+                            </label>
+                        </div>
+                        <div className='row mt-3'>
+                            {/* Address 2 (Optional) */}
+                            <label className='col'>
+                                Landmark
+                                <input
+                                    className='input-field'
+                                    placeholder="Any nearby post office, market, Hospital as the landmark"
+                                    type="text" value={formData.billing_details.landmark} onChange={(e) => handleChangeBilling(e, 'landmark')} />
+                            </label>
+                        </div>
+                        <div className='row mt-3 gap-2'>
+                            {/* Pincode */}
+                            <label className='col'>
+                                Pincode
+                                <input
+                                    className='input-field'
+                                    placeholder="Enter Recipient's Pincode"
+                                    type="text" value={formData.billing_details.pincode} onChange={(e) => handleChangeBilling(e, 'pincode')} />
+                            </label>
 
-                        {/* Country */}
-                        <label className='col'>
-                            Country
-                            <input
-                                className='input-field'
-                                placeholder="Enter Recipient's State"
-                                type="text" value={formData.billing_details.country} onChange={(e) => handleChangeBilling(e, 'country')} />
-                        </label>
+                            {/* City */}
+                            <label className='col'>
+                                City
+                                <input
+                                    className='input-field'
+                                    placeholder="Enter Recipient's City"
+                                    type="text" value={formData.billing_details.city} onChange={(e) => handleChangeBilling(e, 'city')} />
+                            </label>
+                        </div>
+                        <div className='row mt-3 gap-2'>
+                            {/* State */}
+                            <label className='col'>
+                                State
+                                <input
+                                    className='input-field'
+                                    placeholder="Enter Recipient's State"
+                                    type="text" value={formData.billing_details.state} onChange={(e) => handleChangeBilling(e, 'state')} />
+                            </label>
+
+                            {/* Country */}
+                            <label className='col'>
+                                Country
+                                <input
+                                    className='input-field'
+                                    placeholder="Enter Recipient's State"
+                                    type="text" value={formData.billing_details.country} onChange={(e) => handleChangeBilling(e, 'country')} />
+                            </label>
+                        </div>
                     </div>
-                </div>
+                )}
             </div>
             <div className='d-flex justify-content-end my-3'>
                 {/* Add three more input fields as needed */}
