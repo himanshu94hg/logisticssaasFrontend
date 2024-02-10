@@ -25,17 +25,17 @@ body {
 }
 
 html::-webkit-scrollbar {
-  width: 8px;
+  width: 2px;
   height: 20px;
 }
 
 html::-webkit-scrollbar-thumb {
-  background-color: #0F3C5B;
+  background-color: transparent;
   border-radius: 3px;
 }
 
 html::-webkit-scrollbar-track {
-  background-color: white;
+  background-color: transparent;
   border-radius: 3px;
 }
 
@@ -595,7 +595,7 @@ select:focus-visible,
 }
 
 input::placeholder {
-  font-size: 12px;
+  font-size: 1rem;
 }
 
 .seconadary-button {

@@ -1,4 +1,49 @@
-.filter-container .css-1nmdiq5-menu{
+.filter-container .css-1nmdiq5-menu {
     z-index: 3;
     color: #111;
+}
+
+.table-header-row th,
+.table-header-row-second th {
+    background-color: #fff;
+    padding: 0.5rem;
+    border-bottom: none;
+    text-align: center;
+    vertical-align: bottom;
+}
+
+.table-header-row th:first-of-type {
+    border-radius: 0.5rem 0 0 0;
+}
+
+.table-header-row th:last-of-type {
+    border-radius: 0 0.5rem 0 0;
+}
+
+
+
+.table-header-row-second th {
+    border-top: 1px solid #ddd;
+}
+
+.nested-td {
+    border-radius: none;
+}
+
+.nested-td td {
+    text-align: center;
+}
+
+.nested-td td:first-of-type {
+    text-align: left;
+}
+
+.nested-tr td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.nested-tr .rowfull3 {
+    border-left: none;
+    border-right: none;
 }
