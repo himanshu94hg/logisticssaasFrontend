@@ -183,7 +183,7 @@ const ReadyToShip = () => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.order_number}
+                                                    {row.customer_order_number}
 
                                                     {/* <span className="product-details ms-2"> */}
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
@@ -195,7 +195,7 @@ const ReadyToShip = () => {
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                     <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -205,12 +205,12 @@ const ReadyToShip = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
+                                                <p>{row.customer_order_number}</p>
+                                                <p>{row.shipping_detail.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
+                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -222,15 +222,18 @@ const ReadyToShip = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
+                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                                <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
-                                                        {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
-                                                        {/* <span>{row.product_name}</span> */}
                                                         <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                            {row.order_products.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                </React.Fragment>
+                                                            ))}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -240,7 +243,7 @@ const ReadyToShip = () => {
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
+                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
