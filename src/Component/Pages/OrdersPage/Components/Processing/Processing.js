@@ -43,10 +43,16 @@ const Processing = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    let sellerData = 1;
+    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY";
 
     useEffect(() => {
         axios
-            .get('http://65.2.38.87:8088/order/v1/processableorder/') // Replace with your API endpoint
+            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
             .then(response => {
                 console.log('Data is data(processing):', response.data);
                 setAllOrders(response.data.processable_order);
@@ -177,7 +183,7 @@ const Processing = () => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.order_number}
+                                                    {row.customer_order_number}
 
                                                     {/* <span className="product-details ms-2"> */}
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
@@ -189,7 +195,7 @@ const Processing = () => {
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                 <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -199,12 +205,12 @@ const Processing = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
+                                                <p>{row.customer_order_number}</p>
+                                                <p>{row.shipping_detail.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
+                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -216,15 +222,18 @@ const Processing = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
+                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                                <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
-                                                        {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                        {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
-                                                        {/* <span>{row.product_name}</span> */}
                                                         <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                            {row.order_products.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                </React.Fragment>
+                                                            ))}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -234,7 +243,7 @@ const Processing = () => {
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
+                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -246,10 +255,18 @@ const Processing = () => {
 
                                             </div>
                                         </td>
-                                       
+                                        <td>
+                                            {/* shiping section here */}
+                                            <div className='cell-inside-box'>
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
+                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                </p>
+                                            </div>
+                                        </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                            <p className='order-Status-box'>{row.status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}

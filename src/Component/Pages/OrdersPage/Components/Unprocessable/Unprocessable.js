@@ -51,9 +51,16 @@ const Unprocessable = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
+    let sellerData = 1;
+    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY";
+
     useEffect(() => {
         axios
-            .get('http://65.2.38.87:8088/order/v1/unprocessable/') // Replace with your API endpoint
+            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
             .then(response => {
                 console.log('Data is data:', response.data);
                 setAllOrders(response.data.filtered_orders);
@@ -129,125 +136,155 @@ const Unprocessable = () => {
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
-                            <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
-                                </th>
-                                <th style={{ width: '27%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th style={{ width: '22%' }}>Package Details</th>
-                                <th style={{ width: '9%' }}>Payment</th>
-                                <th style={{ width: '25%' }}>Pickup Address</th>
-                                {/* <th>Shipping Details</th> */}
-                                <th style={{ width: '10%' }}>Status</th>
-                                <th style={{width:'6%'}}>Action</th>
-                            </tr>
-                            <tr className="blank-row"><td></td></tr>
+                        <tr className="table-row box-shadow">
+                            <th style={{ width: '1%' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={selectAll}
+                                    onChange={handleSelectAll}
+                                />
+                            </th>
+                            <th style={{ width: '27%' }}>Order Details</th>
+                            <th>Customer details</th>
+                            <th style={{ width: '22%' }}>Package Details</th>
+                            <th style={{ width: '9%' }}>Payment</th>
+                            <th style={{ width: '25%' }}>Pickup Address</th>
+                            {/* <th>Shipping Details</th> */}
+                            <th style={{ width: '10%' }}>Status</th>
+                            <th style={{width:'6%'}}>Action</th>
+                        </tr>
+                        <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(orders) && orders.map((row, index) => (
-                                <React.Fragment key={row.id}>
-                                    {index > 0 && <tr className="blank-row"><td></td></tr>}
-                                    <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRows.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id)}
-                                            />
-                                        </td>
-                                        <td>
-                                            {/* order detail */}
-                                            <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.order_number}
-                                                </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
-                                                    <DateFormatter dateTimeString={row.inserted} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* customer detail */}
-                                            <div className='cell-inside-box'>
-                                                <p>{row?.s_customer_name}
-                                                    <span className='details-on-hover ms-2'>
+                        {Array.isArray(orders) && orders.map((row, index) => (
+                            <React.Fragment key={row.id}>
+                                {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                <tr className='table-row box-shadow'>
+                                    <td className='checkbox-cell'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(row?.id)}
+                                            onChange={() => handleSelectRow(row?.id)}
+                                        />
+                                    </td>
+                                    <td>
+                                        {/* order detail */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
+                                                {row.customer_order_number}
+
+                                                {/* <span className="product-details ms-2"> */}
+                                                {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
+                                                {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                {/* <InfoIcon /> */}
+                                                {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
+                                                {/* </span> */}
+                                            </p>
+                                            <p className='ws-no-wrap d-flex align-items-center'>
+                                                {/* {formatDate(row.inserted)} */}
+                                                {/*<DateFormatter dateTimeString={row.inserted} />*/}
+                                                <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                            </p>
+                                            {/* <p>{row.channel}</p> */}
+                                            {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
+                                            {/* <p>W {row.p_warehouse_name}</p> */}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* customer detail */}
+                                        <div className='cell-inside-box'>
+                                            <p>{row.customer_order_number}</p>
+                                            <p>{row.shipping_detail.mobile_number}
+                                                <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row?.s_city}, {row?.s_state}, {row?.s_pincode}
-                                                        </span>
-                                                    </span></p>
-                                                <p>{row?.s_contact || <InfoMissing />}</p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt: {row.weight} kg
-                                                    <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            <strong>Product Name:</strong> {row.product_name} <br /> <strong>Product SKU:</strong> {row.product_sku}<br /> <strong>Quantity:</strong> {row.product_qty}
+                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* payment section here */}
-                                            <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.order_type}</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* pickup address */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
-                                                </p>
-                                            </div>
-                                        </td>
+                                            </p>
+                                            {/* <p>{row.s_city}</p>
+                                                <p>{row.s_pincode}</p>
+                                                <p>{row.s_state}</p> */}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* package  details */}
+                                        <div className='cell-inside-box'>
+                                            <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                            <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
+                                                <span className='details-on-hover ms-2 align-middle'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row.order_products.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                </React.Fragment>
+                                                            ))}
+                                                        </span>
+                                                    </span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* payment section here */}
+                                        <div className='cell-inside-box'>
+                                            <p>&#x20B9; {row.invoice_amount}</p>
+                                            <p className='order-Status-box mt-1'>{row.payment_type}</p>
+                                        </div>
+                                    </td>
+                                    <td className='align-middle'>
+                                        {/* pickup adress */}
+                                        <div className='cell-inside-box'>
+                                            <p className='details-on-hover extra'>{row.p_warehouse_name}
+                                                <span>{row.pickup_address}</span>
+                                            </p>
 
-                                        <td className='align-middle'>
-                                            {/* status section */}
-                                            <p className='order-Status-box'>{row.status}</p>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* action section */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* shiping section here */}
+                                        <div className='cell-inside-box'>
+                                            <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                            <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
+                                                {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td className='align-middle'>
+                                        {/*  Status section  */}
+                                        <p className='order-Status-box'>{row.status || 'New'}</p>
+                                    </td>
+                                    <td className='align-middle'>
+                                        {/* action section */}
+                                        <div className='d-flex align-items-center gap-3'>
+                                            <button className='btn main-button'>Ship Now</button>
+                                            <div className='action-options'>
+                                                <div className='threedots-img'>
+                                                    <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                </div>
+                                                <div className='action-list'>
+                                                    <ul>
+                                                        <li>Download Invoice</li>
+                                                        <li>Edit Order</li>
+                                                        <li>Add Tag</li>
+                                                        <li>Verify Order</li>
+                                                        <li><hr /></li>
+                                                        <li>Call Buyer</li>
+                                                        <li>Marl As Verified</li>
+                                                        <li>Clone Order</li>
+                                                        <li><hr /></li>
+                                                        <li>Cancel Order</li>
+                                                    </ul>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                    {/* Additional information row */}
-                                    {/* <tr>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {/* Additional information row */}
+                                {/* <tr>
                                         <td colSpan="9">
                                             <div>
                                                 <p><strong>Product Name:</strong> {row.product_name}</p>
@@ -255,8 +292,8 @@ const Unprocessable = () => {
                                             </div>
                                         </td>
                                     </tr> */}
-                                </React.Fragment>
-                            ))}
+                            </React.Fragment>
+                        ))}
                         </tbody>
                     </table>
                 </div>
