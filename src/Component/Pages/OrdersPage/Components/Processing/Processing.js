@@ -54,8 +54,8 @@ const Processing = () => {
                 }
             })
             .then(response => {
-                console.log('Data is data(processing):', response.data);
-                setAllOrders(response.data.processable_order);
+                console.log('Data is data:', response.data);
+                setAllOrders(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
