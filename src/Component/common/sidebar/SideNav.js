@@ -142,7 +142,11 @@ const SideNav = () => {
     { to: "/billing", label: "Billing" },
     { to: "/weight-reconciliation", label: "Weight Reco." },
     { to: "/customer", label: "Customer" },
-    { to: "/Tools", label: "Tools" },
+    {
+      to: "/Tools", label: "Tools", hasDropdown: true, dropdownLinks: [
+        { to: "/shipping-rates", label: "Rate Card" },
+      ],
+    },
     { to: "/MIS", label: "MIS" },
     { to: "/customer-support", label: "Customer Support" },
     { to: "/settings", label: "Settings" },

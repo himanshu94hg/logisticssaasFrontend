@@ -20,10 +20,11 @@
     min-height: 25.18rem;
     perspective: 1000px;
     color: white;
+    transition-timing-function: linear;
 }
 
 .box:hover {
-    transform: scale(1.1, 1.1);
+    transform: scale3d(1.03, 1.03, 1)
 }
 
 
@@ -37,21 +38,31 @@
 }
 
 .warehouse-details,
-.rto-details{
-    box-shadow: 0 8px 14px 0 rgba(0,0,0,0.2);
+.rto-details {
+    box-shadow: 0 8px 14px 0 rgba(0, 0, 0, 0.2);
     position: absolute;
     display: flex;
     width: 100%;
     top: 0;
     left: 0;
     flex-direction: column;
-    justify-content: center;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
     border-radius: 1rem;
     flex: 1;
     padding: 10px;
     min-height: 25.18rem;
+    justify-content: space-between;
+}
+
+.warehouse-details p,
+.rto-details p {
+    margin-bottom: 0px;
+}
+
+.warehouse-details hr,
+.rto-details hr {
+    margin-block: 5px;
 }
 
 .warehouse-details {
@@ -62,24 +73,45 @@
 
 .rto-details {
     box-shadow: rgba(0, 0, 0, 0.4) 0px 2px 2px, rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -1px 0px inset;
-    background-color: #171717;
+    background-color: #98bce6;
     transform: rotateY(180deg);
 }
 
 .box .box-card-outer.card-flip {
     transform: rotateY(180deg);
-  }
+}
 
-  .box-card-outer .warehouse-heading{
+.box-card-outer .warehouse-heading {
     display: flex;
-    align-items: center;
-  }
+    align-items: flex-start;
+    font-size: 1.5rem;
+    font-weight: 500;
+    gap: 10px;
+}
 
-  .close-button{
+.rto-details .warehouse-heading {
+    color: #fff;
+}
+
+.rto-details .close-button {
     width: 30px;
     height: 30px;
     text-align: end;
-  }
+    color: #fff;
+    font-size: 1.5rem;
+    position: absolute;
+    right: 18px;
+    top: -2px;
+}
+
+.rto-pin-title{
+    font-size: 0.8rem;
+    background-color: var(--sh-primary);
+    border-radius: 0.5rem;
+    padding: 2px 10px;
+    width: fit-content;
+    margin-bottom: 0.625rem;
+}
 
 @media (max-width: 768px) {
     .box-grid {

@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faChevronRight, faCircleXmark, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import './ManageWarehouse.css'
 import { useNavigate } from 'react-router';
 
-const BoxGrid = ({ boxData }) => {
+const BoxGrid = ({ boxData, editWarehouse }) => {
   const [isOpen, setIsOpen] = useState(null);
 
   const handleToggle = (index) => {
     setIsOpen(isOpen === index ? null : index);
+  };
+
+  const handleEdit = (index) => {
+    editWarehouse(index);
   };
 
   if (boxData.length === 0) {
@@ -25,33 +29,59 @@ const BoxGrid = ({ boxData }) => {
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
-              <h4 className='warehouse-heading'><TbBuildingWarehouse fontSize={25} /> {box.heading}</h4>
-              <p>{box.registered_name}</p>
-              <p>{box.gst_number}</p>
-              <p>{box.contact_name}</p>
-              <p>{box.contact_number}</p>
-              <p>{box.address_line1}</p>
-              <p>{box.address_line2}</p>
-              <p>{box.city}, {box.state}, PIN:{box.pincode}</p>
-              <p>{box.support_email}</p>
-              <p>{box.support_phone}</p>
-              <button className='btn main-button' onClick={() => handleToggle(index)}>Show RTO Address</button>
-              <label htmlFor="">
+              <div>
+                <div className='warehouse-heading mb-2'>
+                  <TbBuildingWarehouse fontSize={25} />
+                  <h4 className='mb-0'>{box.heading}</h4>
+                </div>
+                <p>{box.registered_name}</p>
+              </div>
+              <hr />
+              <div>
+                <p>{box.gst_number}</p>
+                <p>{box.contact_name}</p>
+                <p>{box.contact_number}</p>
+              </div>
+              <hr />
+              <div>
+                <p>{box.address_line1}, {box.address_line2}, {box.city}, {box.state}, PIN:{box.pincode}</p>
+                <p>{box.support_email}</p>
+                <p>Ph. {box.support_phone}</p>
+              </div>
+              <div className='d-flex justify-content-between'>
+                <button className='btn main-button' onClick={() => handleToggle(index)}>Show RTO Address</button>
+                <div className='d-flex gap-2'>
+                  <button className='btn edit-btn' onClick={() => handleEdit(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
+                  <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
+                </div>
+              </div>
+
+              {/* <label htmlFor="">
                 <input type="checkbox" />
-              </label>
+              </label> */}
             </div>
             <div className={`rto-details ${isOpen === index ? 'open' : ''}`}>
-              <button className='btn close-button' onClick={() => setIsOpen(null)}>x</button>
-              <h5>{box.heading}</h5>
-              <p>{box.registered_name}</p>
-              <p>{box.gst_number}</p>
-              <p>{box.contact_name}</p>
-              <p>{box.contact_number}</p>
-              <p>{box.address_line1}</p>
-              <p>{box.address_line2}</p>
-              <p>{box.city}, {box.state}, PIN:{box.pincode}</p>
-              <p>{box.support_email}</p>
-              <p>{box.support_phone}</p>
+              <button className='btn close-button' onClick={() => setIsOpen(null)}><FontAwesomeIcon icon={faCircleXmark} /></button>
+              <div>
+                <div className='rto-pin-title'>RTO Address</div>
+                <div className='warehouse-heading mb-2'>
+                  <TbBuildingWarehouse fontSize={25} />
+                  <h4 className='mb-0'>{box.heading}</h4>
+                </div>
+                <p>{box.registered_name}</p>
+              </div>
+              <hr />
+              <div>
+                <p>GST no. {box.gst_number}</p>
+                <p>{box.contact_name}</p>
+                <p>Ph. {box.contact_number}</p>
+              </div>
+              <hr />
+              <div>
+                <p>{box.address_line1}, {box.address_line2}, {box.city}, {box.state}, PIN:{box.pincode}</p>
+                <p>{box.support_email}</p>
+                <p>Alt. Ph. {box.support_phone}</p>
+              </div>
             </div>
 
 
@@ -64,6 +94,13 @@ const BoxGrid = ({ boxData }) => {
 
 
 const ManageWarehouse = () => {
+
+  const [EditWarehouse, setEditWarehouse] = useState(false)
+
+  const editWarehouse = (index) => {
+    console.log("Editing warehouse at index:", index);
+    setEditWarehouse(!EditWarehouse)
+  };
 
   let navigate = useNavigate();
 
@@ -91,19 +128,30 @@ const ManageWarehouse = () => {
           <div className='button-container'>
             <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
             <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
-            <button className='btn main-button' onClick={()=>navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
+            <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
           </div>
         </section>
 
         <section className='warehouse-grid-container'>
           <div>
             <h4 className='mb-3'>Manage Pickup Addresses</h4>
-            <BoxGrid boxData={boxes} />
+            <BoxGrid boxData={boxes} editWarehouse={editWarehouse} />
           </div>
 
         </section>
 
       </div>
+      <section className={`ticket-slider ${EditWarehouse ? 'open' : ''}`}>
+        <div id='sidepanel-closer' onClick={() => setEditWarehouse(!EditWarehouse)}>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </div>
+        <section className='ticket-slider-header'>
+          <h2 className='mb-0'>Edit Warehouse</h2>
+        </section>
+      </section>
+
+      <section className={`backdrop ${EditWarehouse ? 'd-block' : 'd-none'}`}></section>
+
     </>
   )
 }

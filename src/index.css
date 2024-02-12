@@ -125,7 +125,7 @@ p {
   font-size: 20px;
 }
 
-.font40{
+.font40 {
   font-size: 40px;
 }
 
@@ -552,7 +552,8 @@ p {
   white-space: nowrap;
   background-color: rgb(240, 240, 240);
 }
-.delete-btn{
+
+.delete-btn {
   display: flex;
   align-items: center;
   background-color: #F31429;
@@ -562,11 +563,20 @@ p {
   width: max-content;
 }
 
-.delete-btn:hover{
+.delete-btn:hover {
   background-color: #F31429;
   color: #fff;
 }
 
+.edit-btn {
+  display: flex;
+  align-items: center;
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  color: #fff;
+  justify-content: center;
+  padding: 5px 10px;
+  width: max-content;
+}
 
 .btn-check:focus+.btn,
 .btn:focus {

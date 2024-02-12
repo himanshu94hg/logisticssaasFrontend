@@ -13,7 +13,7 @@
 }
 
 .table-header-row th:first-of-type {
-    border-radius: 0.5rem 0 0 0;
+    border-radius: 0.5rem 0 0 0.5rem;
 }
 
 .table-header-row th:last-of-type {
