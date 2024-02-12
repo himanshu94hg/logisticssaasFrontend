@@ -49,7 +49,7 @@ const ReadyToShip = () => {
 
     useEffect(() => {
         axios
-            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`, {
+            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&order_courier_status=Ready_to_ship`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -194,7 +194,7 @@ const ReadyToShip = () => {
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                    <DateFormatter dateTimeString={row.inserted} />
+                                                    {/*<DateFormatter dateTimeString={row.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
