@@ -147,14 +147,14 @@ const Processing = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '27%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th style={{ width: '22%' }}>Package Details</th>
-                                <th style={{ width: '9%' }}>Payment</th>
-                                <th style={{ width: '25%' }}>Pickup Address</th>
-                                {/* <th>Shipping Details</th> */}
-                                <th style={{ width: '10%' }}>Status</th>
-                                <th style={{width:'6%'}}>Action</th>
+                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '12.5%' }}>Customer details</th>
+                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '8%' }}>Payment</th>
+                                <th style={{ width: '12.5%' }}>Pickup Address</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                <th style={{ width: '6%' }}>Status</th>
+                                <th style={{ width: '6%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Customer details</th>
                                 <th style={{ width: '10%' }}>Package Details</th>
