@@ -1,5 +1,5 @@
 import 'devextreme/dist/css/dx.light.css';
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./Component/common/sidebar/SideNav";
 import Header from "./Component/common/header/Header";
@@ -28,16 +28,22 @@ import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
 import ChannelIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelIntegrationForm';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function App() {
+
+  const [WalletRecharge, setWalletRecharge] = useState(false)
+
   return (
+    <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
 
         <Sidebar />
 
         <div className="rightContainer">
           <div>
-            <Header />
+            <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
           </div>
           <Routes>
             <Route path="/Reassign-orders" element={<AllOrders />} />
@@ -68,6 +74,22 @@ function App() {
           </Routes>
         </div>
       </div>
+      <section className={`wallet-container ${WalletRecharge ? 'show' : ''}`}>
+        <div className='wallet-box'>
+          <button
+            onClick={() => setWalletRecharge(!WalletRecharge)}
+            className='btn close-button'
+          >
+            <FontAwesomeIcon icon={faXmark} />
+          </button>
+          <div className='wallet-inner-bg'>
+            <h3>Recharge Your Walletcross</h3>
+            <p>Current Wallet Amount  <span>₹82.57</span></p>
+          </div>
+        </div>
+      </section>
+      <section onClick={() => setWalletRecharge(!WalletRecharge)} className={`backdrop ${WalletRecharge ? 'd-block' : 'd-none'}`}></section>    </>
+
   );
 }
 

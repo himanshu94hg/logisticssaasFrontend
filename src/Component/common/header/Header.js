@@ -15,7 +15,7 @@ import "./header.css";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import WalletIcon from "./WalletIcon";
 
-export default function Header() {
+export default function Header(props) {
   return (
     <Navbar
       className="box-shadow shadow-sm p10-inline"
@@ -66,7 +66,7 @@ export default function Header() {
           <div className="d-flex" style={{ gap: "10px" }}>
 
             <Nav.Link>
-              <div className="walletContainer">
+              <div className="walletContainer" onClick={()=>props.setWalletRecharge(!props.WalletRecharge)}>
                   <span className="iconContainer walletIcon">
                     <div className="walletBalance">₹ 6206.45</div>
                     <WalletIcon />

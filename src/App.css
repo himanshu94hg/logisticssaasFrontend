@@ -53,6 +53,49 @@ html {
   width: calc(100vw - 92px) !important;
 }
 
+.wallet-container {
+  position: fixed;
+  top: -50em;
+  right: -50em;
+  width: fit-content;
+  height: auto;
+  z-index: 6;
+  transition: 0.7s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wallet-container.show {
+  top: 2%;
+  right: 2%;
+}
+
+.wallet-box {
+  width: 500px;
+  height: 500px;
+  background: var(--sh-primary-light);
+  position: relative;
+  border-radius: 0.5rem;
+}
+
+.wallet-container .close-button {
+
+  text-align: end;
+  font-size: 1.5rem;
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.wallet-container .wallet-inner-bg {
+  background-color: #fff;
+  margin: 10px;
+  padding: 10px;
+  border-radius: 0.5rem;
+  height: calc(100% - 20px);
+}
+
 @media screen and (min-width: 1601px) {
   .rightContainer {
     margin-inline: 72px 10px;
