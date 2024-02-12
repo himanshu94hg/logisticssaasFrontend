@@ -12,12 +12,12 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
+
     useEffect(() => {
       const formattedDateTime = formatDateTime(dateTimeString);
       setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
-  
+
     const formatDateTime = (dateTimeString) => {
         console.log("DateTimeString:", dateTimeString);
       const options = {
@@ -28,13 +28,13 @@ const DateFormatter = ({ dateTimeString }) => {
         minute: '2-digit',
         hour12: true,
       };
-  
+
       const dateObject = new Date(dateTimeString);
       const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
+
       return formattedDateTime;
     };
-  
+
     return <p>{formattedDate}</p>;
   };
 
