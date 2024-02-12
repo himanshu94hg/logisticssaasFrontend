@@ -56,7 +56,7 @@ const Unprocessable = () => {
 
     useEffect(() => {
         axios
-            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&order_courier_status=Unprocessable`, {
+            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
