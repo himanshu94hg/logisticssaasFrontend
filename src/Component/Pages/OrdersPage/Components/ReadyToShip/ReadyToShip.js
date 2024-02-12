@@ -266,7 +266,7 @@ const ReadyToShip = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                            <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row.order_courier_status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}

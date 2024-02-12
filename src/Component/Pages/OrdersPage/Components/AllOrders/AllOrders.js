@@ -267,7 +267,7 @@ const AllOrders = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status || 'New'}</p>
+                                            <p className='order-Status-box'>{row.order_courier_status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
