@@ -48,14 +48,14 @@ const Processing = () => {
 
     useEffect(() => {
         axios
-            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&order_courier_status=Processing`, {
+            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
             })
             .then(response => {
-                console.log('Data is data(processing):', response.data);
-                setAllOrders(response.data.processable_order);
+                console.log('Data is data:', response.data);
+                setAllOrders(response.data);
             })
             .catch(error => {
                 console.error('Error:', error);
