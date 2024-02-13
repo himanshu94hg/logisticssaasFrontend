@@ -30,9 +30,10 @@ import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates'
 import ChannelIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelIntegrationForm';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 
 function App() {
-
+  
   const [WalletRecharge, setWalletRecharge] = useState(false)
 
   return (
@@ -74,21 +75,12 @@ function App() {
           </Routes>
         </div>
       </div>
-      <section className={`wallet-container ${WalletRecharge ? 'show' : ''}`}>
-        <div className='wallet-box'>
-          <button
-            onClick={() => setWalletRecharge(!WalletRecharge)}
-            className='btn close-button'
-          >
-            <FontAwesomeIcon icon={faXmark} />
-          </button>
-          <div className='wallet-inner-bg'>
-            <h3>Recharge Your Wallet</h3>
-            <p>Current Wallet Amount  <span>₹82.57</span></p>
-          </div>
-        </div>
-      </section>
-      <section onClick={() => setWalletRecharge(!WalletRecharge)} className={`backdrop ${WalletRecharge ? 'd-block' : 'd-none'}`}></section>    </>
+      <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
+
+      
+      <section onClick={() => setWalletRecharge(!WalletRecharge)} className={`backdrop ${WalletRecharge ? 'd-block' : 'd-none'}`}></section>
+
+    </>
 
   );
 }
