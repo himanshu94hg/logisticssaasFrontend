@@ -60,7 +60,7 @@ html {
   width: fit-content;
   height: auto;
   z-index: 6;
-  transition: 0.7s;
+  transition: 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
