@@ -272,7 +272,7 @@ const ReadyToShip = () => {
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
+                                                <button className='btn main-button'>Download Label</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -280,6 +280,7 @@ const ReadyToShip = () => {
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li>Download Invoice</li>
+                                                            <li>Generate Manifest</li>
                                                             <li>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>

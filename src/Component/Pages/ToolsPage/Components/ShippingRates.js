@@ -6,15 +6,15 @@ const ShippingRates = () => {
     const [selectedCourier, setSelectedCourier] = useState(null);
 
     const shippingData = [
-        { value: 'Shadowfax', courierPartner: 'Shadowfax', zoneA: '$5', zoneB: '$6', zoneC: '$7', zoneD: '$8', zoneE: '$9', codCharges: '$10', codMaintenance: '2%' },
-        { value: 'Delhivery', courierPartner: 'Delhivery', zoneA: '$6', zoneB: '$7', zoneC: '$8', zoneD: '$9', zoneE: '$10', codCharges: '$11', codMaintenance: '3%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '$7', zoneB: '$8', zoneC: '$9', zoneD: '$10', zoneE: '$11', codCharges: '$12', codMaintenance: '4%' },
+        { value: 'Shadowfax', courierPartner: 'Shadowfax', zoneA: '₹ 5', zoneB: '₹ 6', zoneC: '₹ 7', zoneD: '₹ 8', zoneE: '₹ 9', codCharges: '₹ 10', codMaintenance: '2%' },
+        { value: 'Delhivery', courierPartner: 'Delhivery', zoneA: '₹ 6', zoneB: '₹ 7', zoneC: '₹ 8', zoneD: '₹ 9', zoneE: '₹ 10', codCharges: '₹ 11', codMaintenance: '3%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
+        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
         // Add more data as needed
     ];
 
@@ -99,7 +99,7 @@ const ShippingRates = () => {
                                                 <td>{data.zoneD}</td>
                                                 <td>{data.zoneE}</td>
                                             </tr>
-                                            <tr className='blank-row' key={`empty-${data.value}-${index}`}><td></td></tr> {/* Empty row */}
+                                            <tr className='blank-row' key={`empty-₹ {data.value}-₹ {index}`}><td></td></tr> {/* Empty row */}
                                         </React.Fragment>
                                     ))
                                 ) : (
@@ -135,7 +135,7 @@ const ShippingRates = () => {
                                                     <td>{data.zoneD}</td>
                                                     <td>{data.zoneE}</td>
                                                 </tr>
-                                                <tr className='blank-row' key={`empty-${data.value}-${index}`}><td></td></tr> {/* Empty row */}
+                                                <tr className='blank-row' key={`empty-₹ {data.value}-₹ {index}`}><td></td></tr> {/* Empty row */}
                                             </React.Fragment>
                                         ))
                                 )
@@ -170,7 +170,7 @@ const ShippingRates = () => {
                                             <td>{data.zoneD}</td>
                                             <td>{data.zoneE}</td>
                                         </tr>
-                                        <tr className='blank-row' key={`empty-${data.value}-${index}`}><td></td></tr> {/* Empty row */}
+                                        <tr className='blank-row' key={`empty-₹ {data.value}-₹ {index}`}><td></td></tr> {/* Empty row */}
                                     </React.Fragment>
                                 ))
                             )}

@@ -7,6 +7,7 @@
     top: -100em;
     left: 8%;
     z-index: 6;
+    transition: 0.5s;
 }
 
 .single-ship-container.open {
