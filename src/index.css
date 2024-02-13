@@ -89,6 +89,10 @@ p {
   background: #F31429 !important;
 }
 
+.text-sh-primary{
+  color: var(--sh-primary);
+}
+
 .text-gray {
   color: #727986;
 }
@@ -520,6 +524,15 @@ p {
   gap: 10px;
 }
 
+:root .btn:active{
+  border-color: transparent;
+  color: #fff;
+}
+
+:root .btn:focus{
+  box-shadow: none;
+}
+
 .main-button {
   /* background-color: #1975C9 !important; */
   background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
@@ -585,7 +598,7 @@ p {
 
 .input-field,
 .select-field {
-  height: 30px;
+  height: 36px;
   border: 1px solid var(--sh-primary-middle);
   /* background-color: var(--sh-primary-light); */
   min-width: 100%;

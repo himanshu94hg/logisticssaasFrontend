@@ -56,11 +56,11 @@ html {
 .wallet-container {
   position: fixed;
   top: -50em;
-  right: -50em;
+  right: -40em;
   width: fit-content;
   height: auto;
   z-index: 6;
-  transition: 0.3s;
+  transition: 0.7s;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -73,19 +73,22 @@ html {
 
 .wallet-box {
   width: 500px;
-  height: 500px;
+  height: auto;
   background: var(--sh-primary-light);
   position: relative;
   border-radius: 0.5rem;
 }
 
 .wallet-container .close-button {
-
   text-align: end;
   font-size: 1.5rem;
   position: absolute;
   right: 0px;
   top: 0px;
+}
+
+.wallet-container .close-button:active {
+  color: #fff;
 }
 
 .wallet-container .wallet-inner-bg {

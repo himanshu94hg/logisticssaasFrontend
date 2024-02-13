@@ -1,0 +1,29 @@
+.balance-container{
+    width: 100%;
+    margin-inline: auto;
+    height: 128px;
+    background-color: var(--sh-primary-middle);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    padding-top: 10px;
+    position: relative;
+    border-radius: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.available-balance{
+    position: absolute;
+    height: 85px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 60%;
+    border-radius: 0.5rem 0.5rem 0 0;
+    bottom: 0px;
+    background-color: #fff;
+    /* background-color: red; */
+    color: var(--sh-primary);
+}
