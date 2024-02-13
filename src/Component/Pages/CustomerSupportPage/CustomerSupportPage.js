@@ -31,7 +31,7 @@ const CustomerSupportPage = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY';
+        const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTkyNDk2LCJpYXQiOjE3MDczODc2OTYsImp0aSI6IjEzODE0YWE2ZjE2ZTQyNzk5NzhhNzAwZmY0MTM1YTZhIiwidXNlcl9pZCI6Mn0.neIQZnSs3vkyMxm0QrfIOpu_RTjDNz5j3vF-OPNNXTA';
         let params = {};
 
         if (isFilter) {
