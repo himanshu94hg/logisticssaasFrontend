@@ -55,7 +55,7 @@ const WalletRechargeComponent = (props) => {
                         <div className='balance-container'>
                             <p>Current Wallet Amount</p>
                             <div className="available-balance">
-                                <h3><span>₹6204.25</span></h3>
+                                <h3><span className='fw-bold'>₹6204.25</span></h3>
 
                                 <Link>See transactions</Link>
                             </div>
