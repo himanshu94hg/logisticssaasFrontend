@@ -10,7 +10,7 @@ import AllOrders from './Components/AllOrders/AllOrders';
 
 
 const OrdersPage = () => {
-    const [activeTab, setActiveTab] = useState("All Orders");
+    const [activeTab, setActiveTab] = useState("Processing");
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);

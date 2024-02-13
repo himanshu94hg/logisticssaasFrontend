@@ -1,0 +1,98 @@
+.single-ship-container {
+    width: 80%;
+    height: 80vh;
+    overflow-y: auto;
+    background-color: #fff;
+    position: absolute;
+    top: -100em;
+    left: 8%;
+    z-index: 6;
+}
+
+.single-ship-container.open {
+    top: -10%;
+}
+
+.single-ship-container p {
+    margin-bottom: 0px;
+}
+
+.ship-container-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem;
+    padding: 0.2rem 1rem;
+    border: 1px solid;
+    border-radius: 0.5rem;
+}
+
+.ship-container-row .img-container {
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 100%;
+    box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.3);
+    transition: all 0.6s ease;
+}
+
+.ship-container-row .img-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+.performance-rating {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+.performance-rating p {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.chart-container {
+    width: 120px;
+    /* Adjust the width as needed */
+}
+
+.ss-shipment-charges p{
+font-size: 1.2rem;
+}
+
+.ss-shipment-charges p span{
+font-size: 0.8rem;
+}
+
+
+/* stars rating */
+/* Star Rating Container */
+/* Star Rating Container */
+.rating {
+    display: inline-block;
+    font-size: 0;
+    /* Remove the gap between inline-block elements */
+}
+
+/* Hide the radio inputs */
+.rating input[type="radio"] {
+    display: none;
+}
+
+/* Star label styling */
+.rating label {
+    display: inline-block;
+    font-size: 24px;
+    /* Adjust star size as needed */
+    color: gold;
+    /* Default star color */
+    cursor: pointer;
+}
+
+/* Highlighted star styling */
+.rating input[type="radio"]:checked~label {
+    color: gold;
+    /* Color of highlighted stars */
+}

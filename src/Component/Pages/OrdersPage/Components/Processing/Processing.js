@@ -6,36 +6,36 @@ import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons'
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import SingleShipPop from './SingleShipPop/SingleShipPop';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
+
     useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
-  
+
     const formatDateTime = (dateTimeString) => {
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
-  
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
-      return formattedDateTime;
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
     };
-  
+
     return <p>{formattedDate}</p>;
-  };
+};
 
 const Processing = () => {
 
@@ -43,6 +43,7 @@ const Processing = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    const [SingleShip, setSingleShip] = useState(true)
     let sellerData = 1;
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzM4NjMzLCJpYXQiOjE3MDcxMzM4MzMsImp0aSI6IjZhM2I5YWMwNDZjZjRkYjM4MWJlNGJjOWNmNWQ1NGQ1IiwidXNlcl9pZCI6Mn0.fHH4RQDMtVbC036iesCF9uX10Vmwc6VrAvpL2SSqgcY";
 
@@ -104,12 +105,6 @@ const Processing = () => {
 
 
 
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
 
     return (
         <section className='position-relative'>
@@ -155,19 +150,11 @@ const Processing = () => {
                                 <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                        {Array.isArray(orders) && orders.map((row, index) => (
+                            {Array.isArray(orders) && orders.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -184,22 +171,10 @@ const Processing = () => {
                                                 <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
                                                     {row.customer_order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
-                                                    {/* {formatDate(row.inserted)} */}
-                                                {/*<DateFormatter dateTimeString={row.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -214,9 +189,6 @@ const Processing = () => {
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -259,8 +231,8 @@ const Processing = () => {
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                <p className='details-on-hover anchor-awb'>
+                                                    {row.awb_number ?? ""}
                                                 </p>
                                             </div>
                                         </td>
@@ -269,10 +241,8 @@ const Processing = () => {
                                             <p className='order-Status-box'>{row.order_courier_status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
+                                                <button onClick={() => setSingleShip(!SingleShip)} className='btn main-button'>Ship Now</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -302,15 +272,13 @@ const Processing = () => {
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
 
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
+                <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
 
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                <SingleShipPop setSingleShip={setSingleShip} SingleShip={SingleShip} />
 
             </div>
+
+
         </section >
     );
 };

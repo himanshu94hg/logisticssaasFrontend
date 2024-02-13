@@ -83,7 +83,7 @@ function App() {
             <FontAwesomeIcon icon={faXmark} />
           </button>
           <div className='wallet-inner-bg'>
-            <h3>Recharge Your Walletcross</h3>
+            <h3>Recharge Your Wallet</h3>
             <p>Current Wallet Amount  <span>₹82.57</span></p>
           </div>
         </div>

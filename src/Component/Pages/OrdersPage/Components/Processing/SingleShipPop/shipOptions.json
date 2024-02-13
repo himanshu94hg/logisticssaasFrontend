@@ -1,0 +1,26 @@
+[
+    {
+        "name": "Delhivery Surface 10kg",
+        "description": "Surface | Min-weight: 10 kg",
+        "rtoCharges": 559.68,
+        "logo": "https://www.shipease.in/public/assets/admin/images/20230925155537.jpg",
+        "rating": 4.5,
+        "pickup": 4.5,
+        "delivery": 4.5,
+        "ndr": 4.5,
+        "rto": 4.5,
+        "sla": 4.5
+    },
+    {
+        "name": "Xpressbees 10kg",
+        "description": "Surface | Min-weight: 10 kg",
+        "rtoCharges": 324.5,
+        "logo": "https://www.shipease.in/public/assets/admin/images/20230925155527.jpg",
+        "rating": 4.3,
+        "pickup": 4.7,
+        "delivery": 3.5,
+        "ndr": 5.0,
+        "rto": 4.5,
+        "sla": 4.0
+    }
+]
