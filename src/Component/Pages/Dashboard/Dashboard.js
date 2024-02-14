@@ -12,63 +12,67 @@ import WhatsappComm from "./DashboardTabs/WhatsappComm";
 import SubAccounts from "./DashboardTabs/SubAccounts";
 import EmployeeDash from "./DashboardTabs/EmployeeDash";
 import PnL from "./DashboardTabs/PnL";
+import { useDispatch } from "react-redux";
+
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("Overview");
 
+console.log(activeTab,"activeTav");
+
+
   return (
     <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
       {/* overview */}
       <div className={`${activeTab === "Overview" ? "d-block" : "d-none"}`}>
-        <Overview />
+        <Overview activeTab={activeTab} />
       </div>
 
       {/* Orders */}
       <div className={`${activeTab === "Orders" ? "d-block" : "d-none"}`}>
-        <OrdersDashboard />
+        <OrdersDashboard  activeTab={activeTab}/>
       </div>
 
       {/* Shipment */}
       <div className={`${activeTab === "Shipment" ? "d-block" : "d-none"}`}>
-        <ShipmentDashboard />
+        <ShipmentDashboard  activeTab={activeTab}/>
       </div>
 
       {/* NDR */}
       <div className={`${activeTab === "NDR" ? "d-block" : "d-none"}`}>
-        <NDRDashboard />
+        <NDRDashboard  activeTab={activeTab}/>
       </div>
 
 
       {/* RTO */}
       <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-        <RTODashboard />
+        <RTODashboard  activeTab={activeTab}/>
       </div>
 
       {/* Courier Delays */}
       <div className={`${activeTab === "Courier Delays" ? "d-block" : "d-none"}`}>
-        <CourierDelays />
+        <CourierDelays  activeTab={activeTab}/>
       </div>
 
       {/* Whatsapp Comm */}
       <div className={`${activeTab === "Whatsapp Comm" ? "d-block" : "d-none"}`}>
-        <WhatsappComm />
+        <WhatsappComm  activeTab={activeTab}/>
       </div>
 
       {/* SubAccounts*/}
       <div className={`${activeTab === "Sub Accounts" ? "d-block" : "d-none"}`}>
-        <SubAccounts />
+        <SubAccounts  activeTab={activeTab}/>
       </div>
 
       {/* Employees*/}
       <div className={`${activeTab === "Employees" ? "d-block" : "d-none"}`}>
-        <EmployeeDash />
+        <EmployeeDash activeTab={activeTab} />
       </div>
 
       {/* Employees*/}
       <div className={`${activeTab === "P & L" ? "d-block" : "d-none"}`}>
-        <PnL />
+        <PnL activeTab={activeTab}/>
       </div>
 
     </>

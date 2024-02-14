@@ -29,3 +29,17 @@ export const dailyPrefrencesPattern = "/daily-preference";
 export const getdailyPrefrenceRoute = () => {
     return generatePath(dailyPrefrencesPattern);
 };
+
+export const channelsIntegrationPattern = "/channels-integration";
+export const getChannelsIntegrationRoute = () => {
+    return generatePath(channelsIntegrationPattern);
+};
+
+export const omsIntegrationPattern = "/OMS-integration";
+export const getOmsIntegrationRoute = () => {
+    return generatePath(omsIntegrationPattern);
+};
+export const couriersIntegrationPattern = "/couriers-integration";
+export const getCouriersIntegrationPattern = () => {
+    return generatePath(couriersIntegrationPattern);
+};

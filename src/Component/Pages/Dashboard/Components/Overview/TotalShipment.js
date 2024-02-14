@@ -6,16 +6,16 @@ function TotalShipment() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/api/v1/status-wise-graph/')
-      .then(response => {
-        console.log('Data:', response.data);
-        setData(response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
+    // axios
+    //   .get('http://65.2.38.87:8088/api/v1/status-wise-graph/')
+    //   .then(response => {
+    //     console.log('Data:', response.data);
+    //     setData(response.data);
+    //   })
+    //   .catch(error => {
+    //     console.error('Error:', error);
+    //   });
+  }, []);  
 
   // Updated function to get predefined color scale for each channel
   const getColorScale = data => {
@@ -67,7 +67,7 @@ function TotalShipment() {
             <div className="row">
               <div className="col">
                 <div className="progress-widget">
-                  {data.channel_percentage_data.map((item, index) => (
+                  {data.channel_percentage_data.map((item, index) => (  
                     <div key={index} className="mb-3">
                       <p className="font12 bold-600 mb-2">{item.name}</p>
                       <div className="progress mb-2">

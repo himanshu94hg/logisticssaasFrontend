@@ -31,19 +31,33 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { dailyPrefrencesPattern, indexPattern, mergeOrdersPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, splitOrdersPattern } from "./Routes";
+import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, indexPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, splitOrdersPattern } from "./Routes";
+import { useDispatch } from "react-redux";
+import { USER_DATA_ACTION } from "./redux/saga/constant";
 
 
 function App() {
   const [WalletRecharge, setWalletRecharge] = useState(false)
 
+
+  const dispatch = useDispatch()
+
+  const handleecllick = () => {
+    dispatch({ type: USER_DATA_ACTION })
+
+    console.log("object")
+  }
+
   return (
     <>
+
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
           <div>
+            <button onClick={() => handleecllick()}>Click</button>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
           </div>
+
           <Router>
             <Sidebar />
             <Routes>
@@ -54,9 +68,9 @@ function App() {
               <Route path={ordersPattern} element={<OrdersPage />} />
               <Route path={shipmentsPattern} element={<ShipmentsPage />} />
               <Route path={dailyPrefrencesPattern} element={<DailyPrefrences />} />
-              <Route path="/channels-integration" element={<ChannelsIntegration />} />
-              <Route path="/OMS-integration" element={<OMSIntegration />} />
-              <Route path="/couriers-integration" element={<CouriersIntegration />} />
+              <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
+              <Route path={omsIntegrationPattern} element={<OMSIntegration />} />
+              <Route path={couriersIntegrationPattern} element={<CouriersIntegration />} />
               <Route path="/API-integration" element={<APIIntegration />} />
               <Route path="/other-integration" element={<OtherIntegration />} />
               <Route path="/IndiaMapp" element={<IndiaMapp />} />
