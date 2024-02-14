@@ -9,7 +9,8 @@
         "delivery": 4.5,
         "ndr": 4.5,
         "rto": 4.5,
-        "sla": 4.5
+        "sla": 4.5,
+        "recommended":true
     },
     {
         "name": "Xpressbees 10kg",
@@ -21,6 +22,7 @@
         "delivery": 3.5,
         "ndr": 5.0,
         "rto": 4.5,
-        "sla": 4.0
+        "sla": 4.0,
+        "recommended":false
     }
 ]

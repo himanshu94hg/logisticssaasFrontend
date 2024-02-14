@@ -6,7 +6,7 @@ const PieChart = ({ rating }) => {
         <ReactApexChart
             options={{
                 chart: {
-                    height: 150,
+                    height: 130,
                     type: 'radialBar',
                     toolbar: {
                         show: false // Hide toolbar
@@ -84,7 +84,7 @@ const PieChart = ({ rating }) => {
             }}
             series={[rating * 20]} // Convert rating to a percentage
             type="radialBar"
-            height={150}
+            height={130}
         />
     );
 }

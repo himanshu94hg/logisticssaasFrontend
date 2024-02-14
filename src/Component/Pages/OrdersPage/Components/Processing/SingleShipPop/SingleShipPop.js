@@ -24,7 +24,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip }) => {
             <div>
                 {/* Iterate over ship options and render details */}
                 {shipOptions.map((option, index) => (
-                    <div className='ship-container-row' key={index}>
+                    <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
                                 <img src={option.logo} alt={option.name} /> {/* Use logo URL from option */}
@@ -35,21 +35,27 @@ const SingleShipPop = ({ SingleShip, setSingleShip }) => {
                                 <p>RTO Charges: ₹{option.rtoCharges.toFixed(2)}</p> {/* Use option's RTO charges */}
                             </div>
                         </div>
-                        <div className='d-flex align-items-center'>
-                            <div className='performance-rating'>
-                                <p>
-                                    Pickup Performance <StarRating rating={option.pickup} />
-                                </p>
-                                <p>
-                                    Delivery Performance <StarRating rating={option.delivery} />
-                                </p>
-                                <p>
-                                    NDR Performance <StarRating rating={option.ndr} />
-                                </p>
-                                <p>
-                                    RTO Performance <StarRating rating={option.rto} />
-                                </p>
-                            </div>
+                        <div className='d-flex align-items-center gap-2'>
+                            <table className='performance-rating'>
+                                <tbody>
+                                    <tr>
+                                        <td>Pickup Performance</td>
+                                        <td><StarRating rating={option.pickup} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery Performance</td>
+                                        <td><StarRating rating={option.delivery} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NDR Performance</td>
+                                        <td><StarRating rating={option.ndr} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>RTO Performance</td>
+                                        <td><StarRating rating={option.rto} /></td>
+                                    </tr>
+                                </tbody>
+                            </table>
                             <div className="chart-container">
                                 <PieChart rating={option.rating} />
                                 <p>Overall Rating</p>
@@ -66,6 +72,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip }) => {
                             <button className='btn main-button'>Ship Now</button>
                             <p><span>EDD: <strong>15 Feb 2024</strong></span></p>
                         </div>
+                        <span className={`recommended ${option.recommended?'':'d-none'}`}></span>
                     </div>
                 ))}
             </div>
