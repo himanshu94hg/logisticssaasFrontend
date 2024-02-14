@@ -51,22 +51,21 @@ const WalletRechargeComponent = (props) => {
                         <FontAwesomeIcon icon={faXmark} />
                     </button>
                     <div className='wallet-inner-bg'>
-                        <h4>Recharge Your Wallet</h4>
                         <div className='balance-container'>
-                            <p>Current Wallet Amount</p>
-                            <div className="available-balance">
-                                <h3><span className='fw-bold'>₹6204.25</span></h3>
-
-                                <Link className='font13'>See transactions</Link>
+                            <h4 className='my-3'>Your Wallet</h4>
+                            <div className='balance-amount'>
+                                <p>₹</p>
+                                <p className='fw-bold font30'>6204.25</p>
                             </div>
+                            <p className='font13'>Current Wallet Amount</p>
                         </div>
-                        <label className='d-flex flex-column mb-3'>
-                            Enter Amount in Multiples of 100 Below
+                        <label className='d-flex flex-column mb-3 px-3'>
+                            <span style={{ fontSize: '0.9rem' }}>Enter Amount in Multiples of 100 Below</span>
                             <input className='input-field' type="text" value={rechargeAmount} onChange={handleRechargeAmountChange} />
                             <span className='font12 text-sh-primary fw-bold'>Min value:₹500 & Max value: ₹50,00,000</span>
                         </label>
-                        <div className='d-flex flex-column mb-3'>
-                            <span>Or Select From Below:</span>
+                        <div className='d-flex flex-column my-3 px-3'>
+                            <span style={{ fontSize: '0.9rem' }}>Or Select From Below:</span>
                             <div className='d-flex gap-3'>
                                 <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1000)}>1000</button>
                                 <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1500)}>1500</button>
@@ -74,8 +73,8 @@ const WalletRechargeComponent = (props) => {
                                 <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(5000)}>5000</button>
                             </div>
                         </div>
-                        <label className='d-flex flex-column mb-3'>
-                            Payment Mode:
+                        <label className='d-flex gap-3 my-3 px-3'>
+                            <span style={{ fontSize: '0.9rem' }}>Payment Mode:</span>
                             <div className='d-flex gap-2'>
                                 <label className='d-flex gap-1 align-items-center'>
                                     <input
@@ -98,16 +97,18 @@ const WalletRechargeComponent = (props) => {
                                 {/* Add more payment modes as needed */}
                             </div>
                         </label>
-                        <div className='d-flex flex-column gap-1 mb-3'>
-                            Have a redeem code?
-                            <div className='d-flex gap-2 w-100 align-items-center'>
+                        <div className='d-flex flex-column gap my-3 px-3'>
+                            <span style={{ fontSize: '0.9rem' }}>Have a redeem code?</span>
+                            <div className='d-flex w-100 align-items-center'>
                                 <label className='w-100'>
-                                    <input className='input-field' type="text" placeholder='Enter it here' value={couponCode} onChange={handleCouponCodeChange} />
+                                    <input className='input-field redeem-field' type="text" placeholder='Enter it here' value={couponCode} onChange={handleCouponCodeChange} />
                                 </label>
-                                <button className='btn main-button' onClick={handleAddCoupon}>Redeem Now</button>
+                                <button className='btn main-button redeem-button' onClick={handleAddCoupon}>Redeem Now</button>
                             </div>
                         </div>
-                        <button className='btn main-button' onClick={handleRecharge}>Complete Recharge</button>
+                        <div className='d-flex px-3 justify-content-center pb-3'>
+                            <button className='btn main-button' onClick={handleRecharge}>Complete Recharge</button>
+                        </div>
                     </div>
                 </div>
             </section>
