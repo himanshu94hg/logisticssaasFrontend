@@ -57,7 +57,7 @@ const WalletRechargeComponent = (props) => {
                             <div className="available-balance">
                                 <h3><span className='fw-bold'>₹6204.25</span></h3>
 
-                                <Link>See transactions</Link>
+                                <Link className='font13'>See transactions</Link>
                             </div>
                         </div>
                         <label className='d-flex flex-column mb-3'>
