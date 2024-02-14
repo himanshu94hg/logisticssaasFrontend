@@ -1,5 +1,5 @@
 .add-warehouse-section {
-    min-height: calc(100vh - 175px);
+    height: calc(100vh - 175px);
     overflow-y: scroll;
 }
 

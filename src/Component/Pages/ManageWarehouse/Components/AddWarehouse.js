@@ -7,6 +7,12 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 
 const AddWarehouse = () => {
+    const [AddFields, SetAddFields] = useState(false)
+    const [SameRTO, setSameRTO] = useState(false)
+    const pincodeRef = useRef(null);
+    const cityRef = useRef(null);
+    const stateRef = useRef(null);
+    const countryRef = useRef(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -76,11 +82,6 @@ const AddWarehouse = () => {
 
 
 
-    const [AddFields, SetAddFields] = useState(false)
-    const pincodeRef = useRef(null);
-    const cityRef = useRef(null);
-    const stateRef = useRef(null);
-    const countryRef = useRef(null);
 
     const times = [
         '12:00 AM', '1:00 AM', '2:00 AM', '3:00 AM', '4:00 AM', '5:00 AM', '6:00 AM',
@@ -92,7 +93,7 @@ const AddWarehouse = () => {
     const handlePincodeChange = async () => {
         const pincode = pincodeRef.current.value;
 
-        if (pincode.length !== 6) {
+        if (pincode.length < 6) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -256,13 +257,13 @@ const AddWarehouse = () => {
 
 
                         <div className="d-flex gap-3 mt-3">
-                            <p onClick={() => SetAddFields(!AddFields)} className='add-fields-text'>
+                            <p onClick={() => SetAddFields(!AddFields)} className='add-fields-text mb-0'>
                                 <span>Warehouse Timings</span>
-                                {/* <span className='text-gray'> (Optional) <FontAwesomeIcon icon={AddFields ? faChevronUp : faChevronDown} /></span> */}
+                                <span className='text-gray'> (Optional) <FontAwesomeIcon icon={AddFields ? faChevronUp : faChevronDown} /></span>
                             </p>
                         </div>
 
-                        <div className={`d-flex gap-3 mt-3`}>
+                        <div className={`d-flex gap-3 ${AddFields ? '' : 'd-none'}`}>
                             <label>
                                 Open at
                                 <select className='select-field'>
@@ -282,111 +283,115 @@ const AddWarehouse = () => {
                                 </select>
                             </label>
                         </div>
-
-
-                        <h5 className='my-4'>Add RTO Address</h5>
-                        <div className='d-flex gap-3'>
-                            <label>
-                                Warehouse Name(do not use sp    ecial symbols)
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Warehouse Name'
-                                />
-                            </label>
-                            <label>
-                                Contact Person Name
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Contact Person Name'
-                                />
-                            </label>
+                        <hr />
+                        <label className='d-flex flex-row align-items-center mt-3'>
+                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} />
+                            Use a different address as RTO address
+                        </label>
+                        <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
+                            <h3 className='mt-3 mb-0'>Add RTO Address</h3>
+                            <div className='d-flex gap-3'>
+                                <label>
+                                    Warehouse Name(do not use sp    ecial symbols)
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Warehouse Name'
+                                    />
+                                </label>
+                                <label>
+                                    Contact Person Name
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Contact Person Name'
+                                    />
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3'>
+                                <label>
+                                    Contact Number
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        plac0eholder='Enter Contact Person Name'
+                                    />
+                                </label>
+                                <label>
+                                    Alternate Number
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Contact Person Name'
+                                    />
+                                </label>
+                                <label>
+                                    Email
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Contact Person Name'
+                                    />
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3'>
+                                <label>
+                                    Address
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Contact Person Name'
+                                    />
+                                </label>
+                                <label>
+                                    Landmark
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Contact Person Name'
+                                    />
+                                </label>
+                            </div>
+                            <div className='d-flex gap-3 mt-3'>
+                                <label>
+                                    Pincode
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        placeholder='Enter Pincode'
+                                        ref={pincodeRef}
+                                        onBlur={handlePincodeChange}
+                                    />
+                                </label>
+                                <label>
+                                    City
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        ref={cityRef}
+                                        disabled
+                                    />
+                                </label>
+                                <label>
+                                    State
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        ref={stateRef}
+                                        disabled
+                                    />
+                                </label>
+                                <label>
+                                    Country
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        ref={countryRef}
+                                        disabled
+                                    />
+                                </label>
+                            </div>
                         </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                Contact Number
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    plac0eholder='Enter Contact Person Name'
-                                />
-                            </label>
-                            <label>
-                                Alternate Number
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Contact Person Name'
-                                />
-                            </label>
-                            <label>
-                                Email
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Contact Person Name'
-                                />
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                Address
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Contact Person Name'
-                                />
-                            </label>
-                            <label>
-                                Landmark
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Contact Person Name'
-                                />
-                            </label>
-                        </div>
-                        <div className='d-flex gap-3 mt-3'>
-                            <label>
-                                Pincode
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    placeholder='Enter Pincode'
-                                    ref={pincodeRef}
-                                    onBlur={handlePincodeChange}
-                                />
-                            </label>
-                            <label>
-                                City
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    ref={cityRef}
-                                    disabled
-                                />
-                            </label>
-                            <label>
-                                State
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    ref={stateRef}
-                                    disabled
-                                />
-                            </label>
-                            <label>
-                                Country
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    ref={countryRef}
-                                    disabled
-                                />
-                            </label>
-                        </div>
-
                     </div>
                 </div>
                 {/* Next Button */}
