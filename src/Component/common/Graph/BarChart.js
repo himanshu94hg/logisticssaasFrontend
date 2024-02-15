@@ -410,7 +410,7 @@ class ApexChart extends React.Component {
         
 
   <div id="chart">
-<div class="toolbar">
+<div className="toolbar">
 <button id="one_month"
     
     onClick={()=>this.updateData('one_month')} className={ (this.state.selection==='one_month' ? 'active' : '')}>

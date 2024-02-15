@@ -55,8 +55,8 @@ const ReadyToShip = () => {
                 }
             })
             .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                console.log('Data is data:', response.data  );
+                setAllOrders(response.data.results);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -115,7 +115,7 @@ const ReadyToShip = () => {
         <section className='position-relative'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div class="search-container">
+                    <div className="search-container">
                         <label>
                             <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
                             <button>

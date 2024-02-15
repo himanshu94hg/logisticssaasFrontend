@@ -117,7 +117,7 @@ const ManageWarehouse = () => {
     <>
       <div className="position-relative manage-warehouse">
         <section className="box-shadow shadow-sm p7 mb-3 filter-container">
-          <div class="search-container">
+          <div className="search-container">
             <label>
               <input type="text" placeholder="Search by Location || Address || City || State || Pincode" />
               <button>

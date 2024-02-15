@@ -778,7 +778,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     <div>
                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p class="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
                                     </div>
                                 </label>
                             </div>
@@ -793,7 +793,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     <div>
                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p class="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
                                     </div>
                                 </label>
                             </div>
@@ -808,7 +808,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     <div>
                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p class="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
                                     </div>
                                 </label>
                             </div>
@@ -823,7 +823,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     <div>
                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p class="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
                                     </div>
                                 </label>
                             </div>
