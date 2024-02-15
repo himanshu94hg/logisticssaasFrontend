@@ -13,10 +13,14 @@ const AddWarehouse = () => {
     const cityRef = useRef(null);
     const stateRef = useRef(null);
     const countryRef = useRef(null);
+    const pincodeRef1 = useRef(null);
+    const cityRef1 = useRef(null);
+    const stateRef1 = useRef(null);
+    const countryRef1 = useRef(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        const hardcodedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTkyNDk2LCJpYXQiOjE3MDczODc2OTYsImp0aSI6IjEzODE0YWE2ZjE2ZTQyNzk5NzhhNzAwZmY0MTM1YTZhIiwidXNlcl9pZCI6Mn0.neIQZnSs3vkyMxm0QrfIOpu_RTjDNz5j3vF-OPNNXTA'
         try {
             const seller = 1;
             const warehouse_name = event.target.warehouse_name.value;
@@ -32,7 +36,35 @@ const AddWarehouse = () => {
             const state = event.target.state.value;
             const country = event.target.country.value;
 
-            const response = await axios.post('http://65.2.38.87:8088/core-api/features/warehouse/', {
+            let rto_warehouse_name, rto_contact_person_name, rto_contact_number, rto_alternate_number, rto_email, rto_address, rto_landmark, rto_pincode, rto_city, rto_state, rto_country;
+
+            if (!SameRTO) {
+                rto_warehouse_name = warehouse_name;
+                rto_contact_person_name = contact_name;
+                rto_contact_number = contact_number;
+                rto_alternate_number = '';
+                rto_email = support_email;
+                rto_address = address_line1 + ', ' + address_line2;
+                rto_landmark = '';
+                rto_pincode = pincode;
+                rto_city = city;
+                rto_state = state;
+                rto_country = country;
+            } else {
+                rto_warehouse_name = event.target.rto_warehouse_name.value;
+                rto_contact_person_name = event.target.rto_contact_person_name.value;
+                rto_contact_number = event.target.rto_contact_number.value;
+                rto_alternate_number = event.target.rto_alternate_number.value;
+                rto_email = event.target.rto_email.value;
+                rto_address = event.target.rto_address.value;
+                rto_landmark = event.target.rto_landmark.value;
+                rto_pincode = event.target.rto_pincode.value;
+                rto_city = event.target.rto_city.value;
+                rto_state = event.target.rto_state.value;
+                rto_country = event.target.rto_country.value;
+            }
+
+            const formData = {
                 seller,
                 warehouse_name,
                 address_line1,
@@ -46,6 +78,26 @@ const AddWarehouse = () => {
                 state,
                 pincode,
                 country,
+                rto_details: {
+                    warehouse_name: rto_warehouse_name,
+                    contact_person_name: rto_contact_person_name,
+                    contact_number: rto_contact_number,
+                    alternate_number: rto_alternate_number,
+                    email: rto_email,
+                    address: rto_address,
+                    landmark: rto_landmark,
+                    pincode: rto_pincode,
+                    city: rto_city,
+                    state: rto_state,
+                    country: rto_country
+                }
+            };
+
+            const response = await axios.post('http://65.2.38.87:8088/core-api/features/warehouse/', formData,{
+                headers: {
+                    'Authorization': hardcodedToken,
+                    'Content-Type': 'application/json'
+                }
             });
 
             console.log('Response:', response);
@@ -58,6 +110,14 @@ const AddWarehouse = () => {
                     title: 'Success',
                     text: 'Warehouse added successfully!',
                     confirmButtonText: 'OK'
+                }).then(() => {
+                    const form = document.getElementById('formSubmit');
+                    const formInputs = form.querySelectorAll('input');
+                    formInputs.forEach(input => {
+                        input.value = null;
+                    });
+                    SetAddFields(false);
+                    setSameRTO(false);
                 });
             } else {
                 const errorData = response.data;
@@ -79,8 +139,6 @@ const AddWarehouse = () => {
             });
         }
     };
-
-
 
 
     const times = [
@@ -111,6 +169,41 @@ const AddWarehouse = () => {
                 cityRef.current.value = postOffice.District;
                 stateRef.current.value = postOffice.State;
                 countryRef.current.value = postOffice.Country;
+            } else {
+                throw new Error('No data found for the given pincode.');
+            }
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Invalid pincode! Please enter a valid pincode.',
+                confirmButtonText: 'OK'
+            });
+        }
+    };
+
+    const handlePincodeChange1 = async () => {
+        const pincode = pincodeRef1.current.value;
+
+        if (pincode.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid 6-digit pincode.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        try {
+            const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
+            if (response.data && response.data.length > 0) {
+                const data = response.data[0];
+                const postOffice1 = data.PostOffice[0];
+                cityRef1.current.value = postOffice1.District;
+                stateRef1.current.value = postOffice1.State;
+                countryRef1.current.value = postOffice1.Country;
             } else {
                 throw new Error('No data found for the given pincode.');
             }
@@ -199,8 +292,8 @@ const AddWarehouse = () => {
                                     className='input-field'
                                     name="pincode"
                                     placeholder='Enter Pincode'
-                                    ref={pincodeRef}
-                                    onBlur={handlePincodeChange}
+                                    ref={pincodeRef1}
+                                    onBlur={handlePincodeChange1}
                                 />
                             </label>
                             <label>
@@ -209,7 +302,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="city"
-                                    ref={cityRef}
+                                    ref={cityRef1}
                                     disabled
                                 />
                             </label>
@@ -219,7 +312,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="state"
-                                    ref={stateRef}
+                                    ref={stateRef1}
                                     disabled
                                 />
                             </label>
@@ -229,7 +322,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="country"
-                                    ref={countryRef}
+                                    ref={countryRef1}
                                     disabled
                                 />
                             </label>
@@ -296,6 +389,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_warehouse_name"
                                         placeholder='Enter Warehouse Name'
                                     />
                                 </label>
@@ -304,6 +398,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_contact_person_name"
                                         placeholder='Enter Contact Person Name'
                                     />
                                 </label>
@@ -314,6 +409,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_contact_number"
                                         plac0eholder='Enter Contact Person Name'
                                     />
                                 </label>
@@ -322,6 +418,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_alternate_number"
                                         placeholder='Enter Contact Person Name'
                                     />
                                 </label>
@@ -330,6 +427,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_email"
                                         placeholder='Enter Contact Person Name'
                                     />
                                 </label>
@@ -340,6 +438,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_address"
                                         placeholder='Enter Contact Person Name'
                                     />
                                 </label>
@@ -348,6 +447,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_landmark"
                                         placeholder='Enter Contact Person Name'
                                     />
                                 </label>
@@ -358,6 +458,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_pincode"
                                         placeholder='Enter Pincode'
                                         ref={pincodeRef}
                                         onBlur={handlePincodeChange}
@@ -368,6 +469,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_city"
                                         ref={cityRef}
                                         disabled
                                     />
@@ -377,6 +479,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_state"
                                         ref={stateRef}
                                         disabled
                                     />
@@ -386,6 +489,7 @@ const AddWarehouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
+                                        name="rto_country"
                                         ref={countryRef}
                                         disabled
                                     />
