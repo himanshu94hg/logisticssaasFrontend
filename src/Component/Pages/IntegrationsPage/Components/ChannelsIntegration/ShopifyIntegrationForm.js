@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import ShopifyLogo from '../../../../assets/image/integration/ShopifyLogo.png';
+import ShopifyLogo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const ChannelIntegrationForm = () => {
+const ShopifyIntegrationForm = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -103,4 +103,4 @@ const ChannelIntegrationForm = () => {
     );
 };
 
-export default ChannelIntegrationForm;
+export default ShopifyIntegrationForm;

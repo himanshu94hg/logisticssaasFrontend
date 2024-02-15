@@ -10,7 +10,7 @@ import IndiaMapp from './Component/common/Graph/IndiaMapp';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
-import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration';
+import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
 import OMSIntegration from './Component/Pages/IntegrationsPage/Components/OMSIntegration';
 import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
@@ -27,10 +27,10 @@ import LoginPage from './Component/Pages/LoginPage/LoginPage';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
-import ChannelIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelIntegrationForm';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
+import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
 
 function App() {
 
@@ -70,7 +70,7 @@ function App() {
             <Route path="/manage-warehouses" element={<ManageWarehouse />} />
             <Route path="/add-pickup-address" element={<AddWarehouse />} />
             <Route path="/shipping-rates" element={<ShippingRates />} />
-            <Route path="/shopify-integration" element={<ChannelIntegrationForm />} />
+            <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>

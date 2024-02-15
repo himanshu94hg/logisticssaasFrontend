@@ -10,7 +10,6 @@ import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
 import DailyPreferences from './Component/common/Graph/DailyPrefrence';
-import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration';
 import OMSIntegration from './Component/Pages/IntegrationsPage/Components/OMSIntegration';
 import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
@@ -28,7 +27,8 @@ import Dashboard from './Component/Pages/Dashboard/Dashboard';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
-import ChannelIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelIntegrationForm';
+import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
+import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -59,7 +59,7 @@ ReactDOM.render(
           <Route path="/manage-warehouses" element={<ManageWarehouse />} />
           <Route path="/add-pickup-address" element={<AddWarehouse />} />
           <Route path="/shipping-rates" element={<ShippingRates />} />
-          <Route path="/shopify-integration" element={<ChannelIntegrationForm />} />
+          <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
           <Route path="/" element={<Dashboard />} />
         </Route>
       </Routes>
