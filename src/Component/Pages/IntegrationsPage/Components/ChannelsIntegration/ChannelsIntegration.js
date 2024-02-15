@@ -1,12 +1,13 @@
 import React from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router';
+import WCLogo from '../../../../../assets/image/integration/WCLogo.png'
 
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
     const ShoppingCarts = [
         { child:'shopify',title: 'Shopify', imageUrl: '../shopify.jpg' },
-        { child:'wooCommerce',title: 'WooCommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/woocommerce.png' },
+        { child:'wooCommerce',title: 'WooCommerce', imageUrl: WCLogo },
         { child:'opencart',title: 'Opencart', imageUrl: 'https://www.shipease.in/public/assets/images/channel/opencart.png' },
         { child:'storeHippo',title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
         { child:'magento',title: 'Magento', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },

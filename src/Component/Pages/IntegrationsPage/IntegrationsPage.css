@@ -31,11 +31,11 @@
     flex-basis: 80%;
 }
 
-.card .card-img-container.Shopify img {
+.card .card-img-container img {
     transition: 1s;
 }
 
-.card:hover .card-img-container.Shopify img {
+.card:hover .card-img-container img {
     transform: rotate(360deg);
 }
 
@@ -52,7 +52,8 @@
 }
 
 .card-img-container.WooCommerce {
-    border-right: 1px solid #bba2bd;
+    background-color: #E4DBEF;
+    border-right: 1px solid #E4DBEF;
 }
 
 .card-img-container.Magento {
