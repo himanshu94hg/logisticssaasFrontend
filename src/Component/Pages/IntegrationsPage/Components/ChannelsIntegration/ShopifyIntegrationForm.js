@@ -13,7 +13,7 @@ const ShopifyIntegrationForm = () => {
 
     return (
         <>
-            <div className='box-shadow shadow-sm p10'>
+            <div className='p10'>
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src={Logo} alt="Logo" />
@@ -23,9 +23,9 @@ const ShopifyIntegrationForm = () => {
                         <p className='mb-0'>Need Help?</p>
                     </div>
                 </section>
-                <section className='int-instructions mt-4'>
+                <div className='row p10'>
+                <section className='box-shadow shadow-sm col-6 int-instructions'>
                     <h4>Instruction to integrate Shopify to ShipEase</h4>
-                    <hr />
                     <ul>
                         {[
                             "Login to Shopify Admin Panel.",
@@ -42,8 +42,7 @@ const ShopifyIntegrationForm = () => {
                         ].map(instruction => <li key={instruction}>{instruction}</li>)}
                     </ul>
                 </section>
-                <hr />
-                <section className='int-form'>
+                <section className='box-shadow shadow-sm col-6 int-form'>
                     <form action="">
                         <div className='d-flex w-100 gap-5 mt-4'>
                             <label>
@@ -98,6 +97,7 @@ const ShopifyIntegrationForm = () => {
                         </div>
                     </form>
                 </section>
+                </div>
             </div>
         </>
     );

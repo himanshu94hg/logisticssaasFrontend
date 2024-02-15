@@ -48,17 +48,18 @@ const WooCommerceIntegrationForm = () => {
                                 <input className="input-field" type="text" />
                             </label>
                             <label>
-                                Admin API access token
+                                Store URL
                                 <input className="input-field" type="text" />
+                                <span className='text-sh-primary font13'>Store URL should be like https://yourstore.com</span>
                             </label>
                         </div>
                         <div className='d-flex w-100 gap-5 mt-4'>
                             <label>
-                                API Key
+                                Consumer Key
                                 <input className="input-field" type="text" />
                             </label>
                             <label>
-                                API Secret Key
+                                Consumer Secret
                                 <input className="input-field" type="text" />
                             </label>
                         </div>
@@ -77,19 +78,23 @@ const WooCommerceIntegrationForm = () => {
                                 />
                             </label>
                         </div>
-                        <div className='int-checkbox mt-3'>
-                            {[
-                                "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
-                                "Cancel orders (Enabling this will auto cancel order in Shopify when order is cancelled in ShipEase)",
-                                "Mark as paid (Mark COD orders as paid in Shopify when orders are delivered to customer)",
-                                "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
-                            ].map(text => (
-                                <label key={text}>
-                                    <input className="input-field" type="checkbox" />
-                                    {text}
-                                </label>
-                            ))}
+                            <p className='text-sh-primary'>Enter Status Mappings</p>
+                        <div className='d-flex w-100 gap-5 mt-4'>
+                            <label>
+                                Store URL
+                                <input className="input-field" type="text" />
+                            </label>
+                            <label>
+                                Fetch Orders From
+                                <DatePicker
+                                    selected={selectedDate}
+                                    onChange={handleDateChange}
+                                    dateFormat='MM/dd/yyyy'
+                                    className='input-field'
+                                />
+                            </label>
                         </div>
+
                         <div className='mt-3 d-flex justify-content-end'>
                             <button type='submit' className='btn main-button'>Submit</button>
                         </div>
