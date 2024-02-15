@@ -170,6 +170,17 @@
     background-color: #7f54b3;
 }
 
+.int-body {
+    display: flex;
+    margin-block: 1rem;
+    gap: 1rem;
+}
+
+.int-body>section {
+    width: 50%;
+    padding: 1rem;
+}
+
 .int-checkbox {
     display: flex;
     flex-direction: column;
@@ -184,4 +195,41 @@
 
 .int-checkbox label input {
     min-width: unset;
+}
+
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: var(--sh-primary-middle);
+    top: 11px;
+    bottom: 0;
+    left: 28px;
+    margin-left: -3px;
+}
+
+.timeline-list {
+    padding: 6px 40px;
+    position: relative;
+    background-color: inherit;
+    width: 100%;
+}
+
+.timeline-list:after {
+    content: '';
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    left: -17px;
+    background-color: white;
+    border: 4px solid var(--sh-primary);
+    top: 9px;
+    border-radius: 50%;
+    z-index: 1;
 }
