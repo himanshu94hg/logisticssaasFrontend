@@ -13,8 +13,8 @@ const WooCommerceIntegrationForm = () => {
 
     return (
         <>
-            <div className='box-shadow shadow-sm p10'>
-                <section className='int-header woo'>
+            <div className='box-shadow shadow-sm p10 woo'>
+                <section className='int-header'>
                     <div className='int-header-left'>
                         <img src={Logo} alt="Logo" />
                         <h2 className='mb-0'>Woo Commerce</h2>

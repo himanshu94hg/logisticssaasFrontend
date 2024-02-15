@@ -115,7 +115,7 @@
     overflow: hidden;
 }
 
-.int-header.woo {
+.woo .int-header {
     background-color: #e4dbef;
 }
 
@@ -207,7 +207,7 @@
     content: '';
     position: absolute;
     width: 6px;
-    background-color: var(--sh-primary-middle);
+    background-color: #d3e5b3;
     top: 11px;
     bottom: 0;
     left: 28px;
@@ -228,7 +228,7 @@
     height: 25px;
     left: -17px;
     background-color: white;
-    border: 4px solid var(--sh-primary);
+    border: 4px solid #95bf47;
     top: 9px;
     border-radius: 50%;
     z-index: 1;
