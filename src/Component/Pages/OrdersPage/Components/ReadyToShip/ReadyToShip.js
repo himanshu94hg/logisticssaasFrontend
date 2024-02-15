@@ -56,7 +56,7 @@ const ReadyToShip = () => {
             })
             .then(response => {
                 console.log('Data is data:', response.data);
-                setAllOrders(response.data);
+                setAllOrders(response.data.results);
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -139,92 +139,85 @@ const ReadyToShip = () => {
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
-                            <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
-                                </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
-                                <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
-                                <th style={{ width: '8%' }}>Payment</th>
-                                <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '12.5%' }}>Shipping Details</th>
-                                <th style={{ width: '6%' }}>Status</th>
-                                <th style={{ width: '6%' }}>Action</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
-                            </tr>
-                            <tr className="blank-row"><td></td></tr>
+                        <tr className="table-row box-shadow">
+                            <th style={{ width: '1%' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={selectAll}
+                                    onChange={handleSelectAll}
+                                />
+                            </th>
+                            <th style={{ width: '24%' }}>Order Details</th>
+                            <th style={{ width: '12.5%' }}>Customer details</th>
+                            <th style={{ width: '16%' }}>Package Details</th>
+                            <th style={{ width: '8%' }}>Payment</th>
+                            <th style={{ width: '12.5%' }}>Pickup Address</th>
+                            <th style={{ width: '12.5%' }}>Shipping Details</th>
+                            <th style={{ width: '6%' }}>Status</th>
+                            <th style={{ width: '6%' }}>Action</th>
+
+                        </tr>
+                        <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
-                                <React.Fragment key={row.id}>
-                                    {index > 0 && <tr className="blank-row"><td></td></tr>}
-                                    <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
-                                            />
-                                        </td>
-                                        <td>
-                                            {/* order detail */}
-                                            <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.customer_order_number}
+                        {orders.map((row, index) => (
+                            <React.Fragment key={row.id}>
+                                {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                <tr className='table-row box-shadow'>
+                                    <td className='checkbox-cell'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(row.id)}
+                                            onChange={() => handleSelectRow(row.id)}
+                                        />
+                                    </td>
+                                    <td>
+                                        {/* order detail */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
+                                                {row.customer_order_number}
 
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
-                                                </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
-                                                    {/* {formatDate(row.inserted)} */}
-                                                    {/*<DateFormatter dateTimeString={row.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* customer detail */}
-                                            <div className='cell-inside-box'>
-                                                <p>{row.customer_order_number}</p>
-                                                <p>{row.shipping_detail.mobile_number}
-                                                    <span className='details-on-hover ms-2'>
+                                                {/* <span className="product-details ms-2"> */}
+                                                {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
+                                                {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
+                                                {/* <InfoIcon /> */}
+                                                {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
+                                                {/* </span> */}
+                                            </p>
+                                            <p className='ws-no-wrap d-flex align-items-center'>
+                                                {/* {formatDate(row.inserted)} */}
+                                                {/*<DateFormatter dateTimeString={row.inserted} />*/}
+                                                <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                            </p>
+                                            {/* <p>{row.channel}</p> */}
+                                            {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
+                                            {/* <p>W {row.p_warehouse_name}</p> */}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* customer detail */}
+                                        <div className='cell-inside-box'>
+                                            <p>{row.customer_order_number}</p>
+                                            <p>{row.shipping_detail.mobile_number}
+                                                <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
                                                             {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
-                                                </p>
-                                                {/* <p>{row.s_city}</p>
+                                            </p>
+                                            {/* <p>{row.s_city}</p>
                                                 <p>{row.s_pincode}</p>
                                                 <p>{row.s_state}</p> */}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
-                                                    <span className='details-on-hover ms-2 align-middle'>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* package  details */}
+                                        <div className='cell-inside-box'>
+                                            <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                            <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
+                                                <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
                                                             {row.order_products.map((product, index) => (
@@ -236,68 +229,68 @@ const ReadyToShip = () => {
                                                             ))}
                                                         </span>
                                                     </span>
-                                                </p>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* payment section here */}
-                                            <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* pickup adress */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
-                                                </p>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* payment section here */}
+                                        <div className='cell-inside-box'>
+                                            <p>&#x20B9; {row.invoice_amount}</p>
+                                            <p className='order-Status-box mt-1'>{row.payment_type}</p>
+                                        </div>
+                                    </td>
+                                    <td className='align-middle'>
+                                        {/* pickup adress */}
+                                        <div className='cell-inside-box'>
+                                            <p className='details-on-hover extra'>{row.p_warehouse_name}
+                                                <span>{row.pickup_address}</span>
+                                            </p>
 
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row.order_courier_status}</p>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* shiping section here */}
+                                        <div className='cell-inside-box'>
+                                            <p className='details-on-hover anchor-awb'>{row.awb_number}
+                                                {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                            </p>
+                                            <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                        </div>
+                                    </td>
+                                    <td className='align-middle'>
+                                        {/*  Status section  */}
+                                        <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row.order_courier_status}</p>
+                                    </td>
+                                    <td className='align-middle'>
+                                        {/* {row.ndr_action}
                                              {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Download Label</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Generate Manifest</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
+                                        <div className='d-flex align-items-center gap-3'>
+                                            <button className='btn main-button'>Download Label</button>
+                                            <div className='action-options'>
+                                                <div className='threedots-img'>
+                                                    <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                </div>
+                                                <div className='action-list'>
+                                                    <ul>
+                                                        <li>Download Invoice</li>
+                                                        <li>Generate Manifest</li>
+                                                        <li>Edit Order</li>
+                                                        <li>Add Tag</li>
+                                                        <li>Verify Order</li>
+                                                        <li><hr /></li>
+                                                        <li>Call Buyer</li>
+                                                        <li>Marl As Verified</li>
+                                                        <li>Clone Order</li>
+                                                        <li><hr /></li>
+                                                        <li>Cancel Order</li>
+                                                    </ul>
                                                 </div>
                                             </div>
-                                        </td>
-                                    </tr>
-                                </React.Fragment>
-                            ))}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </React.Fragment>
+                        ))}
                         </tbody>
                     </table>
                 </div>
