@@ -107,12 +107,16 @@
 /* integration form */
 
 .int-header {
-    background-color: #F6F6F9;
+    background-color: #e8f1d7;
     width: 100%;
     display: flex;
     border-radius: 0.5rem;
     justify-content: space-between;
     overflow: hidden;
+}
+
+.int-header.woo {
+    background-color: #e4dbef;
 }
 
 .int-form {
@@ -121,7 +125,7 @@
     margin-block: 2rem;
 }
 
-.int-form label{
+.int-form label {
     width: 100%;
 }
 
@@ -160,6 +164,10 @@
     transform: rotate(-45deg);
     z-index: 1;
     border-radius: 0.5rem;
+}
+
+.woo .int-header-right:after {
+    background-color: #7f54b3;
 }
 
 .int-checkbox {

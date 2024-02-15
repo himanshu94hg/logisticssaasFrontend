@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
+import Logo from '../../../../../assets/image/integration/woocommerceLogo.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const ShopifyIntegrationForm = () => {
+const WooCommerceIntegrationForm = () => {
 
     const [selectedDate, setSelectedDate] = useState(null);
 
@@ -14,10 +14,10 @@ const ShopifyIntegrationForm = () => {
     return (
         <>
             <div className='box-shadow shadow-sm p10'>
-                <section className='int-header'>
+                <section className='int-header woo'>
                     <div className='int-header-left'>
                         <img src={Logo} alt="Logo" />
-                        <h2 className='mb-0'>Shopify</h2>
+                        <h2 className='mb-0'>Woo Commerce</h2>
                     </div>
                     <div className='int-header-right'>
                         <p className='mb-0'>Need Help?</p>
@@ -28,17 +28,14 @@ const ShopifyIntegrationForm = () => {
                     <hr />
                     <ul>
                         {[
-                            "Login to Shopify Admin Panel.",
-                            "Go to Apps.",
-                            "Click Develop Apps for your store.",
-                            "Click on Create an App.",
-                            "Enter Name of the app and Select Account associated with your store.",
-                            "Click on Create App Button",
-                            "Now Click on Configure Admin API Scopes and Select All Permission that is needed for Order,Fulfillment,Shipping,Payments and Customer Data and click on Save Button",
-                            "Now Click on Install App Button",
-                            "Here You will find Admin API access token,API key and API Secret Key",
+                            "Login to Woo-Commerce Admin Panel.",
+                            "Go to Integration.",
+                            "Click on Woocommerce Settings.",
+                            "Click on Advanced then REST API.",
+                            "Click on Add API Key.",
+                            "Enter Description and select read / write and Click Add.",
+                            "Here you will find Woo-Commerce Details for integration.",
                             "Copy the identifiers and integrate the channel.",
-                            "Please do not enter https:// or trailing / in Store URL just enter store.myshopify.com"
                         ].map(instruction => <li key={instruction}>{instruction}</li>)}
                     </ul>
                 </section>
@@ -103,4 +100,4 @@ const ShopifyIntegrationForm = () => {
     );
 };
 
-export default ShopifyIntegrationForm;
+export default WooCommerceIntegrationForm;

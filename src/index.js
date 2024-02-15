@@ -29,6 +29,7 @@ import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWareho
 import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
 import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
 import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
+import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -60,6 +61,7 @@ ReactDOM.render(
           <Route path="/add-pickup-address" element={<AddWarehouse />} />
           <Route path="/shipping-rates" element={<ShippingRates />} />
           <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
+          <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
           <Route path="/" element={<Dashboard />} />
         </Route>
       </Routes>

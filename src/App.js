@@ -31,6 +31,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
+import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
 
 function App() {
 
@@ -71,6 +72,7 @@ function App() {
             <Route path="/add-pickup-address" element={<AddWarehouse />} />
             <Route path="/shipping-rates" element={<ShippingRates />} />
             <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
+            <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
             <Route path="/" element={<Dashboard />} />
           </Routes>
         </div>
