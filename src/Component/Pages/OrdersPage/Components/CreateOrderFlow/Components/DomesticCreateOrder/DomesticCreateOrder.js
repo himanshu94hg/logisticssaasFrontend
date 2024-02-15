@@ -313,10 +313,6 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         }));
     };
 
-    // const handleChange = (e, field) => {
-    //     setFormData({ ...formData, [field]: e.target.value });
-    // };
-
     const handleSelectChange = (e, field) => {
         setFormData({
             ...formData,
@@ -957,7 +953,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                     <input
                                         className='input-field'
                                         placeholder='Enter Product Quantity'
-                                        type="number" value={product.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty', index)} />
+                                        type="text" value={product.product_qty} onChange={(e) => handleChange(e, 'product_qty', index)} />
                                 </label>
                                 {/* Quantity */}
                                 {/* <label className='col'>
@@ -1050,7 +1046,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                 <button className='btn main-button ms-3' onClick={onNext}>Next</button>
 
             </div>
-        </div >
+        </div>
     );
 };
 
@@ -1103,7 +1099,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Invoice Amount
                             <input
                                 className='input-field'
-                                type="number" value={formData.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} />
+                                type="text" value={formData.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} />
                         </label>
 
                         {/* COD Charges */}
@@ -1111,7 +1107,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             COD Charges
                             <input
                                 className='input-field'
-                                type="number" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} />
+                                type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} />
                         </label>
                     </div>
                     <hr />
@@ -1120,7 +1116,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 style={{ minWidth: '15    0px' }}
-                                type="number" value={formData.dimension_details.weight || '0'}
+                                type="text" value={formData.dimension_details.weight}
                                 onChange={(e) => handleChangeDimension(e, 'weight')} />
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
@@ -1143,7 +1139,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Length (cm)
                             <input
                                 className='input-field'
-                                type="number" value={formData.dimension_details.length || '0'}
+                                type="text" value={formData.dimension_details.length}
                                 onChange={(e) => handleChangeDimension(e, 'length')} />
                         </label>
 
@@ -1152,7 +1148,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Breadth (cm)
                             <input
                                 className='input-field'
-                                type="number" value={formData.dimension_details.breadth || '0'} onChange={(e) => handleChangeDimension(e, 'breadth')} />
+                                type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')} />
                         </label>
 
                         {/* Height (cm) */}
@@ -1160,7 +1156,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Height (cm)
                             <input
                                 className='input-field'
-                                type="number" value={formData.dimension_details.height || '0'} onChange={(e) => handleChangeDimension(e, 'height')} />
+                                type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')} />
                         </label>
                     </div>
                     <div className="volumetric-weight">
