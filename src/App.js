@@ -1,6 +1,6 @@
 import "./App.css";
 import 'devextreme/dist/css/dx.light.css';
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "./Component/common/sidebar/SideNav";
 import Header from "./Component/common/header/Header";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
@@ -34,11 +34,18 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, indexPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, splitOrdersPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import { USER_DATA_ACTION } from "./redux/saga/constant";
+import Cookies from "js-cookie";
 
 
 function App() {
   const [WalletRecharge, setWalletRecharge] = useState(false)
 
+  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTkyNDk2LCJpYXQiOjE3MDczODc2OTYsImp0aSI6IjEzODE0YWE2ZjE2ZTQyNzk5NzhhNzAwZmY0MTM1YTZhIiwidXNlcl9pZCI6Mn0.neIQZnSs3vkyMxm0QrfIOpu_RTjDNz5j3vF-OPNNXTA";
+
+
+  useEffect(()=>{
+    Cookies.set('token', authToken);
+  },[])
 
   const dispatch = useDispatch()
 
