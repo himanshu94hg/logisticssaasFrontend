@@ -1260,7 +1260,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
             </div>
-        </div >
+        </div>
     );
 };
 
