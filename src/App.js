@@ -34,11 +34,8 @@ import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Compo
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
 import Cookies from "js-cookie";
-<<<<<<< HEAD
 import axios from "axios";
 import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
-=======
->>>>>>> f4cf5e931adf4241deba8b04df99b24f48350af5
 
 
 function App() {
@@ -103,6 +100,7 @@ function App() {
             <Route path="/shipping-rates" element={<ShippingRates />} />
             <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
             <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
+            <Route path="/magento-integration" element={<MagentoIntegrationForm />} />
           </Routes>
           {/* </Router> */}
         </div>
