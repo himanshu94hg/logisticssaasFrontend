@@ -5,6 +5,10 @@ export const indexPattern = "/";
 export const getIndexRoute = () => {
     return generatePath(indexPattern);
 };
+export const loginPattern = "/login";
+export const getLoginRoute = () => {
+    return generatePath(loginPattern);
+};
 export const ordersPattern = "/orders";
 export const getOrdersRoute = () => {
     return generatePath(ordersPattern);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,8 +14,34 @@ import {
 import "./header.css";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import WalletIcon from "./WalletIcon";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+import { indexPattern, loginPattern } from "../../../Routes";
 
 export default function Header(props) {
+  const navigate = useNavigate();
+  const [tokenExists, setTokenExists] = useState(null); 
+
+  const handleLogout = () => {
+    Cookies.remove('access_token');
+    setTokenExists(false);
+  };
+
+
+  const gettoken=  Cookies.get('access_token');
+  console.log(gettoken,"gettokengettoken");
+
+  useEffect(()=>{
+  if(tokenExists){
+    navigate(indexPattern);
+    setTokenExists(null);
+  }
+  else{
+    navigate(loginPattern);
+  }
+  },[tokenExists])
+
+
   return (
     <Navbar
       className="box-shadow shadow-sm p10-inline"
@@ -66,12 +92,12 @@ export default function Header(props) {
           <div className="d-flex" style={{ gap: "10px" }}>
 
             <Nav.Link>
-              <div className="walletContainer" onClick={()=>props.setWalletRecharge(!props.WalletRecharge)}>
-                  <span className="iconContainer walletIcon">
-                    <div className="walletBalance">₹ 6206.45</div>
-                    <WalletIcon />
-                    {/* <FontAwesomeIcon icon={faWallet} /> */}
-                  </span>
+              <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
+                <span className="iconContainer walletIcon">
+                  <div className="walletBalance">₹ 6206.45</div>
+                  <WalletIcon />
+                  {/* <FontAwesomeIcon icon={faWallet} /> */}
+                </span>
               </div>
             </Nav.Link>
             <div className="icons links ">
@@ -103,7 +129,7 @@ export default function Header(props) {
               <NavDropdown.Divider />
               <NavDropdown.Item
                 eventKey="4.3"
-                onClick={() => alert("Logout clicked")}
+                onClick={() => handleLogout()}
               >
                 <FontAwesomeIcon icon={faSignOutAlt} /> Logout
               </NavDropdown.Item>
