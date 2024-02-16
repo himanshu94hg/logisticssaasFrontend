@@ -31,7 +31,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
+import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import { USER_DATA_ACTION } from "./redux/saga/constant";
 import Cookies from "js-cookie";
@@ -88,6 +88,7 @@ function App() {
             <Sidebar />
             <Routes>
               <Route path={indexPattern} element={<Dashboard />} />
+              <Route path={loginPattern} element={<LoginPage />} />
               <Route path={reassignOrdersPattern} element={<AllOrders />} />
               <Route path={mergeOrdersPattern} element={<AllOrders />} />
               <Route path={splitOrdersPattern} element={<AllOrders />} />
