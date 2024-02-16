@@ -5,6 +5,7 @@ import './WalletRechargeComponent.css'
 import { Link } from 'react-router-dom'
 import ccAvenue from '../../../assets/image/logo/ccAvenue.png'
 import Razorpay from '../../../assets/image/logo/Razorpay.png'
+import redeemIcon from '../../../assets/image/icons/redeemIcon.png'
 
 const WalletRechargeComponent = (props) => {
     const [rechargeAmount, setRechargeAmount] = useState('');
@@ -67,10 +68,10 @@ const WalletRechargeComponent = (props) => {
                         <div className='d-flex flex-column my-3 px-3'>
                             <span style={{ fontSize: '0.9rem' }}>Or Select From Below:</span>
                             <div className='d-flex gap-3'>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1000)}>1000</button>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1500)}>1500</button>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(2000)}>2000</button>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(5000)}>5000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1000)}>2000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1500)}>5000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(2000)}>10000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(5000)}>20000</button>
                             </div>
                         </div>
                         <label className='d-flex gap-3 my-3 px-3'>
@@ -99,11 +100,11 @@ const WalletRechargeComponent = (props) => {
                         </label>
                         <div className='d-flex flex-column gap my-3 px-3'>
                             <span style={{ fontSize: '0.9rem' }}>Have a redeem code?</span>
-                            <div className='d-flex w-100 align-items-center'>
+                            <div className='d-flex w-100 align-items-center position-relative'>
                                 <label className='w-100'>
                                     <input className='input-field redeem-field' type="text" placeholder='Enter it here' value={couponCode} onChange={handleCouponCodeChange} />
                                 </label>
-                                <span className='redeem-button' onClick={handleAddCoupon}>redeemIcon</span>
+                                <span className='redeem-button' onClick={handleAddCoupon}><img src={redeemIcon} width={24} alt="redeemIcon" /></span>
                             </div>
                         </div>
                         <div className='d-flex px-3 justify-content-center pb-3'>

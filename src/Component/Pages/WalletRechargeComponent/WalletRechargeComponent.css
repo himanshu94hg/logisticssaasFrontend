@@ -76,8 +76,7 @@
 }
 
 .redeem-button {
-    color: #fff;
-    border-color: var(--sh-primary-middle);
-    border-left: none;
-    border-radius: 0 0.5rem 0.5rem 0 !important;
+    position: absolute;
+    right: 10px;
+    cursor: pointer;
 }
