@@ -31,7 +31,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, indexPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, splitOrdersPattern } from "./Routes";
+import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import { USER_DATA_ACTION } from "./redux/saga/constant";
 import Cookies from "js-cookie";
@@ -44,9 +44,9 @@ function App() {
   const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NTk3ODE2LCJpYXQiOjE3MDc5OTMwMTYsImp0aSI6IjlkMDA2NDdhNThlMTQ2ZTg4YTY5NDk5NTBkMDYzODIwIiwidXNlcl9pZCI6Mn0.U_LfFwstyHksDD0J1U2oULKxIhbK3D0Htoj1-Bdaqos";
 
 
-  // useEffect(()=>{
-  //   Cookies.set('token', authToken);
-  // },[])
+  useEffect(()=>{
+    Cookies.set('token', authToken);
+  },[])
 
   const dispatch = useDispatch()
 
@@ -97,8 +97,8 @@ function App() {
               <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
               <Route path={omsIntegrationPattern} element={<OMSIntegration />} />
               <Route path={couriersIntegrationPattern} element={<CouriersIntegration />} />
-              <Route path="/API-integration" element={<APIIntegration />} />
-              <Route path="/other-integration" element={<OtherIntegration />} />
+              <Route path={generateApiKeyPattern} element={<APIIntegration />} />
+              <Route path={socailPagePattern} element={<OtherIntegration />} />
               <Route path="/IndiaMapp" element={<IndiaMapp />} />
               <Route path="/create-order" element={<CreateOrderFlow />} />
               <Route path="/billing" element={<BillingPage />} />

@@ -43,3 +43,11 @@ export const couriersIntegrationPattern = "/couriers-integration";
 export const getCouriersIntegrationPattern = () => {
     return generatePath(couriersIntegrationPattern);
 };
+export const generateApiKeyPattern = "/generate-api";
+export const getGenerateApiKeyPattern = () => {
+    return generatePath(generateApiKeyPattern);
+};
+export const socailPagePattern = "/social-integration";
+export const getSocailPagePattern = () => {
+    return generatePath(socailPagePattern);
+};
