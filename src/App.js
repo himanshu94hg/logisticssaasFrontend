@@ -33,6 +33,7 @@ import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/W
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 
 
 function App() {
@@ -57,13 +58,19 @@ function App() {
 
 
   console.log(tokenExists, "tokenExists");
+const dispatch=useDispatch()
+const handleClick=()=>{
+  dispatch({type:"USER_DATA_ACTION"})
+}
+
+
 
   return (
     <>
-
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
 
+      <button onClick={handleClick}>Clcikss</button>
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
