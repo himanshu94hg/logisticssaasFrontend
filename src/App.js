@@ -35,24 +35,43 @@ import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrences
 import { useDispatch } from "react-redux";
 import { USER_DATA_ACTION } from "./redux/saga/constant";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 
 function App() {
   const [WalletRecharge, setWalletRecharge] = useState(false)
 
-  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTkyNDk2LCJpYXQiOjE3MDczODc2OTYsImp0aSI6IjEzODE0YWE2ZjE2ZTQyNzk5NzhhNzAwZmY0MTM1YTZhIiwidXNlcl9pZCI6Mn0.neIQZnSs3vkyMxm0QrfIOpu_RTjDNz5j3vF-OPNNXTA";
+  const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NTk3ODE2LCJpYXQiOjE3MDc5OTMwMTYsImp0aSI6IjlkMDA2NDdhNThlMTQ2ZTg4YTY5NDk5NTBkMDYzODIwIiwidXNlcl9pZCI6Mn0.U_LfFwstyHksDD0J1U2oULKxIhbK3D0Htoj1-Bdaqos";
 
 
-  useEffect(()=>{
-    Cookies.set('token', authToken);
-  },[])
+  // useEffect(()=>{
+  //   Cookies.set('token', authToken);
+  // },[])
 
   const dispatch = useDispatch()
 
-  const handleecllick = () => {
-    dispatch({ type: USER_DATA_ACTION })
+  const seller_id="3"
 
-    console.log("object")
+  const handleecllick = () => {
+    // dispatch({ type: USER_DATA_ACTION,payload:{seller_id} })
+
+    // console.log("object")
+
+    // const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3OTkyNDk2LCJpYXQiOjE3MDczODc2OTYsImp0aSI6IjEzODE0YWE2ZjE2ZTQyNzk5NzhhNzAwZmY0MTM1YTZhIiwidXNlcl9pZCI6Mn0.neIQZnSs3vkyMxm0QrfIOpu_RTjDNz5j3vF-OPNNXTA";
+
+      // axios
+      //     .get(`http://65.2.38.87:8088/core-api/features/support-tickets/`, {
+      //         headers: {
+      //             Authorization: `Bearer ${authToken}`
+      //         }
+      //     })
+      //     .then(response => {
+      //         console.log('Data is data:', response.data.results);
+      //     })
+      //     .catch(error => {
+      //         console.error('Error:', error);
+      //     });
+
   }
 
   return (
@@ -61,7 +80,7 @@ function App() {
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
           <div>
-            <button onClick={() => handleecllick()}>Click</button>
+            {/* <button onClick={() => handleecllick()}>Clicssssssk</button> */}
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
           </div>
 
