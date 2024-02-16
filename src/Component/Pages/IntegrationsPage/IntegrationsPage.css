@@ -28,7 +28,7 @@
 } */
 
 .card:hover .card-img-container {
-    flex-basis: 80%;
+    flex-basis: 50%;
 }
 
 .card .card-img-container img {
@@ -57,20 +57,19 @@
 }
 
 .card-img-container.Magento {
-    border-right: 1px solid #f37b20;
+    /* border-right: 1px solid #f37b20; */
+    background-color: #fcb283;
 }
 
 .card-img-container.StoreHippo {
     border-right: 1px solid #7fb53c;
 }
 
-.card-img-container.Amazon {
-    border-right: 1px solid #d78b01;
+.card-img-container.Amazon,
+.card-img-container.Amazon.Direct {
+    border-right: 1px solid #F8991D;
 }
 
-.card-img-container.Amazon.Direct {
-    border-right: 1px solid #d78b01;
-}
 
 .card-img-container.Opencart {
     border-right: 1px solid #73beea;
@@ -121,7 +120,15 @@
 }
 
 .magento .int-header {
-    background-color: #dbb2a0;
+    background-color: #fef0e6;
+}
+
+.amazon .int-header {
+    background-color: #fddeb5;
+}
+
+.hippo .int-header {
+    background-color: #c0d4d2;
 }
 
 /* .int-form {
@@ -179,6 +186,14 @@
     background-color: #f36306;
 }
 
+.amazon .int-header-right:after {
+    background-color: #F8991D;
+}
+
+.hippo .int-header-right:after {
+    background-color: #7ab434;
+}
+
 .int-body {
     display: flex;
     margin-block: 1rem;
@@ -224,8 +239,24 @@
     margin-left: -3px;
 }
 
+.magento .timeline::after {
+    background-color: #fdd1b4;
+}
+
+.amazon .timeline::after {
+    background-color: #fddeb5;
+}
+
+.hippo .timeline::after {
+    background-color: #c0d4d2;
+}
+
+.woo .timeline::after {
+    background-color: #E4DBEF;
+}
+
 .timeline-list {
-    padding: 6px 40px;
+    padding: 10px 40px;
     position: relative;
     background-color: inherit;
     width: 100%;
@@ -242,4 +273,20 @@
     top: 9px;
     border-radius: 50%;
     z-index: 1;
+}
+
+.magento .timeline-list:after {
+    border: 4px solid #f36306;
+}
+
+.amazon .timeline-list:after {
+    border: 4px solid #F8991D;
+}
+
+.hippo .timeline-list:after {
+    border: 4px solid #7ab434;
+}
+
+.woo .timeline-list:after {
+    border: 4px solid #7f54b3;
 }

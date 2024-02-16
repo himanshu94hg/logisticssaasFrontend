@@ -6,22 +6,22 @@ import WCLogo from '../../../../../assets/image/integration/WCLogo.png'
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
     const ShoppingCarts = [
-        { child:'shopify',title: 'Shopify', imageUrl: '../shopify.jpg' },
-        { child:'wooCommerce',title: 'WooCommerce', imageUrl: WCLogo },
-        { child:'opencart',title: 'Opencart', imageUrl: 'https://www.shipease.in/public/assets/images/channel/opencart.png' },
-        { child:'storeHippo',title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
-        { child:'magento',title: 'Magento', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
+        { child: 'shopify', title: 'Shopify', imageUrl: '../shopify.jpg' },
+        { child: 'wooCommerce', title: 'WooCommerce', imageUrl: WCLogo },
+        { child: 'opencart', title: 'Opencart', imageUrl: 'https://www.shipease.in/public/assets/images/channel/opencart.png' },
+        { child: 'storeHippo', title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
+        { child: 'magento', title: 'Magento', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
         // Add more data as needed
     ];
 
     const OnlineMarketplaces = [
-        { title: 'Amazon', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
-        { title: 'Amazon Direct', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
+        { child: 'amazon', title: 'Amazon', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
+        { child: 'amazon-direct', title: 'Amazon Direct', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
         // Add more data as needed
     ];
 
     const OtherChannels = [
-        { title: 'Manual', imageUrl: 'https://www.shipease.in/public/assets/images/channel/manual.jpg' }
+        { child: 'manual-integration', title: 'Manual', imageUrl: 'https://www.shipease.in/public/assets/images/channel/manual.jpg' }
         // Add more data as needed
     ];
 
@@ -53,7 +53,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={()=> navigate('/shopify-integration')} className='btn main-button'>Integrate</button>
+                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}
@@ -70,7 +70,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={()=> navigate('/shopify-integration')} className='btn main-button'>Integrate</button>
+                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}
