@@ -61,6 +61,7 @@ const LoginPage = () => {
                 className='input-field'
                 type="text"
                 value={username}
+                autoComplete="off"
                 onChange={(e) => setUsername(e.target.value)}
                 required />
               <i>Username</i>
@@ -70,6 +71,7 @@ const LoginPage = () => {
                 className='input-field'
                 type="password"
                 value={password}
+                autoComplete="off"
                 onChange={(e) => setPassword(e.target.value)}
                 required />
               <i>Password</i>

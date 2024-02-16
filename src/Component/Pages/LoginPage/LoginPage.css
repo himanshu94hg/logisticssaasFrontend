@@ -1,4 +1,4 @@
-/* .login-section {
+.login-section {
     position: fixed;
     width: 100vw;
     height: 100vh;
@@ -90,9 +90,7 @@
 .login-section .signin .content .form .inputBox input {
     position: relative;
     width: 100%;
-    padding: 25px 10px 7.5px;
     border-radius: 4px;
-    color: #fff;
     font-weight: 500;
     font-size: 1em;
 }
@@ -109,9 +107,10 @@
 
 .login-section .signin .content .form .inputBox input:focus~i,
 .login-section .signin .content .form .inputBox input:valid~i {
-    transform: translateY(-7.5px);
+    transform: translateY(-1rem);
     font-size: 0.8em;
-    color: #fff;
+    color: transparent;
+    user-select: none;
 }
 
 .login-section .signin .content .form .links {
@@ -157,4 +156,4 @@
         width: calc(20vw - 2px);
         height: calc(20vw - 2px);
     }
-} */
+}
