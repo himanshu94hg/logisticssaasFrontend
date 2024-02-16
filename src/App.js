@@ -73,38 +73,6 @@ function App() {
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
-<<<<<<< HEAD
-            <Routes>
-              <Route path={indexPattern} element={<Dashboard />} />
-              <Route path={reassignOrdersPattern} element={<AllOrders />} />
-              <Route path={mergeOrdersPattern} element={<AllOrders />} />
-              <Route path={splitOrdersPattern} element={<AllOrders />} />
-              <Route path={ordersPattern} element={<OrdersPage />} />
-              <Route path={shipmentsPattern} element={<ShipmentsPage />} />
-              <Route path={dailyPrefrencesPattern} element={<DailyPrefrences />} />
-              <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
-              <Route path={omsIntegrationPattern} element={<OMSIntegration />} />
-              <Route path={couriersIntegrationPattern} element={<CouriersIntegration />} />
-              <Route path={generateApiKeyPattern} element={<APIIntegration />} />
-              <Route path={socailPagePattern} element={<OtherIntegration />} />
-              <Route path="/IndiaMapp" element={<IndiaMapp />} />
-              <Route path="/create-order" element={<CreateOrderFlow />} />
-              <Route path="/billing" element={<BillingPage />} />
-              <Route path="/weight-reconciliation" element={<WeightRecoPage />} />
-              <Route path="/MIS" element={<MISPage />} />
-              <Route path="/customer" element={<CustomerPage />} />
-              <Route path="/customer-support" element={<CustomerSupportPage />} />
-              <Route path="/settings" element={<SettingsPage />} />
-              <Route path="/help-articles" element={<HelpArticles />} />
-              <Route path="/manage-warehouses" element={<ManageWarehouse />} />
-              <Route path="/add-pickup-address" element={<AddWarehouse />} />
-              <Route path="/shipping-rates" element={<ShippingRates />} />
-              <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
-              <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
-              <Route path="/magento-integration" element={<MagentoIntegrationForm />} />
-            </Routes>
-          </Router>
-=======
           </>}
           {/* <Router> */}
           <Routes>
@@ -137,7 +105,6 @@ function App() {
             <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
           </Routes>
           {/* </Router> */}
->>>>>>> f4cf5e931adf4241deba8b04df99b24f48350af5
         </div>
       </div>
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />

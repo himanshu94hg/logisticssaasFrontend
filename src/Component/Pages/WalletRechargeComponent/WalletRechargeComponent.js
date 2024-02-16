@@ -103,7 +103,7 @@ const WalletRechargeComponent = (props) => {
                                 <label className='w-100'>
                                     <input className='input-field redeem-field' type="text" placeholder='Enter it here' value={couponCode} onChange={handleCouponCodeChange} />
                                 </label>
-                                <button className='btn main-button redeem-button' onClick={handleAddCoupon}>Redeem Now</button>
+                                <span className='redeem-button' onClick={handleAddCoupon}>redeemIcon</span>
                             </div>
                         </div>
                         <div className='d-flex px-3 justify-content-center pb-3'>
