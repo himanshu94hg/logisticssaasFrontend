@@ -37,6 +37,7 @@ import { useDispatch } from "react-redux";
 import { USER_DATA_ACTION } from "./redux/saga/constant";
 import Cookies from "js-cookie";
 import axios from "axios";
+import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
 
 
 function App() {
@@ -113,6 +114,7 @@ function App() {
               <Route path="/shipping-rates" element={<ShippingRates />} />
               <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
               <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
+              <Route path="/magento-integration" element={<MagentoIntegrationForm />} />
             </Routes>
           </Router>
         </div>

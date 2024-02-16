@@ -13,7 +13,7 @@ const WooCommerceIntegrationForm = () => {
 
     return (
         <>
-            <div className='p10 woo'>
+            <div className='woo'>
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src={Logo} alt="Logo" />
@@ -26,7 +26,7 @@ const WooCommerceIntegrationForm = () => {
                 <div className='int-body'>
                     <section className='box-shadow shadow-sm int-instructions'>
                         <h4>Instruction to integrate Shopify to ShipEase</h4>
-                        <ul className='timeline'>
+                        <ul className='timeline mb-3'>
                             {[
                                 "Login to Woo-Commerce Admin Panel.",
                                 "Go to Integration.",
@@ -40,6 +40,9 @@ const WooCommerceIntegrationForm = () => {
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>)
                             }
                         </ul>
+                        <video width="540" height="310" controls="">
+                            <source src="https://xb-files.s3.ap-south-1.amazonaws.com/xpressbees-video.mp4" type="video/mp4" />
+                        </video>
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
                         <form action="">
@@ -49,25 +52,23 @@ const WooCommerceIntegrationForm = () => {
                                     <input className="input-field" type="text" />
                                 </label>
                                 <label>
-                                    Admin API access token
-                                    <input className="input-field" type="text" />
-                                </label>
-                            </div>
-                            <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
-                                    API Key
-                                    <input className="input-field" type="text" />
-                                </label>
-                                <label>
-                                    API Secret Key
-                                    <input className="input-field" type="text" />
-                                </label>
-                            </div>
-                            <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
                                     Store URL
                                     <input className="input-field" type="text" />
+                                    <span className='font13 text-sh-primary'>Store URL should be like https://yourstore.com</span>
                                 </label>
+                            </div>
+                            <div className='d-flex w-100 gap-5 mt-4'>
+                                <label>
+                                    Consumer Key
+                                    <input className="input-field" type="text" />
+                                </label>
+                                <label>
+                                    Consumer Secret
+                                    <input className="input-field" type="text" />
+                                </label>
+                            </div>
+                            <div className='d-flex w-100 gap-5 mt-4'>
+
                                 <label>
                                     Fetch Orders From
                                     <DatePicker
@@ -78,6 +79,37 @@ const WooCommerceIntegrationForm = () => {
                                     />
                                 </label>
                             </div>
+                            <div className='d-flex w-100 gap-5 mt-4'>
+                                <p>Enter Status Mappings</p>
+                            </div>
+                            <div className='d-flex w-100 gap-5'>
+                                <label>
+                                    Pickup Scheduled
+                                    <input className="input-field" type="text" />
+                                </label>
+                                <label>
+                                    Picked Up
+                                    <input className="input-field" type="text" />
+                                </label>
+                            </div>
+                            <div className='d-flex w-100 gap-5 mt-4'>
+                                <label>
+                                    In Transit
+                                    <input className="input-field" type="text" />
+                                </label>
+                                <label>
+                                    Out For Delivery
+                                    <input className="input-field" type="text" />
+                                </label>
+                            </div>
+                            <div className='d-flex w-100 gap-5 mt-4'>
+                                <label>
+                                    Delivered
+                                    <input className="input-field" type="text" />
+                                </label>
+                                <label className=''>
+                                </label>
+                            </div>
                             <div className='int-checkbox mt-3'>
                                 {[
                                     "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
@@ -86,7 +118,7 @@ const WooCommerceIntegrationForm = () => {
                                     "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
                                 ].map(text => (
                                     <label key={text}>
-                                        <input className="input-field" type="checkbox" />
+                                        <input className="input-checkbox mt-1" type="checkbox" />
                                         {text}
                                     </label>
                                 ))}
@@ -97,7 +129,7 @@ const WooCommerceIntegrationForm = () => {
                         </form>
                     </section>
                 </div>
-                
+
             </div>
         </>
     );
