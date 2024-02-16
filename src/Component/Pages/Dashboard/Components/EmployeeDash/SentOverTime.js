@@ -49,9 +49,9 @@ const SentOverTime = () => {
                             ))}
                         </tbody>
                     </Table> */}
-                    <div class="p-18px">
-                           <div class="text-center" style={{padding: "6rem"}}>
-                              <p class="noDataHeader">No Data Available</p>
+                    <div className="p-18px">
+                           <div className="text-center" style={{padding: "6rem"}}>
+                              <p className="noDataHeader">No Data Available</p>
                               <img width="62" height="67" src="https://app.shiprocket.in/app/img/trackingpage/noData.png" alt=""/>
                            </div>
                         </div>

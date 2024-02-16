@@ -80,12 +80,12 @@ export default function NavTabs(props) {
         </Nav>
       </Navbar.Collapse>
       <div className="support-right-section">
-            <div class="search-container">
+            <div className="search-container">
               <button>
                 <img src={SearchIcon} alt="Search" />
               </button>
-              <input required="" type="text" name="text" class="input-field" />
-              <label class="label">Search by Ticket ID || AWB || Pickup ID</label>
+              <input required="" type="text" name="text" className="input-field" />
+              <label className="label">Search by Ticket ID || AWB || Pickup ID</label>
             </div>
             <button
               onClick={() => props.setFilterTickets(!props.FilterTickets)}

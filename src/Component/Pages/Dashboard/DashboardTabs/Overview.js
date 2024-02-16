@@ -12,12 +12,12 @@ import TableDashboard from '../Components/Overview/TableDashboard'
 import OverviewDetails from '../Components/Overview/OverviewDetails'
 import WeightDiterpenes from '../Components/Overview/WeightDiterpenes'
 
-const Overview = () => {
+const Overview = ({activeTab}) => {
   return (
     <>
       <Row>
         <Col className="col-3 cardsSpace">
-          <TotalShipment />
+          <TotalShipment /> 
           <DeliveryPerformance />
           <StateSplitDashboard />
           <WeightDiterpenes />
