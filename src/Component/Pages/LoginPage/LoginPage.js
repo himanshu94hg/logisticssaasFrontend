@@ -13,9 +13,11 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState(false)
 
 
   const handleLogin = async (e) => {
+    setStatus(true)
     e.preventDefault();
     try {
       const response = await axios.post('http://65.2.38.87:8088/core-api/accounts/user-sign/', {
