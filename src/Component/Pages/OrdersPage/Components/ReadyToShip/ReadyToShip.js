@@ -44,7 +44,7 @@ const ReadyToShip = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
-    let sellerData = 1;
+    let sellerData = 3;
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
 
     useEffect(() => {

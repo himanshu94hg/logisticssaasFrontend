@@ -16,7 +16,7 @@ export default function NavTabs(props) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSubmit = () => {
-    let sellerData = 1;
+    let sellerData = 3;
 
     const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     console.log("Data",response);
