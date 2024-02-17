@@ -16,7 +16,7 @@ const UnicommerceIntegrationForm = () => {
             <div className='magento'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src={Logo} alt="Logo" />
+                        <img src='https://www.shipease.in/public/assets/images/oms/unicommerce.jpg' alt="Logo" />
                         <h2 className='mb-0'>Unicommerce</h2>
                     </div>
                     <div className='int-header-right'>
@@ -39,11 +39,11 @@ const UnicommerceIntegrationForm = () => {
                         <form action="">
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Channel Name
+                                    Username
                                     <input className="input-field" type="text" />
                                 </label>
                                 <label>
-                                    Store URL
+                                    Password
                                     <input className="input-field" type="text" />
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>

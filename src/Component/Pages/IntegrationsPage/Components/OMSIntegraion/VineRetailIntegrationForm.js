@@ -16,7 +16,7 @@ const VineRetailIntegrationForm = () => {
             <div className='magento'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src={Logo} alt="Logo" />
+                        <img src='https://www.shipease.in/public/assets/images/oms/vineretail.png' alt="Logo" />
                         <h2 className='mb-0'>VineRetail</h2>
                     </div>
                     <div className='int-header-right'>
@@ -45,21 +45,33 @@ const VineRetailIntegrationForm = () => {
                         <form action="">
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Channel Name
+                                    OMS Title
                                     <input className="input-field" type="text" />
                                 </label>
                                 <label>
-                                    Store URL
+                                    Vineretail Api Owner
                                     <input className="input-field" type="text" />
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Admin Access Token
+                                    Vineretail Api Key
                                     <input className="input-field" type="text" />
-                                    <span className='font13 text-sh-primary'>Generate Admin Access Token</span>
                                 </label>
+
+                            </div>
+                            <div className='int-checkbox mt-3'>
+                                {[
+                                    "Fulfill orders (Enabling this will auto fulfill order in EasyShip when an order is shipped with ShipEase)",
+                                    "Cancel orders (Enabling this will auto cancel order in EasyShip when order is cancelled in ShipEase)",
+                                    "Mark as paid (Mark COD orders as paid in EasyShip when orders are delivered to customer)",
+                                ].map(text => (
+                                    <label key={text}>
+                                        <input className="input-checkbox mt-1" type="checkbox" />
+                                        {text}
+                                    </label>
+                                ))}
                             </div>
                             <div className='mt-3 d-flex justify-content-end'>
                                 <button type='submit' className='btn main-button'>Submit</button>

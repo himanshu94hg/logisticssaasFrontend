@@ -8,9 +8,9 @@ const OMSIntegration = () => {
     const OMSData = [
         { child: 'easyship', title: 'EasyShip', imageUrl: 'https://www.shipease.in/public/assets/images/oms/easyship.png' },
         { child: 'easyecom', title: 'EasyEcom', imageUrl: 'https://www.shipease.in/public/assets/images/oms/easyecom.png' },
-        { child: 'vine-retail', title: 'VineRetail', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
-        { child: 'unicommerce', title: 'Unicommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
-        { child: 'omsguru', title: 'OMSGuru', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
+        { child: 'vine-retail', title: 'VineRetail', imageUrl: 'https://www.shipease.in/public/assets/images/oms/vineretail.png' },
+        { child: 'unicommerce', title: 'Unicommerce', imageUrl: 'https://www.shipease.in/public/assets/images/oms/unicommerce.jpg' },
+        { child: 'omsguru', title: 'OMSGuru', imageUrl: 'https://www.shipease.in/public/assets/images/oms/omsguru.png' },
         // Add more data as needed
     ];
 
