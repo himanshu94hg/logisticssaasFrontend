@@ -25,6 +25,7 @@ export default function Header(props) {
   const handleLogout = () => {
     Cookies.remove('access_token');
     setTokenExists(false);
+    window.location.reload();
   };
 
 

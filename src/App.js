@@ -34,14 +34,15 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 function App() {
 
-  const [WalletRecharge, setWalletRecharge] = useState(false)
+  const dispatch = useDispatch()
   const navigate = useNavigate();
+  const [WalletRecharge, setWalletRecharge] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
-
 
   useEffect(() => {
     const token = Cookies.get('access_token');
@@ -51,17 +52,17 @@ function App() {
   useEffect(() => {
     if (!tokenExists) {
       navigate(loginPattern);
-    } else {
-      navigate(indexPattern);
     }
+
+
   }, [tokenExists, navigate]);
 
+  const token = Cookies.get('access_token');
+  console.log(tokenExists, "tokenExists", token);
 
-  console.log(tokenExists, "tokenExists");
-const dispatch=useDispatch()
-const handleClick=()=>{
-  dispatch({type:"USER_DATA_ACTION"})
-}
+  const handleClick = () => {
+    dispatch({ type: "USER_DATA_ACTION" })
+  }
 
 
 
@@ -70,15 +71,18 @@ const handleClick=()=>{
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
 
-      <button onClick={handleClick}>Clcikss</button>
+          {/* <button onClick={handleClick}>Clcikss</button> */}
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
+            <Dashboard />
           </>}
           {/* <Router> */}
           <Routes>
-            <Route path={indexPattern} element={<Dashboard />} />
-            <Route path={loginPattern} element={<LoginPage />} />
+           {!tokenExists && <Route path={loginPattern} element={<LoginPage  />}  /> }
+            <Route path={indexPattern} element={<ProtectedRoute isAuth={tokenExists}>
+              <Dashboard />
+            </ProtectedRoute>} />
             <Route path={reassignOrdersPattern} element={<AllOrders />} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />
