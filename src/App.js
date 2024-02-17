@@ -10,7 +10,6 @@ import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
 import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
-import OMSIntegration from './Component/Pages/IntegrationsPage/Components/OMSIntegration';
 import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
 import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
 import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
@@ -36,6 +35,7 @@ import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrences
 import Cookies from "js-cookie";
 import axios from "axios";
 import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
+import OMSIntegration from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration";
 
 
 function App() {
