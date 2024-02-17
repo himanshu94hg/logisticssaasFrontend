@@ -2,26 +2,30 @@ import React from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router';
 import WCLogo from '../../../../../assets/image/integration/WCLogo.png'
+import Magento from '../../../../../assets/image/integration/Magento.png'
+import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
+import Amazon from '../../../../../assets/image/integration/Amazon.png'
+import Manual from '../../../../../assets/image/integration/Manual.png'
 
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
     const ShoppingCarts = [
         { child: 'shopify', title: 'Shopify', imageUrl: '../shopify.jpg' },
         { child: 'wooCommerce', title: 'WooCommerce', imageUrl: WCLogo },
-        { child: 'opencart', title: 'Opencart', imageUrl: 'https://www.shipease.in/public/assets/images/channel/opencart.png' },
+        { child: 'opencart', title: 'Opencart', imageUrl: OpenCart },
         { child: 'storeHippo', title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
-        { child: 'magento', title: 'Magento', imageUrl: 'https://www.shipease.in/public/assets/images/channel/magento.png' },
+        { child: 'magento', title: 'Magento', imageUrl: Magento },
         // Add more data as needed
     ];
 
     const OnlineMarketplaces = [
-        { child: 'amazon', title: 'Amazon', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
-        { child: 'amazon-direct', title: 'Amazon Direct', imageUrl: 'https://www.shipease.in/public/assets/images/channel/amazon.jpg' },
+        { child: 'amazon', title: 'Amazon', imageUrl: Amazon },
+        { child: 'amazon-direct', title: 'Amazon Direct', imageUrl: Amazon },
         // Add more data as needed
     ];
 
     const OtherChannels = [
-        { child: 'manual-integration', title: 'Manual', imageUrl: 'https://www.shipease.in/public/assets/images/channel/manual.jpg' }
+        { child: 'manual-integration', title: 'Manual', imageUrl: Manual }
         // Add more data as needed
     ];
 
@@ -32,7 +36,7 @@ const ChannelsIntegration = () => {
                 <div className="card-grid-container">
                     {ShoppingCarts.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.title}`}>
+                            <div className={`card-img-container ${item.child}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
@@ -48,7 +52,7 @@ const ChannelsIntegration = () => {
                 <div className="card-grid-container">
                     {OnlineMarketplaces.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.title}`}>
+                            <div className={`card-img-container ${item.child}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
@@ -65,7 +69,7 @@ const ChannelsIntegration = () => {
                 <div className="card-grid-container">
                     {OtherChannels.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.title}`}>
+                            <div className={`card-img-container ${item.child}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">

@@ -1,9 +1,24 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import '../ToolsPage.css';
+import axios from 'axios';
 
 const ShippingRates = () => {
     const [selectedCourier, setSelectedCourier] = useState(null);
+    const [RateData, setRateData] = useState(null)
+
+    useEffect(() => {
+        axios
+          .get('http://65.2.38.87:8088/core-api/shipping/ship-rate-card/')
+          .then(response => {
+            console.log('Data:', response.data);
+            RateData(response.data);
+          })
+          .catch(error => {
+            console.error('Error:', error);
+          });
+      }, []);  
+    
 
     const shippingData = [
         { value: 'Shadowfax', courierPartner: 'Shadowfax', zoneA: '₹ 5', zoneB: '₹ 6', zoneC: '₹ 7', zoneD: '₹ 8', zoneE: '₹ 9', codCharges: '₹ 10', codMaintenance: '2%' },

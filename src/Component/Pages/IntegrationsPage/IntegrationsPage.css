@@ -67,16 +67,17 @@
 
 .card-img-container.Amazon,
 .card-img-container.Amazon.Direct {
-    border-right: 1px solid #F8991D;
+    /* border-right: 1px solid #F8991D; */
+    background-color: #FDDEB5;
 }
 
 
 .card-img-container.Opencart {
-    border-right: 1px solid #73beea;
+    background-color: #b0e9fa;
 }
 
 .card-img-container.Manual {
-    border-right: 1px solid #8bc04a;
+background-color: var(--sh-primary-light);    
 }
 
 .card-img-container img {
