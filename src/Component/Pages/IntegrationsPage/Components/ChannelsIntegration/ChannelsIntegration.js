@@ -2,7 +2,7 @@ import React from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router';
 import WCLogo from '../../../../../assets/image/integration/WCLogo.png'
-import Magento from '../../../../../assets/image/integration/Magento.png'
+import Magento from '../../../../../assets/image/integration/magento.png'
 import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../assets/image/integration/Amazon.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
