@@ -1,1 +1,0 @@
-export const ORDERS_DATA="ORDERS_DATA"

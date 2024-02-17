@@ -1,23 +1,22 @@
-// Import necessary modules and components
-import React, { useEffect, useState } from 'react';
-import './SideNav.css'; // Import your CSS file for styling
-import { useLocation } from 'react-router-dom';
-import DashboardIcon from "./Icons/DashboardIcon";
+import './SideNav.css';
+import OMSIcon from "./Icons/OMSIcon";
+import MISIcon from "./Icons/MISIcon";
+import { NavLink } from 'react-router-dom';
+import ToolsIcons from "./Icons/ToolsIcons";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
-import ChannelsIcon from "./Icons/ChannelsIcon";
-import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
-import MoreOnOrdersIcon from "./Icons/MoreOnOrdersIcon";
-import ShipmentsIcon from "./Icons/ShipmentsIcon";
-import OMSIcon from "./Icons/OMSIcon";
-import WeightRecordsIcon from "./Icons/WeightRecordsIcon";
-import ToolsIcons from "./Icons/ToolsIcons";
+import { useLocation } from 'react-router-dom';
 import CustomerIcon from "./Icons/CustomerIcon";
-import MISIcon from "./Icons/MISIcon";
-import FullLogo from '../../../assets/image/logo/logo.svg'
-import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
-import { NavLink } from 'react-router-dom';
 import SettingsIcon from './Icons/SettingsIcon';
+import ChannelsIcon from "./Icons/ChannelsIcon";
+import DashboardIcon from "./Icons/DashboardIcon";
+import ShipmentsIcon from "./Icons/ShipmentsIcon";
+import React, { useEffect, useState } from 'react';
+import MoreOnOrdersIcon from "./Icons/MoreOnOrdersIcon";
+import WeightRecordsIcon from "./Icons/WeightRecordsIcon";
+import FullLogo from '../../../assets/image/logo/logo.svg'
+import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
+import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 
 const Dropdown = ({ links }) => {
   return (

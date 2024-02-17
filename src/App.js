@@ -1,4 +1,6 @@
 import "./App.css";
+import axios from "axios";
+import Cookies from "js-cookie";
 import 'devextreme/dist/css/dx.light.css';
 import React, { useEffect, useState } from "react";
 import Sidebar from "./Component/common/sidebar/SideNav";
@@ -32,56 +34,58 @@ import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Component
 import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
-import Cookies from "js-cookie";
-import axios from "axios";
 import StoreHippoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/StoreHippoIntegrationForm";
 import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
 import AmazonDirectIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/AmazonDirectIntegrationForm";
-import OMSIntegration from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration";import EasyShipIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyShipIntegrationForm";
+import OMSIntegration from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration"; import EasyShipIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyShipIntegrationForm";
 import EasyEcomIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyEcomIntegrationForm";
 import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/VineRetailIntegrationForm";
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
+import { useDispatch } from "react-redux";
+import ProtectedRoute from "./ProtectedRoute";
 
 
 function App() {
 
+  const dispatch = useDispatch()
+  const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
-  // const navigate = useNavigate();
-  // const [tokenExists, setTokenExists] = useState(false); // State to store token existence
+  const [tokenExists, setTokenExists] = useState(false); // State to store token existence
+  const [tokenChecked, setTokenChecked] = useState(false);
+
+  useEffect(() => {
+    const token = Cookies.get('access_token');
+    setTokenExists(!!token);
+    setTokenChecked(true);
+  }, []);
+
+  useEffect(() => {
+    if (tokenChecked && !tokenExists) {
+      navigate(loginPattern);
+    }
+  }, [tokenChecked, tokenExists, navigate]);
 
 
-  // useEffect(() => {
-  //   const token = Cookies.get('access_token');
-  //   setTokenExists(!!token);
-  // }, [tokenExists, navigate]);
-
-  // useEffect(() => {
-  //   if (!tokenExists) {
-  //     navigate(loginPattern);
-  //   } else {
-  //     navigate(indexPattern);
-  //   }
-  // }, [tokenExists, navigate]);
-
-
-  // console.log(tokenExists, "tokenExists");
-
+  console.log(tokenExists, "tokenExists")
   return (
     <>
-
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
 
-          {/* {tokenExists && <> */}
-          <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
-          <Sidebar />
-          {/* </>} */}
+          {/* <button onClick={handleClick}>Clcikss</button> */}
+          {tokenExists && <>
+            <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
+            <Sidebar />
+          </>}
           {/* <Router> */}
           <Routes>
-            <Route path={indexPattern} element={<Dashboard />} />
-            <Route path={loginPattern} element={<LoginPage />} />
+            {
+              tokenExists ?
+                <Route path={indexPattern} element={<Dashboard />} /> :
+                <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
+            }
             <Route path={reassignOrdersPattern} element={<AllOrders />} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />

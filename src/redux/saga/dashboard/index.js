@@ -11,7 +11,7 @@ async function contactFileAPI(data) {
 
         let listData= axios.request({
             method: "GET",
-            url: `${BASE_URL}${API_URL.GET_USERS}?seller_id=3`,
+            url: `${BASE_URL}${API_URL.GET_USERS}`,
             data: data
           });
           

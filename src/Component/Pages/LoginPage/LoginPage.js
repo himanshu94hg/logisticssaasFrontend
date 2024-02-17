@@ -1,37 +1,40 @@
-import React, { useState } from 'react';
 import './LoginPage.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { getIndexRoute, indexPattern } from '../../../Routes';
 
-const LoginPage = () => {
-
+const LoginPage = ({ setTokenExists ,tokenExists}) => {
   const navigate = useNavigate();
+  const dispatch=useDispatch()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState(false)
 
 
   const handleLogin = async (e) => {
+    setStatus(true)
     e.preventDefault();
     try {
       const response = await axios.post('http://65.2.38.87:8088/core-api/accounts/user-sign/', {
         contact_number: username,
         password: password,
       });
-      Cookies.set('access_token', response.data.access_token)
       if (response.status == 200) {
-        navigate(indexPattern)
-        
-        console.log('Login successful:', navigate);
+        setTokenExists(true)
+        navigate(indexPattern); 
+        Cookies.set('access_token', response.data.access_token)
+        dispatch({type:LOGIN_DATA,payload:response})
       }
-      console.log(response.status,"i am login page data");
+
     } catch (error) {
       setError('Invalid username or password');
     }
   }
-
 
 
   return (
