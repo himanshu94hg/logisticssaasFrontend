@@ -36,7 +36,7 @@ const ChannelsIntegration = () => {
                 <div className="card-grid-container">
                     {ShoppingCarts.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.child}`}>
+                            <div className={`card-img-container ${item.title}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
@@ -52,7 +52,7 @@ const ChannelsIntegration = () => {
                 <div className="card-grid-container">
                     {OnlineMarketplaces.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.child}`}>
+                            <div className={`card-img-container ${item.title}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
@@ -69,7 +69,7 @@ const ChannelsIntegration = () => {
                 <div className="card-grid-container">
                     {OtherChannels.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.child}`}>
+                            <div className={`card-img-container ${item.title}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
