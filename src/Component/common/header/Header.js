@@ -1,47 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBell,
-  faCog,
-  faWallet,
-  faEdit,
-  faSignOutAlt,
-  faIndianRupeeSign,
-  faCalculator,
-  faHandHoldingDollar,
-} from "@fortawesome/free-solid-svg-icons";
 import "./header.css";
-import UserImage from '../../../assets/image/icons/UserImage.png'
-import WalletIcon from "./WalletIcon";
 import Cookies from "js-cookie";
+import WalletIcon from "./WalletIcon";
 import { useNavigate } from "react-router-dom";
-import { indexPattern, loginPattern } from "../../../Routes";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import UserImage from '../../../assets/image/icons/UserImage.png'
+import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
+import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
+
 
 export default function Header(props) {
-  const navigate = useNavigate();
-  const [tokenExists, setTokenExists] = useState(null); 
 
   const handleLogout = () => {
     Cookies.remove('access_token');
-    setTokenExists(false);
-    window.location.reload();
+    window.location.reload()
   };
 
-
-  const gettoken=  Cookies.get('access_token');
-  console.log(gettoken,"gettokengettoken");
-
-  useEffect(()=>{
-  if(tokenExists){
-    navigate(indexPattern);
-    setTokenExists(null);
-  }
-  else{
-    navigate(loginPattern);
-  }
-  },[tokenExists])
-
+  const gettoken = Cookies.get('access_token');
 
   return (
     <Navbar

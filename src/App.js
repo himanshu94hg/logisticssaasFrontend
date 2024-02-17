@@ -43,29 +43,22 @@ function App() {
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
+  const [tokenChecked, setTokenChecked] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('access_token');
     setTokenExists(!!token);
-  }, [tokenExists, navigate]);
+    setTokenChecked(true); 
+  }, []);
 
   useEffect(() => {
-    if (!tokenExists) {
+    if (tokenChecked && !tokenExists) {
       navigate(loginPattern);
     }
+  }, [tokenChecked, tokenExists, navigate]);
 
 
-  }, [tokenExists, navigate]);
-
-  const token = Cookies.get('access_token');
-  console.log(tokenExists, "tokenExists", token);
-
-  const handleClick = () => {
-    dispatch({ type: "USER_DATA_ACTION" })
-  }
-
-
-
+  console.log(tokenExists, "tokenExists")
   return (
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
@@ -75,14 +68,17 @@ function App() {
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
-            <Dashboard />
           </>}
           {/* <Router> */}
           <Routes>
-           {!tokenExists && <Route path={loginPattern} element={<LoginPage  />}  /> }
-            <Route path={indexPattern} element={<ProtectedRoute isAuth={tokenExists}>
-              <Dashboard />
-            </ProtectedRoute>} />
+
+            {
+              tokenExists ?
+                <Route path={indexPattern} element={<Dashboard />} /> :
+                <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
+            }
+
+
             <Route path={reassignOrdersPattern} element={<AllOrders />} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />
