@@ -44,7 +44,8 @@ const Processing = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
     const [SingleShip, setSingleShip] = useState(false)
-    let sellerData = 3;
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    let sellerData = 1;
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
 
     useEffect(() => {
@@ -62,6 +63,11 @@ const Processing = () => {
                 console.error('Error:', error);
             });
     }, []);
+
+    const handleShipNow = (orderId) => {
+        setSelectedOrderId(orderId);
+        setSingleShip(true);
+    };
 
     console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
@@ -242,7 +248,7 @@ const Processing = () => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button onClick={() => setSingleShip(!SingleShip)} className='btn main-button'>Ship Now</button>
+                                                <button onClick={() => handleShipNow(row.id)} className='btn main-button'>Ship Now</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -274,7 +280,7 @@ const Processing = () => {
 
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
 
-                <SingleShipPop setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
 
             </div>
 

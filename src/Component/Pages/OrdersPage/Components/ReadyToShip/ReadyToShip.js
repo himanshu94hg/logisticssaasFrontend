@@ -44,7 +44,7 @@ const ReadyToShip = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
 
-    let sellerData = 3;
+    let sellerData = 1;
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
 
     useEffect(() => {
@@ -251,7 +251,7 @@ const ReadyToShip = () => {
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
+                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>

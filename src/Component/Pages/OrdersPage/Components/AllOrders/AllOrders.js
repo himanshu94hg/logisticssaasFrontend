@@ -44,7 +44,7 @@ const AllOrders = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
-    let sellerData = 3;
+    let sellerData = 1;
     const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
 
     useEffect(() => {
@@ -200,7 +200,7 @@ const AllOrders = () => {
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row.customer_order_number}</p>
-                                                <p>{row.shipping_detail.mobile_number}
+                                                <p>{row.shipping_detail.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
