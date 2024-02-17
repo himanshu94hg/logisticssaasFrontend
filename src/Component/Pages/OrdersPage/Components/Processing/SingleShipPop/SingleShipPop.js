@@ -1,83 +1,137 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons'; // Changed to faTimes for close icon
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from "react-router-dom";
 import PieChart from './PieChart';
 import StarRating from './StarRating';
-import shipOptions from './shipOptions.json';
 import './SingleShipPop.css';
+import axios from "axios";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const SingleShipPop = ({ SingleShip, setSingleShip }) => {
+const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
+    const navigation = useNavigate();
+    const [shipingResponse, setShipingResponse] = useState(null);
+    const [currentDate, setCurrentDate] = useState(new Date());
+
+    const addDays = (date, days) => {
+        const result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    };
+
+    const formatDate = (date) => {
+        const options = { day: '2-digit', month: 'short', year: 'numeric' };
+        return date.toLocaleDateString('en-GB', options);
+    };
+    const dateAfter2Days = addDays(currentDate, 2);
+
+    var sellerId = 1;
+    useEffect(() => {
+        if(orderId !== null)
+        {
+            axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`)
+                .then((response) => {
+                    setShipingResponse(response.data);
+                    console.log("Response", response);
+                }).catch((error) => {
+                console.log("Error", error)
+            });
+        }
+    }, [orderId]);
+
+    const handleSubmit = (courier) => {
+        axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`)
+            .then((response) => {
+                console.log("Response", response);
+                if (response.data.status === true) {
+                    setSingleShip(false);
+                    navigation('/Orders');
+                    toast.success('Order successfully shipped!');
+                }
+                else {
+                    toast.error('Only pending orders can be shipped.', {
+                        onClose: () => {
+                            setSingleShip(false);
+                        }
+                    });
+                }
+            }).catch((error) => {
+            console.log("Error", error)
+        });
+    };
+    console.log("partner", shipingResponse);
     const handleClose = () => {
         setSingleShip(false); // Close the modal
     };
-
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-end'>
                 <button
-                    onClick={handleClose} // Call handleClose function when close button is clicked
+                    onClick={handleClose}
                     className='btn close-button'
                 >
-                    <FontAwesomeIcon icon={faTimes} /> {/* Changed to faTimes for close icon */}
+                    <FontAwesomeIcon icon={faTimes} />
                 </button>
             </div>
             <div>
                 {/* Iterate over ship options and render details */}
-                {shipOptions.map((option, index) => (
+                {shipingResponse && shipingResponse.map((option, index) => (
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
-                                <img src={option.logo} alt={option.name} /> {/* Use logo URL from option */}
+                                <img src={option.partner_image} alt={option.partner_title} />
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
-                                <p>{option.name}</p> {/* Use option's name */}
-                                <p>{option.description}</p> {/* Use option's description */}
-                                <p>RTO Charges: ₹{option.rtoCharges.toFixed(2)}</p> {/* Use option's RTO charges */}
+                                <p>{option.partner_title}</p>
+                                <p>{option.partner_title}</p>
+                                <p>RTO Charges: ₹{0}</p>
                             </div>
                         </div>
                         <div className='d-flex align-items-center gap-2'>
                             <table className='performance-rating'>
                                 <tbody>
-                                    <tr>
-                                        <td>Pickup Performance</td>
-                                        <td><StarRating rating={option.pickup} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>Delivery Performance</td>
-                                        <td><StarRating rating={option.delivery} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>NDR Performance</td>
-                                        <td><StarRating rating={option.ndr} /></td>
-                                    </tr>
-                                    <tr>
-                                        <td>RTO Performance</td>
-                                        <td><StarRating rating={option.rto} /></td>
-                                    </tr>
+                                <tr>
+                                    <td>Pickup Performance</td>
+                                    <td><StarRating rating={4.5} /></td>
+                                </tr>
+                                <tr>
+                                    <td>Delivery Performance</td>
+                                    <td><StarRating rating={4.5} /></td>
+                                </tr>
+                                <tr>
+                                    <td>NDR Performance</td>
+                                    <td><StarRating rating={4.5} /></td>
+                                </tr>
+                                <tr>
+                                    <td>RTO Performance</td>
+                                    <td><StarRating rating={4.5} /></td>
+                                </tr>
                                 </tbody>
                             </table>
                             <div className="chart-container">
-                                <PieChart rating={option.rating} />
+                                <PieChart rating={4.5} />
                                 <p>Overall Rating</p>
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ 1450</strong> <span>(Inclusive of all taxes )</span><br />
-                                <span>Freight Charges: <strong>₹ 1361.72</strong></span><br />
-                                <span>+ COD Charges: <strong>₹ 88.5</strong></span><br />
+                            <p><strong>₹ {option.rate + option.cod_charge}</strong> <span>(Inclusive of all taxes )</span><br />
+                                <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
+                                <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
-                            <button className='btn main-button'>Ship Now</button>
-                            <p><span>EDD: <strong>15 Feb 2024</strong></span></p>
+                            <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword)}>Ship Now</button>
+                            <p><span>EDD: <strong>{formatDate(dateAfter2Days)}</strong></span></p>
                         </div>
-                        <span className={`recommended ${option.recommended?'':'d-none'}`}></span>
+                        <span className={`recommended ${true ? '' : 'd-none'}`}></span>
                     </div>
                 ))}
             </div>
+            <ToastContainer />
         </section>
     );
 }
 
-export default SingleShipPop;
+export default SingleShipPop

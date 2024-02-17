@@ -1,14 +1,100 @@
 import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import DatePicker from 'react-datepicker';
+import axios from "axios";
 import 'react-datepicker/dist/react-datepicker.css';
+import Swal from "sweetalert2";
 
 const ShopifyIntegrationForm = () => {
-
     const [selectedDate, setSelectedDate] = useState(null);
+    const [formData, setFormData] = useState({
+        seller_id:1,
+        channel:{
+            channel_name:"",
+            channel:"shopify"
+        },
+        channel_configuration:{
+            api_key:"",
+            password:"",
+            store_url:"",
+            shared_secret:"",
+            auto_fulfill:false,
+            auto_cancel:false,
+            auto_cod_paid:false,
+            send_abandon_sms:false,
+            last_executed:'',
+        }
+    });
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const hardcodedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
+        try {
+            const response = await axios.post('http://65.2.38.87:8088/core-api/channel/channel/', formData,{
+                headers: {
+                    'Authorization': hardcodedToken,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('Response:', response);
+
+            if (response.status === 201) {
+                const responseData = response.data;
+                console.log('API Response:', responseData);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Channel added successfully!',
+                    confirmButtonText: 'OK'
+                });
+            } else {
+                const errorData = response.data;
+                console.error('API Error:', errorData);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to add Channel. Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        } catch (error) {
+            console.error('Fetch Error:', error.message);
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Failed to add Channel. Please try again later.',
+                confirmButtonText: 'OK'
+            });
+        }
+        console.log("Logs",formData);
+    };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
+        const formattedDate = date ? date.toISOString().split('T')[0] + ' 00:00:00' : '';
+        setFormData(prevState => ({
+            ...prevState,
+            channel_configuration: {
+                ...prevState.channel_configuration,
+                last_executed: formattedDate
+            }
+        }));
+    };
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        const val = type === 'checkbox' ? checked : value;
+
+        const [objectName, propName] = name.split('.');
+
+        setFormData(prevState => ({
+            ...prevState,
+            [objectName]: {
+                ...prevState[objectName],
+                [propName]: val
+            }
+        }));
     };
 
     return (
@@ -45,31 +131,61 @@ const ShopifyIntegrationForm = () => {
                         </ul>
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
-                        <form action="">
+                        <form onSubmit={handleSubmit}>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     Channel Name
-                                    <input className="input-field" type="text" />
+                                    <input
+                                        className="input-field"
+                                        type="text"
+                                        name="channel.channel_name"
+                                        value={formData.channel.channel_name}
+                                        onChange={handleChange}
+                                    />
                                 </label>
                                 <label>
                                     Admin API access token
-                                    <input className="input-field" type="text" />
+                                    <input
+                                        className="input-field"
+                                        type="text"
+                                        name="channel_configuration.password"
+                                        value={formData.channel_configuration.password}
+                                        onChange={handleChange}
+                                    />
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     API Key
-                                    <input className="input-field" type="text" />
+                                    <input
+                                        className="input-field"
+                                        type="text"
+                                        name="channel_configuration.api_key"
+                                        value={formData.channel_configuration.api_key}
+                                        onChange={handleChange}
+                                    />
                                 </label>
                                 <label>
                                     API Secret Key
-                                    <input className="input-field" type="text" />
+                                    <input
+                                        className="input-field"
+                                        type="text"
+                                        name="channel_configuration.shared_secret"
+                                        value={formData.channel_configuration.shared_secret}
+                                        onChange={handleChange}
+                                    />
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     Store URL
-                                    <input className="input-field" type="text" />
+                                    <input
+                                        className="input-field"
+                                        type="text"
+                                        name="channel_configuration.store_url"
+                                        value={formData.channel_configuration.store_url}
+                                        onChange={handleChange}
+                                    />
                                 </label>
                                 <label>
                                     Fetch Orders From
@@ -83,14 +199,20 @@ const ShopifyIntegrationForm = () => {
                             </div>
                             <div className='int-checkbox mt-3'>
                                 {[
-                                    "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
-                                    "Cancel orders (Enabling this will auto cancel order in Shopify when order is cancelled in ShipEase)",
-                                    "Mark as paid (Mark COD orders as paid in Shopify when orders are delivered to customer)",
-                                    "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
-                                ].map(text => (
-                                    <label key={text}>
-                                        <input className="input-field" type="checkbox" />
-                                        {text}
+                                    "auto_fulfill",
+                                    "auto_cancel",
+                                    "auto_cod_paid",
+                                    "send_abandon_sms"
+                                ].map(prop => (
+                                    <label key={prop}>
+                                        <input
+                                            className="input-field"
+                                            type="checkbox"
+                                            name={`channel_configuration.${prop}`}
+                                            checked={formData.channel_configuration[prop]}
+                                            onChange={handleChange}
+                                        />
+                                        {prop}
                                     </label>
                                 ))}
                             </div>
@@ -105,4 +227,4 @@ const ShopifyIntegrationForm = () => {
     );
 };
 
-export default ShopifyIntegrationForm;
+export default ShopifyIntegrationForm
