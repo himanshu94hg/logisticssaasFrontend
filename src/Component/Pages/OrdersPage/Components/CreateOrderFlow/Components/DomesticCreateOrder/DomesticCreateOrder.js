@@ -18,7 +18,7 @@ const DomesticCreateOrder = () => {
             customer_order_number: '',
             invoice_amount: '',
             is_mps: true,
-            warehouse_id: 1,
+            warehouse_id: '',
             seller_id: 3,
             order_tag: '',
             payment_type: '',
@@ -1174,95 +1174,180 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
     );
 };
 
+// const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
+//     const handleRadioChange = (e) => {
+//         setFormData({ ...formData, selectedWarehouse: e.target.value });
+//     };
+//
+//     return (
+//         <div>
+//             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
+//                 <div className='inputs-container mx-auto mb-3'>
+//                     {/* Step 5 content */}
+//                     <h3 className='mb-4'>Warehouse Details</h3>
+//
+//                     {/* Select Warehouse */}
+//                     Select Warehouse
+//                     <div className='warehouse-options mt-3'>
+//                         <div className="row">
+//                             <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+//                                 <label>
+//                                     <input
+//                                         type="radio"
+//                                         value="warehouse1"
+//                                         checked={formData.selectedWarehouse === 'warehouse1'}
+//                                         onChange={handleRadioChange}
+//                                     />
+//                                     <div>
+//                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
+//                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
+//                                         <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+//                                     </div>
+//                                 </label>
+//                             </div>
+//                             <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+//                                 <label>
+//                                     <input
+//                                         type="radio"
+//                                         value="warehouse2"
+//                                         checked={formData.selectedWarehouse === 'warehouse2'}
+//                                         onChange={handleRadioChange}
+//                                     />
+//                                     <div>
+//                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
+//                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
+//                                         <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+//                                     </div>
+//                                 </label>
+//                             </div>
+//                             <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+//                                 <label>
+//                                     <input
+//                                         type="radio"
+//                                         value="warehouse3"
+//                                         checked={formData.selectedWarehouse === 'warehouse3'}
+//                                         onChange={handleRadioChange}
+//                                     />
+//                                     <div>
+//                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
+//                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
+//                                         <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+//                                     </div>
+//                                 </label>
+//                             </div>
+//                             <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+//                                 <label>
+//                                     <input
+//                                         type="radio"
+//                                         value="warehouse4"
+//                                         checked={formData.selectedWarehouse === 'warehouse4'}
+//                                         onChange={handleRadioChange}
+//                                     />
+//                                     <div>
+//                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
+//                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
+//                                         <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+//                                     </div>
+//                                 </label>
+//                             </div>
+//                             {/* Add more warehouse options as needed */}
+//                         </div>
+//                     </div>
+//                 </div>
+//             </div>
+//             <div className='d-flex justify-content-end my-3'>
+//                 {/* Add more input fields as needed */}
+//                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
+//                 <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
+//             </div>
+//         </div>
+//     );
+// };
+
 const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
+    const [warehouses, setWarehouses] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchWarehouses = async () => {
+            setLoading(true);
+            const sellerData = 1;
+            const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
+            try {
+                const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                setWarehouses(response.data);
+                setLoading(false);
+            } catch (error) {
+                console.error('Error fetching warehouses:', error);
+                setLoading(false);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to fetch warehouses. Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            }
+        };
+
+        fetchWarehouses();
+    }, []);
+
     const handleRadioChange = (e) => {
-        setFormData({ ...formData, selectedWarehouse: e.target.value });
+        const selectedWarehouseId = parseInt(e.target.value);
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            order_details: {
+                ...prevFormData.order_details,
+                warehouse_id: selectedWarehouseId
+            }
+        }));
     };
 
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
-                    {/* Step 5 content */}
                     <h3 className='mb-4'>Warehouse Details</h3>
-
-                    {/* Select Warehouse */}
-                    Select Warehouse
                     <div className='warehouse-options mt-3'>
                         <div className="row">
-                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        value="warehouse1"
-                                        checked={formData.selectedWarehouse === 'warehouse1'}
-                                        onChange={handleRadioChange}
-                                    />
-                                    <div>
-                                        <div className='warehouse-heading'>WH Sarasvati Kunj</div>
-                                        <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
+                            {loading ? (
+                                <p>Loading...</p>
+                            ) : (
+                                warehouses.map(warehouse => (
+                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+                                        <label>
+                                            <input
+                                                type="radio"
+                                                name="warehouse"
+                                                value={warehouse.id}
+                                                checked={formData.order_details.warehouse_id === warehouse.id}
+                                                onChange={handleRadioChange}
+                                            />
+                                            <div>
+                                                <div className='warehouse-heading'>{warehouse.warehouse_name}</div>
+                                                <p className='warehouse-description'>{warehouse.address_line1}</p>
+                                                <p className="warehouse-description font13 mt-3">Mobile: {warehouse.contact_number}</p>
+                                            </div>
+                                        </label>
                                     </div>
-                                </label>
-                            </div>
-                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        value="warehouse2"
-                                        checked={formData.selectedWarehouse === 'warehouse2'}
-                                        onChange={handleRadioChange}
-                                    />
-                                    <div>
-                                        <div className='warehouse-heading'>WH Sarasvati Kunj</div>
-                                        <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
-                                    </div>
-                                </label>
-                            </div>
-                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        value="warehouse3"
-                                        checked={formData.selectedWarehouse === 'warehouse3'}
-                                        onChange={handleRadioChange}
-                                    />
-                                    <div>
-                                        <div className='warehouse-heading'>WH Sarasvati Kunj</div>
-                                        <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
-                                    </div>
-                                </label>
-                            </div>
-                            <div className="col-lg-4 col-md-6 mb-4 cursor-pointer">
-                                <label>
-                                    <input
-                                        type="radio"
-                                        value="warehouse4"
-                                        checked={formData.selectedWarehouse === 'warehouse4'}
-                                        onChange={handleRadioChange}
-                                    />
-                                    <div>
-                                        <div className='warehouse-heading'>WH Sarasvati Kunj</div>
-                                        <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
-                                    </div>
-                                </label>
-                            </div>
-                            {/* Add more warehouse options as needed */}
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>
             </div>
             <div className='d-flex justify-content-end my-3'>
-                {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
             </div>
         </div>
     );
 };
+
 
 
 export default DomesticCreateOrder;
