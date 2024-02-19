@@ -57,7 +57,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
     <div className="nav-link" onClick={hasDropdown ? handleDropdownToggle : null}>
       <div className="sidebar-label-wrapper">
         
-        <navItemCon to={to} activeClassName="active">
+        <navItemCon to={to} activeclassName="active">
           {label === "Dashboard" && <DashboardIcon />}
           {label === "Orders" && <OrdersIcon />}
           {label === "More On Orders" && <MoreOnOrdersIcon />}

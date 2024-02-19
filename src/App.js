@@ -33,7 +33,6 @@ import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/W
 import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
 import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
 import StoreHippoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/StoreHippoIntegrationForm";
 import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
 import AmazonDirectIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/AmazonDirectIntegrationForm";
@@ -43,6 +42,7 @@ import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Compon
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
+import { billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -54,12 +54,17 @@ function App() {
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
   const [tokenChecked, setTokenChecked] = useState(false);
+  const [userID,setUserID]=useState("")
 
   useEffect(() => {
     const token = Cookies.get('access_token');
+    const user_id = Cookies.get('user_id');
+    setUserID(user_id)
     setTokenExists(!!token);
     setTokenChecked(true);
   }, []);
+
+  console.log(userID,"I am user id data")
 
   useEffect(() => {
     if (tokenChecked && !tokenExists) {
@@ -73,13 +78,11 @@ function App() {
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-
           {/* <button onClick={handleClick}>Clcikss</button> */}
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
           </>}
-          {/* <Router> */}
           <Routes>
             {
               tokenExists ?

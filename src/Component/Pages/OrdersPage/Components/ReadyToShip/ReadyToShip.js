@@ -37,31 +37,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ReadyToShip = () => {
+const ReadyToShip = ({orders}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
-
-    let sellerData = 3;
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
-
-    useEffect(() => {
-        axios
-            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-            .then(response => {
-                console.log('Data is data:', response.data  );
-                setAllOrders(response.data.results);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
 
     // Handler for "Select All" checkbox
@@ -160,7 +140,7 @@ const ReadyToShip = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {orders?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>

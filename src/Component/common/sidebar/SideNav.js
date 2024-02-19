@@ -63,7 +63,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
     <div className="nav-link main" onClick={hasDropdown ? handleDropdownToggle : null}>
       <div className="sidebar-label-wrapper">
 
-        <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeClassName="active">
+        <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
           {label === "Dashboard" && <DashboardIcon />}
           {label === "Orders" && <OrdersIcon />}
           {label === "More On Orders" && <MoreOnOrdersIcon />}

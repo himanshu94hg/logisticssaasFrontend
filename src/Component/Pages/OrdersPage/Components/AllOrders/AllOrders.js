@@ -9,6 +9,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import Cookies from 'js-cookie';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -38,32 +39,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
   };
 
-const AllOrders = () => {
+const AllOrders = ({orders}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
-    let sellerData = 3;
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
-
-    useEffect(() => {
-        axios
-            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-            .then(response => {
-                console.log('Data is data:', response.data.results);
-                setAllOrders(response.data.results);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
