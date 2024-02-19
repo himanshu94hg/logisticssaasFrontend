@@ -37,33 +37,13 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const Processing = () => {
+const Processing = ({orders}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
     const [SingleShip, setSingleShip] = useState(false)
-    let sellerData = 1;
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjY5ODUwLCJpYXQiOjE3MDgwNjUwNTAsImp0aSI6IjA3ZDVlYzdmMTcyZDRiY2ZhYTY1ZWY3NmM5NWYwYTlkIiwidXNlcl9pZCI6Mn0.eenZ694JGkAWGIxiQy7-XEUH3kxXtGhouFNLPWkJzy0";
 
-    useEffect(() => {
-        axios
-            .get(`http://65.2.38.87:8080/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-            .then(response => {
-                console.log('Data is data:', response.data.results);
-                setAllOrders(response.data.results);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -154,7 +134,7 @@ const Processing = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(orders) && orders.map((row, index) => (
+                            {Array.isArray(orders) && orders?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>

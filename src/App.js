@@ -44,12 +44,17 @@ function App() {
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
   const [tokenChecked, setTokenChecked] = useState(false);
+  const [userID,setUserID]=useState("")
 
   useEffect(() => {
     const token = Cookies.get('access_token');
+    const user_id = Cookies.get('user_id');
+    setUserID(user_id)
     setTokenExists(!!token);
     setTokenChecked(true); 
   }, []);
+
+  console.log(userID,"I am user id data")
 
   useEffect(() => {
     if (tokenChecked && !tokenExists) {
@@ -74,7 +79,7 @@ function App() {
                 <Route path={indexPattern} element={<Dashboard />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
-            <Route path={reassignOrdersPattern} element={<AllOrders />} />
+            <Route path={reassignOrdersPattern} element={<AllOrders userID={userID}/>} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />
             <Route path={ordersPattern} element={<OrdersPage />} />

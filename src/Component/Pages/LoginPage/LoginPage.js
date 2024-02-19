@@ -27,7 +27,8 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
       if (response.status == 200) {
         setTokenExists(true)
         navigate(indexPattern); 
-        Cookies.set('access_token', response.data.access_token)
+        Cookies.set('access_token', response?.data?.access_token)
+        Cookies.set('user_id', response?.data?.user_id)
         dispatch({type:LOGIN_DATA,payload:response})
       }
 

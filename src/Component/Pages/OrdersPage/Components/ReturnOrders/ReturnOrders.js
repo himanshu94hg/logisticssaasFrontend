@@ -37,25 +37,12 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
   };
 
-const ReturnOrders = () => {
+const ReturnOrders = ({orders}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/order/v1/returnallorder/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
+    
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -94,13 +81,6 @@ const ReturnOrders = () => {
         setBackDrop(false)
     }
 
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
 
 
     return (
@@ -159,7 +139,7 @@ const ReturnOrders = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {orders?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -186,7 +166,7 @@ const ReturnOrders = () => {
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                <DateFormatter dateTimeString={row.inserted} />
+                                                {/* <DateFormatter dateTimeString={row.inserted} /> */}
                                                     <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
