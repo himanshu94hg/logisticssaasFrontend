@@ -9,6 +9,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
+import moment from 'moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -130,7 +131,7 @@ const Unprocessable = ({orders}) => {
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
@@ -166,6 +167,8 @@ const Unprocessable = ({orders}) => {
                                                     {/* {formatDate(row.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                              
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -180,7 +183,7 @@ const Unprocessable = ({orders}) => {
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
+                                                        {row.shipping_detail.address}, {row.shipping_detail.landmark}, {row.shipping_detail.city},{row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -218,22 +221,33 @@ const Unprocessable = ({orders}) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/* pickup adress */}
+                                            <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1},
+                                                            {row?.pickup_details?.p_address_line2},
+                                                            {row?.pickup_details?.p_city},
+                                                            {row?.pickup_details?.p_state},
+                                                            {row?.pickup_details?.p_pincode}
+                                                        </span>
+                                                    </span>
                                                 </p>
-
+                                              
                                             </div>
                                         </td>
-                                        <td>
+                                        </td>
                                             {/* shiping section here */}
+                                        {/* <td>
                                             <div className='cell-inside-box'>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                    <span style={{right:'23px', width:'100px'}}>AWB Number</span>
                                                 </p>
                                             </div>
-                                        </td>
+                                        </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row.order_courier_status === 'Unprocessable' ? 'Pending' : row.order_courier_status}</p>

@@ -9,6 +9,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
+import moment from 'moment/moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -37,7 +38,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const Processing = ({orders}) => {
+const Processing = ({ orders }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -132,7 +133,7 @@ const Processing = ({orders}) => {
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
@@ -159,18 +160,19 @@ const Processing = ({orders}) => {
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.customer_order_number}</p>
+                                                <p>{row.shipping_detail.recipient_name}</p>
                                                 <p>{row.shipping_detail.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
+                                                            {row.shipping_detail.address}, {row.shipping_detail.landmark}, {row.shipping_detail.city},{row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -205,22 +207,34 @@ const Processing = ({orders}) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/* pickup adress */}
+                                            <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1},
+                                                            {row?.pickup_details?.p_address_line2},
+                                                            {row?.pickup_details?.p_city},
+                                                            {row?.pickup_details?.p_state},
+                                                            {row?.pickup_details?.p_pincode}
+                                                        </span>
+                                                    </span>
                                                 </p>
-
+                                              
                                             </div>
                                         </td>
-                                        <td>
-                                            {/* shiping section here */}
+                                        </td>
+
+                                        {/* shiping section here */}
+                                        {/* <td>
                                             <div className='cell-inside-box'>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
                                                 <p className='details-on-hover anchor-awb'>
                                                     {row.awb_number ?? ""}
                                                 </p>
                                             </div>
-                                        </td>
+                                        </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row.order_courier_status || 'New'}</p>

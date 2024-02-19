@@ -7,6 +7,7 @@ import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import './ManageWarehouse.css';
 import { useNavigate } from 'react-router';
+import Cookies from 'js-cookie';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
   const [isOpen, setIsOpen] = useState(null);
@@ -19,66 +20,68 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
     return <p>No data available</p>;
   }
 
+
+
   return (
-      <div className="box-grid">
-        {boxData.map((box, index) => (
-            <div key={index} className={`box`}>
-              <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
-                <div className='warehouse-details'>
-                  <div>
-                    <div className='warehouse-heading mb-2'>
-                      <TbBuildingWarehouse fontSize={25} />
-                      <h4 className='mb-0'>{box.warehouse_name}</h4>
-                    </div>
-                    <p>{box.contact_name}</p>
-                  </div>
-                  <hr />
-                  <div>
-                    <p>{box.gst_number}</p>
-                    <p>{box.contact_name}</p>
-                    <p>{box.contact_number}</p>
-                  </div>
-                  <hr />
-                  <div>
-                    <p>{box.address_line1}, {box.address_line2}, {box.city}, {box.state}, PIN:{box.pincode}</p>
-                    <p>{box.support_email}</p>
-                    <p>Ph. {box.support_phone}</p>
-                  </div>
-                  <div className='d-flex justify-content-between'>
-                    <button className='btn main-button' onClick={() => handleToggle(index)}>Show RTO Address</button>
-                    <div className='d-flex gap-2'>
-                      <button className='btn edit-btn' onClick={() => editWarehouse(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                      <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
-                    </div>
-                  </div>
+    <div className="box-grid">
+      {boxData.map((box, index) => (
+        <div key={index} className={`box`}>
+          <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
+            <div className='warehouse-details'>
+              <div>
+                <div className='warehouse-heading mb-2'>
+                  <TbBuildingWarehouse fontSize={25} />
+                  <h4 className='mb-0'>{box.warehouse_name}</h4>
                 </div>
-                <div className={`rto-details ${isOpen === index ? 'open' : ''}`}>
-                  <button className='btn close-button' onClick={() => setIsOpen(null)}><FontAwesomeIcon icon={faCircleXmark} /></button>
-                  <div>
-                    <div className='rto-pin-title'>RTO Address</div>
-                    <div className='warehouse-heading mb-2'>
-                      <TbBuildingWarehouse fontSize={25} />
-                      <h4 className='mb-0'>{box.rto_details.warehouse_name}</h4>
-                    </div>
-                    <p>{box.rto_details.contact_person_name}</p>
-                  </div>
-                  <hr />
-                  <div>
-                    <p>GST no. {box.rto_details.gst_number}</p>
-                    <p>{box.rto_details.contact_person_name}</p>
-                    <p>Ph. {box.rto_details.contact_number}</p>
-                  </div>
-                  <hr />
-                  <div>
-                    <p>{box.rto_details.address}, {box.rto_details.landmark}, {box.rto_details.city}, {box.rto_details.state}, PIN:{box.rto_details.pincode}</p>
-                    <p>{box.rto_details.email}</p>
-                    <p>Alt. Ph. {box.rto_details.contact_number}</p>
-                  </div>
+                <p>{box.contact_name}</p>
+              </div>
+              <hr />
+              <div>
+                <p>{box.gst_number}</p>
+                <p>{box.contact_name}</p>
+                <p>{box.contact_number}</p>
+              </div>
+              <hr />
+              <div>
+                <p>{box.address_line1}, {box.address_line2}, {box.city}, {box.state}, PIN:{box.pincode}</p>
+                <p>{box.support_email}</p>
+                <p>Ph. {box.support_phone}</p>
+              </div>
+              <div className='d-flex justify-content-between'>
+                <button className='btn main-button' onClick={() => handleToggle(index)}>Show RTO Address</button>
+                <div className='d-flex gap-2'>
+                  <button className='btn edit-btn' onClick={() => editWarehouse(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
+                  <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
                 </div>
               </div>
             </div>
-        ))}
-      </div>
+            <div className={`rto-details ${isOpen === index ? 'open' : ''}`}>
+              <button className='btn close-button' onClick={() => setIsOpen(null)}><FontAwesomeIcon icon={faCircleXmark} /></button>
+              <div>
+                <div className='rto-pin-title'>RTO Address</div>
+                <div className='warehouse-heading mb-2'>
+                  <TbBuildingWarehouse fontSize={25} />
+                  <h4 className='mb-0'>{box.rto_details.warehouse_name}</h4>
+                </div>
+                <p>{box.rto_details.contact_person_name}</p>
+              </div>
+              <hr />
+              <div>
+                <p>GST no. {box.rto_details.gst_number}</p>
+                <p>{box.rto_details.contact_person_name}</p>
+                <p>Ph. {box.rto_details.contact_number}</p>
+              </div>
+              <hr />
+              <div>
+                <p>{box.rto_details.address}, {box.rto_details.landmark}, {box.rto_details.city}, {box.rto_details.state}, PIN:{box.rto_details.pincode}</p>
+                <p>{box.rto_details.email}</p>
+                <p>Alt. Ph. {box.rto_details.contact_number}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };
 
@@ -91,9 +94,11 @@ const ManageWarehouse = () => {
     fetchDataFromApi();
   }, []);
 
+  
+  let authToken = Cookies.get("access_token");
+  let sellerData = Cookies.get("user_id")
+
   const fetchDataFromApi = async () => {
-    const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
-    const sellerData = 1;
     try {
       const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
         headers: {
@@ -115,41 +120,41 @@ const ManageWarehouse = () => {
   };
 
   return (
-      <>
-        <div className="position-relative manage-warehouse">
-          <section className="box-shadow shadow-sm p7 mb-3 filter-container">
-            <div className="search-container">
-              <label>
-                <input type="text" placeholder="Search by Location || Address || City || State || Pincode" />
-                <button>
-                  <img src={SearchIcon} alt="Search" />
-                </button>
-              </label>
-            </div>
-            <div className='button-container'>
-              <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
-              <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
-              <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
-            </div>
-          </section>
-
-          <section className='warehouse-grid-container'>
-            <div>
-              <h4 className='mb-3'>Manage Pickup Addresses</h4>
-              <BoxGrid boxData={boxes} editWarehouse={handleEditWarehouse} />
-            </div>
-          </section>
-        </div>
-        <section className={`ticket-slider ${editWarehouse ? 'open' : ''}`}>
-          <div id='sidepanel-closer' onClick={() => setEditWarehouse(!editWarehouse)}>
-            <FontAwesomeIcon icon={faChevronRight} />
+    <>
+      <div className="position-relative manage-warehouse">
+        <section className="box-shadow shadow-sm p7 mb-3 filter-container">
+          <div className="search-container">
+            <label>
+              <input type="text" placeholder="Search by Location || Address || City || State || Pincode" />
+              <button>
+                <img src={SearchIcon} alt="Search" />
+              </button>
+            </label>
           </div>
-          <section className='ticket-slider-header'>
-            <h2 className='mb-0'>Edit Warehouse</h2>
-          </section>
+          <div className='button-container'>
+            <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
+            <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
+            <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
+          </div>
         </section>
-        <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
-      </>
+
+        <section className='warehouse-grid-container'>
+          <div>
+            <h4 className='mb-3'>Manage Pickup Addresses</h4>
+            <BoxGrid boxData={boxes} editWarehouse={handleEditWarehouse} />
+          </div>
+        </section>
+      </div>
+      <section className={`ticket-slider ${editWarehouse ? 'open' : ''}`}>
+        <div id='sidepanel-closer' onClick={() => setEditWarehouse(!editWarehouse)}>
+          <FontAwesomeIcon icon={faChevronRight} />
+        </div>
+        <section className='ticket-slider-header'>
+          <h2 className='mb-0'>Edit Warehouse</h2>
+        </section>
+      </section>
+      <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
+    </>
   );
 };
 

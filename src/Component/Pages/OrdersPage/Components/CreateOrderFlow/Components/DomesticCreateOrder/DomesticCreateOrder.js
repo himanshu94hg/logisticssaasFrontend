@@ -7,6 +7,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
 
 const DomesticCreateOrder = () => {
     const navigation = useNavigate();
@@ -24,7 +25,7 @@ const DomesticCreateOrder = () => {
             payment_type: '',
             order_date: '2024-01-22',
             order_type: "",
-            Channel:''
+            Channel: ''
         },
         shipping_details: {
             recipient_name: "",
@@ -122,19 +123,18 @@ const DomesticCreateOrder = () => {
         setStep(step - 1);
     };
 
-    const hardcodedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
-
+    const authToken = Cookies.get("access_token")
 
     const handleFormSubmit = async () => {
         try {
             const response = await axios.post('http://65.2.38.87:8080/orders-api/orders/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': hardcodedToken
+                    'Authorization': `Bearer ${authToken}`
                 }
             });
             console.log(response);
-    
+
             // Check if response is not null
             if (response !== null) {
                 if (response.status === 201) {
@@ -535,6 +535,11 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
         }));
     };
+
+
+    console.log(formData,"this is form data section")
+
+
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -774,7 +779,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                         <div className='row'>
                             {/* Address */}
                             <label className='col'>
-                                Address
+                                Addressss
                                 <input
                                     className='input-field'
                                     placeholder="House/Floor No. Building Name or Street, Locality"
@@ -851,6 +856,8 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     };
 
     const handleAddProduct = () => {
+
+
         setFormData({
             ...formData,
             products: [
@@ -860,6 +867,8 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
         });
         setAddFieldsStates([...addFieldsStates, false]);
     };
+
+    console.log(formData, "formData");
 
     const handleRemoveProduct = (index) => {
         if (formData.products && formData.products.length > 1) {
@@ -1268,11 +1277,12 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    const authToken = Cookies.get("access_token");
+    const sellerData = Cookies.get("user_id");
+
     useEffect(() => {
         const fetchWarehouses = async () => {
             setLoading(true);
-            const sellerData = 1;
-            const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
             try {
                 const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
                     headers: {

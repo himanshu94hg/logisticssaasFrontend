@@ -221,12 +221,23 @@ const ReadyToShip = ({orders}) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/* pickup adress */}
+                                            <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1},
+                                                            {row?.pickup_details?.p_address_line2},
+                                                            {row?.pickup_details?.p_city},
+                                                            {row?.pickup_details?.p_state},
+                                                            {row?.pickup_details?.p_pincode}
+                                                        </span>
+                                                    </span>
                                                 </p>
-
+                                              
                                             </div>
+                                        </td>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
@@ -234,7 +245,8 @@ const ReadyToShip = ({orders}) => {
                                                 <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' /> */}
+                                                <p className='mt-1'>{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

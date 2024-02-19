@@ -95,7 +95,7 @@ const AddWarehouse = () => {
 
             const response = await axios.post('http://65.2.38.87:8088/core-api/features/warehouse/', formData,{
                 headers: {
-                    'Authorization': hardcodedToken,
+                    'Authorization': hardcodedToken,    
                     'Content-Type': 'application/json'
                 }
             });

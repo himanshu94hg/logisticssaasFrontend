@@ -10,36 +10,37 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import Cookies from 'js-cookie';
+import moment from 'moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
 
     useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
 
     const formatDateTime = (dateTimeString) => {
         console.log("DateTimeString:", dateTimeString);
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
 
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
 
-      return formattedDateTime;
+        return formattedDateTime;
     };
 
     return <p>{formattedDate}</p>;
-  };
+};
 
-const AllOrders = ({orders}) => {
+const AllOrders = ({ orders }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -136,13 +137,14 @@ const AllOrders = ({orders}) => {
                                 <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
-                               
+
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
                             {orders?.map((row, index) => (
                                 <React.Fragment key={row.id}>
+                                    {console.log(row, "this is orders page")}
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
@@ -168,8 +170,9 @@ const AllOrders = ({orders}) => {
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                {/*<DateFormatter dateTimeString={row.inserted} />*/}
+                                                    {/*<DateFormatter dateTimeString={row.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -184,7 +187,7 @@ const AllOrders = ({orders}) => {
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
+                                                            {row.shipping_detail.address}, {row.shipping_detail.landmark}, {row.shipping_detail.city},{row.shipping_detail.state}, {row.shipping_detail.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -220,22 +223,30 @@ const AllOrders = ({orders}) => {
                                                 <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
+                                        {/* pickup adress */}
                                         <td className='align-middle'>
-                                            {/* pickup adress */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover extra'>{row.p_warehouse_name}
-                                                    <span>{row.pickup_address}</span>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1},
+                                                            {row?.pickup_details?.p_address_line2},
+                                                            {row?.pickup_details?.p_city},
+                                                            {row?.pickup_details?.p_state},
+                                                            {row?.pickup_details?.p_pincode}
+                                                        </span>
+                                                    </span>
                                                 </p>
-
+                                              
                                             </div>
                                         </td>
+                                        {/* shiping section here */}
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                            <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
+                                                {/* <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p> */}
+                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""} </p>
+                                                <p className=''>{row.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
