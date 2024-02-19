@@ -151,3 +151,19 @@ export const RateCalculatorPattern = "/rate-calculator";
 export const RateCalculatorRoutes = () => {
     return generatePath(RateCalculatorPattern);
 };
+export const ServiceabilityPattern = "/serviceability";
+export const ServiceabilityRoutes = () => {
+    return generatePath(ServiceabilityPattern);
+};
+export const ZoneMappingPattern = "/zone-mapping";
+export const ZoneMappingRoutes = () => {
+    return generatePath(ZoneMappingPattern);
+};
+export const ReportSchedulerPattern = "/report-scheduler";
+export const ReportSchedulerRoutes = () => {
+    return generatePath(ReportSchedulerPattern);
+};
+export const CourierAllocationPattern = "/courier-allocation";
+export const CourierAllocationRoutes = () => {
+    return generatePath(CourierAllocationPattern);
+};

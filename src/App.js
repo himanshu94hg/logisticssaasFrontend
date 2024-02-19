@@ -42,9 +42,14 @@ import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Compon
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
-import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern } from "./Routes";
+import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
+import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator";
+import Serviceability from "./Component/Pages/ToolsPage/Components/Serviceability/Serviceability";
+import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMapping/ZoneMapping";
+import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler";
+import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation";
 
 
 function App() {
@@ -89,7 +94,7 @@ function App() {
                 <Route path={indexPattern} element={<Dashboard />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
-            <Route path={reassignOrdersPattern} element={<AllOrders userID={userID}/>} />
+            <Route path={reassignOrdersPattern} element={<AllOrders userID={userID} />} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
@@ -124,6 +129,11 @@ function App() {
             <Route path={UnicommerceIntegrationPattern} element={<UnicommerceIntegrationForm />} />
             <Route path={OMSGuruIntegrationPattern} element={<OMSGuruIntegrationForm />} />
             <Route path={ClickPostIntegrationPattern} element={<ClickPostIntegrationForm />} />
+            <Route path={RateCalculatorPattern} element={<RateCalculator />} />
+            <Route path={ServiceabilityPattern} element={<Serviceability />} />
+            <Route path={ZoneMappingPattern} element={<ZoneMapping />} />
+            <Route path={ReportSchedulerPattern} element={<ReportScheduler />} />
+            <Route path={CourierAllocationPattern} element={<CourierAllocation />} />
           </Routes>
           {/* </Router> */}
         </div>
