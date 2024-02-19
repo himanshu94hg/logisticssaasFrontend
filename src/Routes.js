@@ -107,3 +107,43 @@ export const shopifyIntegrationPattern = "/shopify-integration";
 export const shopifyIntegrationRoutes = () => {
     return generatePath(shopifyIntegrationPattern);
 };
+export const WooCommerceIntegrationPattern = "/woocommerce-integration";
+export const WooCommerceIntegrationRoutes = () => {
+    return generatePath(WooCommerceIntegrationPattern);
+};
+export const MagentoIntegrationPattern = "/magento-integration";
+export const MagentoIntegrationRoutes = () => {
+    return generatePath(MagentoIntegrationPattern);
+};
+export const StoreHippoIntegrationPattern = "/storehippo-integration";
+export const StoreHippoIntegrationRoutes = () => {
+    return generatePath(StoreHippoIntegrationPattern);
+};
+export const AmazonDirectIntegrationPattern = "/amazon-direct-integration";
+export const AmazonDirectIntegrationRoutes = () => {
+    return generatePath(AmazonDirectIntegrationPattern);
+};
+export const EasyShipIntegrationPattern = "/easyship-integration";
+export const EasyShipIntegrationRoutes = () => {
+    return generatePath(EasyShipIntegrationPattern);
+};
+export const EasyEcomIntegrationPattern = "/easyecom-integration";
+export const EasyEcomIntegrationRoutes = () => {
+    return generatePath(EasyEcomIntegrationPattern);
+};
+export const VineRetailIntegrationPattern = "/vine-retail-integration";
+export const VineRetailIntegrationRoutes = () => {
+    return generatePath(VineRetailIntegrationPattern);
+};
+export const UnicommerceIntegrationPattern = "/unicommerce-integration";
+export const UnicommerceIntegrationRoutes = () => {
+    return generatePath(UnicommerceIntegrationPattern);
+};
+export const OMSGuruIntegrationPattern = "/omsguru-integration";
+export const OMSGuruIntegrationRoutes = () => {
+    return generatePath(OMSGuruIntegrationPattern);
+};
+export const ClickPostIntegrationPattern = "/clickpost-integration";
+export const ClickPostIntegrationRoutes = () => {
+    return generatePath(ClickPostIntegrationPattern);
+};

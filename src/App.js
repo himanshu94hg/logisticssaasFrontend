@@ -42,7 +42,7 @@ import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Compon
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
-import { billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern } from "./Routes";
+import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
 
@@ -54,7 +54,7 @@ function App() {
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
   const [tokenChecked, setTokenChecked] = useState(false);
-  const [userID,setUserID]=useState("")
+  const [userID, setUserID] = useState("")
 
   useEffect(() => {
     const token = Cookies.get('access_token');
@@ -64,7 +64,7 @@ function App() {
     setTokenChecked(true);
   }, []);
 
-  console.log(userID,"I am user id data")
+  console.log(userID, "I am user id data")
 
   useEffect(() => {
     if (tokenChecked && !tokenExists) {
@@ -89,7 +89,7 @@ function App() {
                 <Route path={indexPattern} element={<Dashboard />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
-            <Route path={reassignOrdersPattern} element={<AllOrders />} />
+            <Route path={reassignOrdersPattern} element={<AllOrders userID={userID}/>} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
@@ -100,30 +100,30 @@ function App() {
             <Route path={couriersIntegrationPattern} element={<CouriersIntegration />} />
             <Route path={generateApiKeyPattern} element={<APIIntegration />} />
             <Route path={socailPagePattern} element={<OtherIntegration />} />
-            <Route path="/IndiaMapp" element={<IndiaMapp />} />
-            <Route path="/channels-integration" element={<ChannelsIntegration />} />
-            <Route path="/create-order" element={<CreateOrderFlow />} />
-            <Route path="/billing" element={<BillingPage />} />
-            <Route path="/weight-reconciliation" element={<WeightRecoPage />} />
-            <Route path="/MIS" element={<MISPage />} />
-            <Route path="/customer" element={<CustomerPage />} />
-            <Route path="/customer-support" element={<CustomerSupportPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/help-articles" element={<HelpArticles />} />
-            <Route path="/manage-warehouses" element={<ManageWarehouse />} />
-            <Route path="/add-pickup-address" element={<AddWarehouse />} />
-            <Route path="/shipping-rates" element={<ShippingRates />} />
-            <Route path="/shopify-integration" element={<ShopifyIntegrationForm />} />
-            <Route path="/woocommerce-integration" element={<WooCommerceIntegrationForm />} />
-            <Route path="/magento-integration" element={<MagentoIntegrationForm />} />
-            <Route path="/storehippo-integration" element={<StoreHippoIntegrationForm />} />
-            <Route path="/amazon-direct-integration" element={<AmazonDirectIntegrationForm />} />
-            <Route path="/easyship-integration" element={<EasyShipIntegrationForm />} />
-            <Route path="/easyecom-integration" element={<EasyEcomIntegrationForm />} />
-            <Route path="/vine-retail-integration" element={<VineRetailIntegrationForm />} />
-            <Route path="/unicommerce-integration" element={<UnicommerceIntegrationForm />} />
-            <Route path="/omsguru-integration" element={<OMSGuruIntegrationForm />} />
-            <Route path="/clickpost-integration" element={<ClickPostIntegrationForm />} />
+            <Route path={indiaMapPattern} element={<IndiaMapp />} />
+            <Route path={createOrderPattern} element={<CreateOrderFlow />} />
+            <Route path={billingPattern} element={<BillingPage />} />
+            <Route path={weightReconciliationPattern} element={<WeightRecoPage />} />
+            <Route path={misPattern} element={<MISPage />} />
+            <Route path={customerPattern} element={<CustomerPage />} />
+            <Route path={customerSupportPattern} element={<CustomerSupportPage />} />
+            <Route path={settingsPattern} element={<SettingsPage />} />
+            <Route path={helpArticlesPattern} element={<HelpArticles />} />
+            <Route path={manageWarehousesPattern} element={<ManageWarehouse />} />
+            <Route path={pickupAddressPattern} element={<AddWarehouse />} />
+            <Route path={shippingRatesPattern} element={<ShippingRates />} />
+            <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
+            <Route path={shopifyIntegrationPattern} element={<ShopifyIntegrationForm />} />
+            <Route path={WooCommerceIntegrationPattern} element={<WooCommerceIntegrationForm />} />
+            <Route path={MagentoIntegrationPattern} element={<MagentoIntegrationForm />} />
+            <Route path={StoreHippoIntegrationPattern} element={<StoreHippoIntegrationForm />} />
+            <Route path={AmazonDirectIntegrationPattern} element={<AmazonDirectIntegrationForm />} />
+            <Route path={EasyShipIntegrationPattern} element={<EasyShipIntegrationForm />} />
+            <Route path={EasyEcomIntegrationPattern} element={<EasyEcomIntegrationForm />} />
+            <Route path={VineRetailIntegrationPattern} element={<VineRetailIntegrationForm />} />
+            <Route path={UnicommerceIntegrationPattern} element={<UnicommerceIntegrationForm />} />
+            <Route path={OMSGuruIntegrationPattern} element={<OMSGuruIntegrationForm />} />
+            <Route path={ClickPostIntegrationPattern} element={<ClickPostIntegrationForm />} />
           </Routes>
           {/* </Router> */}
         </div>
