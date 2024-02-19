@@ -31,7 +31,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import { channelsIntegrationPattern, couriersIntegrationPattern, dailyPrefrencesPattern, generateApiKeyPattern, indexPattern, loginPattern, mergeOrdersPattern, omsIntegrationPattern, ordersPattern, reassignOrdersPattern, shipmentsPattern, socailPagePattern, splitOrdersPattern } from "./Routes";
+import { billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern } from "./Routes";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
@@ -63,22 +63,17 @@ function App() {
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-
           {/* <button onClick={handleClick}>Clcikss</button> */}
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
           </>}
-          {/* <Router> */}
           <Routes>
-
             {
               tokenExists ?
                 <Route path={indexPattern} element={<Dashboard />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
-
-
             <Route path={reassignOrdersPattern} element={<AllOrders />} />
             <Route path={mergeOrdersPattern} element={<AllOrders />} />
             <Route path={splitOrdersPattern} element={<AllOrders />} />
@@ -90,19 +85,19 @@ function App() {
             <Route path={couriersIntegrationPattern} element={<CouriersIntegration />} />
             <Route path={generateApiKeyPattern} element={<APIIntegration />} />
             <Route path={socailPagePattern} element={<OtherIntegration />} />
-            <Route path="/IndiaMapp" element={<IndiaMapp />} />
-            <Route path="/create-order" element={<CreateOrderFlow />} />
-            <Route path="/billing" element={<BillingPage />} />
-            <Route path="/weight-reconciliation" element={<WeightRecoPage />} />
-            <Route path="/MIS" element={<MISPage />} />
-            <Route path="/customer" element={<CustomerPage />} />
-            <Route path="/customer-support" element={<CustomerSupportPage />} />
-            <Route path="/settings" element={<SettingsPage />} />
-            <Route path="/help-articles" element={<HelpArticles />} />
-            <Route path="/manage-warehouses" element={<ManageWarehouse />} />
-            <Route path="/add-pickup-address" element={<AddWarehouse />} />
-            <Route path="/shipping-rates" element={<ShippingRates />} />
-            <Route path="/shopify-integration" element={<ChannelIntegrationForm />} />
+            <Route path={indiaMapPattern} element={<IndiaMapp />} />
+            <Route path={createOrderPattern} element={<CreateOrderFlow />} />
+            <Route path={billingPattern} element={<BillingPage />} />
+            <Route path={weightReconciliationPattern} element={<WeightRecoPage />} />
+            <Route path={misPattern} element={<MISPage />} />
+            <Route path={customerPattern} element={<CustomerPage />} />
+            <Route path={customerSupportPattern} element={<CustomerSupportPage />} />
+            <Route path={settingsPattern} element={<SettingsPage />} />
+            <Route path={helpArticlesPattern} element={<HelpArticles />} />
+            <Route path={manageWarehousesPattern} element={<ManageWarehouse />} />
+            <Route path={pickupAddressPattern} element={<AddWarehouse />} />
+            <Route path={shippingRatesPattern} element={<ShippingRates />} />
+            <Route path={shopifyIntegrationPattern} element={<ChannelIntegrationForm />} />
           </Routes>
           {/* </Router> */}
         </div>

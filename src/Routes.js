@@ -44,14 +44,66 @@ export const getOmsIntegrationRoute = () => {
     return generatePath(omsIntegrationPattern);
 };
 export const couriersIntegrationPattern = "/couriers-integration";
-export const getCouriersIntegrationPattern = () => {
+export const getCouriersIntegrationRoute = () => {
     return generatePath(couriersIntegrationPattern);
 };
 export const generateApiKeyPattern = "/generate-api";
-export const getGenerateApiKeyPattern = () => {
+export const getGenerateApiKeyRoute = () => {
     return generatePath(generateApiKeyPattern);
 };
 export const socailPagePattern = "/social-integration";
-export const getSocailPagePattern = () => {
+export const getSocailPageRoute = () => {
     return generatePath(socailPagePattern);
+};
+export const indiaMapPattern = "/indiaMapp";
+export const getIndiaMapRoute = () => {
+    return generatePath(indiaMapPattern);
+};
+export const createOrderPattern = "/create-order";
+export const getCreateOrderRoute = () => {
+    return generatePath(createOrderPattern);
+};
+export const billingPattern = "/billing";
+export const getBillingRoute = () => {
+    return generatePath(billingPattern);
+};
+export const weightReconciliationPattern = "/weight-reconciliation";
+export const getWeightReconciliationRoute = () => {
+    return generatePath(weightReconciliationPattern);
+};
+export const misPattern = "/MIS";
+export const getMisRoute = () => {
+    return generatePath(misPattern);
+};
+export const customerPattern = "/customer";
+export const getCustomerRoute = () => {
+    return generatePath(misPattern);
+};
+export const customerSupportPattern = "/customer-support";
+export const getCustomerSupportRoute = () => {
+    return generatePath(customerSupportPattern);
+};
+export const settingsPattern = "/settings";
+export const getSettingsRoute = () => {
+    return generatePath(settingsPattern);
+};
+export const helpArticlesPattern = "/settings";
+export const getHelpArticlesRoute = () => {
+    return generatePath(helpArticlesPattern);
+};
+export const manageWarehousesPattern = "/manage-warehouses";
+export const getManageWarehousesRoute = () => {
+    return generatePath(manageWarehousesPattern);
+};
+export const pickupAddressPattern = "/pickup-address";
+export const getPickupAddressRoute = () => {
+    return generatePath(pickupAddressPattern);
+};
+export const shippingRatesPattern = "/shipping-rates";
+export const shippingRatesRoute = () => {
+    return generatePath(shippingRatesPattern);
+};
+export const shopifyIntegrationPattern = "/shopify-integration";
+export const shopifyIntegrationRoutes = () => {
+    return generatePath(shopifyIntegrationPattern);
 };
