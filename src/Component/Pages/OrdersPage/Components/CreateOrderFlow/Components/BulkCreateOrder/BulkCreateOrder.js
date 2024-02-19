@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { LuUploadCloud } from "react-icons/lu";
 import axios from 'axios';
 import Swal from "sweetalert2";
+import Cookies from 'js-cookie';
 
 const BulkCreateOrder = () => {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -10,9 +11,10 @@ const BulkCreateOrder = () => {
         setSelectedFile(event.target.files[0]);
     };
 
+    const authToken=Cookies.get("access_token")
+
     const handleImport = async () => {
         if (selectedFile) {
-            const authToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo";
             const formData = new FormData();
             formData.append('order_file', selectedFile);
             formData.append('seller_id', '1');
