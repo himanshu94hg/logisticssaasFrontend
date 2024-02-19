@@ -147,3 +147,7 @@ export const ClickPostIntegrationPattern = "/clickpost-integration";
 export const ClickPostIntegrationRoutes = () => {
     return generatePath(ClickPostIntegrationPattern);
 };
+export const RateCalculatorPattern = "/rate-calculator";
+export const RateCalculatorRoutes = () => {
+    return generatePath(RateCalculatorPattern);
+};
