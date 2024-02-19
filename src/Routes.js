@@ -95,7 +95,7 @@ export const manageWarehousesPattern = "/manage-warehouses";
 export const getManageWarehousesRoute = () => {
     return generatePath(manageWarehousesPattern);
 };
-export const pickupAddressPattern = "/pickup-address";
+export const pickupAddressPattern = "/add-pickup-address";
 export const getPickupAddressRoute = () => {
     return generatePath(pickupAddressPattern);
 };

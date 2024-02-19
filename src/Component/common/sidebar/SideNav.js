@@ -144,6 +144,11 @@ const SideNav = () => {
     {
       to: "/Tools", label: "Tools", hasDropdown: true, dropdownLinks: [
         { to: "/shipping-rates", label: "Rate Card" },
+        { to: "/rate-calculator", label: "Rate Calculator" },
+        { to: "/serviceability", label: "Serviceability" },
+        { to: "/zone-mapping", label: "Zone Mapping" },
+        { to: "/report-scheduler", label: "Report Scheduler" },
+        { to: "/courier-allocation", label: "Courier Allocation" },
       ],
     },
     { to: "/MIS", label: "MIS" },
