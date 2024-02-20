@@ -1,17 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { LuUploadCloud } from "react-icons/lu";
 import axios from 'axios';
 import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
+import moment from 'moment';
 
 const BulkCreateOrder = () => {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [bulkOrders, setBulkOrders] = useState([]);
+    const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
 
     const handleFileUpload = (event) => {
         setSelectedFile(event.target.files[0]);
     };
 
-    const authToken=Cookies.get("access_token")
+    const authToken = Cookies.get("access_token")
 
     const handleImport = async () => {
         if (selectedFile) {
@@ -28,7 +31,8 @@ const BulkCreateOrder = () => {
                 });
                 if (response.status === 200) {
                     const responseData = response.data;
-                    console.log('API Response:', responseData);
+                    setBulkOrdersStatus(true)
+
                     Swal.fire({
                         icon: 'success',
                         title: 'Success',
@@ -57,6 +61,28 @@ const BulkCreateOrder = () => {
         }
     };
 
+    console.log(bulkOrdersStatus, "this is bulk order status data");
+
+    useEffect(() => {
+        if (bulkOrdersStatus) {
+            axios
+                .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                })
+                .then(response => {
+                    console.log('Data is data:', response.data);
+                    setBulkOrders(response.data.results);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }, [bulkOrdersStatus])
+
+
+
     const handleDownloadTemplate = () => {
         console.log('Template download functionality goes here');
     };
@@ -73,7 +99,7 @@ const BulkCreateOrder = () => {
             <section className='inputs-container mx-auto mb-3 bulk-import-input'>
                 <div className='mid-text-container'>
                     <input type="file" onChange={handleFileUpload} />
-                    <LuUploadCloud className='font30 mb-3'/>
+                    <LuUploadCloud className='font30 mb-3' />
                     <p>Drag And Drop to upload the files here.</p>
                     <h4 className='mx-4'>OR</h4>
                     <p className='mt-3'>Only csv, xls & xlsx file format will be accepted.</p>
@@ -84,13 +110,26 @@ const BulkCreateOrder = () => {
                 <h4>Recent Uploads</h4>
                 <table>
                     <thead>
-                    <tr>
-                        <th>File Name</th>
-                        <th>Date</th>
-                        <th>No. Of Orders</th>
-                        <th>Successful Orders</th>
-                        <th>Error Orders</th>
-                    </tr>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Date</th>
+                            <th>No. Of Orders</th>
+                            <th>Successful Orders</th>
+                            <th>Error Orders</th>
+                        </tr>
+                    </thead>
+                    <thead>
+                        {bulkOrders?.map((item) => {
+                            return (
+                                <tr>
+                                    <td>{item?.file_name}</td>
+                                    <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
+                                    <td>{item?.total_orders}</td>
+                                    <td>{item?.success_orders}</td>
+                                    <td>{item?.failed_orders}</td>
+                                </tr>
+                            )
+                        })}
                     </thead>
                     <tbody>
                     </tbody>
