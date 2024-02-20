@@ -677,3 +677,8 @@ input::placeholder {
 .status-progress span::after {
   background-color: #F6B954;
 }
+
+.white-block{
+  /* height: calc(100vh - 200px); */
+  height: 100%;
+}
