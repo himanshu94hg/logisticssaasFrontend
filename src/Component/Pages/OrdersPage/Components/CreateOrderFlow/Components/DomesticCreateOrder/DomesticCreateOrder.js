@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
+import moment from 'moment';
 
 const DomesticCreateOrder = () => {
     const navigation = useNavigate();
@@ -20,12 +21,12 @@ const DomesticCreateOrder = () => {
             invoice_amount: '',
             is_mps: true,
             warehouse_id: '',
-            seller_id: 3,
             order_tag: '',
             payment_type: '',
-            order_date: '2024-01-22',
+            order_date: '',
             order_type: "",
-            Channel: ''
+            channel:"",
+            channel_id:""
         },
         shipping_details: {
             recipient_name: "",
@@ -38,7 +39,7 @@ const DomesticCreateOrder = () => {
             mobile_number: "",
             email: "",
             company_name: "",
-            contact_code: "4134"
+            contact_code: ""
         },
         billing_details: {
             customer_name: "",
@@ -51,7 +52,7 @@ const DomesticCreateOrder = () => {
             mobile_number: "",
             email: "",
             company_name: "",
-            contact_code: "4134"
+            contact_code: ""
         },
         other_details: {
             number_of_packets: 10,
@@ -72,35 +73,34 @@ const DomesticCreateOrder = () => {
         },
         product_details: [
             {
-                product_name: "Iphone 15",
-                quantity: 2,
-                unit_price: 53.53,
-                product_category: "Automotive",
-                weight: 41.52,
-                sku: "product_sku",
-                hsn_code: "hsn code",
-                tax_rate: 42.12,
-                product_discount: 24.43,
-                hts_number: "q4324",
-                export_reference_number: "fadksjr"
-            }
-        ],
-        products: [
-            {
                 product_name: "",
-                order_type: "",
-                price: "",
-                product_qty: "1",
+                quantity: 1,
+                unit_price: 0,
+                product_category: "",
+                weight: 0,
                 sku: "",
-                hsn_code: "",
-                tax_rate: "",
-                discount: ""
+                hsn_code: "hsn code",
+                tax_rate: 0,
+                product_discount: 0,
+                hts_number: "",
+                export_reference_number: ""
             }
         ],
+        // products: [
+        //     {
+        //         product_name: "",
+        //         order_type: "",
+        //         price: "",
+        //         product_qty: "",
+        //         sku: "",
+        //         hsn_code: "",
+        //         tax_rate: "",
+        //         discount: ""
+        //     }
+        // ],
     })
 
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
-    console.log("&&&&&&&&&&&&", formData)
 
     const [activeTab, setActiveTab] = useState("All Orders");
 
@@ -116,7 +116,6 @@ const DomesticCreateOrder = () => {
 
     const handleNext = () => {
         setStep(step + 1);
-        console.log("################ step 1", formData.step1)
     };
 
     const handlePrev = () => {
@@ -133,14 +132,12 @@ const DomesticCreateOrder = () => {
                     'Authorization': `Bearer ${authToken}`
                 }
             });
-            console.log(response);
 
             // Check if response is not null
             if (response !== null) {
                 if (response.status === 201) {
                     const responseData = response.data;
                     // Handle success response
-                    console.log('API Response:', responseData);
                     Swal.fire({
                         icon: 'success',
                         title: 'Order Created!',
@@ -155,7 +152,6 @@ const DomesticCreateOrder = () => {
                 } else {
                     // Handle error responses
                     const errorData = response.data;
-                    console.error('API Error:', errorData);
                     Swal.fire({
                         icon: 'error',
                         title: 'Error Creating Order',
@@ -167,7 +163,6 @@ const DomesticCreateOrder = () => {
                 }
             } else {
                 // Handle case where response is null
-                console.error('No response received');
                 Swal.fire({
                     icon: 'error',
                     title: 'Error Creating Order',
@@ -179,7 +174,6 @@ const DomesticCreateOrder = () => {
             }
         } catch (error) {
             // Handle fetch error
-            console.error('Fetch Error:', error.message);
             Swal.fire({
                 icon: 'error',
                 title: 'Error Creating Order',
@@ -328,8 +322,13 @@ const Step1 = ({ onNext, formData, setFormData }) => {
         setFormData({ ...formData, [field]: charValue });
     };
 
-    const handleDateChange = (date) => {
-        setFormData({ ...formData, order_date: date });
+    const handleDateChange = (date, field) => {
+        setFormData({
+            ...formData, order_details: {
+                ...formData.order_details,
+                [field]: moment(date).format("YYYY-MM-DD")
+            }
+        });
     };
 
     const startOfMonth = new Date();
@@ -378,7 +377,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                 <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                 <DatePicker
                                     selected={formData.order_date || defaultDate}
-                                    onChange={(date) => handleDateChange(date)}
+                                    onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="MM/dd/yyyy"
                                     minDate={startOfMonth}  // Set the minimum date to the start of the current month
                                     maxDate={new Date()}  // Set the maximum date to today
@@ -537,7 +536,6 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     };
 
 
-    console.log(formData,"this is form data section")
 
 
     const handleChangeBilling = (e, field) => {
@@ -850,9 +848,9 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
 
     const handleChange = (e, field, index) => {
-        const updatedProducts = [...formData.products];
+        const updatedProducts = [...formData.product_details];
         updatedProducts[index][field] = e.target.value;
-        setFormData({ ...formData, products: updatedProducts });
+        setFormData({ ...formData, product_details: updatedProducts });
     };
 
     const handleAddProduct = () => {
@@ -860,21 +858,20 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
         setFormData({
             ...formData,
-            products: [
-                ...(formData.products || []),
+            product_details: [
+                ...(formData.product_details || []),
                 { product_name: '', order_type: 'Forward', price: '', product_qty: '1', sku: '', hsn_code: '', tax_rate: '', discount: '' },
             ],
         });
         setAddFieldsStates([...addFieldsStates, false]);
     };
 
-    console.log(formData, "formData");
 
     const handleRemoveProduct = (index) => {
-        if (formData.products && formData.products.length > 1) {
+        if (formData.product_details && formData.product_details.length > 1) {
             const updatedProducts = [...formData.products];
             updatedProducts.splice(index, 1);
-            setFormData({ ...formData, products: updatedProducts });
+            setFormData({ ...formData, product_details: updatedProducts });
             const updatedAddFieldsStates = [...addFieldsStates];
             updatedAddFieldsStates.splice(index, 1);
             setAddFieldsStates(updatedAddFieldsStates);
@@ -889,24 +886,24 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
 
     // Ensure at least one product is initially present
     useEffect(() => {
-        if (!formData.products || formData.products.length === 0) {
+        if (!formData.product_details || formData.product_details.length === 0) {
             handleAddProduct();
         } else {
             // Initialize addFieldsStates if it's not defined
             setAddFieldsStates((prevAddFieldsStates) =>
-                prevAddFieldsStates.length === formData.products.length ? prevAddFieldsStates : Array(formData.products.length).fill(false)
+                prevAddFieldsStates.length === formData.product_details.length ? prevAddFieldsStates : Array(formData.product_details.length).fill(false)
             );
         }
-    }, [formData.products]);
+    }, [formData.product_details]);
 
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-4'>Product Details</h3>
-                    {formData.products?.map((product, index) => (
+                    {formData.product_details?.map((product, index) => (
                         <div key={index}>
-                            {formData.products.length === 1 ? '' : ''}
+                            {formData.product_details.length === 1 ? '' : ''}
                             <div className='row'>
                                 <label className='col'>
                                     Product Name
@@ -1031,7 +1028,7 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
                                     />
                                 </label>
                             </div>
-                            {formData.products.length === 1 ? (<hr />) :
+                            {formData.product_details.length === 1 ? (<hr />) :
                                 (<>
                                     <div className='d-flex justify-content-end mt-3'>
                                         <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
@@ -1292,7 +1289,6 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                 setWarehouses(response.data);
                 setLoading(false);
             } catch (error) {
-                console.error('Error fetching warehouses:', error);
                 setLoading(false);
                 Swal.fire({
                     icon: 'error',
