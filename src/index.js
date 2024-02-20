@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import store from './redux/store';
 import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -7,14 +7,12 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 
-ReactDOM.render(
+createRoot(document.getElementById('root')).render(
   <>
     <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </Provider>
-  </>,
-  document.getElementById('root')
+  </>
 );
-
