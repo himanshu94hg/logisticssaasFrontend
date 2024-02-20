@@ -129,7 +129,7 @@ const AllOrders = ({ orders }) => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '24%' }}>Order sDetails</th>
+                                <th style={{ width: '24%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
@@ -157,31 +157,22 @@ const AllOrders = ({ orders }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span>
-                                                    {row?.customer_order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row?.product_name}<br />{row?.product_sku}<br /> Qt. {row?.product_qty}</span> */}
-                                                    {/* </span> */}
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} />
+                                                    {row.channel ? (
+                                                        <span className='ms-2 text-capitalize'>{row.channel}</span>
+                                                    ) : ''}
+                                                    <span className='ms-2'>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
-                                                    {/* {formatDate(row?.inserted)} */}
-                                                    {/*<DateFormatter dateTimeString={row?.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                    <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                 </p>
-                                                {/* <p>{row?.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row?.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.customer_order_number}</p>
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -190,16 +181,14 @@ const AllOrders = ({ orders }) => {
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row?.s_city}</p>
-                                                <p>{row?.s_pincode}</p>
-                                                <p>{row?.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <br />
+                                                    <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -228,16 +217,19 @@ const AllOrders = ({ orders }) => {
                                                 <p>{row?.pickup_details?.p_warehouse_name}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
-                                                        </span>
+                                                        {!row?.pickup_details?.p_warehouse_name && (
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.pickup_details?.p_address_line1},
+                                                                {row?.pickup_details?.p_address_line2},
+                                                                {row?.pickup_details?.p_city},
+                                                                {row?.pickup_details?.p_state},
+                                                                {row?.pickup_details?.p_pincode}
+                                                            </span>
+                                                        )}
+
                                                     </span>
                                                 </p>
-                                              
+
                                             </div>
                                         </td>
                                         {/* shiping section here */}
@@ -295,7 +287,7 @@ const AllOrders = ({ orders }) => {
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 
