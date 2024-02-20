@@ -26,7 +26,7 @@ const DomesticCreateOrder = () => {
             order_date: '',
             order_type: "",
             channel:"",
-            channel_id:""
+            channel_id:null
         },
         shipping_details: {
             recipient_name: "",
