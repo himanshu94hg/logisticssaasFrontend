@@ -50,7 +50,7 @@ const AllOrders = ({ orders }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(orders.map(row => row?.id));
         } else {
             setSelectedRows([]);
         }
@@ -143,15 +143,14 @@ const AllOrders = ({ orders }) => {
                         </thead>
                         <tbody>
                             {orders?.map((row, index) => (
-                                <React.Fragment key={row.id}>
-                                    {console.log(row, "this is orders page")}
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
@@ -178,7 +177,7 @@ const AllOrders = ({ orders }) => {
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.shipping_detail.address}, {row.shipping_detail.landmark}, {row.shipping_detail.city},{row.shipping_detail.state}, {row.shipping_detail.pincode}
+                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -193,7 +192,7 @@ const AllOrders = ({ orders }) => {
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row.order_products.map((product, index) => (
+                                                            {row?.order_products.map((product, index) => (
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
@@ -208,8 +207,8 @@ const AllOrders = ({ orders }) => {
                                         <td>
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
+                                                <p>&#x20B9; {row?.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
                                         {/* pickup adress */}
@@ -236,18 +235,18 @@ const AllOrders = ({ orders }) => {
                                         {/* shiping section here */}
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {/* <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p> */}
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""} </p>
-                                                <p className=''>{row.courier_partner ?? ""} </p>
+                                                {/* <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p> */}
+                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                                <p className=''>{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.order_courier_status || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.order_courier_status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
+                                            {/* {row?.ndr_action}
+                                             {row?.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button'>Ship Now</button>
                                                 <div className='action-options'>

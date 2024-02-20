@@ -48,7 +48,7 @@ const ReadyToShip = ({orders}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(orders.map(row => row?.id));
         } else {
             setSelectedRows([]);
         }
@@ -141,14 +141,14 @@ const ReadyToShip = ({orders}) => {
                         </thead>
                         <tbody>
                             {orders?.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
@@ -156,7 +156,7 @@ const ReadyToShip = ({orders}) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.customer_order_number}
+                                                    {row?.customer_order_number}
 
                                                     {/* <span className="product-details ms-2"> */}
                                                     {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
@@ -168,7 +168,7 @@ const ReadyToShip = ({orders}) => {
                                                 <p className='ws-no-wrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -178,12 +178,12 @@ const ReadyToShip = ({orders}) => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.customer_order_number}</p>
-                                                <p>{row.shipping_detail.mobile_number}
+                                                <p>{row?.customer_order_number}</p>
+                                                <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.shipping_detail.city}, {row.shipping_detail.state}, {row.shipping_detail.pincode}
+                                                            {row?.shipping_detail?.city}, {row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -195,12 +195,12 @@ const ReadyToShip = ({orders}) => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
+                                                <p className='width-eclipse'>{row?.order_products?.product_name}</p>
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row.order_products.map((product, index) => (
+                                                            {row?.order_products.map((product, index) => (
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
@@ -251,7 +251,7 @@ const ReadyToShip = ({orders}) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row.order_courier_status}</p>
+                                            <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row?.order_courier_status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
