@@ -49,7 +49,7 @@ const Processing = ({ orders }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(orders.map(row => row?.id));
         } else {
             setSelectedRows([]);
         }
@@ -141,25 +141,25 @@ const Processing = ({ orders }) => {
                         </thead>
                         <tbody>
                             {Array.isArray(orders) && orders?.map((row, index) => (
-                                <React.Fragment key={row.id}>
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row.customer_order_number}
+                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span>
+                                                    {row?.customer_order_number}
                                                 </p>
                                                 <p className='ws-no-wrap d-flex align-items-center'>
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
@@ -167,12 +167,12 @@ const Processing = ({ orders }) => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.shipping_detail.recipient_name}</p>
-                                                <p>{row.shipping_detail.mobile_number}
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.shipping_detail.address}, {row.shipping_detail.landmark}, {row.shipping_detail.city},{row.shipping_detail.state}, {row.shipping_detail.pincode}
+                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -181,12 +181,12 @@ const Processing = ({ orders }) => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                <p>Wt:  {row.dimension_detail.weight} kg <span className='text-blue'>||</span> LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}
+                                                <p className='width-eclipse'>{row?.order_products.product_name}</p>
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row.order_products.map((product, index) => (
+                                                            {row?.order_products?.map((product, index) => (
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
@@ -201,8 +201,8 @@ const Processing = ({ orders }) => {
                                         <td>
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
-                                                <p className='order-Status-box mt-1'>{row.payment_type}</p>
+                                                <p>&#x20B9; {row?.invoice_amount}</p>
+                                                <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -229,19 +229,19 @@ const Processing = ({ orders }) => {
                                         {/* shiping section here */}
                                         {/* <td>
                                             <div className='cell-inside-box'>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
                                                 <p className='details-on-hover anchor-awb'>
-                                                    {row.awb_number ?? ""}
+                                                    {row?.awb_number ?? ""}
                                                 </p>
                                             </div>
                                         </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.order_courier_status || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.order_courier_status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button onClick={() => handleShipNow(row.id)} className='btn main-button'>Ship Now</button>
+                                                <button onClick={() => handleShipNow(row?.id)} className='btn main-button'>Ship Now</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
