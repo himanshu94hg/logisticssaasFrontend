@@ -1,39 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import './CustomerSupportPage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import AllTickets from './Components/AllTickets';
 import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import NavTabs from './Components/navTabs/NavTabs';
 import CreateTicketForm from './Components/CreateTicketForm';
 import FilterTicketsForm from './Components/FilterTicketsForm';
 import InProgressTickets from './Components/InProgressTickets';
-import OpenTickets from './Components/OpenTickets';
-import ClosedTickets from './Components/ClosedTickets';
 import ViewTicketSlider from './Components/ViewTicketSlider';
-import NavTabs from './Components/navTabs/NavTabs';
-import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
 
 const CustomerSupportPage = () => {
-  const [ViewTicketInfo, setViewTicketInfo] = useState(false);
-  const [NewTicket, setNewTicket] = useState(false);
-  const [FilterTickets, setFilterTickets] = useState(false);
-  const [ActiveTab, setActiveTab] = useState('AllTickets');
+  let navigate = useNavigate();
+  const [viewId, setId] = useState('');
   const [allTicket, setAllTicket] = useState([]);
+  const [isFilter, setIsFilter] = useState(false);
+  const [NewTicket, setNewTicket] = useState(false);
+  const [endDate, setEndDate] = useState(new Date());
+  const [FilterTickets, setFilterTickets] = useState(false);
+  const [activeTab, setActiveTab] = useState('allTickets');
   const [categories, setSelectedCategories] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState('');
+  const [ViewTicketInfo, setViewTicketInfo] = useState(false);
   const [resolutionDate, setResolutionDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [isFilter, setIsFilter] = useState(false);
-  const [viewId, setId] = useState('');
 
-  let navigate = useNavigate();
+
+
+  const authToken=Cookies.get("access_token")
+
+  const apiUrl=`http://65.2.38.87:8088/core-api/features/support-tickets/`
+
+  console.log(allTicket,"alltickets");
+
+
+  useEffect(() => {
+    axios
+        .get(`${activeTab=="allTickets"?apiUrl:activeTab=="openTickets"?`${apiUrl}?Open`:activeTab=="inProgressTickets"?`${apiUrl}?In-progess`:activeTab=="closedTickets"?`${apiUrl}?Closed`:""}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+        .then(response => {
+          setAllTicket(response.data)
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+}, [activeTab]);
+
+
+
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
         let params = {};
-
         if (isFilter) {
           params = {
             sub_category: categories.map(category => category.value).join(','),
@@ -49,17 +71,6 @@ const CustomerSupportPage = () => {
           //   last_updated: '2024-02-01',
           // };
         }
-
-        const response = await axios.get(
-          'http://65.2.38.87:8088/core-api/features/support-tickets/',
-          {
-            params: params,
-            headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
-            },
-          }
-        );
-        setAllTicket(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -76,10 +87,12 @@ const CustomerSupportPage = () => {
     setIsFilter(isFilter);
   };
 
-  console.log("filterd data is", categories, selectedStatus, resolutionDate, endDate, isFilter)
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
   };
+
+
+  console.log(activeTab,"activeTabactiveTabactiveTab")
 
   return (
     <>
@@ -94,7 +107,7 @@ const CustomerSupportPage = () => {
         <h4>Support</h4>
         <p className='text-blue fw-700'>Seek assistance by either generating a support ticket or perusing through informative help articles.</p>
         <NavTabs
-          activeTab={ActiveTab}
+          activeTab={activeTab}
           setActiveTab={setActiveTab}
           FilterTickets={FilterTickets}
           setFilterTickets={setFilterTickets}
@@ -102,10 +115,10 @@ const CustomerSupportPage = () => {
           NewTicket={NewTicket}
         />
         <div className='row mt-3'>
-          {ActiveTab === 'AllTickets' ? <AllTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} allTicket={allTicket} setAllTicket={setAllTicket} handleViewButtonClick={handleViewButtonClick} /> : ''}
-          {ActiveTab === 'OpenTickets' ? <OpenTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
-          {ActiveTab === 'InProgressTickets' ? <InProgressTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
-          {ActiveTab === 'ClosedTickets' ? <ClosedTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
+          { <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> }
+          {/* {activeTab === 'openTickets' ? <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
+          {activeTab === 'inProgressTickets' ? <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
+          {activeTab === 'closedTickets' ? <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''} */}
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>

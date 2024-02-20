@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
+import moment from 'moment';
 
 const dummyData = [
     {
@@ -67,26 +68,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const InProgressTickets = (props) => {
+const InProgressTickets = ({ ViewTicketInfo, setViewTicketInfo,allTicket }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    // const [orders, setAllOrders] = useState([]);  //for API
     const [orders, setAllOrders] = useState(dummyData); //for dummy data
-
-    // useEffect(() => {
-    //     axios
-    //         .get('http://65.2.38.87:8088/order/v1/allorderdetail/') // Replace with your API endpoint
-    //         .then(response => {
-    //             console.log('Data is data:', response.data);
-    //             setAllOrders(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //         });
-    // }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -142,51 +128,51 @@ const InProgressTickets = (props) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((ticket, index) => (
-                                <React.Fragment key={ticket.id}>
+                            {allTicket?.map((item, index) => (
+                                <React.Fragment key={item?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(ticket.id)}
-                                                onChange={() => handleSelectRow(ticket.id)}
+                                                checked={selectedRows.includes(item?.id)}
+                                                onChange={() => handleSelectRow(item?.id)}
                                             />
                                         </td>
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                {ticket.id}
+                                                {item?.id}
                                             </div>
                                         </td>
                                         <td>
                                             {/* AWB */}
                                             <div className='cell-inside-box'>
-                                                {ticket.awb}
+                                                {item?.awb_number}
                                             </div>
                                         </td>
                                         <td>
                                             {/* subcategory */}
                                             <div className='cell-inside-box'>
-                                                {ticket.subcategory}
+                                                {item?.sub_category}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Status */}
                                             <div className='cell-inside-box'>
-                                                {ticket.status}
+                                                {item?.status}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {ticket.resolutionDueBy}
+                                                {item?.resolution_due_by}
                                             </div>
                                         </td>
                                         <td>
                                             {/* last Updated */}
                                             <div className='cell-inside-box'>
-                                                {ticket.lastUpdated}
+                                                {moment(item?.updated_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
 
@@ -195,7 +181,7 @@ const InProgressTickets = (props) => {
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button
-                                                    onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
+                                                    onClick={() => setViewTicketInfo(!ViewTicketInfo)}
                                                     className='btn main-button'>
                                                     <FontAwesomeIcon icon={faEye} /> View
                                                 </button>

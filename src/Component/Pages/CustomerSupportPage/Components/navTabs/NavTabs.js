@@ -33,9 +33,9 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "AllTickets" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "allTickets" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("AllTickets");
+                props.setActiveTab("allTickets");
               }}
             >
               <div className="navItemsContainer">
@@ -43,9 +43,9 @@ export default function NavTabs(props) {
                 AllTickets
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "OpenTickets" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "openTickets" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("OpenTickets");
+                props.setActiveTab("openTickets");
               }}
             >
               {" "}
@@ -54,9 +54,9 @@ export default function NavTabs(props) {
                 OpenTickets
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "InProgressTickets" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "inProgressTickets" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("InProgressTickets");
+                props.setActiveTab("inProgressTickets");
               }}
             >
               {" "}
@@ -65,9 +65,9 @@ export default function NavTabs(props) {
                 InProgressTickets
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "ClosedTickets" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "closedTickets" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("ClosedTickets");
+                props.setActiveTab("closedTickets");
               }}
             >
               {" "}
@@ -80,25 +80,25 @@ export default function NavTabs(props) {
         </Nav>
       </Navbar.Collapse>
       <div className="support-right-section">
-            <div className="search-container">
-              <button>
-                <img src={SearchIcon} alt="Search" />
-              </button>
-              <input required="" type="text" name="text" className="input-field" />
-              <label className="label">Search by Ticket ID || AWB || Pickup ID</label>
-            </div>
-            <button
-              onClick={() => props.setFilterTickets(!props.FilterTickets)}
-              className="btn main-button-outline">
-              <RiFilterLine /> More Filters
-            </button>
+        <div className="search-container">
+          <button>
+            <img src={SearchIcon} alt="Search" />
+          </button>
+          <input required="" type="text" name="text" className="input-field" />
+          <label className="label">Search by Ticket ID || AWB || Pickup ID</label>
+        </div>
+        <button
+          onClick={() => props.setFilterTickets(!props.FilterTickets)}
+          className="btn main-button-outline">
+          <RiFilterLine /> More Filters
+        </button>
 
-            <button
-              onClick={() => props.setNewTicket(!props.NewTicket)}
-              className="btn main-button">
-              <FontAwesomeIcon icon={faPlus} /> New Ticket
-            </button>
-          </div>
+        <button
+          onClick={() => props.setNewTicket(!props.NewTicket)}
+          className="btn main-button">
+          <FontAwesomeIcon icon={faPlus} /> New Ticket
+        </button>
+      </div>
     </Navbar>
   );
 }
