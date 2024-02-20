@@ -172,8 +172,8 @@ const AllOrders = ({ orders }) => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.shipping_detail.recipient_name}</p>
-                                                <p>{row.shipping_detail.mobile_number ?? null}
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p>{row?.shipping_detail?.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
@@ -188,7 +188,7 @@ const AllOrders = ({ orders }) => {
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row.order_products.product_name}</p>
                                                 <p>Wt:  {row?.dimension_detail?.weight} kg <br />
-                                                    <span>LBH: {row.dimension_detail.length}x{row.dimension_detail.breadth}x{row.dimension_detail.height}</span>
+                                                    <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -287,7 +287,7 @@ const AllOrders = ({ orders }) => {
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 
