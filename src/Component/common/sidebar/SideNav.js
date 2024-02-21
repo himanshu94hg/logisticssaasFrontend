@@ -121,7 +121,8 @@ const SideNav = (props) => {
   };
 
   const handleMappingShow = () => {
-    props.setZoneMapping(!props.ZoneMapping)
+    props.setZoneMapping(!props.ZoneMapping);
+    setExpanded(false);
   }
 
   const menuItems = [

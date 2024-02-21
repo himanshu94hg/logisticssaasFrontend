@@ -6,7 +6,6 @@ import { faCircleQuestion, faQuestion } from '@fortawesome/free-solid-svg-icons'
 import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
 
-
 const marks = [
   { value: 0, label: '0' },
   { value: 0.5, label: '0.5' },
@@ -15,6 +14,19 @@ const marks = [
   { value: 2, label: '2' },
   { value: 2.5, label: '2.5' },
   { value: 3, label: '3' },
+  // { value: 3.5, label: '3.5' },
+  { value: 4, label: '4' },
+  // { value: 4.5, label: '4.5' },
+  { value: 5, label: '5' },
+  // { value: 5.5, label: '5.5' },
+  { value: 6, label: '6' },
+  // { value: 6.5, label: '6.5' },
+  { value: 7, label: '7' },
+  // { value: 7.5, label: '7.5' },
+  { value: 8, label: '8' },
+  // { value: 8.5, label: '8.5' },
+  { value: 9, label: '9' },
+  // { value: 9.5, label: '9.5' },
   { value: 10, label: '10' },
 ];
 
@@ -49,6 +61,8 @@ const marks = [
 //   { value: 100, label: '100' },
 // ];
 
+
+
 function valuetext(value) {
   return value;
 }
@@ -61,6 +75,8 @@ const RateCalculator = () => {
   const handleWeightChange = (event, newValue) => {
     setWeight(newValue);
   };
+
+
 
   return (
     <>
@@ -130,6 +146,11 @@ const RateCalculator = () => {
               </Box>
 
             </div>
+
+
+
+
+
             <div className='mt-4'>
               <p className='fw-bold lh-base'>Volumetric Weight <span className='info-container'><span className='question-icon'><FontAwesomeIcon icon={faQuestion} /></span>
                 <span className='info-hover-show'>It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000 or 4000.</span></span>
