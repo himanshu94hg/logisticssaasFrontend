@@ -53,7 +53,7 @@ function CourierDelaysInfo() {
                       <div className="CardIconContainer icon-bg">
                         <img src={iconOrders} alt="iconOrders" width={24} />
                       </div>
-                      <p className="font14 text-gray m-0 ws-no-wrap">Misrouted Shipments</p>
+                      <p className="font14 text-gray m-0 ws-nowrap">Misrouted Shipments</p>
                       <h3 className="font20 title-text p-y bold-600 m0">{misroutedDeley.miss_routed_deley}</h3>
                     </div>
                     <div className="col-2">
@@ -80,7 +80,7 @@ function CourierDelaysInfo() {
                       <div className="CardIconContainer icon-bg">
                         <img src={iconDelivery} alt="iconDelivery" width={24}/>
                       </div>
-                      <p className="font14 text-gray m-0 ws-no-wrap">Lost Shipments</p>
+                      <p className="font14 text-gray m-0 ws-nowrap">Lost Shipments</p>
                       <h3 className="font20 title-text p-y bold-600 m0">{lostdeley.lost_delay}</h3>
                     </div>
                     <div className="col-2">
@@ -107,7 +107,7 @@ function CourierDelaysInfo() {
                       <div className="CardIconContainer icon-bg">
                         <img src={iconDelivery} alt="iconDelivery" width={24}/>
                       </div>
-                      <p className="font14 text-gray m-0 ws-no-wrap">Damaged Shipments</p>
+                      <p className="font14 text-gray m-0 ws-nowrap">Damaged Shipments</p>
                       <h3 className="font20 title-text p-y bold-600 m0">{damageDeley.damage_delay}</h3>
                     </div>
                     <div className="col-2">
@@ -134,7 +134,7 @@ function CourierDelaysInfo() {
                       <div className="CardIconContainer icon-bg">
                         <img src={iconRTO} alt="iconRTO" width={24}/>
                       </div>
-                      <p className="font14 text-gray m-0 ws-no-wrap">Destroyed Shipments</p>
+                      <p className="font14 text-gray m-0 ws-nowrap">Destroyed Shipments</p>
                       <h3 className="font20 title-text p-y bold-600 m0">{destroyedDeley.destroyed_delay}</h3>
                     </div>
                     <div className="col-2">

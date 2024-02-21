@@ -163,7 +163,7 @@ const AllOrders = ({ orders }) => {
                                                     ) : ''}
                                                     <span className='ms-2'>{row.customer_order_number}</span>
                                                 </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                 </p>

@@ -165,7 +165,7 @@ const ReadyToShip = ({orders}) => {
                                                     {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
                                                     {/* </span> */}
                                                 </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />

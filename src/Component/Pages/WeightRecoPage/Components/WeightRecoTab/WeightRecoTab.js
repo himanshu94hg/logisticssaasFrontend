@@ -169,7 +169,7 @@ const WeightRecoTab = () => {
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
                                                     {row?.order_details?.order_number}
                                                 </p>
-                                                <p className='ws-no-wrap d-flex align-items-center'>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <DateFormatter dateTimeString={row?.reconciliation_details?.created} />
                                                     {/* <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
                                                 </p>

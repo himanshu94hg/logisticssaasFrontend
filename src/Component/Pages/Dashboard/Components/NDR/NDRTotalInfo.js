@@ -56,7 +56,7 @@ function NDRTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={NDRicon} alt="iconOrders" width={24} />
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Total NDR</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -82,7 +82,7 @@ function NDRTotalInfo() {
                   <img src={iconDelivery} alt="iconDelivery" width={24}/>
 
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Action Required</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{actionReq?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -107,7 +107,7 @@ function NDRTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={iconDelivery} alt="iconDelivery" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Action Requested</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -132,7 +132,7 @@ function NDRTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={NDRdelivered} alt="iconRTO" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">NDR Delivered</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count}</h3>
                 </div>
                   <div className="col-2">

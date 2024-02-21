@@ -56,7 +56,7 @@ function WhatsAppTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={NDRicon} alt="iconOrders" width={24} />
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Total Orders</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Total Orders</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -82,7 +82,7 @@ function WhatsAppTotalInfo() {
                   <img src={iconDelivery} alt="iconDelivery" width={24}/>
 
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Total Message Sent</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Total Message Sent</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{actionReq?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -107,7 +107,7 @@ function WhatsAppTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={iconDelivery} alt="iconDelivery" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Message read rate</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Message read rate</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count}</h3>
                 </div>
                   <div className="col-2">
@@ -132,7 +132,7 @@ function WhatsAppTotalInfo() {
                   <div className="CardIconContainer icon-bg">
                     <img src={NDRdelivered} alt="iconRTO" width={24}/>
                   </div>
-                  <p className="font14 text-gray m-0 ws-no-wrap">Queries resolved</p>
+                  <p className="font14 text-gray m-0 ws-nowrap">Queries resolved</p>
                   <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count}</h3>
                 </div>
                   <div className="col-2">
