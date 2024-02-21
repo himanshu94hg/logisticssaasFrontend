@@ -35,11 +35,10 @@ const CreateTicketForm = (props) => {
   const [allSubCatagry, setAllSubCatagry] = useState([]);
 
 
-
   const authToken=Cookies.get("access_token")
   
   const categoryOptions = allCatagery.map(category => ({
-    value: category.id,  
+    value: category.id,   
     label: category.name,  
   }));
 
@@ -48,58 +47,51 @@ const CreateTicketForm = (props) => {
     label: subcategory.name,  
   }));
 
-  // const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
   
-  // useEffect(() => {
-  //   axios
-  //     .get('http://65.2.38.87:8088/core-api/features/ticket-category/', {
-  //       headers: {
-  //         Authorization: `Bearer ${hardcodedToken}`,
-  //       },
-  //     })
-  //     .then(response => {
-  //       console.log('Data is data:', response.data);
-  //       setAllCatagery(response.data); 
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get('http://65.2.38.87:8088/core-api/features/ticket-category/', {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+      .then(response => {
+        setAllCatagery(response.data); 
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
 
-  // useEffect(() => {
-  //   if (category) {
-  //     axios
-  //       .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`,{
-  //         headers: {
-  //           Authorization: `Bearer ${hardcodedToken}`,
-  //         },
-  //       })
-  //       .then(response => {
-  //         console.log('Subcategories:', response.data);
-  //         setAllSubCatagry(response.data);
-  //       })
-  //       .catch(error => {
-  //         console.error('Error fetching subcategories:', error);
-  //       });
-  //   } else {
-  //     // If no category is selected, clear the subcategory options
-  //     setAllSubCatagry([]);
-  //   }
-  // }, [category]);
+  useEffect(() => {
+    if (category) {
+      axios
+        .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`,{
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        })
+        .then(response => {
+          console.log('Subcategories:', response.data);
+          setAllSubCatagry(response.data);
+        })
+        .catch(error => {
+          console.error('Error fetching subcategories:', error);
+        });
+    } else {
+      setAllSubCatagry([]);
+    }
+  }, [category]);
 
-
-  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append('awb_number', awbNumbers);
     formData.append('category', category);
     formData.append('sub_category', subcategory);
     formData.append('description', remarks);
     formData.append('escalate_image', attachments);
-
     try {
       const response = await axios.post('http://65.2.38.87:8088/core-api/features/support-tickets/', formData, {
         headers: {
@@ -116,8 +108,6 @@ const CreateTicketForm = (props) => {
     } catch (error) {
       console.error('API call error:', error);
     }
-
-    // Clear form fields after submission
     setAwbNumbers('');
     setCategory('');
     setSubcategory('');

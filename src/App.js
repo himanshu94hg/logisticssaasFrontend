@@ -1,55 +1,57 @@
+import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import "./App.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
-import React, { useEffect, useState } from "react";
-import Sidebar from "./Component/common/sidebar/SideNav";
-import Header from "./Component/common/header/Header";
-import Dashboard from "./Component/Pages/Dashboard/Dashboard";
-import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
-import IndiaMapp from './Component/common/Graph/IndiaMapp';
-import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
-import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
-import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
-import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
-import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
-import APIIntegration from './Component/Pages/IntegrationsPage/Components/APIIntegration';
-import OtherIntegration from './Component/Pages/IntegrationsPage/Components/OtherIntegration';
-import CreateOrderFlow from './Component/Pages/OrdersPage/Components/CreateOrderFlow/CreateOrderFlow';
-import BillingPage from './Component/Pages/BillingPage/BillingPage'
-import WeightRecoPage from './Component/Pages/WeightRecoPage/WeightRecoPage';
-import MISPage from './Component/Pages/MISPage/MISPage';
-import CustomerPage from './Component/Pages/CustomerPage/CustomerPage';
-import CustomerSupportPage from './Component/Pages/CustomerSupportPage/CustomerSupportPage';
-import SettingsPage from './Component/Pages/SettingsPage/SettingsPage';
-import HelpArticles from './Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles';
-import LoginPage from './Component/Pages/LoginPage/LoginPage';
-import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
-import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
-import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
+import React, { useEffect, useState,lazy } from "react";
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
-import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
-import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
+import Sidebar from "./Component/common/sidebar/SideNav";
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import StoreHippoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/StoreHippoIntegrationForm";
-import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
-import AmazonDirectIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/AmazonDirectIntegrationForm";
-import OMSIntegration from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration"; import EasyShipIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyShipIntegrationForm";
-import EasyEcomIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyEcomIntegrationForm";
-import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/VineRetailIntegrationForm";
-import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
-import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
-import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
-import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
-import { useDispatch } from "react-redux";
-import ProtectedRoute from "./ProtectedRoute";
-import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator";
-import Serviceability from "./Component/Pages/ToolsPage/Components/Serviceability/Serviceability";
-import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMapping/ZoneMapping";
-import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler";
-import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation";
+import Loading from "./Component/loader";
+const Header = lazy(() => import("./Component/common/header/Header"));
+const Dashboard = lazy(() => import("./Component/Pages/Dashboard/Dashboard"));
+const DailyPrefrences = lazy(() => import('./Component/common/Graph/DailyPrefrence'));
+const IndiaMapp = lazy(() => import('./Component/common/Graph/IndiaMapp'));
+const OrdersPage = lazy(() => import('./Component/Pages/OrdersPage/OrdersPage'));
+const AllOrders = lazy(() => import('./Component/Pages/OrdersPage/Components/AllOrders/AllOrders'));
+const ShipmentsPage = lazy(() => import('./Component/Pages/ShipmentsPage/ShipmentsPage'));
+const ChannelsIntegration = lazy(() => import('./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration'));
+const CouriersIntegration = lazy(() => import('./Component/Pages/IntegrationsPage/Components/CouriersIntegration'));
+const APIIntegration = lazy(() => import('./Component/Pages/IntegrationsPage/Components/APIIntegration'));
+const OtherIntegration = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OtherIntegration'));
+const CreateOrderFlow = lazy(() => import('./Component/Pages/OrdersPage/Components/CreateOrderFlow/CreateOrderFlow'));
+const BillingPage = lazy(() => import('./Component/Pages/BillingPage/BillingPage'));
+const WeightRecoPage = lazy(() => import('./Component/Pages/WeightRecoPage/WeightRecoPage'));
+const MISPage = lazy(() => import('./Component/Pages/MISPage/MISPage'));
+const CustomerPage = lazy(() => import('./Component/Pages/CustomerPage/CustomerPage'));
+const CustomerSupportPage = lazy(() => import('./Component/Pages/CustomerSupportPage/CustomerSupportPage'));
+const SettingsPage = lazy(() => import('./Component/Pages/SettingsPage/SettingsPage'));
+const HelpArticles = lazy(() => import('./Component/Pages/CustomerSupportPage/Components/HelpArticles/HelpArticles'));
+const LoginPage = lazy(() => import('./Component/Pages/LoginPage/LoginPage'));
+const ManageWarehouse = lazy(() => import('./Component/Pages/ManageWarehouse/ManageWarehouse'));
+const AddWarehouse = lazy(() => import('./Component/Pages/ManageWarehouse/Components/AddWarehouse'));
+const ShippingRates = lazy(() => import('./Component/Pages/ToolsPage/Components/ShippingRates'));
+const WalletRechargeComponent = lazy(() => import('./Component/Pages/WalletRechargeComponent/WalletRechargeComponent'));
+const ShopifyIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm'));
+const WooCommerceIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm'));
+const StoreHippoIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/StoreHippoIntegrationForm'));
+const MagentoIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm'));
+const AmazonDirectIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/AmazonDirectIntegrationForm'));
+const OMSIntegration = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration'));
+const EasyShipIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyShipIntegrationForm'));
+const EasyEcomIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyEcomIntegrationForm'));
+const VineRetailIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/VineRetailIntegrationForm'));
+const UnicommerceIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm'));
+const OMSGuruIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm'));
+const ClickPostIntegrationForm = lazy(() => import('./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm'));
+const RateCalculator = lazy(() => import('./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator'));
+const Serviceability = lazy(() => import('./Component/Pages/ToolsPage/Components/Serviceability/Serviceability'));
+const ZoneMapping = lazy(() => import('./Component/Pages/ToolsPage/Components/ZoneMapping/ZoneMapping'));
+const ReportScheduler = lazy(() => import('./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler'));
+const CourierAllocation = lazy(() => import('./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation'));
+
 
 
 function App() {
@@ -84,6 +86,7 @@ function App() {
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
           {/* <button onClick={handleClick}>Clcikss</button> */}
+        
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
@@ -135,7 +138,6 @@ function App() {
             <Route path={ReportSchedulerPattern} element={<ReportScheduler />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocation />} />
           </Routes>
-          {/* </Router> */}
         </div>
       </div>
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />

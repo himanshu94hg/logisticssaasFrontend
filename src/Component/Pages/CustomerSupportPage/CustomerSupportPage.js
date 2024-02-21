@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
 import { useNavigate } from 'react-router-dom';
@@ -15,56 +16,79 @@ const CustomerSupportPage = () => {
   let navigate = useNavigate();
   const [viewId, setId] = useState('');
   const [allTicket, setAllTicket] = useState([]);
-  const [isFilter, setIsFilter] = useState(false);
+  const [ticketId, setTicketId] = useState(null);
   const [NewTicket, setNewTicket] = useState(false);
-  const [endDate, setEndDate] = useState(new Date());
   const [FilterTickets, setFilterTickets] = useState(false);
   const [activeTab, setActiveTab] = useState('allTickets');
-  const [categories, setSelectedCategories] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState('');
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
-  const [ticketId, setTicketId] = useState(null);
-  const [resolutionDate, setResolutionDate] = useState(new Date());
-
-  console.log(ticketId, "ticketIdticketIdticketId")
 
   const authToken = Cookies.get("access_token")
-
-  const apiUrl = `http://65.2.38.87:8088/core-api/features/support-tickets/`
-
-  console.log(allTicket, "alltickets");
-
+  const apiUrl = "http://65.2.38.87:8088/core-api/features/support-tickets/";
 
   useEffect(() => {
+    let url = apiUrl;
+
+    switch (activeTab) {
+      case "openTickets":
+        url += "?status=Open";
+        break;
+      case "inProgressTickets":
+        url += "?status=In-progress";
+        break;
+      case "closedTickets":
+        url += "?status=Closed";
+        break;
+      default:
+        break;
+    }
+    axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    })
+      .then((response) => {
+        setAllTicket(response.data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [activeTab]);
+
+
+  const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
+    const queryParams = new URLSearchParams();
+    if (categories == []) {
+      queryParams.append('sub_category', categories.value);
+    }
+    if (status != "") {
+      queryParams.append('status', status);
+    }
+    if (resDate != null || undefined) {
+      queryParams.append('resolution_due_by', moment(resDate).format("YYYY-MM-DD"));
+    }
+    if (endDt != null || undefined) {
+      queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
+    }
+    const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
-      .get(`${activeTab == "allTickets" ? apiUrl : activeTab == "openTickets" ? `${apiUrl}?status=Open` : activeTab == "inProgressTickets" ? `${apiUrl}?status=In-progess` : activeTab == "closedTickets" ? `${apiUrl}?status=Closed` : ""}`, {
+      .get(apiUrlWithParams, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
       })
       .then(response => {
         setAllTicket(response.data)
+        setFilterTickets(false)
       })
       .catch(error => {
         console.error('Error:', error);
       });
-  }, [activeTab]);
 
-
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
-    setSelectedCategories(categories);
-    setSelectedStatus(status);
-    setResolutionDate(resDate);
-    setEndDate(endDt);
-    setIsFilter(isFilter);
   };
 
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
   };
-
-
-  console.log(activeTab, "activeTabactiveTabactiveTab")
 
   return (
     <>
@@ -87,7 +111,7 @@ const CustomerSupportPage = () => {
           NewTicket={NewTicket}
         />
         <div className='row mt-3'>
-          {<InProgressTickets allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo}  handleViewButtonClick={handleViewButtonClick}/>}
+          <InProgressTickets allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
