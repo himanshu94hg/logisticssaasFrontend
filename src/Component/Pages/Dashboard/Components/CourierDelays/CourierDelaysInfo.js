@@ -13,31 +13,31 @@ function CourierDelaysInfo() {
   const [damageDeley, setDamageDeley] = useState(null);
   const [destroyedDeley, setDestroyedDeley] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [
-          misroutedDeleyResponse,
-          lostdeleyResponse,
-          damageDeleyResponse,
-          destroyedDeleyResponse,
-        ] = await Promise.all([
-          axios.get('http://65.2.38.87:8088/api/v1/misrouted-deley/'),
-          axios.get('http://65.2.38.87:8088/api/v1/lost-deley/'),
-          axios.get('http://65.2.38.87:8088/api/v1/damage-deley/'),
-          axios.get('http://65.2.38.87:8088/api/v1/destroyed-deley/'),
-        ]);
-        setMisroutedDeley(misroutedDeleyResponse.data);
-        setLostdeley(lostdeleyResponse.data);
-        setDamageDeley(damageDeleyResponse.data);
-        setDestroyedDeley(destroyedDeleyResponse.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const [
+  //         misroutedDeleyResponse,
+  //         lostdeleyResponse,
+  //         damageDeleyResponse,
+  //         destroyedDeleyResponse,
+  //       ] = await Promise.all([
+  //         axios.get('http://65.2.38.87:8088/api/v1/misrouted-deley/'),
+  //         axios.get('http://65.2.38.87:8088/api/v1/lost-deley/'),
+  //         axios.get('http://65.2.38.87:8088/api/v1/damage-deley/'),
+  //         axios.get('http://65.2.38.87:8088/api/v1/destroyed-deley/'),
+  //       ]);
+  //       setMisroutedDeley(misroutedDeleyResponse.data);
+  //       setLostdeley(lostdeleyResponse.data);
+  //       setDamageDeley(damageDeleyResponse.data);
+  //       setDestroyedDeley(destroyedDeleyResponse.data);
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <>

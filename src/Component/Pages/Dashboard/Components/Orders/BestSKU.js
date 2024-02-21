@@ -5,17 +5,17 @@ import BestSKU from './BestSKU';
 const ParentComponent = () => {
     const [bestSKUData, setBestSKUData] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/api/v1/top-product-sku/')
-            .then(response => {
-                console.log('Data:', response.data);
-                setBestSKUData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios
+    //         .get('http://65.2.38.87:8088/api/v1/top-product-sku/')
+    //         .then(response => {
+    //             console.log('Data:', response.data);
+    //             setBestSKUData(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //         });
+    // }, []);
 
     return (
         <>

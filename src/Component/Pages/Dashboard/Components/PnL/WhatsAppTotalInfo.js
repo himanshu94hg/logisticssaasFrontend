@@ -17,31 +17,31 @@ function WhatsAppTotalInfo() {
   const [actionReq, setActionreq] = useState(null);
   const [ndrdeleverd, setndrDeleverd] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [
-          totalNdrResponse,
-          actionRequestedResponse,
-          actionReqResponse,
-          ndrdeleverdResponse,
-        ] = await Promise.all([
-          axios.get('http://65.2.38.87:8088/api/v1/total-ndr/'),
-          axios.get('http://65.2.38.87:8088/api/v1/total-requested-ndr/'),
-          axios.get('http://65.2.38.87:8088/api/v1/total-required-ndr/'),
-          axios.get('http://65.2.38.87:8088/api/v1/total-deleverd-ndr/'),
-        ]);
-        setTotalNdr(totalNdrResponse.data);
-        setActionreq(actionReqResponse.data);
-        setActionRequested(actionRequestedResponse.data);
-        setndrDeleverd(ndrdeleverdResponse.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const [
+  //         totalNdrResponse,
+  //         actionRequestedResponse,
+  //         actionReqResponse,
+  //         ndrdeleverdResponse,
+  //       ] = await Promise.all([
+  //         axios.get('http://65.2.38.87:8088/api/v1/total-ndr/'),
+  //         axios.get('http://65.2.38.87:8088/api/v1/total-requested-ndr/'),
+  //         axios.get('http://65.2.38.87:8088/api/v1/total-required-ndr/'),
+  //         axios.get('http://65.2.38.87:8088/api/v1/total-deleverd-ndr/'),
+  //       ]);
+  //       setTotalNdr(totalNdrResponse.data);
+  //       setActionreq(actionReqResponse.data);
+  //       setActionRequested(actionRequestedResponse.data);
+  //       setndrDeleverd(ndrdeleverdResponse.data);
+  //     } catch (error) {
+  //       console.error('Error:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   return (
     <>

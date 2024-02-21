@@ -15,15 +15,16 @@ import './DailyPrefrence.css'
 function DailyPreferences() {
   const [prefData, setPrefData] = useState({});
   
-  useEffect(() => {
-    axios.get('http://65.2.38.87:8088/api/v1/daily-prefrences/')
-      .then(response => {
-        setPrefData(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []); // Empty dependency array ensures the effect runs once on component mount
+  // useEffect(() => {
+  //   axios.get('http://65.2.38.87:8088/api/v1/daily-prefrences/')
+  //     .then(response => {
+  //       setPrefData(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []); 
+  // Empty dependency array ensures the effect runs once on component mount
 
   // const chartData = Object.entries(prefData).map(([key, value]) => ({ name: key, delevery: value }));
   const chartData = Object.entries(prefData).map(([key, value]) => ({ name: key, LateDeliveries: value }));

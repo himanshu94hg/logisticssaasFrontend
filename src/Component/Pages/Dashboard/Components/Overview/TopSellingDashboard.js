@@ -6,19 +6,19 @@ function TopSellingDashboard() {
   const [popularProduct, setPopularProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/api/v1/topproduct/')
-      .then(response => {
-        console.log('Data:', response.data);
-        setPopularProduct(response.data);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setIsLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('http://65.2.38.87:8088/api/v1/topproduct/')
+  //     .then(response => {
+  //       console.log('Data:', response.data);
+  //       setPopularProduct(response.data);
+  //       setIsLoading(false);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //       setIsLoading(false);
+  //     });
+  // }, []);
 
   return (
     <div className="box-shadow shadow-sm p10 top-selling-page">

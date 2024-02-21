@@ -15,21 +15,24 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
 
   const authToken = Cookies.get("access_token")
 
+
+  console.log(viewId, ViewTicketInfo,"this is code data")
+
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const response = await axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`,
-    //       {
-    //         headers: {
-    //           Authorization: `Bearer ${authToken}`,
-    //         },
-    //       }
-    //     );
-    //     setAllTicket(response.data);
-    //   } catch (error) {
-    //     console.error('Error fetching data:', error);
-    //   }
-    // };
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+            },
+          }
+        );
+        setAllTicket(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
     const updateDateTime = () => {
       const today = new Date();
       const day = today.getDate();
@@ -49,7 +52,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
 
     // Update date and time every second
     updateDateTime();
-    // fetchData();
+    fetchData();
   }, [viewId]);
 
 
