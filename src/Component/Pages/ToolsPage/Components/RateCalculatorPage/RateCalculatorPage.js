@@ -67,7 +67,7 @@ function valuetext(value) {
   return value;
 }
 
-const RateCalculator = () => {
+const RateCalculatorPage = () => {
   const [weight, setWeight] = useState(1); // Initialize weight state with a default value of 1
 
   const [RateTable, setRateTable] = useState(false)
@@ -262,4 +262,4 @@ const RateCalculator = () => {
   );
 };
 
-export default RateCalculator;
+export default RateCalculatorPage;

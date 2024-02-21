@@ -45,12 +45,16 @@ import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Compone
 import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
-import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator";
-import Serviceability from "./Component/Pages/ToolsPage/Components/Serviceability/Serviceability";
+import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
+import Serviceability from "./Component/Pages/ToolsPage/Components/ServiceabilityPage/ServiceabilityPage";
 import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
-import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler";
-import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation";
+import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
+import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import ZoneMappingPop from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
+import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/ServiceabilityPage/ServiceabilityPage";
+import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
+import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
+import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
 
 
 function App() {
@@ -131,11 +135,11 @@ function App() {
             <Route path={UnicommerceIntegrationPattern} element={<UnicommerceIntegrationForm />} />
             <Route path={OMSGuruIntegrationPattern} element={<OMSGuruIntegrationForm />} />
             <Route path={ClickPostIntegrationPattern} element={<ClickPostIntegrationForm />} />
-            <Route path={RateCalculatorPattern} element={<RateCalculator />} />
-            <Route path={ServiceabilityPattern} element={<Serviceability />} />
+            <Route path={RateCalculatorPattern} element={<RateCalculatorPage />} />
+            <Route path={ServiceabilityPattern} element={<ServiceabilityPage />} />
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
-            <Route path={ReportSchedulerPattern} element={<ReportScheduler />} />
-            <Route path={CourierAllocationPattern} element={<CourierAllocation />} />
+            <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
+            <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
           </Routes>
           {/* </Router> */}
         </div>

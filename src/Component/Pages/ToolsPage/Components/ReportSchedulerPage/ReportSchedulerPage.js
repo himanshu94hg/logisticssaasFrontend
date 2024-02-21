@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ReportScheduler = () => {
+const ReportSchedulerPage = () => {
   return (
     <div>ReportScheduler</div>
   )
 }
 
-export default ReportScheduler
+export default ReportSchedulerPage
