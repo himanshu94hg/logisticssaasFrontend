@@ -18,11 +18,13 @@ import FullLogo from '../../../assets/image/logo/logo.svg'
 import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 
+
+
 const Dropdown = ({ links }) => {
   return (
     <div className="dropdown-content">
       {links.map((link, index) => (
-        <NavLink key={index} to={link.to}>
+        <NavLink key={index} to={link.to} onClick={link.onClick}>
           {link.label}
         </NavLink>
       ))}
@@ -37,6 +39,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
   };
+
+
 
   useEffect(() => {
     if (!isExpanded) {
@@ -95,7 +99,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
   );
 };
 
-const SideNav = () => {
+const SideNav = (props) => {
   const [isExpanded, setExpanded] = useState(false);
   const [Logo, setLogo] = useState(mobileLogo);
 
@@ -115,6 +119,10 @@ const SideNav = () => {
   const handleMouseLeave = () => {
     setExpanded(false);
   };
+
+  const handleMappingShow = () => {
+    props.setZoneMapping(!props.ZoneMapping)
+  }
 
   const menuItems = [
     { to: "/", label: "Dashboard" },
@@ -146,7 +154,7 @@ const SideNav = () => {
         { to: "/shipping-rates", label: "Rate Card" },
         { to: "/rate-calculator", label: "Rate Calculator" },
         { to: "/serviceability", label: "Serviceability" },
-        { to: "/zone-mapping", label: "Zone Mapping" },
+        { label: "Zone Mapping", onClick: handleMappingShow },
         { to: "/report-scheduler", label: "Report Scheduler" },
         { to: "/courier-allocation", label: "Courier Allocation" },
       ],
@@ -155,6 +163,8 @@ const SideNav = () => {
     { to: "/customer-support", label: "Customer Support" },
     { to: "/settings", label: "Settings" },
   ];
+
+
 
   return (
     <div

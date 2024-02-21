@@ -47,9 +47,10 @@ import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
 import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator";
 import Serviceability from "./Component/Pages/ToolsPage/Components/Serviceability/Serviceability";
-import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMapping/ZoneMapping";
+import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
 import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler";
 import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation";
+import ZoneMappingPop from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
 
 
 function App() {
@@ -57,6 +58,7 @@ function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
+  const [ZoneMapping, setZoneMapping] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
   const [tokenChecked, setTokenChecked] = useState(false);
   const [userID, setUserID] = useState("")
@@ -86,7 +88,7 @@ function App() {
           {/* <button onClick={handleClick}>Clcikss</button> */}
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
-            <Sidebar />
+            <Sidebar ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
           </>}
           <Routes>
             {
@@ -131,7 +133,7 @@ function App() {
             <Route path={ClickPostIntegrationPattern} element={<ClickPostIntegrationForm />} />
             <Route path={RateCalculatorPattern} element={<RateCalculator />} />
             <Route path={ServiceabilityPattern} element={<Serviceability />} />
-            <Route path={ZoneMappingPattern} element={<ZoneMapping />} />
+            {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportScheduler />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocation />} />
           </Routes>
@@ -140,6 +142,9 @@ function App() {
       </div>
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
       <section onClick={() => setWalletRecharge(!WalletRecharge)} className={`backdrop ${WalletRecharge ? 'd-block' : 'd-none'}`}></section>
+
+      <ZoneMappingPop ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
+      <section onClick={() => setZoneMapping(!ZoneMapping)} className={`backdrop ${ZoneMapping ? 'd-block' : 'd-none'}`}></section>
     </>
 
   );
