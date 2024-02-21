@@ -79,7 +79,7 @@ console.log("##############33 totalCustomer",totalCustomer)
                     
                    
                   </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     this month
                   </p>
                 </div>
@@ -120,7 +120,7 @@ console.log("##############33 totalCustomer",totalCustomer)
                   <span className="text-yellow font13 pt20 bold-600 d-block text-end">
                   {dailyShipment ? `+${dailyShipment.average_shipment_per_day}%` : '+0%'}
                   </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     this month
                   </p>
 
@@ -159,7 +159,7 @@ console.log("##############33 totalCustomer",totalCustomer)
                   <span className="text-blue font13 pt20 bold-600 d-block text-end">
                     +{avarageSelling?.percentage_change}%
                   </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     comparative analysis</p>
                 </div>
               </div>
@@ -198,7 +198,7 @@ console.log("##############33 totalCustomer",totalCustomer)
                   {todayRevenue ? `+${todayRevenue.percentage_change}%` : '+0%'}
                   
                   </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-no-wrap">
+                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     comparative analysis
                   </p>
                 </div>

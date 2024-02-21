@@ -46,7 +46,7 @@ function TableDashboard() {
               {lastThirtyDayaData.map((order) => (
                 <tr key={order.order_number}>
                   <td>{order.order_number}</td>
-                  <td className="ws-no-wrap">{order.customer_order_number}</td>
+                  <td className="ws-nowrap">{order.customer_order_number}</td>
                   <td>{order.awb_number || 'N/A'}</td>
                   <td>{order.courier_partner || 'N/A'}</td>
                   <td>{order.shipping_charges || 0.0}</td>
