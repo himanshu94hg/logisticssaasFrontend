@@ -1,44 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
-
-const dummyData = [
-    {
-        id: 1,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 2,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 3,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 4,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    // Add more data as needed
-];
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');

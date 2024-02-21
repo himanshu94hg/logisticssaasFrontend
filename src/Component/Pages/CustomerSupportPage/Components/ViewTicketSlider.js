@@ -1,42 +1,35 @@
-import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useState } from 'react'
-import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
-import { AiOutlineDownload } from "react-icons/ai";
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react'
+import { AiOutlineDownload } from "react-icons/ai";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
+import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 
-const ViewTicketSlider = (props) => {
-
+const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [allTicket, setAllTicket] = useState();
   const [newComment, setNewComment] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
 
-  const comments = [
-    { text: 'Hello! I am not able to create an Order', type: 'user' },
-    { text: 'Hello! We apologize for the inconvenience.', type: 'support' },
-    { text: 'Your Ticket has been registered with us and we are working on it.', type: 'support' },
-  ];
-
+  const authToken = Cookies.get("access_token")
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
-        const response = await axios.get(
-          `http://65.2.38.87:8088/core-api/features/support-tickets/${props.viewId}/`,
-          {
-            headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
-            },
-          }
-        );
-        setAllTicket(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    // const fetchData = async () => {
+    //   try {
+    //     const response = await axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`,
+    //       {
+    //         headers: {
+    //           Authorization: `Bearer ${authToken}`,
+    //         },
+    //       }
+    //     );
+    //     setAllTicket(response.data);
+    //   } catch (error) {
+    //     console.error('Error fetching data:', error);
+    //   }
+    // };
     const updateDateTime = () => {
       const today = new Date();
       const day = today.getDate();
@@ -56,44 +49,40 @@ const ViewTicketSlider = (props) => {
 
     // Update date and time every second
     updateDateTime();
+    // fetchData();
+  }, [viewId]);
 
-    fetchData();
-  }, [props.viewId]);
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
-      const response = await axios.post(
-        'http://65.2.38.87:8088/core-api/features/ticket-comments/',
+      const response = await axios.post('http://65.2.38.87:8088/core-api/features/ticket-comments/',
         {
-          ticket: props.viewId,
+          ticket: viewId,
           comment: newComment,
         },
         {
           headers: {
-            Authorization: `Bearer ${hardcodedToken}`,
+            Authorization: `Bearer ${authToken}`,
           },
         }
       );
-      // Update the state to include the new comment
+
       setAllTicket(prevState => ({
         ...prevState,
-        comments: [...prevState.comments, response.data], // Assuming the API returns the added comment object
+        comments: [...prevState?.comments, response?.data], 
       }));
-      // Clear the new comment input field after submission
       setNewComment('');
     } catch (error) {
       console.error('Error adding comment:', error);
     }
   };
 
-
   return (
     <>
       <div
         id='sidepanel-closer'
-        onClick={() => props.setViewTicketInfo(!props.ViewTicketInfo)}
+        onClick={() => setViewTicketInfo(!ViewTicketInfo)}
       >
         <FontAwesomeIcon icon={faChevronRight} />
       </div>
@@ -127,7 +116,7 @@ const ViewTicketSlider = (props) => {
             </div>
             <div className='d-flex gap-2'>
               <p>Subcategory:</p>
-              <p className='fw-bold'>Issue with Direct orders</p>
+              <p className='fw-bold'>{allTicket?.sub_category}</p>
             </div>
           </div>
           <div className='ticket-view-field'>

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
 import { useNavigate } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
@@ -9,7 +10,6 @@ import InProgressTickets from './Components/InProgressTickets';
 import ViewTicketSlider from './Components/ViewTicketSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import Cookies from 'js-cookie';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -23,61 +23,33 @@ const CustomerSupportPage = () => {
   const [categories, setSelectedCategories] = useState([]);
   const [selectedStatus, setSelectedStatus] = useState('');
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
+  const [ticketId, setTicketId] = useState(null);
   const [resolutionDate, setResolutionDate] = useState(new Date());
 
+  console.log(ticketId, "ticketIdticketIdticketId")
 
+  const authToken = Cookies.get("access_token")
 
-  const authToken=Cookies.get("access_token")
+  const apiUrl = `http://65.2.38.87:8088/core-api/features/support-tickets/`
 
-  const apiUrl=`http://65.2.38.87:8088/core-api/features/support-tickets/`
-
-  console.log(allTicket,"alltickets");
+  console.log(allTicket, "alltickets");
 
 
   useEffect(() => {
     axios
-        .get(`${activeTab=="allTickets"?apiUrl:activeTab=="openTickets"?`${apiUrl}?Open`:activeTab=="inProgressTickets"?`${apiUrl}?In-progess`:activeTab=="closedTickets"?`${apiUrl}?Closed`:""}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-        .then(response => {
-          setAllTicket(response.data)
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}, [activeTab]);
-
-
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        let params = {};
-        if (isFilter) {
-          params = {
-            sub_category: categories.map(category => category.value).join(','),
-            status: selectedStatus,
-            // resolution_due_by: resolutionDate,
-            // last_updated: endDate
-          };
-        } else {
-          // params = {
-          //   sub_category: 14,
-          //   status: 'Closed',
-          //   resolution_due_by: '2024-01-01',
-          //   last_updated: '2024-02-01',
-          // };
+      .get(`${activeTab == "allTickets" ? apiUrl : activeTab == "openTickets" ? `${apiUrl}?status=Open` : activeTab == "inProgressTickets" ? `${apiUrl}?status=In-progess` : activeTab == "closedTickets" ? `${apiUrl}?status=Closed` : ""}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
         }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+      })
+      .then(response => {
+        setAllTicket(response.data)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [activeTab]);
 
-    fetchData();
-  }, [isFilter, categories, selectedStatus, resolutionDate, endDate]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     setSelectedCategories(categories);
@@ -92,7 +64,7 @@ const CustomerSupportPage = () => {
   };
 
 
-  console.log(activeTab,"activeTabactiveTabactiveTab")
+  console.log(activeTab, "activeTabactiveTabactiveTab")
 
   return (
     <>
@@ -115,10 +87,7 @@ const CustomerSupportPage = () => {
           NewTicket={NewTicket}
         />
         <div className='row mt-3'>
-          { <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> }
-          {/* {activeTab === 'openTickets' ? <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
-          {activeTab === 'inProgressTickets' ? <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
-          {activeTab === 'closedTickets' ? <InProgressTickets allTicket={allTicket} ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''} */}
+          {<InProgressTickets allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo}  handleViewButtonClick={handleViewButtonClick}/>}
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>

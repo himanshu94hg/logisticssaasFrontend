@@ -1,45 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import moment from 'moment';
+import React, { useState, useEffect } from 'react';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 
-const dummyData = [
-    {
-        id: 1,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 2,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 3,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 4,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    // Add more data as needed
-];
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -58,27 +22,23 @@ const DateFormatter = ({ dateTimeString }) => {
             minute: '2-digit',
             hour12: true,
         };
-
         const dateObject = new Date(dateTimeString);
         const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
         return formattedDateTime;
     };
-
     return <p>{formattedDate}</p>;
 };
 
-const InProgressTickets = ({ ViewTicketInfo, setViewTicketInfo,allTicket }) => {
+const InProgressTickets = ({  setViewTicketInfo,allTicket,setTicketId,handleViewButtonClick }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [orders, setAllOrders] = useState(dummyData); //for dummy data
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(ticket => ticket.id));
+            setSelectedRows(allTicket?.map(ticket => ticket.id));
         } else {
             setSelectedRows([]);
         }
@@ -87,7 +47,6 @@ const InProgressTickets = ({ ViewTicketInfo, setViewTicketInfo,allTicket }) => {
     // Handler for individual checkbox
     const handleSelectRow = (TicketId) => {
         const isSelected = selectedRows.includes(TicketId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== TicketId));
         } else {
@@ -95,9 +54,9 @@ const InProgressTickets = ({ ViewTicketInfo, setViewTicketInfo,allTicket }) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && !isSelected) {
+        if (selectedRows.length === allTicket?.length - 1 && !isSelected) {
             setSelectAll(true);
-        } else if (selectedRows.length === orders.length && isSelected) {
+        } else if (selectedRows.length === allTicket?.length && isSelected) {
             setSelectAll(false);
         }
     };
@@ -181,7 +140,7 @@ const InProgressTickets = ({ ViewTicketInfo, setViewTicketInfo,allTicket }) => {
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button
-                                                    onClick={() => setViewTicketInfo(!ViewTicketInfo)}
+                                                    onClick={() => {setViewTicketInfo(true);handleViewButtonClick(item?.id)}  }
                                                     className='btn main-button'>
                                                     <FontAwesomeIcon icon={faEye} /> View
                                                 </button>

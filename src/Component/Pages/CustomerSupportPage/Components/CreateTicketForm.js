@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 // Reusable FormInput component
 const FormInput = ({ label, type, value, onChange, options }) => (
+  
   <div className='ticket-form-row'>
     <label>{label}</label>
     {type === 'select' ? (
@@ -31,6 +33,10 @@ const CreateTicketForm = (props) => {
   const [attachments, setAttachments] = useState(null);
   const [allCatagery, setAllCatagery] = useState([]);
   const [allSubCatagry, setAllSubCatagry] = useState([]);
+
+
+
+  const authToken=Cookies.get("access_token")
   
   const categoryOptions = allCatagery.map(category => ({
     value: category.id,  
@@ -42,45 +48,44 @@ const CreateTicketForm = (props) => {
     label: subcategory.name,  
   }));
 
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
+  // const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
   
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/core-api/features/ticket-category/', {
-        headers: {
-          Authorization: `Bearer ${hardcodedToken}`,
-        },
-      })
-      .then(response => {
-        console.log('Data is data:', response.data);
-        setAllCatagery(response.data); 
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('http://65.2.38.87:8088/core-api/features/ticket-category/', {
+  //       headers: {
+  //         Authorization: `Bearer ${hardcodedToken}`,
+  //       },
+  //     })
+  //     .then(response => {
+  //       console.log('Data is data:', response.data);
+  //       setAllCatagery(response.data); 
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // }, []);
 
-  useEffect(() => {
-    // Fetch subcategories based on the selected category
-    if (category) {
-      axios
-        .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`,{
-          headers: {
-            Authorization: `Bearer ${hardcodedToken}`,
-          },
-        })
-        .then(response => {
-          console.log('Subcategories:', response.data);
-          setAllSubCatagry(response.data);
-        })
-        .catch(error => {
-          console.error('Error fetching subcategories:', error);
-        });
-    } else {
-      // If no category is selected, clear the subcategory options
-      setAllSubCatagry([]);
-    }
-  }, [category]);
+  // useEffect(() => {
+  //   if (category) {
+  //     axios
+  //       .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`,{
+  //         headers: {
+  //           Authorization: `Bearer ${hardcodedToken}`,
+  //         },
+  //       })
+  //       .then(response => {
+  //         console.log('Subcategories:', response.data);
+  //         setAllSubCatagry(response.data);
+  //       })
+  //       .catch(error => {
+  //         console.error('Error fetching subcategories:', error);
+  //       });
+  //   } else {
+  //     // If no category is selected, clear the subcategory options
+  //     setAllSubCatagry([]);
+  //   }
+  // }, [category]);
 
 
   
@@ -98,7 +103,7 @@ const CreateTicketForm = (props) => {
     try {
       const response = await axios.post('http://65.2.38.87:8088/core-api/features/support-tickets/', formData, {
         headers: {
-           'Authorization': `Bearer ${hardcodedToken}`,
+           'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });

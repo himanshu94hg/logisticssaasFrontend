@@ -12,34 +12,34 @@ const FilterTicketsForm = (props) => {
   const [resolutionDate, setResolutionDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const hardcodedToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
-        const response = await axios.get(
-          'http://65.2.38.87:8088/core-api/features/ticket-sub-category/',
-          {
-            headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
-            },
-          }
-        );
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       const hardcodedToken =
+  //         'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
+  //       const response = await axios.get(
+  //         'http://65.2.38.87:8088/core-api/features/ticket-sub-category/',
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${hardcodedToken}`,
+  //           },
+  //         }
+  //       );
 
-        // Format the data to match the expected structure for Select options
-        const formattedOptions = response.data.map((category) => ({
-          value: category.id,
-          label: category.name,
-        }));
+  //       // Format the data to match the expected structure for Select options
+  //       const formattedOptions = response.data.map((category) => ({
+  //         value: category.id,
+  //         label: category.name,
+  //       }));
 
-        setSubcategory(formattedOptions);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  //       setSubcategory(formattedOptions);
+  //     } catch (error) {
+  //       console.error('Error fetching data:', error);
+  //     }
+  //   };
 
-    fetchData();
-  }, []);
+  //   fetchData();
+  // }, []);
 
   const handleChange = (selectedOption) => {
     setSelectedCategories(selectedOption);
@@ -97,7 +97,7 @@ const FilterTicketsForm = (props) => {
             <DatePicker
               selected={resolutionDate}
               onChange={handleResolutionDateChange}
-              dateFormat='MM/dd/yyyy'
+              dateFormat='dd/MM/yyyy'
               className='input-field'
             />
           </div>
@@ -109,7 +109,7 @@ const FilterTicketsForm = (props) => {
             <DatePicker
               selected={endDate}
               onChange={handleEndDateChange}
-              dateFormat='MM/dd/yyyy'
+              dateFormat='dd/MM/yyyy'
               className='input-field'
             />
           </div>
