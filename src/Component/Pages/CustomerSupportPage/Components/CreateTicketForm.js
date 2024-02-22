@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
+import { awsAccessKey } from '../../../../config';
 
 // Reusable FormInput component
 const FormInput = ({ label, type, value, onChange, options }) => (
-  
+
   <div className='ticket-form-row'>
     <label>{label}</label>
     {type === 'select' ? (
@@ -33,21 +35,25 @@ const CreateTicketForm = (props) => {
   const [attachments, setAttachments] = useState(null);
   const [allCatagery, setAllCatagery] = useState([]);
   const [allSubCatagry, setAllSubCatagry] = useState([]);
+  const [fileInfo, setFileInfo] = useState(null);
 
 
-  const authToken=Cookies.get("access_token")
-  
+  console.log(props.NewTicket, "i am props data")
+
+
+  const authToken = Cookies.get("access_token")
+
   const categoryOptions = allCatagery.map(category => ({
-    value: category.id,   
-    label: category.name,  
+    value: category.id,
+    label: category.name,
   }));
 
   const subcategoryOptions = allSubCatagry.map(subcategory => ({
-    value: subcategory.id,  
-    label: subcategory.name,  
+    value: subcategory.id,
+    label: subcategory.name,
   }));
 
-  
+
   useEffect(() => {
     axios
       .get('http://65.2.38.87:8088/core-api/features/ticket-category/', {
@@ -56,17 +62,18 @@ const CreateTicketForm = (props) => {
         },
       })
       .then(response => {
-        setAllCatagery(response.data); 
+        setAllCatagery(response.data);
       })
       .catch(error => {
         console.error('Error:', error);
       });
+
   }, []);
 
   useEffect(() => {
     if (category) {
       axios
-        .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`,{
+        .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -95,7 +102,7 @@ const CreateTicketForm = (props) => {
     try {
       const response = await axios.post('http://65.2.38.87:8088/core-api/features/support-tickets/', formData, {
         headers: {
-           'Authorization': `Bearer ${authToken}`,
+          'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -115,9 +122,32 @@ const CreateTicketForm = (props) => {
     setAttachments(null);
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    setAttachments(file);
+    setAttachments(e.target.files[0].name);
+    if (file) {
+      try {
+        const responseData = await getFileData(e.target.files[0].name);
+        const awsUrl = responseData.data.url.url
+
+        const formData = new FormData();
+        formData.append('key', responseData.data.url.fields.key);
+        formData.append('file', e.target.files[0]);
+        formData.append('AWSAccessKeyId', awsAccessKey);
+        formData.append('policy', responseData.data.url.fields.policy);
+        formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+        const additionalData = await uploadImageData(awsUrl, formData);
+
+        if (additionalData?.status == 204) {
+          const imageUrl = responseData.data.url.url + e.target.files[0].name
+
+        }
+
+      } catch (error) {
+        console.error('Error handling file change:', error);
+      }
+    }
+
   };
 
   return (
@@ -158,7 +188,7 @@ const CreateTicketForm = (props) => {
         <button className='btn cancel-button' type="button" onClick={() => console.log('Cancelled')}>
           Cancel
         </button>
-        <button className='btn main-button' type="submit" onClick={()=>props.setNewTicket(!props.NewTicket)}>
+        <button className='btn main-button' type="submit" onClick={() => props.setNewTicket(!props.NewTicket)}>
           Submit
         </button>
       </div>

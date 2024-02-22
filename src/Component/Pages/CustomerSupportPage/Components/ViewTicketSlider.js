@@ -13,6 +13,8 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   const authToken = Cookies.get("access_token")
+
+  
   useEffect(() => {
     if (ViewTicketInfo) {
       axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`, {

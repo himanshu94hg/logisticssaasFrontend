@@ -22,12 +22,14 @@ const CustomerSupportPage = () => {
   const [activeTab, setActiveTab] = useState('allTickets');
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
 
+
+  console.log(ViewTicketInfo, "i am ViewTicketInfoViewTicketInfo")
+
   const authToken = Cookies.get("access_token")
   const apiUrl = "http://65.2.38.87:8088/core-api/features/support-tickets/";
 
   useEffect(() => {
     let url = apiUrl;
-
     switch (activeTab) {
       case "openTickets":
         url += "?status=Open";

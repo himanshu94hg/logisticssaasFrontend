@@ -4,7 +4,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
-import React, { useEffect, useState,lazy } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Sidebar from "./Component/common/sidebar/SideNav";
@@ -77,14 +77,15 @@ function App() {
     }
   }, [tokenChecked, tokenExists, navigate]);
 
-
-  console.log(tokenExists, "tokenExists")
+  const handleClick = () => {
+   dispatch({type:""})
+  }
   return (
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-          {/* <button onClick={handleClick}>Clcikss</button> */}
-        
+          <button onClick={handleClick}>Clcikss</button>
+
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
