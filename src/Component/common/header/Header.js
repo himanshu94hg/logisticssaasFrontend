@@ -20,7 +20,6 @@ export default function Header(props) {
   return (
     <Navbar
       className="box-shadow shadow-sm p10-inline"
-      bg="light"
       variant="light"
       id="shipEaseNavbarNav"
     >

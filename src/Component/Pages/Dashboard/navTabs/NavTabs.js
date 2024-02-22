@@ -16,7 +16,6 @@ export default function NavTabs(props) {
   return (
     <Navbar
       className="w-100 box-shadow shadow-sm p7"
-      bg="light"
       variant="light"
       id="shipEaseNavTabs"
     >

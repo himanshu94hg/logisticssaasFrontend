@@ -67,7 +67,7 @@ function valuetext(value) {
   return value;
 }
 
-const RateCalculator = () => {
+const RateCalculatorPage = () => {
   const [weight, setWeight] = useState(1); // Initialize weight state with a default value of 1
 
   const [RateTable, setRateTable] = useState(false)
@@ -129,8 +129,8 @@ const RateCalculator = () => {
             </div>
 
 
-            <div className='mt-5 row align-items-center'>
-              <label className='col-2'>Actual Weight in KG</label>
+            <div className='mt-5 row flex-row align-items-end'>
+              {/* <label className='col-2'>Actual Weight in KG</label>
               <Box className="col" style={{ width: '100%' }}>
                 <Slider
                   aria-label="Always visible"
@@ -143,7 +143,14 @@ const RateCalculator = () => {
                   max={10}
                   valueLabelDisplay="on"
                 />
-              </Box>
+              </Box> */}
+              <label className='col-4'>
+                <span className='fw-bold'>Actual Weight</span>
+                <input className='input-field' type="text" />
+              </label>
+              <label className='col'>
+                <p><strong>Note:</strong> Minimum chargeable weight is 0.5kg</p>
+              </label>
 
             </div>
 
@@ -262,4 +269,4 @@ const RateCalculator = () => {
   );
 };
 
-export default RateCalculator;
+export default RateCalculatorPage;
