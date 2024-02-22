@@ -1,0 +1,14 @@
+.new-scheduler-slider {
+    position: fixed;
+    top: 0;
+    right: -120em;
+    transition: 1s;
+    height: 100vh;
+    width: 100em;
+    background-color: #fff;
+    z-index: 6;
+}
+
+.new-scheduler-slider.open {
+    right: 0;
+}

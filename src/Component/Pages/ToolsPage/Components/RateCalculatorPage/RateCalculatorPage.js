@@ -129,8 +129,8 @@ const RateCalculatorPage = () => {
             </div>
 
 
-            <div className='mt-5 row align-items-center'>
-              <label className='col-2'>Actual Weight in KG</label>
+            <div className='mt-5 row flex-row align-items-end'>
+              {/* <label className='col-2'>Actual Weight in KG</label>
               <Box className="col" style={{ width: '100%' }}>
                 <Slider
                   aria-label="Always visible"
@@ -143,7 +143,14 @@ const RateCalculatorPage = () => {
                   max={10}
                   valueLabelDisplay="on"
                 />
-              </Box>
+              </Box> */}
+              <label className='col-4'>
+                <span className='fw-bold'>Actual Weight</span>
+                <input className='input-field' type="text" />
+              </label>
+              <label className='col'>
+                <p><strong>Note:</strong> Minimum chargeable weight is 0.5kg</p>
+              </label>
 
             </div>
 
