@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import DatePicker from 'react-datepicker';
 import axios from "axios";
@@ -7,6 +8,7 @@ import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
 
 const ShopifyIntegrationForm = () => {
+    const navigation = useNavigate();
     const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
@@ -50,6 +52,7 @@ const ShopifyIntegrationForm = () => {
                     text: 'Channel added successfully!',
                     confirmButtonText: 'OK'
                 });
+                navigation('/channels-integration');
             } else {
                 const errorData = response.data;
                 console.error('API Error:', errorData);
