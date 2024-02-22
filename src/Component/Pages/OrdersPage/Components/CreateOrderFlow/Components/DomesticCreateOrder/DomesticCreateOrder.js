@@ -1108,7 +1108,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                             Invoice Amount
                             <input
                                 className='input-field'
-                                type="text" value={formData.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} />
+                                type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} />
                         </label>
 
                         {/* COD Charges */}

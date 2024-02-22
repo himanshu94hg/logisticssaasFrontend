@@ -51,7 +51,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     toast.success('Order successfully shipped!');
                 }
                 else {
-                    toast.error('Only pending orders can be shipped.', {
+                    toast.error(response.data.message, {
                         onClose: () => {
                             setSingleShip(false);
                         }
