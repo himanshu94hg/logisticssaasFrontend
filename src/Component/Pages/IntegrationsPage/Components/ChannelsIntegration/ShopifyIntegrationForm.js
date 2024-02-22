@@ -29,7 +29,7 @@ const ShopifyIntegrationForm = () => {
             auto_cancel: false,
             auto_cod_paid: false,
             send_abandon_sms: false,
-            last_executed: moment().format("YYYY-MM-DD 00:00:00")
+            last_executed: ''
         }
     });
 

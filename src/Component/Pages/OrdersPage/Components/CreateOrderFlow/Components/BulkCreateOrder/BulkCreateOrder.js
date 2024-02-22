@@ -15,12 +15,13 @@ const BulkCreateOrder = () => {
     };
 
     const authToken = Cookies.get("access_token")
+    const sellerId = Cookies.get("user_id")
 
     const handleImport = async () => {
         if (selectedFile) {
             const formData = new FormData();
             formData.append('order_file', selectedFile);
-            formData.append('seller_id', '1');
+            formData.append('seller_id', sellerId);
 
             try {
                 const response = await axios.post('http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/', formData, {
@@ -110,26 +111,26 @@ const BulkCreateOrder = () => {
                 <h4>Recent Uploads</h4>
                 <table>
                     <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Date</th>
-                            <th>No. Of Orders</th>
-                            <th>Successful Orders</th>
-                            <th>Error Orders</th>
-                        </tr>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Date</th>
+                        <th>No. Of Orders</th>
+                        <th>Successful Orders</th>
+                        <th>Error Orders</th>
+                    </tr>
                     </thead>
                     <thead>
-                        {bulkOrders?.map((item) => {
-                            return (
-                                <tr>
-                                    <td>{item?.file_name}</td>
-                                    <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
-                                    <td>{item?.total_orders}</td>
-                                    <td>{item?.success_orders}</td>
-                                    <td>{item?.failed_orders}</td>
-                                </tr>
-                            )
-                        })}
+                    {bulkOrders?.map((item) => {
+                        return (
+                            <tr>
+                                <td>{item?.file_name}</td>
+                                <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
+                                <td>{item?.total_orders}</td>
+                                <td>{item?.success_orders}</td>
+                                <td>{item?.failed_orders}</td>
+                            </tr>
+                        )
+                    })}
                     </thead>
                     <tbody>
                     </tbody>
