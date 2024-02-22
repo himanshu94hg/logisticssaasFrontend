@@ -14,19 +14,20 @@ const DomesticCreateOrder = () => {
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
     const totalSteps = 5;
+    const currentDate = moment().format("YYYY-MM-DD");
 
     const [formData, setFormData] = useState({
         order_details: {
             customer_order_number: '',
             invoice_amount: '',
-            is_mps: true,
+            is_mps: false,
             warehouse_id: '',
             order_tag: '',
             payment_type: '',
-            order_date: '',
+            order_date: currentDate,
             order_type: "",
-            channel:"",
-            channel_id:null
+            channel:"custom",
+            channel_id: null
         },
         shipping_details: {
             recipient_name: "",
@@ -39,7 +40,7 @@ const DomesticCreateOrder = () => {
             mobile_number: "",
             email: "",
             company_name: "",
-            contact_code: ""
+            contact_code: "91"
         },
         billing_details: {
             customer_name: "",
@@ -52,10 +53,10 @@ const DomesticCreateOrder = () => {
             mobile_number: "",
             email: "",
             company_name: "",
-            contact_code: ""
+            contact_code: "91"
         },
         other_details: {
-            number_of_packets: 10,
+            number_of_packets: 0,
             reseller_name: ""
         },
         charge_details: {
@@ -324,12 +325,14 @@ const Step1 = ({ onNext, formData, setFormData }) => {
 
     const handleDateChange = (date, field) => {
         setFormData({
-            ...formData, order_details: {
+            ...formData,
+            order_details: {
                 ...formData.order_details,
-                [field]: moment(date).format("YYYY-MM-DD")
+                [field]: moment(date).format("YYYY-MM-DDTHH:mm:ssZ")
             }
         });
     };
+    
 
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
@@ -379,8 +382,8 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                     selected={formData.order_date || defaultDate}
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="MM/dd/yyyy"
-                                    minDate={startOfMonth}  // Set the minimum date to the start of the current month
-                                    maxDate={new Date()}  // Set the maximum date to today
+                                    minDate={startOfMonth}
+                                    maxDate={new Date()}
                                     className='input-field'
                                 />
                             </div>

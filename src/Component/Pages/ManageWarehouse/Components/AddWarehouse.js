@@ -5,6 +5,7 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
@@ -17,12 +18,13 @@ const AddWarehouse = () => {
     const cityRef1 = useRef(null);
     const stateRef1 = useRef(null);
     const countryRef1 = useRef(null);
+    const hardcodedToken = Cookies.get("access_token");
+    const sellerData = Cookies.get("user_id");
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const hardcodedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
         try {
-            const seller = 1;
+            const seller = sellerData;
             const warehouse_name = event.target.warehouse_name.value;
             const address_line1 = event.target.address_line1.value;
             const address_line2 = event.target.address_line2.value;
@@ -31,6 +33,7 @@ const AddWarehouse = () => {
             const support_email = event.target.support_email.value;
             const support_phone = event.target.support_phone.value;
             const gst_number = event.target.gst_number.value;
+            const country_code = "+91";
             const pincode = event.target.pincode.value;
             const city = event.target.city.value;
             const state = event.target.state.value;
@@ -74,6 +77,7 @@ const AddWarehouse = () => {
                 support_phone,
                 support_email,
                 gst_number,
+                country_code,
                 city,
                 state,
                 pincode,
@@ -95,7 +99,7 @@ const AddWarehouse = () => {
 
             const response = await axios.post('http://65.2.38.87:8088/core-api/features/warehouse/', formData,{
                 headers: {
-                    'Authorization': hardcodedToken,    
+                    'Authorization': `Bearer ${hardcodedToken}`,    
                     'Content-Type': 'application/json'
                 }
             });
