@@ -8,6 +8,7 @@ import './SingleShipPop.css';
 import axios from "axios";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Cookies from 'js-cookie';
 
 const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const navigation = useNavigate();
@@ -26,7 +27,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     };
     const dateAfter2Days = addDays(currentDate, 2);
 
-    var sellerId = 1;
+    const sellerId = Cookies.get("user_id");
     useEffect(() => {
         if(orderId !== null)
         {
