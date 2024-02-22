@@ -6,35 +6,44 @@ import axios from "axios";
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
+import moment from 'moment';
 
 const ShopifyIntegrationForm = () => {
     const navigation = useNavigate();
     const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
+
     const [formData, setFormData] = useState({
-        seller_id:sellerData,
-        channel:{
-            channel_name:"",
-            channel:"shopify"
+        seller_id: sellerData,
+        channel: {
+            channel_name: "",
+            channel: "shopify"
         },
-        channel_configuration:{
-            api_key:"",
-            password:"",
-            store_url:"",
-            shared_secret:"",
-            auto_fulfill:false,
-            auto_cancel:false,
-            auto_cod_paid:false,
-            send_abandon_sms:false,
-            last_executed:'',
+        channel_configuration: {
+            api_key: "",
+            password: "",
+            store_url: "",
+            shared_secret: "",
+            auto_fulfill: false,
+            auto_cancel: false,
+            auto_cod_paid: false,
+            send_abandon_sms: false,
+            last_executed: moment().format("YYYY-MM-DD 00:00:00")
         }
     });
+
+    const checkboxDescriptions = {
+        auto_fulfill: "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
+        auto_cancel: "Cancel orders (Enabling this will auto cancel order in Shopify when order is cancelled in ShipEase)",
+        auto_cod_paid: "Mark as paid (Mark COD orders as paid in Shopify when orders are delivered to customer)",
+        send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://65.2.38.87:8088/core-api/channel/channel/', formData,{
+            const response = await axios.post('http://65.2.38.87:8088/core-api/channel/channel/', formData, {
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'
@@ -72,12 +81,12 @@ const ShopifyIntegrationForm = () => {
                 confirmButtonText: 'OK'
             });
         }
-        console.log("Logs",formData);
+        console.log("Logs", formData);
     };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        const formattedDate = date ? date.toISOString().split('T')[0] + ' 00:00:00' : '';
+        const formattedDate = date ? moment(date).format("YYYY-MM-DD 00:00:00") : '';
         setFormData(prevState => ({
             ...prevState,
             channel_configuration: {
@@ -217,7 +226,7 @@ const ShopifyIntegrationForm = () => {
                                             checked={formData.channel_configuration[prop]}
                                             onChange={handleChange}
                                         />
-                                        {prop}
+                                        {checkboxDescriptions[prop]}
                                     </label>
                                 ))}
                             </div>
@@ -232,4 +241,4 @@ const ShopifyIntegrationForm = () => {
     );
 };
 
-export default ShopifyIntegrationForm
+export default ShopifyIntegrationForm;
