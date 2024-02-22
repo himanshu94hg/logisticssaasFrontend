@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { awsAccessKey } from '../../../../config';
+import React, { useState, useEffect } from 'react';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
 // Reusable FormInput component
 const FormInput = ({ label, type, value, onChange, options }) => (
