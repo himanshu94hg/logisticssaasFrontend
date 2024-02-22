@@ -260,7 +260,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="gst_number"
-                                    placeholder='Enter Contact Person Name'
+                                    placeholder='Enter GST Number'
                                 />
                             </label>
                         </div>
@@ -271,7 +271,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="address_line1"
-                                    placeholder='Enter Contact Person Name'
+                                    placeholder='Enter Warehouse Address 1'
                                 />
                             </label>
                             <label>
@@ -280,7 +280,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="address_line2"
-                                    placeholder='Enter Contact Person Name'
+                                    placeholder='Enter Warehouse Address 2'
                                 />
                             </label>
                         </div>
@@ -334,7 +334,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="support_email"
-                                    placeholder='Enter Contact Person Name'
+                                    placeholder='Enter Support Email'
                                 />
                             </label>
                             <label>
@@ -343,7 +343,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="support_phone"
-                                    placeholder='Enter Contact Person Name'
+                                    placeholder='Enter Support Contact'
                                 />
                             </label>
                         </div>
@@ -410,7 +410,7 @@ const AddWarehouse = () => {
                                         type="text"
                                         className='input-field'
                                         name="rto_contact_number"
-                                        plac0eholder='Enter Contact Person Name'
+                                        plac0eholder='Enter Contact Person Number'
                                     />
                                 </label>
                                 <label>
@@ -419,7 +419,7 @@ const AddWarehouse = () => {
                                         type="text"
                                         className='input-field'
                                         name="rto_alternate_number"
-                                        placeholder='Enter Contact Person Name'
+                                        placeholder='Enter Alternate Contact'
                                     />
                                 </label>
                                 <label>
@@ -428,7 +428,7 @@ const AddWarehouse = () => {
                                         type="text"
                                         className='input-field'
                                         name="rto_email"
-                                        placeholder='Enter Contact Person Name'
+                                        placeholder='Enter Email'
                                     />
                                 </label>
                             </div>
@@ -439,7 +439,7 @@ const AddWarehouse = () => {
                                         type="text"
                                         className='input-field'
                                         name="rto_address"
-                                        placeholder='Enter Contact Person Name'
+                                        placeholder='Enter Warehouse Address 1'
                                     />
                                 </label>
                                 <label>
@@ -448,7 +448,7 @@ const AddWarehouse = () => {
                                         type="text"
                                         className='input-field'
                                         name="rto_landmark"
-                                        placeholder='Enter Contact Person Name'
+                                        placeholder='Enter Landmark'
                                     />
                                 </label>
                             </div>
