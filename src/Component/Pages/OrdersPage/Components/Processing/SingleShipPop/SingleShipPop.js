@@ -85,7 +85,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
                                 <p>{option.partner_title}</p>
-                                <p>{option.partner_title}</p>
+                                <p>{"Delivering Excellence, Every Mile"}</p>
                                 <p>RTO Charges: ₹{0}</p>
                             </div>
                         </div>
@@ -116,7 +116,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ {option.rate + option.cod_charge}</strong> <span>(Inclusive of all taxes )</span><br />
+                            <p><strong>₹ {(option.rate + option.cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
