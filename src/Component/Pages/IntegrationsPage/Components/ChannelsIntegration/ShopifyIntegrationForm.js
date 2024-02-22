@@ -4,11 +4,14 @@ import DatePicker from 'react-datepicker';
 import axios from "axios";
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from "sweetalert2";
+import Cookies from 'js-cookie';
 
 const ShopifyIntegrationForm = () => {
     const [selectedDate, setSelectedDate] = useState(null);
+    const hardcodedToken = Cookies.get("access_token");
+    const sellerData = Cookies.get("user_id");
     const [formData, setFormData] = useState({
-        seller_id:1,
+        seller_id:sellerData,
         channel:{
             channel_name:"",
             channel:"shopify"
@@ -28,11 +31,10 @@ const ShopifyIntegrationForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const hardcodedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
         try {
             const response = await axios.post('http://65.2.38.87:8088/core-api/channel/channel/', formData,{
                 headers: {
-                    'Authorization': hardcodedToken,
+                    'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'
                 }
             });
