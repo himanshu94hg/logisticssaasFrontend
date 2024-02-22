@@ -12,27 +12,22 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
   const [newComment, setNewComment] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
-
   const authToken = Cookies.get("access_token")
-
-
-  console.log(viewId, ViewTicketInfo,"this is code data")
-
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`,
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
-        setAllTicket(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    if (ViewTicketInfo) {
+      axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+        .then((response) => {
+          setAllTicket(response.data);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
+    }
+
     const updateDateTime = () => {
       const today = new Date();
       const day = today.getDate();
@@ -49,11 +44,10 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
       setCurrentTime(`${formattedTime}`);
       setCurrentDate(`${formattedDate}`);
     };
-
-    // Update date and time every second
     updateDateTime();
-    fetchData();
-  }, [viewId]);
+
+  }, [ViewTicketInfo]);
+
 
 
   const handleCommentSubmit = async (e) => {
@@ -73,7 +67,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
 
       setAllTicket(prevState => ({
         ...prevState,
-        comments: [...prevState?.comments, response?.data], 
+        comments: [...prevState?.comments, response?.data],
       }));
       setNewComment('');
     } catch (error) {

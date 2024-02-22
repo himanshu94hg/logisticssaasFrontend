@@ -35,7 +35,7 @@ const ClosedTickets = (props) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     // const [orders, setAllOrders] = useState([]);  //for API
-    const [orders, setAllOrders] = useState(dummyData); //for dummy data
+    const [orders, setAllOrders] = useState([]); //for dummy data
 
     // useEffect(() => {
     //     axios
@@ -105,7 +105,7 @@ const ClosedTickets = (props) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((ticket, index) => (
+                            {orders?.map((ticket, index) => (
                                 <React.Fragment key={ticket.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
