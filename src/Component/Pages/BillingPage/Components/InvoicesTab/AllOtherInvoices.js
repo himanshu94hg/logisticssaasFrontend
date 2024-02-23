@@ -1,24 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 
-const AllOtherInvoices = () => {
+const AllOtherInvoices = ({billingCard}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/billing/v1/invoicelog/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
-    console.log("222222222222",data)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -69,7 +57,7 @@ const AllOtherInvoices = () => {
                     <tr className="blank-row"><td></td></tr>
                 </thead>
                 <tbody>
-                    {data?.other_serializer?.map((row, index) => (
+                    {billingCard?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
@@ -84,7 +72,7 @@ const AllOtherInvoices = () => {
                                     {/* order detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.order_number}
+                                            {row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -92,7 +80,7 @@ const AllOtherInvoices = () => {
                                     {/* Courier detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.order_number}
+                                            {row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -100,7 +88,7 @@ const AllOtherInvoices = () => {
                                     {/* AWB Assigned Date */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.order_number}
+                                            {row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -108,7 +96,7 @@ const AllOtherInvoices = () => {
                                     {/* Shipment Status */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.order_number}
+                                            {row.name}
                                         </p>
                                     </div>
                                 </td>

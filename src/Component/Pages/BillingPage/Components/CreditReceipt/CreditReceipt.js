@@ -1,14 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
+import React, { useState, useEffect } from 'react';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -37,25 +28,13 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const CreditReceipt = () => {
+const CreditReceipt = ({ billingCard}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/billing/v1/creditreceptlog/') // Replace with your API endpoint
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", data)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -96,14 +75,6 @@ const CreditReceipt = () => {
     }
 
 
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
-
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -127,7 +98,7 @@ const CreditReceipt = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {data?.cerdit_recept_log?.map((row, index) => (
+                            {billingCard?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -142,7 +113,7 @@ const CreditReceipt = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.id}
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -150,7 +121,7 @@ const CreditReceipt = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.note_number}
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -158,7 +129,7 @@ const CreditReceipt = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <DateFormatter dateTimeString={row.note_date} />
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -166,7 +137,7 @@ const CreditReceipt = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.total}
+                                                    ₹   {row.name}
                                                 </p>
                                             </div>
                                         </td>
