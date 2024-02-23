@@ -19,12 +19,11 @@
 
 /* Define the grid container */
 .grid-container {
+    overflow-y: auto;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    /* Two columns with equal width */
     grid-gap: 20px;
-    /* Gap between grid items */
-    height: calc(100vh - 146px);
+    height: calc(100vh - 173px);
 }
 
 /* Style for grid items */

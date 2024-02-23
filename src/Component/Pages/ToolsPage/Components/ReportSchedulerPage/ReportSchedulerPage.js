@@ -267,6 +267,10 @@ const ReportSchedulerPage = () => {
               </div>
             </div>
           </div>
+          <div className='d-flex gap-3 justify-content-end my-3'>
+            <button className='btn cancel-button'>Cancel</button>
+            <button className='btn main-button'>Schedule Report</button>
+          </div>
         </section>
 
       </section>
