@@ -50,8 +50,6 @@ import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoInte
 
 
 function App() {
-
-  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [tokenExists, setTokenExists] = useState(false); // State to store token existence
