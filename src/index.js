@@ -17,13 +17,8 @@ createRoot(document.getElementById('root')).render(
         <App />
       </BrowserRouter>
     </Provider>
-<<<<<<< HEAD
-  </>
-);
-=======
     {/* </Suspense> */}
   </>,
   document.getElementById('root')
 );
 
->>>>>>> 4-customer-support-api-integration-Sanjeev

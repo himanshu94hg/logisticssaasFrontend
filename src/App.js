@@ -1,4 +1,3 @@
-import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import "./App.css";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -45,27 +44,12 @@ import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Compon
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
-<<<<<<< HEAD
 import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
-import { useDispatch } from "react-redux";
-import ProtectedRoute from "./ProtectedRoute";
-import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-import Serviceability from "./Component/Pages/ToolsPage/Components/ServiceabilityPage/ServiceabilityPage";
-import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
-import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
-import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import ZoneMappingPop from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
 import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/ServiceabilityPage/ServiceabilityPage";
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-=======
-import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator";
-import Serviceability from "./Component/Pages/ToolsPage/Components/Serviceability/Serviceability";
-import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMapping/ZoneMapping";
-import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler";
-import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation";
->>>>>>> 4-customer-support-api-integration-Sanjeev
 
 
 function App() {
@@ -94,15 +78,11 @@ function App() {
     }
   }, [tokenChecked, tokenExists, navigate]);
 
-  const handleClick = () => {
-   dispatch({type:""})
-  }
+
   return (
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-          <button onClick={handleClick}>Clcikss</button>
-
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
