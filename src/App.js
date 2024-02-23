@@ -51,7 +51,6 @@ import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoInte
 
 function App() {
 
-  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [ZoneMapping, setZoneMapping] = useState(false)

@@ -1,1 +1,0 @@
-export const USER_DATA_ACTION= "USER_DATA_ACTION"

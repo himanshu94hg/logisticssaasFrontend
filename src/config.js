@@ -1,5 +1,3 @@
-export const appBaseUrl=process.env.REACT_APP_CORE_API_URL
-
-export const appCoreUrl=process.env.REACT_APP_CORE_API_URL
-export const appOrderUrl=process.env.REACT_APP_ORDERS_API_URL
 export const awsAccessKey=process.env.REACT_APP_AWS_ACCESS_KEY
+export const coreBaseUrl=process.env.REACT_APP_CORE_API_URL
+export const orderBaseUrl=process.env.REACT_APP_ORDERS_API_URL

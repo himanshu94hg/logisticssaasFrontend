@@ -1,82 +1,106 @@
-import React, { useState } from 'react';
-import Box from '@mui/material/Box';
-import Slider from '@mui/material/Slider';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleQuestion, faQuestion } from '@fortawesome/free-solid-svg-icons';
-import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
-
-const marks = [
-  { value: 0, label: '0' },
-  { value: 0.5, label: '0.5' },
-  { value: 1, label: '1' },
-  { value: 1.5, label: '1.5' },
-  { value: 2, label: '2' },
-  { value: 2.5, label: '2.5' },
-  { value: 3, label: '3' },
-  // { value: 3.5, label: '3.5' },
-  { value: 4, label: '4' },
-  // { value: 4.5, label: '4.5' },
-  { value: 5, label: '5' },
-  // { value: 5.5, label: '5.5' },
-  { value: 6, label: '6' },
-  // { value: 6.5, label: '6.5' },
-  { value: 7, label: '7' },
-  // { value: 7.5, label: '7.5' },
-  { value: 8, label: '8' },
-  // { value: 8.5, label: '8.5' },
-  { value: 9, label: '9' },
-  // { value: 9.5, label: '9.5' },
-  { value: 10, label: '10' },
-];
-
-// const marks = [
-//   { value: 0, label: '0' },
-//   { value: 0.5, label: '0.5' },
-//   { value: 1, label: '1' },
-//   { value: 1.5, label: '1.5' },
-//   { value: 2, label: '2' },
-//   { value: 2.5, label: '2.5' },
-//   { value: 3, label: '3' },
-//   { value: 5, label: '5' },
-//   { value: 10, label: '10' },
-//   { value: 15, label: '15' },
-//   { value: 20, label: '20' },
-//   { value: 25, label: '25' },
-//   { value: 50, label: '50' },
-//   { value: 100, label: '100' },
-// ];
-
-// const marks = [
-//   { value: 0, label: '0' },
-//   { value: 1, label: '1' },
-//   { value: 2, label: '2' },
-//   { value: 3, label: '3' },
-//   { value: 5, label: '5' },
-//   { value: 10, label: '10' },
-//   { value: 15, label: '15' },
-//   { value: 20, label: '20' },
-//   { value: 25, label: '25' },
-//   { value: 50, label: '50' },
-//   { value: 100, label: '100' },
-// ];
-
-
-
-function valuetext(value) {
-  return value;
-}
+import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
 
 const RateCalculatorPage = () => {
-  const [weight, setWeight] = useState(1); // Initialize weight state with a default value of 1
+  const dispatch = useDispatch();
+  const [length, setLength] = useState(null);
+  const [height, setHeight] = useState(null);
+  const [breadth, setBreadth] = useState(null);
+  const [volWeight, setVolWeight] = useState(0.0);
+  const [RateTable, setRateTable] = useState(false);
+  const [invoiceField, setInvoiceField] = useState(false);
 
-  const [RateTable, setRateTable] = useState(false)
+  const [formData, setFormData] = useState({
+    shipment_type: "Forward",
+    source_pincode: null,
+    destination_pincode: null,
+    weight: null,
+    volmetric_weight: volWeight,
+    is_cod: "No",
 
-  const handleWeightChange = (event, newValue) => {
-    setWeight(newValue);
+  });
+
+  const { sellerData } = useSelector(state => state?.toolsSectionReducer)
+
+  const handleSubmit = () => {
+    setRateTable(true);
+    dispatch({
+      type: "GET_RATE_CALCULATOR",
+      payload: formData
+    })
+  }
+
+  const handleSelect = (e, fieldName) => {
+    const temp = e.target.value
+    setFormData((prevData) => ({
+      ...prevData,
+      [fieldName]: temp,
+    }))
+  }
+
+  // const handleChange = (e) => {
+  //   const scaleDataName = e.target.name
+  //   if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
+  //     setLength(e.target.value)
+  //     setHeight(e.target.value)
+  //     setBreadth(e.target.value)
+  //   } else {
+  //     setFormData(prevData => ({
+  //       ...prevData,
+  //       [e.target.name]: e.target.value
+  //     }));
+  //   }
+  // };
+
+
+  const handleChange = (e) => {
+    const scaleDataName = e.target.name;
+    if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
+      setLength(e.target.value);
+      setHeight(e.target.value);
+      setBreadth(e.target.value);
+    } else {
+      const { name, value } = e.target;
+      setFormData(prevData => ({
+        ...prevData,
+        [name]: value
+      }));
+      if (name === "is_cod" && value === "Yes") {
+        setFormData(prevData => ({
+          ...prevData,
+          invoice_amount: parseInt(e.target.value)
+        }));
+      } else if (name === "is_cod" && value === "No") {
+        setFormData(prevData => {
+          const { invoice_amount, ...rest } = prevData;
+          return rest;
+        });
+      }
+    }
   };
 
 
+
+  useEffect(() => {
+    const volmetricWeight = length * breadth * height / 50000
+    setVolWeight(volmetricWeight)
+    setFormData(prevData => ({
+      ...prevData,
+      volmetric_weight: volmetricWeight
+    }));
+    if (formData?.is_cod === "Yes") {
+      setInvoiceField(true)
+    } else {
+      setInvoiceField(false)
+    }
+  }, [length, breadth, height, formData.is_cod])
+
+
+  console.log(formData, "this is form data input ")
 
   return (
     <>
@@ -105,9 +129,10 @@ const RateCalculatorPage = () => {
                   required
                   className="select-field"
                   id="shipment_type"
+                  onChange={(e) => handleSelect(e, "shipment_type")}
                 >
-                  <option value="forward">Forward</option>
-                  <option value="reverse">Reverse</option>
+                  <option value="Forward">Forward</option>
+                  <option value="Reverse">Reverse</option>
                 </select>
               </label>
               <label className='col'>
@@ -115,7 +140,9 @@ const RateCalculatorPage = () => {
                 <input
                   type="text"
                   className="input-field"
+                  name={"source_pincode"}
                   placeholder="Enter Pickup Pincode"
+                  onChange={(e) => handleChange(e)}
                 />
               </label>
               <label className='col'>
@@ -123,39 +150,28 @@ const RateCalculatorPage = () => {
                 <input
                   type="text"
                   className="input-field"
+                  name={"destination_pincode"}
                   placeholder="Enter Delivery Pincode"
+                  onChange={(e) => handleChange(e)}
                 />
               </label>
             </div>
 
 
             <div className='mt-5 row flex-row align-items-end'>
-              {/* <label className='col-2'>Actual Weight in KG</label>
-              <Box className="col" style={{ width: '100%' }}>
-                <Slider
-                  aria-label="Always visible"
-                  value={weight}
-                  onChange={handleWeightChange}
-                  getAriaValueText={valuetext}
-                  step={0.1}
-                  marks={marks}
-                  min={0}
-                  max={10}
-                  valueLabelDisplay="on"
-                />
-              </Box> */}
               <label className='col-4'>
                 <span className='fw-bold'>Actual Weight</span>
-                <input className='input-field' type="text" />
+                <input
+                  type="text"
+                  name={"weight"}
+                  className='input-field'
+                  onChange={(e) => handleChange(e)}
+                />
               </label>
               <label className='col'>
                 <p><strong>Note:</strong> Minimum chargeable weight is 0.5kg</p>
               </label>
-
             </div>
-
-
-
 
 
             <div className='mt-4'>
@@ -164,13 +180,15 @@ const RateCalculatorPage = () => {
               </p>
             </div>
             <div className="row">
-
               {/* Length (cm) */}
               <label className='col'>
                 Length (cm)
                 <input
                   className='input-field'
-                  type="text" />
+                  type="text"
+                  name="length"
+                  onChange={(e) => handleChange(e)}
+                />
               </label>
 
               {/* Breadth (cm) */}
@@ -178,7 +196,10 @@ const RateCalculatorPage = () => {
                 Breadth (cm)
                 <input
                   className='input-field'
-                  type="text" />
+                  type="text"
+                  name="breadth"
+                  onChange={(e) => handleChange(e)}
+                />
               </label>
 
               {/* Height (cm) */}
@@ -186,85 +207,103 @@ const RateCalculatorPage = () => {
                 Height (cm)
                 <input
                   className='input-field'
-                  type="text" />
+                  type="text"
+                  name="height"
+                  onChange={(e) => handleChange(e)}
+                />
               </label>
             </div>
 
             <div className="mt-3">
-              <p><strong>Estimated Volumetric Weight</strong>: <span>0.25 Kg</span></p>
+              <p><strong>Estimated Volumetric Weight</strong>: <span>{volWeight} Kg</span></p>
             </div>
 
-            <div className='mt-3'>
-              <label style={{ width: '300px' }}>Payment Type
-                <select className="select-field">
-                  <option value="Prepaid">Prepaid</option>
-                  <option value="COD">COD</option>
+            <div className='mt-3 row'>
+              <label className='col-md-6' >Payment Type
+                <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")}>
+                  <option value="No">Prepaid</option>
+                  <option value="Yes">COD</option>
                 </select>
               </label>
+              {invoiceField && <label className='col-md-6'>
+                Invoice Amount
+                <input
+                  className='input-field'
+                  type="text"
+                  name="invoice_amount"
+                  onChange={(e) => handleChange(e)}
+                />
+              </label>}
             </div>
 
             <div className='d-flex w-100 justify-content-end mt-4'>
               <button onClick={() => setRateTable(false)} type='button' className="btn main-button-outline">Reset</button>
-              <button onClick={() => setRateTable(true)} type='button' className="ms-2 btn main-button">Calculate</button>
+              <button onClick={() => handleSubmit()} type='button' className="ms-2 btn main-button">Calculate</button>
             </div>
           </form>
         </section>
         <section className='box-shadow shadow-sm p10 col-5'></section>
       </div>
-      <div className={`${RateTable ? '' : 'd-none'}`}>
-        <section className='box-shadow shadow-sm p10'>
-          <div className='ship-container-row box-shadow shadow-sm' >
-            <div className='d-flex gap-2'>
-              <div className='img-container'>
-                <img src="" alt="" />
+
+      {sellerData?.map((item) => {
+        return (
+          <div className={`${RateTable ? '' : 'd-none'}`}>
+            <section className='box-shadow shadow-sm p10'>
+              <div className='ship-container-row box-shadow shadow-sm' >
+                <div className='d-flex gap-2'>
+                  <div className='img-container'>
+                    <img src="" alt="" />
+                  </div>
+                  <div className='d-flex flex-column justify-content-center'>
+                    <p>{item?.courier_partner}</p>
+                    {/* <p>partner_title</p> */}
+                    <p>RTO Charges: ₹0</p>
+                  </div>
+                </div>
+                <div className='d-flex align-items-center gap-2'>
+                  <table className='performance-rating'>
+                    <tbody>
+                      <tr>
+                        <td>Pickup Performance</td>
+                        <td><StarRating rating={4.5} /></td>
+                      </tr>
+                      <tr>
+                        <td>Delivery Performance</td>
+                        <td><StarRating rating={4.5} /></td>
+                      </tr>
+                      <tr>
+                        <td>NDR Performance</td>
+                        <td><StarRating rating={4.5} /></td>
+                      </tr>
+                      <tr>
+                        <td>RTO Performance</td>
+                        <td><StarRating rating={4.5} /></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div className="chart-container">
+                    <PieChart rating={4.5} />
+                    <p>Overall Rating</p>
+                  </div>
+                </div>
+                <div className='ss-shipment-charges'>
+                  <p><strong>₹{item?.total_charge} </strong> <span>(Inclusive of all taxes )</span><br />
+                    <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
+                    <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
+                    <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
+                  </p>
+                </div>
+                <div className='d-flex flex-column gap-2 align-items-end'>
+                  <button className='btn main-button'>Ship Now</button>
+                  <p><span>EDD: <strong></strong></span></p>
+                </div>
+                <span className={`recommended ${true ? '' : 'd-none'}`}></span>
               </div>
-              <div className='d-flex flex-column justify-content-center'>
-                <p>partner_title</p>
-                <p>partner_title</p>
-                <p>RTO Charges: ₹0</p>
-              </div>
-            </div>
-            <div className='d-flex align-items-center gap-2'>
-              <table className='performance-rating'>
-                <tbody>
-                  <tr>
-                    <td>Pickup Performance</td>
-                    <td><StarRating rating={4.5} /></td>
-                  </tr>
-                  <tr>
-                    <td>Delivery Performance</td>
-                    <td><StarRating rating={4.5} /></td>
-                  </tr>
-                  <tr>
-                    <td>NDR Performance</td>
-                    <td><StarRating rating={4.5} /></td>
-                  </tr>
-                  <tr>
-                    <td>RTO Performance</td>
-                    <td><StarRating rating={4.5} /></td>
-                  </tr>
-                </tbody>
-              </table>
-              <div className="chart-container">
-                <PieChart rating={4.5} />
-                <p>Overall Rating</p>
-              </div>
-            </div>
-            <div className='ss-shipment-charges'>
-              <p><strong>₹ </strong> <span>(Inclusive of all taxes )</span><br />
-                <span>Freight Charges: <strong>₹ </strong></span><br />
-                <span>+ COD Charges: <strong>₹ </strong></span><br />
-                <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
-              </p>
-            </div>
-            <div className='d-flex flex-column gap-2 align-items-end'>
-              <button className='btn main-button'>Ship Now</button>
-              <p><span>EDD: <strong></strong></span></p>
-            </div>
-            <span className={`recommended ${true ? '' : 'd-none'}`}></span>
+            </section>
           </div>
-        </section>
-      </div>
+        )
+      })}
+
     </>
   );
 };
