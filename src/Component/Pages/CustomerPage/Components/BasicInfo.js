@@ -5,6 +5,7 @@ import dummyLogo from '../../../../assets/image/logo/dummyLogo.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 
 
@@ -26,8 +27,8 @@ const BasicInfo = () => {
   const [pdfPreview, setPdfPreview] = useState(null);
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false)
 
-
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
+  const hardcodedToken = Cookies.get("access_token")
+  const sellerId = Cookies.get("user_id")
   useEffect(() => {
     axios
       .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
