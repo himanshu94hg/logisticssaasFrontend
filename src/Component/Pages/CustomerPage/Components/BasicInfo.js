@@ -50,9 +50,6 @@ const BasicInfo = () => {
         setWebsite(basicInfoData.website_url || '');
         setMobileNumber(basicInfoData.mobile || '');
 
-        // Set other fields similarly
-
-
         // setWebsite
       })
       .catch(error => {  // Add a .catch block here
