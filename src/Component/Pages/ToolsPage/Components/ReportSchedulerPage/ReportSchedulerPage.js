@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import './ReportSchedulerPage.css'
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/dist/style.css';
+import Select from 'react-select';
+
 
 
 const ReportSchedulerPage = () => {
@@ -11,6 +13,46 @@ const ReportSchedulerPage = () => {
 
   const [emails, setEmails] = useState([]);
   const [focused, setFocused] = useState(false);
+
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [dataForLast, setdataForLast] = useState(null);
+
+  const dataForLastOptions = [
+    { value: 'days', label: 'Days' },
+    { value: 'weeks', label: 'Weeks' },
+    { value: 'months', label: 'Months' }
+  ];
+
+  const handledataForLast = (dataForLast) => {
+    setdataForLast(dataForLast);
+  };
+
+
+  const generateDateOptions = () => {
+    const options = [];
+    for (let i = 1; i <= 31; i++) {
+      options.push({ value: i, label: i });
+    }
+    return options;
+  };
+
+  const handleDateChange = (selectedOption) => {
+    setSelectedDate(selectedOption.value);
+  };
+
+  const timeOptions = [
+    { value: '08:00 AM', label: '08:00 AM' },
+    { value: '09:00 AM', label: '09:00 AM' },
+    { value: '10:00 AM', label: '10:00 AM' },
+    { value: '11:00 AM', label: '11:00 AM' },
+    { value: '12:00 PM', label: '12:00 PM' },
+    { value: '01:00 PM', label: '01:00 PM' },
+    { value: '02:00 PM', label: '02:00 PM' },
+    { value: '03:00 PM', label: '03:00 PM' },
+    { value: '04:00 PM', label: '04:00 PM' },
+    { value: '05:00 PM', label: '05:00 PM' }
+  ];
+
 
   // Dummy report data
   const dummyReports = [
@@ -168,24 +210,42 @@ const ReportSchedulerPage = () => {
                 </label>
                 <label>
                   Selected Dates for sending reports
-                  <input className='input-field' type="text" />
+                  <Select
+                    isMulti
+                    options={generateDateOptions()}
+                    placeholder="Select a date"
+                    onChange={handleDateChange}
+                  />
                 </label>
                 <label>
                   Select Time
-                  <input className='input-field' type="date" />
+                  <Select
+                    isMulti
+                    options={timeOptions}
+                  />
                 </label>
-                <label>
+                <label className='d-flex flex-column'>
                   Get data for the last
-                  <label>
-                    <input className='input-field' type="text" />
-                  </label>
-                  <label>
-                    <input className='input-field' type="text" />
-                  </label>
+                  <div className='d-flex align-items-center w-100 gap-3'>
+                    <label className='w-100'>
+                      <Select
+                        options={generateDateOptions()}
+                        placeholder="Select a date"
+                        onChange={handleDateChange}
+                      />
+                    </label>
+                    <label className='w-100'>
+                      <Select
+                        value={dataForLast}
+                        onChange={handledataForLast}
+                        options={dataForLastOptions}
+                        placeholder="Select option..."
+                      />
+                    </label>
+                  </div>
                 </label>
-
-                <p>Note: It can take upto 24 hours in sending your first report</p>
-                <p>We'll send reports on your email every month on 19th with the last 1 day data with the selected report content</p>
+                <p className='font13'><strong>Note:</strong> It can take upto 24 hours in sending your first report.</p>
+                <p>We'll send reports on your email <strong>every month</strong> on <strong>19th</strong> with the last <strong>1 day</strong> data with the selected report content.</p>
               </div>
             </div>
 

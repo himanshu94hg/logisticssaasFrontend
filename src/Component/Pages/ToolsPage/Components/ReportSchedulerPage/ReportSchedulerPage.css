@@ -65,3 +65,16 @@
     padding-top: 1px;
     padding-left: 3px;
 }
+
+.new-scheduler-slider .css-13cymwt-control,
+.new-scheduler-slider .css-t3ipsp-control,
+.new-scheduler-slider .css-t3ipsp-control:hover {
+    border-color: var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    border-width: 1px;
+    box-shadow: none;
+}
+
+.new-scheduler-slider .css-b62m3t-container:focus-visible {
+    outline: none;
+}
