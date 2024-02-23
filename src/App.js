@@ -1,5 +1,4 @@
 import "./App.css";
-import axios from "axios";
 import Cookies from "js-cookie";
 import 'devextreme/dist/css/dx.light.css';
 import React, { useEffect, useState } from "react";
@@ -27,8 +26,6 @@ import LoginPage from './Component/Pages/LoginPage/LoginPage';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
 import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
@@ -43,16 +40,12 @@ import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Compo
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
 import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern } from "./Routes";
-import { useDispatch } from "react-redux";
-import ProtectedRoute from "./ProtectedRoute";
 
 
 function App() {
-
-  const dispatch = useDispatch()
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
-  const [tokenExists, setTokenExists] = useState(false); // State to store token existence
+  const [tokenExists, setTokenExists] = useState(false);
   const [tokenChecked, setTokenChecked] = useState(false);
   const [userID, setUserID] = useState("")
 
@@ -64,7 +57,6 @@ function App() {
     setTokenChecked(true);
   }, []);
 
-  console.log(userID, "I am user id data")
 
   useEffect(() => {
     if (tokenChecked && !tokenExists) {
@@ -73,12 +65,10 @@ function App() {
   }, [tokenChecked, tokenExists, navigate]);
 
 
-  console.log(tokenExists, "tokenExists")
   return (
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-          {/* <button onClick={handleClick}>Clcikss</button> */}
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar />
