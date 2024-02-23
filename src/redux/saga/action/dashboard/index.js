@@ -1,13 +1,9 @@
-import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL } from "../../../axios/config";
-import axios from "../../../axios/index"
-import { USER_DATA_ACTION } from "../constant";
-
-const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NTk3MzUzLCJpYXQiOjE3MDc5OTI1NTMsImp0aSI6IjAwNWM3ZmIxMDQxZTQxYzc5NTRmNjAwYWQ0YzNiYjRiIiwidXNlcl9pZCI6Mn0.4CguGzX19NlJqf8763AepYZ7s9-ouL52isQzaiUS5nY"
+import { call,  takeLatest } from "@redux-saga/core/effects";
+import { API_URL, BASE_URL } from "../../../../axios/config";
+import axios from "../../../../axios/index"
+import { USER_DATA_ACTION } from "../../constant";
 
 async function contactFileAPI(data) {
-    
-
 
         let listData= axios.request({
             method: "GET",
