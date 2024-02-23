@@ -37,23 +37,13 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RechargeLogs = () => {
+const RechargeLogs = ({billingCard}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/billing/v1/rechargelog/') // Replace with your API endpoint
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
 
 
@@ -137,7 +127,7 @@ const RechargeLogs = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {data?.recharge_log?.map((row, index) => (
+                            {billingCard?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -153,7 +143,7 @@ const RechargeLogs = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <DateFormatter dateTimeString={row.datetime} />
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -161,7 +151,7 @@ const RechargeLogs = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.razorpay_payment_id}
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -169,7 +159,7 @@ const RechargeLogs = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.amount}
+                                                    ₹  {row.website}
                                                 </p>
                                             </div>
                                         </td>
@@ -177,7 +167,7 @@ const RechargeLogs = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.description}
+                                                {row.website}
                                                 </p>
                                             </div>
                                         </td>

@@ -28,22 +28,10 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const FreightInvoice = () => {
+const FreightInvoice = ({billingCard}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [data, setData] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/billing/v1/invoicelog/') // Replace with your API endpoint
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -94,7 +82,7 @@ const FreightInvoice = () => {
                     <tr className="blank-row"><td></td></tr>
                 </thead>
                 <tbody>
-                    {data?.invoice_log?.map((row, index) => (
+                    {billingCard?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
@@ -109,7 +97,7 @@ const FreightInvoice = () => {
                                     {/* order detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.inv_id}
+                                        {row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -117,7 +105,7 @@ const FreightInvoice = () => {
                                     {/* Courier detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                        <DateFormatter dateTimeString={row.invoice_date} />
+                                        {row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -125,7 +113,7 @@ const FreightInvoice = () => {
                                     {/* AWB Assigned Date */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                        <DateFormatter dateTimeString={row.due_date} />
+                                        {row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -133,7 +121,7 @@ const FreightInvoice = () => {
                                     {/* Shipment Status */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                        ₹ {row.total}
+                                        ₹{row.name}
                                         </p>
                                     </div>
                                 </td>
@@ -141,7 +129,7 @@ const FreightInvoice = () => {
                                     {/* Applied Weight Charges */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.status}
+                                            {row.name}
                                         </p>
                                     </div>
                                 </td>
