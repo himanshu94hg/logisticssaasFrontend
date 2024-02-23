@@ -1,9 +1,9 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_CORE } from "../../../axios/config";
-import axios from "../../../axios/index"
-import { GET_RATE_CALCULATOR } from "../constant/tools";
+import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
+import axios from "../../../../axios/index"
+import { GET_RATE_CALCULATOR } from "../../constant/tools";
 import Swal from 'sweetalert2'
-import { GET_RATE_CALCULATOR_DATA } from "../../constants/tools";
+import { GET_RATE_CALCULATOR_DATA } from "../../../constants/tools";
 
 
 
