@@ -1,8 +1,12 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Cookies from 'js-cookie';
+import { awsAccessKey } from '../../../../config';
+import React, { useState, useEffect } from 'react';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
 // Reusable FormInput component
 const FormInput = ({ label, type, value, onChange, options }) => (
+
   <div className='ticket-form-row'>
     <label>{label}</label>
     {type === 'select' ? (
@@ -31,42 +35,47 @@ const CreateTicketForm = (props) => {
   const [attachments, setAttachments] = useState(null);
   const [allCatagery, setAllCatagery] = useState([]);
   const [allSubCatagry, setAllSubCatagry] = useState([]);
-  
+  const [fileInfo, setFileInfo] = useState(null);
+
+
+  console.log(props.NewTicket, "i am props data")
+
+
+  const authToken = Cookies.get("access_token")
+
   const categoryOptions = allCatagery.map(category => ({
-    value: category.id,  
-    label: category.name,  
+    value: category.id,
+    label: category.name,
   }));
 
   const subcategoryOptions = allSubCatagry.map(subcategory => ({
-    value: subcategory.id,  
-    label: subcategory.name,  
+    value: subcategory.id,
+    label: subcategory.name,
   }));
 
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
-  
+
   useEffect(() => {
     axios
       .get('http://65.2.38.87:8088/core-api/features/ticket-category/', {
         headers: {
-          Authorization: `Bearer ${hardcodedToken}`,
+          Authorization: `Bearer ${authToken}`,
         },
       })
       .then(response => {
-        console.log('Data is data:', response.data);
-        setAllCatagery(response.data); 
+        setAllCatagery(response.data);
       })
       .catch(error => {
         console.error('Error:', error);
       });
+
   }, []);
 
   useEffect(() => {
-    // Fetch subcategories based on the selected category
     if (category) {
       axios
-        .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`,{
+        .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`, {
           headers: {
-            Authorization: `Bearer ${hardcodedToken}`,
+            Authorization: `Bearer ${authToken}`,
           },
         })
         .then(response => {
@@ -77,28 +86,23 @@ const CreateTicketForm = (props) => {
           console.error('Error fetching subcategories:', error);
         });
     } else {
-      // If no category is selected, clear the subcategory options
       setAllSubCatagry([]);
     }
   }, [category]);
 
 
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const formData = new FormData();
     formData.append('awb_number', awbNumbers);
     formData.append('category', category);
     formData.append('sub_category', subcategory);
     formData.append('description', remarks);
     formData.append('escalate_image', attachments);
-
     try {
       const response = await axios.post('http://65.2.38.87:8088/core-api/features/support-tickets/', formData, {
         headers: {
-           'Authorization': `Bearer ${hardcodedToken}`,
+          'Authorization': `Bearer ${authToken}`,
           'Content-Type': 'multipart/form-data',
         },
       });
@@ -111,8 +115,6 @@ const CreateTicketForm = (props) => {
     } catch (error) {
       console.error('API call error:', error);
     }
-
-    // Clear form fields after submission
     setAwbNumbers('');
     setCategory('');
     setSubcategory('');
@@ -120,9 +122,32 @@ const CreateTicketForm = (props) => {
     setAttachments(null);
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    setAttachments(file);
+    setAttachments(e.target.files[0].name);
+    if (file) {
+      try {
+        const responseData = await getFileData(e.target.files[0].name);
+        const awsUrl = responseData.data.url.url
+
+        const formData = new FormData();
+        formData.append('key', responseData.data.url.fields.key);
+        formData.append('file', e.target.files[0]);
+        formData.append('AWSAccessKeyId', awsAccessKey);
+        formData.append('policy', responseData.data.url.fields.policy);
+        formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+        const additionalData = await uploadImageData(awsUrl, formData);
+
+        if (additionalData?.status == 204) {
+          const imageUrl = responseData.data.url.url + e.target.files[0].name
+
+        }
+
+      } catch (error) {
+        console.error('Error handling file change:', error);
+      }
+    }
+
   };
 
   return (
@@ -163,7 +188,7 @@ const CreateTicketForm = (props) => {
         <button className='btn cancel-button' type="button" onClick={() => console.log('Cancelled')}>
           Cancel
         </button>
-        <button className='btn main-button' type="submit" onClick={()=>props.setNewTicket(!props.NewTicket)}>
+        <button className='btn main-button' type="submit" onClick={() => props.setNewTicket(!props.NewTicket)}>
           Submit
         </button>
       </div>

@@ -1,9 +1,15 @@
+import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import "./App.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Sidebar from "./Component/common/sidebar/SideNav";
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Loading from "./Component/loader";
 import Header from "./Component/common/header/Header";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
@@ -27,12 +33,9 @@ import LoginPage from './Component/Pages/LoginPage/LoginPage';
 import ManageWarehouse from './Component/Pages/ManageWarehouse/ManageWarehouse';
 import AddWarehouse from './Component/Pages/ManageWarehouse/Components/AddWarehouse';
 import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
 import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
-import { Routes, Route, useNavigate } from 'react-router-dom';
 import StoreHippoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/StoreHippoIntegrationForm";
 import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
 import AmazonDirectIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/AmazonDirectIntegrationForm";
@@ -42,6 +45,7 @@ import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Compon
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
+<<<<<<< HEAD
 import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import ProtectedRoute from "./ProtectedRoute";
@@ -55,6 +59,13 @@ import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/Serviceab
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
+=======
+import RateCalculator from "./Component/Pages/ToolsPage/Components/RateCalculator/RateCalculator";
+import Serviceability from "./Component/Pages/ToolsPage/Components/Serviceability/Serviceability";
+import ZoneMapping from "./Component/Pages/ToolsPage/Components/ZoneMapping/ZoneMapping";
+import ReportScheduler from "./Component/Pages/ToolsPage/Components/ReportScheduler/ReportScheduler";
+import CourierAllocation from "./Component/Pages/ToolsPage/Components/CourierAllocation/CourierAllocation";
+>>>>>>> 4-customer-support-api-integration-Sanjeev
 
 
 function App() {
@@ -83,13 +94,15 @@ function App() {
     }
   }, [tokenChecked, tokenExists, navigate]);
 
-
-  console.log(tokenExists, "tokenExists")
+  const handleClick = () => {
+   dispatch({type:""})
+  }
   return (
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-          {/* <button onClick={handleClick}>Clcikss</button> */}
+          <button onClick={handleClick}>Clcikss</button>
+
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
@@ -141,7 +154,6 @@ function App() {
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
           </Routes>
-          {/* </Router> */}
         </div>
       </div>
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />

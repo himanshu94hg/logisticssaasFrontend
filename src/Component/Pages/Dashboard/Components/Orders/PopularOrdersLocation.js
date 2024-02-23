@@ -4,15 +4,15 @@ import axios from 'axios';
 const PopularOrdersLocation = () => {
   const [popularLocations, setPopularLocations] = useState([]);
 
-  useEffect(() => {
-    axios.get('http://65.2.38.87:8088/api/v1/state-wise-order/')
-      .then(response => {
-        setPopularLocations(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching data:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios.get('http://65.2.38.87:8088/api/v1/state-wise-order/')
+  //     .then(response => {
+  //       setPopularLocations(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error fetching data:', error);
+  //     });
+  // }, []);
 
   return (
     <div className="box-shadow shadow-sm p10">

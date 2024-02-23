@@ -40,33 +40,7 @@ const AllTickets = (props) => {
     const [allTicket, setAllTicket] = useState(); //for dummy data
 
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NzI5MzczLCJpYXQiOjE3MDcxMjQ1NzMsImp0aSI6ImVjNDkwMGEzN2Q4YjRhN2U4YzM0Zjg3OGQyZTc3YzRlIiwidXNlcl9pZCI6Mn0.0cZBgN8Zzphn9WiQY37XcXUDCL-aI5TXlgsdjMZdqYU'
-    //             const response = await axios.get(
-    //                 'http://65.2.38.87:8088/core-api/features/support-tickets/',
-    //                 {
-    //                     // params: {
-    //                     //     // sub_category: 14,
-    //                     //     status: 'Closed',
-    //                     //     // resolution_due_by: '2024-01-01',
-    //                     //     // last_updated: '2024-02-01',
-    //                     // },
-    //                     headers: {
-    //                         Authorization: `Bearer ${hardcodedToken}`,
-    //                     },
-    //                 }
-    //             );
-    //             setAllTicket(response.data);
-    //         } catch (error) {
-    //             console.error('Error fetching data:', error);
-    //         }
-    //     };
 
-    //     fetchData();
-    // }, []);
-    // console.log("########################all ticket is",allTicket)
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);

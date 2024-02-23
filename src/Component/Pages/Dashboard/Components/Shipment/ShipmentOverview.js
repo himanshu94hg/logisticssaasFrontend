@@ -5,15 +5,15 @@ import Table from "react-bootstrap/Table";
 const ShipmentOverview = () => {
 
     const [courierPartner, setCourierPartner] = useState([]);
-    useEffect(() => {
-        axios.get('http://65.2.38.87:8088/api/v1/shipment-overview/')
-            .then(response => {
-                setCourierPartner(response.data);
-            })
-            .catch(error => {
-                console.error('Error fetching data:', error);
-            });
-    }, []);
+    // useEffect(() => {
+    //     axios.get('http://65.2.38.87:8088/api/v1/shipment-overview/')
+    //         .then(response => {
+    //             setCourierPartner(response.data);
+    //         })
+    //         .catch(error => {
+    //             console.error('Error fetching data:', error);
+    //         });
+    // }, []);
 
     return (
         <>

@@ -1,82 +1,93 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import moment from 'moment';
+import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import AllTickets from './Components/AllTickets';
 import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import NavTabs from './Components/navTabs/NavTabs';
 import CreateTicketForm from './Components/CreateTicketForm';
 import FilterTicketsForm from './Components/FilterTicketsForm';
 import InProgressTickets from './Components/InProgressTickets';
-import OpenTickets from './Components/OpenTickets';
-import ClosedTickets from './Components/ClosedTickets';
 import ViewTicketSlider from './Components/ViewTicketSlider';
-import NavTabs from './Components/navTabs/NavTabs';
-import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt, faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const CustomerSupportPage = () => {
-  const [ViewTicketInfo, setViewTicketInfo] = useState(false);
+  let navigate = useNavigate();
+  const [viewId, setId] = useState('');
+  const [allTicket, setAllTicket] = useState([]);
+  const [ticketId, setTicketId] = useState(null);
   const [NewTicket, setNewTicket] = useState(false);
   const [FilterTickets, setFilterTickets] = useState(false);
-  const [ActiveTab, setActiveTab] = useState('AllTickets');
-  const [allTicket, setAllTicket] = useState([]);
-  const [categories, setSelectedCategories] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [resolutionDate, setResolutionDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
-  const [isFilter, setIsFilter] = useState(false);
-  const [viewId, setId] = useState('');
+  const [activeTab, setActiveTab] = useState('allTickets');
+  const [ViewTicketInfo, setViewTicketInfo] = useState(false);
 
-  let navigate = useNavigate();
+
+  console.log(ViewTicketInfo, "i am ViewTicketInfoViewTicketInfo")
+
+  const authToken = Cookies.get("access_token")
+  const apiUrl = "http://65.2.38.87:8088/core-api/features/support-tickets/";
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
-        let params = {};
-
-        if (isFilter) {
-          params = {
-            sub_category: categories.map(category => category.value).join(','),
-            status: selectedStatus,
-            // resolution_due_by: resolutionDate,
-            // last_updated: endDate
-          };
-        } else {
-          // params = {
-          //   sub_category: 14,
-          //   status: 'Closed',
-          //   resolution_due_by: '2024-01-01',
-          //   last_updated: '2024-02-01',
-          // };
-        }
-
-        const response = await axios.get(
-          'http://65.2.38.87:8088/core-api/features/support-tickets/',
-          {
-            params: params,
-            headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
-            },
-          }
-        );
+    let url = apiUrl;
+    switch (activeTab) {
+      case "openTickets":
+        url += "?status=Open";
+        break;
+      case "inProgressTickets":
+        url += "?status=In-progress";
+        break;
+      case "closedTickets":
+        url += "?status=Closed";
+        break;
+      default:
+        break;
+    }
+    axios.get(url, {
+      headers: {
+        Authorization: `Bearer ${authToken}`,
+      },
+    })
+      .then((response) => {
         setAllTicket(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }, [activeTab]);
 
-    fetchData();
-  }, [isFilter, categories, selectedStatus, resolutionDate, endDate]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
-    setSelectedCategories(categories);
-    setSelectedStatus(status);
-    setResolutionDate(resDate);
-    setEndDate(endDt);
-    setIsFilter(isFilter);
+    const queryParams = new URLSearchParams();
+    if (categories == []) {
+      queryParams.append('sub_category', categories.value);
+    }
+    if (status != "") {
+      queryParams.append('status', status);
+    }
+    if (resDate != null || undefined) {
+      queryParams.append('resolution_due_by', moment(resDate).format("YYYY-MM-DD"));
+    }
+    if (endDt != null || undefined) {
+      queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
+    }
+    const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
+    axios
+      .get(apiUrlWithParams, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+      .then(response => {
+        setAllTicket(response.data)
+        setFilterTickets(false)
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+
   };
 
-  console.log("filterd data is", categories, selectedStatus, resolutionDate, endDate, isFilter)
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
   };
@@ -94,7 +105,7 @@ const CustomerSupportPage = () => {
         <h4>Support</h4>
         <p className='text-blue fw-700'>Seek assistance by either generating a support ticket or perusing through informative help articles.</p>
         <NavTabs
-          activeTab={ActiveTab}
+          activeTab={activeTab}
           setActiveTab={setActiveTab}
           FilterTickets={FilterTickets}
           setFilterTickets={setFilterTickets}
@@ -102,10 +113,7 @@ const CustomerSupportPage = () => {
           NewTicket={NewTicket}
         />
         <div className='row mt-3'>
-          {ActiveTab === 'AllTickets' ? <AllTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} allTicket={allTicket} setAllTicket={setAllTicket} handleViewButtonClick={handleViewButtonClick} /> : ''}
-          {ActiveTab === 'OpenTickets' ? <OpenTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
-          {ActiveTab === 'InProgressTickets' ? <InProgressTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
-          {ActiveTab === 'ClosedTickets' ? <ClosedTickets ViewTicketInfo={ViewTicketInfo} setViewTicketInfo={setViewTicketInfo} /> : ''}
+          <InProgressTickets allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>

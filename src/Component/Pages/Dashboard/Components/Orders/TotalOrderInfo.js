@@ -17,26 +17,26 @@ function TotalOrderInfo() {
   const[totalRtoOrder,setTotalRtoOrder]=useState(null)
   
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [totalorderResponse, cancelorderResponse, totaldeleverdResponse, totalrtoResponse] =
-          await Promise.all([
-            axios.get('http://65.2.38.87:8088/api/v1/totalorder/'),
-            axios.get('http://65.2.38.87:8088/api/v1/totalcancelorder/'),
-            axios.get('http://65.2.38.87:8088/api/v1/totaldeleverdorder/'),
-            axios.get('http://65.2.38.87:8088/api/v1/totalrtoordercount/'),
-          ]);
+    // const fetchData = async () => {
+    //   try {
+    //     const [totalorderResponse, cancelorderResponse, totaldeleverdResponse, totalrtoResponse] =
+    //       await Promise.all([
+    //         axios.get('http://65.2.38.87:8088/api/v1/totalorder/'),
+    //         axios.get('http://65.2.38.87:8088/api/v1/totalcancelorder/'),
+    //         axios.get('http://65.2.38.87:8088/api/v1/totaldeleverdorder/'),
+    //         axios.get('http://65.2.38.87:8088/api/v1/totalrtoordercount/'),
+    //       ]);
 
-        setTotalOrder(totalorderResponse.data);
-        setCancelOrder(cancelorderResponse.data);
-        setTotalDeveloper(totaldeleverdResponse.data);
-        setTotalRtoOrder(totalrtoResponse.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
+    //     setTotalOrder(totalorderResponse.data);
+    //     setCancelOrder(cancelorderResponse.data);
+    //     setTotalDeveloper(totaldeleverdResponse.data);
+    //     setTotalRtoOrder(totalrtoResponse.data);
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
   }, []);
   return (
     <>

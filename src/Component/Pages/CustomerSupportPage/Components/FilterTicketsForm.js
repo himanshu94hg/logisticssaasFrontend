@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const FilterTicketsForm = (props) => {
   const [subcatList, setSubcategory] = useState([]);
@@ -11,22 +12,20 @@ const FilterTicketsForm = (props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [resolutionDate, setResolutionDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
+  
+  const authToken=Cookies.get("access_token")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const hardcodedToken =
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
         const response = await axios.get(
           'http://65.2.38.87:8088/core-api/features/ticket-sub-category/',
           {
             headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
+              Authorization: `Bearer ${authToken}`,
             },
           }
         );
-
-        // Format the data to match the expected structure for Select options
         const formattedOptions = response.data.map((category) => ({
           value: category.id,
           label: category.name,
@@ -63,7 +62,7 @@ const FilterTicketsForm = (props) => {
   };
 
   const StatusOptions = [
-    { value: '', label: 'Select Status' },
+    { value: 'All', label: 'All' },
     { value: 'Open', label: 'Open' },
     { value: 'In-progess', label: 'In-progess' },
     { value: 'Closed', label: 'Closed' },
@@ -78,7 +77,6 @@ const FilterTicketsForm = (props) => {
           onChange={handleChange}
           value={selectedCategories}
           placeholder='Choose a Subcategory'
-          isMulti // Enables multi-select
         />
         <Select
           options={StatusOptions}
@@ -97,7 +95,7 @@ const FilterTicketsForm = (props) => {
             <DatePicker
               selected={resolutionDate}
               onChange={handleResolutionDateChange}
-              dateFormat='MM/dd/yyyy'
+              dateFormat='dd/MM/yyyy'
               className='input-field'
             />
           </div>
@@ -109,7 +107,7 @@ const FilterTicketsForm = (props) => {
             <DatePicker
               selected={endDate}
               onChange={handleEndDateChange}
-              dateFormat='MM/dd/yyyy'
+              dateFormat='dd/MM/yyyy'
               className='input-field'
             />
           </div>

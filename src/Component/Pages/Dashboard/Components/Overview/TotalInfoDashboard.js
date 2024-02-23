@@ -16,26 +16,26 @@ function TotalInfoDashboard() {
   const [todayRevenue,setTodayRevenue]=useState(null);
   
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [customerResponse,shipmentResponse, sellingResponse, revenueResponse] =
-          await Promise.all([
-            axios.get('http://65.2.38.87:8088/api/v1/top-customer/'),
-            axios.get('http://65.2.38.87:8088/api/v1/daly-shipment/'),
-            axios.get('http://65.2.38.87:8088/api/v1/avg-sellingprice/'),
-            axios.get('http://65.2.38.87:8088/api/v1/today-revenue/'),
-          ]);
+    // const fetchData = async () => {
+    //   try {
+    //     const [customerResponse,shipmentResponse, sellingResponse, revenueResponse] =
+    //       await Promise.all([
+    //         axios.get('http://65.2.38.87:8088/api/v1/top-customer/'),
+    //         axios.get('http://65.2.38.87:8088/api/v1/daly-shipment/'),
+    //         axios.get('http://65.2.38.87:8088/api/v1/avg-sellingprice/'),
+    //         axios.get('http://65.2.38.87:8088/api/v1/today-revenue/'),
+    //       ]);
 
-        setTotalCustomer(customerResponse.data);
-        setDailyShipment(shipmentResponse.data);
-        setAverageSelling(sellingResponse.data);
-        setTodayRevenue(revenueResponse.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
+    //     setTotalCustomer(customerResponse.data);
+    //     setDailyShipment(shipmentResponse.data);
+    //     setAverageSelling(sellingResponse.data);
+    //     setTodayRevenue(revenueResponse.data);
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //   }
+    // };
 
-    fetchData();
+    // fetchData();
   }, []);
 console.log("##############33 totalCustomer",totalCustomer)
 // console.log("@@@@@@@@@@@@@@ dailyShipment",dailyShipment)
