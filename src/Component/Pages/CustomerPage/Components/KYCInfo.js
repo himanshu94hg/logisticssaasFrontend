@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Cookies from "js-cookie";
 
 const KYCInfo = () => {
+  const [hardcodedToken] = useState(Cookies.get("access_token"));
   const [formData, setFormData] = useState({
     companyType: '',
     documentType: '',
@@ -24,41 +26,87 @@ const KYCInfo = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
 
-    // Display SweetAlert on successful form submission
-    Swal.fire({
-      icon: 'success',
-      title: 'Document Added Successfully!',
-      showConfirmButton: false,
-      timer: 1500,
-    });
+    try {
+      // Prepare the request body
+      const requestBody = {
+        document_upload: formData.uploadDocument,
+        company_type: formData.companyType,
+        document_type: formData.documentType,
+        document_id: formData.documentNumber,
+        document_name: formData.documentName,
+        documents: formList.map(item => ({
+          documentType: item.documentType,
+          documentName: item.documentName,
+          documentNumber: item.documentNumber
+        }))
+      };
 
-    // Add form data to the list
-    setFormList([...formList, formData]);
 
-    // Clear form data after submission
-    setFormData({
-      companyType: '',
-      documentType: '',
-      uploadDocument: null,
-      documentName: '',
-      documentNumber: '',
-    });
+      try {
+        const response = await axios.post(
+            'http://65.2.38.87:8088/core-api/seller/kyc-info/',
+            requestBody,
+            {
+              headers: {
+                Authorization: `Bearer ${hardcodedToken}`,
+                'Content-Type': 'application/json',
+              },
+            }
+        );
+        Swal.fire({
+          icon: 'success',
+          title: 'Accounts Saved',
+          text: 'The kyc information has been saved successfully.',
+        });
+
+      } catch (error) {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Failed to save kyc information. Please try again.',
+        });
+      }
+
+
+      // Display success message
+      Swal.fire({
+        icon: 'success',
+        title: 'Document Added Successfully!',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+
+      setFormList([...formList, formData]);
+
+      // Clear the form data
+      setFormData({
+        companyType: '',
+        documentType: '',
+        uploadDocument: null,
+        documentName: '',
+        documentNumber: '',
+      });
+    } catch (error) {
+      // Display error message
+      console.error('Error:', error);
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Failed to add document. Please try again.',
+      });
+    }
   };
 
   const handleDelete = (index) => {
-    // Remove the item at the specified index from the list
     const updatedList = [...formList];
     updatedList.splice(index, 1);
     setFormList(updatedList);
   };
 
   return (
-    <>
       <form onSubmit={handleSubmit}>
         <div className='customer-details-container'>
           <div className='customer-details-form'>
@@ -70,7 +118,7 @@ const KYCInfo = () => {
                   <select className='select-field' name="companyType" value={formData.companyType} onChange={handleChange}>
                     <option value="">Select Company Type</option>
                     <option value="Proprietorship">Proprietorship</option>
-                    <option value="Private" selected="">Private</option>
+                    <option value="Private">Private</option>
                     <option value="Partnership Firm">Partnership Firm</option>
                     <option value="Other">Other</option>
                   </select>
@@ -81,20 +129,17 @@ const KYCInfo = () => {
             <div className='details-form-row row'>
               <h5 className='col-3'>KYC Documents</h5>
               <div className='col-9'>
-
                 <div className='d-flex gap-3 mt-3'>
                   <label>
                     Document Type:
                     <select className='select-field' name="documentType" value={formData.documentType} onChange={handleChange}>
                       <option value="">Select Document Type</option>
                       <option value="Aadhar Card">Aadhar Card</option>
-                      <option value="Pan Card" selected="">Pan Card</option>
+                      <option value="Pan Card">Pan Card</option>
                       <option value="Driving License">Driving License</option>
                       <option value="Voter ID Card">Voter ID Card</option>
-                      {/* Add more options as needed */}
                     </select>
                   </label>
-
                   <label>
                     Upload Document:
                     <input className='input-field' type="file" name="uploadDocument" onChange={handleChange} />
@@ -104,21 +149,21 @@ const KYCInfo = () => {
                   <label>
                     Document Name:
                     <input
-                      className='input-field'
-                      type="text"
-                      name="documentName"
-                      value={formData.documentName}
-                      onChange={handleChange}
+                        className='input-field'
+                        type="text"
+                        name="documentName"
+                        value={formData.documentName}
+                        onChange={handleChange}
                     />
                   </label>
                   <label>
                     Document Number:
                     <input
-                      className='input-field'
-                      type="text"
-                      name="documentNumber"
-                      value={formData.documentNumber}
-                      onChange={handleChange}
+                        className='input-field'
+                        type="text"
+                        name="documentNumber"
+                        value={formData.documentNumber}
+                        onChange={handleChange}
                     />
                   </label>
                 </div>
@@ -129,21 +174,21 @@ const KYCInfo = () => {
               <h5 className='col-3'>Uploaded Documents</h5>
               <ul className="col-9 upload-doc-list">
                 {formList.map((item, index) => (
-                  <li key={index} className='row'>
-                    <p className='col-11'>
-                      <span className='me-4'>Document Type: <strong>{item.documentType}</strong></span>|
-                      <span className='mx-4'>Document Name: <strong>{item.documentName}</strong></span>|
-                      <span className='mx-4'>Document Number: <strong>{item.documentNumber}</strong></span>
-                    </p>
-                    <div className='col-1 d-flex gap-2 align-items-center'>
-                      <button type='button' className='btn preview-btn'>
-                        <FontAwesomeIcon icon={faEye} />
-                      </button>
-                      <button type='button' className='btn delete-btn' onClick={() => handleDelete(index)}>
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-                    </div>
-                  </li>
+                    <li key={index} className='row'>
+                      <p className='col-11'>
+                        <span className='me-4'>Document Type: <strong>{item.documentType}</strong></span>|
+                        <span className='mx-4'>Document Name: <strong>{item.documentName}</strong></span>|
+                        <span className='mx-4'>Document Number: <strong>{item.documentNumber}</strong></span>
+                      </p>
+                      <div className='col-1 d-flex gap-2 align-items-center'>
+                        <button type='button' className='btn preview-btn'>
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                        <button type='button' className='btn delete-btn' onClick={() => handleDelete(index)}>
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </button>
+                      </div>
+                    </li>
                 ))}
               </ul>
             </div>
@@ -155,8 +200,6 @@ const KYCInfo = () => {
           </div>
         </div>
       </form>
-
-    </>
   );
 };
 
