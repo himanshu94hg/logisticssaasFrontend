@@ -1,49 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
 import '../ToolsPage.css';
-import axios from 'axios';
+import Select from 'react-select';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const ShippingRates = () => {
     const [selectedCourier, setSelectedCourier] = useState(null);
-    const [RateData, setRateData] = useState(null)
+    const dispatch = useDispatch();
+    const { ratingCardData } = useSelector(state => state?.toolsSectionReducer);
 
     useEffect(() => {
-        axios
-          .get('http://65.2.38.87:8088/core-api/shipping/ship-rate-card/')
-          .then(response => {
-            console.log('Data:', response.data);
-            RateData(response.data);
-          })
-          .catch(error => {
-            console.error('Error:', error);
-          });
-      }, []);  
-    
+        dispatch({ type: "GET_RATE_CARD" });
+    }, [dispatch]);
 
-    const shippingData = [
-        { value: 'Shadowfax', courierPartner: 'Shadowfax', zoneA: '₹ 5', zoneB: '₹ 6', zoneC: '₹ 7', zoneD: '₹ 8', zoneE: '₹ 9', codCharges: '₹ 10', codMaintenance: '2%' },
-        { value: 'Delhivery', courierPartner: 'Delhivery', zoneA: '₹ 6', zoneB: '₹ 7', zoneC: '₹ 8', zoneD: '₹ 9', zoneE: '₹ 10', codCharges: '₹ 11', codMaintenance: '3%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        { value: 'Xpressbees A', courierPartner: 'Xpressbees A', zoneA: '₹ 7', zoneB: '₹ 8', zoneC: '₹ 9', zoneD: '₹ 10', zoneE: '₹ 11', codCharges: '₹ 12', codMaintenance: '4%' },
-        // Add more data as needed
-    ];
-
-    const handleCourierChange = (selectedOption) => {
+    const handleCourierChange = selectedOption => {
         setSelectedCourier(selectedOption);
     };
 
     const shippingSelectData = [
-        { value: 'all', label: 'All Couriers' }, // Add an "All Couriers" option
+        { value: 'all', label: 'All Couriers' },
         { value: 'Shadowfax', label: 'Shadowfax' },
         { value: 'Delhivery', label: 'Delhivery' },
         { value: 'Xpressbees A', label: 'Xpressbees A' },
-        // Add more options as needed
     ];
+
+    const renderRows = data => {
+        const filteredData = selectedCourier && selectedCourier.value !== 'all' ?
+            data.filter(item => item.partner === selectedCourier.value) :
+            data;
+
+        return filteredData.map((item, index) => (
+            <React.Fragment key={item.partner + index}>
+                <tr className='table-row nested-tr box-shadow'>
+                    <td rowSpan={3}>{item.partner}</td>
+                    <td>FWD</td>
+                    <td>{item.zone_a}</td>
+                    <td>{item.zone_b}</td>
+                    <td>{item.zone_c}</td>
+                    <td>{item.zone_d}</td>
+                    <td>{item.zone_e}</td>
+                    <td className='rowfull3' rowSpan={3}>{item.cod_charge}</td>
+                    <td className='rowfull3' rowSpan={3}>{item.cod_maintenance}</td>
+                </tr>
+                <tr className='nested-tr box-shadow'>
+                    <td>RTO</td>
+                    <td>{item.rto_charge_a}</td>
+                    <td>{item.rto_charge_b}</td>
+                    <td>{item.rto_charge_c}</td>
+                    <td>{item.rto_charge_d}</td>
+                    <td>{item.rto_charge_e}</td>
+                </tr>
+                <tr className='nested-tr box-shadow'>
+                    <td>ADD Wt.</td>
+                    <td>{item?.extra_charge_a}</td>
+                    <td>{item?.extra_charge_b}</td>
+                    <td>{item?.extra_charge_c}</td>
+                    <td>{item?.extra_charge_d}</td>
+                    <td>{item?.extra_charge_e}</td>
+                </tr>
+                <tr className='blank-row' key={`empty-${item.partner}-${index}`}><td></td></tr>
+            </React.Fragment>
+        ));
+    };
 
     return (
         <section className='position-relative'>
@@ -60,7 +77,6 @@ const ShippingRates = () => {
                                 isSearchable
                             />
                         </label>
-
                     </div>
                     <div className='button-container'></div>
                 </div>
@@ -78,122 +94,15 @@ const ShippingRates = () => {
                                 <th style={{ width: '10%' }}>COD Charges</th>
                                 <th style={{ width: '10%' }}>COD <br /> Maintenance(%)</th>
                             </tr>
-
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {selectedCourier && selectedCourier.value !== '' ? (
-                                selectedCourier.value === 'all' ? (
-                                    // Render data for all couriers
-                                    shippingData.map((data, index) => (
-                                        <React.Fragment key={data.value + index}>
-                                            <tr className='table-row nested-tr box-shadow'>
-                                                <td rowSpan={3}>{data.courierPartner}</td>
-                                                <td>FWD</td>
-                                                <td>{data.zoneA}</td>
-                                                <td>{data.zoneB}</td>
-                                                <td>{data.zoneC}</td>
-                                                <td>{data.zoneD}</td>
-                                                <td>{data.zoneE}</td>
-                                                <td className='rowfull3' rowSpan={3}>{data.codCharges}</td>
-                                                <td className='rowfull3' rowSpan={3}>{data.codMaintenance}</td>
-                                            </tr>
-                                            <tr className='nested-tr box-shadow'>
-                                                <td>RTO</td>
-                                                <td>{data.zoneA}</td>
-                                                <td>{data.zoneB}</td>
-                                                <td>{data.zoneC}</td>
-                                                <td>{data.zoneD}</td>
-                                                <td>{data.zoneE}</td>
-                                            </tr>
-                                            <tr className='nested-tr box-shadow'>
-                                                <td>ADD Wt.</td>
-                                                <td>{data.zoneA}</td>
-                                                <td>{data.zoneB}</td>
-                                                <td>{data.zoneC}</td>
-                                                <td>{data.zoneD}</td>
-                                                <td>{data.zoneE}</td>
-                                            </tr>
-                                            <tr className='blank-row' key={`empty-₹ {data.value}-₹ {index}`}><td></td></tr> {/* Empty row */}
-                                        </React.Fragment>
-                                    ))
-                                ) : (
-                                    // Render data for selected courier
-                                    shippingData
-                                        .filter(data => data.value === selectedCourier.value)
-                                        .map((data, index) => (
-                                            <React.Fragment key={data.value + index}>
-                                                <tr className='table-row nested-tr box-shadow'>
-                                                    <td rowSpan={3}>{data.courierPartner}</td>
-                                                    <td>FWD</td>
-                                                    <td>{data.zoneA}</td>
-                                                    <td>{data.zoneB}</td>
-                                                    <td>{data.zoneC}</td>
-                                                    <td>{data.zoneD}</td>
-                                                    <td>{data.zoneE}</td>
-                                                    <td className='rowfull3' rowSpan={3}>{data.codCharges}</td>
-                                                    <td className='rowfull3' rowSpan={3}>{data.codMaintenance}</td>
-                                                </tr>
-                                                <tr className='nested-tr box-shadow'>
-                                                    <td>RTO</td>
-                                                    <td>{data.zoneA}</td>
-                                                    <td>{data.zoneB}</td>
-                                                    <td>{data.zoneC}</td>
-                                                    <td>{data.zoneD}</td>
-                                                    <td>{data.zoneE}</td>
-                                                </tr>
-                                                <tr className='nested-tr box-shadow'>
-                                                    <td>ADD Wt.</td>
-                                                    <td>{data.zoneA}</td>
-                                                    <td>{data.zoneB}</td>
-                                                    <td>{data.zoneC}</td>
-                                                    <td>{data.zoneD}</td>
-                                                    <td>{data.zoneE}</td>
-                                                </tr>
-                                                <tr className='blank-row' key={`empty-₹ {data.value}-₹ {index}`}><td></td></tr> {/* Empty row */}
-                                            </React.Fragment>
-                                        ))
-                                )
-                            ) : (
-                                // Render data for selected courier
-                                shippingData.map((data, index) => (
-                                    <React.Fragment key={data.value + index}>
-                                        <tr className='table-row nested-tr box-shadow'>
-                                            <td rowSpan={3}>{data.courierPartner}</td>
-                                            <td>FWD</td>
-                                            <td>{data.zoneA}</td>
-                                            <td>{data.zoneB}</td>
-                                            <td>{data.zoneC}</td>
-                                            <td>{data.zoneD}</td>
-                                            <td>{data.zoneE}</td>
-                                            <td className='rowfull3' rowSpan={3}>{data.codCharges}</td>
-                                            <td className='rowfull3' rowSpan={3}>{data.codMaintenance}</td>
-                                        </tr>
-                                        <tr className='nested-tr box-shadow'>
-                                            <td>RTO</td>
-                                            <td>{data.zoneA}</td>
-                                            <td>{data.zoneB}</td>
-                                            <td>{data.zoneC}</td>
-                                            <td>{data.zoneD}</td>
-                                            <td>{data.zoneE}</td>
-                                        </tr>
-                                        <tr className='nested-tr box-shadow'>
-                                            <td>ADD Wt.</td>
-                                            <td>{data.zoneA}</td>
-                                            <td>{data.zoneB}</td>
-                                            <td>{data.zoneC}</td>
-                                            <td>{data.zoneD}</td>
-                                            <td>{data.zoneE}</td>
-                                        </tr>
-                                        <tr className='blank-row' key={`empty-₹ {data.value}-₹ {index}`}><td></td></tr> {/* Empty row */}
-                                    </React.Fragment>
-                                ))
-                            )}
+                            {renderRows(ratingCardData)}
                         </tbody>
                     </table>
                 </div>
             </div>
-        </section >
+        </section>
     );
 };
 

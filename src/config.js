@@ -1,1 +1,2 @@
-export const appBaseUrl=process.env.REACT_APP_CORE_API_URL
+export const coreBaseUrl=process.env.REACT_APP_CORE_API_URL
+export const orderBaseUrl=process.env.REACT_APP_ORDERS_API_URL

@@ -1,0 +1,23 @@
+import { GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA } from "../../constants/tools";
+
+const initialState = {
+    sellerData: [],
+    ratingCardData:[]
+};
+
+export const toolsSectionReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case GET_RATE_CARD_DATA:
+            return {
+                ...state,
+                ratingCardData: action?.payload?.data
+            };
+        case GET_RATE_CALCULATOR_DATA:
+            return {
+                ...state,
+                sellerData: action?.payload?.data
+            };
+        default:
+            return state
+    }
+}
