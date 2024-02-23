@@ -30,7 +30,6 @@ const KYCInfo = () => {
     e.preventDefault();
 
     try {
-      // Prepare the request body
       const requestBody = {
         document_upload: formData.uploadDocument,
         company_type: formData.companyType,
@@ -107,7 +106,7 @@ const KYCInfo = () => {
   };
 
   return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} encType="multipart/form-data">
         <div className='customer-details-container'>
           <div className='customer-details-form'>
             <div className='details-form-row row'>
