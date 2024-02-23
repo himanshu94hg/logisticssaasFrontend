@@ -2,10 +2,15 @@ import { faChevronRight, faPenToSquare, faTrashCan } from '@fortawesome/free-sol
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react';
 import './ReportSchedulerPage.css'
+import { ReactMultiEmail, isEmail } from 'react-multi-email';
+import 'react-multi-email/dist/style.css';
+
 
 const ReportSchedulerPage = () => {
   const [NewScheduler, setNewScheduler] = useState(false)
 
+  const [emails, setEmails] = useState([]);
+  const [focused, setFocused] = useState(false);
 
   // Dummy report data
   const dummyReports = [
@@ -109,8 +114,101 @@ const ReportSchedulerPage = () => {
           <h2 className='mb-0'>Schedule a Report!</h2>
         </section>
         <section className='ticket-slider-body'>
+          <div class="grid-container">
+            <div class="grid-item component-1">
+              <h5>Report Details</h5>
+              <div className='d-flex flex-column gap-4'>
+                <label>
+                  Please Select a report Type
+                  <select className='select-field' type="text" />
+                </label>
+                <label>
+                  Report Name
+                  <input className='input-field' type="text" />
+                </label>
+                <label>Recipients Email IDs
+                  <ReactMultiEmail
+                    placeholder='Enter Recipients email ID and press enter'
+                    emails={emails}
+                    onChange={(_emails) => {
+                      setEmails(_emails);
+                    }}
+                    autoFocus={true}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}
+                    getLabel={(email, index, removeEmail) => {
+                      return (
+                        <div data-tag key={index}>
+                          <div data-tag-item>{email}</div>
+                          <span data-tag-handle onClick={() => removeEmail(index)}>
+                            ×
+                          </span>
+                        </div>
+                      );
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
 
+            <div class="grid-item component-2">
+              <h5>Frequency Details</h5>
+              <div className='d-flex flex-column gap-4'>
+                <label>
+                  Send Reports
+                  <label>Every Month
+                    <input type="radio" name="Send_Reports" id="" />
+                  </label>
+                  <label>Every Week
+                    <input type="radio" name="Send_Reports" id="" />
+                  </label>
+                  <label>Every Day
+                    <input type="radio" name="Send_Reports" id="" />
+                  </label>
+                </label>
+                <label>
+                  Selected Dates for sending reports
+                  <input className='input-field' type="text" />
+                </label>
+                <label>
+                  Select Time
+                  <input className='input-field' type="date" />
+                </label>
+                <label>
+                  Get data for the last
+                  <label>
+                    <input className='input-field' type="text" />
+                  </label>
+                  <label>
+                    <input className='input-field' type="text" />
+                  </label>
+                </label>
+
+                <p>Note: It can take upto 24 hours in sending your first report</p>
+                <p>We'll send reports on your email every month on 19th with the last 1 day data with the selected report content</p>
+              </div>
+            </div>
+
+            <div class="grid-item component-3">
+              <h5>Report Content</h5>
+              <div className='d-flex flex-column gap-4'>
+                <label>
+                  Order Type
+                  <select className='select-field' name="" id=""></select>
+                </label>
+                <label>
+                  Order Status
+                  <select className='select-field' name="" id=""></select>
+                </label>
+                <label>
+                  Order Sub-status
+                  <select className='select-field' name="" id=""></select>
+                </label>
+              </div>
+            </div>
+          </div>
         </section>
+
       </section>
 
       <div onClick={() => setNewScheduler(!NewScheduler)} className={`backdrop ${NewScheduler ? 'd-block' : 'd-none'}`}></div>
