@@ -1,44 +1,37 @@
-import React, { useState, useEffect } from 'react';
-import Select from 'react-select';
-import DatePicker from 'react-datepicker';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 const FilterTicketsForm = (props) => {
   const [subcatList, setSubcategory] = useState([]);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [selectedStatus, setSelectedStatus] = useState('');
-  const [resolutionDate, setResolutionDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-  
-  const authToken=Cookies.get("access_token")
+  const [selectedStatus, setSelectedStatus] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [resolutionDate, setResolutionDate] = useState(new Date());
+
+  const authToken = Cookies.get("access_token")
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(
-          'http://65.2.38.87:8088/core-api/features/ticket-sub-category/',
-          {
-            headers: {
-              Authorization: `Bearer ${authToken}`,
-            },
-          }
-        );
+    if (props.filterClick) {
+      axios.get('http://65.2.38.87:8088/core-api/features/ticket-sub-category/', {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      }
+      ).then((response => {
         const formattedOptions = response.data.map((category) => ({
           value: category.id,
           label: category.name,
-        }));
-
+        }))
         setSubcategory(formattedOptions);
-      } catch (error) {
-        console.error('Error fetching data:', error);
       }
-    };
-
-    fetchData();
-  }, []);
+      ))
+    }
+  }, [props.filterClick]);
 
   const handleChange = (selectedOption) => {
     setSelectedCategories(selectedOption);
@@ -57,8 +50,7 @@ const FilterTicketsForm = (props) => {
   };
 
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories,selectedStatus,resolutionDate,endDate,"filter")
-    // Here you can perform further actions with the selected values, such as submitting the form data to an API
+    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
   };
 
   const StatusOptions = [
@@ -68,7 +60,7 @@ const FilterTicketsForm = (props) => {
     { value: 'Closed', label: 'Closed' },
   ];
 
-  
+
   return (
     <section className='ticket-slider-body'>
       <div className='ticket-filter-inputs'>

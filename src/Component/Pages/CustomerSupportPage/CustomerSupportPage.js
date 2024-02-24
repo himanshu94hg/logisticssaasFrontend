@@ -21,9 +21,9 @@ const CustomerSupportPage = () => {
   const [FilterTickets, setFilterTickets] = useState(false);
   const [activeTab, setActiveTab] = useState('allTickets');
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
+  const [filterClick, setFilterClick] = useState(false);
 
 
-  console.log(ViewTicketInfo, "i am ViewTicketInfoViewTicketInfo")
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "http://65.2.38.87:8088/core-api/features/support-tickets/";
@@ -117,14 +117,14 @@ const CustomerSupportPage = () => {
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => setFilterTickets(!FilterTickets)}>
+        <div id='sidepanel-closer' onClick={() => {setFilterTickets(!FilterTickets); setFilterClick(true)}}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
-        <FilterTicketsForm handleFormSubmit={handleFormSubmit} />
+        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets}/>
       </div>
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
