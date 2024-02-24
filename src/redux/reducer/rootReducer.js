@@ -4,5 +4,6 @@ import { toolsSectionReducer } from "./tools";
 
 export const rootReducer = combineReducers({
     authDataReducer,
-    toolsSectionReducer
+    toolsSectionReducer,
+    
 })

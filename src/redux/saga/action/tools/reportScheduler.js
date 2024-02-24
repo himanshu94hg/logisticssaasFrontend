@@ -7,7 +7,7 @@ import {  GET_REPORT_SCHEDULER_DATA } from "../../../constants/tools";
 async function reportSchedulerAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url:  `${BASE_URL_ORDER}${API_URL.GET_REPORTS_SCHEDULER}`,
+        url:  `${BASE_URL_ORDER}${API_URL.GET_REPORT_SCHEDULER}`,
         data: data
     });
     return listData
