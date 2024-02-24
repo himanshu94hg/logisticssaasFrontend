@@ -76,26 +76,15 @@ export default function NavTabs(props) {
                 Check Serviceability
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Courier wise serviceability" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "Get serviceability" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("Courier wise serviceability");
+                props.setActiveTab("Get serviceability");
               }}
             >
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Courier wise serviceability
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Shipease Serviceability" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Shipease Serviceability");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Shipease Serviceability
+                Get serviceability
               </div>
             </Nav.Link>
           </div>

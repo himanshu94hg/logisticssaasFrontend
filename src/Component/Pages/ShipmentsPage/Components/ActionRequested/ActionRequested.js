@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import axios from "axios";
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
+import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -36,28 +32,15 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequested = () => {
+const ActionRequested = ({shipmentCard}) => {
+    const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
-    const [orders, setAllOrders] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/shipment/v1/actionrequestedshipment/')
-            .then(response => {
-                console.log("Requested", response.data)
-                setAllOrders(response.data.shipment_data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.order_details?.id));
+            // setSelectedRows(orders.map(row => row?.order_details?.id));
         } else {
             setSelectedRows([]);
         }
@@ -72,11 +55,11 @@ const ActionRequested = () => {
             setSelectedRows([...selectedRows, orderId]);
         }
 
-        if (selectedRows.length === orders.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
-            setSelectAll(false);
-        }
+        // if (selectedRows.length === orders.length - 1 && isSelected) {
+        //     setSelectAll(false);
+        // } else {
+        //     setSelectAll(false);
+        // }
     };
 
     const handleSidePanel = () => {
@@ -136,7 +119,7 @@ const ActionRequested = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {shipmentCard?.map((row, index) => (
                                 <React.Fragment key={row?.order_details?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -149,31 +132,32 @@ const ActionRequested = () => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order_details?.order_number}</p>
+                                                <p>{row?.name}</p>
                                                 <div className='d-flex align-items-center'>
-                                                    <DateFormatter dateTimeString={row?.ndrdetail[row.ndrdetail.length - 1]?.raised_date} />
+                                                    {/* <DateFormatter dateTimeString={row?.ndrdetail[row.ndrdetail.length - 1]?.raised_date} /> */}
                                                     <img src={ForwardIcon} className={`ms-2 ${row?.order_details?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {row?.ndrdetail?.length > 0 && (
+                                                {/* {row?.ndrdetail?.length > 0 && (
                                                     <React.Fragment key={row?.ndrdetail[row.ndrdetail.length - 1].id}>
                                                         <p>{row?.ndrdetail[row.ndrdetail.length - 1]?.reason}</p>
                                                     </React.Fragment>
-                                                )}
-                                                <p><strong>Attempts: </strong>{row?.ndrdetail.length}</p>
+                                                )} */}
+                                                {/* <p><strong>Attempts: </strong>{row?.name}</p> */}
+                                                <p>{row?.name}</p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_details?.product_name}</p>
-                                                <p>Wt:  {row?.order_details?.weight} kg
+                                                <p className='width-eclipse'>{row?.name}</p>
+                                                <p>Wt:  {row?.id} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row?.order_details?.product_name}<br />{row?.order_details?.product_sku}<br /> Qt. {row?.order_details?.product_qty}
+                                                            {row?.name}<br />{row?.name}<br /> Qt. {row?.name}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -181,12 +165,12 @@ const ActionRequested = () => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order_details?.s_customer_name}</p>
-                                                <p>{row?.order_details?.s_contact}
+                                                <p>{row?.name}</p>
+                                                <p>{row?.username}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row?.order_details?.s_city}, {row?.order_details?.s_state}, {row?.order_details?.s_pincode}
+                                                            {row?.name}, {row?.name}, {row?.name}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -194,18 +178,18 @@ const ActionRequested = () => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.order_details?.awb_number}</p>
+                                                <p className='details-on-hover anchor-awb'>{row?.address.zipcode}</p>
                                                 {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
-                                                <p className='mt-1'><img src={`https://shipease.in/${row?.partner_details?.image}`} height={20} className='me-2' />{row?.order_details?.courier_partner}</p>
+                                                <p className='mt-1'><img src="https://ekartlogistics.com/assets/images/ekblueLogo.png" height={10} className='me-2' />{row?.order_details?.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             <p className='order-Status-box'>
-                                                {row?.ndr_attempts_data?.length > 0 && (
+                                                <p>{row?.username}</p>
+                                                {/* {row?.ndr_attempts_data?.length > 0 && (
                                                     <React.Fragment key={row.ndr_attempts_data[row.ndr_attempts_data.length - 1].id}>
-                                                        <p>{row.ndr_attempts_data[row.ndr_attempts_data.length - 1]?.action_status}</p>
                                                     </React.Fragment>
-                                                )}
+                                                 )}  */}
                                             </p>
                                         </td>
                                         <td className='align-middle'>
