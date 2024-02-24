@@ -64,7 +64,7 @@ const BulkCreateOrder = () => {
     console.log(bulkOrdersStatus, "this is bulk order status data");
 
     useEffect(() => {
-        if (bulkOrdersStatus) {
+        
             axios
                 .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
                     headers: {
@@ -78,8 +78,7 @@ const BulkCreateOrder = () => {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        }
-    }, [bulkOrdersStatus])
+    }, [])
 
 
 
@@ -119,7 +118,7 @@ const BulkCreateOrder = () => {
                         </tr>
                     </thead>
                     <thead>
-                        {bulkOrders?.map((item) => {
+                        {bulkOrders?.slice(0,10)?.map((item) => {
                             return (
                                 <tr>
                                     <td>{item?.file_name}</td>
