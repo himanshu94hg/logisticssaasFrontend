@@ -1,0 +1,24 @@
+.ServiceabilityPage .fm-lm-hr {
+    min-height: 400px;
+    height: 100%;
+    width: 1px;
+    background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 1) 0%, rgba(25, 117, 201, 1) 25%, rgba(25, 117, 201, 1) 75%, rgba(255, 255, 255, 1) 100%);
+    border-top: none;
+    padding: 0;
+    opacity: 1;
+}
+
+.ServiceabilityPage .courier-section ul {
+    margin-top: 10px;
+}
+
+.ServiceabilityPage .courier-item {
+    width: 50%;
+}
+
+.ServiceabilityPage .pair-hr {
+    width: 110px;
+    border-top: 1px dashed var(--sh-primary);
+    margin-top: 40px;
+}
