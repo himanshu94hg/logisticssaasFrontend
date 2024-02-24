@@ -38,7 +38,6 @@ function* rateCalculatorAction(action) {
     }
 }
 
-export function* getRateCalculatorWatcher(data) {
-    console.log("wactcher file action", data);
+export function* rateCalculatorWatcher() {
     yield takeLatest(GET_RATE_CALCULATOR, rateCalculatorAction);
 }

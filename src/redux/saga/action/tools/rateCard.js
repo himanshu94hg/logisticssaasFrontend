@@ -40,6 +40,6 @@ function* rateCardAction(action) {
     }
 }
 
-export function* getRateCardWatcher(data) {
+export function* rateCardWatcher() {
     yield takeLatest(GET_RATE_CARD, rateCardAction);
 }
