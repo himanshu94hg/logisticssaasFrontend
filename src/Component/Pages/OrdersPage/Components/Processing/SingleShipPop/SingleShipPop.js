@@ -28,10 +28,16 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const dateAfter2Days = addDays(currentDate, 2);
 
     const sellerId = Cookies.get("user_id");
+    let authToken=Cookies.get("access_token")
     useEffect(() => {
-        if(orderId !== null)
-        {
-            axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`)
+        if (orderId !== null) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            };
+
+            axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                     console.log("Response", response);
@@ -42,7 +48,11 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     }, [orderId]);
 
     const handleSubmit = (courier) => {
-        axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`)
+        axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
             .then((response) => {
                 console.log("Response", response);
                 if (response.data.status === true) {
