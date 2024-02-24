@@ -1,0 +1,1 @@
+export const GET_SHIPMENT_DATA="GET_SHIPMENT_DATA"

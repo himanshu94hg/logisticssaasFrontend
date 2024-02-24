@@ -1,14 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
+import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -27,7 +22,6 @@ const DateFormatter = ({ dateTimeString }) => {
             minute: '2-digit',
             hour12: true,
         };
-
         const dateObject = new Date(dateTimeString);
         const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
 
@@ -37,7 +31,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RTOShipment = () => {
+const RTOShipment = ({shipmentCard}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -59,21 +53,6 @@ const RTOShipment = () => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].data;
       };
-
-
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/shipment/v1/ndrshipment/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data.shipment_data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
-    console.log("%%%%%%%%%%%%%%%%%%%%%%%%%%55", orders)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -112,14 +91,6 @@ const RTOShipment = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
-
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
 
 
     return (
@@ -169,7 +140,7 @@ const RTOShipment = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {shipmentCard?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -183,7 +154,8 @@ const RTOShipment = () => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <div className='d-flex align-items-center'><DateFormatter dateTimeString={row.ndr_raised_time} />
+                                                <div className='d-flex align-items-center'>
+                                                    {/* <DateFormatter dateTimeString={row.ndr_raised_time} /> */}
                                                     <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </div>
                                             </div>
@@ -198,15 +170,15 @@ const RTOShipment = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.product_name}</p>
-                                                <p>Wt:  {row.weight} kg
+                                                <p className='width-eclipse'>{row.name}</p>
+                                                <p>Wt:  {row.id} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
                                                         {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
                                                         <InfoIcon />
                                                         {/* <span>{row.product_name}</span> */}
                                                         <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                            {row.name}<br />{row.name}<br /> Qt. {row.name}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -215,12 +187,12 @@ const RTOShipment = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.s_customer_name}</p>
-                                                <p>{row.s_contact}
+                                                <p>{row.name}</p>
+                                                <p>{row.username}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
+                                                            {row.name}, {row.name}, {row.name}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -232,7 +204,7 @@ const RTOShipment = () => {
                                         <td>
                                             {/* Tracking section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number}
+                                                <p className='details-on-hover anchor-awb'>{row.name}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
@@ -240,7 +212,7 @@ const RTOShipment = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.ndr_status}</p>
+                                            <p className='order-Status-box'>{row.username}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
