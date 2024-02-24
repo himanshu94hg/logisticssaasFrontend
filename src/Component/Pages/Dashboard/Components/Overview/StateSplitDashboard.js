@@ -5,18 +5,18 @@ import IndiaMap from '../../../../../assets/image/IndiaMap.png'
 function StateSplitDashboard() {
   const [stateAllocation, setStateAllocation] = useState([]);
   const [totalSumOrder, setTotalSumOrder] = useState(0);
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/api/v1/statewiseproduct/')
-      .then(response => {
-        console.log('Data:', response.data);
-        setStateAllocation(response.data.top_product_data);
-        setTotalSumOrder(response.data.total_sum_order);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('http://65.2.38.87:8088/api/v1/statewiseproduct/')
+  //     .then(response => {
+  //       console.log('Data:', response.data);
+  //       setStateAllocation(response.data.top_product_data);
+  //       setTotalSumOrder(response.data.total_sum_order);
+  //     })
+  //     .catch(error => {
+  //       console.error('Error:', error);
+  //     });
+  // }, []);
 
   return (
     <div className="box-shadow shadow-sm p10 state-wise-card">

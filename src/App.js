@@ -1,8 +1,10 @@
 import "./App.css";
 import Cookies from "js-cookie";
+import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, lazy } from "react";
 import Sidebar from "./Component/common/sidebar/SideNav";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Header from "./Component/common/header/Header";
 import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
@@ -29,30 +31,29 @@ import ShippingRates from './Component/Pages/ToolsPage/Components/ShippingRates'
 import WalletRechargeComponent from './Component/Pages/WalletRechargeComponent/WalletRechargeComponent';
 import ShopifyIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyIntegrationForm';
 import WooCommerceIntegrationForm from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/WooCommerceIntegrationForm';
-import { Routes, Route, useNavigate } from 'react-router-dom';
 import StoreHippoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/StoreHippoIntegrationForm";
 import MagentoIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/MagentoIntegrationForm";
 import AmazonDirectIntegrationForm from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/AmazonDirectIntegrationForm";
-import OMSIntegration from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration"; import EasyShipIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyShipIntegrationForm";
+import OMSIntegration from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSIntegration";
+import EasyShipIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyShipIntegrationForm";
 import EasyEcomIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/EasyEcomIntegrationForm";
 import VineRetailIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/VineRetailIntegrationForm";
 import UnicommerceIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/UnicommerceIntegrationForm";
 import OMSGuruIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/OMSGuruIntegrationForm";
 import ClickPostIntegrationForm from "./Component/Pages/IntegrationsPage/Components/OMSIntegraion/ClickPostIntegrationForm";
-import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 import ZoneMappingPop from "./Component/Pages/ToolsPage/Components/ZoneMappingPop/ZoneMappingPop";
 import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/ServiceabilityPage/ServiceabilityPage";
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
+import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
 
 
 function App() {
-
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [ZoneMapping, setZoneMapping] = useState(false)
-  const [tokenExists, setTokenExists] = useState(false); // State to store token existence
+  const [tokenExists, setTokenExists] = useState(false);
   const [tokenChecked, setTokenChecked] = useState(false);
   const [userID, setUserID] = useState("")
 
@@ -64,7 +65,6 @@ function App() {
     setTokenChecked(true);
   }, []);
 
-  console.log(userID, "I am user id data")
 
   useEffect(() => {
     if (tokenChecked && !tokenExists) {
@@ -73,13 +73,10 @@ function App() {
   }, [tokenChecked, tokenExists, navigate]);
 
 
-
-  console.log(tokenExists, "tokenExists")
   return (
     <>
       <div className="container p-0 m-0" style={{ display: "flex" }}>
         <div className="rightContainer">
-          {/* <button onClick={handleClick}>Clcikss</button> */}
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
@@ -131,7 +128,6 @@ function App() {
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
           </Routes>
-          {/* </Router> */}
         </div>
       </div>
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />

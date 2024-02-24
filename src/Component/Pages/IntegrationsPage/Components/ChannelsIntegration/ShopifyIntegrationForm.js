@@ -1,38 +1,51 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import DatePicker from 'react-datepicker';
 import axios from "axios";
 import 'react-datepicker/dist/react-datepicker.css';
 import Swal from "sweetalert2";
+import Cookies from 'js-cookie';
+import moment from 'moment';
 
 const ShopifyIntegrationForm = () => {
+    const navigation = useNavigate();
     const [selectedDate, setSelectedDate] = useState(null);
+    const hardcodedToken = Cookies.get("access_token");
+    const sellerData = Cookies.get("user_id");
+
     const [formData, setFormData] = useState({
-        seller_id:1,
-        channel:{
-            channel_name:"",
-            channel:"shopify"
+        seller_id: sellerData,
+        channel: {
+            channel_name: "",
+            channel: "shopify"
         },
-        channel_configuration:{
-            api_key:"",
-            password:"",
-            store_url:"",
-            shared_secret:"",
-            auto_fulfill:false,
-            auto_cancel:false,
-            auto_cod_paid:false,
-            send_abandon_sms:false,
-            last_executed:'',
+        channel_configuration: {
+            api_key: "",
+            password: "",
+            store_url: "",
+            shared_secret: "",
+            auto_fulfill: false,
+            auto_cancel: false,
+            auto_cod_paid: false,
+            send_abandon_sms: false,
+            last_executed: ''
         }
     });
 
+    const checkboxDescriptions = {
+        auto_fulfill: "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
+        auto_cancel: "Cancel orders (Enabling this will auto cancel order in Shopify when order is cancelled in ShipEase)",
+        auto_cod_paid: "Mark as paid (Mark COD orders as paid in Shopify when orders are delivered to customer)",
+        send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const hardcodedToken = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo';
         try {
-            const response = await axios.post('http://65.2.38.87:8088/core-api/channel/channel/', formData,{
+            const response = await axios.post('http://65.2.38.87:8088/core-api/channel/channel/', formData, {
                 headers: {
-                    'Authorization': hardcodedToken,
+                    'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -48,6 +61,7 @@ const ShopifyIntegrationForm = () => {
                     text: 'Channel added successfully!',
                     confirmButtonText: 'OK'
                 });
+                navigation('/channels-integration');
             } else {
                 const errorData = response.data;
                 console.error('API Error:', errorData);
@@ -67,12 +81,12 @@ const ShopifyIntegrationForm = () => {
                 confirmButtonText: 'OK'
             });
         }
-        console.log("Logs",formData);
+        console.log("Logs", formData);
     };
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
-        const formattedDate = date ? date.toISOString().split('T')[0] + ' 00:00:00' : '';
+        const formattedDate = date ? moment(date).format("YYYY-MM-DD 00:00:00") : '';
         setFormData(prevState => ({
             ...prevState,
             channel_configuration: {
@@ -212,7 +226,7 @@ const ShopifyIntegrationForm = () => {
                                             checked={formData.channel_configuration[prop]}
                                             onChange={handleChange}
                                         />
-                                        {prop}
+                                        {checkboxDescriptions[prop]}
                                     </label>
                                 ))}
                             </div>
@@ -227,4 +241,4 @@ const ShopifyIntegrationForm = () => {
     );
 };
 
-export default ShopifyIntegrationForm
+export default ShopifyIntegrationForm;

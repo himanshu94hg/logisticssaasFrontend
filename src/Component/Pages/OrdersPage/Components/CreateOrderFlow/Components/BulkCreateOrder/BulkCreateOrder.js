@@ -14,13 +14,14 @@ const BulkCreateOrder = () => {
         setSelectedFile(event.target.files[0]);
     };
 
-    const authToken = Cookies.get("access_token")
+    const authToken = Cookies.get("access_token");
+    const sellerId = Cookies.get("user_id");
 
     const handleImport = async () => {
         if (selectedFile) {
             const formData = new FormData();
             formData.append('order_file', selectedFile);
-            formData.append('seller_id', '1');
+            formData.append('seller_id', sellerId);
 
             try {
                 const response = await axios.post('http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/', formData, {
@@ -31,7 +32,7 @@ const BulkCreateOrder = () => {
                 });
                 if (response.status === 200) {
                     const responseData = response.data;
-                    setBulkOrdersStatus(true)
+                    setBulkOrdersStatus(true);
 
                     Swal.fire({
                         icon: 'success',
@@ -61,10 +62,8 @@ const BulkCreateOrder = () => {
         }
     };
 
-    console.log(bulkOrdersStatus, "this is bulk order status data");
-
     useEffect(() => {
-        if (bulkOrdersStatus) {
+        
             axios
                 .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
                     headers: {
@@ -78,14 +77,19 @@ const BulkCreateOrder = () => {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        }
-    }, [bulkOrdersStatus])
+    }, [])
 
 
 
     const handleDownloadTemplate = () => {
-        console.log('Template download functionality goes here');
+        const templateUrl = 'public/shipease_bulk_order.xlsx';
+        const tempAnchor = document.createElement('a');
+        tempAnchor.setAttribute('download', 'shipease_bulk_order.xlsx');
+        tempAnchor.setAttribute('href', templateUrl);
+        tempAnchor.click();
+        tempAnchor.remove();
     };
+
 
     return (
         <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
@@ -110,16 +114,16 @@ const BulkCreateOrder = () => {
                 <h4>Recent Uploads</h4>
                 <table>
                     <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Date</th>
-                            <th>No. Of Orders</th>
-                            <th>Successful Orders</th>
-                            <th>Error Orders</th>
-                        </tr>
+                    <tr>
+                        <th>File Name</th>
+                        <th>Date</th>
+                        <th>No. Of Orders</th>
+                        <th>Successful Orders</th>
+                        <th>Error Orders</th>
+                    </tr>
                     </thead>
                     <thead>
-                        {bulkOrders?.map((item) => {
+                        {bulkOrders?.slice(0,10)?.map((item) => {
                             return (
                                 <tr>
                                     <td>{item?.file_name}</td>

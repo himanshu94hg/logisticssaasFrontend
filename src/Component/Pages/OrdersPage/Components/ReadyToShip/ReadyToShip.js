@@ -182,7 +182,7 @@ const ReadyToShip = ({orders}) => {
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
+                                                        <span style={{ width: '250px' }}>
                                                             {row?.shipping_detail?.city}, {row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
@@ -228,7 +228,7 @@ const ReadyToShip = ({orders}) => {
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
                                                             {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},
+                                                            {row?.pickup_details?.p_address_line2},<br/>
                                                             {row?.pickup_details?.p_city},
                                                             {row?.pickup_details?.p_state},
                                                             {row?.pickup_details?.p_pincode}

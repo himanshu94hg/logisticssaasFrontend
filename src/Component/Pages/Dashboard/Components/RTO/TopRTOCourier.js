@@ -7,19 +7,19 @@ const TopRTOCourier = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/api/v1/top-rto-courier/')
-      .then((response) => {
-        setCourierAllocation(response.data || []);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data. Please try again.');
-        setLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('http://65.2.38.87:8088/api/v1/top-rto-courier/')
+  //     .then((response) => {
+  //       setCourierAllocation(response.data || []);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error);
+  //       setError('Error fetching data. Please try again.');
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   return (
     <div className="box-shadow shadow-sm p10">

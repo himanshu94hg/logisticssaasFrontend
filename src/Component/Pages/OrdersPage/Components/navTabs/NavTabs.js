@@ -9,43 +9,24 @@ import { Link,useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
 // import "./navTabs.css";
+import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function NavTabs(props) {
   const navigation = useNavigate();
   const [selectedOption, setSelectedOption] = useState("Domestic");
   const [isOpen, setIsOpen] = useState(false);
+  const sellerData = Cookies.get("user_id");
 
   const handleSubmit = () => {
-    let sellerData = 3;
-
-    const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
+    const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
+    .then((response) => {
+      toast.success('Order Fetch Successfully');
+    }).catch((error) => {
+      toast.error('Order Fetch Failed!');
+    });
     console.log("Data",response);
-
-    if (response.status === 200) {
-      const responseData = response.data;
-      console.log('API Response:', responseData);
-      Swal.fire({
-        icon: 'success',
-        title: 'Order Created!',
-        text: 'Order Fetch Successfully.',
-        customClass: {
-          confirmButton: 'btn main-button',
-        },
-      }).then(() => {
-        navigation('/Orders');
-      });
-    } else {
-      const errorData = response.data;
-      console.error('API Error:', errorData);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error Fetching Order',
-        text: 'An error occurred while creating the order. Please try again.',
-        customClass: {
-          confirmButton: 'btn main-button',
-        },
-      });
-    }
   };
 
   const handleOptionSelect = (option) => {
@@ -109,16 +90,16 @@ export default function NavTabs(props) {
                   Ready to Ship
                 </div>
               </Nav.Link>
-              {/* <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
+              <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Manifest");
               }}
             >
               {" "}
               <div className="navItemsContainer">
-                Manifest
+                Pickup and Manifest
               </div>
-            </Nav.Link> */}
+            </Nav.Link>
               <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
                         onClick={() => {
                           props.setActiveTab("Returns");

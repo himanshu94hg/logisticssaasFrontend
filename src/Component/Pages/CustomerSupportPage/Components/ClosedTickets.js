@@ -1,44 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
-
-const dummyData = [
-    {
-        id: 1,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 2,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 3,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    {
-        id: 4,
-        awb: '24235235234234',
-        subcategory: 'Technical Support',
-        status: 'In Progress',
-        resolutionDueBy: '2024-01-30',
-        lastUpdated: '2024-01-20',
-    },
-    // Add more data as needed
-];
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -72,7 +35,7 @@ const ClosedTickets = (props) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     // const [orders, setAllOrders] = useState([]);  //for API
-    const [orders, setAllOrders] = useState(dummyData); //for dummy data
+    const [orders, setAllOrders] = useState([]); //for dummy data
 
     // useEffect(() => {
     //     axios
@@ -142,7 +105,7 @@ const ClosedTickets = (props) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((ticket, index) => (
+                            {orders?.map((ticket, index) => (
                                 <React.Fragment key={ticket.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>

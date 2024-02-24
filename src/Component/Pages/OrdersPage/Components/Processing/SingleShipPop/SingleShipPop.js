@@ -28,10 +28,16 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const dateAfter2Days = addDays(currentDate, 2);
 
     const sellerId = Cookies.get("user_id");
+    let authToken=Cookies.get("access_token")
     useEffect(() => {
-        if(orderId !== null)
-        {
-            axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`)
+        if (orderId !== null) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            };
+
+            axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                     console.log("Response", response);
@@ -42,7 +48,11 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     }, [orderId]);
 
     const handleSubmit = (courier) => {
-        axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`)
+        axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
             .then((response) => {
                 console.log("Response", response);
                 if (response.data.status === true) {
@@ -85,7 +95,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
                                 <p>{option.partner_title}</p>
-                                <p>{option.partner_title}</p>
+                                <p>{"Delivering Excellence, Every Mile"}</p>
                                 <p>RTO Charges: ₹{0}</p>
                             </div>
                         </div>
@@ -116,7 +126,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ {option.rate + option.cod_charge}</strong> <span>(Inclusive of all taxes )</span><br />
+                            <p><strong>₹ {(option.rate + option.cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />

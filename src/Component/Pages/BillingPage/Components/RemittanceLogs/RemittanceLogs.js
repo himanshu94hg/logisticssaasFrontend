@@ -1,14 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
+import React, { useState, useEffect } from 'react';
+
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -37,7 +29,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RemittanceLogs = () => {
+const RemittanceLogs = ({billingCard}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -59,19 +51,6 @@ const RemittanceLogs = () => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].data;
     };
-
-
-    useEffect(() => {
-        axios
-            .get('http://65.2.38.87:8088/billing/v1/remitancelog/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
 
     // Handler for "Select All" checkbox
@@ -166,7 +145,7 @@ const RemittanceLogs = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {data?.shipment_data?.map((row, index) => (
+                            {billingCard?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -181,7 +160,7 @@ const RemittanceLogs = () => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <DateFormatter dateTimeString={row.datetime} />
+                                                    {/* <DateFormatter dateTimeString={row.datetime} /> */}
                                                 </p>
                                             </div>
                                         </td>
@@ -189,7 +168,7 @@ const RemittanceLogs = () => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.crf_id || '00000000'}
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -197,7 +176,7 @@ const RemittanceLogs = () => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.utr_number || 'SETTLE0000000000'}
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -205,7 +184,7 @@ const RemittanceLogs = () => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.type === 'c' ? 'Credit' : 'Debit'}
+                                                {row.name}
                                                 </p>
                                             </div>
                                         </td>
@@ -213,7 +192,7 @@ const RemittanceLogs = () => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.amount}
+                                                    ₹    {row.website}
                                                 </p>
                                             </div>
                                         </td>
@@ -221,7 +200,7 @@ const RemittanceLogs = () => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.early_cod_charge || '0'}
+                                                    ₹    {row.website}
                                                 </p>
                                             </div>
                                         </td>
@@ -229,7 +208,7 @@ const RemittanceLogs = () => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {getRandomReason(reasons)}
+                                                    ₹   {row.website}
                                                 </p>
                                             </div>
                                         </td>
@@ -237,7 +216,7 @@ const RemittanceLogs = () => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.amount}
+                                                    ₹   {row.website}
                                                 </p>
                                             </div>
                                         </td>
@@ -246,7 +225,7 @@ const RemittanceLogs = () => {
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.description}
+                                                 {row.website}
                                                 </p>
                                             </div>
                                         </td>

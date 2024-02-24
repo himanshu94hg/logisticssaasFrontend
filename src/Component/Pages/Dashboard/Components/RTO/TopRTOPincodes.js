@@ -8,20 +8,20 @@ const TopRTOPincodes = () => {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/api/v1/top-rto-pincode/')
-      .then((response) => {
-        setData(response.data || []); // Ensure data is an array
-        setFilteredData(response.data || []);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data. Please try again.');
-        setLoading(false);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get('http://65.2.38.87:8088/api/v1/top-rto-pincode/')
+  //     .then((response) => {
+  //       setData(response.data || []); // Ensure data is an array
+  //       setFilteredData(response.data || []);
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error fetching data:', error);
+  //       setError('Error fetching data. Please try again.');
+  //       setLoading(false);
+  //     });
+  // }, []);
 
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();

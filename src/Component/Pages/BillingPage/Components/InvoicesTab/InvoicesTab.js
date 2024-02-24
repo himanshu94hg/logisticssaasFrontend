@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
-import InfoIcon from '../../../../common/Icons/InfoIcon';
 import FreightInvoice from './FreightInvoice';
 import AllOtherInvoices from './AllOtherInvoices';
 
@@ -39,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const InvoicesTab = () => {
+const InvoicesTab = ({billingCard}) => {
     const [backDrop, setBackDrop] = useState(false);
     const [InvoiceData, setInvoiceData] = useState(true);
 
@@ -80,7 +71,7 @@ const InvoicesTab = () => {
                     </div>
                 </div>
                 {
-                    InvoiceData ? <FreightInvoice /> : <AllOtherInvoices />
+                    InvoiceData ? <FreightInvoice billingCard={billingCard} /> : <AllOtherInvoices billingCard={billingCard}/>
                 }
 
                 <SidePanel CloseSidePanel={CloseSidePanel} />
