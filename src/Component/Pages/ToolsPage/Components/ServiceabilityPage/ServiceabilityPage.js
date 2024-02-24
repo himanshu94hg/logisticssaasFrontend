@@ -97,9 +97,6 @@ const ServiceabilityPage = () => {
             <div className='col d-flex align-items-center'>
               <div className='d-flex flex-column gap-4 p10 w-100'>
                 <h5>Get Courier Serviceability</h5>
-
-
-
                 <Select
                   options={courierOptions}
                   isMulti
@@ -108,10 +105,6 @@ const ServiceabilityPage = () => {
                   onChange={handleChange}
                   value={selectedOptions}
                 />
-
-
-
-
                 <div className='d-flex justify-content-start'>
                   <button className='btn main-button'>Export Courier Serviceability</button>
                 </div>
