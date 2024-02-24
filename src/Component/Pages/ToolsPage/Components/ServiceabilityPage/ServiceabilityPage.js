@@ -18,17 +18,16 @@ const Option = (props) => {
   );
 };
 
-const colourOptions = [
-  { value: "ocean1", label: "Ocean" },
-  { value: "blue", label: "Blue" },
-  { value: "purple", label: "Purple" },
-  { value: "red", label: "Red" },
-  { value: "orange", label: "Orange" },
-  { value: "yellow", label: "Yellow" },
-  { value: "green", label: "Green" },
-  { value: "forest", label: "Forest" },
-  { value: "slate", label: "Slate" },
-  { value: "silver", label: "Silver" }
+const courierOptions = [
+  { value: "bluedart", label: "Blue Dart" },
+  { value: "bluedart_surface", label: "Blue Dart Surface" },
+  { value: "xpressbees", label: "Xpressbees" },
+  { value: "xpressbees_surface", label: "Xpressbees Surface" },
+  { value: "ekart", label: "Ekart" },
+  { value: "delhivery", label: "Delhivery" },
+  { value: "dtdc", label: "DTDC" },
+  { value: "ecom_express", label: "Ecom Express" },
+  { value: "shadowfax", label: "ShadowFax" }
 ];
 
 
@@ -102,7 +101,7 @@ const ServiceabilityPage = () => {
 
 
                 <Select
-                  options={colourOptions}
+                  options={courierOptions}
                   isMulti
                   closeMenuOnSelect={false}
                   components={{ Option }}
