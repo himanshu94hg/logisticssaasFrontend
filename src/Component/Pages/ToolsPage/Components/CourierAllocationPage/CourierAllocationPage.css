@@ -1,0 +1,30 @@
+ul [data-rbd-droppable-context-id] {
+    list-style: none;
+}
+
+.courier-preference .courier-preference-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.courier-preference .courier-preference-list .Weight-slab {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    -webkit-box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
+    -moz-box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
+    box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
+    padding: 15px;
+    width: 100%;
+}
+
+.Weight-slab ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.Weight-slab ul li {
+    padding: 7px 5px;
+    border-radius: 0.5rem;
+}
