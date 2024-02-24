@@ -28,21 +28,16 @@ const FormInput = ({ label, type, value, onChange, options }) => (
 );
 
 const CreateTicketForm = (props) => {
-  const [awbNumbers, setAwbNumbers] = useState('');
-  const [category, setCategory] = useState('');
-  const [subcategory, setSubcategory] = useState('');
   const [remarks, setRemarks] = useState('');
-  const [attachments, setAttachments] = useState(null);
+  const [category, setCategory] = useState('1');
+  const [awbNumbers, setAwbNumbers] = useState('');
+  const [subcategory, setSubcategory] = useState('');
   const [allCatagery, setAllCatagery] = useState([]);
+  const [attachments, setAttachments] = useState(null); 
   const [allSubCatagry, setAllSubCatagry] = useState([]);
-  const [fileInfo, setFileInfo] = useState(null);
-
-
-  console.log(props.NewTicket, "i am props data")
 
 
   const authToken = Cookies.get("access_token")
-
   const categoryOptions = allCatagery.map(category => ({
     value: category.id,
     label: category.name,
@@ -67,11 +62,10 @@ const CreateTicketForm = (props) => {
       .catch(error => {
         console.error('Error:', error);
       });
-
   }, []);
 
   useEffect(() => {
-    if (category) {
+    if (category!="") {
       axios
         .get(`http://65.2.38.87:8088/core-api/features/ticket-sub-category/?category=${category}`, {
           headers: {

@@ -29,12 +29,10 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const InProgressTickets = ({  setViewTicketInfo,allTicket,setTicketId,handleViewButtonClick }) => {
-
+const InProgressTickets = ({ setViewTicketInfo, allTicket, setTicketId, handleViewButtonClick }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -52,8 +50,6 @@ const InProgressTickets = ({  setViewTicketInfo,allTicket,setTicketId,handleView
         } else {
             setSelectedRows([...selectedRows, TicketId]);
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === allTicket?.length - 1 && !isSelected) {
             setSelectAll(true);
         } else if (selectedRows.length === allTicket?.length && isSelected) {
@@ -140,7 +136,7 @@ const InProgressTickets = ({  setViewTicketInfo,allTicket,setTicketId,handleView
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button
-                                                    onClick={() => {setViewTicketInfo(true);handleViewButtonClick(item?.id)}  }
+                                                    onClick={() => { setViewTicketInfo(true); handleViewButtonClick(item?.id) }}
                                                     className='btn main-button'>
                                                     <FontAwesomeIcon icon={faEye} /> View
                                                 </button>
