@@ -6,27 +6,40 @@ import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
 const AccountInfo = () => {
-  const [accounts, setAccounts] = useState([
-    {
-      accountHolderName: '',
-      accountNumber: '',
-      ifscCode: '',
-      bankName: '',
-      branchName: '',
-      chequeImage: null,
-      isPrimary: true, // The first account is the primary account by default
-    },
-  ]);
-
-  const [pdfPreviews, setPdfPreviews] = useState(Array(accounts.length).fill(null));
+  const [accounts, setAccounts] = useState([]);
+  const [pdfPreviews, setPdfPreviews] = useState([]);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [hardcodedToken] = useState(Cookies.get("access_token"));
 
+  useEffect(() => {
+    fetchAccountData();
+  }, []);
+
+  const fetchAccountData = async () => {
+    try {
+      const response = await axios.get('http://65.2.38.87:8088/core-api/seller/bank-info/', {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`
+        }
+      });
+      setAccounts(response.data.map(account => ({
+        ...account,
+        accountHolderName: account.account_holder_name,
+        accountNumber: account.account_number,
+        ifscCode: account.ifsc_code,
+        bankName: account.bank_name,
+        branchName: account.bank_branch,
+        chequeImage: null
+      })));
+      setPdfPreviews(Array(response.data.length).fill(null));
+    } catch (error) {
+      console.error('Error fetching account data:', error);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Iterate through each account and send a POST request to store it
       for (const account of accounts) {
         const formData = new FormData();
         formData.append('account_holder_name', account.accountHolderName);
@@ -78,7 +91,6 @@ const AccountInfo = () => {
   }
 
   const handleDelete = (index) => {
-    // Only delete non-primary accounts
     if (!accounts[index].isPrimary) {
       const updatedAccounts = [...accounts];
       const updatedPdfPreviews = [...pdfPreviews];
@@ -125,7 +137,6 @@ const AccountInfo = () => {
                         <p><i>{account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
                       </div>
                       <div className='col-9'>
-                        {/* Your form fields */}
                         <div className='d-flex w-100 gap-3 mt-4'>
                           <label>
                             Account Holder Name
@@ -179,9 +190,8 @@ const AccountInfo = () => {
                     <hr />
                   </div>
               ))}
-              {/* Additional button to add another account */}
               <div className='d-flex justify-content-end'>
-                <div className='add-account-text' type="submit" onClick={addAnotherAccount}>
+                <div className='add-account-text' onClick={addAnotherAccount}>
                   <FontAwesomeIcon icon={faPlus} /> Add Another Account
                 </div>
               </div>
@@ -200,7 +210,6 @@ const AccountInfo = () => {
               )
           ))}
         </section>
-
         <div
             onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
             className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}

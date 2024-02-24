@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
@@ -16,6 +16,36 @@ const KYCInfo = () => {
   });
   const [formList, setFormList] = useState([]);
 
+  useEffect(() => {
+    fetchKYCData();
+  }, []);
+
+  const fetchKYCData = async () => {
+    try {
+      const response = await axios.get('http://65.2.38.87:8088/core-api/seller/kyc-info/', {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`
+        }
+      });
+      const [firstItem] = response.data;
+      setFormData({
+        companyType: firstItem?.company_type || '',
+        documentType: firstItem?.document_type || '',
+        uploadDocument: null,
+        documentName: firstItem?.document_name || '',
+        documentNumber: firstItem?.document_id || '',
+      });
+      setFormList(response.data.map(item => ({
+        documentType: item.document_type,
+        documentName: item.document_name,
+        documentNumber: item.document_id
+      })));
+    } catch (error) {
+      console.error('Error fetching KYC data:', error);
+    }
+  };
+
+
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     const updatedValue = type === 'file' ? files[0] : value;
@@ -26,6 +56,7 @@ const KYCInfo = () => {
     });
   };
 
+  console.log(formData, "Form Data")
   const handleSubmit = async (e) => {
     e.preventDefault();
 
