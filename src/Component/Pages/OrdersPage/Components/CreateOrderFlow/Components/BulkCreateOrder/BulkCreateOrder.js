@@ -14,8 +14,8 @@ const BulkCreateOrder = () => {
         setSelectedFile(event.target.files[0]);
     };
 
-    const authToken = Cookies.get("access_token")
-    const sellerId = Cookies.get("user_id")
+    const authToken = Cookies.get("access_token");
+    const sellerId = Cookies.get("user_id");
 
     const handleImport = async () => {
         if (selectedFile) {
@@ -32,7 +32,7 @@ const BulkCreateOrder = () => {
                 });
                 if (response.status === 200) {
                     const responseData = response.data;
-                    setBulkOrdersStatus(true)
+                    setBulkOrdersStatus(true);
 
                     Swal.fire({
                         icon: 'success',
@@ -62,8 +62,6 @@ const BulkCreateOrder = () => {
         }
     };
 
-    console.log(bulkOrdersStatus, "this is bulk order status data");
-
     useEffect(() => {
         if (bulkOrdersStatus) {
             axios
@@ -80,13 +78,17 @@ const BulkCreateOrder = () => {
                     console.error('Error:', error);
                 });
         }
-    }, [bulkOrdersStatus])
-
-
+    }, [bulkOrdersStatus]);
 
     const handleDownloadTemplate = () => {
-        console.log('Template download functionality goes here');
+        const templateUrl = 'public/shipease_bulk_order.xlsx';
+        const tempAnchor = document.createElement('a');
+        tempAnchor.setAttribute('download', 'shipease_bulk_order.xlsx');
+        tempAnchor.setAttribute('href', templateUrl);
+        tempAnchor.click();
+        tempAnchor.remove();
     };
+
 
     return (
         <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
@@ -122,12 +124,12 @@ const BulkCreateOrder = () => {
                     <thead>
                     {bulkOrders?.map((item) => {
                         return (
-                            <tr>
-                                <td>{item?.file_name}</td>
-                                <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
-                                <td>{item?.total_orders}</td>
-                                <td>{item?.success_orders}</td>
-                                <td>{item?.failed_orders}</td>
+                            <tr key={item.file_name}>
+                                <td>{item.file_name}</td>
+                                <td>{moment(item.created_at).format("DD MMM YYYY")}</td>
+                                <td>{item.total_orders}</td>
+                                <td>{item.success_orders}</td>
+                                <td>{item.failed_orders}</td>
                             </tr>
                         )
                     })}
