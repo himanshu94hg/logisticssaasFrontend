@@ -50,11 +50,10 @@ import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoInte
 
 
 function App() {
-
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [ZoneMapping, setZoneMapping] = useState(false)
-  const [tokenExists, setTokenExists] = useState(false); // State to store token existence
+  const [tokenExists, setTokenExists] = useState(false);
   const [tokenChecked, setTokenChecked] = useState(false);
   const [userID, setUserID] = useState("")
 
@@ -66,11 +65,13 @@ function App() {
     setTokenChecked(true);
   }, []);
 
+
   useEffect(() => {
     if (tokenChecked && !tokenExists) {
       navigate(loginPattern);
     }
   }, [tokenChecked, tokenExists, navigate]);
+
 
   return (
     <>

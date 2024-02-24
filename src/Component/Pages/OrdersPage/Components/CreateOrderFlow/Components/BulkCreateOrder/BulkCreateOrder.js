@@ -63,7 +63,7 @@ const BulkCreateOrder = () => {
     };
 
     useEffect(() => {
-        if (bulkOrdersStatus) {
+        
             axios
                 .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
                     headers: {
@@ -77,8 +77,9 @@ const BulkCreateOrder = () => {
                 .catch(error => {
                     console.error('Error:', error);
                 });
-        }
-    }, [bulkOrdersStatus]);
+    }, [])
+
+
 
     const handleDownloadTemplate = () => {
         const templateUrl = 'public/shipease_bulk_order.xlsx';
@@ -122,17 +123,17 @@ const BulkCreateOrder = () => {
                     </tr>
                     </thead>
                     <thead>
-                    {bulkOrders?.map((item) => {
-                        return (
-                            <tr key={item.file_name}>
-                                <td>{item.file_name}</td>
-                                <td>{moment(item.created_at).format("DD MMM YYYY")}</td>
-                                <td>{item.total_orders}</td>
-                                <td>{item.success_orders}</td>
-                                <td>{item.failed_orders}</td>
-                            </tr>
-                        )
-                    })}
+                        {bulkOrders?.slice(0,10)?.map((item) => {
+                            return (
+                                <tr>
+                                    <td>{item?.file_name}</td>
+                                    <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
+                                    <td>{item?.total_orders}</td>
+                                    <td>{item?.success_orders}</td>
+                                    <td>{item?.failed_orders}</td>
+                                </tr>
+                            )
+                        })}
                     </thead>
                     <tbody>
                     </tbody>
