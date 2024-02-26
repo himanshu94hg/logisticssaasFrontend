@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import axios from "../../../../axios/index"
-import { GET_RATE_CALCULATOR } from "../../constant/tools";
+import {  RATE_CALCULATOR_ACTION } from "../../constant/tools";
 import Swal from 'sweetalert2'
 import { GET_RATE_CALCULATOR_DATA } from "../../../constants/tools";
 
@@ -39,5 +39,5 @@ function* rateCalculatorAction(action) {
 }
 
 export function* rateCalculatorWatcher() {
-    yield takeLatest(GET_RATE_CALCULATOR, rateCalculatorAction);
+    yield takeLatest(RATE_CALCULATOR_ACTION, rateCalculatorAction);
 }
