@@ -4,9 +4,11 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 const AgreementInfo = () => {
-  const [Basicinfo, setBasicinfo] = useState([])
+  const [Basicinfo, setBasicinfo] = useState([]);
+  const [hardcodedToken] = useState(Cookies.get("access_token"));
   const [dynamicContent, setDynamicContent] = useState({
     name: '',
     place: '',
@@ -14,7 +16,6 @@ const AgreementInfo = () => {
   });
 
 
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
   useEffect(() => {
     axios
       .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
