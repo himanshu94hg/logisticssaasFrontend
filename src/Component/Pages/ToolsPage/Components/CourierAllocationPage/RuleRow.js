@@ -27,8 +27,9 @@ const RuleRow = () => {
     return (
         <>
             {rows.map((row, index) => (
-                <div key={index}>
+                <div key={index} className='minor-rule-row'>
                     <select
+                        className='select-field'
                         value={row.selectValue1}
                         onChange={(e) => handleSelectChange(index, 'selectValue1', e.target.value)}
                         disabled={index === 0} // Disable condition select field for the first row
@@ -38,6 +39,7 @@ const RuleRow = () => {
                         <option value="or">Or</option>
                     </select>
                     <select
+                        className='select-field'
                         value={row.selectValue2}
                         onChange={(e) => handleSelectChange(index, 'selectValue2', e.target.value)}
                     >
@@ -45,6 +47,7 @@ const RuleRow = () => {
                         {/* Add other options as needed */}
                     </select>
                     <select
+                        className='select-field'
                         value={row.selectValue3}
                         onChange={(e) => handleSelectChange(index, 'selectValue3', e.target.value)}
                     >
@@ -52,6 +55,7 @@ const RuleRow = () => {
                         {/* Add other options as needed */}
                     </select>
                     <input
+                        className='input-field'
                         type="text"
                         value={row.inputValue}
                         onChange={(e) => handleInputChange(index, e.target.value)}
