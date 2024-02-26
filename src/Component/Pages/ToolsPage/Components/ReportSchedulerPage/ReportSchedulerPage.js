@@ -113,9 +113,13 @@ const ReportSchedulerPage = () => {
       }));
     }
   };
+
+
+  const handleDelete=(value)=>{
+    dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION",payload:value })
+  }
   
 
-  console.log(reportData,"reportDtaa")
 
   return (
     <>
@@ -168,7 +172,7 @@ const ReportSchedulerPage = () => {
                   <td className='align-middle'>
                     <div className='d-flex align-items-center gap-3'>
                       <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
-                      <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
+                      <button className='btn delete-btn' onClick={()=>handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
                     </div>
                   </td>
                 </tr>

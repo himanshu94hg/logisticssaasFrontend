@@ -19,6 +19,7 @@ export const toolsSectionReducer = (state = initialState, action) => {
                 sellerData: action?.payload?.data
             };
         case GET_REPORT_SCHEDULER_DATA:
+            console.log(action?.payload,"this is reducer data")
             return {
                 ...state,
                 reportSchedularData: action?.payload
