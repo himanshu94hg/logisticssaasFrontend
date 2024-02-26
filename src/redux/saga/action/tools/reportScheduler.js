@@ -66,7 +66,7 @@ function* deleteReportSchedulerAction(action) {
         getReportSchedulerAPI()
         Swal.fire({
             title: "Success!",
-            text: `Report ${response.statusText} sucessfully!`,
+            text: `Report deleted sucessfully!`,
             icon: "success"
           });
        }
