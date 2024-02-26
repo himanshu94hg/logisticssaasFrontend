@@ -1,7 +1,9 @@
 import { faChevronRight, faPenToSquare, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './ReportSchedulerPage.css'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/dist/style.css';
 import Select from 'react-select';
@@ -9,37 +11,42 @@ import Select from 'react-select';
 
 
 const ReportSchedulerPage = () => {
+  const dispatch = useDispatch()
   const [NewScheduler, setNewScheduler] = useState(false)
-
   const [emails, setEmails] = useState([]);
   const [focused, setFocused] = useState(false);
-
   const [selectedDate, setSelectedDate] = useState(null);
   const [dataForLast, setdataForLast] = useState(null);
+  const [reportData, setReportData] = useState({
+    report_title: "",
+    recipients: "",
+    report_type: "Order",
+    order_type: "Prepaid",
+    order_status: "Forward",
+    order_sub_status: "Forward"
+  });
 
+  const reportType = [
+    { value: 'Order', label: 'Order' },
+    { value: 'Non-order', label: 'Non-order' },
+  ];
+  const orderType = [
+    { value: 'Prepaid', label: 'Prepaid' },
+    { value: 'COD', label: 'COD' },
+  ];
+  const orderStatus = [
+    { value: 'Forward', label: 'Forward' },
+    { value: 'Reverse', label: 'Reverse' },
+  ];
+  const orderSubStatus = [
+    { value: 'Forward', label: 'Forward' },
+    { value: 'Reverse', label: 'Reverse' },
+  ];
   const dataForLastOptions = [
     { value: 'days', label: 'Days' },
     { value: 'weeks', label: 'Weeks' },
     { value: 'months', label: 'Months' }
   ];
-
-  const handledataForLast = (dataForLast) => {
-    setdataForLast(dataForLast);
-  };
-
-
-  const generateDateOptions = () => {
-    const options = [];
-    for (let i = 1; i <= 31; i++) {
-      options.push({ value: i, label: i });
-    }
-    return options;
-  };
-
-  const handleDateChange = (selectedOption) => {
-    setSelectedDate(selectedOption.value);
-  };
-
   const timeOptions = [
     { value: '08:00 AM', label: '08:00 AM' },
     { value: '09:00 AM', label: '09:00 AM' },
@@ -53,33 +60,24 @@ const ReportSchedulerPage = () => {
     { value: '05:00 PM', label: '05:00 PM' }
   ];
 
+  const handledataForLast = (dataForLast) => {
+    setdataForLast(dataForLast);
+  };
 
-  // Dummy report data
-  const dummyReports = [
-    {
-      id: 1,
-      title: "Dummy Report 1",
-      type: "Type A",
-      status: true, // Assuming true represents 'Active' and false represents 'Inactive'
-      recipients: ["Recipient 1", "Recipient 2"],
-      recurrence: "Daily",
-      orderStatus: "Pending",
-      orderSubStatus: "Sub Status 1"
-    },
-    {
-      id: 2,
-      title: "Dummy Report 2",
-      type: "Type B",
-      status: true,
-      recipients: ["Recipient 3", "Recipient 4"],
-      recurrence: "Weekly",
-      orderStatus: "Completed",
-      orderSubStatus: "Sub Status 2"
+  const generateDateOptions = () => {
+    const options = [];
+    for (let i = 1; i <= 31; i++) {
+      options.push({ value: i, label: i });
     }
-  ];
+    return options;
+  };
+
+  const handleDateChange = (selectedOption) => {
+    setSelectedDate(selectedOption.value);
+  };
 
   // State to manage the status toggle
-  const [reports, setReports] = useState(dummyReports);
+  const [reports, setReports] = useState([]);
 
   // Function to toggle status
   const toggleStatus = (id) => {
@@ -87,6 +85,41 @@ const ReportSchedulerPage = () => {
       report.id === id ? { ...report, status: !report.status } : report
     ));
   };
+
+  useEffect(() => {
+    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" })
+  }, [])
+
+  const { reportSchedularData } = useSelector(state => state?.toolsSectionReducer)
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch({ type: "REPORT_SCHEDULER_POST_ACTION",payload:reportData })
+  }
+
+  const handleChange = (e, selectFileds) => {
+    const value = e.target ? e.target.value : e.value; // Get the value from the event
+    if (selectFileds === "recipients" || selectFileds === "report_title") {
+      // If it's an input field
+      setReportData(prev => ({
+        ...prev,
+        [selectFileds]: value // Use the value directly
+      }));
+    } else {
+      // If it's a select field
+      setReportData(prev => ({
+        ...prev,
+        [selectFileds]: value // Use the value directly
+      }));
+    }
+  };
+
+
+  const handleDelete=(value)=>{
+    dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION",payload:value })
+  }
+  
+
 
   return (
     <>
@@ -103,6 +136,7 @@ const ReportSchedulerPage = () => {
               <th>Status</th>
               <th>Recipients</th>
               <th>Report Recurrence</th>
+              <th>Order Type</th>
               <th>Order status</th>
               <th>Order Sub Status</th>
               <th>Actions</th>
@@ -110,15 +144,15 @@ const ReportSchedulerPage = () => {
             <tr className="blank-row"><td></td></tr>
           </thead>
           <tbody>
-            {reports.map(report => (
+            {reportSchedularData?.map(report => (
               <>
                 <tr className='table-row box-shadow' key={report.id}>
-                  <td>{report.title}</td>
-                  <td>{report.type}</td>
+                  <td>{report.report_title}</td>
+                  <td>{report.report_type}</td>
                   <td>
                     {/* Toggle switch for status */}
                     <div className="form-check form-switch">
-                      <input className="form-check-input" type="checkbox" checked={report.status} onChange={() => {
+                      <input className="form-check-input" type="checkbox" checked={report.enabled} onChange={() => {
                         // Handle toggle status
                         const updatedReports = reports.map(rep => {
                           if (rep.id === report.id) {
@@ -130,14 +164,15 @@ const ReportSchedulerPage = () => {
                       }} />
                     </div>
                   </td>
-                  <td>{report.recipients.join(', ')}</td>
+                  <td>{report.recipients}</td>
                   <td>{report.recurrence}</td>
-                  <td>{report.orderStatus}</td>
-                  <td>{report.orderSubStatus}</td>
+                  <td>{report.order_type}</td>
+                  <td>{report.order_status}</td>
+                  <td>{report.order_sub_status}</td>
                   <td className='align-middle'>
                     <div className='d-flex align-items-center gap-3'>
                       <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
-                      <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
+                      <button className='btn delete-btn' onClick={()=>handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
                     </div>
                   </td>
                 </tr>
@@ -156,121 +191,137 @@ const ReportSchedulerPage = () => {
           <h2 className='mb-0'>Schedule a Report!</h2>
         </section>
         <section className='ticket-slider-body'>
-          <div class="grid-container">
-            <div class="grid-item component-1">
-              <h5>Report Details</h5>
-              <div className='d-flex flex-column gap-4'>
-                <label>
-                  Please Select a report Type
-                  <select className='select-field' type="text" />
-                </label>
-                <label>
-                  Report Name
-                  <input className='input-field' type="text" />
-                </label>
-                <label>Recipients Email IDs
-                  <ReactMultiEmail
-                    placeholder='Enter Recipients email ID and press enter'
-                    emails={emails}
-                    onChange={(_emails) => {
-                      setEmails(_emails);
-                    }}
-                    autoFocus={true}
-                    onFocus={() => setFocused(true)}
-                    onBlur={() => setFocused(false)}
-                    getLabel={(email, index, removeEmail) => {
-                      return (
-                        <div data-tag key={index}>
-                          <div data-tag-item>{email}</div>
-                          <span data-tag-handle onClick={() => removeEmail(index)}>
-                            ×
-                          </span>
-                        </div>
-                      );
-                    }}
-                  />
-                </label>
+          <form onSubmit={handleSubmit}>
+            <div class="grid-container">
+              <div class="grid-item component-1">
+                <h5>Report Details</h5>
+                <div className='d-flex flex-column gap-4'>
+                  <label>
+                    Please Select a report Type
+                    <Select
+                      options={reportType}
+                      onChange={(e)=>handleChange(e,"report_type")}
+                    />
+                  </label>
+                  <label>
+                    Report Name
+                    <input className='input-field' type="text" name={"report_title"} onChange={(e)=>handleChange(e,"report_title")} />
+                  </label>
+                  <label>Recipients Email IDs
+                  <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} />
+                    {/* <ReactMultiEmail
+                      placeholder='Enter Recipients email ID and press enter'
+                      emails={emails}
+                      onChange={(_emails) => {
+                        setEmails(_emails);
+                      }}
+                      autoFocus={true}
+                      onFocus={() => setFocused(true)}
+                      onBlur={() => setFocused(false)}
+                      getLabel={(email, index, removeEmail) => {
+                        return (
+                          <div data-tag key={index}>
+                            <div data-tag-item>{email}</div>
+                            <span data-tag-handle onClick={() => removeEmail(index)}>
+                              ×
+                            </span>
+                          </div>
+                        );
+                      }}
+                    /> */}
+                  </label>
+                </div>
               </div>
-            </div>
 
-            <div class="grid-item component-2">
-              <h5>Frequency Details</h5>
-              <div className='d-flex flex-column gap-4'>
-                <label>
-                  Send Reports
-                  <label>Every Month
-                    <input type="radio" name="Send_Reports" id="" />
-                  </label>
-                  <label>Every Week
-                    <input type="radio" name="Send_Reports" id="" />
-                  </label>
-                  <label>Every Day
-                    <input type="radio" name="Send_Reports" id="" />
-                  </label>
-                </label>
-                <label>
-                  Selected Dates for sending reports
-                  <Select
-                    isMulti
-                    options={generateDateOptions()}
-                    placeholder="Select a date"
-                    onChange={handleDateChange}
-                  />
-                </label>
-                <label>
-                  Select Time
-                  <Select
-                    isMulti
-                    options={timeOptions}
-                  />
-                </label>
-                <label className='d-flex flex-column'>
-                  Get data for the last
-                  <div className='d-flex align-items-center w-100 gap-3'>
-                    <label className='w-100'>
-                      <Select
-                        options={generateDateOptions()}
-                        placeholder="Select a date"
-                        onChange={handleDateChange}
-                      />
+              <div class="grid-item component-2">
+                <h5>Frequency Details</h5>
+                <div className='d-flex flex-column gap-4'>
+                  <label>
+                    Send Reports
+                    <label>Every Month
+                      <input type="radio" name="Send_Reports" id="" />
                     </label>
-                    <label className='w-100'>
-                      <Select
-                        value={dataForLast}
-                        onChange={handledataForLast}
-                        options={dataForLastOptions}
-                        placeholder="Select option..."
-                      />
+                    <label>Every Week
+                      <input type="radio" name="Send_Reports" id="" />
                     </label>
-                  </div>
-                </label>
-                <p className='font13'><strong>Note:</strong> It can take upto 24 hours in sending your first report.</p>
-                <p>We'll send reports on your email <strong>every month</strong> on <strong>19th</strong> with the last <strong>1 day</strong> data with the selected report content.</p>
+                    <label>Every Day
+                      <input type="radio" name="Send_Reports" id="" />
+                    </label>
+                  </label>
+                  <label>
+                    Selected Dates for sending reports
+                    <Select
+                      isMulti
+                      options={generateDateOptions()}
+                      placeholder="Select a date"
+                      onChange={handleDateChange}
+                    />
+                  </label>
+                  <label>
+                    Select Time
+                    <Select
+                      isMulti
+                      options={timeOptions}
+                    />
+                  </label>
+                  <label className='d-flex flex-column'>
+                    Get data for the last
+                    <div className='d-flex align-items-center w-100 gap-3'>
+                      <label className='w-100'>
+                        <Select
+                          options={generateDateOptions()}
+                          placeholder="Select a date"
+                          onChange={handleDateChange}
+                        />
+                      </label>
+                      <label className='w-100'>
+                        <Select
+                          value={dataForLast}
+                          onChange={handledataForLast}
+                          options={dataForLastOptions}
+                          placeholder="Select option..."
+                        />
+                      </label>
+                    </div>
+                  </label>
+                  <p className='font13'><strong>Note:</strong> It can take upto 24 hours in sending your first report.</p>
+                  <p>We'll send reports on your email <strong>every month</strong> on <strong>19th</strong> with the last <strong>1 day</strong> data with the selected report content.</p>
+                </div>
               </div>
-            </div>
 
-            <div class="grid-item component-3">
-              <h5>Report Content</h5>
-              <div className='d-flex flex-column gap-4'>
-                <label>
-                  Order Type
-                  <select className='select-field' name="" id=""></select>
-                </label>
-                <label>
-                  Order Status
-                  <select className='select-field' name="" id=""></select>
-                </label>
-                <label>
-                  Order Sub-status
-                  <select className='select-field' name="" id=""></select>
-                </label>
+              <div class="grid-item component-3">
+                <h5>Report Content</h5>
+                <div className='d-flex flex-column gap-4'>
+                  <label>
+                    Order Type
+                    <Select
+                      options={orderType}
+                      onChange={(e)=>handleChange(e,"order_type")}
+                    />
+                  </label>
+                  <label>
+                    Order Status
+                    <Select
+                      options={orderStatus}
+                      onChange={(e)=>handleChange(e,"order_status")}
+                    />
+                  </label>
+                  <label>
+                    Order Sub-status
+                    <Select
+                      options={orderSubStatus}
+                      onChange={(e)=>handleChange(e,"order_sub_status")}
+                    />
+                  </label>
+                </div>
               </div>
+
             </div>
-          </div>
-          <div className='d-flex gap-3 justify-content-end my-3'>
-            <button className='btn cancel-button'>Cancel</button>
-            <button className='btn main-button'>Schedule Report</button>
-          </div>
+            <div className='d-flex gap-3 justify-content-end my-3'>
+              <button className='btn cancel-button'>Cancel</button>
+              <button className='btn main-button'>Schedule Report</button>
+            </div>
+          </form>
         </section>
 
       </section>

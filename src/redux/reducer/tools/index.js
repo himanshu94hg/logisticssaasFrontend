@@ -1,8 +1,9 @@
-import { GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA } from "../../constants/tools";
+import { GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA, GET_REPORT_SCHEDULER_DATA } from "../../constants/tools";
 
 const initialState = {
     sellerData: [],
-    ratingCardData:[]
+    ratingCardData:[],
+    reportSchedularData:[]
 };
 
 export const toolsSectionReducer = (state = initialState, action) => {
@@ -16,6 +17,12 @@ export const toolsSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sellerData: action?.payload?.data
+            };
+        case GET_REPORT_SCHEDULER_DATA:
+            console.log(action?.payload,"this is reducer data")
+            return {
+                ...state,
+                reportSchedularData: action?.payload
             };
         default:
             return state
