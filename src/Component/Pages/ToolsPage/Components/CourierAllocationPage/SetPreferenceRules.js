@@ -20,6 +20,9 @@ const SetPreferenceRules = () => {
     };
 
     const handleRemoveRow = (index) => {
+        if (formData.length === 1) {
+            return; // Don't remove if there's only one row
+        }
         const newData = formData.filter((item, i) => i !== index);
         setFormData(newData);
     };
@@ -72,11 +75,13 @@ const SetPreferenceRules = () => {
                             />
                         </div>
                         <div>
-                            <button type="button" onClick={() => handleRemoveRow(index)}>Delete</button>
+                            {formData.length > 1 && (
+                                <button type="button" onClick={() => handleRemoveRow(index)}>Delete</button>
+                            )}
                         </div>
+                        <button type="button" onClick={handleAddRow}>Add</button>
                     </div>
                 ))}
-                <button type="button" onClick={handleAddRow}>Add</button>
                 <button type="submit">Submit</button>
             </form>
         </>

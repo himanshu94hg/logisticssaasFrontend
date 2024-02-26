@@ -116,8 +116,8 @@ const CourierAllocationPage = () => {
                   </ul>
                 )}
               </Droppable>
-              <button className='btn main-button me-3' onClick={handleResetCouriers}>Sort As Cheapest</button>
-              <button className='btn main-button' onClick={handleResetCouriers}>Sort As Fastest</button>
+              {/* <button className='btn main-button me-3' onClick={handleResetCouriers}>Sort As Cheapest</button> */}
+              {/* <button className='btn main-button' onClick={handleResetCouriers}>Sort As Fastest</button> */}
             </div>
             <div className='Weight-slab'>
               <h5>For Weight 3 to 10</h5>
@@ -141,8 +141,8 @@ const CourierAllocationPage = () => {
                   </ul>
                 )}
               </Droppable>
-              <button className='btn main-button me-3' onClick={handleResetList1}>Sort As Cheapest</button>
-              <button className='btn main-button' onClick={handleResetList1}>Sort As Fastest</button>
+              {/* <button className='btn main-button me-3' onClick={handleResetList1}>Sort As Cheapest</button> */}
+              {/* <button className='btn main-button' onClick={handleResetList1}>Sort As Fastest</button> */}
             </div>
             <div className='Weight-slab'>
               <h5>For Weight 10+</h5>
@@ -166,11 +166,28 @@ const CourierAllocationPage = () => {
                   </ul>
                 )}
               </Droppable>
-              <button className='btn main-button me-3' onClick={handleResetList2}>Sort As Cheapest</button>
-              <button className='btn main-button' onClick={handleResetList2}>Sort As Fastest</button>
+              {/* <button className='btn main-button me-3' onClick={handleResetList2}>Sort As Cheapest</button> */}
+              {/* <button className='btn main-button' onClick={handleResetList2}>Sort As Fastest</button> */}
             </div>
           </DragDropContext>
         </div>
+
+        <div className='cp-or-line'>
+          <hr />
+          <span>OR</span>
+        </div>
+        <div className='default-sorting-section'>
+          <label>
+            Sort by default sorting options
+            <select className='select-field' name="" id="">
+              <option value="">Select</option>
+              <option value="">Sort as Cheapest</option>
+              <option value="">Sort as Fastest</option>
+            </select>
+          </label>
+        </div>
+
+        <button className='btn main-button'>Submit</button>
       </section>
 
       <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>

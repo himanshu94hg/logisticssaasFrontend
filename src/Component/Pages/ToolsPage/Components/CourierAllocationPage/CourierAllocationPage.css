@@ -28,3 +28,31 @@ ul [data-rbd-droppable-context-id] {
     padding: 7px 5px;
     border-radius: 0.5rem;
 }
+
+.default-sorting-section label {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    width: 100%;
+    min-width: unset;
+}
+
+.default-sorting-section label select {
+    width: 270px;
+    min-width: unset;
+}
+
+.cp-or-line {
+    position: relative;
+    margin-block: 35px;
+}
+
+.cp-or-line span {
+    position: absolute;
+    background: #fff;
+    padding: 4px;
+    border: 1px solid;
+    border-radius: 50%;
+    top: -15px;
+    left: 50%;
+}
