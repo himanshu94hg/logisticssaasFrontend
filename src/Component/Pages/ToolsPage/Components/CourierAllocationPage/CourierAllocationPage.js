@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import './CourierAllocationPage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import SetPreferenceRules from './SetPreferenceRules';
 
 const CourierAllocationPage = () => {
   const [activeTab, setActiveTab] = useState("Courier Preferences");
@@ -94,7 +95,7 @@ const CourierAllocationPage = () => {
         <div className='courier-preference-list'>
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className='Weight-slab'>
-              <h5>For Weight 0 to 1.5</h5>
+              <h5>For Weight 0.5 to 3</h5>
               <Droppable droppableId="couriers">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -119,7 +120,7 @@ const CourierAllocationPage = () => {
               <button className='btn main-button' onClick={handleResetCouriers}>Sort As Fastest</button>
             </div>
             <div className='Weight-slab'>
-              <h5>For Weight 0 to 1.5</h5>
+              <h5>For Weight 3 to 10</h5>
               <Droppable droppableId="list1">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -144,7 +145,7 @@ const CourierAllocationPage = () => {
               <button className='btn main-button' onClick={handleResetList1}>Sort As Fastest</button>
             </div>
             <div className='Weight-slab'>
-              <h5>For Weight 0 to 1.5</h5>
+              <h5>For Weight 10+</h5>
               <Droppable droppableId="list2">
                 {(provided) => (
                   <ul {...provided.droppableProps} ref={provided.innerRef}>
@@ -173,7 +174,7 @@ const CourierAllocationPage = () => {
       </section>
 
       <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
-
+        <SetPreferenceRules />
       </section>
 
     </>
