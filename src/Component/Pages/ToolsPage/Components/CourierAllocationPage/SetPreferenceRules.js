@@ -1,4 +1,7 @@
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
+import RuleRow from './RuleRow';
 
 const SetPreferenceRules = () => {
     const [rules, setRules] = useState([]);
@@ -41,7 +44,10 @@ const SetPreferenceRules = () => {
                                     <input className='input-field' type="text" />
                                 </label>
                             </div>
-                            <div>
+                            <div className='my-3'>
+                                <RuleRow />
+                            </div>
+                            <div className='d-flex gap-3'>
                                 {[1, 2, 3, 4].map(priority => (
                                     <label key={priority}>
                                         Priority {priority}
@@ -59,7 +65,9 @@ const SetPreferenceRules = () => {
                                     </label>
                                 ))}
                             </div>
-                            <button onClick={() => deleteRuleRow(rule.id)}>Delete</button>
+                            <div className='d-flex justify-content-end'>
+                                <button className='btn delete-btn' onClick={() => deleteRuleRow(rule.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                            </div>
                         </div>
                     ))
                 )}

@@ -82,7 +82,14 @@ ul [data-rbd-droppable-context-id] {
     white-space: nowrap;
 }
 
+.minor-rule-row {
+    display: flex;
+    gap: 10px;
+}
+
 .major-rule-row label input,
-.major-rule-row label select {
+.major-rule-row label select,
+.minor-rule-row input,
+.minor-rule-row select {
     min-width: unset;
 }
