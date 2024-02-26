@@ -134,7 +134,7 @@ const AccountInfo = () => {
                     <div className='details-form-row row'>
                       <div className='col-3'>
                         <h5>Account Details</h5>
-                        <p><i>{account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
+                        <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
                       </div>
                       <div className='col-9'>
                         <div className='d-flex w-100 gap-3 mt-4'>
@@ -176,7 +176,7 @@ const AccountInfo = () => {
                         </div>
                       </div>
                     </div>
-                    {!account.isPrimary && (
+                    {account.isPrimary && (
                         <div className='d-flex justify-content-end mt-2 me-3'>
                           <button
                               className='btn btn-danger mt-2'
