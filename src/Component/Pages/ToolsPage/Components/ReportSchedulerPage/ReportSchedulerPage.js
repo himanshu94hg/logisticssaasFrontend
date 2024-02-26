@@ -90,10 +90,20 @@ const ReportSchedulerPage = () => {
     dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" })
   }, [])
 
-  const { reportSchedularData } = useSelector(state => state?.toolsSectionReducer)
+  const { reportSchedularData,ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
+
+  console.log(ratePrefilledData,"ratePrefilledData")
+
+  useEffect(()=>{
+    if(reportSchedularData!=[]){
+
+      setNewScheduler(false);
+    }
+  },[reportSchedularData])
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setNewScheduler(false);
     dispatch({ type: "REPORT_SCHEDULER_POST_ACTION",payload:reportData })
   }
 
