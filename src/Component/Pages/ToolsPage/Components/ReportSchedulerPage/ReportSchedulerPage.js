@@ -98,18 +98,23 @@ const ReportSchedulerPage = () => {
   }
 
   const handleChange = (e, selectFileds) => {
-    const value = e.target ? e.target.value : e.value; // Get the value from the event
-    if (selectFileds === "recipients" || selectFileds === "report_title") {
-      // If it's an input field
+    const value = e.target ? e.target.value : e.value;
+    if (selectFileds === "report_title") {
       setReportData(prev => ({
         ...prev,
-        [selectFileds]: value // Use the value directly
+        [selectFileds]: value 
       }));
-    } else {
-      // If it's a select field
+    }else if(selectFileds === "recipients"){
+       const concatenatedString = e.join(",");
+       setReportData(prev => ({
+        ...prev,
+        [selectFileds]: concatenatedString 
+      }));
+    }
+    else {
       setReportData(prev => ({
         ...prev,
-        [selectFileds]: value // Use the value directly
+        [selectFileds]: value 
       }));
     }
   };
@@ -118,6 +123,9 @@ const ReportSchedulerPage = () => {
   const handleDelete=(value)=>{
     dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION",payload:value })
   }
+
+
+  console.log(reportData,"reportDatareportData")
   
 
 
@@ -208,13 +216,15 @@ const ReportSchedulerPage = () => {
                     <input className='input-field' type="text" name={"report_title"} onChange={(e)=>handleChange(e,"report_title")} />
                   </label>
                   <label>Recipients Email IDs
-                  <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} />
-                    {/* <ReactMultiEmail
+                  {/* <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} /> */}
+                    <ReactMultiEmail
                       placeholder='Enter Recipients email ID and press enter'
                       emails={emails}
-                      onChange={(_emails) => {
-                        setEmails(_emails);
-                      }}
+                      onChange={(e)=>handleChange(e,"recipients")}
+                      // onChange={(_emails) => {
+                      //   setEmails(_emails);
+                      //   console.log(_emails,"this is email data")
+                      // }}
                       autoFocus={true}
                       onFocus={() => setFocused(true)}
                       onBlur={() => setFocused(false)}
@@ -228,7 +238,7 @@ const ReportSchedulerPage = () => {
                           </div>
                         );
                       }}
-                    /> */}
+                    />
                   </label>
                 </div>
               </div>
