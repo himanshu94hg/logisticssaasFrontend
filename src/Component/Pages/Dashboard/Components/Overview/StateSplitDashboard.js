@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import IndiaMap from '../../../../../assets/image/IndiaMap.png'
+import { VectorMap } from "react-jvectormap"
+
+const map = [
+  { code: "IN-RJ", value: 10000 },
+  { code: "IN-MP", value: 800 },
+  { code: "IN-DL", value: 900 },
+  { code: "IN-KL", value: 500 }
+];
 
 function StateSplitDashboard() {
-  const [stateAllocation, setStateAllocation] = useState([]);
-  const [totalSumOrder, setTotalSumOrder] = useState(0);
-  // useEffect(() => {
-  //   axios
-  //     .get('http://65.2.38.87:8088/api/v1/statewiseproduct/')
-  //     .then(response => {
-  //       console.log('Data:', response.data);
-  //       setStateAllocation(response.data.top_product_data);
-  //       setTotalSumOrder(response.data.total_sum_order);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error);
-  //     });
-  // }, []);
+  const getdata = (key) => {
+    const countryData = {};
+    map.forEach((obj) => {
+      countryData[obj.code] = obj.value;
+    });
+    return countryData[key];
+  };
+
+  const getalldata = () => {
+    const countryData = {};
+    map.forEach((obj) => {
+      countryData[obj.code] = obj.value;
+    });
+    return countryData;
+  };
+
+  const handleshow2 = (e, el, code) => {
+    el.html(el.html() + ` <br> Statistics: ${getdata(code)}`);
+  };
 
   return (
     <div className="box-shadow shadow-sm p10 state-wise-card">
@@ -25,23 +36,60 @@ function StateSplitDashboard() {
         <p className="export-report">Export Report</p>
       </div>
       <div className="card-count">
-        <h5 className="total-count">{totalSumOrder} <span className="font12 text-gray">Sales</span></h5>
+        <h5 className="total-count">0<span className="font12 text-gray">Sales</span></h5>
         <p className="font12 text-gray">Compared To Last Month</p>
       </div>
-      <div className="d-flex justify-content-end">
-        <ul className="list-ui">
-          {stateAllocation.map((state) => (
-            <li key={state.b_state} className="">
-              <p className="font12 bold-600 mb-10">
-                {state.b_state}&nbsp;&nbsp;&nbsp;&nbsp;
-                {state.order_count}
-              </p>
-            </li>
-          ))}
-        </ul>
+
+      <div>
+        <VectorMap
+          map={"in_mill"}
+          backgroundColor="transparent"
+          focusOn={{
+            x: 0.5,
+            y: 0.5,
+            scale: 0,
+            animate: false
+          }}
+          zoomOnScroll={true}
+          containerStyle={{
+            width: "100%",
+            height: "500px"
+          }}
+          onRegionClick={(e, code) => console.log(code)} // Handle region click
+          onRegionTipShow={handleshow2}
+          containerClassName="map"
+          regionStyle={{
+            initial: {
+              fill: "#e4e4e4",
+              "fill-opacity": 0.9,
+              stroke: "none",
+              "stroke-width": 0,
+              "stroke-opacity": 0
+            },
+            hover: {
+              "fill-opacity": 0.8,
+              cursor: "pointer"
+            },
+            selected: {
+              fill: "#2938bc" // onclick color of state
+            }
+          }}
+          regionsSelectable={false}
+          series={{
+            regions: [
+              {
+                values: getalldata(), // Can be directly served with API response or any data
+                scale: ["#C8EEFF", "#0071A4"], // Color range
+                normalizeFunction: "polynomial"
+              }
+            ]
+          }}
+        />
       </div>
+
     </div>
   );
 }
+
 
 export default StateSplitDashboard;
