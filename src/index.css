@@ -85,7 +85,7 @@ p {
   background: #F31429 !important;
 }
 
-.text-sh-primary{
+.text-sh-primary {
   color: var(--sh-primary);
 }
 
@@ -520,12 +520,12 @@ p {
   gap: 10px;
 }
 
-:root .btn:active{
+:root .btn:active {
   border-color: transparent;
   color: #fff;
 }
 
-:root .btn:focus{
+:root .btn:focus {
   box-shadow: none;
 }
 
@@ -565,16 +565,16 @@ p {
 .delete-btn {
   display: flex;
   align-items: center;
-  background-color: #F31429;
-  color: #fff;
+  background-color: #fddcdf;
+  color: #f31429;
   justify-content: center;
   padding: 5px 10px;
   width: max-content;
 }
 
 .delete-btn:hover {
-  background-color: #F31429;
-  color: #fff;
+  background-color: #fddcdf;
+  color: #f31429;
 }
 
 .edit-btn {
@@ -602,7 +602,7 @@ p {
   border-radius: 0.5rem;
 }
 
-.input-checkbox{
+.input-checkbox {
   border: 1px solid var(--sh-primary-middle);
   border-radius: 0.5rem;
 }
@@ -674,7 +674,8 @@ input::placeholder {
   background-color: #F6B954;
 }
 
-.white-block{
+.white-block {
   /* height: calc(100vh - 200px); */
   height: 100%;
+  overflow-y: scroll;
 }
