@@ -12,11 +12,12 @@ import Select from 'react-select';
 
 const ReportSchedulerPage = () => {
   const dispatch = useDispatch()
-  const [NewScheduler, setNewScheduler] = useState(false)
   const [emails, setEmails] = useState([]);
+  const [reports, setReports] = useState([]);
   const [focused, setFocused] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
   const [dataForLast, setdataForLast] = useState(null);
+  const [NewScheduler, setNewScheduler] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(null);
   const [reportData, setReportData] = useState({
     report_title: "",
     recipients: "",
@@ -25,7 +26,8 @@ const ReportSchedulerPage = () => {
     order_status: "Forward",
     order_sub_status: "Forward"
   });
-
+  const { reportSchedularData,ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
+  
   const reportType = [
     { value: 'Order', label: 'Order' },
     { value: 'Non-order', label: 'Non-order' },
@@ -76,10 +78,7 @@ const ReportSchedulerPage = () => {
     setSelectedDate(selectedOption.value);
   };
 
-  // State to manage the status toggle
-  const [reports, setReports] = useState([]);
 
-  // Function to toggle status
   const toggleStatus = (id) => {
     setReports(reports.map(report =>
       report.id === id ? { ...report, status: !report.status } : report
@@ -89,17 +88,6 @@ const ReportSchedulerPage = () => {
   useEffect(() => {
     dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" })
   }, [])
-
-  const { reportSchedularData,ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
-
-  console.log(ratePrefilledData,"ratePrefilledData")
-
-  useEffect(()=>{
-    if(reportSchedularData!=[]){
-
-      setNewScheduler(false);
-    }
-  },[reportSchedularData])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -129,15 +117,9 @@ const ReportSchedulerPage = () => {
     }
   };
 
-
   const handleDelete=(value)=>{
     dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION",payload:value })
   }
-
-
-  console.log(reportData,"reportDatareportData")
-  
-
 
   return (
     <>
