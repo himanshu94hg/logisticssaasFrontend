@@ -1,3 +1,6 @@
+import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState } from 'react'
 
 const RuleRow = () => {
@@ -34,7 +37,7 @@ const RuleRow = () => {
                         onChange={(e) => handleSelectChange(index, 'selectValue1', e.target.value)}
                         disabled={index === 0} // Disable condition select field for the first row
                     >
-                        <option value="">Select Condition</option>
+                        <option value="">And/Or</option>
                         <option value="and">And</option>
                         <option value="or">Or</option>
                     </select>
@@ -43,16 +46,25 @@ const RuleRow = () => {
                         value={row.selectValue2}
                         onChange={(e) => handleSelectChange(index, 'selectValue2', e.target.value)}
                     >
-                        <option value="">Select Option 2</option>
-                        {/* Add other options as needed */}
+                        <option value="payment_type">Payment Mode</option>
+                        <option value="order_amount">Order Amount</option>
+                        <option value="pickup_pincode">Pickup Pincode</option>
+                        <option value="delivery_pincode">Delivery Pincode</option>
+                        <option value="weight">Weight (In Kg.)</option>
+                        <option value="product_name">Product Name</option>
+                        <option value="product_sku">Product SKU</option>
+                        <option value="order_type">Order Type</option>
                     </select>
                     <select
                         className='select-field'
                         value={row.selectValue3}
                         onChange={(e) => handleSelectChange(index, 'selectValue3', e.target.value)}
                     >
-                        <option value="">Select Option 3</option>
-                        {/* Add other options as needed */}
+                        <option value="is">Is</option>
+                        <option value="is_not">Is not</option>
+                        <option value="starts_with">Starts with</option>
+                        <option value="greater_than">GT - Greater than</option>
+                        <option value="less_than">LE - Less than Equal to</option>
                     </select>
                     <input
                         className='input-field'
@@ -61,11 +73,11 @@ const RuleRow = () => {
                         onChange={(e) => handleInputChange(index, e.target.value)}
                         placeholder="Enter text"
                     />
-                    {index === rows.length - 1 && (
-                        <button onClick={handleAddRow}>Add</button>
-                    )}
                     {rows.length > 1 && (
-                        <button onClick={() => handleRemoveRow(index)}>Delete</button>
+                        <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                    )}
+                    {index === rows.length - 1 && (
+                        <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                     )}
                 </div>
             ))}
