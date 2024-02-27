@@ -1,13 +1,12 @@
-import Cookies from "js-cookie";
 import axios from "../../../../axios/index"
 import { SERVICE_ABILITY_ACTION } from "../../constant/tools";
-import { call, takeLatest } from "@redux-saga/core/effects";
+import { call,put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_COURIER } from "../../../../axios/config";
+import { GET_SERVICE_ABILITY_DATA } from "../../../constants/tools";
 
 
 async function serviceAbilityAPI(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
-   console.log(queryParams,"this is a query data")
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_COURIER}${API_URL.GET_SERVICE_ABILITY}?${queryParams}`,
@@ -22,11 +21,7 @@ function* serviceAbilityAction(action) {
     try {
         let response = yield call(serviceAbilityAPI, payload);
         if (response.status === 200) {
-            // Swal.fire({
-            //     title: "Rate Calculated successfully",
-            //     icon: "success"
-            // });
-            // yield put({ type: GET_, payload: response })
+            yield put({ type: GET_SERVICE_ABILITY_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);

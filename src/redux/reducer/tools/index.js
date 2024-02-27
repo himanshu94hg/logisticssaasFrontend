@@ -1,10 +1,11 @@
-import { GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA, GET_REPORT_SCHEDULER_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../constants/tools";
+import { GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA, GET_REPORT_SCHEDULER_DATA, GET_SERVICE_ABILITY_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../constants/tools";
 
 const initialState = {
     sellerData: [],
     ratingCardData:[],
     reportSchedularData:[],
-    ratePrefilledData:null
+    ratePrefilledData:null,
+    serviceAbility:[]
 };
 
 export const toolsSectionReducer = (state = initialState, action) => {
@@ -28,6 +29,12 @@ export const toolsSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 ratePrefilledData: action?.payload
+            };
+        case GET_SERVICE_ABILITY_DATA:
+            console.log(action.payload,"this is a hypertext data")
+            return {
+                ...state,
+                serviceAbility: action?.payload
             };
         default:
             return state

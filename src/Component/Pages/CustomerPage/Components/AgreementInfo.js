@@ -76,10 +76,8 @@ const AgreementInfo = () => {
         });
 
         // Show success sweet alert
-        Swal.fire('Updated!', 'Content has been updated.', 'success');
       } else if (result.dismiss === Swal.DismissReason.cancel) {
         // Show cancellation sweet alert
-        Swal.fire('Cancelled', 'Content update was cancelled.', 'error');
       }
     });
   };
