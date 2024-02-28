@@ -1,5 +1,35 @@
 import React, { useState } from "react";
-import Table from "react-bootstrap/Table";
+
+function CustomTable({ data }) {
+  return (
+    <table className="custom-table w-100">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>Product Name</th>
+          <th>Revenue</th>
+          <th>Delivered %</th>
+          <th>RTO %</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((product, index) => (
+          <tr key={index}>
+            <td>{index + 1}</td>
+            <td title={product.product_name}>{product.product_name}</td>
+            <td>{product.revenue}</td>
+            <td>
+              <span className="text-green">
+                {product.deliveredPercentage}%
+              </span>
+            </td>
+            <td>{product.rtoPercentage}%</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
 function TopSellingDashboard() {
   // Dummy data
@@ -10,40 +40,13 @@ function TopSellingDashboard() {
     // Add more dummy data as needed
   ];
 
-  const [popularProduct] = useState(dummyData);
-
   return (
     <div className="box-shadow shadow-sm p10 top-selling-page">
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="title">Top Selling Products</h4>
       </div>
       <div className="table-responsive">
-        <Table hover className="table-ui">
-          <thead>
-            <tr>
-              <th scope="col" style={{ width: '7%' }}>S.No</th>
-              <th scope="col">Product Name</th>
-              <th scope="col" style={{ width: '15%' }}>Revenue</th>
-              <th scope="col" style={{ width: '10%' }}>Delivered %</th>
-              <th scope="col" style={{ width: '8%' }}>RTO %</th>
-            </tr>
-          </thead>
-          <tbody>
-            {popularProduct.map((product, index) => (
-              <tr key={index} className="text-nowrap">
-                <td>{index + 1}</td>
-                <td title={product.product_name}>{product.product_name}</td>
-                <td>{product.revenue}</td>
-                <td>
-                  <span className="text-green">
-                    {product.deliveredPercentage}%
-                  </span>
-                </td>
-                <td>{product.rtoPercentage}%</td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <CustomTable data={dummyData} />
       </div>
     </div>
   );

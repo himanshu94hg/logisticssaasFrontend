@@ -30,10 +30,36 @@
     --bs-table-accent-bg: transparent;
 }
 
-.top-selling-page .table tbody tr:nth-of-type(odd),
+/* .top-selling-page .table tbody tr:nth-of-type(odd), */
 .last-orders .table tbody tr:nth-of-type(odd) {
     --bs-table-accent-bg: #CEDBF2;
 }
+
+.top-selling-page table.custom-table tr td,
+.top-selling-page table.custom-table tr th {
+    padding: 5px 10px;
+}
+
+.top-selling-page table.custom-table tr td {
+    font-size: 1rem;
+}
+
+.top-selling-page table.custom-table tr th {
+    font-size: 0.8rem;
+}
+
+.top-selling-page table.custom-table tbody tr:nth-of-type(odd) td {
+    background-color: var(--sh-primary-light);
+}
+
+.top-selling-page table.custom-table tbody tr:nth-of-type(odd) td:first-child {
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+.top-selling-page table.custom-table tbody tr:nth-of-type(odd) td:last-child {
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
 
 .state-wise-card .card-heading {
     display: flex;
@@ -156,13 +182,46 @@
     position: unset !important;
 }
 
-.state-wise-card .HoverInfo{
+.state-wise-card .HoverInfo {
     margin-top: -50px;
 }
 
 .datamaps-subunit.has-data {
     fill: #FF5733;
-  }
+}
+
+.overview-details-counters .tab-buttons {
+    display: flex;
+    width: fit-content;
+    gap: 30px;
+    border-bottom: 1px solid #ddd;
+}
+
+.overview-details-counters .counter-tab {
+    cursor: pointer;
+    padding: 7px 15px;
+    background-color: transparent;
+}
+
+.overview-details-counters .counter-tab.active {
+    cursor: pointer;
+    background-color: #fff;
+    color: var(--sh-primary);
+    border-bottom: 1px solid var(--sh-primary);
+}
+
+.overview-details-counters .tab-content {
+    display: flex;
+    align-items: center;
+    height: 60%;
+    justify-content: space-between;
+}
+
+.overview-details-counters .counter-sets {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 @media screen and (max-width: 1600px) {
     .top-selling-page table td {

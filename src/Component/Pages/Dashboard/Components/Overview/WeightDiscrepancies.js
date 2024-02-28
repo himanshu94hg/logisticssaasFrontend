@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import Chart from 'chart.js/auto';
 import CombinedChart from '../../../../common/Graph/WeightDiterpenses';
+import weightDChart from './MixedWeightChart'
+import MixedWeightChart from './MixedWeightChart';
 
 const MixedChart = ({ labels, totalOrders, ordersWithDiscrepancies }) => {
   const chartRef = useRef(null);
@@ -68,8 +70,9 @@ const WeightDiscrepancies = () => {
       <div className="row">
         <div className="col">
           <h4 className="title">Weight Discrepancies</h4>
-          <MixedChart labels={labels} totalOrders={totalOrders} ordersWithDiscrepancies={ordersWithDiscrepancies} />
-          {/* <CombinedChart/> */}
+          {/* <MixedChart labels={labels} totalOrders={totalOrders} ordersWithDiscrepancies={ordersWithDiscrepancies} /> */}
+          {/* <CombinedChart /> */}
+          <MixedWeightChart />
         </div>
       </div>
     </div>
