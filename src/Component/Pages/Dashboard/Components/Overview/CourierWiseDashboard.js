@@ -1,23 +1,15 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { HiMiniArrowTrendingUp } from 'react-icons/hi2';
 
 function CourierWiseDashboard() {
-  const [cData, setcData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // useEffect(() => {
-  //   axios
-  //     .get('http://65.2.38.87:8088/api/v1/top-couriar-pathner/')
-  //     .then(response => {
-  //       setcData(response.data);
-  //       setIsLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error);
-  //       setIsLoading(false);
-  //     });
-  // }, []);
+  const [cData] = useState([
+    { courier_partner: "eKart", total_percentage: 0.75, image_url: 'https://www.shipease.in/public/assets/admin/images/20220608000026.png' },
+    { courier_partner: "Shadowfax", total_percentage: 0.65, image_url: 'https://www.shipease.in/public/assets/admin/images/20210102174032.jpeg' },
+    { courier_partner: "Delhivery Lite", total_percentage: 0.85, image_url: '	https://www.shipease.in/public/assets/admin/images/20230708174144.jpeg' },
+    { courier_partner: "BlueDart Surface", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20230622130433.png' },
+    { courier_partner: "XpressBees", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20210102174413.png' },
+    { courier_partner: "The Professional Courier", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20231021174726.jpg' },
+  ]);
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -26,15 +18,12 @@ function CourierWiseDashboard() {
         {cData.map((courier, index) => (
           <li key={index} className="">
             <p className="font12 bold-600 mb-10">
-              {/* <img src={`https://shipease.in/${courier.courier_partner.image}`} className="inline-block" alt={courier.courier_partner.title} style={{ width: '35px', height: '35px', borderRadius: '50%' }} /> */}
-              {courier.courier_partner}
+              <img src={courier.image_url} className="inline-block" alt={courier.courier_partner.title} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
+              <span className="ms-2">{courier.courier_partner}</span>
             </p>
-            <img src="graph-red.png" className="inline-block" style={{ width: '60px' }} />
-
             <p className="font12 bold-600 mb-10">
               <HiMiniArrowTrendingUp className=" font15 text-green" /> {courier.total_percentage}
-
-              <span className="text-gray-light ">({((courier.total_percentage) * 100).toFixed(2)}%)</span>
+              <span className="text-gray-light ">({(courier.total_percentage * 100).toFixed(2)}%)</span>
             </p>
           </li>
         ))}

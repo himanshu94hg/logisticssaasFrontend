@@ -17,7 +17,7 @@ import ForwardReverseOrder from '../Components/Orders/ForwardReverseOrder'
 const OrdersDashboard = () => {
   return (
     <>
-      <Row>
+      <Row className='mb-3'>
         <Col className="col-3 cardsSpace">
           <ChannelByOrder />
           <OrderDetails />

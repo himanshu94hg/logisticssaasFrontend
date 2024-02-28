@@ -152,6 +152,18 @@
     --bs-table-bg-state: #CEDBF2;
 }
 
+.state-wise-card svg {
+    position: unset !important;
+}
+
+.state-wise-card .HoverInfo{
+    margin-top: -50px;
+}
+
+.datamaps-subunit.has-data {
+    fill: #FF5733;
+  }
+
 @media screen and (max-width: 1600px) {
     .top-selling-page table td {
         max-width: 178px;

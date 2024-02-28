@@ -83,7 +83,7 @@ const DeliveryPerformance = () => {
             legend: {
                 labels: {
                     font: {
-                        size: 16 // Increase legend font size
+                        size: 14 // Increase legend font size
                     }
                 }
             }
@@ -113,7 +113,7 @@ const DeliveryPerformance = () => {
     return (
         <div className='box-shadow shadow-sm p10' style={{ minHeight: '300px', maxHeight: '500px' }}>
             <h4 className='title'>Delivery Performance</h4>
-            <div ref={chartRef} style={{ height: canvasHeight }}>
+            <div ref={chartRef} style={{ height: `calc(${canvasHeight}px - 50px)` }}>
                 <Line data={chartData} options={chartOptions} />
             </div>
         </div>

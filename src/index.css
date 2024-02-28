@@ -441,7 +441,7 @@ p {
   background: rgb(3, 44, 3);
   position: absolute;
   left: -2px;
-  top: 24px;
+  top: 20px;
   border-radius: 10px;
 }
 
@@ -494,6 +494,15 @@ p {
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+
+.cardsSpace>div {
+  height: 100%;
+}
+
+.cardsSpace>.grid.gap-3 {
+  height: auto;
+  gap: 20px !important;
 }
 
 .p10-inline {
@@ -678,4 +687,10 @@ input::placeholder {
   /* height: calc(100vh - 200px); */
   height: 100%;
   overflow-y: scroll;
+}
+
+
+
+.column-container {
+  height: 100%;
 }

@@ -10,7 +10,7 @@ import TopRTOCourier from '../Components/RTO/TopRTOCourier'
 const RTODashboard = () => {
   return (
     <>
-      <Row>
+      <Row className='mb-3'>
         <Col className="col-3 cardsSpace">
           {/* <RTOOrderDetails /> */}
           <TopRTOPincodes />

@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { BiSolidBadgeCheck } from "react-icons/bi";
 
 function PopularCustomerDashboard() {
-  const [popularCustomers, setPopularCustomers] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  // Dummy data to simulate the response from the API
+  const dummyData = [
+    {
+      b_customer_name: "John Doe",
+      total_bookings: 10,
+      rating_percentage: 80,
+    },
+    {
+      b_customer_name: "Jane Smith",
+      total_bookings: 15,
+      rating_percentage: 90,
+    },
+    // Add more dummy data as needed
+  ];
 
-  // useEffect(() => {
-  //   axios
-  //     .get('http://65.2.38.87:8088/api/v1/top-customer-count/') // Corrected API endpoint
-  //     .then(response => {
-  //       console.log('Data:', response.data);
-  //       setPopularCustomers(response.data.top_customers); // Corrected state variable
-  //       setIsLoading(false);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error:', error);
-  //       setIsLoading(false);
-  //     });
-  // }, []);
+  const [popularCustomers, setPopularCustomers] = useState(dummyData);
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -27,12 +26,6 @@ function PopularCustomerDashboard() {
         <ul key={index} className="d-flex justify-content-between align-items-center p0 list-none">
           <li>
             <div className="d-flex align-items-top justify-content-center">
-              {/*<div className="me-2">
-                <span className="avatar">
-                   Assuming the image source is available in the API response 
-                  <img src={customer.b_customer_image} className="inline-block" alt={customer.b_customer_name} />
-                </span>
-              </div>*/}
               <div>
                 <p className="mb-0 bold-600 font13 mr-5" style={{ width: '150px' }}>{customer.b_customer_name}</p>
                 <span className="font13 text-gray">

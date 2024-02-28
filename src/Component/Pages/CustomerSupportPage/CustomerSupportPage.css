@@ -132,12 +132,12 @@
     right: 0;
 }
 
-table {
+.support-page table {
     margin-top: 20px;
     width: 100%;
 }
 
-table tr td {
+.support-page table tr td {
     padding-block: 10px;
 }
 
@@ -311,17 +311,17 @@ table tr td {
 }
 
 .view-attachment,
-.download{
+.download {
     cursor: pointer;
 }
 
-.comment-container{
+.comment-container {
     position: relative;
     padding-bottom: 24px;
     min-width: 150px;
 }
 
-.comment-container p{
+.comment-container p {
     position: absolute;
     bottom: 0;
     right: 8px;

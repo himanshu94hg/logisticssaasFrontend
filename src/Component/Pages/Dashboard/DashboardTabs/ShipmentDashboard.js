@@ -11,10 +11,10 @@ import DataTable from '../Components/Overview/DataTable/DataTable'
 const ShipmentDashboard = () => {
   return (
     <>
-      <Row>
+      <Row className='mb-3'>
         <Col className="col-3 cardsSpace">
-        <WeightProfile />
-        <ZoneWiseData />
+          <WeightProfile />
+          <ZoneWiseData />
         </Col>
         <Col className="col-6 cardsSpace">
           <ShipmentOverview />
