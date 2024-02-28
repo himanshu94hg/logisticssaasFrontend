@@ -4,11 +4,11 @@
     align-items: center;
 }
 
-.steps-header {
+.stepper-form-container .steps-header {
     position: relative;
 }
 
-.progress-container {
+.stepper-form-container .progress-container {
     position: absolute;
     bottom: 0;
     left: 0;
@@ -21,19 +21,19 @@
     width: 100%;
 } */
 
-.progress-bar {
+.stepper-form-container .progress-bar {
     background-color: var(--sh-primary);
     height: 4px;
 }
 
 
-.stepper-line {
+.stepper-form-container .stepper-line {
     display: flex;
     justify-content: space-between;
     width: 80%;
 }
 
-.step-marker span {
+.stepper-form-container .step-marker span {
     border: 1px solid;
     border-radius: 50%;
     width: 25px;
@@ -45,7 +45,7 @@
     justify-content: center;
 }
 
-.step-marker span.completed {
+.stepper-form-container .step-marker span.completed {
     background: linear-gradient(white, white) padding-box,
         linear-gradient(to right, var(--sh-primary), var(--sh-primary-light)) border-box;
     border-radius: 50em;
@@ -234,7 +234,7 @@
 }
 
 .optional-fields.open {
-    transform:scaleY(1);
+    transform: scaleY(1);
     transform-origin: top;
 }
 
