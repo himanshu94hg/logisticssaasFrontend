@@ -63,20 +63,20 @@ const BulkCreateOrder = () => {
     };
 
     useEffect(() => {
-        
-            axios
-                .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                })
-                .then(response => {
-                    console.log('Data is data:', response.data);
-                    setBulkOrders(response.data.results);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+
+        axios
+            .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                console.log('Data is data:', response.data);
+                setBulkOrders(response.data.results);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }, [])
 
 
@@ -106,24 +106,27 @@ const BulkCreateOrder = () => {
                     <LuUploadCloud className='font30 mb-3' />
                     <p>Drag And Drop to upload the files here.</p>
                     <h4 className='mx-4'>OR</h4>
+                    <button className='btn main-button-outline upload-click ml-5'>Click to Upload File</button>
                     <p className='mt-3'>Only csv, xls & xlsx file format will be accepted.</p>
                 </div>
             </section>
-            <button className='btn main-button ml-5' onClick={handleImport}>Upload File</button>
+            <div className='d-flex justify-content-end'>
+                <button className='btn main-button' onClick={handleImport}>Submit</button>
+            </div>
             <section className='mt-5'>
                 <h4>Recent Uploads</h4>
                 <table>
                     <thead>
-                    <tr>
-                        <th>File Name</th>
-                        <th>Date</th>
-                        <th>No. Of Orders</th>
-                        <th>Successful Orders</th>
-                        <th>Error Orders</th>
-                    </tr>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Date</th>
+                            <th>No. Of Orders</th>
+                            <th>Successful Orders</th>
+                            <th>Error Orders</th>
+                        </tr>
                     </thead>
                     <thead>
-                        {bulkOrders?.slice(0,10)?.map((item) => {
+                        {bulkOrders?.slice(0, 10)?.map((item) => {
                             return (
                                 <tr>
                                     <td>{item?.file_name}</td>

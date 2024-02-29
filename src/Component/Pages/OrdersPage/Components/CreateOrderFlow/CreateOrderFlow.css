@@ -286,6 +286,15 @@
     cursor: pointer;
 }
 
+/* .upload-click:before{
+
+} */
+
+.upload-click:hover {
+    background-color: var(--sh-primary);
+    /* color: ; */
+}
+
 /* Add responsiveness for smaller screens */
 @media (max-width: 600px) {
     .stepper-form-container {
