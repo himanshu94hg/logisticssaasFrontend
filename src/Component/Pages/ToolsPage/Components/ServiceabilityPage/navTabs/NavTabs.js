@@ -18,7 +18,7 @@ export default function NavTabs(props) {
   const handleSubmit = () => {
     let sellerData = 3;
 
-    const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
+    const response = axios.get(`http://65.2.38.87:8081/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     console.log("Data", response);
 
     if (response.status === 200) {

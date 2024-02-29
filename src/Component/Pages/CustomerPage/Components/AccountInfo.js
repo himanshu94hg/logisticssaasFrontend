@@ -17,7 +17,7 @@ const AccountInfo = () => {
 
   const fetchAccountData = async () => {
     try {
-      const response = await axios.get('http://65.2.38.87:8088/core-api/seller/bank-info/', {
+      const response = await axios.get('http://65.2.38.87:8081/core-api/seller/bank-info/', {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`
         }
@@ -49,7 +49,7 @@ const AccountInfo = () => {
         formData.append('bank_branch', account.branchName);
         formData.append('cheque_image', account.chequeImage);
 
-        await axios.post('http://65.2.38.87:8088/core-api/seller/bank-info/', formData, {
+        await axios.post('http://65.2.38.87:8081/core-api/seller/bank-info/', formData, {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
             'Content-Type': 'multipart/form-data'

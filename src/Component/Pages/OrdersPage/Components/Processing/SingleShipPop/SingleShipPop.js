@@ -37,7 +37,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                 }
             };
 
-            axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`, config)
+            axios.get(`http://65.2.38.87:8081/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                     console.log("Response", response);
@@ -48,7 +48,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     }, [orderId]);
 
     const handleSubmit = (courier) => {
-        axios.get(`http://65.2.38.87:8088/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
+        axios.get(`http://65.2.38.87:8081/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

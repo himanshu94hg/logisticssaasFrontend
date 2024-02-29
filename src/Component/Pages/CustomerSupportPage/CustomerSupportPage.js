@@ -23,10 +23,8 @@ const CustomerSupportPage = () => {
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
   const [filterClick, setFilterClick] = useState(false);
 
-
-
   const authToken = Cookies.get("access_token")
-  const apiUrl = "http://65.2.38.87:8088/core-api/features/support-tickets/";
+  const apiUrl = "http://65.2.38.87:8081/core-api/features/support-tickets/";
 
   useEffect(() => {
     let url = apiUrl;

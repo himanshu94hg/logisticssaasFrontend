@@ -127,7 +127,7 @@ const DomesticCreateOrder = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await axios.post('http://65.2.38.87:8080/orders-api/orders/', formData, {
+            const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`
@@ -1284,7 +1284,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`http://65.2.38.87:8081/core-api/features/warehouse/?seller_id=${sellerData}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }

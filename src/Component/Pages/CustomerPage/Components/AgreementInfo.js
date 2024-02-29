@@ -18,7 +18,7 @@ const AgreementInfo = () => {
 
   useEffect(() => {
     axios
-      .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
+      .get('http://65.2.38.87:8081/core-api/seller/basic-info/', {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
         },

@@ -22,7 +22,7 @@ const KYCInfo = () => {
 
   const fetchKYCData = async () => {
     try {
-      const response = await axios.get('http://65.2.38.87:8088/core-api/seller/kyc-info/', {
+      const response = await axios.get('http://65.2.38.87:8081/core-api/seller/kyc-info/', {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`
         }
@@ -75,7 +75,7 @@ const KYCInfo = () => {
       });
 
       const response = await axios.post(
-          'http://65.2.38.87:8088/core-api/seller/kyc-info/',
+          'http://65.2.38.87:8081/core-api/seller/kyc-info/',
           formDataObject,
           {
             headers: {
