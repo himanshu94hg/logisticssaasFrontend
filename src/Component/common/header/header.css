@@ -79,7 +79,7 @@
   border: 1px solid var(--sh-primary);
   width: 150px;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .icons {
