@@ -1,7 +1,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { LuUploadCloud } from "react-icons/lu";
 import React, { useEffect, useState } from 'react';
 
@@ -25,7 +25,7 @@ const BulkCreateOrder = () => {
                     Authorization: `Bearer ${authToken}`
                 }
             });
-            console.log(response.status,'This is response data status')
+            console.log(response.status, 'This is response data status')
             if (response.status === 200) {
                 const responseData = response.data;
                 toast.success('Order creteed Successfully');
@@ -55,7 +55,7 @@ const BulkCreateOrder = () => {
     }, [bulkOrdersStatus])
 
     const handleDownloadTemplate = () => {
-        const templateUrl = 'public/shipease_bulk_order.xlsx';
+        const templateUrl = 'shipease_bulk_order.xlsx';
         const tempAnchor = document.createElement('a');
         tempAnchor.setAttribute('download', 'shipease_bulk_order.xlsx');
         tempAnchor.setAttribute('href', templateUrl);
@@ -74,17 +74,20 @@ const BulkCreateOrder = () => {
             </section>
             <section className='inputs-container mx-auto mb-3 bulk-import-input'>
                 <div className='mid-text-container'>
-                    <input type="file" onChange={handleFileUpload} />
+                    <input type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
                     <LuUploadCloud className='font30 mb-3' />
                     <p>Drag And Drop to upload the files here.</p>
-                    <h4 className='mx-4'>OR</h4>
-                    <button className='btn main-button-outline upload-click ml-5'>Click to Upload File</button>
-                    <p className='mt-3'>Only csv, xls & xlsx file format will be accepted.</p>
+                    <p className='bo-or-text'>OR</p>
+                    <p className='upload-click ml-5'>Click to Upload File</p>
+                    <p className='accepted-note'>Only csv, xls & xlsx file format will be accepted.</p>
                 </div>
             </section>
-            <section className='mt-5'>
-                <h4>Recent Uploads</h4>
-                <table>
+            <section className='bo-upload-data'>
+                <div className='d-flex justify-content-between align-items-center'>
+                    <h4>Recent Uploads</h4>
+                    <p>Last 10 days activity</p>
+                </div>
+                <table className='w-100'>
                     <thead>
                         <tr>
                             <th>File Name</th>
