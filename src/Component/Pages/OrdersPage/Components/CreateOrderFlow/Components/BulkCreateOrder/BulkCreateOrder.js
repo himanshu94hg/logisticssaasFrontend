@@ -63,20 +63,20 @@ const BulkCreateOrder = () => {
     };
 
     useEffect(() => {
-
-        axios
-            .get(`http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setBulkOrders(response.data.results);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        
+            axios
+                .get(`http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                })
+                .then(response => {
+                    console.log('Data is data:', response.data);
+                    setBulkOrders(response.data.results);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
     }, [])
 
 

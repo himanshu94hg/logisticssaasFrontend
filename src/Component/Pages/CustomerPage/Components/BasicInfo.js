@@ -1,138 +1,249 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { BsCloudUpload } from "react-icons/bs";
-import dummyLogo from '../../../../assets/image/logo/dummyLogo.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
-
-
+import { BsCloudUpload } from "react-icons/bs";
+import React, { useState, useEffect } from 'react';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
+import { alphaNum, alphabetic, emailRegx, gstRegx, panRegex, webUrlRegx } from '../../../../regex';
+import "./basicInfo.css"
 
 const BasicInfo = () => {
-  const [companyName, setCompanyName] = useState('');
-  const [email, setEmail] = useState('');
-  const [website, setWebsite] = useState('');
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [gstNumber, setGstNumber] = useState('');
-  const [gstCertificate, setGstCertificate] = useState(null);
-  const [panNumber, setPanNumber] = useState('');
-  const [streetName, setStreetName] = useState('');
-  const [zipCode, setZipCode] = useState('');
-  const [cityName, setCityName] = useState('');
-  const [stateName, setStateName] = useState('');
-  const [companyLogo, setCompanyLogo] = useState(null);
-  const [getBasicInfoList, setBasicinfo] = useState([]);
-  const [logoPreview, setLogoPreview] = useState(dummyLogo);
+  const [errors, setErrors] = useState({});
+  const [logoError, setLogoError] = useState("");
+  const [docsError, setDocsError] = useState("");
+  const hardcodedToken = Cookies.get("access_token");
   const [pdfPreview, setPdfPreview] = useState(null);
-  const [ViewAttachmentContent, setViewAttachmentContent] = useState(false)
+  const [basicInfoList, setBasicInfoList] = useState([]);
+  const [logoPreview, setLogoPreview] = useState(dummyLogo);
+  const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
+  const [formData, setFormData] = useState({
+    company_name: '',
+    email: '',
+    website_url: '',
+    mobile: '',
+    gst_number: '',
+    gst_certificate: "kj",
+    pan_number: '',
+    street: '',
+    pincode: '',
+    city: '',
+    country: '',
+    landmark: '',
+    state: '',
+    company_logo: "ddd",
+  });
 
-  const hardcodedToken = Cookies.get("access_token")
-  const sellerId = Cookies.get("user_id")
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    let error = '';
+    switch (name) {
+      case 'company_name':
+        if (alphabetic.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      case 'email':
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }))
+        break;
+      case 'street':
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }))
+        break;
+      case 'website_url':
+        setFormData(prev => ({
+          ...prev,
+          [name]: value
+        }))
+        break;
+      case 'mobile':
+        const mobilePattern = /^\d{1,10}$/;
+        if (mobilePattern.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      case 'pincode':
+        const pincodePattern = /^[0-9]{0,6}$/;
+        if (pincodePattern.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      case 'city':
+        const al = /^[0-9]{0,6}$/;
+        if (alphabetic.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      case 'state':
+        if (alphabetic.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      case 'pan_number':
+        if (panRegex.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      case 'gst_number':
+        if (gstRegx.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
+        break;
+      default:
+        break;
+    }
+
+    // setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
+    // setErrors(prevErrors => ({
+    //   ...prevErrors,
+    //   [name]: '',
+    // }));
+
+    // Clear error if value matches the pattern
+    // setErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
+
+    // setFormData(prevState => ({
+    //   ...prevState,
+    //   [name]: value,
+    // }));
+  };
+
   useEffect(() => {
     axios
-      .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
+      .get('http://65.2.38.87:8081/core-api/seller/basic-info/', {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
         },
       })
       .then(response => {
-        setBasicinfo(response.data);
+        setBasicInfoList(response.data);
         const basicInfoData = response.data[0] || {};
-        setCompanyName(basicInfoData.company_name || '');
-        setEmail(basicInfoData.email || '');
-        setPanNumber(basicInfoData.pan_number || '');
-        setGstNumber(basicInfoData.gst_number || '');
-        setStreetName(basicInfoData.street || '');
-        setZipCode(basicInfoData.pincode || '');
-        setCityName(basicInfoData.city || '');
-        setStateName(basicInfoData.state || '');
-        setWebsite(basicInfoData.website_url || '');
-        setMobileNumber(basicInfoData.mobile || '');
-
-        // setWebsite
+        setFormData(prevState => ({
+          ...prevState,
+          company_name: basicInfoData.company_name || '',
+          email: basicInfoData.email || '',
+          pan_number: basicInfoData.pan_number || '',
+          gst_number: basicInfoData.gst_number || '',
+          street: basicInfoData.street || '',
+          pincode: basicInfoData.pincode || '',
+          city: basicInfoData.city || '',
+          country: basicInfoData.city || '',
+          state: basicInfoData.state || '',
+          website_url: basicInfoData.website_url || '',
+          mobile: basicInfoData.mobile || '',
+        }));
       })
-      .catch(error => {  // Add a .catch block here
+      .catch(error => {
         console.error('Error fetching basic info:', error);
       });
   }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      const formData = new FormData();
-
-      formData.append('company_name', companyName);
-      formData.append('website_url', website);
-      formData.append('company_logo', companyLogo);
-      formData.append('gst_number', gstNumber);
-      formData.append('gst_certificate', gstCertificate);
-      formData.append('pan_number', panNumber);
-      formData.append('mobile', mobileNumber);
-      formData.append('email', email);
-      formData.append('street', streetName);
-      formData.append('pincode', zipCode);
-      formData.append('city', cityName);
-      formData.append('state', stateName);
-
-      const response = await fetch('http://65.2.38.87:8088/core-api/seller/basic-info/', {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-        },
-      });
-
-      if (response.ok) {
-        console.log('Form submitted successfully');
-        Swal.fire({
-          icon: 'success',
-          title: 'Your Basic Information is added Successfully!',
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      } else {
-        console.error('Form submission failed');
+    const newErrors = {};
+    Object.entries(formData).forEach(([key, value]) => {
+      if (value === '') {
+        newErrors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
       }
-    } catch (error) {
-      console.error('Error during form submission:', error);
+    });
+    setErrors(newErrors);
+
+    if (Object.keys(newErrors).length === 0) {
+      try {
+        const response = await axios.post('http://65.2.38.87:8081/core-api/seller/basic-info/', formData, {
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+          },
+        });
+
+        // Handle successful form submission
+      } catch (error) {
+        console.error('Error during form submission:', error);
+      }
     }
   };
 
-  const uploadGstFile = (e) => {
+  const uploadFile = (e, type) => {
     const file = e.target.files[0];
-    setGstCertificate(file);
+    const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
+    if (type === "company_logo" && logoFileSize > 2) {
+      setLogoError("File shouldn't be greater than 2 mb")
+    }
+    
+    if (type === "gstCertificate" && logoFileSize > 2) {
+      setDocsError("File shouldn't be greater than 3 mb")
+    }
+    setFormData(prevState => ({
+      ...prevState,
+      [type]: file,
+    }));
+
     const previewURL = URL.createObjectURL(file);
-    setPdfPreview(previewURL);
+    if (type === 'gstCertificate') {
+      setPdfPreview(previewURL);
+    } else {
+      setLogoPreview(previewURL);
+    }
   };
-
-  const uploadLogo = (e) => {
-    const file = e.target.files[0];
-    setCompanyLogo(file);
-    const previewURL = URL.createObjectURL(file);
-    setLogoPreview(previewURL);
-  };
-
-
   const handlePreview = () => {
     if (pdfPreview === null) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'No PDF to preview',
-        text: 'Please upload a PDF file to preview.',
-      });
-
-      // Reset the showNoPreviewAlert state
       setViewAttachmentContent(false);
+    } else {
+      setViewAttachmentContent(!viewAttachmentContent);
     }
-    else {
-      setViewAttachmentContent(!ViewAttachmentContent)
+  };
+
+  const handleRegex = (e) => {
+    const { name, value } = e.target
+    if (!webUrlRegx.test(value)) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: `follow https://www.abc.com`,
+      }));
+    } else {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: '',
+      }));
+    }
+    if (!emailRegx.test(value)) {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: `follow abc@xyz.com`,
+      }));
+    } else {
+      setErrors(prevErrors => ({
+        ...prevErrors,
+        [name]: '',
+      }));
     }
   }
-
-
-
 
   return (
     <>
@@ -143,25 +254,33 @@ const BasicInfo = () => {
               <h5 className='col-3'>Primary Details</h5>
               <div className='col-9'>
                 <label className='logo-file-upload'>
-                  <input className="input-field" type="file" onChange={uploadLogo} />
+                  <input className="input-field" type="file" onChange={(e) => uploadFile(e, 'company_logo')} />
                   <div className='upload-logo-input'>
                     <div className='d-flex flex-column align-items-center'>
                       <div className='logo-img-cont'>
                         <img src={logoPreview} alt="Logo Preview" height={50} />
                       </div>
-                      {/* <BsCloudUpload className='font40' /> */}
                       <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
                     </div>
                   </div>
                 </label>
+                {logoError && <span className="custom-error">{logoError}</span>}
                 <div className='d-flex w-100 gap-3 mt-4'>
                   <label>
-                    Company Name
-                    <input placeholder="Enter your company name" className="input-field" type="text" value={companyName} onChange={(e) => setCompanyName(e.target.value)} />
+                    <span>Company Name <span className='text-danger'>*</span></span>
+                    <input placeholder="Enter your company name" className={`input-field ${errors.company_name && "input-field-error"}`} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
+                    {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
                   </label>
                   <label>
-                    Website URL
-                    <input placeholder='Enter your website URL' className="input-field" type="text" value={website} onChange={(e) => setWebsite(e.target.value)} />
+                    <span> Website URL<span className='text-danger'>*</span></span>
+                    <input
+                      placeholder='Enter your website URL'
+                      className={`input-field ${errors.website_url && "input-field-error"}`}
+                      type="text" name="website_url" value={formData.website_url}
+                      onChange={handleChange} 
+                      onKeyUp={handleRegex}
+                    />
+                    {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
                   </label>
                 </div>
               </div>
@@ -171,32 +290,36 @@ const BasicInfo = () => {
               <h5 className='col-3'>Contact Details</h5>
               <div className='col-9 d-flex gap-3'>
                 <label>
-                  Mobile Number
+                  <span>Mobile Number <span className='text-danger'> *</span></span>
                   <div className='d-flex mobile-number-field'>
                     <select
                       className='input-field '
                       disabled
                     >
                       <option value="+91">+91</option>
-                      {/* Add more country codes as needed */}
                     </select>
                     <input
-                      className="input-field"
+                      className={`input-field ${errors.mobile && "input-field-error"}`}
                       type="text"
-                      value={mobileNumber}
-                      onChange={(e) => setMobileNumber(e.target.value)}
+                      name="mobile"
+                      value={formData.mobile}
+                      onChange={handleChange}
                       placeholder='XXXXXXXXXX'
                     />
                   </div>
+                  {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
                 </label>
                 <label>
-                  Email
+                  <span>Email<span className='text-danger'> *</span></span>
                   <input
-                    className="input-field"
+                    className={`input-field ${errors.email && "input-field-error"}`}
                     type="text"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    onKeyUp={handleRegex}
                     placeholder='i.e. abc@gmail.com' />
+                  {errors.email && <span className="custom-error">{errors.email}</span>}
                 </label>
               </div>
             </div>
@@ -206,32 +329,37 @@ const BasicInfo = () => {
               <div className='col-9'>
                 <div className='d-flex gap-3'>
                   <label>
-                    Address
-                    <input placeholder="House/Floor No. Building Name or Street, Locality" className="input-field" type="text" value={streetName} onChange={(e) => setStreetName(e.target.value)} />
+                    <span>Address<span className='text-danger'>*</span></span>
+                    <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field ${errors.email && "input-field-error"}`} type="text" name="street" value={formData.street} onChange={handleChange} />
+                    {errors.street && <span className="custom-error">{errors.street}</span>}
                   </label>
                   <label>
                     Landmark
-                    <input placeholder="Any nearby post office, market, Hospital as the landmark" className="input-field" type="text" value={streetName} onChange={(e) => setStreetName(e.target.value)} />
+                    <input placeholder="Any nearby post office, market, Hospital as the landmark" className={`input-field`} type="text" name="landmark" value={formData.landmark} onChange={handleChange} />
+                    {/* {errors.landmark && <span className="custom-error">{errors.landmark}</span>} */}
                   </label>
                 </div>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    Pincode
-                    <input placeholder="Enter your Pincode" className="input-field" type="text" value={zipCode} onChange={(e) => setZipCode(e.target.value)} />
+                    <span>Pincode<span className='text-danger'> *</span></span>
+                    <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange} />
+                    {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
                   </label>
                   <label>
-                    City
-                    <input placeholder="Enter your city" className="input-field" type="text" value={cityName} onChange={(e) => setCityName(e.target.value)} />
+                    <span>City<span className='text-danger'> *</span></span>
+                    <input placeholder="Enter your city" className={`input-field ${errors.city && "input-field-error"}`} type="text" name="city" value={formData.city} onChange={handleChange} />
+                    {errors.city && <span className="custom-error">{errors.city}</span>}
                   </label>
                   <label>
-                    State
-                    <input placeholder="Enter your state" className="input-field" type="text" value={stateName} onChange={(e) => setStateName(e.target.value)} />
+                    <span>State<span className='text-danger'> *</span></span>
+                    <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
+                    {errors.state && <span className="custom-error">{errors.state}</span>}
                   </label>
                   <label>
-                    Country
-                    <input placeholder="Enter your country" className="input-field" type="text" value={stateName} onChange={(e) => setStateName(e.target.value)} />
+                    <span>Country<span className='text-danger'> *</span></span>
+                    <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
+                    {errors.country && <span className="custom-error">{errors.country}</span>}
                   </label>
-                  {/* ... (Other input fields) */}
                 </div>
               </div>
             </div>
@@ -241,16 +369,19 @@ const BasicInfo = () => {
               <div className='col-9'>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    Pan Number
-                    <input className="input-field" type="text" value={panNumber} onChange={(e) => setPanNumber(e.target.value)} />
+                    <span>PAN Number<span className='text-danger'> *</span></span>
+                    <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange} />
+                    {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
                   </label>
                   <label>
-                    GST Number
-                    <input className="input-field" type="text" value={gstNumber} onChange={(e) => setGstNumber(e.target.value)} />
+                    <span>GST Number<span className='text-danger'> *</span></span>
+                    <input className={`input-field ${errors.gst_number && "input-field-error"}`} type="text" name="gst_number" value={formData.gst_number} onChange={handleChange} />
+                    {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
                   </label>
                   <label className='position-relative'>
-                    GST Certificate
-                    <input className="input-field" type="file" accept=".pdf" onChange={uploadGstFile} />
+                    <span>GST Certificate<span className='text-danger'> *</span></span>
+                    <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
+                    {docsError && <span className="custom-error">{docsError}</span>}
                     <button
                       className='eye-button'
                       onClick={handlePreview}
@@ -258,25 +389,24 @@ const BasicInfo = () => {
                       <FontAwesomeIcon icon={faEye} />
                     </button>
                   </label>
-
                 </div>
               </div>
             </div>
+            {/* Add other form sections here */}
           </div>
           <div className='d-flex justify-content-end mt-4'>
             <button className='btn main-button' type="submit">Save</button>
           </div>
         </div>
-      </form >
-      <section className={`pdf-preview-section ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
+      </form>
+      <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
         {pdfPreview && (
           <embed src={pdfPreview} type="application/pdf" width="100%" height="100%" />
         )}
       </section>
-
       <div
-        onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
-        className={`backdrop ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
+        onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
+        className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
     </>
   );
 };

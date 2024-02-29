@@ -100,7 +100,7 @@ const ManageWarehouse = () => {
 
   const fetchDataFromApi = async () => {
     try {
-      const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
+      const response = await axios.get(`http://65.2.38.87:8081/core-api/features/warehouse/?seller_id=${sellerData}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }

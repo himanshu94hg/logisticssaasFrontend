@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const authToken=Cookies.get("access_token")
 export const getFileData = async (endPoint) => {
     try {
-        const response = await axios.get(`http://65.2.38.87:8088/core-api/master/get-presigned-url/?file_key=${endPoint}`, {
+        const response = await axios.get(`http://65.2.38.87:8081/core-api/master/get-presigned-url/?file_key=${endPoint}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`,
             },
