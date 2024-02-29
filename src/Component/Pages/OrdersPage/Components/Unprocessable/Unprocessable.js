@@ -46,11 +46,11 @@ const InfoMissing = () => {
     );
 }
 
-const Unprocessable = ({orders}) => {
+const Unprocessable = ({ orders }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -109,10 +109,27 @@ const Unprocessable = ({orders}) => {
                             <span>Last Month</span> |
                             <span>Delivered</span> |
                             <span>Cancel order</span> </p>
+                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        <button className='btn main-button'>Export</button>
+                        <div className='action-options'>
+                            <div className='threedots-img'>
+                                <img src={ThreeDots} alt="ThreeDots" width={24} />
+                            </div>
+                            <div className='action-list'>
+                                <ul>
+                                    <li>Bulk Ship</li>
+                                    <li>Add Bulk Tag</li>
+                                    <li>Mark as Verified</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Weight/Dimension Update</li>
+                                    <li>Bulk Warehouse Update</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Delete Order</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -168,7 +185,7 @@ const Unprocessable = ({orders}) => {
                                                     {/*<DateFormatter dateTimeString={row?.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
-                                              
+
                                                 </p>
                                                 {/* <p>{row?.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -183,7 +200,7 @@ const Unprocessable = ({orders}) => {
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                        {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -222,24 +239,24 @@ const Unprocessable = ({orders}) => {
                                         <td className='align-middle'>
                                             {/* pickup adress */}
                                             <td className='align-middle'>
-                                            <div className='cell-inside-box'>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br/>
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
+                                                <div className='cell-inside-box'>
+                                                    <p>{row?.pickup_details?.p_warehouse_name}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.pickup_details?.p_address_line1},
+                                                                {row?.pickup_details?.p_address_line2},<br />
+                                                                {row?.pickup_details?.p_city},
+                                                                {row?.pickup_details?.p_state},
+                                                                {row?.pickup_details?.p_pincode}
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                </p>
-                                              
-                                            </div>
+                                                    </p>
+
+                                                </div>
+                                            </td>
                                         </td>
-                                        </td>
-                                            {/* shiping section here */}
+                                        {/* shiping section here */}
                                         {/* <td>
                                             <div className='cell-inside-box'>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
@@ -262,14 +279,13 @@ const Unprocessable = ({orders}) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Download Invoice</li>
                                                             <li>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
                                                             <li>Clone Order</li>
+                                                            <li>Mark As Verified</li>
                                                             <li><hr /></li>
                                                             <li>Cancel Order</li>
                                                         </ul>
