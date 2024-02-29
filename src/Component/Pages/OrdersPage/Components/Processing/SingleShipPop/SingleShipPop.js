@@ -28,7 +28,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const dateAfter2Days = addDays(currentDate, 2);
 
     const sellerId = Cookies.get("user_id");
-    let authToken=Cookies.get("access_token")
+    let authToken = Cookies.get("access_token")
     useEffect(() => {
         if (orderId !== null) {
             const config = {
@@ -42,8 +42,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     setShipingResponse(response.data);
                     console.log("Response", response);
                 }).catch((error) => {
-                console.log("Error", error)
-            });
+                    console.log("Error", error)
+                });
         }
     }, [orderId]);
 
@@ -68,8 +68,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     });
                 }
             }).catch((error) => {
-            console.log("Error", error)
-        });
+                console.log("Error", error)
+            });
     };
     console.log("partner", shipingResponse);
     const handleClose = () => {
@@ -77,7 +77,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     };
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
-            <div className='d-flex justify-content-end'>
+            <div className='d-flex justify-content-between p10 align-items-center'>
+                <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
                     onClick={handleClose}
                     className='btn close-button'
@@ -85,7 +86,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     <FontAwesomeIcon icon={faTimes} />
                 </button>
             </div>
-            <div>
+            <div className='ss-container-main'>
                 {/* Iterate over ship options and render details */}
                 {shipingResponse && shipingResponse.map((option, index) => (
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
@@ -102,22 +103,22 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                         <div className='d-flex align-items-center gap-2'>
                             <table className='performance-rating'>
                                 <tbody>
-                                <tr>
-                                    <td>Pickup Performance</td>
-                                    <td><StarRating rating={4.5} /></td>
-                                </tr>
-                                <tr>
-                                    <td>Delivery Performance</td>
-                                    <td><StarRating rating={4.5} /></td>
-                                </tr>
-                                <tr>
-                                    <td>NDR Performance</td>
-                                    <td><StarRating rating={4.5} /></td>
-                                </tr>
-                                <tr>
-                                    <td>RTO Performance</td>
-                                    <td><StarRating rating={4.5} /></td>
-                                </tr>
+                                    <tr>
+                                        <td>Pickup Performance</td>
+                                        <td><StarRating rating={4.5} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Delivery Performance</td>
+                                        <td><StarRating rating={4.5} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>NDR Performance</td>
+                                        <td><StarRating rating={4.5} /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>RTO Performance</td>
+                                        <td><StarRating rating={4.5} /></td>
+                                    </tr>
                                 </tbody>
                             </table>
                             <div className="chart-container">
