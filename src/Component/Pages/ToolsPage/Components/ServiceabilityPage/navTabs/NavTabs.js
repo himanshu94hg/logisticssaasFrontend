@@ -37,14 +37,7 @@ export default function NavTabs(props) {
     } else {
       const errorData = response.data;
       console.error('API Error:', errorData);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error Fetching Order',
-        text: 'An error occurred while creating the order. Please try again.',
-        customClass: {
-          confirmButton: 'btn main-button',
-        },
-      });
+ 
     }
   };
 

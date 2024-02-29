@@ -1,4 +1,4 @@
-import Swal from "sweetalert2";
+
 import axios from "../../../../axios/index";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../axios/config";
@@ -46,11 +46,7 @@ function* postReportSchedulerAction(action) {
     try {
        const response= yield call(postReportSchedulerAPI, payload);
        if(response.status){
-        Swal.fire({
-            title: "Success!",
-            text: `Report ${response.statusText} sucessfully!`,
-            icon: "success"
-          });
+    
        }
        console.log(response,"this is post response")
     } catch (error) {
@@ -64,11 +60,7 @@ function* deleteReportSchedulerAction(action) {
        const response= yield call(deleteReportSchedulerAPI, payload);
        if(response.status){
         getReportSchedulerAPI()
-        Swal.fire({
-            title: "Success!",
-            text: `Report deleted sucessfully!`,
-            icon: "success"
-          });
+        
        }
        console.log(response,"this is post response")
     } catch (error) {

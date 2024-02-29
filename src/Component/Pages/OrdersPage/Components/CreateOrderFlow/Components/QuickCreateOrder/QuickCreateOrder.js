@@ -20,7 +20,6 @@ const QuickCreateOrder = () => {
         sameAsShipping: true,// New step added
     });
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
-    console.log("&&&&&&&&&&&&", formData)
 
     const [activeTab, setActiveTab] = useState("All Orders");
 
@@ -76,26 +75,9 @@ const QuickCreateOrder = () => {
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
 
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Creating Order',
-                    text: 'An error occurred while creating the order. Please try again.',
-                    customClass: {
-                        confirmButton: 'btn main-button', // Add your custom class here
-                    },
-                });
             }
         } catch (error) {
             console.error('Fetch Error:', error);
-
-            Swal.fire({
-                icon: 'error',
-                title: 'Error Creating Order',
-                text: 'An error occurred while creating the order. Please try again.',
-                customClass: {
-                    confirmButton: 'btn main-button', // Add your custom class here
-                },
-            });
         }
     };
 

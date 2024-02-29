@@ -1,12 +1,6 @@
 import React, { useState } from "react";
-import {
-  Navbar,
-  Nav
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
-// import "./navTabs.css";
+import { Navbar, Nav } from "react-bootstrap";
+
 
 export default function NavTabs(props) {
   const [selectedOption, setSelectedOption] = useState("Domestic");

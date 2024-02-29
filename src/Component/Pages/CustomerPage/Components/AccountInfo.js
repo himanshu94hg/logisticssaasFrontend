@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 
 const AccountInfo = () => {
@@ -57,20 +56,10 @@ const AccountInfo = () => {
         });
       }
 
-      // Show success message upon successful submission
-      Swal.fire({
-        icon: 'success',
-        title: 'Accounts Saved',
-        text: 'The account information has been saved successfully.',
-      });
+   
     } catch (error) {
       console.error('Error:', error);
-      // Show error message upon failure
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'Failed to save account information. Please try again.',
-      });
+     
     }
   };
 
@@ -114,11 +103,7 @@ const AccountInfo = () => {
 
   const handlePreview = () => {
     if (pdfPreviews.length === 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'No PDF to preview',
-        text: 'Please upload a PDF file to preview.',
-      });
+    
     } else {
       setViewAttachmentContent(!viewAttachmentContent);
     }

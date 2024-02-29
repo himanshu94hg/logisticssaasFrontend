@@ -46,9 +46,6 @@ const AgreementInfo = () => {
         console.error('Error fetching basic info:', error);
       });
   }, []);
-
-  console.log(Basicinfo.company_name)
-
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
@@ -56,8 +53,7 @@ const AgreementInfo = () => {
   });
 
   const updateContent = () => {
-    // Display a sweet alert before updating content
-    // console.log(currentPlace)
+   
     Swal.fire({
       title: 'Are you sure?',
       text: 'You are about to update the content!',
@@ -69,18 +65,14 @@ const AgreementInfo = () => {
       if (result.isConfirmed) {
         const newDate = new Date().toLocaleDateString();
         const newPlace = 'New Dynamic Place';
-        // Update the content dynamically
         setDynamicContent({
           name: 'Shipease',
           place: 'Gurugram',
           date: newDate,
         });
 
-        // Show success sweet alert
-        Swal.fire('Updated!', 'Content has been updated.', 'success');
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Show cancellation sweet alert
-        Swal.fire('Cancelled', 'Content update was cancelled.', 'error');
+      
       }
     });
   };

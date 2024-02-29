@@ -1,85 +1,58 @@
-import React, { useEffect, useState } from 'react';
-import { LuUploadCloud } from "react-icons/lu";
 import axios from 'axios';
-import Swal from "sweetalert2";
-import Cookies from 'js-cookie';
 import moment from 'moment';
+import Cookies from 'js-cookie';
+import {  toast } from 'react-toastify';
+import { LuUploadCloud } from "react-icons/lu";
+import React, { useEffect, useState } from 'react';
 
 const BulkCreateOrder = () => {
-    const [selectedFile, setSelectedFile] = useState(null);
     const [bulkOrders, setBulkOrders] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
 
-    const handleFileUpload = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
 
     const authToken = Cookies.get("access_token");
     const sellerId = Cookies.get("user_id");
 
-    const handleImport = async () => {
-        if (selectedFile) {
-            const formData = new FormData();
-            formData.append('order_file', selectedFile);
-            formData.append('seller_id', sellerId);
-
-            try {
-                const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-                if (response.status === 200) {
-                    const responseData = response.data;
-                    setBulkOrdersStatus(true);
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Order Created  successfully!',
-                        confirmButtonText: 'OK'
-                    });
-                } else {
-                    const errorData = response.data;
-                    console.error('API Error:', errorData);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Failed to add Orders. Please try again later.',
-                        confirmButtonText: 'OK'
-                    });
+    const handleFileUpload = async (event) => {
+        const formData = new FormData();
+        formData.append('order_file', event.target.files[0]);
+        formData.append('seller_id', sellerId);
+        try {
+            const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${authToken}`
                 }
-            } catch (error) {
-                console.error('Error uploading file:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to add Orders. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
+            });
+            console.log(response.status,'This is response data status')
+            if (response.status === 200) {
+                const responseData = response.data;
+                toast.success('Order creteed Successfully');
+                setBulkOrdersStatus(true);
+            } else {
+                const errorData = response.data;
+                console.error('API Error:', errorData);
             }
+        } catch (error) {
+            console.error('Error uploading file:', error);
         }
     };
 
     useEffect(() => {
-        
-            axios
-                .get(`http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                })
-                .then(response => {
-                    console.log('Data is data:', response.data);
-                    setBulkOrders(response.data.results);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-    }, [])
-
-
+        axios
+            .get(`http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                setBulkOrders(response.data.results);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, [bulkOrdersStatus])
 
     const handleDownloadTemplate = () => {
         const templateUrl = 'public/shipease_bulk_order.xlsx';
@@ -89,7 +62,6 @@ const BulkCreateOrder = () => {
         tempAnchor.click();
         tempAnchor.remove();
     };
-
 
     return (
         <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
@@ -110,9 +82,6 @@ const BulkCreateOrder = () => {
                     <p className='mt-3'>Only csv, xls & xlsx file format will be accepted.</p>
                 </div>
             </section>
-            <div className='d-flex justify-content-end'>
-                <button className='btn main-button' onClick={handleImport}>Submit</button>
-            </div>
             <section className='mt-5'>
                 <h4>Recent Uploads</h4>
                 <table>
@@ -130,7 +99,7 @@ const BulkCreateOrder = () => {
                             return (
                                 <tr>
                                     <td>{item?.file_name}</td>
-                                    <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
+                                    <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
                                     <td>{item?.total_orders}</td>
                                     <td>{item?.success_orders}</td>
                                     <td>{item?.failed_orders}</td>
