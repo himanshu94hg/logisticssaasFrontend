@@ -130,8 +130,9 @@
     box-shadow: 2px 2px 6px rgba(0, 0, 0, .102);
     border: solid 1.3px #afcfff;
     background-color: #f4f8ff;
-    min-height: 8rem;
+    min-height: 12rem;
     padding: 1em;
+    height: 100%;
 }
 
 .warehouse-options input {
@@ -144,6 +145,9 @@
     line-height: 27px;
     letter-spacing: .24px;
     text-transform: capitalize;
+    max-width: 10rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .warehouse-description {
@@ -151,9 +155,11 @@
     line-height: 1.45;
     letter-spacing: .22px;
     color: #4c4c4c;
-    min-height: 30px;
-    max-height: 30px;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .form-box-h {
@@ -281,7 +287,7 @@
     align-items: center;
 }
 
-.bulk-import-input .mid-text-container .accepted-note{
+.bulk-import-input .mid-text-container .accepted-note {
     font-size: 0.8rem;
 }
 
@@ -350,7 +356,7 @@
 /* Add responsiveness for smaller screens */
 
 @media screen and (max-width:1600px) {
-    .bulk-import-input{
+    .bulk-import-input {
         min-height: 200px;
     }
 }

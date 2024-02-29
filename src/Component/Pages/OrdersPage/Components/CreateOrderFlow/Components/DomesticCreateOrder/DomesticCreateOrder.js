@@ -26,7 +26,7 @@ const DomesticCreateOrder = () => {
             payment_type: '',
             order_date: currentDate,
             order_type: "",
-            channel:"custom",
+            channel: "custom",
             channel_id: null
         },
         shipping_details: {
@@ -87,11 +87,11 @@ const DomesticCreateOrder = () => {
                 export_reference_number: ""
             }
         ],
-        
+
     })
 
 
-    console.log(formData,"formDataformDataformData")
+    console.log(formData, "formDataformDataformData")
 
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
@@ -145,10 +145,10 @@ const DomesticCreateOrder = () => {
                 } else {
                     // Handle error responses
                     const errorData = response.data;
-                
+
                 }
             } else {
-              
+
             }
         } catch (error) {
             // Handle fetch error
@@ -309,7 +309,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             }
         });
     };
-    
+
 
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
@@ -561,7 +561,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
 
-        
+
         if (isChecked) {
             setFormData(prevData => ({
                 ...prevData,
@@ -572,7 +572,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
             }));
         }
     };
-    console.log(isChecked,"this iss checked datatata",formData)
+    console.log(isChecked, "this iss checked datatata", formData)
 
     return (
         <div>
@@ -1318,9 +1318,11 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                                 checked={formData.order_details.warehouse_id === warehouse.id}
                                                 onChange={handleRadioChange}
                                             />
-                                            <div>
-                                                <div className='warehouse-heading'>{warehouse.warehouse_name}</div>
-                                                <p className='warehouse-description'>{warehouse.address_line1}</p>
+                                            <div className='d-flex h-100 flex-column justify-content-between'>
+                                                <div>
+                                                    <p className='warehouse-heading'>{warehouse.warehouse_name}</p>
+                                                    <p className='warehouse-description'>{warehouse.address_line1}, near {warehouse.address_line2}, {warehouse.city}, {warehouse.state}, {warehouse.pincode}, {warehouse.country}</p>
+                                                </div>
                                                 <p className="warehouse-description font13 mt-3">Mobile: {warehouse.contact_number}</p>
                                             </div>
                                         </label>
