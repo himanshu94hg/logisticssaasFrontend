@@ -39,7 +39,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                AllTickets
+                All
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "openTickets" ? "active" : ""}`}
@@ -50,7 +50,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                OpenTickets
+                Open
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "inProgressTickets" ? "active" : ""}`}
@@ -61,7 +61,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                InProgressTickets
+                In Progress
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "closedTickets" ? "active" : ""}`}
@@ -72,7 +72,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                ClosedTickets
+                Closed
               </div>
             </Nav.Link>
           </div>
