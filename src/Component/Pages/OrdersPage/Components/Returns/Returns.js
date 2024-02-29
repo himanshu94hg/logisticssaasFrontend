@@ -13,30 +13,30 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
+
     useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
     }, [dateTimeString]);
-  
+
     const formatDateTime = (dateTimeString) => {
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
-  
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
-      return formattedDateTime;
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
     };
-  
+
     return <p>{formattedDate}</p>;
-  };
+};
 
 const Returns = () => {
 
@@ -188,7 +188,7 @@ const Returns = () => {
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                <DateFormatter dateTimeString={row.inserted} />
+                                                    <DateFormatter dateTimeString={row.inserted} />
                                                     <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
@@ -224,7 +224,13 @@ const Returns = () => {
                                                         <InfoIcon />
                                                         {/* <span>{row.product_name}</span> */}
                                                         <span style={{ width: '250px' }}>
-                                                            {row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}
+                                                            {row?.order_products.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
+                                                                </React.Fragment>
+                                                            ))}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -257,7 +263,7 @@ const Returns = () => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                            <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}

@@ -182,7 +182,7 @@ const Manifest = ({orders}) => {
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
+                                                        <span style={{ width: '250px' }}>
                                                             {row?.shipping_detail?.city}, {row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
@@ -204,7 +204,7 @@ const Manifest = ({orders}) => {
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
@@ -228,7 +228,7 @@ const Manifest = ({orders}) => {
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
                                                             {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},
+                                                            {row?.pickup_details?.p_address_line2},<br/>
                                                             {row?.pickup_details?.p_city},
                                                             {row?.pickup_details?.p_state},
                                                             {row?.pickup_details?.p_pincode}
@@ -251,13 +251,13 @@ const Manifest = ({orders}) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row?.order_courier_status}</p>
+                                            <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Download Label</button>
+                                                <button className='btn main-button'>Generate Pickup</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />

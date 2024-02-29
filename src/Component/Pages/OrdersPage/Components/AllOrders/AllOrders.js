@@ -196,7 +196,7 @@ const AllOrders = ({ orders }) => {
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
@@ -242,7 +242,7 @@ const AllOrders = ({ orders }) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.order_courier_status || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row?.ndr_action}

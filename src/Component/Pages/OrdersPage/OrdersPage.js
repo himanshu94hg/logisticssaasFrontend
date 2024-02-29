@@ -35,11 +35,12 @@ const OrdersPage = () => {
     let processing=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
     let readyToShip=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
     let returnOrders=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
+    let manifest=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
 
 
     useEffect(() => {
         axios
-            .get(`${activeTab=="All Orders"?allOrders:activeTab=="Unprocessable"?unprocessable:activeTab=="Processing"?processing:activeTab=="Ready to Ship"?readyToShip:activeTab==="Returns"?returnOrders:""}`, {
+            .get(`${activeTab=="All Orders"?allOrders:activeTab=="Unprocessable"?unprocessable:activeTab=="Processing"?processing:activeTab=="Ready to Ship"?readyToShip:activeTab=="Manifest"?manifest:activeTab==="Returns"?returnOrders:""}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

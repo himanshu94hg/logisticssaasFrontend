@@ -190,7 +190,7 @@ const Processing = ({ orders }) => {
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
@@ -226,18 +226,10 @@ const Processing = ({ orders }) => {
                                         </td>
                                         </td>
 
-                                        {/* shiping section here */}
-                                        {/* <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>
-                                                    {row?.awb_number ?? ""}
-                                                </p>
-                                            </div>
-                                        </td> */}
+                            
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.order_courier_status || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.status || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>

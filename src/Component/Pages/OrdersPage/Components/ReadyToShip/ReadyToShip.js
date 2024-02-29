@@ -37,7 +37,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ReadyToShip = ({orders}) => {
+const ReadyToShip = ({ orders }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -135,7 +135,7 @@ const ReadyToShip = ({orders}) => {
                                 <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
-                              
+
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -204,7 +204,7 @@ const ReadyToShip = ({orders}) => {
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
@@ -222,22 +222,22 @@ const ReadyToShip = ({orders}) => {
                                         <td className='align-middle'>
                                             {/* pickup adress */}
                                             <td className='align-middle'>
-                                            <div className='cell-inside-box'>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br/>
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
+                                                <div className='cell-inside-box'>
+                                                    <p>{row?.pickup_details?.p_warehouse_name}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.pickup_details?.p_address_line1},
+                                                                {row?.pickup_details?.p_address_line2},<br />
+                                                                {row?.pickup_details?.p_city},
+                                                                {row?.pickup_details?.p_state},
+                                                                {row?.pickup_details?.p_pincode}
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                </p>
-                                              
-                                            </div>
-                                        </td>
+                                                    </p>
+
+                                                </div>
+                                            </td>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
@@ -251,13 +251,13 @@ const ReadyToShip = ({orders}) => {
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.order_courier_status==='Ready_to_ship'?'Shipped':row?.order_courier_status}</p>
+                                            <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Download Label</button>
+                                                <button className='btn main-button'>Generate Pickup</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />

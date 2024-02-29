@@ -182,7 +182,7 @@
   outline: none;
 }
 
-.search-container button {
+.search-container label button {
   position: absolute;
   top: 50%;
   left: -2px;
@@ -192,7 +192,7 @@
   cursor: pointer;
 }
 
-.search-container button img {
+.search-container label button img {
   width: 20px;
   height: 20px;
 }
@@ -398,7 +398,7 @@
   z-index: 1;
 }
 
-.info-missing-content{
+.info-missing-content {
   color: #F31429;
 }
 
