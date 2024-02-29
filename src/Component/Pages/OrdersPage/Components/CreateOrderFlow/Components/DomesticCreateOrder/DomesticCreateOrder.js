@@ -87,19 +87,11 @@ const DomesticCreateOrder = () => {
                 export_reference_number: ""
             }
         ],
-        // products: [
-        //     {
-        //         product_name: "",
-        //         order_type: "",
-        //         price: "",
-        //         product_qty: "",
-        //         sku: "",
-        //         hsn_code: "",
-        //         tax_rate: "",
-        //         discount: ""
-        //     }
-        // ],
+        
     })
+
+
+    console.log(formData,"formDataformDataformData")
 
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
@@ -153,25 +145,10 @@ const DomesticCreateOrder = () => {
                 } else {
                     // Handle error responses
                     const errorData = response.data;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error Creating Order',
-                        text: 'An error occurred while creating the order. Please try again.',
-                        customClass: {
-                            confirmButton: 'btn main-button', // Add your custom class here
-                        },
-                    });
+                
                 }
             } else {
-                // Handle case where response is null
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Creating Order',
-                    text: 'No response received from the server. Please try again later.',
-                    customClass: {
-                        confirmButton: 'btn main-button', // Add your custom class here
-                    },
-                });
+              
             }
         } catch (error) {
             // Handle fetch error
@@ -583,6 +560,8 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
 
     const handleCheckboxChange = () => {
         setIsChecked(!isChecked);
+
+        
         if (isChecked) {
             setFormData(prevData => ({
                 ...prevData,
@@ -593,6 +572,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
             }));
         }
     };
+    console.log(isChecked,"this iss checked datatata",formData)
 
     return (
         <div>
@@ -716,7 +696,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                     <div className='d-flex gap-2'>
                         <input
                             type="checkbox"
-                            checked={!isChecked}
+                            checked={isChecked}
                             onChange={handleCheckboxChange}
                         />
                         <label>Billing Address is the same as Shipping address</label>
@@ -898,6 +878,8 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
             );
         }
     }, [formData.product_details]);
+
+
 
     return (
         <div>
