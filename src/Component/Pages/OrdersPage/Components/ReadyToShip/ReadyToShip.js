@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -42,7 +42,7 @@ const ReadyToShip = ({ orders }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-
+    const [BulkActions, setBulkActions] = useState(false)
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -52,11 +52,16 @@ const ReadyToShip = ({ orders }) => {
         } else {
             setSelectedRows([]);
         }
+        setBulkActions(true); // Set BulkActions to true whenever "Select All" checkbox is checked
     };
 
     // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
+
+        if (!isSelected) {
+            setBulkActions(true); // Set BulkActions to true if checkbox is checked
+        }
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
@@ -71,6 +76,7 @@ const ReadyToShip = ({ orders }) => {
             setSelectAll(false);
         }
     };
+
 
     const handleSidePanel = () => {
         document.getElementById("sidePanel").style.right = "0"
@@ -96,12 +102,15 @@ const ReadyToShip = ({ orders }) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -112,8 +121,19 @@ const ReadyToShip = ({ orders }) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        <button className='btn main-button'>Export</button>
+                        <div className='action-options bulk-actions ms-2'>
+                            <div className='btn main-button'>
+                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
+                            </div>
+                            <div className='action-list'>
+                                <ul>
+                                    <li>Download Label</li>
+                                    <li>Download Invoice</li>
+                                    <li>Generate Pickup</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -264,15 +284,9 @@ const ReadyToShip = ({ orders }) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
+                                                            <li>Download label</li>
                                                             <li>Download Invoice</li>
-                                                            <li>Generate Manifest</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
+                                                            <li>Reassign</li>
                                                             <li><hr /></li>
                                                             <li>Cancel Order</li>
                                                         </ul>
@@ -297,7 +311,7 @@ const ReadyToShip = ({ orders }) => {
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 

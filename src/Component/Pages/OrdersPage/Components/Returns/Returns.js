@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -110,12 +110,15 @@ const Returns = () => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -126,8 +129,24 @@ const Returns = () => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        <button className='btn main-button'>Export</button>
+                        <div className='action-options bulk-actions ms-2'>
+                            <div className='btn main-button'>
+                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
+                            </div>
+                            <div className='action-list'>
+                                <ul>
+                                    <li>Bulk Ship</li>
+                                    <li>Add Bulk Tag</li>
+                                    <li>Mark as Verified</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Weight/Dimension Update</li>
+                                    <li>Bulk Warehouse Update</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Delete Order</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='table-container'>
