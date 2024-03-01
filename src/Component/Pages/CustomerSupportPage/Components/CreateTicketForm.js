@@ -128,7 +128,7 @@ const CreateTicketForm = (props) => {
             sub_category: null,
             awb_number: "",
             description: "",
-            escalate_image:""
+            escalate_image: ""
           })
           props?.setStatus(!props.status)
           props.setNewTicket(false)
@@ -226,7 +226,7 @@ const CreateTicketForm = (props) => {
         {fileError != '' && <span className='error-text'>{fileError}</span>}
       </div>
       <div className='ticket-form-btn'>
-        <button className='btn cancel-button' type="button" onClick={() => console.log('Cancelled')}>
+        <button className='btn cancel-button' type="button" onClick={() => props.setNewTicket(false)}>
           Cancel
         </button>
         <button className='btn main-button' type="submit" >
