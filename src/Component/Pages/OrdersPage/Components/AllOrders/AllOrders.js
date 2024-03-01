@@ -176,9 +176,9 @@ const AllOrders = ({ orders }) => {
                                                 <p className=''>
                                                     {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} /> */}
                                                     {row.channel ? (
-                                                        <span className='ms-2 text-capitalize'>{row.channel}</span>
+                                                        <span className='text-capitalize me-2'>{row.channel}</span>
                                                     ) : ''}
-                                                    <span className='ms-2'>{row.customer_order_number}</span>
+                                                    <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
@@ -231,10 +231,11 @@ const AllOrders = ({ orders }) => {
                                         {/* pickup adress */}
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        {!row?.pickup_details?.p_warehouse_name && (
+                                                {row?.pickup_details ? (
+                                                    <p>{row?.pickup_details?.p_warehouse_name}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            {/* {!row?.pickup_details?.p_warehouse_name && ( */}
                                                             <span style={{ width: '250px' }}>
                                                                 {row?.pickup_details?.p_address_line1},
                                                                 {row?.pickup_details?.p_address_line2},<br />
@@ -242,11 +243,11 @@ const AllOrders = ({ orders }) => {
                                                                 {row?.pickup_details?.p_state},
                                                                 {row?.pickup_details?.p_pincode}
                                                             </span>
-                                                        )}
+                                                            {/* )} */}
 
-                                                    </span>
-                                                </p>
-
+                                                        </span>
+                                                    </p>
+                                                ) : ''}
                                             </div>
                                         </td>
                                         {/* shiping section here */}
@@ -265,7 +266,7 @@ const AllOrders = ({ orders }) => {
                                             {/* {row?.ndr_action}
                                              {row?.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                <button className='btn main-button'>{row?.order_courier_status==='Unprocessable'?'Edit Order':row?.order_courier_status==='Processing'?'Ship Now':row?.order_courier_status==='Ready_to_ship'?'Generate Pickup':row?.order_courier_status==='Manifest'?'Generate Manifest':''}</button>
+                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? 'Generate Pickup' : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : ''}</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -275,7 +276,6 @@ const AllOrders = ({ orders }) => {
                                                             <li>Cancel Booking</li>
                                                             <li>Download Label</li>
                                                             <li>Reassign</li>
-                                                            <li><hr /></li>
                                                             <li>Clone Order</li>
                                                             <li><hr /></li>
                                                             <li>Cancel Order</li>
