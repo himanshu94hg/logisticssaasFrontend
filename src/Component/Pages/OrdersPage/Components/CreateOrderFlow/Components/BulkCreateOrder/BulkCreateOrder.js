@@ -27,7 +27,7 @@ const BulkCreateOrder = () => {
             });
             if (response.status === 200) {
                 const responseData = response.data;
-                toast.success('Order Created Successfully');
+                toast.success('Bulk Order Created Successfully');
                 setBulkOrdersStatus(true);
             } else {
                 const errorData = response.data;
