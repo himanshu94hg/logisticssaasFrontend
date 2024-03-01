@@ -31,7 +31,7 @@ const CreateTicketForm = (props) => {
   const [allCatagery, setAllCatagery] = useState([]);
   const [allSubCatagry, setAllSubCatagry] = useState([]);
 
-  
+
   const [ticketData, setTicketData] = useState({
     category: 1,
     sub_category: null,
@@ -130,7 +130,7 @@ const CreateTicketForm = (props) => {
             awb_number: "",
             description: "",
             // issue: "",
-            escalate_image:""
+            escalate_image: ""
           })
           props?.setStatus(!props.status)
           props.setNewTicket(false)
@@ -154,7 +154,7 @@ const CreateTicketForm = (props) => {
       setFileError("File should be less than 3 mb")
     }
     else {
-       setFileError("")
+      setFileError("")
       try {
         const responseData = await getFileData(e.target.files[0].name);
         const awsUrl = responseData.data.url.url
@@ -176,54 +176,56 @@ const CreateTicketForm = (props) => {
         console.error('Error handling file change:', error);
       }
     }
-   
+
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <FormInput
-        label="AWB Numbers (Comma Separated)"
-        type="text"
-        mandatory={"*"}
-        customClass={`${errors.awb_number && "custom-input"}`}
-        name={"awb_number"}
-        value={ticketData.awb_number}
-        onChange={(e) => handleCreateTicket(e)}
-      />
-      {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
+      <div className='slider-scroll-body'>
+        <FormInput
+          label="AWB Numbers (Comma Separated)"
+          type="text"
+          mandatory={"*"}
+          customClass={`${errors.awb_number && "custom-input"}`}
+          name={"awb_number"}
+          value={ticketData.awb_number}
+          onChange={(e) => handleCreateTicket(e)}
+        />
+        {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
 
-      <FormInput
-        label="Choose a Category"
-        type="select"
-        name={"category"}
-        onChange={(e) => handleCreateTicket(e)}
-        options={categoryOptions}
-      />
-      <FormInput
-        label="Choose a Subcategory"
-        type="select"
-        name={"sub_category"}
-        onChange={(e) => handleCreateTicket(e)}
-        options={subcategoryOptions}
-      />
-      <FormInput
-        label="Remarks"
-        type="textarea"
-        name={"description"}
-        value={ticketData.description}
-        customClass={`${errors.awb_number && "custom-input"}`}
-        onChange={(e) => handleCreateTicket(e)}
-      />
-      {errors.description && <span className='error-text'>{errors.description}</span>}
-      <FormInput
-        label="Attachments (If any)"
-        type="file"
-        name="issue"
-        fileInput="fileInput"
-        // name="escalate_image"
-        onChange={handleFileChange}
-      />
-      {fileError != '' && <span className='error-text'>{fileError}</span>}
+        <FormInput
+          label="Choose a Category"
+          type="select"
+          name={"category"}
+          onChange={(e) => handleCreateTicket(e)}
+          options={categoryOptions}
+        />
+        <FormInput
+          label="Choose a Subcategory"
+          type="select"
+          name={"sub_category"}
+          onChange={(e) => handleCreateTicket(e)}
+          options={subcategoryOptions}
+        />
+        <FormInput
+          label="Remarks"
+          type="textarea"
+          name={"description"}
+          value={ticketData.description}
+          customClass={`${errors.awb_number && "custom-input"}`}
+          onChange={(e) => handleCreateTicket(e)}
+        />
+        {errors.description && <span className='error-text'>{errors.description}</span>}
+        <FormInput
+          label="Attachments (If any)"
+          type="file"
+          name="issue"
+          fileInput="fileInput"
+          // name="escalate_image"
+          onChange={handleFileChange}
+        />
+        {fileError != '' && <span className='error-text'>{fileError}</span>}
+      </div>
       <div className='ticket-form-btn'>
         <button className='btn cancel-button' type="button" onClick={() => console.log('Cancelled')}>
           Cancel
