@@ -89,6 +89,32 @@ const ReadyToShip = ({ orders }) => {
         setBackDrop(false)
     }
 
+    const handleDownloadLabel = async (orderId) => {
+        try {
+            const response = await fetch(`http://65.2.38.87:8081/core-api/shipping/generate-label/${orderId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
 
 
     // useEffect(() => {
@@ -279,7 +305,9 @@ const ReadyToShip = ({ orders }) => {
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Generate Pickup</button>
+                                                <button className="btn main-button" onClick={() => handleDownloadLabel(row.id)}>
+                                                    Generate Pickup
+                                                </button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
