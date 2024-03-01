@@ -53,8 +53,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
   }, [ViewTicketInfo]);
 
 
-  console.log(viewId,"this is view id data")
-
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
