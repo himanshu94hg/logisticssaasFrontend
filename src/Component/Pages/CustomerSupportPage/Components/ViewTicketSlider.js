@@ -8,7 +8,7 @@ import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 
 
-const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
+const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [allTicket, setAllTicket] = useState();
   const [newComment, setNewComment] = useState('');
@@ -79,6 +79,13 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
       console.error('Error adding comment:', error);
     }
   };
+  function extractFileName(fullPath) {
+    // Split the fullPath string by '/' to get an array of parts
+    const parts = fullPath.split('/');
+    // Get the last part of the array, which should be the file name
+    const fileName = parts[parts.length - 1];
+    return fileName;
+  }
   return (
     <>
       <div
@@ -128,13 +135,18 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
               </p>
             </div>
             <div className='d-flex gap-2 align-items-center'>
-              <p
+              Attachment:
+              <span
                 className='view-attachment'
                 onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
               >
-                <FontAwesomeIcon icon={faEye} /> View Attachment
-              </p>
-              <p title="Download Attachment" className='download'><AiOutlineDownload /></p>
+                <FontAwesomeIcon icon={faEye} />
+              </span>
+              {allTicket && allTicket?.escalate_image && (
+                <a href={allTicket.escalate_image} download>
+                  <AiOutlineDownload />
+                </a>
+              )}
             </div>
           </div>
         </section>
@@ -174,15 +186,18 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
         )}
       </section> */}
       <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        <button className='btn close-button text-white'>x</button>
         {allTicket && allTicket?.escalate_image && (
           <>
-            {allTicket?.escalate_image.includes('.jpg') || allTicket?.escalate_image.includes('.jpeg') || allTicket?.escalate_image.includes('.png') ? (
-              <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
+            {/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(allTicket?.escalate_image) ? (
+              <img style={{ maxHeight: '80vh', height: 'auto', objectFit: 'contain' }} src={allTicket?.escalate_image} alt="AttachmentImage" />
             ) : (
-              <a href={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} download>
-                Download File
-              </a>
+              <div className='attachment-file-unsupported'>
+                <h4>Couldn't preview file </h4>
+                <p>File: <span className='font13'>{extractFileName(allTicket.escalate_image)}</span></p>
+                <a href={allTicket.escalate_image} download onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}>
+                  Download File
+                </a>
+              </div>
             )}
           </>
         )}
