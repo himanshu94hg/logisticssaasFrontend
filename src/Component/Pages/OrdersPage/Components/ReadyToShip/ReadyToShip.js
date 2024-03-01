@@ -155,7 +155,7 @@ const ReadyToShip = ({ orders }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
+                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span> */}
                                                     {row?.customer_order_number}
 
                                                     {/* <span className="product-details ms-2"> */}
