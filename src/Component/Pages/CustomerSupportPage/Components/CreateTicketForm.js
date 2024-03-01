@@ -37,7 +37,6 @@ const CreateTicketForm = (props) => {
     sub_category: null,
     awb_number: "",
     description: "",
-    // issue: "",
     escalate_image: "",
   })
 
@@ -129,7 +128,6 @@ const CreateTicketForm = (props) => {
             sub_category: null,
             awb_number: "",
             description: "",
-            // issue: "",
             escalate_image:""
           })
           props?.setStatus(!props.status)
@@ -148,6 +146,8 @@ const CreateTicketForm = (props) => {
   const [fileError, setFileError] = useState("")
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
+
+    console.log(e.target.name,"this is image url data")
 
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
     if (fileSizeInMB > 2) {
@@ -178,6 +178,8 @@ const CreateTicketForm = (props) => {
     }
    
   };
+
+  console.log(ticketData,"this is ticket data image")
 
   return (
     <form onSubmit={handleSubmit}>
@@ -218,9 +220,8 @@ const CreateTicketForm = (props) => {
       <FormInput
         label="Attachments (If any)"
         type="file"
-        name="issue"
         fileInput="fileInput"
-        // name="escalate_image"
+        name="escalate_image"
         onChange={handleFileChange}
       />
       {fileError != '' && <span className='error-text'>{fileError}</span>}
