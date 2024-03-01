@@ -5,8 +5,10 @@ import { AiOutlineDownload } from "react-icons/ai";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
-const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, tktId }) => {
+
+const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [allTicket, setAllTicket] = useState();
   const [newComment, setNewComment] = useState('');
@@ -52,6 +54,8 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, tktId }) 
   }, [ViewTicketInfo]);
 
 
+  console.log(viewId,"this is view id data")
+
 
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
@@ -77,9 +81,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, tktId }) 
       console.error('Error adding comment:', error);
     }
   };
-
-  console.log(tktId, "this is tktIdtktIdtktId")
-
   return (
     <>
       <div
@@ -104,7 +105,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, tktId }) 
           <div className='ticket-view-field'>
             <div className='d-flex gap-2'>
               <p>Last Updated:</p>
-              <p className='fw-bold'>{allTicket?.updated_at}</p>
+              <p className='fw-bold'>{moment(allTicket?.updated_at).format("YYYY-MM-DD")}</p>
             </div>
             <div className='d-flex gap-2'>
               <p>Due Date:</p>

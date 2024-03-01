@@ -10,7 +10,7 @@ import "./basicInfo.css"
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { awsAccessKey } from '../../../../config';
 
-const BasicInfo = ({activeTab}) => {
+const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
   const [logoError, setLogoError] = useState("");
   const [docsError, setDocsError] = useState("");
@@ -35,7 +35,7 @@ const BasicInfo = ({activeTab}) => {
     company_logo: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value } = e.target;
     let error = '';
     switch (name) {
@@ -120,23 +120,42 @@ const BasicInfo = ({activeTab}) => {
         break;
     }
 
-    // setErrors(prevErrors => ({ ...prevErrors, [name]: error }));
-    // setErrors(prevErrors => ({
-    //   ...prevErrors,
-    //   [name]: '',
-    // }));
+    if (name === "pincode" && value.length === 6) {
+      try {
+        const response = await axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`);
+        console.log(response, "this is response")
+        if (response.data && response.data.length > 0) {
+          const dist = response.data[0]?.PostOffice[0]?.District;
+          const state = response.data[0]?.PostOffice[0]?.State;
 
-    // Clear error if value matches the pattern
-    // setErrors(prevErrors => ({ ...prevErrors, [name]: '' }));
+          console.log(name, dist, "this is state data")
 
-    // setFormData(prevState => ({
-    //   ...prevState,
-    //   [name]: value,
-    // }));
+          if (name === "city") {
+            setFormData(prev => ({
+              ...prev,
+              [name]: dist
+            }))
+          }
+          if (name === "state") {
+            setFormData(prev => ({
+              ...prev,
+              [name]: state
+            }))
+          }
+        } else {
+          throw new Error('No data found for the given pincode.');
+        }
+      } catch (error) {
+        console.error('Error fetching data:', error);
+
+      }
+    }
   };
 
+  console.log(formData,"this is formData")
+
   useEffect(() => {
-    if(activeTab==="Basic Information"){
+    if (activeTab === "Basic Information") {
       axios
         .get('http://65.2.38.87:8081/core-api/seller/basic-info/', {
           headers: {
@@ -167,12 +186,10 @@ const BasicInfo = ({activeTab}) => {
     }
   }, [activeTab]);
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-
     const newErrors = {};
-
     Object.entries(formData).forEach(([key, value]) => {
       if (value === '') {
         newErrors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
@@ -298,6 +315,9 @@ const BasicInfo = ({activeTab}) => {
     }
   }
 
+  console.log(formData, "this is formdata")
+
+
   return (
     <>
       <form onSubmit={handleSubmit}>
@@ -320,12 +340,12 @@ const BasicInfo = ({activeTab}) => {
                 {logoError && <span className="custom-error">{logoError}</span>}
                 <div className='d-flex w-100 gap-3 mt-4'>
                   <label>
-                    <span>Company Name <span className='text-danger'>*</span></span>
+                    <span>Company Name <span className='custom-error'>*</span></span>
                     <input placeholder="Enter your company name" className={`input-field ${errors.company_name && "input-field-error"}`} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
                     {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
                   </label>
                   <label>
-                    <span> Website URL<span className='text-danger'>*</span></span>
+                    <span> Website URL<span className='custom-error'>*</span></span>
                     <input
                       placeholder='Enter your website URL'
                       className={`input-field ${errors.website_url && "input-field-error"}`}
@@ -343,7 +363,7 @@ const BasicInfo = ({activeTab}) => {
               <h5 className='col-3'>Contact Details</h5>
               <div className='col-9 d-flex gap-3'>
                 <label>
-                  <span>Mobile Number <span className='text-danger'> *</span></span>
+                  <span>Mobile Number <span className='custom-error'> *</span></span>
                   <div className='d-flex mobile-number-field'>
                     <select
                       className='input-field '
@@ -363,7 +383,7 @@ const BasicInfo = ({activeTab}) => {
                   {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
                 </label>
                 <label>
-                  <span>Email<span className='text-danger'> *</span></span>
+                  <span>Email<span className='custom-error'> *</span></span>
                   <input
                     className={`input-field ${errors.email && "input-field-error"}`}
                     type="text"
@@ -382,7 +402,7 @@ const BasicInfo = ({activeTab}) => {
               <div className='col-9'>
                 <div className='d-flex gap-3'>
                   <label>
-                    <span>Address<span className='text-danger'>*</span></span>
+                    <span>Address<span className='custom-error'>*</span></span>
                     <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange} />
                     {errors.street && <span className="custom-error">{errors.street}</span>}
                   </label>
@@ -393,22 +413,22 @@ const BasicInfo = ({activeTab}) => {
                 </div>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    <span>Pincode<span className='text-danger'> *</span></span>
+                    <span>Pincode<span className='custom-error'> *</span></span>
                     <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange} />
                     {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
                   </label>
                   <label>
-                    <span>City<span className='text-danger'> *</span></span>
+                    <span>City<span className='custom-error'> *</span></span>
                     <input placeholder="Enter your city" className={`input-field ${errors.city && "input-field-error"}`} type="text" name="city" value={formData.city} onChange={handleChange} />
                     {errors.city && <span className="custom-error">{errors.city}</span>}
                   </label>
                   <label>
-                    <span>State<span className='text-danger'> *</span></span>
+                    <span>State<span className='custom-error'> *</span></span>
                     <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
                     {errors.state && <span className="custom-error">{errors.state}</span>}
                   </label>
                   <label>
-                    <span>Country<span className='text-danger'> *</span></span>
+                    <span>Country<span className='custom-error'> *</span></span>
                     <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
                     {errors.country && <span className="custom-error">{errors.country}</span>}
                   </label>
@@ -421,17 +441,17 @@ const BasicInfo = ({activeTab}) => {
               <div className='col-9'>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    <span>PAN Number<span className='text-danger'> *</span></span>
+                    <span>PAN Number<span className='custom-error'> *</span></span>
                     <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange} />
                     {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
                   </label>
                   <label>
-                    <span>GST Number<span className='text-danger'> *</span></span>
+                    <span>GST Number<span className='custom-error'> *</span></span>
                     <input className={`input-field ${errors.gst_number && "input-field-error"}`} type="text" name="gst_number" value={formData.gst_number} onChange={handleChange} />
                     {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
                   </label>
                   <label className='position-relative'>
-                    <span>GST Certificate<span className='text-danger'> *</span></span>
+                    <span>GST Certificate<span className='custom-error'> *</span></span>
                     <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
                     <button

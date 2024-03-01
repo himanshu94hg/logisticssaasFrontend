@@ -3,15 +3,18 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
+import "./basicInfo.css"
 
-const AccountInfo = ({activeTab}) => {
+
+const AccountInfo = ({ activeTab }) => {
   const [accounts, setAccounts] = useState([]);
   const [pdfPreviews, setPdfPreviews] = useState([]);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [hardcodedToken] = useState(Cookies.get("access_token"));
+  const [errors, setErrors] = useState([]);
 
   useEffect(() => {
-    if(activeTab==="Account Information"){
+    if (activeTab === "Account Information") {
       fetchAccountData();
     }
   }, [activeTab]);
@@ -33,6 +36,7 @@ const AccountInfo = ({activeTab}) => {
         chequeImage: null
       })));
       setPdfPreviews(Array(response.data.length).fill(null));
+      setErrors(Array(response.data.length).fill({}));
     } catch (error) {
       console.error('Error fetching account data:', error);
     }
@@ -40,28 +44,57 @@ const AccountInfo = ({activeTab}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      for (const account of accounts) {
-        const formData = new FormData();
-        formData.append('account_holder_name', account.accountHolderName);
-        formData.append('account_number', account.accountNumber);
-        formData.append('bank_name', account.bankName);
-        formData.append('ifsc_code', account.ifscCode);
-        formData.append('bank_branch', account.branchName);
-        formData.append('cheque_image', account.chequeImage);
+    let isValid = true;
 
-        await axios.post('http://65.2.38.87:8081/core-api/seller/bank-info/', formData, {
-          headers: {
-            'Authorization': `Bearer ${hardcodedToken}`,
-            'Content-Type': 'multipart/form-data'
-          },
-        });
+    // Check for blank fields
+    const newErrors = accounts.map(account => {
+      const error = {};
+      if (!account.accountHolderName.trim()) {
+        error.accountHolderName = "Account Holder Name is required";
+        isValid = false;
       }
+      if (!account.accountNumber.trim()) {
+        error.accountNumber = "Account Number is required";
+        isValid = false;
+      }
+      if (!account.ifscCode.trim()) {
+        error.ifscCode = "IFSC Code is required";
+        isValid = false;
+      }
+      if (!account.bankName.trim()) {
+        error.bankName = "Bank Name is required";
+        isValid = false;
+      }
+      if (!account.branchName.trim()) {
+        error.branchName = "Branch Name is required";
+        isValid = false;
+      }
+      return error;
+    });
 
-   
-    } catch (error) {
-      console.error('Error:', error);
-     
+    setErrors(newErrors);
+
+    if (isValid) {
+      try {
+        for (const account of accounts) {
+          const formData = new FormData();
+          formData.append('account_holder_name', account.accountHolderName);
+          formData.append('account_number', account.accountNumber);
+          formData.append('bank_name', account.bankName);
+          formData.append('ifsc_code', account.ifscCode);
+          formData.append('bank_branch', account.branchName);
+          formData.append('cheque_image', account.chequeImage);
+
+          await axios.post('http://65.2.38.87:8081/core-api/seller/bank-info/', formData, {
+            headers: {
+              'Authorization': `Bearer ${hardcodedToken}`,
+              'Content-Type': 'multipart/form-data'
+            },
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
 
@@ -79,18 +112,22 @@ const AccountInfo = ({activeTab}) => {
       },
     ]);
     setPdfPreviews((prevPreviews) => [...prevPreviews, null]);
+    setErrors((prevErrors) => [...prevErrors, {}]);
   }
 
   const handleDelete = (index) => {
     if (!accounts[index].isPrimary) {
       const updatedAccounts = [...accounts];
       const updatedPdfPreviews = [...pdfPreviews];
+      const updatedErrors = [...errors];
 
       updatedAccounts.splice(index, 1);
       updatedPdfPreviews.splice(index, 1);
+      updatedErrors.splice(index, 1);
 
       setAccounts(updatedAccounts);
       setPdfPreviews(updatedPdfPreviews);
+      setErrors(updatedErrors);
     }
   };
 
@@ -105,103 +142,108 @@ const AccountInfo = ({activeTab}) => {
 
   const handlePreview = () => {
     if (pdfPreviews.length === 0) {
-    
+      // Handle no previews available
     } else {
       setViewAttachmentContent(!viewAttachmentContent);
     }
   };
 
   return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <div className='customer-details-container'>
-            <div>
-              {accounts.map((account, index) => (
-                  <div className='customer-details-form' key={index}>
-                    <div className='details-form-row row'>
-                      <div className='col-3'>
-                        <h5>Account Details</h5>
-                        <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
-                      </div>
-                      <div className='col-9'>
-                        <div className='d-flex w-100 gap-3 mt-4'>
-                          <label>
-                            Account Holder Name
-                            <input className="input-field" type="text" value={account.accountHolderName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountHolderName: e.target.value } : acc))} />
-                          </label>
-                          <label>
-                            Account Number
-                            <input className="input-field" type="text" value={account.accountNumber} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountNumber: e.target.value } : acc))} />
-                          </label>
-                        </div>
-                        <div className='d-flex w-100 gap-3 mt-4'>
-                          <label>
-                            IFSC Code
-                            <input className="input-field" type="text" value={account.ifscCode} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, ifscCode: e.target.value } : acc))} />
-                          </label>
-                          <label>
-                            Bank Name
-                            <input className="input-field" type="text" value={account.bankName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, bankName: e.target.value } : acc))} />
-                          </label>
-                        </div>
-                        <div className='d-flex w-100 gap-3 mt-4'>
-                          <label>
-                            Branch Name
-                            <input className="input-field" type="text" value={account.branchName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, branchName: e.target.value } : acc))} />
-                          </label>
-                          <label className='position-relative'>
-                            Please Upload Cheque Image
-                            <input className="input-field" accept=".pdf" type="file" onChange={(e) => handleFileChange(e, index)} />
-                            <button
-                                className='eye-button'
-                                type='button'
-                                onClick={handlePreview}
-                            >
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
-                          </label>
-                        </div>
-                      </div>
-                    </div>
-                    {account.isPrimary && (
-                        <div className='d-flex justify-content-end mt-2 me-3'>
-                          <button
-                              className='btn btn-danger mt-2'
-                              type='button'
-                              onClick={() => handleDelete(index)}
-                          >
-                            <FontAwesomeIcon icon={faTrashCan} />
-                          </button>
-                        </div>
-                    )}
-                    <hr />
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className='customer-details-container'>
+          <div>
+            {accounts.map((account, index) => (
+              <div className='customer-details-form' key={index}>
+                <div className='details-form-row row'>
+                  <div className='col-3'>
+                    <h5>Account Details</h5>
+                    <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
                   </div>
-              ))}
-              <div className='d-flex justify-content-end'>
-                <div className='add-account-text' onClick={addAnotherAccount}>
-                  <FontAwesomeIcon icon={faPlus} /> Add Another Account
+                  <div className='col-9'>
+                    <div className='d-flex w-100 gap-3 mt-4'>
+                      <label>
+                      <span> Account Holder Name<span className='custom-error'> *</span></span>
+                        <input className={`input-field ${errors[index]?.accountHolderName && "input-field-error"}`} type="text" value={account.accountHolderName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountHolderName: e.target.value } : acc))} />
+                        {errors[index]?.accountHolderName && <span className="error-text">{errors[index].accountHolderName}</span>}
+                      </label>
+                      <label>
+                      <span>  Account Number<span className='custom-error'> *</span></span>
+                        <input className={`input-field ${errors[index]?.accountNumber && "input-field-error"}`} type="text" value={account.accountNumber} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountNumber: e.target.value } : acc))} />
+                        {errors[index]?.accountNumber && <span className="error-text">{errors[index].accountNumber}</span>}
+                      </label>
+                    </div>
+                    <div className='d-flex w-100 gap-3 mt-4'>
+                      <label>
+                      <span>IFSC Code<span className='custom-error'> *</span></span>
+                        <input className={`input-field ${errors[index]?.ifscCode && "input-field-error"}`} type="text" value={account.ifscCode} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, ifscCode: e.target.value } : acc))} />
+                        {errors[index]?.ifscCode && <span className="error-text">{errors[index].ifscCode}</span>}
+                      </label>
+                      <label>
+                        <span> Bank Name<span className='custom-error'> *</span></span>
+                        <input className={`input-field ${errors[index]?.bankName && "input-field-error"}`} type="text" value={account.bankName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, bankName: e.target.value } : acc))} />
+                        {errors[index]?.bankName && <span className="error-text">{errors[index].bankName}</span>}
+                      </label>
+                    </div>
+                    <div className='d-flex w-100 gap-3 mt-4'>
+                      <label>
+                        <span> Branch Name<span className='custom-error'> *</span></span>
+                        <input  className={`input-field ${errors[index]?.branchName && "input-field-error"}`} type="text" value={account.branchName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, branchName: e.target.value } : acc))} />
+                        {errors[index]?.branchName && <span className="error-text">{errors[index].branchName}</span>}
+                      </label>
+                      <label className='position-relative'>
+                        Please Upload Cheque Image
+                        <input className="input-field" accept=".pdf" type="file" onChange={(e) => handleFileChange(e, index)} />
+                        <button
+                          className='eye-button'
+                          type='button'
+                          onClick={handlePreview}
+                        >
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                      </label>
+                    </div>
+                  </div>
                 </div>
+                {account.isPrimary && (
+                  <div className='d-flex justify-content-end mt-2 me-3'>
+                    <button
+                      className='btn btn-danger mt-2'
+                      type='button'
+                      onClick={() => handleDelete(index)}
+                    >
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
+                )}
+                <hr />
+              </div>
+            ))}
+            <div className='d-flex justify-content-end'>
+              <div className='add-account-text' onClick={addAnotherAccount}>
+                <FontAwesomeIcon icon={faPlus} /> Add Another Account
               </div>
             </div>
-            <div className='d-flex justify-content-end'>
-              <button className='btn main-button mt-3' type="submit">
-                Save
-              </button>
-            </div>
           </div>
-        </form>
-        <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
-          {pdfPreviews.map((pdfPreview, index) => (
-              pdfPreview && (
-                  <embed key={index} src={pdfPreview} type="application/pdf" width="100%" height="100%" />
-              )
-          ))}
-        </section>
-        <div
-            onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
-            className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
-        ></div>
-      </>
+          <div className='d-flex justify-content-end'>
+            <button className='btn main-button mt-3' type="submit">
+              Save
+            </button>
+          </div>
+        </div>
+      </form>
+      <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
+        {pdfPreviews.map((pdfPreview, index) => (
+          pdfPreview && (
+            <embed key={index} src={pdfPreview} type="application/pdf" width="100%" height="100%" />
+          )
+        ))}
+      </section>
+      <div
+        onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
+        className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
+      ></div>
+    </>
   );
 };
 

@@ -213,12 +213,7 @@ const AddWarehouse = () => {
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Invalid pincode! Please enter a valid pincode.',
-                confirmButtonText: 'OK'
-            });
+          
         }
     };
 

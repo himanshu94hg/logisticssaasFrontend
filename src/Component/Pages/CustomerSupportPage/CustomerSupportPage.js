@@ -55,7 +55,6 @@ const CustomerSupportPage = () => {
       });
   }, [activeTab,status]);
 
-  console.log(status,"this is false data")
 
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {

@@ -37,7 +37,6 @@ const CreateTicketForm = (props) => {
     sub_category: null,
     awb_number: "",
     description: "",
-    // issue: "",
     escalate_image: "",
   })
 
@@ -129,8 +128,7 @@ const CreateTicketForm = (props) => {
             sub_category: null,
             awb_number: "",
             description: "",
-            // issue: "",
-            escalate_image: ""
+            escalate_image:""
           })
           props?.setStatus(!props.status)
           props.setNewTicket(false)
@@ -148,6 +146,8 @@ const CreateTicketForm = (props) => {
   const [fileError, setFileError] = useState("")
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
+
+    console.log(e.target.name,"this is image url data")
 
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
     if (fileSizeInMB > 2) {
@@ -178,6 +178,7 @@ const CreateTicketForm = (props) => {
     }
 
   };
+
 
   return (
     <form onSubmit={handleSubmit}>
