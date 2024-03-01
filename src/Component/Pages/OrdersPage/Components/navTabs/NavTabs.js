@@ -10,7 +10,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 // import "./navTabs.css";
 import Cookies from 'js-cookie';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function NavTabs(props) {

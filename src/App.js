@@ -2,6 +2,7 @@ import "./App.css";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
+import { ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState, lazy } from "react";
 import Sidebar from "./Component/common/sidebar/SideNav";
 import { Routes, Route, useNavigate } from 'react-router-dom';
@@ -135,6 +136,9 @@ function App() {
 
       <ZoneMappingPop ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
       <section onClick={() => setZoneMapping(!ZoneMapping)} className={`backdrop ${ZoneMapping ? 'd-block' : 'd-none'}`}></section>
+   
+      <ToastContainer />
+
     </>
 
   );

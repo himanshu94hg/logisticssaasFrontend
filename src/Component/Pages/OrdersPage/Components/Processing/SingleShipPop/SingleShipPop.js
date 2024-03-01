@@ -6,7 +6,7 @@ import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop.css';
 import axios from "axios";
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 
@@ -141,7 +141,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     </div>
                 ))}
             </div>
-            <ToastContainer />
         </section>
     );
 }

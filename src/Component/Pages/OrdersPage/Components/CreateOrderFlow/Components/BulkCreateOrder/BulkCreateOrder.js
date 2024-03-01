@@ -25,10 +25,9 @@ const BulkCreateOrder = () => {
                     Authorization: `Bearer ${authToken}`
                 }
             });
-            console.log(response.status, 'This is response data status')
             if (response.status === 200) {
                 const responseData = response.data;
-                toast.success('Order creteed Successfully');
+                toast.success('Order Created Successfully');
                 setBulkOrdersStatus(true);
             } else {
                 const errorData = response.data;
