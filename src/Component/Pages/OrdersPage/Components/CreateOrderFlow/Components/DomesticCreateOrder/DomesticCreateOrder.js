@@ -565,10 +565,10 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
 
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked);
+        const updatedIsChecked = !isChecked;
+        setIsChecked(updatedIsChecked);
 
-
-        if (isChecked) {
+        if (updatedIsChecked) {
             setFormData(prevData => ({
                 ...prevData,
                 billing_details: {
@@ -576,10 +576,26 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                     customer_name: prevData.shipping_details.recipient_name
                 }
             }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    ...prevData.billing_details,
+                    contact_code: '',
+                    mobile_number: '',
+                    email: '',
+                    company_name: '',
+                    address: '',
+                    landmark: '',
+                    pincode: '',
+                    city: '',
+                    state: '',
+                    country: ''
+                }
+            }));
         }
     };
 
-    
 
     return (
         <div>
