@@ -80,9 +80,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
       console.error('Error adding comment:', error);
     }
   };
-
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
   return (
     <>
       <div

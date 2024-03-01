@@ -179,7 +179,6 @@ const CreateTicketForm = (props) => {
    
   };
 
-  console.log(ticketData,"this is ticket data image")
 
   return (
     <form onSubmit={handleSubmit}>
