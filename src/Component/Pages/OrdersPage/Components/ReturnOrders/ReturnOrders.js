@@ -2,47 +2,48 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import moment from 'moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
-  
-    useEffect(() => {
-      const formattedDateTime = formatDateTime(dateTimeString);
-      setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-  
-    const formatDateTime = (dateTimeString) => {
-      const options = {
-        year: 'numeric',
-        month: 'short',
-        day: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true,
-      };
-  
-      const dateObject = new Date(dateTimeString);
-      const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-  
-      return formattedDateTime;
-    };
-  
-    return <p>{formattedDate}</p>;
-  };
 
-const ReturnOrders = ({orders}) => {
+    useEffect(() => {
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+
+    const formatDateTime = (dateTimeString) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
+    };
+
+    return <p>{formattedDate}</p>;
+};
+
+const ReturnOrders = ({ orders }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    
+
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -88,12 +89,15 @@ const ReturnOrders = ({orders}) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -104,8 +108,24 @@ const ReturnOrders = ({orders}) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        <button className='btn main-button'>Export</button>
+                        <div className='action-options bulk-actions ms-2'>
+                            <div className='btn main-button'>
+                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
+                            </div>
+                            <div className='action-list'>
+                                <ul>
+                                    <li>Bulk Ship</li>
+                                    <li>Add Bulk Tag</li>
+                                    <li>Mark as Verified</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Weight/Dimension Update</li>
+                                    <li>Bulk Warehouse Update</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Delete Order</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -166,8 +186,9 @@ const ReturnOrders = ({orders}) => {
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
-                                                {/* <DateFormatter dateTimeString={row.inserted} /> */}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    {/* <DateFormatter dateTimeString={row.inserted} /> */}
+                                                    <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}

@@ -15,8 +15,9 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   const authToken = Cookies.get("access_token")
+  const [fileType, setfileType] = useState('image')
 
-  
+
   useEffect(() => {
     if (ViewTicketInfo) {
       axios.get(`http://65.2.38.87:8081/core-api/features/support-tickets/${viewId}/`, {
@@ -87,7 +88,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
         <FontAwesomeIcon icon={faChevronRight} />
       </div>
       <section className='ticket-slider-header'>
-        <h2 className='mb-0'>View Ticket : {allTicket?.id}</h2>
+        <h2 className='mb-0'>Ticket ID: {allTicket?.id}</h2>
       </section>
       <section className='ticket-slider-body'>
         <div className='status-container mb-2'>
@@ -161,8 +162,30 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,}) => {
           </div>
         </section>
       </section>
+      {/* <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
+        <button className='btn close-button text-white'>x</button>
+        {fileType === 'image' && (
+          <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
+        )}
+        {fileType !== 'image' && (
+          <a href={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} download>
+            Download File
+          </a>
+        )}
+      </section> */}
       <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="" />
+        <button className='btn close-button text-white'>x</button>
+        {allTicket && allTicket?.escalate_image && (
+          <>
+            {allTicket?.escalate_image.includes('.jpg') || allTicket?.escalate_image.includes('.jpeg') || allTicket?.escalate_image.includes('.png') ? (
+              <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
+            ) : (
+              <a href={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} download>
+                Download File
+              </a>
+            )}
+          </>
+        )}
       </section>
 
       <div

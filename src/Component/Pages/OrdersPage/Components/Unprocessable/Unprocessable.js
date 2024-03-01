@@ -115,15 +115,15 @@ const Unprocessable = ({ orders }) => {
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export</button>
-                        <div className='action-options ms-2'>
+                        <div className='action-options bulk-actions ms-2'>
                             <div className='btn main-button'>
                                 <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
                             </div>
                             <div className='action-list'>
                                 <ul>
                                     <li>Bulk Ship</li>
-                                    <li>Add Bulk Tag</li>
                                     <li>Mark as Verified</li>
+                                    <li>Add Bulk Tag</li>
                                     <li><hr /></li>
                                     <li>Bulk Weight/Dimension Update</li>
                                     <li>Bulk Warehouse Update</li>
@@ -185,8 +185,8 @@ const Unprocessable = ({ orders }) => {
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row?.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row?.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                    <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
 
                                                 </p>
                                                 {/* <p>{row?.channel}</p> */}
@@ -269,7 +269,7 @@ const Unprocessable = ({ orders }) => {
                                         </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status === 'Unprocessable' ? 'Pending' : row?.order_courier_status}</p>
+                                            <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* action section */}
@@ -281,7 +281,6 @@ const Unprocessable = ({ orders }) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
