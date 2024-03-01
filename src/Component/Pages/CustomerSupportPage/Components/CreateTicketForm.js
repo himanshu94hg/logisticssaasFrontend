@@ -147,7 +147,6 @@ const CreateTicketForm = (props) => {
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
 
-    console.log(e.target.name,"this is image url data")
 
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
     if (fileSizeInMB > 2) {
@@ -220,9 +219,8 @@ const CreateTicketForm = (props) => {
         <FormInput
           label="Attachments (If any)"
           type="file"
-          name="issue"
           fileInput="fileInput"
-          // name="escalate_image"
+          name="escalate_image"
           onChange={handleFileChange}
         />
         {fileError != '' && <span className='error-text'>{fileError}</span>}
