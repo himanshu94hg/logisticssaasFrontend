@@ -186,7 +186,7 @@ const Unprocessable = ({ orders }) => {
                                                     {/* {formatDate(row?.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row?.inserted} />*/}
                                                     <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
 
                                                 </p>
                                                 {/* <p>{row?.channel}</p> */}
