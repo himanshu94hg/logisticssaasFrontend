@@ -174,7 +174,7 @@ const AllOrders = ({ orders }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} />
+                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} /> */}
                                                     {row.channel ? (
                                                         <span className='ms-2 text-capitalize'>{row.channel}</span>
                                                     ) : ''}
