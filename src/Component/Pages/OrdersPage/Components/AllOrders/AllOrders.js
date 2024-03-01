@@ -84,6 +84,58 @@ const AllOrders = ({ orders }) => {
         setBackDrop(false)
     }
 
+    const handleDownloadLabel = async (orderId) => {
+        try {
+            const response = await fetch(`http://65.2.38.87:8081/core-api/shipping/generate-label/${orderId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
+    const handleDownloadInvoice = async (orderId) => {
+        try {
+            const response = await fetch(`http://65.2.38.87:8081/core-api/shipping/generate-invoice/${orderId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
 
 
     // useEffect(() => {
@@ -266,7 +318,7 @@ const AllOrders = ({ orders }) => {
                                             {/* {row?.ndr_action}
                                              {row?.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? 'Generate Pickup' : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : ''}</button>
+                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : ''}</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -274,7 +326,7 @@ const AllOrders = ({ orders }) => {
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li>Cancel Booking</li>
-                                                            <li>Download Label</li>
+                                                            <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                             <li>Reassign</li>
                                                             <li>Clone Order</li>
                                                             <li><hr /></li>

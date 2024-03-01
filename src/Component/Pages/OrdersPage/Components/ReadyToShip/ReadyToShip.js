@@ -115,6 +115,32 @@ const ReadyToShip = ({ orders }) => {
         }
     };
 
+    const handleDownloadInvoice = async (orderId) => {
+        try {
+            const response = await fetch(`http://65.2.38.87:8081/core-api/shipping/generate-invoice/${orderId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
 
 
     // useEffect(() => {
@@ -314,8 +340,8 @@ const ReadyToShip = ({ orders }) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Download label</li>
-                                                            <li>Download Invoice</li>
+                                                            <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                            <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             <li>Reassign</li>
                                                             <li><hr /></li>
                                                             <li>Cancel Order</li>
