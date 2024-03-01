@@ -29,6 +29,7 @@ export const uploadImageData = async (awsUrl,formData) => {
         console.error('Error:', error);
     }
 };
+
 export const deleteImageData = async (awsUrl,formData) => {
     try {
         const categoryResponse = await axios.post(awsUrl,formData, {

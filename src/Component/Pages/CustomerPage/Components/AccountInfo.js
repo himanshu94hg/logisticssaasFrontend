@@ -4,15 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 
-const AccountInfo = () => {
+const AccountInfo = ({activeTab}) => {
   const [accounts, setAccounts] = useState([]);
   const [pdfPreviews, setPdfPreviews] = useState([]);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [hardcodedToken] = useState(Cookies.get("access_token"));
 
   useEffect(() => {
-    fetchAccountData();
-  }, []);
+    if(activeTab==="Account Information"){
+      fetchAccountData();
+    }
+  }, [activeTab]);
 
   const fetchAccountData = async () => {
     try {

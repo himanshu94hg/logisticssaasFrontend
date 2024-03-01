@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 
-const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
+const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo ,tktId}) => {
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [allTicket, setAllTicket] = useState();
   const [newComment, setNewComment] = useState('');
@@ -76,6 +76,8 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
       console.error('Error adding comment:', error);
     }
   };
+
+  console.log(tktId,"this is tktIdtktIdtktId")
 
   return (
     <>
