@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -46,11 +46,11 @@ const InfoMissing = () => {
     );
 }
 
-const Unprocessable = ({orders}) => {
+const Unprocessable = ({ orders }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
-    
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -95,12 +95,15 @@ const Unprocessable = ({orders}) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -111,8 +114,24 @@ const Unprocessable = ({orders}) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        <button className='btn main-button'>Export</button>
+                        <div className='action-options bulk-actions ms-2'>
+                            <div className='btn main-button'>
+                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
+                            </div>
+                            <div className='action-list'>
+                                <ul>
+                                    <li>Bulk Ship</li>
+                                    <li>Mark as Verified</li>
+                                    <li>Add Bulk Tag</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Weight/Dimension Update</li>
+                                    <li>Bulk Warehouse Update</li>
+                                    <li><hr /></li>
+                                    <li>Bulk Delete Order</li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -153,7 +172,7 @@ const Unprocessable = ({orders}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span>
+                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
                                                     {row?.customer_order_number}
 
                                                     {/* <span className="product-details ms-2"> */}
@@ -166,9 +185,9 @@ const Unprocessable = ({orders}) => {
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row?.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row?.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
-                                              
+                                                    <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+
                                                 </p>
                                                 {/* <p>{row?.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
@@ -183,7 +202,7 @@ const Unprocessable = ({orders}) => {
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                        {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -204,7 +223,7 @@ const Unprocessable = ({orders}) => {
                                                                 <React.Fragment key={index}>
                                                                     <strong>Product:</strong> {product.product_name}<br />
                                                                     <strong>SKU:</strong> {product.sku}<br />
-                                                                    <strong>Qt.:</strong> {1}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
                                                                 </React.Fragment>
                                                             ))}
                                                         </span>
@@ -222,24 +241,24 @@ const Unprocessable = ({orders}) => {
                                         <td className='align-middle'>
                                             {/* pickup adress */}
                                             <td className='align-middle'>
-                                            <div className='cell-inside-box'>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br/>
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
+                                                <div className='cell-inside-box'>
+                                                    <p>{row?.pickup_details?.p_warehouse_name}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.pickup_details?.p_address_line1},
+                                                                {row?.pickup_details?.p_address_line2},<br />
+                                                                {row?.pickup_details?.p_city},
+                                                                {row?.pickup_details?.p_state},
+                                                                {row?.pickup_details?.p_pincode}
+                                                            </span>
                                                         </span>
-                                                    </span>
-                                                </p>
-                                              
-                                            </div>
+                                                    </p>
+
+                                                </div>
+                                            </td>
                                         </td>
-                                        </td>
-                                            {/* shiping section here */}
+                                        {/* shiping section here */}
                                         {/* <td>
                                             <div className='cell-inside-box'>
                                                 <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
@@ -250,26 +269,24 @@ const Unprocessable = ({orders}) => {
                                         </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.order_courier_status === 'Unprocessable' ? 'Pending' : row?.order_courier_status}</p>
+                                            <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Ship Now</button>
+                                                <button className='btn main-button'>Edit Order</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
                                                             <li>Clone Order</li>
+                                                            <li>Mark As Verified</li>
                                                             <li><hr /></li>
                                                             <li>Cancel Order</li>
                                                         </ul>

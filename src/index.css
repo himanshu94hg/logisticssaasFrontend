@@ -85,7 +85,7 @@ p {
   background: #F31429 !important;
 }
 
-.text-sh-primary{
+.text-sh-primary {
   color: var(--sh-primary);
 }
 
@@ -441,7 +441,7 @@ p {
   background: rgb(3, 44, 3);
   position: absolute;
   left: -2px;
-  top: 24px;
+  top: 20px;
   border-radius: 10px;
 }
 
@@ -496,6 +496,15 @@ p {
   gap: 20px;
 }
 
+.cardsSpace>div {
+  height: 100%;
+}
+
+.cardsSpace>.grid.gap-3 {
+  height: auto;
+  gap: 20px !important;
+}
+
 .p10-inline {
   padding-inline: 10px;
 }
@@ -520,12 +529,12 @@ p {
   gap: 10px;
 }
 
-:root .btn:active{
+:root .btn:active {
   border-color: transparent;
   color: #fff;
 }
 
-:root .btn:focus{
+:root .btn:focus {
   box-shadow: none;
 }
 
@@ -565,16 +574,16 @@ p {
 .delete-btn {
   display: flex;
   align-items: center;
-  background-color: #F31429;
-  color: #fff;
+  background-color: #fddcdf;
+  color: #f31429;
   justify-content: center;
   padding: 5px 10px;
   width: max-content;
 }
 
 .delete-btn:hover {
-  background-color: #F31429;
-  color: #fff;
+  background-color: #fddcdf;
+  color: #f31429;
 }
 
 .edit-btn {
@@ -602,7 +611,7 @@ p {
   border-radius: 0.5rem;
 }
 
-.input-checkbox{
+.input-checkbox {
   border: 1px solid var(--sh-primary-middle);
   border-radius: 0.5rem;
 }
@@ -674,7 +683,28 @@ input::placeholder {
   background-color: #F6B954;
 }
 
-.white-block{
+.white-block {
   /* height: calc(100vh - 200px); */
   height: 100%;
+  overflow-y: scroll;
+}
+
+.column-container {
+  height: 100%;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-confirm,
+div:where(.swal2-container) div:where(.swal2-actions):not(.swal2-loading) .swal2-styled:hover {
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel {
+  background-color: rgb(240, 240, 240);
+  color: inherit;
+}
+
+div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
+  background: none !important;
+  background-color: #6e7881 !important;
+  color: #fff;
 }

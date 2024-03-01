@@ -4,49 +4,17 @@ import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
 
 const AgreementInfo = () => {
-  const [Basicinfo, setBasicinfo] = useState([])
+  const [Basicinfo, setBasicinfo] = useState([]);
+  const [hardcodedToken] = useState(Cookies.get("access_token"));
   const [dynamicContent, setDynamicContent] = useState({
     name: '',
     place: '',
     date: '',
   });
 
-
-  const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA3NTU1MzM0LCJpYXQiOjE3MDY5NTA1MzQsImp0aSI6IjZkZWZiOWIxY2Q4YjQxNWRiMWY3MmJkZDBiMjc2YmFhIiwidXNlcl9pZCI6MX0.vhhKKMf1s_6mj1Qt-_A5DgS2oSA_zutiVST6lBZuTG8'
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/core-api/seller/basic-info/', {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-        },
-      })
-      .then(response => {
-        setBasicinfo(response.data);
-        // const basicInfoData = response.data[0] || {};
-        // setCompanyName(basicInfoData.company_name || '');
-        // setEmail(basicInfoData.email || '');
-        // setPanNumber(basicInfoData.pan_number || '');
-        // setGstNumber(basicInfoData.gst_number || '');
-        // setStreetName(basicInfoData.street || '');
-        // setZipCode(basicInfoData.pincode || '');
-        // setCityName(basicInfoData.city || '');
-        // setStateName(basicInfoData.state || '');
-        // setWebsite(basicInfoData.website_url || '');
-        // setMobileNumber(basicInfoData.mobile || '');
-
-        // Set other fields similarly
-
-
-        // setWebsite
-      })
-      .catch(error => {  // Add a .catch block here
-        console.error('Error fetching basic info:', error);
-      });
-  }, []);
-
-  console.log(Basicinfo.company_name)
 
   const componentRef = useRef();
 
@@ -55,8 +23,7 @@ const AgreementInfo = () => {
   });
 
   const updateContent = () => {
-    // Display a sweet alert before updating content
-    // console.log(currentPlace)
+   
     Swal.fire({
       title: 'Are you sure?',
       text: 'You are about to update the content!',
@@ -68,16 +35,14 @@ const AgreementInfo = () => {
       if (result.isConfirmed) {
         const newDate = new Date().toLocaleDateString();
         const newPlace = 'New Dynamic Place';
-        // Update the content dynamically
         setDynamicContent({
           name: 'Shipease',
           place: 'Gurugram',
           date: newDate,
         });
 
-        // Show success sweet alert
       } else if (result.dismiss === Swal.DismissReason.cancel) {
-        // Show cancellation sweet alert
+      
       }
     });
   };

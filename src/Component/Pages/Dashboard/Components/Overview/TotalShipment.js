@@ -1,38 +1,73 @@
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import axios from "axios";
 
 function TotalShipment() {
   const [data, setData] = useState(null);
 
+  // Simulate fetching data from API
   useEffect(() => {
-    // axios
-    //   .get('http://65.2.38.87:8088/api/v1/status-wise-graph/')
-    //   .then(response => {
-    //     console.log('Data:', response.data);
-    //     setData(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error:', error);
-    //   });
-  }, []);  
+    // Simulate API call delay with setTimeout
+    const fetchData = () => {
+      const dummyData = {
+        total_status_wise_count: 1000,
+        channel_percentage_data: [
+          {
+            name: "delivered",
+            total_count: 200,
+            total_percentage: 20
+          },
+          {
+            name: "in_transit",
+            total_count: 300,
+            total_percentage: 30
+          },
+          {
+            name: "ndr",
+            total_count: 100,
+            total_percentage: 10
+          },
+          {
+            name: "out_for_delivery",
+            total_count: 150,
+            total_percentage: 15
+          },
+          {
+            name: "picked_up",
+            total_count: 100,
+            total_percentage: 10
+          },
+          {
+            name: "shipped",
+            total_count: 150,
+            total_percentage: 15
+          }
+        ]
+      };
+      // Simulate delay
+      setTimeout(() => {
+        setData(dummyData);
+      }, 1000); // Simulate 1 second delay
+    };
+
+    fetchData();
+  }, []);
 
   // Updated function to get predefined color scale for each channel
-  const getColorScale = data => {
+  const getColorScale = () => {
     const colorScale = {
-      delivered: 'rgb(255, 0, 0)',
-      in_transit: 'rgb(255, 165, 0)',
-      ndr: 'rgb(255, 255, 0)',
-      out_for_delivery: 'rgb(0, 255, 0)',
-      picked_up: 'rgb(0, 0, 255)',
-      shipped: 'rgb(75, 0, 130)',
+      delivered: "rgb(255, 0, 0)",
+      in_transit: "rgb(255, 165, 0)",
+      ndr: "rgb(255, 255, 0)",
+      out_for_delivery: "rgb(0, 255, 0)",
+      picked_up: "rgb(0, 0, 255)",
+      shipped: "rgb(75, 0, 130)"
     };
 
     return colorScale;
   };
 
   // Declare colorScale here
-  const colorScale = getColorScale(data?.channel_percentage_data || []);
+  const colorScale = getColorScale();
 
   return (
     <>

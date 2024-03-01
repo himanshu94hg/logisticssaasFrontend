@@ -24,10 +24,7 @@ function* rateCardAction(action) {
     try {
         let response = yield call(rateCardAPI, payload);
         if (response.status === 200) {
-            // Swal.fire({
-            //     title: "Rate Calculated successfully",
-            //     icon: "success"
-            // });
+         
             yield put({ type: GET_RATE_CARD_DATA, payload: response })
 
         }

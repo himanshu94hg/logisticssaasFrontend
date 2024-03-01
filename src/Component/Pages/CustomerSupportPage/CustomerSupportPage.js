@@ -22,11 +22,10 @@ const CustomerSupportPage = () => {
   const [activeTab, setActiveTab] = useState('allTickets');
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
   const [filterClick, setFilterClick] = useState(false);
-
-
+  const [status, setStatus] = useState(false);
 
   const authToken = Cookies.get("access_token")
-  const apiUrl = "http://65.2.38.87:8088/core-api/features/support-tickets/";
+  const apiUrl = "http://65.2.38.87:8081/core-api/features/support-tickets/";
 
   useEffect(() => {
     let url = apiUrl;
@@ -49,12 +48,13 @@ const CustomerSupportPage = () => {
       },
     })
       .then((response) => {
-        setAllTicket(response.data);
+        setAllTicket(response?.data?.results);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [activeTab]);
+  }, [activeTab,status]);
+
 
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
@@ -81,6 +81,7 @@ const CustomerSupportPage = () => {
       .then(response => {
         setAllTicket(response.data)
         setFilterTickets(false)
+        
       })
       .catch(error => {
         console.error('Error:', error);
@@ -91,6 +92,10 @@ const CustomerSupportPage = () => {
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
   };
+
+  useEffect(()=>{
+    setAllTicket(allTicket)
+  },[allTicket])
 
   return (
     <>
@@ -134,11 +139,11 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'>Create a new Ticket!</h2>
         </section>
         <section className='ticket-slider-body'>
-          <CreateTicketForm setNewTicket={setNewTicket} NewTicket={NewTicket} />
+          <CreateTicketForm setNewTicket={setNewTicket} NewTicket={NewTicket} setStatus={setStatus} status={status} />
         </section>
       </div>
       <div className={`ticket-slider ${ViewTicketInfo ? 'open' : ''}`}>
-        <ViewTicketSlider setViewTicketInfo={setViewTicketInfo} ViewTicketInfo={ViewTicketInfo} viewId={viewId} />
+        <ViewTicketSlider tktId={allTicket} setViewTicketInfo={setViewTicketInfo} ViewTicketInfo={ViewTicketInfo} viewId={viewId} />
       </div>
       <div className={`backdrop ${NewTicket || FilterTickets || ViewTicketInfo ? 'd-block' : 'd-none'}`}></div>
     </>

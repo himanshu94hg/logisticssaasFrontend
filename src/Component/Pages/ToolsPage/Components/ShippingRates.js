@@ -32,7 +32,7 @@ const ShippingRates = () => {
             <React.Fragment key={item.partner + index}>
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3}>{item.partner}</td>
-                    <td>FWD</td>
+                    <td>Forward Weight</td>
                     <td>{item.zone_a}</td>
                     <td>{item.zone_b}</td>
                     <td>{item.zone_c}</td>
@@ -42,20 +42,20 @@ const ShippingRates = () => {
                     <td className='rowfull3' rowSpan={3}>{item.cod_maintenance}</td>
                 </tr>
                 <tr className='nested-tr box-shadow'>
+                    <td>Additional Weight</td>
+                    <td>{item?.extra_charge_a}</td>
+                    <td>{item?.extra_charge_b}</td>
+                    <td>{item?.extra_charge_c}</td>
+                    <td>{item?.extra_charge_d}</td>
+                    <td>{item?.extra_charge_e}</td>
+                </tr>
+                <tr className='nested-tr box-shadow'>
                     <td>RTO</td>
                     <td>{item.rto_charge_a}</td>
                     <td>{item.rto_charge_b}</td>
                     <td>{item.rto_charge_c}</td>
                     <td>{item.rto_charge_d}</td>
                     <td>{item.rto_charge_e}</td>
-                </tr>
-                <tr className='nested-tr box-shadow'>
-                    <td>ADD Wt.</td>
-                    <td>{item?.extra_charge_a}</td>
-                    <td>{item?.extra_charge_b}</td>
-                    <td>{item?.extra_charge_c}</td>
-                    <td>{item?.extra_charge_d}</td>
-                    <td>{item?.extra_charge_e}</td>
                 </tr>
                 <tr className='blank-row' key={`empty-${item.partner}-${index}`}><td></td></tr>
             </React.Fragment>

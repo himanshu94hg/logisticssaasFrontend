@@ -18,7 +18,7 @@ export default function NavTabs(props) {
   const handleSubmit = () => {
     let sellerData = 3;
 
-    const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
+    const response = axios.get(`http://65.2.38.87:8081/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     console.log("Data", response);
 
     if (response.status === 200) {
@@ -37,14 +37,7 @@ export default function NavTabs(props) {
     } else {
       const errorData = response.data;
       console.error('API Error:', errorData);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error Fetching Order',
-        text: 'An error occurred while creating the order. Please try again.',
-        customClass: {
-          confirmButton: 'btn main-button',
-        },
-      });
+ 
     }
   };
 

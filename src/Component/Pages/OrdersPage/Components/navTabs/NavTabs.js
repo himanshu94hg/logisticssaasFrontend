@@ -10,7 +10,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 // import "./navTabs.css";
 import Cookies from 'js-cookie';
-import { ToastContainer, toast } from 'react-toastify';
+import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function NavTabs(props) {
@@ -20,7 +20,7 @@ export default function NavTabs(props) {
   const sellerData = Cookies.get("user_id");
 
   const handleSubmit = () => {
-    const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
+    const response = axios.get(`http://65.2.38.87:8081/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
     .then((response) => {
       toast.success('Order Fetch Successfully');
     }).catch((error) => {
@@ -139,7 +139,6 @@ export default function NavTabs(props) {
         </div>
         <div className="d-flex gap-10 align-items-center">
           <button className="btn main-button" onClick={handleSubmit}>Sync Orders</button>
-          <button className="btn main-button">Import CSV</button>
           <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
         </div>
       </Navbar>

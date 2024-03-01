@@ -8,12 +8,50 @@ import { TbBuildingWarehouse } from "react-icons/tb";
 import './ManageWarehouse.css';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
+import Swal from 'sweetalert2';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
   const [isOpen, setIsOpen] = useState(null);
 
+  const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
+
   const handleToggle = (index) => {
     setIsOpen(isOpen === index ? null : index);
+  };
+
+  // Inside BoxGrid component
+  const handleSetDefault = (index) => {
+    // Check if the current warehouse is already marked as default
+    if (defaultWarehouseIndex === index) {
+      Swal.fire({
+        title: 'Already Default',
+        text: 'This warehouse is already marked as default.',
+        icon: 'info',
+        confirmButtonText: 'Ok',
+        confirmButtonClass: 'my-confirm-button-class'
+      });
+    } else {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Do you want to mark this warehouse as default?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: '<span class="custom-confirm-button">Yes, mark it as default</span>',
+        cancelButtonText: '<span class="custom-cancel-button">No, cancel</span>',
+        reverseButtons: true,
+        confirmButtonClass: 'my-confirm-button-class',
+        cancelButtonClass: 'my-cancel-button-class'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          setDefaultWarehouseIndex(index);
+          Swal.fire(
+            'Marked as Default!',
+            'This warehouse has been marked as default.',
+            'success'
+          );
+        }
+      });
+    }
   };
 
   if (boxData.length === 0) {
@@ -28,6 +66,11 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
+              <button
+                onClick={() => handleSetDefault(index)}
+                className={`btn mark-as-default-btn ${defaultWarehouseIndex === index ? 'bg-green text-white' : ''}`}>
+                {defaultWarehouseIndex === index ? 'Default' : 'Mark as Default'}
+              </button>
               <div>
                 <div className='warehouse-heading mb-2'>
                   <TbBuildingWarehouse fontSize={25} />
@@ -48,7 +91,7 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
                 <p>Ph. {box.support_phone}</p>
               </div>
               <div className='d-flex justify-content-between'>
-                <button className='btn main-button' onClick={() => handleToggle(index)}>Show RTO Address</button>
+                <button className='btn main-button-outline' onClick={() => handleToggle(index)}>Show RTO Address</button>
                 <div className='d-flex gap-2'>
                   <button className='btn edit-btn' onClick={() => editWarehouse(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
                   <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
@@ -94,13 +137,13 @@ const ManageWarehouse = () => {
     fetchDataFromApi();
   }, []);
 
-  
+
   let authToken = Cookies.get("access_token");
   let sellerData = Cookies.get("user_id")
 
   const fetchDataFromApi = async () => {
     try {
-      const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
+      const response = await axios.get(`http://65.2.38.87:8081/core-api/features/warehouse/?seller_id=${sellerData}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -145,6 +188,8 @@ const ManageWarehouse = () => {
           </div>
         </section>
       </div>
+
+      {/* Edit Slider */}
       <section className={`ticket-slider ${editWarehouse ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setEditWarehouse(!editWarehouse)}>
           <FontAwesomeIcon icon={faChevronRight} />

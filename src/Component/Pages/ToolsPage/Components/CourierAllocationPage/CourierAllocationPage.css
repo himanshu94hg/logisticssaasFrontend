@@ -1,0 +1,112 @@
+ul [data-rbd-droppable-context-id] {
+    list-style: none;
+}
+
+.courier-preference .courier-preference-list {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.courier-preference .courier-preference-list .Weight-slab {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    -webkit-box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
+    -moz-box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
+    box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
+    padding: 15px;
+    width: 100%;
+}
+
+.Weight-slab ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.Weight-slab ul li {
+    padding: 7px 5px;
+    border-radius: 0.5rem;
+}
+
+.default-sorting-section label {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    width: 100%;
+    min-width: unset;
+}
+
+.default-sorting-section label select {
+    width: 270px;
+    min-width: unset;
+}
+
+.cp-or-line {
+    position: relative;
+    margin-block: 35px;
+}
+
+.cp-or-line span {
+    position: absolute;
+    background: #fff;
+    padding: 9px;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    top: -21px;
+    left: 50%;
+}
+
+.set-of-rules {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    counter-reset: section;
+}
+
+.major-rule-row {
+    padding: 15px;
+    border: 1px solid;
+    border-radius: 0.5rem;
+}
+
+.major-rule-row::before {
+    counter-increment: section;
+    content: "Rule " counter(section) ": ";
+}
+
+.major-rule-row label {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.minor-rule-row {
+    display: flex;
+    gap: 10px;
+}
+
+.major-rule-row label input,
+.major-rule-row label select,
+.minor-rule-row input,
+.minor-rule-row select {
+    min-width: unset;
+}
+
+.priority-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    justify-items: end;
+}
+
+.priority-container label {
+    padding: 5px;
+    text-align: center;
+    width: 100%;
+}
+
+.priority-container label select {
+    width: 100%;
+}

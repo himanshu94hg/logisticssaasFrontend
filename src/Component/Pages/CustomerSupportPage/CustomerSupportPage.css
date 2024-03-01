@@ -132,12 +132,12 @@
     right: 0;
 }
 
-table {
+.support-page table {
     margin-top: 20px;
     width: 100%;
 }
 
-table tr td {
+.support-page table tr td {
     padding-block: 10px;
 }
 
@@ -260,9 +260,10 @@ table tr td {
     display: flex;
     flex-direction: column;
     background-color: #F2F2F2;
-    height: 100%;
-    min-height: 300px;
+    min-height: 276px;
     padding: 10px;
+    height: calc(100vh - 388px);
+    overflow: scroll;
 }
 
 .user-comment {
@@ -295,7 +296,7 @@ table tr td {
 
 .attachment-container {
     position: fixed;
-    top: 30%;
+    top: 10%;
     left: 30%;
     width: 100%;
     max-width: 600px;
@@ -311,20 +312,37 @@ table tr td {
 }
 
 .view-attachment,
-.download{
+.download {
     cursor: pointer;
 }
 
-.comment-container{
+.comment-container {
     position: relative;
     padding-bottom: 24px;
     min-width: 150px;
 }
 
-.comment-container p{
+.comment-container p {
     position: absolute;
     bottom: 0;
     right: 8px;
     font-size: 0.8rem;
     margin-bottom: 2px;
+}
+
+.slider-scroll-body {
+    max-height: calc(100vh - 173px);
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.attachment-file-unsupported {
+    background-color: #4c494c;
+    border-radius: 12px;
+    color: #fff;
+    margin-bottom: 40px;
+    padding: 20px;
+    text-align: center;
+    -webkit-box-shadow: 0px 10px 12px 5px rgba(0, 0, 0, .2);
+    box-shadow: 0px 10px 12px 5px rgba(0, 0, 0, .2);
 }

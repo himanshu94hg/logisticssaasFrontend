@@ -39,7 +39,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                AllTickets
+                All
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "openTickets" ? "active" : ""}`}
@@ -50,7 +50,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                OpenTickets
+                Open
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "inProgressTickets" ? "active" : ""}`}
@@ -61,7 +61,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                InProgressTickets
+                In Progress
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "closedTickets" ? "active" : ""}`}
@@ -72,7 +72,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                ClosedTickets
+                Closed
               </div>
             </Nav.Link>
           </div>
@@ -80,11 +80,11 @@ export default function NavTabs(props) {
       </Navbar.Collapse>
       <div className="support-right-section">
         <div className="search-container">
-          <button>
+          {/* <button>
             <img src={SearchIcon} alt="Search" />
-          </button>
-          <input required="" type="text" name="text" className="input-field" />
-          <label className="label">Search by Ticket ID || AWB || Pickup ID</label>
+          </button> */}
+          {/* <label className="label">Search by Ticket ID || AWB || Pickup ID</label> */}
+          <input placeholder="Search by Ticket ID || AWB || Pickup ID" required="" type="text" name="text" className="input-field" />
         </div>
         <button
           onClick={() => props.setFilterTickets(!props.FilterTickets)}

@@ -97,7 +97,7 @@ const AddWarehouse = () => {
                 }
             };
 
-            const response = await axios.post('http://65.2.38.87:8088/core-api/features/warehouse/', formData,{
+            const response = await axios.post('http://65.2.38.87:8081/core-api/features/warehouse/', formData,{
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,    
                     'Content-Type': 'application/json'
@@ -213,12 +213,7 @@ const AddWarehouse = () => {
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Invalid pincode! Please enter a valid pincode.',
-                confirmButtonText: 'OK'
-            });
+          
         }
     };
 

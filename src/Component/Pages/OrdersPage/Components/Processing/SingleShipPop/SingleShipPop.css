@@ -19,23 +19,39 @@
     margin-bottom: 0px;
 }
 
+.single-ship-container .close-button {
+    padding-block: 0;
+}
+
+.ss-container-main {
+    overflow-y: scroll;
+    height: 100%;
+    padding-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+}
+
 .ship-container-row {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 2rem;
+    margin-block: 1.7rem 0.5rem;
+    margin-inline: 2rem;
     padding: 0.2rem 1rem;
-    /* border: 1px solid; */
     border-radius: 0.5rem;
     background-color: #fff;
     position: relative;
 }
 
+.ship-container-row:last-of-type {
+    margin-bottom: 30px;
+}
+
 
 
 .ship-container-row .img-container {
-    width: 100px;
-    height: 100px;
+    width: 70px;
+    height: 70px;
     overflow: hidden;
     border-radius: 100%;
     box-shadow: 0px 0px 0px 8px rgba(255, 255, 255, 0.3);
@@ -68,12 +84,12 @@
 .recommended::before {
     content: 'Recommended';
     position: absolute;
-    top: 56px;
-    left: 14px;
-    width: 86%;
-    height: 40px;
+    top: 66px;
+    left: 16px;
+    width: 107px;
+    height: 26px;
     background-image: linear-gradient(45deg, #ff6547 0%, #ffb144 51%, #ff7053 100%);
-    transform: rotate(-35deg) translateY(-20px);
+    transform: rotate(318deg) translateY(-20px);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -82,19 +98,19 @@
     letter-spacing: 0.1em;
     text-transform: uppercase;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.23);
-    font-size: 0.7rem;
+    font-size: 10px;
     border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .recommended::after {
     content: '';
     position: absolute;
-    width: 10px;
-    bottom: 37px;
-    left: 25px;
-    height: 10px;
+    width: 9px;
+    bottom: 40px;
+    left: 26px;
+    height: 9px;
     z-index: -1;
-    box-shadow: 96px -64px #cc3f47;
+    box-shadow: 69px -63px #cc3f47;
     background-image: linear-gradient(45deg, #FF512F 0%, #F09819 51%, #FF512F 100%);
 }
 
@@ -119,7 +135,7 @@ table.performance-rating tr td {
     /* Adjust the width as needed */
 }
 
-.chart-container p{
+.chart-container p {
     white-space: nowrap;
 }
 

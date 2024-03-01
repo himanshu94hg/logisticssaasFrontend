@@ -1,33 +1,68 @@
 import React from "react";
-import DatamapsIndia from "react-datamaps-india";
+import ReactDatamapsIndiaUmd from "react-datamaps-india";
 
 const IndiaMapp = () => {
+  const dummyData = {
+    Maharashtra: { sales: 100, value: 'Maharashtra' },
+    Karnataka: { sales: 80, value: 'Karnataka' },
+    Delhi: { sales: 80, value: 'Delhi' },
+    'Madhya Pradesh': { sales: 10, value: 'Madhya Pradesh' },
+    'Uttar Pradesh': { sales: 10, value: 'Uttar Pradesh' },
+    Gujarat: { sales: 10, value: 'Gujarat' },
+    // Add dummy data for other states...
+  };
+
+  const hasData = (stateName) => {
+    return dummyData.hasOwnProperty(stateName);
+  };
+
+  const colorWithData = "#111"; // Color for states with data
+  const colorWithoutData = "#ccc"; // Color for states without data
+
   return (
     <div style={{ position: "relative" }}>
-      <DatamapsIndia
-        style={{ width: "25%", height: "25%", position: "relative", left: "25%" }}
+      <ReactDatamapsIndiaUmd
+        style={{ width: "50%", height: "50%", position: "relative", left: "25%" }}
         responsive
-        regionData={{
-          // ... your regionData
+        customFill={(geography) => {
+          const stateName = geography.properties.name;
+          return hasData(stateName) ? colorWithData : colorWithoutData; // Return color based on data presence
         }}
         hoverComponent={({ value }) => {
-          return (
-            <div>
-              <div>
-                {value.name} {value.value} OCs
+          // Check if value is defined to avoid errors
+          if (!value) return null;
+          // Check if dummy data exists for the hovered state
+          const stateData = dummyData[value.name];
+          if (stateData) {
+            // Display dummy data if available
+            return (
+              <div className="hover-tooltip">
+                <div className="tooltip-content">
+                  <p>{stateData.value}</p>
+                  <p>Orders: {stateData.sales}</p>
+                </div>
               </div>
-            </div>
-          );
+            );
+          } else {
+            // If no dummy data is available, display a message
+            return (
+              <div className="hover-tooltip">
+                <div className="tooltip-content">
+                  <p>No data available</p>
+                </div>
+              </div>
+            );
+          }
         }}
         mapLayout={{
-          legendTitle: "Number of OCs",
-          startColor: "#b3d1ff",
-          endColor: "#005ce6",
+          legendTitle: "",
+          startColor: "#1975c9",
+          endColor: "#1975c9",
           hoverTitle: "Count",
-          noDataColor: "#f5f5f5",
-          borderColor: "#8D8D8D",
-          hoverColor: "blue",
-          hoverBorderColor: "green",
+          noDataColor: "#fff",
+          borderColor: "#1975c9",
+          hoverColor: "#1975c9",
+          hoverBorderColor: "#1975c9",
           height: 10,
           weight: 30
         }}
@@ -35,4 +70,5 @@ const IndiaMapp = () => {
     </div>
   );
 };
+
 export default IndiaMapp;

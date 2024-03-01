@@ -46,7 +46,7 @@ const OpenTickets = (props) => {
             try {
                 const hardcodedToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA4NjAzMjcxLCJpYXQiOjE3MDc5OTg0NzEsImp0aSI6Ijc5YWVlNzMyNTFlZDQ0NjNhMGFkNGI3OTkzNGUwZTkzIiwidXNlcl9pZCI6Mn0.jc415vB2ZKPUhJ26b7CyEvlYgPRdRzoA43EliQk2WRo'
                 const response = await axios.get(
-                    'http://65.2.38.87:8088/core-api/features/support-tickets/',
+                    'http://65.2.38.87:8081/core-api/features/support-tickets/',
                     {
                         params: {
                             // sub_category: 14,

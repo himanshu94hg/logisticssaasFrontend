@@ -3,11 +3,8 @@ import {
   Navbar,
   Nav
 } from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Swal from "sweetalert2";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -18,33 +15,12 @@ export default function NavTabs(props) {
   const handleSubmit = () => {
     let sellerData = 3;
 
-    const response = axios.get(`http://65.2.38.87:8088/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
-    console.log("Data", response);
-
+    const response = axios.get(`http://65.2.38.87:8081/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     if (response.status === 200) {
-      const responseData = response.data;
-      console.log('API Response:', responseData);
-      Swal.fire({
-        icon: 'success',
-        title: 'Order Created!',
-        text: 'Order Fetch Successfully.',
-        customClass: {
-          confirmButton: 'btn main-button',
-        },
-      }).then(() => {
-        navigation('/Orders');
-      });
+     
     } else {
       const errorData = response.data;
       console.error('API Error:', errorData);
-      Swal.fire({
-        icon: 'error',
-        title: 'Error Fetching Order',
-        text: 'An error occurred while creating the order. Please try again.',
-        customClass: {
-          confirmButton: 'btn main-button',
-        },
-      });
     }
   };
 

@@ -16,17 +16,17 @@ const CustomerPage = () => {
 
             {/* Basic Information */}
             <div className={`${activeTab === "Basic Information" ? "d-block" : "d-none"}`}>
-                <BasicInfo />
+                <BasicInfo activeTab={activeTab}/>
             </div>
             
             {/* Account Information */}
             <div className={`${activeTab === "Account Information" ? "d-block" : "d-none"}`}>
-                <AccountInfo />
+                <AccountInfo activeTab={activeTab}/>
             </div>
             
             {/* KYC Information */}
             <div className={`${activeTab === "KYC Information" ? "d-block" : "d-none"}`}>
-                <KYCInfo />
+                <KYCInfo activeTab={activeTab}/>
             </div>
             
             {/* Agreement */}

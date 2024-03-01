@@ -1,95 +1,66 @@
-import React, { useEffect, useState } from 'react';
-import { LuUploadCloud } from "react-icons/lu";
 import axios from 'axios';
-import Swal from "sweetalert2";
-import Cookies from 'js-cookie';
 import moment from 'moment';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { LuUploadCloud } from "react-icons/lu";
+import React, { useEffect, useState } from 'react';
 
 const BulkCreateOrder = () => {
-    const [selectedFile, setSelectedFile] = useState(null);
     const [bulkOrders, setBulkOrders] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
     const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
 
-    const handleFileUpload = (event) => {
-        setSelectedFile(event.target.files[0]);
-    };
 
     const authToken = Cookies.get("access_token");
     const sellerId = Cookies.get("user_id");
 
-    const handleImport = async () => {
-        if (selectedFile) {
-            const formData = new FormData();
-            formData.append('order_file', selectedFile);
-            formData.append('seller_id', sellerId);
-
-            try {
-                const response = await axios.post('http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data',
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-                if (response.status === 200) {
-                    const responseData = response.data;
-                    setBulkOrdersStatus(true);
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Order Created  successfully!',
-                        confirmButtonText: 'OK'
-                    });
-                } else {
-                    const errorData = response.data;
-                    console.error('API Error:', errorData);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Failed to add Orders. Please try again later.',
-                        confirmButtonText: 'OK'
-                    });
+    const handleFileUpload = async (event) => {
+        const formData = new FormData();
+        formData.append('order_file', event.target.files[0]);
+        formData.append('seller_id', sellerId);
+        try {
+            const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${authToken}`
                 }
-            } catch (error) {
-                console.error('Error uploading file:', error);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to add Orders. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
+            });
+            if (response.status === 200) {
+                const responseData = response.data;
+                toast.success('Bulk Order Created Successfully');
+                setBulkOrdersStatus(true);
+            } else {
+                const errorData = response.data;
+                console.error('API Error:', errorData);
             }
+        } catch (error) {
+            console.error('Error uploading file:', error);
         }
     };
 
     useEffect(() => {
-        
-            axios
-                .get(`http://65.2.38.87:8080/orders-api/orders/order-bulk-upload/`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                })
-                .then(response => {
-                    console.log('Data is data:', response.data);
-                    setBulkOrders(response.data.results);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-    }, [])
-
-
+        axios
+            .get(`http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+            .then(response => {
+                setBulkOrders(response.data.results);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }, [bulkOrdersStatus])
 
     const handleDownloadTemplate = () => {
-        const templateUrl = 'public/shipease_bulk_order.xlsx';
+        const templateUrl = 'shipease_bulk_order.xlsx';
         const tempAnchor = document.createElement('a');
         tempAnchor.setAttribute('download', 'shipease_bulk_order.xlsx');
         tempAnchor.setAttribute('href', templateUrl);
         tempAnchor.click();
         tempAnchor.remove();
     };
-
 
     return (
         <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
@@ -102,32 +73,35 @@ const BulkCreateOrder = () => {
             </section>
             <section className='inputs-container mx-auto mb-3 bulk-import-input'>
                 <div className='mid-text-container'>
-                    <input type="file" onChange={handleFileUpload} />
+                    <input type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
                     <LuUploadCloud className='font30 mb-3' />
                     <p>Drag And Drop to upload the files here.</p>
-                    <h4 className='mx-4'>OR</h4>
-                    <p className='mt-3'>Only csv, xls & xlsx file format will be accepted.</p>
+                    <p className='bo-or-text'>OR</p>
+                    <p className='upload-click ml-5'>Click to Upload File</p>
+                    <p className='accepted-note'>Only csv, xls & xlsx file format will be accepted.</p>
                 </div>
             </section>
-            <button className='btn main-button ml-5' onClick={handleImport}>Upload File</button>
-            <section className='mt-5'>
-                <h4>Recent Uploads</h4>
-                <table>
+            <section className='bo-upload-data'>
+                <div className='d-flex justify-content-between align-items-center'>
+                    <h4>Recent Uploads</h4>
+                    <p>Last 10 days activity</p>
+                </div>
+                <table className='w-100'>
                     <thead>
-                    <tr>
-                        <th>File Name</th>
-                        <th>Date</th>
-                        <th>No. Of Orders</th>
-                        <th>Successful Orders</th>
-                        <th>Error Orders</th>
-                    </tr>
+                        <tr>
+                            <th>File Name</th>
+                            <th>Date</th>
+                            <th>No. Of Orders</th>
+                            <th>Successful Orders</th>
+                            <th>Error Orders</th>
+                        </tr>
                     </thead>
                     <thead>
-                        {bulkOrders?.slice(0,10)?.map((item) => {
+                        {bulkOrders?.slice(0, 10)?.map((item) => {
                             return (
                                 <tr>
                                     <td>{item?.file_name}</td>
-                                    <td>{moment(item?.created_at).format("DD MMM YYYY")}</td>
+                                    <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
                                     <td>{item?.total_orders}</td>
                                     <td>{item?.success_orders}</td>
                                     <td>{item?.failed_orders}</td>

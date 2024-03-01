@@ -5,19 +5,22 @@ import { AiOutlineDownload } from "react-icons/ai";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 
-const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
+
+const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
   const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [allTicket, setAllTicket] = useState();
   const [newComment, setNewComment] = useState('');
   const [currentDate, setCurrentDate] = useState('');
   const [currentTime, setCurrentTime] = useState('');
   const authToken = Cookies.get("access_token")
+  const [fileType, setfileType] = useState('image')
 
-  
+
   useEffect(() => {
     if (ViewTicketInfo) {
-      axios.get(`http://65.2.38.87:8088/core-api/features/support-tickets/${viewId}/`, {
+      axios.get(`http://65.2.38.87:8081/core-api/features/support-tickets/${viewId}/`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -55,7 +58,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://65.2.38.87:8088/core-api/features/ticket-comments/',
+      const response = await axios.post('http://65.2.38.87:8081/core-api/features/ticket-comments/',
         {
           ticket: viewId,
           comment: newComment,
@@ -76,7 +79,13 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
       console.error('Error adding comment:', error);
     }
   };
-
+  function extractFileName(fullPath) {
+    // Split the fullPath string by '/' to get an array of parts
+    const parts = fullPath.split('/');
+    // Get the last part of the array, which should be the file name
+    const fileName = parts[parts.length - 1];
+    return fileName;
+  }
   return (
     <>
       <div
@@ -86,7 +95,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
         <FontAwesomeIcon icon={faChevronRight} />
       </div>
       <section className='ticket-slider-header'>
-        <h2 className='mb-0'>View Ticket : {allTicket?.id}</h2>
+        <h2 className='mb-0'>Ticket ID: {allTicket?.id}</h2>
       </section>
       <section className='ticket-slider-body'>
         <div className='status-container mb-2'>
@@ -101,7 +110,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
           <div className='ticket-view-field'>
             <div className='d-flex gap-2'>
               <p>Last Updated:</p>
-              <p className='fw-bold'>{allTicket?.updated_at}</p>
+              <p className='fw-bold'>{moment(allTicket?.updated_at).format("YYYY-MM-DD")}</p>
             </div>
             <div className='d-flex gap-2'>
               <p>Due Date:</p>
@@ -126,13 +135,18 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
               </p>
             </div>
             <div className='d-flex gap-2 align-items-center'>
-              <p
+              Attachment:
+              <span
                 className='view-attachment'
                 onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
               >
-                <FontAwesomeIcon icon={faEye} /> View Attachment
-              </p>
-              <p title="Download Attachment" className='download'><AiOutlineDownload /></p>
+                <FontAwesomeIcon icon={faEye} />
+              </span>
+              {allTicket && allTicket?.escalate_image && (
+                <a href={allTicket.escalate_image} download>
+                  <AiOutlineDownload />
+                </a>
+              )}
             </div>
           </div>
         </section>
@@ -160,8 +174,33 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo }) => {
           </div>
         </section>
       </section>
+      {/* <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
+        <button className='btn close-button text-white'>x</button>
+        {fileType === 'image' && (
+          <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
+        )}
+        {fileType !== 'image' && (
+          <a href={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} download>
+            Download File
+          </a>
+        )}
+      </section> */}
       <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="" />
+        {allTicket && allTicket?.escalate_image && (
+          <>
+            {/\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(allTicket?.escalate_image) ? (
+              <img style={{ maxHeight: '80vh', height: 'auto', objectFit: 'contain' }} src={allTicket?.escalate_image} alt="AttachmentImage" />
+            ) : (
+              <div className='attachment-file-unsupported'>
+                <h4>Couldn't preview file </h4>
+                <p>File: <span className='font13'>{extractFileName(allTicket.escalate_image)}</span></p>
+                <a href={allTicket.escalate_image} download onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}>
+                  Download File
+                </a>
+              </div>
+            )}
+          </>
+        )}
       </section>
 
       <div

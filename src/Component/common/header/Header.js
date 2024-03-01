@@ -67,8 +67,8 @@ export default function Header(props) {
 
             <Nav.Link>
               <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
-                <span className="iconContainer walletIcon">
-                  <div className="walletBalance">₹ 6206.45</div>
+                <span className="iconContainer walletIcon px-2">
+                  <div className="walletBalance">₹ 10,00,000</div>
                   <WalletIcon />
                   {/* <FontAwesomeIcon icon={faWallet} /> */}
                 </span>

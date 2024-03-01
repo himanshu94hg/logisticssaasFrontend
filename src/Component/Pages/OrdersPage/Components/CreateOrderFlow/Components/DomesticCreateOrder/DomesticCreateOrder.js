@@ -26,7 +26,7 @@ const DomesticCreateOrder = () => {
             payment_type: '',
             order_date: currentDate,
             order_type: "",
-            channel:"custom",
+            channel: "custom",
             channel_id: null
         },
         shipping_details: {
@@ -87,19 +87,11 @@ const DomesticCreateOrder = () => {
                 export_reference_number: ""
             }
         ],
-        // products: [
-        //     {
-        //         product_name: "",
-        //         order_type: "",
-        //         price: "",
-        //         product_qty: "",
-        //         sku: "",
-        //         hsn_code: "",
-        //         tax_rate: "",
-        //         discount: ""
-        //     }
-        // ],
+
     })
+
+
+    console.log(formData, "formDataformDataformData")
 
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
@@ -127,7 +119,7 @@ const DomesticCreateOrder = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await axios.post('http://65.2.38.87:8080/orders-api/orders/', formData, {
+            const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`
@@ -153,25 +145,10 @@ const DomesticCreateOrder = () => {
                 } else {
                     // Handle error responses
                     const errorData = response.data;
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Error Creating Order',
-                        text: 'An error occurred while creating the order. Please try again.',
-                        customClass: {
-                            confirmButton: 'btn main-button', // Add your custom class here
-                        },
-                    });
+
                 }
             } else {
-                // Handle case where response is null
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error Creating Order',
-                    text: 'No response received from the server. Please try again later.',
-                    customClass: {
-                        confirmButton: 'btn main-button', // Add your custom class here
-                    },
-                });
+
             }
         } catch (error) {
             // Handle fetch error
@@ -332,7 +309,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             }
         });
     };
-    
+
 
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
@@ -527,6 +504,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
+
     const handleChangeShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -536,10 +514,15 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
             }
 
         }));
+        setFormData(prevData => ({
+            ...prevData,
+            billing_details: {
+                ...prevData.shipping_details,
+                [field]: e.target.value
+            }
+
+        }));
     };
-
-
-
 
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
@@ -582,8 +565,10 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
 
     const handleCheckboxChange = () => {
-        setIsChecked(!isChecked);
-        if (isChecked) {
+        const updatedIsChecked = !isChecked;
+        setIsChecked(updatedIsChecked);
+
+        if (updatedIsChecked) {
             setFormData(prevData => ({
                 ...prevData,
                 billing_details: {
@@ -591,8 +576,26 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                     customer_name: prevData.shipping_details.recipient_name
                 }
             }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    ...prevData.billing_details,
+                    contact_code: '',
+                    mobile_number: '',
+                    email: '',
+                    company_name: '',
+                    address: '',
+                    landmark: '',
+                    pincode: '',
+                    city: '',
+                    state: '',
+                    country: ''
+                }
+            }));
         }
     };
+
 
     return (
         <div>
@@ -716,7 +719,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                     <div className='d-flex gap-2'>
                         <input
                             type="checkbox"
-                            checked={!isChecked}
+                            checked={isChecked}
                             onChange={handleCheckboxChange}
                         />
                         <label>Billing Address is the same as Shipping address</label>
@@ -898,6 +901,8 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
             );
         }
     }, [formData.product_details]);
+
+
 
     return (
         <div>
@@ -1096,6 +1101,28 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
         }));
     };
 
+    const [finalWeight,setFinalWeight]=useState()
+
+    const vol_data=formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
+    const chargedWeight= formData?.dimension_details.weight;
+
+    useEffect(() => {
+        if (vol_data && chargedWeight) {
+            if (vol_data >= chargedWeight) {
+                setFinalWeight(vol_data);
+            } else {
+                setFinalWeight(chargedWeight);
+            }
+        } else if (vol_data) {
+            setFinalWeight(vol_data);
+        } else if (chargedWeight) {
+            setFinalWeight(chargedWeight);
+        }
+    }, [vol_data, chargedWeight]);
+
+
+    console.log(finalWeight,"this is a final data")
+
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -1122,6 +1149,8 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                     <hr />
                     <div className=''>
                         <div className='fw-bold lh-base'>Dead Weight<br />
+
+                       {/* { console.log(formData.)} */}
                             <input
                                 className='input-field'
                                 style={{ minWidth: '15    0px' }}
@@ -1169,7 +1198,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                         </label>
                     </div>
                     <div className="volumetric-weight">
-                        <p>Estimated Volumetric Weight &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000} Kg</p>
+                        <p>Charged Weight:&nbsp; {finalWeight} Kg</p>
                     </div>
 
                 </div>
@@ -1284,7 +1313,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://65.2.38.87:8088/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`http://65.2.38.87:8081/core-api/features/warehouse/?seller_id=${sellerData}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
@@ -1336,9 +1365,11 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                                 checked={formData.order_details.warehouse_id === warehouse.id}
                                                 onChange={handleRadioChange}
                                             />
-                                            <div>
-                                                <div className='warehouse-heading'>{warehouse.warehouse_name}</div>
-                                                <p className='warehouse-description'>{warehouse.address_line1}</p>
+                                            <div className='d-flex h-100 flex-column justify-content-between'>
+                                                <div>
+                                                    <p className='warehouse-heading'>{warehouse.warehouse_name}</p>
+                                                    <p className='warehouse-description'>{warehouse.address_line1}, near {warehouse.address_line2}, {warehouse.city}, {warehouse.state}, {warehouse.pincode}, {warehouse.country}</p>
+                                                </div>
                                                 <p className="warehouse-description font13 mt-3">Mobile: {warehouse.contact_number}</p>
                                             </div>
                                         </label>

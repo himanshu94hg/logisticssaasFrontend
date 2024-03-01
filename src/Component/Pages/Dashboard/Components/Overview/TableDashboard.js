@@ -1,62 +1,86 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Table from "react-bootstrap/Table";
+import React, { useState } from "react";
 
+// Custom Table component
+function CustomTable({ data }) {
+  return (
+    <table className="custom-table w-100">
+      <thead>
+        <tr>
+          <th>Customer Order Number</th>
+          <th>Awb number</th>
+          <th>Courier Partner</th>
+          <th>Shipping Charges</th>
+          <th>Total Charges</th>
+          <th>Weight</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {data.map((order) => (
+          <tr key={order.order_number}>
+            <td>{order.customer_order_number}</td>
+            <td>{order.awb_number || "N/A"}</td>
+            <td>{order.courier_partner || "N/A"}</td>
+            <td>{order.shipping_charges || 0.0}</td>
+            <td>{order.total_charges || "N/A"}</td>
+            <td>{order.weight}</td>
+            <td>{order.status}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+// TableDashboard component
 function TableDashboard() {
-  const [lastThirtyDayaData, setLastThirtyDayaData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8088/api/v1/lastthirtydata/')
-      .then(response => {
-        console.log('Data:', response.data);
-        setLastThirtyDayaData(response.data);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setIsLoading(false);
-      });
-  }, []);
+  // Dummy data array
+  const dummyData = [
+    {
+      order_number: 1,
+      customer_order_number: "CUS123",
+      awb_number: "AWB123",
+      courier_partner: "Courier A",
+      shipping_charges: 5.99,
+      total_charges: 25.99,
+      weight: "1 kg",
+      status: "Delivered"
+    },
+    {
+      order_number: 2,
+      customer_order_number: "CUS456",
+      awb_number: "AWB456",
+      courier_partner: "Courier B",
+      shipping_charges: 7.99,
+      total_charges: 30.99,
+      weight: "2 kg",
+      status: "Pending"
+    },
+    {
+      order_number: 3,
+      customer_order_number: "CUS789",
+      awb_number: "AWB789",
+      courier_partner: "Courier C",
+      shipping_charges: 9.99,
+      total_charges: 35.99,
+      weight: "3 kg",
+      status: "Shipped"
+    }
+    // Add more dummy data as needed
+  ];
 
   return (
-    <div className="box-shadow shadow-sm p10 last-orders">
+    <div className="box-shadow shadow-sm p10 top-selling-page">
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="title">Last 30 Days Order</h4>
       </div>
       <div className="table-responsive">
-        {isLoading ? (
-          <p>Loading...</p>
+        {!isLoading ? (
+          <CustomTable data={dummyData} />
         ) : (
-          <Table hover className="table-ui mt20">
-            <thead>
-              <tr className="text-nowrap">
-                <th>Order Id</th>
-                <th>Customer Order Number</th>
-                <th>Awb number</th>
-                <th>Courier Partner</th>
-                <th>Shipping Charges</th>
-                <th>Total Charges</th>
-                <th>Weight</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {lastThirtyDayaData.map((order) => (
-                <tr key={order.order_number}>
-                  <td>{order.order_number}</td>
-                  <td className="ws-nowrap">{order.customer_order_number}</td>
-                  <td>{order.awb_number || 'N/A'}</td>
-                  <td>{order.courier_partner || 'N/A'}</td>
-                  <td>{order.shipping_charges || 0.0}</td>
-                  <td>{order.total_charges || 'N/A'}</td>
-                  <td>{order.weight}</td>
-                  <td>{order.status}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+          <p>Loading...</p>
         )}
       </div>
     </div>
