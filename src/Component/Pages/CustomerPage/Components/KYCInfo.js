@@ -5,7 +5,7 @@ import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
 
-const KYCInfo = () => {
+const KYCInfo = ({activeTab}) => {
   const [hardcodedToken] = useState(Cookies.get('access_token'));
   const [formData, setFormData] = useState({
     companyType: '',
@@ -17,8 +17,10 @@ const KYCInfo = () => {
   const [formList, setFormList] = useState([]);
 
   useEffect(() => {
-    fetchKYCData();
-  }, []);
+    if(activeTab==="KYC Information"){
+      fetchKYCData();
+    }
+  }, [activeTab]);
 
   const fetchKYCData = async () => {
     try {
@@ -49,7 +51,6 @@ const KYCInfo = () => {
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
     const updatedValue = type === 'file' ? files[0] : value;
-
     setFormData({
       ...formData,
       [name]: updatedValue,

@@ -504,6 +504,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
+
     const handleChangeShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -513,10 +514,15 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
             }
 
         }));
+        setFormData(prevData => ({
+            ...prevData,
+            billing_details: {
+                ...prevData.shipping_details,
+                [field]: e.target.value
+            }
+
+        }));
     };
-
-
-
 
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
@@ -572,7 +578,8 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
             }));
         }
     };
-    console.log(isChecked, "this iss checked datatata", formData)
+
+    
 
     return (
         <div>
@@ -1078,6 +1085,28 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
         }));
     };
 
+    const [finalWeight,setFinalWeight]=useState()
+
+    const vol_data=formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
+    const chargedWeight= formData?.dimension_details.weight;
+
+    useEffect(() => {
+        if (vol_data && chargedWeight) {
+            if (vol_data >= chargedWeight) {
+                setFinalWeight(vol_data);
+            } else {
+                setFinalWeight(chargedWeight);
+            }
+        } else if (vol_data) {
+            setFinalWeight(vol_data);
+        } else if (chargedWeight) {
+            setFinalWeight(chargedWeight);
+        }
+    }, [vol_data, chargedWeight]);
+
+
+    console.log(finalWeight,"this is a final data")
+
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -1104,6 +1133,8 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                     <hr />
                     <div className=''>
                         <div className='fw-bold lh-base'>Dead Weight<br />
+
+                       {/* { console.log(formData.)} */}
                             <input
                                 className='input-field'
                                 style={{ minWidth: '15    0px' }}
@@ -1151,7 +1182,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                         </label>
                     </div>
                     <div className="volumetric-weight">
-                        <p>Estimated Volumetric Weight &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000} Kg</p>
+                        <p>Charged Weight:&nbsp; {finalWeight} Kg</p>
                     </div>
 
                 </div>

@@ -7,8 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
 import { alphaNum, alphabetic, emailRegx, gstRegx, panRegex, webUrlRegx } from '../../../../regex';
 import "./basicInfo.css"
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
+import { awsAccessKey } from '../../../../config';
 
-const BasicInfo = () => {
+const BasicInfo = ({activeTab}) => {
   const [errors, setErrors] = useState({});
   const [logoError, setLogoError] = useState("");
   const [docsError, setDocsError] = useState("");
@@ -23,15 +25,14 @@ const BasicInfo = () => {
     website_url: '',
     mobile: '',
     gst_number: '',
-    gst_certificate: "kj",
+    gst_certificate: "",
     pan_number: '',
     street: '',
     pincode: '',
     city: '',
     country: '',
-    landmark: '',
     state: '',
-    company_logo: "ddd",
+    company_logo: "",
   });
 
   const handleChange = (e) => {
@@ -135,44 +136,50 @@ const BasicInfo = () => {
   };
 
   useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8081/core-api/seller/basic-info/', {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-        },
-      })
-      .then(response => {
-        setBasicInfoList(response.data);
-        const basicInfoData = response.data[0] || {};
-        setFormData(prevState => ({
-          ...prevState,
-          company_name: basicInfoData.company_name || '',
-          email: basicInfoData.email || '',
-          pan_number: basicInfoData.pan_number || '',
-          gst_number: basicInfoData.gst_number || '',
-          street: basicInfoData.street || '',
-          pincode: basicInfoData.pincode || '',
-          city: basicInfoData.city || '',
-          country: basicInfoData.city || '',
-          state: basicInfoData.state || '',
-          website_url: basicInfoData.website_url || '',
-          mobile: basicInfoData.mobile || '',
-        }));
-      })
-      .catch(error => {
-        console.error('Error fetching basic info:', error);
-      });
-  }, []);
+    if(activeTab==="Basic Information"){
+      axios
+        .get('http://65.2.38.87:8081/core-api/seller/basic-info/', {
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+          },
+        })
+        .then(response => {
+          setBasicInfoList(response.data);
+          const basicInfoData = response.data[0] || {};
+          setFormData(prevState => ({
+            ...prevState,
+            company_name: basicInfoData.company_name || '',
+            email: basicInfoData.email || '',
+            pan_number: basicInfoData.pan_number || '',
+            gst_number: basicInfoData.gst_number || '',
+            street: basicInfoData.street || '',
+            pincode: basicInfoData.pincode || '',
+            city: basicInfoData.city || '',
+            country: basicInfoData.city || '',
+            state: basicInfoData.state || '',
+            website_url: basicInfoData.website_url || '',
+            mobile: basicInfoData.mobile || '',
+          }));
+        })
+        .catch(error => {
+          console.error('Error fetching basic info:', error);
+        });
+    }
+  }, [activeTab]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+
     const newErrors = {};
+
     Object.entries(formData).forEach(([key, value]) => {
       if (value === '') {
         newErrors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
       }
     });
     setErrors(newErrors);
+
 
     if (Object.keys(newErrors).length === 0) {
       try {
@@ -189,20 +196,65 @@ const BasicInfo = () => {
     }
   };
 
-  const uploadFile = (e, type) => {
+
+
+  const uploadFile = async (e, type) => {
     const file = e.target.files[0];
     const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
-    if (type === "company_logo" && logoFileSize > 2) {
-      setLogoError("File shouldn't be greater than 2 mb")
+    if (type === "company_logo") {
+      if (logoFileSize > 2) {
+        setLogoError("File shouldn't be greater than 2 mb")
+      } else {
+        try {
+          const responseData = await getFileData(`customerData/${e.target.files[0].name}`);
+          const awsUrl = responseData.data.url.url
+          const formData = new FormData();
+          formData.append('key', responseData.data.url.fields.key);
+          formData.append('file', e.target.files[0]);
+          formData.append('AWSAccessKeyId', awsAccessKey);
+          formData.append('policy', responseData.data.url.fields.policy);
+          formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+          const additionalData = await uploadImageData(awsUrl, formData);
+          if (additionalData?.status == 204) {
+            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+            setFormData(prev => ({
+              ...prev,
+              company_logo: imageUrl
+            }));
+          }
+        } catch (error) {
+          console.error('Error handling file change:', error);
+        }
+      }
     }
-    
-    if (type === "gstCertificate" && logoFileSize > 2) {
-      setDocsError("File shouldn't be greater than 3 mb")
+
+    if (type === "gstCertificate") {
+      if (logoFileSize > 2) {
+        setDocsError("File shouldn't be greater than 3 mb")
+      }
+      else {
+        try {
+          const responseData = await getFileData(e.target.files[0].name);
+          const awsUrl = responseData.data.url.url
+          const formData = new FormData();
+          formData.append('key', responseData.data.url.fields.key);
+          formData.append('file', e.target.files[0]);
+          formData.append('AWSAccessKeyId', awsAccessKey);
+          formData.append('policy', responseData.data.url.fields.policy);
+          formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+          const additionalData = await uploadImageData(awsUrl, formData);
+          if (additionalData?.status == 204) {
+            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+            setFormData(prev => ({
+              ...prev,
+              gst_certificate: imageUrl
+            }));
+          }
+        } catch (error) {
+          console.error('Error handling file change:', error);
+        }
+      }
     }
-    setFormData(prevState => ({
-      ...prevState,
-      [type]: file,
-    }));
 
     const previewURL = URL.createObjectURL(file);
     if (type === 'gstCertificate') {
@@ -211,6 +263,7 @@ const BasicInfo = () => {
       setLogoPreview(previewURL);
     }
   };
+
   const handlePreview = () => {
     if (pdfPreview === null) {
       setViewAttachmentContent(false);
@@ -277,7 +330,7 @@ const BasicInfo = () => {
                       placeholder='Enter your website URL'
                       className={`input-field ${errors.website_url && "input-field-error"}`}
                       type="text" name="website_url" value={formData.website_url}
-                      onChange={handleChange} 
+                      onChange={handleChange}
                       onKeyUp={handleRegex}
                     />
                     {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
@@ -330,13 +383,12 @@ const BasicInfo = () => {
                 <div className='d-flex gap-3'>
                   <label>
                     <span>Address<span className='text-danger'>*</span></span>
-                    <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field ${errors.email && "input-field-error"}`} type="text" name="street" value={formData.street} onChange={handleChange} />
+                    <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange} />
                     {errors.street && <span className="custom-error">{errors.street}</span>}
                   </label>
                   <label>
                     Landmark
                     <input placeholder="Any nearby post office, market, Hospital as the landmark" className={`input-field`} type="text" name="landmark" value={formData.landmark} onChange={handleChange} />
-                    {/* {errors.landmark && <span className="custom-error">{errors.landmark}</span>} */}
                   </label>
                 </div>
                 <div className='d-flex gap-3 mt-3'>

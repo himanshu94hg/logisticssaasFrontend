@@ -30,13 +30,15 @@ const FormInput = ({ label, mandatory, type, value, onChange, options, name, fil
 const CreateTicketForm = (props) => {
   const [allCatagery, setAllCatagery] = useState([]);
   const [allSubCatagry, setAllSubCatagry] = useState([]);
+
+  
   const [ticketData, setTicketData] = useState({
     category: 1,
     sub_category: null,
     awb_number: "",
     description: "",
-    issue: "",
-    // escalate_image: "",
+    // issue: "",
+    escalate_image: "",
   })
 
   const authToken = Cookies.get("access_token")
@@ -127,9 +129,11 @@ const CreateTicketForm = (props) => {
             sub_category: null,
             awb_number: "",
             description: "",
-            issue: "",
-            // escalate_image:""
+            // issue: "",
+            escalate_image:""
           })
+          props?.setStatus(!props.status)
+          props.setNewTicket(false)
           document.getElementById("fileInput").value = "";
         } else {
           console.error('Form submission failed');

@@ -16,36 +16,6 @@ const AgreementInfo = () => {
   });
 
 
-  useEffect(() => {
-    axios
-      .get('http://65.2.38.87:8081/core-api/seller/basic-info/', {
-        headers: {
-          'Authorization': `Bearer ${hardcodedToken}`,
-        },
-      })
-      .then(response => {
-        setBasicinfo(response.data);
-        // const basicInfoData = response.data[0] || {};
-        // setCompanyName(basicInfoData.company_name || '');
-        // setEmail(basicInfoData.email || '');
-        // setPanNumber(basicInfoData.pan_number || '');
-        // setGstNumber(basicInfoData.gst_number || '');
-        // setStreetName(basicInfoData.street || '');
-        // setZipCode(basicInfoData.pincode || '');
-        // setCityName(basicInfoData.city || '');
-        // setStateName(basicInfoData.state || '');
-        // setWebsite(basicInfoData.website_url || '');
-        // setMobileNumber(basicInfoData.mobile || '');
-
-        // Set other fields similarly
-
-
-        // setWebsite
-      })
-      .catch(error => {  // Add a .catch block here
-        console.error('Error fetching basic info:', error);
-      });
-  }, []);
   const componentRef = useRef();
 
   const handlePrint = useReactToPrint({
