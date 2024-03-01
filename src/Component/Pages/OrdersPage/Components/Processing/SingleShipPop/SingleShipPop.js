@@ -68,7 +68,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     });
                 }
             }).catch((error) => {
-                console.log("Error", error)
+                toast.error("Pincode is not serviceable! ")
             });
     };
     console.log("partner", shipingResponse);

@@ -4,6 +4,7 @@ import { awsAccessKey } from '../../../../config';
 import React, { useState, useEffect } from 'react';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import './createTicket.css'
+import { toast } from 'react-toastify';
 
 // Reusable FormInput component
 const FormInput = ({ label, mandatory, type, value, onChange, options, name, fileInput, customClass }) => (
@@ -62,7 +63,7 @@ const CreateTicketForm = (props) => {
         setAllCatagery(response.data);
       })
       .catch(error => {
-        console.error('Error:', error);
+        toast.error('Error :', error)
       });
   }, []);
 
@@ -85,7 +86,7 @@ const CreateTicketForm = (props) => {
           }
         })
         .catch(error => {
-          console.error('Error fetching subcategories:', error);
+           toast.error('Error fetching subcategories:', error)
         });
     } else {
       setAllSubCatagry([]);
@@ -123,6 +124,7 @@ const CreateTicketForm = (props) => {
         });
 
         if (response.status === 201) {
+          toast.success("Ticket created successfully")
           setTicketData({
             category: 1,
             sub_category: null,
@@ -134,10 +136,10 @@ const CreateTicketForm = (props) => {
           props.setNewTicket(false)
           document.getElementById("fileInput").value = "";
         } else {
-          console.error('Form submission failed');
+          toast.error("Something went wrong!")
         }
       } catch (error) {
-        console.error('API call error:', error);
+        toast.error("Something went wrong!")
       }
     }
 
