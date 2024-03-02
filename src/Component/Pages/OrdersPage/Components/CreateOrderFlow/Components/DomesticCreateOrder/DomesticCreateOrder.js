@@ -581,6 +581,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData,
                 billing_details: {
                     ...prevData.billing_details,
+                    customer_name:'',
                     contact_code: '',
                     mobile_number: '',
                     email: '',
@@ -1150,7 +1151,7 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
                     <div className=''>
                         <div className='fw-bold lh-base'>Dead Weight<br />
 
-                       {/* { console.log(formData.)} */}
+                            {/* { console.log(formData.)} */}
                             <input
                                 className='input-field'
                                 style={{ minWidth: '15    0px' }}
