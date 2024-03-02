@@ -10,10 +10,13 @@ const FilterTicketsForm = (props) => {
   const [subcatList, setSubcategory] = useState([]);
   const [endDate, setEndDate] = useState(new Date());
   const [selectedStatus, setSelectedStatus] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState(null);
   const [resolutionDate, setResolutionDate] = useState(new Date());
 
   const authToken = Cookies.get("access_token")
+
+
+  console.log(selectedCategories,"selectedCategoriesselectedCategoriesselectedCategories")
 
   useEffect(() => {
     if (props.filterClick) {
@@ -34,7 +37,7 @@ const FilterTicketsForm = (props) => {
   }, [props.filterClick]);
 
   const handleChange = (selectedOption) => {
-    setSelectedCategories(selectedOption);
+    setSelectedCategories(selectedOption.value);
   };
 
   const handleStatusChange = (selectedOption) => {
@@ -53,6 +56,8 @@ const FilterTicketsForm = (props) => {
     props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
   };
 
+
+  console.log(selectedCategories, selectedStatus, resolutionDate, endDate,"this is image daa")
   const StatusOptions = [
     { value: 'All', label: 'All' },
     { value: 'Open', label: 'Open' },

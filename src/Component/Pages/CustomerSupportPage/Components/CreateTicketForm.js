@@ -78,7 +78,6 @@ const CreateTicketForm = (props) => {
         })
         .then(response => {
           setAllSubCatagry(response.data);
-          // Select the first subcategory by default
           if (response.data.length > 0) {
             setTicketData(prevData => ({
               ...prevData,
