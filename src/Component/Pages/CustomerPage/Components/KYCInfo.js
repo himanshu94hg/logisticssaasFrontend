@@ -8,43 +8,51 @@ import Cookies from 'js-cookie';
 const KYCInfo = () => {
   const [hardcodedToken] = useState(Cookies.get('access_token'));
   const [formData, setFormData] = useState({
-    companyType: '',
-    documentType: '',
-    uploadDocument: "https://www.abc.com",
-    documentName: '',
-    documentNumber: '',
+    company_type: "",
+    document_type: "",
+    document_id: "",
+    document_name: "",
+    document_upload: "https://www.abc.com",
+
   });
   const [formList, setFormList] = useState([]);
   const [errors, setErrors] = useState([]);
+  const [resData,setResData]=useState("")
 
-  // useEffect(() => {
-  //   fetchKYCData();
-  // }, []);
+  useEffect(() => {
+    fetchKYCData();
+  }, []);
 
-  // const fetchKYCData = async () => {
-  //   try {
-  //     const response = await axios.get('http://65.2.38.87:8081/core-api/seller/kyc-info/', {
-  //       headers: {
-  //         'Authorization': `Bearer ${hardcodedToken}`
-  //       }
-  //     });
-  //     const [firstItem] = response.data;
-  //     setFormData({
-  //       companyType: firstItem?.company_type || '',
-  //       documentType: firstItem?.document_type || '',
-  //       uploadDocument: null,
-  //       documentName: firstItem?.document_name || '',
-  //       documentNumber: firstItem?.document_id || '',
-  //     });
-  //     setFormList(response.data.map(item => ({
-  //       documentType: item.document_type,
-  //       documentName: item.document_name,
-  //       documentNumber: item.document_id
-  //     })));
-  //   } catch (error) {
-  //     console.error('Error fetching KYC data:', error);
-  //   }
-  // };
+  console.log(formData,"formDataformData?????????????")
+
+  const fetchKYCData = async () => {
+    try {
+      const response = await axios.get('http://65.2.38.87:8081/core-api/seller/kyc-info/', {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`
+        }
+      });
+      setResData(response?.data[0]?.company_type)
+      console.log(response?.data[0]?.company_type,"responseresponse")
+
+      // const [firstItem] = response.data;
+      // setFormData({
+      //   companyType: firstItem?.company_type || '',
+      //   documentType: firstItem?.document_type || '',
+      //   uploadDocument: null,
+      //   documentName: firstItem?.document_name || '',
+      //   documentNumber: firstItem?.document_id || '',
+      // });
+      setFormList(response.data.map(item => ({
+        documentType: item.document_type,
+        documentName: item.document_name,
+        documentNumber: item.document_id,
+        companyType: item.company_type
+      })));
+    } catch (error) {
+      console.error('Error fetching KYC data:', error);
+    }
+  };
 
 
   const handleChange = (e) => {
@@ -70,9 +78,12 @@ const KYCInfo = () => {
           },
         }
       );
+      if(response.status==201){
+        fetchKYCData()
+      }
       setFormList([...formList, formData]);
       setFormData({
-        companyType: '',
+        companyType: 'aaa',
         documentType: '',
         uploadDocument: null,
         documentName: '',
@@ -85,12 +96,25 @@ const KYCInfo = () => {
 
 
   const handleDelete = (index) => {
-    const updatedList = [...formList];
-    updatedList.splice(index, 1);
-    setFormList(updatedList);
+    // const updatedList = [...formList];
+    // updatedList.splice(index, 1);
+    // setFormList(updatedList);
   };
 
-  console.log(errors, "this is error data")
+  console.log(resData, "this is error data")
+
+  const [isEnabled, setIsEnabled] = useState(false)
+
+  useEffect(() => {
+    if (resData=== undefined || resData.length===0) {
+      setIsEnabled(false)
+    }
+    else {
+      setIsEnabled(true)
+    }
+  }, [resData])
+
+console.log(isEnabled,"this is enabled data")
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -102,9 +126,11 @@ const KYCInfo = () => {
               <label style={{ width: '49%' }}>
                 Company Type:
                 <select
+                  // isEnabled
+                  disabled={isEnabled}
                   className="select-field"
-                  name="companyType"
-                  value={formData.companyType}
+                  name="company_type"
+                  value={resData!=""?resData:formData.company_type}
                   onChange={handleChange}
                 >
                   <option value="">Select Company Type</option>
@@ -125,8 +151,8 @@ const KYCInfo = () => {
                   Document Type:
                   <select
                     className="select-field"
-                    name="documentType"
-                    value={formData.documentType}
+                    name="document_type"
+                    value={formData.document_type}
                     onChange={handleChange}
                   >
                     <option value="">Select Document Type</option>
@@ -152,8 +178,8 @@ const KYCInfo = () => {
                   <input
                     className="input-field"
                     type="text"
-                    name="documentName"
-                    value={formData.documentName}
+                    name="document_name"
+                    value={formData.document_name}
                     onChange={handleChange}
                   />
                   {errors[0] == "" && <span className="error-text">{errors[0]}</span>}
@@ -163,8 +189,8 @@ const KYCInfo = () => {
                   <input
                     className="input-field"
                     type="text"
-                    name="documentNumber"
-                    value={formData.documentNumber}
+                    name="document_id"
+                    value={formData.document_id}
                     onChange={handleChange}
                   />
                 </label>

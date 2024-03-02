@@ -4,6 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 import "./basicInfo.css"
+import { awsAccessKey } from '../../../../config';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -33,7 +35,7 @@ const AccountInfo = ({ activeTab }) => {
         ifscCode: account.ifsc_code,
         bankName: account.bank_name,
         branchName: account.bank_branch,
-        chequeImage: null
+        chequeImage: "https://www.google.com"
       })));
       setPdfPreviews(Array(response.data.length).fill(null));
       setErrors(Array(response.data.length).fill({}));
@@ -131,13 +133,35 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
-  const handleFileChange = (e, index) => {
+  const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
     const updatedAccounts = [...accounts];
     updatedAccounts[index].chequeImage = file;
     setAccounts(updatedAccounts);
     const previewURL = URL.createObjectURL(file);
     setPdfPreviews((prevPreviews) => [...prevPreviews, previewURL]);
+    try {
+      const responseData = await getFileData(`customerData/${e.target.files[0].name}`);
+      const awsUrl = responseData.data.url.url
+      const formData = new FormData();
+      formData.append('key', responseData.data.url.fields.key);
+      formData.append('file', e.target.files[0]);
+      formData.append('AWSAccessKeyId', awsAccessKey);
+      formData.append('policy', responseData.data.url.fields.policy);
+      formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+      const additionalData = await uploadImageData(awsUrl, formData);
+      if (additionalData?.status == 204) {
+        const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+        setAccounts(prevAccounts => {
+          const updatedAccounts = [...prevAccounts];
+          updatedAccounts[index].chequeImage = imageUrl;
+          return updatedAccounts;
+        });
+      }
+    } catch (error) {
+      console.error('Error handling file change:', error);
+    }
+
   };
 
   const handlePreview = () => {
@@ -153,7 +177,7 @@ const AccountInfo = ({ activeTab }) => {
       <form onSubmit={handleSubmit}>
         <div className='customer-details-container'>
           <div>
-            {accounts.map((account, index) => (
+            {accounts?.map((account, index) => (
               <div className='customer-details-form' key={index}>
                 <div className='details-form-row row'>
                   <div className='col-3'>

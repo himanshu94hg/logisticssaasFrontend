@@ -9,6 +9,7 @@ import { alphaNum, alphabetic, emailRegx, gstRegx, panRegex, webUrlRegx } from '
 import "./basicInfo.css"
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { awsAccessKey } from '../../../../config';
+import { toast } from 'react-toastify';
 
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
@@ -30,7 +31,7 @@ const BasicInfo = ({ activeTab }) => {
     street: '',
     pincode: '',
     city: '',
-    country: '',
+    country: 'India',
     state: '',
     company_logo: "",
   });
@@ -108,13 +109,13 @@ const BasicInfo = ({ activeTab }) => {
           }))
         }
         break;
-      case 'gst_number':
-        if (gstRegx.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
+      // case 'gst_number':
+      //   if (gstRegx.test(value)) {
+      //     setFormData(prev => ({
+      //       ...prev,
+      //       [name]: value
+      //     }))
+      //   }
         break;
       default:
         break;
@@ -125,23 +126,15 @@ const BasicInfo = ({ activeTab }) => {
         const response = await axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`);
         console.log(response, "this is response")
         if (response.data && response.data.length > 0) {
-          const dist = response.data[0]?.PostOffice[0]?.District;
-          const state = response.data[0]?.PostOffice[0]?.State;
+        
+          const district = response.data[0]?.PostOffice[0]?.District;
+            const state = response.data[0]?.PostOffice[0]?.State;
 
-          console.log(name, dist, "this is state data")
-
-          if (name === "city") {
             setFormData(prev => ({
               ...prev,
-              [name]: dist
-            }))
-          }
-          if (name === "state") {
-            setFormData(prev => ({
-              ...prev,
-              [name]: state
-            }))
-          }
+              city: district || '',
+              state: state || '',
+            }));
         } else {
           throw new Error('No data found for the given pincode.');
         }
@@ -174,7 +167,7 @@ const BasicInfo = ({ activeTab }) => {
             street: basicInfoData.street || '',
             pincode: basicInfoData.pincode || '',
             city: basicInfoData.city || '',
-            country: basicInfoData.city || '',
+            country: 'India',
             state: basicInfoData.state || '',
             website_url: basicInfoData.website_url || '',
             mobile: basicInfoData.mobile || '',
@@ -198,7 +191,7 @@ const BasicInfo = ({ activeTab }) => {
     setErrors(newErrors);
 
 
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(newErrors).length <=2) {
       try {
         const response = await axios.post('http://65.2.38.87:8081/core-api/seller/basic-info/', formData, {
           headers: {
@@ -206,6 +199,10 @@ const BasicInfo = ({ activeTab }) => {
           },
         });
 
+        console.log(response,"response")
+              if(response?.status===201){
+                toast.success("Details update successfully")
+              }
         // Handle successful form submission
       } catch (error) {
         console.error('Error during form submission:', error);
@@ -213,6 +210,8 @@ const BasicInfo = ({ activeTab }) => {
     }
   };
 
+
+  console.log(errors,"this is errors data")
 
 
   const uploadFile = async (e, type) => {
@@ -314,9 +313,6 @@ const BasicInfo = ({ activeTab }) => {
       }));
     }
   }
-
-  console.log(formData, "this is formdata")
-
 
   return (
     <>
@@ -429,7 +425,7 @@ const BasicInfo = ({ activeTab }) => {
                   </label>
                   <label>
                     <span>Country<span className='custom-error'> *</span></span>
-                    <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
+                    <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
                     {errors.country && <span className="custom-error">{errors.country}</span>}
                   </label>
                 </div>
