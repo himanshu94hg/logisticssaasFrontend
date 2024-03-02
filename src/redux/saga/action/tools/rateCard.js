@@ -12,7 +12,7 @@ const sellerId=Cookies.get("user_id")
 async function rateCardAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url:  `${BASE_URL_CORE}${API_URL.GET_RATE_CARD}${sellerId}/`,
+        url:  `${BASE_URL_CORE}${API_URL.GET_RATE_CARD}`,
         // data: data
     });
     return listData
