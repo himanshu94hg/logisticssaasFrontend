@@ -32,7 +32,7 @@ const ShippingRates = () => {
             <React.Fragment key={item.partner + index}>
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3}>{item.partner}</td>
-                    <td>Forward Weight</td>
+                    <td>Forward</td>
                     <td>{item.zone_a}</td>
                     <td>{item.zone_b}</td>
                     <td>{item.zone_c}</td>
