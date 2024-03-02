@@ -1,3 +1,4 @@
+import moment from 'moment';
 import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 
@@ -158,7 +159,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {moment(row.datetime).format("YYYY-MM-DD")}
                                                 </p>
                                             </div>
                                         </td>
@@ -166,7 +167,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row?.id}
                                                 </p>
                                             </div>
                                         </td>
@@ -182,15 +183,15 @@ const PassbookTab = ({billingCard}) => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹  {row.name}
+                                                   {row?.transaction_type=="c" ?"₹"+row.amount:null}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* Applied Weight Charges */}
-                                            <div className='cell-inside-box'>
+                                            <div classamount='cell-inside-box'>
                                                 <p className=''>
-                                                ₹   {row.name}
+                                                 {row?.transaction_type=="d" ?("₹"+row.amount):null}
                                                 </p>
                                             </div>
                                         </td>
@@ -198,7 +199,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                ₹  {row.name}
+                                                ₹  {row.balance}
                                                 </p>
                                             </div>
                                         </td>
@@ -206,7 +207,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row.status}
                                                 </p>
                                             </div>
                                         </td>
