@@ -14,5 +14,6 @@ export const API_URL = {
     GET_REPORT_SCHEDULER:"/orders-api/report-scheduler/reports/",
     GET_BILLING_URL:"/users",
     GET_RATE_THROUGH_ORDERID:"/orders-api/orders/order-detail/",
-    GET_SERVICE_ABILITY:"/courier-api/courier/tools/check-pincode-serviceability/"
+    GET_SERVICE_ABILITY:"/courier-api/courier/tools/check-pincode-serviceability/",
+    GET_ZONE_MAPPING:"/core-api/seller/tools/zone-mapping/"
 };
