@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Swal from 'sweetalert2';
-import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { awsAccessKey } from '../../../../config';
+import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
-const KYCInfo = () => {
+const KYCInfo = ({activeTab}) => {
   const [hardcodedToken] = useState(Cookies.get('access_token'));
   const [formData, setFormData] = useState({
     company_type: "",
@@ -17,13 +19,12 @@ const KYCInfo = () => {
   });
   const [formList, setFormList] = useState([]);
   const [errors, setErrors] = useState([]);
-  const [resData,setResData]=useState("")
+  const [resData,setResData]=useState("");
 
   useEffect(() => {
+    if(activeTab === "KYC Information")
     fetchKYCData();
-  }, []);
-
-  console.log(formData,"formDataformData?????????????")
+  }, [activeTab]);
 
   const fetchKYCData = async () => {
     try {
@@ -33,16 +34,6 @@ const KYCInfo = () => {
         }
       });
       setResData(response?.data[0]?.company_type)
-      console.log(response?.data[0]?.company_type,"responseresponse")
-
-      // const [firstItem] = response.data;
-      // setFormData({
-      //   companyType: firstItem?.company_type || '',
-      //   documentType: firstItem?.document_type || '',
-      //   uploadDocument: null,
-      //   documentName: firstItem?.document_name || '',
-      //   documentNumber: firstItem?.document_id || '',
-      // });
       setFormList(response.data.map(item => ({
         documentType: item.document_type,
         documentName: item.document_name,
@@ -50,20 +41,43 @@ const KYCInfo = () => {
         companyType: item.company_type
       })));
     } catch (error) {
-      console.error('Error fetching KYC data:', error);
+      toast.error('Error fetching KYC data:', error);
     }
   };
 
-
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const { name, value, type, files } = e.target;
-    const updatedValue = type === 'file' ? files[0] : value;
-
+    let updatedValue;
+    if (type === 'file') {
+      try {
+        const responseData = await getFileData(`customerData/${files[0].name}`);
+        const awsUrl = responseData.data.url.url;
+        const formData = new FormData();
+        formData.append('key', responseData.data.url.fields.key);
+        formData.append('file', files[0]);
+        formData.append('AWSAccessKeyId', awsAccessKey);
+        formData.append('policy', responseData.data.url.fields.policy);
+        formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+        const additionalData = await uploadImageData(awsUrl, formData);
+        if (additionalData?.status === 204) {
+          updatedValue = responseData.data.url.url + files[0].name;
+        } else {
+          throw new Error('Upload failed');
+        }
+      } catch (error) {
+        console.error('Error handling file change:', error);
+        toast.error('Error uploading file');
+        return;
+      }
+    } else {
+      updatedValue = value;
+    }
     setFormData({
       ...formData,
       [name]: updatedValue,
     });
   };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -80,6 +94,7 @@ const KYCInfo = () => {
       );
       if(response.status==201){
         fetchKYCData()
+        toast.success("KYC Details updated successfully")
       }
       setFormList([...formList, formData]);
       setFormData({
@@ -94,27 +109,9 @@ const KYCInfo = () => {
     }
   };
 
-
   const handleDelete = (index) => {
-    // const updatedList = [...formList];
-    // updatedList.splice(index, 1);
-    // setFormList(updatedList);
+  
   };
-
-  console.log(resData, "this is error data")
-
-  const [isEnabled, setIsEnabled] = useState(false)
-
-  useEffect(() => {
-    if (resData=== undefined || resData.length===0) {
-      setIsEnabled(false)
-    }
-    else {
-      setIsEnabled(true)
-    }
-  }, [resData])
-
-console.log(isEnabled,"this is enabled data")
 
   return (
     <form onSubmit={handleSubmit} encType="multipart/form-data">
@@ -127,7 +124,7 @@ console.log(isEnabled,"this is enabled data")
                 Company Type:
                 <select
                   // isEnabled
-                  disabled={isEnabled}
+                  disabled={resData=== undefined || resData.length===0?false:true}
                   className="select-field"
                   name="company_type"
                   value={resData!=""?resData:formData.company_type}
@@ -167,7 +164,7 @@ console.log(isEnabled,"this is enabled data")
                   <input
                     className="input-field"
                     type="file"
-                    name="uploadDocument"
+                    name="document_upload"
                     onChange={handleChange}
                   />
                 </label>

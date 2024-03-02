@@ -235,7 +235,7 @@ const RateCalculatorPage = () => {
                 </label>
               </div>
               <div className="mt-3">
-                <p><strong>Estimated Volumetric Weight</strong>: <span>{volWeight} Kg</span></p>
+                <p><strong>Charged Weight:</strong>: <span>{volWeight} Kg</span></p>
               </div>
               <div className='mt-3 row'>
                 <label className='col-md-6' >Payment Type

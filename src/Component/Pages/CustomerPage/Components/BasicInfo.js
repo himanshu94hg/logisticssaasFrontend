@@ -67,7 +67,7 @@ const BasicInfo = ({ activeTab }) => {
         }))
         break;
       case 'mobile':
-        const mobilePattern = /^\d{1,10}$/;
+        const mobilePattern = /^\d{0,10}$/;
         if (mobilePattern.test(value)) {
           setFormData(prev => ({
             ...prev,
@@ -109,13 +109,13 @@ const BasicInfo = ({ activeTab }) => {
           }))
         }
         break;
-      // case 'gst_number':
-      //   if (gstRegx.test(value)) {
-      //     setFormData(prev => ({
-      //       ...prev,
-      //       [name]: value
-      //     }))
-      //   }
+      case 'gst_number':
+        if (gstRegx.test(value)) {
+          setFormData(prev => ({
+            ...prev,
+            [name]: value
+          }))
+        }
         break;
       default:
         break;
@@ -250,7 +250,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       else {
         try {
-          const responseData = await getFileData(e.target.files[0].name);
+          const responseData = await getFileData(`customerData/${e.target.files[0].name}`);
           const awsUrl = responseData.data.url.url
           const formData = new FormData();
           formData.append('key', responseData.data.url.fields.key);
