@@ -358,7 +358,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                                 <DatePicker
                                     selected={formData.order_date || defaultDate}
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
-                                    dateFormat="MM/dd/yyyy"
+                                    dateFormat="dd/MM/yyyy"
                                     minDate={startOfMonth}
                                     maxDate={new Date()}
                                     className='input-field'
