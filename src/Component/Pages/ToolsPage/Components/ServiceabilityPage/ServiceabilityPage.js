@@ -3,6 +3,7 @@ import NavTabs from './navTabs/NavTabs';
 import './ServiceabilityPage.css'
 import CouriersList from './CouriersList';
 import Select, { components } from "react-select";
+import { useDispatch } from 'react-redux';
 
 
 const Option = (props) => {
@@ -30,33 +31,52 @@ const courierOptions = [
   { value: "shadowfax", label: "ShadowFax" }
 ];
 
-
-
 const ServiceabilityPage = () => {
-  const [activeTab, setActiveTab] = useState("Check Serviceability");
-
+  const dispatch = useDispatch()
   const [selectedOptions, setSelectedOptions] = useState([]);
-
+  const [zipcode, setZipcode] = useState("");
+  const [activeTab, setActiveTab] = useState("Check Serviceability");
 
   const handleChange = (selected) => {
     setSelectedOptions(selected);
   };
 
+  const getCourierAvalibility = (value) => {
+    dispatch({
+      type: "SERVICE_ABILITY_ACTION", payload: {
+        pincode_type: value,
+        pincode: zipcode
+      }
+    })
+  }
 
   return (
     <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
       <section className={`ServiceabilityPage ${activeTab === "Check Serviceability" ? "d-block" : "d-none"}`}>
         <div className="box-shadow shadow-sm p10">
           <div className='row flex-row'>
+            <div className='col d-flex align-items-center'>
+              <div className='d-flex flex-column gap-4 p10 w-100'>
+                <h5>Check Serviceable Couriers</h5>
+                <label>
+                  Enter Pickup or Delivery Pincode
+                  <input className='input-field' onChange={(e)=>setZipcode(e.target.value)} type="text" placeholder='Enter your Pincode' />
+                </label>
+                <div className='d-flex gap-2'>
+                  <button className='btn main-button' onClick={() => getCourierAvalibility("FM")}>FM Serviceability</button>
+                  <button className='btn main-button' onClick={() => getCourierAvalibility("LM")}>LM Serviceability</button>
+                </div>
+              </div>
+            </div>
+            <hr className='fm-lm-hr col-2' />
             <div className='col d-flex align-items-center'>
               <div className='d-flex flex-column gap-4 p10 w-100'>
                 <h5>Check Pickup to Delivery Serviceable Couriers</h5>
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <label className='w-100'>
                     Pickup Pincode
-                    <input className='input-field' type="text" placeholder='Enter your Pickup Pincode' />
+                    <input className='input-field'  type="text" placeholder='Enter your Pickup Pincode' />
                   </label>
                   <hr className='pair-hr' />
                   <label className='w-100'>

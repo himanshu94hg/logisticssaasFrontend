@@ -4,6 +4,8 @@ import { rateCalculatorWatcher } from "./action/tools/rateCalculator";
 import { reportSchedulerWatcher } from "./action/tools/reportScheduler";
 import { getBillingWatcher } from "./action/billing";
 import { getshipmentWatcher } from "./action/shipment";
+import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
+import { zoneMappingWatcher } from "./action/tools/zoneMapping";
 
 
 export default function* rootSaga() {
@@ -12,6 +14,8 @@ export default function* rootSaga() {
    rateCalculatorWatcher(),
    reportSchedulerWatcher(),
    getBillingWatcher(),
-   getshipmentWatcher()
+   getshipmentWatcher(),
+   serviceAbilityWatcher(),
+   zoneMappingWatcher()
   ]);
 }

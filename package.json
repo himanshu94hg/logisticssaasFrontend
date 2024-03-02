@@ -34,6 +34,7 @@
     "devextreme-aspnet-data-nojquery": "^3.0.0",
     "devextreme-react": "^23.2.3",
     "faker": "^6.6.6",
+    "file-saver": "^2.0.5",
     "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
@@ -84,7 +85,8 @@
     "round-slider": "^1.6.1",
     "styled-components": "^6.1.8",
     "sweetalert2": "^11.10.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "xlsx": "^0.18.5"
   },
   "scripts": {
     "start": "react-scripts start",

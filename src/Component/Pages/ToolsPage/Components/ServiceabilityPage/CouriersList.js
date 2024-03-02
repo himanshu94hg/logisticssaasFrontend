@@ -1,68 +1,39 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const CouriersList = () => {
     const [openPanelIndex, setOpenPanelIndex] = useState(null);
+
+
+    const { serviceAbility } = useSelector(state => state?.toolsSectionReducer)
+
+    console.log(serviceAbility, "serviceAbility")
 
     const togglePanel = (index) => {
         setOpenPanelIndex(openPanelIndex === index ? null : index);
     };
 
-    const panels = [
-        {
-            title: 'Xpressbees',
-            mode: 'Surface',
-            pointers: {
-                L1: { label: 'Prepaid Delivery', status: true },
-                L2: { label: 'Cash On Delivery', status: true },
-                L3: { label: 'Pickups', status: true },
-                L4: { label: 'Reverse Pickups', status: true }
-            }
-        },
-        {
-            title: 'Delhivery',
-            mode: 'Surface',
-            pointers: {
-                L1: { label: 'Prepaid Delivery', status: true },
-                L2: { label: 'Cash On Delivery', status: true },
-                L3: { label: 'Pickups', status: true },
-                L4: { label: 'Reverse Pickups', status: true }
-            }
-        },
-        {
-            title: 'Ecom Express',
-            mode: 'Surface',
-            pointers: {
-                L1: { label: 'Prepaid Delivery', status: true },
-                L2: { label: 'Cash On Delivery', status: true },
-                L3: { label: 'Pickups', status: true },
-                L4: { label: 'Reverse Pickups', status: true }
-            }
-        }
-    ];
 
     return (
-        <div className='row p0 mx-0 gap-3'>
-            {panels.map((panel, index) => (
-                <div key={index} className='col box-shadow shadow-sm'>
-                    <div className=''>
+        <div className='row mx-0 mb-4 gap-3'>
+            {serviceAbility?.map((panel, index) => (
+                <div key={index} className='col-md-4 box-shadow shadow-sm'>
+                    <div className='p-2'>
                         <div
                             onClick={() => togglePanel(index)}
                             className='first'
                         >
-                            {panel.title}
-                            Mode: {panel.mode}
+                          <span>{panel.title}</span>
+                           <span> Mode: {panel.mode}</span>
                         </div>
-                        {/* {openPanelIndex === index && ( */}
                         <div className='second'>
                             <ul>
-                                {Object.entries(panel.pointers).map(([pointerKey, pointer]) => (
-                                    <li key={pointerKey}>
-                                        {pointer.label} - &#10003;
-                                    </li>
-                                ))}
+                                <li>Prepaid Delivery {panel.mps_enabled ? "" : <span>&#10003;</span>}</li>
+                                <li>Cash On Delivery {panel.mps_enabled ? "" : <span>&#10003;</span>}</li>
+                                <li>Pickups {panel.mps_enabled ? "" : <span>&#10003;</span>}</li>
+                                <li>Reverse Pickups {panel.mps_enabled ? "" : <span>&#10003;</span>}</li>
                             </ul>
                         </div>
-                        {/* )} */}
                     </div>
                 </div>
             ))}

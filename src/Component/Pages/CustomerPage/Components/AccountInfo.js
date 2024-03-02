@@ -166,6 +166,7 @@ const AccountInfo = ({ activeTab }) => {
 
   const handlePreview = () => {
     if (pdfPreviews.length === 0) {
+      
       // Handle no previews available
     } else {
       setViewAttachmentContent(!viewAttachmentContent);
