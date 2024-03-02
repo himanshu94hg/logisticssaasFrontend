@@ -3,6 +3,7 @@ import { ZONE_MAPPING_ACTION } from "../../constant/tools";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE, } from "../../../../axios/config";
 import { GET_ZONE_MAPPING_DATA } from "../../../constants/tools";
+import { toast } from "react-toastify";
 
 
 async function zoneMappingAPI(data) {
@@ -21,6 +22,7 @@ function* zoneMappingAction(action) {
     try {
         let response = yield call(zoneMappingAPI, payload);
         if (response.status === 200) {
+            toast.success("File export successfully")
             yield put({ type: GET_ZONE_MAPPING_DATA, payload: response?.data })
         }
     } catch (error) {
