@@ -32,7 +32,7 @@ const CreateTicketForm = (props) => {
   const [allCatagery, setAllCatagery] = useState([]);
   const [allSubCatagry, setAllSubCatagry] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  
+
 
   const [ticketData, setTicketData] = useState({
     category: 1,
@@ -87,7 +87,7 @@ const CreateTicketForm = (props) => {
           }
         })
         .catch(error => {
-           toast.error('Error fetching subcategories:', error)
+          toast.error('Error fetching subcategories:', error)
         });
     } else {
       setAllSubCatagry([]);
@@ -146,7 +146,7 @@ const CreateTicketForm = (props) => {
 
   };
 
-  console.log(isLoading,"this is isloading data")
+  console.log(isLoading, "this is isloading data")
 
   const [fileError, setFileError] = useState("")
   const handleFileChange = async (e) => {
@@ -161,7 +161,7 @@ const CreateTicketForm = (props) => {
       setFileError("")
       try {
         const responseData = await getFileData(e.target.files[0].name);
-        responseData.status===200 && setIsLoading(true);
+        responseData.status === 200 && setIsLoading(true);
         const awsUrl = responseData.data.url.url
         const formData = new FormData();
         formData.append('key', responseData.data.url.fields.key);
@@ -236,7 +236,7 @@ const CreateTicketForm = (props) => {
         <button className='btn cancel-button' type="button" onClick={() => props.setNewTicket(false)}>
           Cancel
         </button>
-        <button className='btn main-button' type="submit"  disabled={isLoading} >
+        <button className='btn main-button' type="submit" disabled={isLoading} >
           Submit
         </button>
       </div>
