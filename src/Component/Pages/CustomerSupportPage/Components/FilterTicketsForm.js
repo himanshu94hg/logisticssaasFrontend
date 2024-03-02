@@ -8,10 +8,10 @@ import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 
 const FilterTicketsForm = (props) => {
   const [subcatList, setSubcategory] = useState([]);
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState();
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
-  const [resolutionDate, setResolutionDate] = useState(new Date());
+  const [resolutionDate, setResolutionDate] = useState();
 
   const authToken = Cookies.get("access_token")
 
@@ -51,6 +51,13 @@ const FilterTicketsForm = (props) => {
 
   const handleApply = () => {
     props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
+  };
+
+  const handleReset = () => {
+    setSelectedCategories([]);
+    setSelectedStatus('');
+    setResolutionDate(null);
+    setEndDate(null);
   };
 
   const StatusOptions = [
@@ -107,7 +114,7 @@ const FilterTicketsForm = (props) => {
       </div>
 
       <div className='mt-4 d-flex'>
-        <button className='btn main-button-outline'>Reset</button>
+        <button className='btn main-button-outline' onClick={handleReset}>Reset</button>
         <button className='btn main-button ms-3' onClick={handleApply}>
           Apply
         </button>
