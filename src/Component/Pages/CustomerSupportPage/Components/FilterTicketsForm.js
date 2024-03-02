@@ -58,6 +58,7 @@ const FilterTicketsForm = (props) => {
     setSelectedStatus('');
     setResolutionDate(null);
     setEndDate(null);
+    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
   };
 
   const StatusOptions = [
