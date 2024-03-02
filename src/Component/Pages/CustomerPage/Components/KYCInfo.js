@@ -14,9 +14,9 @@ const KYCInfo = ({activeTab}) => {
     document_type: "",
     document_id: "",
     document_name: "",
-    document_upload: "https://www.abc.com",
-
+    document_upload: "",
   });
+
   const [formList, setFormList] = useState([]);
   const [errors, setErrors] = useState([]);
   const [resData,setResData]=useState("");
@@ -34,6 +34,10 @@ const KYCInfo = ({activeTab}) => {
         }
       });
       setResData(response?.data[0]?.company_type)
+      setFormData((prev)=>({
+        ...prev,
+        company_type:response?.data[0]?.company_type
+      }))
       setFormList(response.data.map(item => ({
         documentType: item.document_type,
         documentName: item.document_name,
@@ -78,6 +82,7 @@ const KYCInfo = ({activeTab}) => {
     });
   };
   
+  console.log(formData,"this is dummay data")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
