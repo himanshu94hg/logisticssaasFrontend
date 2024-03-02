@@ -52,20 +52,6 @@ const ServiceabilityPage = () => {
           <div className='row flex-row'>
             <div className='col d-flex align-items-center'>
               <div className='d-flex flex-column gap-4 p10 w-100'>
-                <h5>Check Serviceable Couriers</h5>
-                <label>
-                  Enter Pickup or Delivery Pincode
-                  <input className='input-field' type="text" placeholder='Enter your Pincode' />
-                </label>
-                <div className='d-flex gap-2'>
-                  <button className='btn main-button'>FM Serviceability</button>
-                  <button className='btn main-button'>LM Serviceability</button>
-                </div>
-              </div>
-            </div>
-            <hr className='fm-lm-hr col-2' />
-            <div className='col d-flex align-items-center'>
-              <div className='d-flex flex-column gap-4 p10 w-100'>
                 <h5>Check Pickup to Delivery Serviceable Couriers</h5>
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <label className='w-100'>
@@ -80,6 +66,20 @@ const ServiceabilityPage = () => {
                 </div>
                 <div className='d-flex justify-content-end'>
                   <button className='btn main-button'>Pair Serviceability</button>
+                </div>
+              </div>
+            </div>
+            <hr className='fm-lm-hr col-2' />
+            <div className='col d-flex align-items-center'>
+              <div className='d-flex flex-column gap-4 p10 w-100'>
+                <h5>Check Serviceable Couriers</h5>
+                <label>
+                  Enter Pickup or Delivery Pincode
+                  <input className='input-field' type="text" placeholder='Enter your Pincode' />
+                </label>
+                <div className='d-flex gap-2'>
+                  <button className='btn main-button'>FM Serviceability</button>
+                  <button className='btn main-button'>LM Serviceability</button>
                 </div>
               </div>
             </div>
