@@ -79,7 +79,7 @@ const CustomerSupportPage = () => {
         }
       })
       .then(response => {
-        setAllTicket(response.data)
+        setAllTicket(response?.data?.results)
         setFilterTickets(false)
         
       })
