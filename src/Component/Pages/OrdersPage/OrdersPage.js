@@ -82,7 +82,7 @@ const OrdersPage = () => {
 
              {/* Manifest */}
              <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                <Manifest activeTab={activeTab} />
+                <Manifest activeTab={activeTab} orders={orders}/>
             </div>
 
              {/* Returns */}
