@@ -17,7 +17,7 @@ const FilterTicketsForm = (props) => {
 
   useEffect(() => {
     if (props.filterClick) {
-      axios.get('http://65.2.38.87:8081/core-api/features/ticket-sub-category/', {
+      axios.get('http://dev.shipease.in:8081/core-api/features/ticket-sub-category/', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

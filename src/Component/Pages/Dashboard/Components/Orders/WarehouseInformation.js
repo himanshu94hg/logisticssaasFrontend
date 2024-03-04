@@ -7,7 +7,7 @@ const WarehouseInformation = () => {
     const [stateAllocation, setStateAllocation] = useState([]);
 
     // useEffect(() => {
-    //     axios.get('http://65.2.38.87:8088/api/v1/state-wise-order/')
+    //     axios.get('http://dev.shipease.in:8088/api/v1/state-wise-order/')
     //         .then(response => {
     //             setStateAllocation(response.data);
     //         })

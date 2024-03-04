@@ -6,7 +6,7 @@ import axios from 'axios';
 const SentOverTime = () => {
     const [courierPartner, setCourierPartner] = useState([]);
     // useEffect(() => {
-    //     axios.get('http://65.2.38.87:8088/api/v1/shipment-overview/')
+    //     axios.get('http://dev.shipease.in:8088/api/v1/shipment-overview/')
     //         .then(response => {
     //             setCourierPartner(response.data);
     //         })

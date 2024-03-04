@@ -8,7 +8,7 @@ const ChannelByOrder = () => {
 
   // useEffect(() => {
   //   axios
-  //     .get('http://65.2.38.87:8088/api/v1/channal-wise-order/') // Replace with your API endpoint
+  //     .get('http://dev.shipease.in:8088/api/v1/channal-wise-order/') // Replace with your API endpoint
   //     .then(response => {
   //       console.log('Data:', response.data);
   //       setShipmentData(response.data.channel_percentage_data_last_30_days || []);

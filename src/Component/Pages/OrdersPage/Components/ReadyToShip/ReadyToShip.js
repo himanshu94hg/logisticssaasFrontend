@@ -91,7 +91,7 @@ const ReadyToShip = ({ orders,handleSearch }) => {
 
     const handleDownloadLabel = async (orderId) => {
         try {
-            const response = await fetch(`http://65.2.38.87:8081/core-api/shipping/generate-label/${orderId}/`, {
+            const response = await fetch(`http://dev.shipease.in:8081/core-api/shipping/generate-label/${orderId}/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ const ReadyToShip = ({ orders,handleSearch }) => {
 
     const handleDownloadInvoice = async (orderId) => {
         try {
-            const response = await fetch(`http://65.2.38.87:8081/core-api/shipping/generate-invoice/${orderId}/`, {
+            const response = await fetch(`http://dev.shipease.in:8081/core-api/shipping/generate-invoice/${orderId}/`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

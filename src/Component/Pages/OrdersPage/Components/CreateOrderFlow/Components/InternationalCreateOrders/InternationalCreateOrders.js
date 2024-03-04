@@ -47,7 +47,7 @@ const InternationalCreateOrders = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await fetch('http://65.2.38.87:8088/order/v1/createorder/', {
+            const response = await fetch('http://dev.shipease.in:8088/order/v1/createorder/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

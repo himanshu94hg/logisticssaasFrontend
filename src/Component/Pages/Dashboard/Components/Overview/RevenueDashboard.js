@@ -19,7 +19,7 @@ function RevenueDashboard() {
 
     const endpoint = endpointMap[interval];
     // axios
-    //   .get(`http://65.2.38.87:8088/api/v1/${endpoint}/`)
+    //   .get(`http://dev.shipease.in:8088/api/v1/${endpoint}/`)
     //   .then(response => {
     //     console.log('Data:', response.data);
     //     setRevenueData(response.data);

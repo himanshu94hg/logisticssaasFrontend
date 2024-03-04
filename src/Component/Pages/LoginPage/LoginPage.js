@@ -20,7 +20,7 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
     setStatus(true)
     e.preventDefault();
     try {
-      const response = await axios.post('http://65.2.38.87:8081/core-api/accounts/user-sign/', {
+      const response = await axios.post('http://dev.shipease.in:8081/core-api/accounts/user-sign/', {
         contact_number: username,
         password: password,
       });

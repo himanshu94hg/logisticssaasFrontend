@@ -19,7 +19,7 @@ const BulkCreateOrder = () => {
         formData.append('order_file', event.target.files[0]);
         formData.append('seller_id', sellerId);
         try {
-            const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/', formData, {
+            const response = await axios.post('http://dev.shipease.in:8083/orders-api/orders/order-bulk-upload/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${authToken}`
@@ -40,7 +40,7 @@ const BulkCreateOrder = () => {
 
     useEffect(() => {
         axios
-            .get(`http://65.2.38.87:8083/orders-api/orders/order-bulk-upload/`, {
+            .get(`http://dev.shipease.in:8083/orders-api/orders/order-bulk-upload/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

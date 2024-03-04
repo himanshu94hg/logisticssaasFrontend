@@ -20,7 +20,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
 
   useEffect(() => {
     if (ViewTicketInfo) {
-      axios.get(`http://65.2.38.87:8081/core-api/features/support-tickets/${viewId}/`, {
+      axios.get(`http://dev.shipease.in:8081/core-api/features/support-tickets/${viewId}/`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -58,7 +58,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://65.2.38.87:8081/core-api/features/ticket-comments/',
+      const response = await axios.post('http://dev.shipease.in:8081/core-api/features/ticket-comments/',
         {
           ticket: viewId,
           comment: newComment,
@@ -137,7 +137,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
 
             {console.log(allTicket?.escalate_image, "allTicket?.escalate_image")}
 
-            {allTicket?.escalate_image != ""&&
+            {allTicket?.escalate_image &&
               <div className='d-flex gap-2 align-items-center'>
                 Attachment:
                 <span
@@ -183,10 +183,10 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
       {/* <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
         <button className='btn close-button text-white'>x</button>
         {fileType === 'image' && (
-          <img src={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
+          <img src={`http://dev.shipease.in:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
         )}
         {fileType !== 'image' && (
-          <a href={`http://65.2.38.87:8088/media/ticket/${allTicket?.escalate_image}`} download>
+          <a href={`http://dev.shipease.in:8088/media/ticket/${allTicket?.escalate_image}`} download>
             Download File
           </a>
         )}

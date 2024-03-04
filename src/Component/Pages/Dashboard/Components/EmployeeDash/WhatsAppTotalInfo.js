@@ -26,10 +26,10 @@ function WhatsAppTotalInfo() {
   //         actionReqResponse,
   //         ndrdeleverdResponse,
   //       ] = await Promise.all([
-  //         axios.get('http://65.2.38.87:8088/api/v1/total-ndr/'),
-  //         axios.get('http://65.2.38.87:8088/api/v1/total-requested-ndr/'),
-  //         axios.get('http://65.2.38.87:8088/api/v1/total-required-ndr/'),
-  //         axios.get('http://65.2.38.87:8088/api/v1/total-deleverd-ndr/'),
+  //         axios.get('http://dev.shipease.in:8088/api/v1/total-ndr/'),
+  //         axios.get('http://dev.shipease.in:8088/api/v1/total-requested-ndr/'),
+  //         axios.get('http://dev.shipease.in:8088/api/v1/total-required-ndr/'),
+  //         axios.get('http://dev.shipease.in:8088/api/v1/total-deleverd-ndr/'),
   //       ]);
   //       setTotalNdr(totalNdrResponse.data);
   //       setActionreq(actionReqResponse.data);

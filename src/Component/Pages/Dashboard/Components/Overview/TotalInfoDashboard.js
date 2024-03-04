@@ -20,10 +20,10 @@ function TotalInfoDashboard() {
     //   try {
     //     const [customerResponse,shipmentResponse, sellingResponse, revenueResponse] =
     //       await Promise.all([
-    //         axios.get('http://65.2.38.87:8088/api/v1/top-customer/'),
-    //         axios.get('http://65.2.38.87:8088/api/v1/daly-shipment/'),
-    //         axios.get('http://65.2.38.87:8088/api/v1/avg-sellingprice/'),
-    //         axios.get('http://65.2.38.87:8088/api/v1/today-revenue/'),
+    //         axios.get('http://dev.shipease.in:8088/api/v1/top-customer/'),
+    //         axios.get('http://dev.shipease.in:8088/api/v1/daly-shipment/'),
+    //         axios.get('http://dev.shipease.in:8088/api/v1/avg-sellingprice/'),
+    //         axios.get('http://dev.shipease.in:8088/api/v1/today-revenue/'),
     //       ]);
 
     //     setTotalCustomer(customerResponse.data);
