@@ -60,7 +60,7 @@ const CreateTicketForm = (props) => {
 
   useEffect(() => {
     axios
-      .get('http://65.2.38.87:8081/core-api/features/ticket-category/', {
+      .get('http://dev.shipease.in:8081/core-api/features/ticket-category/', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -76,7 +76,7 @@ const CreateTicketForm = (props) => {
   useEffect(() => {
     if (ticketData.category !== "") {
       axios
-        .get(`http://65.2.38.87:8081/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
+        .get(`http://dev.shipease.in:8081/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -119,7 +119,7 @@ const CreateTicketForm = (props) => {
 
     if (Object.keys(validationErrors).length === 0) {
       try {
-        const response = await axios.post('http://65.2.38.87:8081/core-api/features/support-tickets/', ticketData, {
+        const response = await axios.post('http://dev.shipease.in:8081/core-api/features/support-tickets/', ticketData, {
           headers: {
             'Authorization': `Bearer ${authToken}`,
             'Content-Type': 'multipart/form-data',

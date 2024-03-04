@@ -16,7 +16,7 @@ function DailyPreferences() {
   const [prefData, setPrefData] = useState({});
   
   // useEffect(() => {
-  //   axios.get('http://65.2.38.87:8088/api/v1/daily-prefrences/')
+  //   axios.get('http://dev.shipease.in:8088/api/v1/daily-prefrences/')
   //     .then(response => {
   //       setPrefData(response.data);
   //     })

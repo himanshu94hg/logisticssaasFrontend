@@ -9,7 +9,7 @@ const TopRTOCourier = () => {
 
   // useEffect(() => {
   //   axios
-  //     .get('http://65.2.38.87:8088/api/v1/top-rto-courier/')
+  //     .get('http://dev.shipease.in:8088/api/v1/top-rto-courier/')
   //     .then((response) => {
   //       setCourierAllocation(response.data || []);
   //       setLoading(false);

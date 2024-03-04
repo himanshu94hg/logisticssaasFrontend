@@ -31,12 +31,12 @@ const OrdersPage = () => {
     const sellerData=Cookies.get("user_id")
     let authToken=Cookies.get("access_token")
 
-    let allOrders=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}`
-    let unprocessable=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
-    let processing=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
-    let readyToShip=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
-    let manifest=`http://65.2.38.87:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
+    let allOrders=`http://dev.shipease.in:8083/orders-api/orders/?seller_id=${sellerData}`
+    let unprocessable=`http://dev.shipease.in:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
+    let processing=`http://dev.shipease.in:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
+    let readyToShip=`http://dev.shipease.in:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
+    let returnOrders=`http://dev.shipease.in:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
+    let manifest=`http://dev.shipease.in:8083/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
 
 
     useEffect(() => {

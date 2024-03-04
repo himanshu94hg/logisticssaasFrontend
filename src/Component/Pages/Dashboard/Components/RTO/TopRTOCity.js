@@ -8,7 +8,7 @@ const TopRTOCity = () => {
 
   // useEffect(() => {
   //   axios
-  //     .get('http://65.2.38.87:8088/api/v1/top-rto-city/')
+  //     .get('http://dev.shipease.in:8088/api/v1/top-rto-city/')
   //     .then((response) => {
   //       setData(response.data || []); // Ensure data is an array
   //       setLoading(false);

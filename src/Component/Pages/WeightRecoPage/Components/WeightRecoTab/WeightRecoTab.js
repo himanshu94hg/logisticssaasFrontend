@@ -67,7 +67,7 @@ const WeightRecoTab = () => {
 
     useEffect(() => {
         axios
-            .get('http://65.2.38.87:8088/weight/v1/weight-recancel-data/') // Replace with your API endpoint
+            .get('http://dev.shipease.in:8088/weight/v1/weight-recancel-data/') // Replace with your API endpoint
             .then(response => {
                 setData(response.data);
             })
