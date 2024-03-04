@@ -134,20 +134,26 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
                 {/* <span className='fw-normal'>2 others</span> */}
               </p>
             </div>
-            <div className='d-flex gap-2 align-items-center'>
-              Attachment:
-              <span
-                className='view-attachment'
-                onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
-              >
-                <FontAwesomeIcon icon={faEye} />
-              </span>
-              {allTicket && allTicket?.escalate_image && (
-                <a href={allTicket.escalate_image} download>
-                  <AiOutlineDownload />
-                </a>
-              )}
-            </div>
+
+            {console.log(allTicket?.escalate_image, "allTicket?.escalate_image")}
+
+            {allTicket?.escalate_image != ""&&
+              <div className='d-flex gap-2 align-items-center'>
+                Attachment:
+                <span
+                  className='view-attachment'
+                  onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
+                >
+                  <FontAwesomeIcon icon={faEye} />
+                </span>
+                {allTicket && allTicket?.escalate_image && (
+                  <a href={allTicket.escalate_image} download>
+                    <AiOutlineDownload />
+                  </a>
+                )}
+              </div>
+            }
+
           </div>
         </section>
         <h4 className='mt-4'>Comments</h4>

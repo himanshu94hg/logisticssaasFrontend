@@ -304,7 +304,7 @@ const BasicInfo = ({ activeTab }) => {
     if (!emailRegx.test(value)) {
       setErrors(prevErrors => ({
         ...prevErrors,
-        [name]: `follow abc@xyz.com`,
+        [name]: ``,
       }));
     } else {
       setErrors(prevErrors => ({
