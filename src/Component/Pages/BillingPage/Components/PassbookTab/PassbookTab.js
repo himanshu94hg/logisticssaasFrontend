@@ -167,7 +167,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.id}
+                                                {row?.order_detail?.awb_number}
                                                 </p>
                                             </div>
                                         </td>
@@ -175,7 +175,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
-                                                {row.name}
+                                                {row?.order_detail?.courier_partner}
                                                 </p>
                                             </div>
                                         </td>
@@ -207,7 +207,7 @@ const PassbookTab = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.status}
+                                                {row.description}
                                                 </p>
                                             </div>
                                         </td>
