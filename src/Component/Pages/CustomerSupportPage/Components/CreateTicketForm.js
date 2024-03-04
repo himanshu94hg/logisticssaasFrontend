@@ -6,27 +6,6 @@ import { awsAccessKey } from '../../../../config';
 import React, { useState, useEffect } from 'react';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
-// Reusable FormInput component
-// const FormInput = ({ label, mandatory, type, value, onChange, options, name, fileInput, customClass }) => (
-//   <div className='ticket-form-row'>
-//     <label>{label} <span className='text-danger'>{mandatory}</span></label>
-//     {type === 'select' ? (
-//       <select className='select-field' name={name} value={value} onChange={onChange}>
-//         {options.map((option) => (
-//           <option key={option.value} value={option.value}>
-//             {option.label}
-//           </option>
-//         ))}
-//       </select>
-//     ) : type === 'textarea' ? (
-//       <textarea className={`input-field text-field ${customClass}`} rows="4" value={value} name={name} onChange={onChange} />
-//     ) : type === 'file' ? (
-//       <input className='input-field choose-file-container' type={type} onChange={onChange} name={name} id={fileInput} />
-//     ) : (
-//       <input className={`input-field x ${customClass}`} type={type} value={value} onChange={onChange} name={name} />
-//     )}
-//   </div>
-// );
 
 // Reusable FormInput component
 const FormInput = ({ label, mandatory, type, value, onChange, options, name, fileInput, customClass }) => (
@@ -178,7 +157,7 @@ const CreateTicketForm = (props) => {
     else {
       setFileError("")
       try {
-        const responseData = await getFileData(e.target.files[0].name);
+        const responseData = await getFileData(e.target.files[0].name.replace(/\s/g, ""));
         responseData.status === 200 && setIsLoading(true);
         const awsUrl = responseData.data.url.url
         const formData = new FormData();
@@ -190,7 +169,7 @@ const CreateTicketForm = (props) => {
         const additionalData = await uploadImageData(awsUrl, formData);
         if (additionalData?.status == 204) {
           setIsLoading(false);
-          const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+          const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
           setTicketData(prev => ({
             ...prev,
             [e.target.name]: imageUrl

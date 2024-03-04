@@ -54,7 +54,7 @@ const KYCInfo = ({activeTab}) => {
     let updatedValue;
     if (type === 'file') {
       try {
-        const responseData = await getFileData(`customerData/${files[0].name}`);
+        const responseData = await getFileData(`customerData/${files[0].name.replace(/\s/g, "")}`);
         const awsUrl = responseData.data.url.url;
         const formData = new FormData();
         formData.append('key', responseData.data.url.fields.key);
@@ -64,7 +64,7 @@ const KYCInfo = ({activeTab}) => {
         formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
         const additionalData = await uploadImageData(awsUrl, formData);
         if (additionalData?.status === 204) {
-          updatedValue = responseData.data.url.url + files[0].name;
+          updatedValue = responseData.data.url.url + files[0].name.replace(/\s/g, "");
         } else {
           throw new Error('Upload failed');
         }

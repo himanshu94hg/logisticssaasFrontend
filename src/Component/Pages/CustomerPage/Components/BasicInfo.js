@@ -222,7 +222,7 @@ const BasicInfo = ({ activeTab }) => {
         setLogoError("File shouldn't be greater than 2 mb")
       } else {
         try {
-          const responseData = await getFileData(`customerData/${e.target.files[0].name}`);
+          const responseData = await getFileData(`customerData/${e.target.files[0].name.replace(/\s/g, "")}`);
           const awsUrl = responseData.data.url.url
           const formData = new FormData();
           formData.append('key', responseData.data.url.fields.key);
@@ -232,7 +232,7 @@ const BasicInfo = ({ activeTab }) => {
           formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
           const additionalData = await uploadImageData(awsUrl, formData);
           if (additionalData?.status == 204) {
-            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
             setFormData(prev => ({
               ...prev,
               company_logo: imageUrl
@@ -250,7 +250,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       else {
         try {
-          const responseData = await getFileData(`customerData/${e.target.files[0].name}`);
+          const responseData = await getFileData(`customerData/${e.target.files[0].name.replace(/\s/g, "")}`);
           const awsUrl = responseData.data.url.url
           const formData = new FormData();
           formData.append('key', responseData.data.url.fields.key);
@@ -260,7 +260,7 @@ const BasicInfo = ({ activeTab }) => {
           formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
           const additionalData = await uploadImageData(awsUrl, formData);
           if (additionalData?.status == 204) {
-            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
             setFormData(prev => ({
               ...prev,
               gst_certificate: imageUrl
