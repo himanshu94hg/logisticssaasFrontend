@@ -15,9 +15,6 @@ const FilterTicketsForm = (props) => {
 
   const authToken = Cookies.get("access_token")
 
-
-  console.log(selectedCategories,"selectedCategoriesselectedCategoriesselectedCategories")
-
   useEffect(() => {
     if (props.filterClick) {
       axios.get('http://65.2.38.87:8081/core-api/features/ticket-sub-category/', {
@@ -37,7 +34,7 @@ const FilterTicketsForm = (props) => {
   }, [props.filterClick]);
 
   const handleChange = (selectedOption) => {
-    setSelectedCategories(selectedOption.value);
+    setSelectedCategories(selectedOption);
   };
 
   const handleStatusChange = (selectedOption) => {

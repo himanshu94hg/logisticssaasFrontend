@@ -59,7 +59,7 @@ const CustomerSupportPage = () => {
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();
-    if (categories == []) {
+    if (categories != []) {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
