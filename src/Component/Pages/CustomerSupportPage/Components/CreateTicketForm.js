@@ -1,10 +1,10 @@
 import axios from 'axios';
+import './createTicket.css'
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
 import { awsAccessKey } from '../../../../config';
 import React, { useState, useEffect } from 'react';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
-import './createTicket.css'
-import { toast } from 'react-toastify';
 
 // Reusable FormInput component
 const FormInput = ({ label, mandatory, type, value, onChange, options, name, fileInput, customClass }) => (
@@ -29,10 +29,12 @@ const FormInput = ({ label, mandatory, type, value, onChange, options, name, fil
 );
 
 const CreateTicketForm = (props) => {
-  const [allCatagery, setAllCatagery] = useState([]);
-  const [allSubCatagry, setAllSubCatagry] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [errors, setErrors] = useState({})
+  const authToken = Cookies.get("access_token")
+  const [fileError, setFileError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [allCatagery, setAllCatagery] = useState([])
+  const [allSubCatagry, setAllSubCatagry] = useState([])
 
   const [ticketData, setTicketData] = useState({
     category: 1,
@@ -42,7 +44,6 @@ const CreateTicketForm = (props) => {
     escalate_image: "",
   })
 
-  const authToken = Cookies.get("access_token")
   const categoryOptions = allCatagery.map(category => ({
     value: category.id,
     label: category.name,
@@ -78,7 +79,6 @@ const CreateTicketForm = (props) => {
         })
         .then(response => {
           setAllSubCatagry(response.data);
-          // Select the first subcategory by default
           if (response.data.length > 0) {
             setTicketData(prevData => ({
               ...prevData,
@@ -101,11 +101,9 @@ const CreateTicketForm = (props) => {
     }))
   }
 
-  const [errors, setErrors] = useState({})
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const validationErrors = {};
     if (!ticketData.awb_number.trim()) {
       validationErrors.awb_number = "AWB is required!";
@@ -146,13 +144,8 @@ const CreateTicketForm = (props) => {
 
   };
 
-  console.log(isLoading, "this is isloading data")
-
-  const [fileError, setFileError] = useState("")
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
-
-
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
     if (fileSizeInMB > 2) {
       setFileError("File should be less than 3 mb")
@@ -182,9 +175,7 @@ const CreateTicketForm = (props) => {
         console.error('Error handling file change:', error);
       }
     }
-
   };
-
 
   return (
     <form onSubmit={handleSubmit}>

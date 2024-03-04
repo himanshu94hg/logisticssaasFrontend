@@ -60,7 +60,6 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, setTicketId, handleVi
     return (
         <section className='position-relative'>
             <div className="position-relative">
-
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
@@ -121,7 +120,7 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, setTicketId, handleVi
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {item?.resolution_due_by}
+                                                {moment(item?.resolution_due_by).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>

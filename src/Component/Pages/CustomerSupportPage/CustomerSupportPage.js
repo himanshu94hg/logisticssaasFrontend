@@ -10,7 +10,7 @@ import FilterTicketsForm from './Components/FilterTicketsForm';
 import InProgressTickets from './Components/InProgressTickets';
 import ViewTicketSlider from './Components/ViewTicketSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -53,13 +53,11 @@ const CustomerSupportPage = () => {
       .catch((error) => {
         console.error("Error:", error);
       });
-  }, [activeTab,status]);
-
-
+  }, [activeTab, status]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();
-    if (categories == []) {
+    if (categories != []) {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
@@ -81,7 +79,7 @@ const CustomerSupportPage = () => {
       .then(response => {
         setAllTicket(response?.data?.results)
         setFilterTickets(false)
-        
+
       })
       .catch(error => {
         console.error('Error:', error);
@@ -93,9 +91,9 @@ const CustomerSupportPage = () => {
     setId(ticketId);
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setAllTicket(allTicket)
-  },[allTicket])
+  }, [allTicket])
 
   return (
     <>
@@ -122,14 +120,14 @@ const CustomerSupportPage = () => {
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => {setFilterTickets(!FilterTickets); setFilterClick(true)}}>
+        <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets); setFilterClick(true) }}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
-        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets}/>
+        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />
       </div>
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>

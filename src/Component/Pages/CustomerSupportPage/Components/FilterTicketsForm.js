@@ -60,7 +60,6 @@ const FilterTicketsForm = (props) => {
     setEndDate(null);
     props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
   };
-
   const StatusOptions = [
     { value: 'All', label: 'All' },
     { value: 'Open', label: 'Open' },
