@@ -17,6 +17,7 @@ const OrdersPage = () => {
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
     const [orders,setOrders]=useState([])
+    const [searchValue,setSearchValue]=useState("")
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -39,21 +40,54 @@ const OrdersPage = () => {
 
 
     useEffect(() => {
-        axios
-            .get(`${activeTab=="All Orders"?allOrders:activeTab=="Unprocessable"?unprocessable:activeTab=="Processing"?processing:activeTab=="Ready to Ship"?readyToShip:activeTab=="Manifest"?manifest:activeTab==="Returns"?returnOrders:""}`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            })
-            .then(response => {
-                console.log('Data is data:', response.data.results);
-                setOrders(response.data.results);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, [activeTab]);
-
+        let apiUrl = '';
+        switch (activeTab) {
+            case "All Orders":
+                apiUrl = allOrders;
+                break;
+            case "Unprocessable":
+                apiUrl = unprocessable;
+                break;
+            case "Processing":
+                apiUrl = processing;
+                break;
+            case "Ready to Ship":
+                apiUrl = readyToShip;
+                break;
+            case "Manifest":
+                apiUrl = manifest;
+                break;
+            case "Returns":
+                apiUrl = returnOrders;
+                break;
+            default:
+                apiUrl = '';
+        }
+    
+        if (apiUrl) {
+            // Add search parameter if searchValue is not empty
+            if (searchValue?.trim() !== '' && searchValue?.length>=3) {
+                apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
+            }
+    
+            axios.get(apiUrl, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                })
+                .then(response => {
+                    console.log('Data is data:', response.data.results);
+                    setOrders(response.data.results);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+    }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    
+    const handleSearch=(value)=>{
+        setSearchValue(value)
+    }
 
     return (
         <>
@@ -62,32 +96,32 @@ const OrdersPage = () => {
 
             {/* All Orders */}
             <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                <AllOrders activeTab={activeTab} orders={orders} />
+                <AllOrders activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
             </div>
             
             {/* Unprocessable */}
             <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                <Unprocessable activeTab={activeTab} orders={orders}/>
+                <Unprocessable activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
             </div>
 
              {/* Processing */}
              <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
-                <Processing activeTab={activeTab} orders={orders}/>
+                <Processing activeTab={activeTab} orders={orders} handleSearch={handleSearch}/>
             </div>
 
              {/* ReadyToShip */}
              <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                <ReadyToShip activeTab={activeTab} orders={orders}/>
+                <ReadyToShip activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
             </div>
 
              {/* Manifest */}
              <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                <Manifest activeTab={activeTab} orders={orders}/>
+                <Manifest activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
             </div>
 
              {/* Returns */}
              <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                <ReturnOrders activeTab={activeTab} orders={orders}/>
+                <ReturnOrders activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
             </div>
 
            

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Navbar,
   Nav
@@ -22,6 +22,9 @@ export default function NavTabs(props) {
   const toggleOptions = () => {
     setIsOpen(!isOpen);
   };
+
+
+
   return (
     <Navbar
       className="w-100 box-shadow shadow-sm p7 gap-10"
@@ -84,7 +87,7 @@ export default function NavTabs(props) {
             <img src={SearchIcon} alt="Search" />
           </button> */}
           {/* <label className="label">Search by Ticket ID || AWB || Pickup ID</label> */}
-          <input placeholder="Search by Ticket ID || AWB || Pickup ID" required="" type="text" name="text" className="input-field" />
+          <input placeholder="Search by Ticket ID || AWB || Pickup ID" type="text" className="input-field"  />
         </div>
         <button
           onClick={() => props.setFilterTickets(!props.FilterTickets)}

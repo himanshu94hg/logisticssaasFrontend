@@ -38,7 +38,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const Processing = ({ orders }) => {
+const Processing = ({ orders,handleSearch }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -99,7 +99,7 @@ const Processing = ({ orders }) => {
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)}/>
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>

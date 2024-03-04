@@ -9,12 +9,16 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import Cookies from 'js-cookie';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 const DomesticCreateOrder = () => {
+    const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
-    const totalSteps = 5;
+    const authToken = Cookies.get("access_token")
     const currentDate = moment().format("YYYY-MM-DD");
+    const [activeTab, setActiveTab] = useState("All Orders");
+    const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -87,18 +91,14 @@ const DomesticCreateOrder = () => {
                 export_reference_number: ""
             }
         ],
-
     })
 
-    const [progressBarWidth, setProgressBarWidth] = useState('5%');
-    const [activeTab, setActiveTab] = useState("All Orders");
-
+    console.log(formData, "this is billing address data")
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;
             setProgressBarWidth(width);
         };
-
         updateProgressBarWidth();
     }, [step, totalSteps]);
 
@@ -110,8 +110,6 @@ const DomesticCreateOrder = () => {
         setStep(step - 1);
     };
 
-    const authToken = Cookies.get("access_token")
-
     const handleFormSubmit = async () => {
         try {
             const response = await axios.post('http://65.2.38.87:8083/orders-api/orders/', formData, {
@@ -120,41 +118,18 @@ const DomesticCreateOrder = () => {
                     'Authorization': `Bearer ${authToken}`
                 }
             });
-
-            // Check if response is not null
             if (response !== null) {
                 if (response.status === 201) {
                     const responseData = response.data;
-                    // Handle success response
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Order Created!',
-                        text: 'You can view your Order in Orders Page.',
-                        customClass: {
-                            confirmButton: 'btn main-button', // Add your custom class here
-                        },
-                    }).then(() => {
-                        // Redirect to another page after clicking OK
-                        navigation('/Orders');
-                    });
+                    toast.success("Order Created successfully!")
+                    navigation('/Orders');
                 } else {
-                    // Handle error responses
                     const errorData = response.data;
-
+                    toast.error("Something went wrong!",errorData)
                 }
-            } else {
-
             }
         } catch (error) {
-            // Handle fetch error
-            Swal.fire({
-                icon: 'error',
-                title: 'Error Creating Order',
-                text: 'An error occurred while creating the order. Please try again.',
-                customClass: {
-                    confirmButton: 'btn main-button', // Add your custom class here
-                },
-            });
+            toast.error("Something went wrong!",error)
         }
     };
 
@@ -519,16 +494,28 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
         }));
     };
 
+    // const handleChangeBilling = (e, field) => {
+    //     setFormData(prevData => ({
+    //         ...prevData,
+    //         billing_details: {
+    //             ...prevData.billing_details,
+    //             [field]: e.target.value
+    //         }
+
+    //     }));
+    // };
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
             billing_details: {
                 ...prevData.billing_details,
-                [field]: e.target.value
+                [field]: e.target.value,
+                customer_name: e.target.name === 'customer_name' ? e.target.value : prevData.billing_details.customer_name
             }
-
         }));
     };
+    
+    
 
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
@@ -576,7 +563,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData,
                 billing_details: {
                     ...prevData.billing_details,
-                    customer_name:'',
+                    customer_name: '',
                     contact_code: '',
                     mobile_number: '',
                     email: '',
@@ -856,8 +843,6 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
     };
 
     const handleAddProduct = () => {
-
-
         setFormData({
             ...formData,
             product_details: [
@@ -867,7 +852,6 @@ const Step3 = ({ onPrev, onNext, formData, setFormData }) => {
         });
         setAddFieldsStates([...addFieldsStates, false]);
     };
-
 
     const handleRemoveProduct = (index) => {
         if (formData.product_details && formData.product_details.length > 1) {
@@ -1095,10 +1079,10 @@ const Step4 = ({ onPrev, onNext, formData, setFormData }) => {
         }));
     };
 
-    const [finalWeight,setFinalWeight]=useState()
+    const [finalWeight, setFinalWeight] = useState()
 
-    const vol_data=formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
-    const chargedWeight= formData?.dimension_details.weight;
+    const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
+    const chargedWeight = formData?.dimension_details.weight;
 
     useEffect(() => {
         if (vol_data && chargedWeight) {
@@ -1287,7 +1271,5 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
         </div>
     );
 };
-
-
 
 export default DomesticCreateOrder;
