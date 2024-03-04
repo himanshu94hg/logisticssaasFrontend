@@ -141,7 +141,7 @@ const AccountInfo = ({ activeTab }) => {
     const previewURL = URL.createObjectURL(file);
     setPdfPreviews((prevPreviews) => [...prevPreviews, previewURL]);
     try {
-      const responseData = await getFileData(`customerData/${e.target.files[0].name}`);
+      const responseData = await getFileData(`customerData/${e.target.files[0].name.replace(/\s/g, "")}`);
       const awsUrl = responseData.data.url.url
       const formData = new FormData();
       formData.append('key', responseData.data.url.fields.key);
@@ -151,7 +151,7 @@ const AccountInfo = ({ activeTab }) => {
       formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
       const additionalData = await uploadImageData(awsUrl, formData);
       if (additionalData?.status == 204) {
-        const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name
+        const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
         setAccounts(prevAccounts => {
           const updatedAccounts = [...prevAccounts];
           updatedAccounts[index].chequeImage = imageUrl;
