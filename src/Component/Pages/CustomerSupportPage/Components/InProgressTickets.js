@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
+import { useDispatch } from 'react-redux';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -29,7 +30,8 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const InProgressTickets = ({ setViewTicketInfo, allTicket, setTicketId, handleViewButtonClick }) => {
+const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonClick }) => {
+    const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
 
@@ -57,6 +59,10 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, setTicketId, handleVi
         }
     };
 
+    const handleCloseTicket = (id, status) => {
+        dispatch({ type: "CUSTOMER_SUPPORT_ACTION", payload: id, status: status })
+    }
+console.log(activeTab,"activeTab")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -147,7 +153,7 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, setTicketId, handleVi
                                                         <ul>
                                                             <li>Escalate</li>
                                                             <li>Re-open</li>
-                                                            <li>Close</li>
+                                                            {activeTab != "closedTickets" && <li onClick={() => handleCloseTicket(item?.id, "Closed")}>Close</li>}
                                                         </ul>
                                                     </div>
                                                 </div>

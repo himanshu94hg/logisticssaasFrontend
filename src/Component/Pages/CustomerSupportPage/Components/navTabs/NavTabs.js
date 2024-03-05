@@ -87,7 +87,7 @@ export default function NavTabs(props) {
             <img src={SearchIcon} alt="Search" />
           </button> */}
           {/* <label className="label">Search by Ticket ID || AWB || Pickup ID</label> */}
-          <input placeholder="Search by Ticket ID || AWB || Pickup ID" type="text" className="input-field"  />
+          <input placeholder="Search by Ticket ID || AWB || Pickup ID" type="text" className="input-field" onChange={(e)=>props.handleSearch(e.target.value)}  />
         </div>
         <button
           onClick={() => props.setFilterTickets(!props.FilterTickets)}

@@ -23,6 +23,7 @@ const CustomerSupportPage = () => {
   const [ViewTicketInfo, setViewTicketInfo] = useState(false);
   const [filterClick, setFilterClick] = useState(false);
   const [status, setStatus] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "http://dev.shipease.in:8081/core-api/features/support-tickets/";
@@ -30,30 +31,40 @@ const CustomerSupportPage = () => {
   useEffect(() => {
     let url = apiUrl;
     switch (activeTab) {
-      case "openTickets":
-        url += "?status=Open";
-        break;
-      case "inProgressTickets":
-        url += "?status=In-progress";
-        break;
-      case "closedTickets":
-        url += "?status=Closed";
-        break;
-      default:
-        break;
+        case "openTickets":
+            url += "?status=Open";
+            break;
+        case "inProgressTickets":
+            url += "?status=In-progress";
+            break;
+        case "closedTickets":
+            url += "?status=Closed";
+            break;
+        case "allTickets":
+            url += "?";
+            break;
+        default:
+            break;
     }
-    axios.get(url, {
-      headers: {
-        Authorization: `Bearer ${authToken}`,
-      },
-    })
-      .then((response) => {
-        setAllTicket(response?.data?.results);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-  }, [activeTab, status]);
+
+    if (url) {
+        if (searchValue.trim() !== '') {
+            url += `${activeTab === 'allTickets' ? '' : '&'}q=${encodeURIComponent(searchValue.trim())}`;
+        }
+        axios.get(url, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                },
+            })
+            .then((response) => {
+                setAllTicket(response?.data?.results);
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    }
+
+}, [activeTab, status, searchValue]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();
@@ -95,6 +106,11 @@ const CustomerSupportPage = () => {
     setAllTicket(allTicket)
   }, [allTicket])
 
+
+  const handleSearch = (value) => {
+    setSearchValue(value)
+  }
+
   return (
     <>
       <div className='p10 support-page position-relative'>
@@ -114,9 +130,10 @@ const CustomerSupportPage = () => {
           setFilterTickets={setFilterTickets}
           setNewTicket={setNewTicket}
           NewTicket={NewTicket}
+          handleSearch={handleSearch}
         />
         <div className='row mt-3'>
-          <InProgressTickets allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+          <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
         </div>
       </div>
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>

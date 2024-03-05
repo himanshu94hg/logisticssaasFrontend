@@ -385,6 +385,7 @@
 
 .action-list ul li {
   padding-block: 4px;
+  cursor: pointer;
 }
 
 .action-list ul li hr {

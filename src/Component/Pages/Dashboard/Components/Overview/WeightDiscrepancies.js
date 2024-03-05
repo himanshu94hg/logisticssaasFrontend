@@ -1,70 +1,77 @@
-import React, { useEffect, useRef } from 'react';
-import Chart from 'chart.js/auto';
-import CombinedChart from '../../../../common/Graph/WeightDiterpenses';
-import weightDChart from './MixedWeightChart'
-import MixedWeightChart from './MixedWeightChart';
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
 
-const MixedChart = ({ labels, totalOrders, ordersWithDiscrepancies }) => {
-  const chartRef = useRef(null);
+const MixedWeightChart = () => {
+  const seriesData = [
+    {
+      name: 'Total Orders',
+      type: 'column',
+      data: [60, 40, 80, 70, 50], // Total orders for the last 5 weeks
+    },
+    {
+      name: 'Orders with Discrepancies',
+      type: 'line',
+      data: [30, 20, 40, 35, 25], // Orders with discrepancies for the last 5 weeks
+    },
+  ];
 
-  useEffect(() => {
-    const ctx = chartRef.current;
-
-    if (ctx) {
-      // If chart instance already exists, destroy it first
-      if (chartRef.current.chart) {
-        chartRef.current.chart.destroy();
-      }
-
-      // Create new chart instance
-      chartRef.current.chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: labels,
-          datasets: [{
-            label: 'Total Orders',
-            data: totalOrders,
-            backgroundColor: 'rgba(25, 117, 201, 0.5)', // Blue color
-            borderRadius: 4, // Add border radius to the bars
-            barPercentage: 0.5, // Add border radius to the bars
-          }, {
-            label: 'Orders with Discrepancies',
-            data: ordersWithDiscrepancies,
-            borderColor: 'rgba(255, 99, 132, 1)', // Red color
-            backgroundColor: 'rgba(255, 99, 132, 0)', // Transparent background
-            type: 'line',
-            order: 9,
-          }]
-        },
+  const optionsData = {
+    chart: {
+      height: '100%', // Set height to 100% to make it responsive
+      type: 'line',
+      toolbar: {
+        show: false, // Removing the toolbar (including panning option)
+      },
+    },
+    colors: ['#008FFB', '#FF4560'], // Specify custom colors for the series
+    stroke: {
+      width: [0, 4],
+    },
+    title: {
+      text: '', // Set title text to empty string to remove the title
+    },
+    dataLabels: {
+      enabled: true,
+      enabledOnSeries: [1],
+    },
+    xaxis: {
+      type: 'category',
+      categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'], // Explicitly specify categories
+      labels: {
+        rotateAlways: true, // Rotate labels always
+        rotate: -45,
+      },
+    },
+    yaxis: {
+      title: {
+        text: 'Orders',
+      },
+      min: 0, // Setting minimum value for y-axis
+    },
+    responsive: [
+      {
+        // Making the chart responsive
+        breakpoint: 1366, // Breakpoint for screen width of 1366
         options: {
-          scales: {
-            y: {
-              type: 'linear',
-              display: true,
-              position: 'left',
-              title: {
-                display: true,
-                text: 'Number of Orders',
-              },
-              ticks: {
-                beginAtZero: true
-              },
-            }
-          }
-        }
-      });
-    }
-  }, [labels, totalOrders, ordersWithDiscrepancies]);
+          chart: {
+            height: 400, // Adjust height for screen width of 1366
+          },
+        },
+      },
+    ],
+  };
 
-  return <canvas ref={chartRef} id="mixed-chart" />;
+  return (
+    <div>
+      <div id="chart">
+        <ReactApexChart options={optionsData} series={seriesData} type="line" height={350} />
+      </div>
+      <div id="html-dist"></div>
+    </div>
+  );
 };
 
 const WeightDiscrepancies = () => {
-  // Dummy data for demonstration
-  const labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
-  const totalOrders = [50, 60, 70, 80, 90];
-  const ordersWithDiscrepancies = [0, 15, 20, 0, 15];
-
   return (
     <div className="box-shadow shadow-sm p10">
       <div className="row">

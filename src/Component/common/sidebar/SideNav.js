@@ -20,9 +20,9 @@ import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 
 
 
-const Dropdown = ({ links }) => {
+const Dropdown = ({ links, isOpen }) => {
   return (
-    <div className="dropdown-content">
+    <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
         <NavLink key={index} to={link.to} onClick={link.onClick}>
           {link.label}
@@ -32,21 +32,24 @@ const Dropdown = ({ links }) => {
   );
 };
 
-const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
+const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setDropdownOpen] = useState(true);
   const location = useLocation();
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
+    onDropdownToggle(label);
   };
 
 
 
   useEffect(() => {
-    if (!isExpanded) {
+    // Close the dropdown when another dropdown is opened
+    if (label !== openDropdown) {
       setDropdownOpen(false);
     }
-  }, [isExpanded]);
+  }, [openDropdown, label]);
 
   const NavLinkComponent = hasDropdown ? 'div' : NavLink;
 
@@ -94,14 +97,19 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
         </NavLinkComponent>
       </div>
 
-      {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />}
+      {/* {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />} */}
+      {hasDropdown && <Dropdown links={dropdownLinks} isOpen={isDropdownOpen} />}
     </div>
   );
 };
 
 const SideNav = (props) => {
   const [isExpanded, setExpanded] = useState(false);
+  // const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
+  const [openDropdown, setOpenDropdown] = useState(null);
+
+
 
   useEffect(() => {
     if (isExpanded === true) {
@@ -118,6 +126,16 @@ const SideNav = (props) => {
 
   const handleMouseLeave = () => {
     setExpanded(false);
+    // Close all dropdowns when slider is closed
+    setOpenDropdown(null);
+  };
+
+  const handleDropdownToggle = (label) => {
+    if (openDropdown === label) {
+      setOpenDropdown(null); // Close the dropdown if already open
+    } else {
+      setOpenDropdown(label); // Open the dropdown
+    }
   };
 
   const handleMappingShow = () => {
@@ -165,7 +183,10 @@ const SideNav = (props) => {
     { to: "/settings", label: "Settings" },
   ];
 
-
+  const handleMenuItemClick = () => {
+    setExpanded(false);
+    setOpenDropdown(null);
+  };
 
   return (
     <div
@@ -189,7 +210,10 @@ const SideNav = (props) => {
             label={item.label}
             hasDropdown={item.hasDropdown}
             dropdownLinks={item.dropdownLinks}
-            isExpanded={isExpanded} />
+            isExpanded={isExpanded}
+            openDropdown={openDropdown}
+            onDropdownToggle={handleDropdownToggle}
+          />
         ))}
       </div>
     </div>

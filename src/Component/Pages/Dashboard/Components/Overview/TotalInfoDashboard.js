@@ -37,10 +37,7 @@ function TotalInfoDashboard() {
 
     // fetchData();
   }, []);
-console.log("##############33 totalCustomer",totalCustomer)
-// console.log("@@@@@@@@@@@@@@ dailyShipment",dailyShipment)
-// console.log("@@@@@@@@@@@@@@ avarageSelling",avarageSelling)
-// console.log("@@@@@@@@@@@@@@ todayRevenue",todayRevenue)
+
   return (
     <>
       <div className="grid gap-3">

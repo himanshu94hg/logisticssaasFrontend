@@ -15,15 +15,13 @@ const NDRDashboard = () => {
     <>
       <Row className='cardsSpace'>
         <Col className='col-12'>
-          <NDRTotalInfo />
-        </Col>
-        <Col className='col-12'>
           <Row>
             <Col className='col-3 cardsSpace'>
               <SuccessByZone />
               <SuccessbyCourier />
             </Col>
             <Col className='col-6 cardsSpace'>
+              <NDRTotalInfo />
               <NDRStatus />
               <NDRReasonSplit />
             </Col>
