@@ -94,6 +94,7 @@ const DomesticCreateOrder = () => {
         ],
     })
 
+
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;

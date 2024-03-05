@@ -52,7 +52,6 @@ export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
     // };
     
     
-
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
