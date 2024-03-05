@@ -53,7 +53,7 @@ const CreateTicketForm = (props) => {
   const [fileObj, setFileObj] = useState(null)
 
   const [ticketData, setTicketData] = useState({
-    category: 1,
+    category: null,
     sub_category: null,
     awb_number: "",
     description: "",
@@ -93,7 +93,7 @@ const CreateTicketForm = (props) => {
   }, []);
 
   useEffect(() => {
-    if (ticketData.category !== "") {
+    if (ticketData.category) {
       axios
         .get(`http://dev.shipease.in:8081/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
           headers: {
