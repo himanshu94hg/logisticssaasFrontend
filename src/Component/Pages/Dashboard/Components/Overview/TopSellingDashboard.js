@@ -37,6 +37,9 @@ function TopSellingDashboard() {
     { product_name: "Product A", revenue: 50000, deliveredPercentage: 70, rtoPercentage: 5 },
     { product_name: "Product B", revenue: 35000, deliveredPercentage: 65, rtoPercentage: 8 },
     { product_name: "Product C", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
+    { product_name: "Product D", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
+    { product_name: "Product E", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
+    { product_name: "Product F", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
     // Add more dummy data as needed
   ];
 

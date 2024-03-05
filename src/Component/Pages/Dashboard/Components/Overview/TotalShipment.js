@@ -102,9 +102,14 @@ function TotalShipment() {
             <div className="row">
               <div className="col">
                 <div className="progress-widget">
-                  {data.channel_percentage_data.map((item, index) => (  
+                  {data.channel_percentage_data.map((item, index) => (
                     <div key={index} className="mb-3">
-                      <p className="font12 bold-600 mb-2">{item.name}</p>
+                      <div className="d-flex align-items-center justify-content-between">
+                        <p className="font12 bold-600 mb-2">{item.name}</p>
+                        <p className="font12 text-gray mb-0">
+                          {item.total_count} ({item.total_percentage}%)
+                        </p>
+                      </div>
                       <div className="progress mb-2">
                         <div
                           className="progress-bar"
@@ -118,9 +123,7 @@ function TotalShipment() {
                           aria-valuemax="100"
                         ></div>
                       </div>
-                      <p className="font12 text-gray mb-0">
-                        {item.total_count} ({item.total_percentage}%)
-                      </p>
+
                     </div>
                   ))}
                 </div>
