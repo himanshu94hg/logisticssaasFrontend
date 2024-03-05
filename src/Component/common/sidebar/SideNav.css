@@ -33,6 +33,7 @@ a:hover {
     height: calc(100vh - 65px);
     padding-bottom: 20px;
     /* gap: 10px; */
+    transition: height 1s linear;
 }
 
 .SideNav.expanded {
@@ -94,13 +95,61 @@ a:hover {
     font-weight: 700;
 }
 
-.SideNav .dropdown-content{
-    display: flex;
+.SideNav .dropdown-content {
+    display: none;
     flex-direction: column;
     align-items: flex-start;
     width: 80%;
     font-size: 0.9rem;
     padding-left: 3.2rem;
+    animation: dropdown 0.4s linear;
+    /* overflow-y: hidden; */
+    /* overflow-x: hidden; */
+}
+
+.SideNav .dropdown-content.open {
+    display: flex;
+    gap: 5px;
+}
+
+.SideNav .dropdown-content.open a {
+    position: relative;
+    padding-left: 10px;
+}
+
+.SideNav .dropdown-content.open a::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    background-color: #ddd;
+    height: 27px;
+    left: -12px;
+    bottom: 10px;
+}
+
+.SideNav .dropdown-content.open a:first-of-type::before {
+    height: 21px;
+}
+
+.SideNav .dropdown-content.open a::after {
+    content: '';
+    position: absolute;
+    width: 15px;
+    background-color: #ddd;
+    height: 1px;
+    left: -12px;
+    bottom: 10px;
+}
+
+
+@keyframes dropdown {
+    from {
+        height: 0;
+    }
+
+    to {
+        height: 100%;
+    }
 }
 
 
@@ -108,32 +157,31 @@ a:hover {
 ::-webkit-scrollbar {
     width: 4px;
     /* scrollbar-width: thin; */
-/* scrollbar-color: #f1f1f1 #888; */
-  }
-  
-  ::-webkit-scrollbar-track {
+    /* scrollbar-color: #f1f1f1 #888; */
+}
+
+::-webkit-scrollbar-track {
     background-color: #f1f1f1;
-  }
-  
-  /* Style of the scrollbar handle */
-  ::-webkit-scrollbar-thumb {
+}
+
+/* Style of the scrollbar handle */
+::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 6px;
-  }
-  
-  /* On hover, style the scrollbar handle */
-  ::-webkit-scrollbar-thumb:hover {
+}
+
+/* On hover, style the scrollbar handle */
+::-webkit-scrollbar-thumb:hover {
     background-color: #555;
     scrollbar-color: #f1f1f1 #555;
-  }
+}
 
-  .nav-link.active{
+.nav-link.active {
     background-color: #CEDBF2;
     border-radius: 0.2rem;
     font-weight: 700;
-  }
+}
 
-  #sidenav .nav-link.main{
+#sidenav .nav-link.main {
     padding-block: 2px;
-  }
-  
+}
