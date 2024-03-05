@@ -26,7 +26,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
     const handleRemoveProduct = (index) => {
         if (formData.product_details && formData.product_details.length > 1) {
-            const updatedProducts = [...formData.products];
+            const updatedProducts = [...formData.product_details];
             updatedProducts.splice(index, 1);
             setFormData({ ...formData, product_details: updatedProducts });
             const updatedAddFieldsStates = [...addFieldsStates];
@@ -185,15 +185,18 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     />
                                 </label>
                             </div>
-                            {formData.product_details.length === 1 ? (<hr />) :
-                                (<>
+                            {formData.product_details.length === 1 ? (
+                                <hr />
+                            ) : (
+                                <>
                                     <div className='d-flex justify-content-end mt-3'>
                                         <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
                                             <FontAwesomeIcon icon={faTrashCan} title='Delete' />
                                         </button>
                                     </div>
                                     <hr className='mt-2' />
-                                </>)}
+                                </>
+                            )}
                         </div>
                     ))}
                     <div className='d-flex justify-content-end'>
