@@ -4,41 +4,39 @@ import ReactApexChart from 'react-apexcharts';
 const ForwardReverseOrder = () => {
     const [series] = useState([
         {
-            name: 'Yet To Pick',
-            data: [100, 150, 200, 180, 220] // Sample data for forward orders for each week
+            name: 'Assigned Orders',
+            data: [100, 150, 200, 180, 220] // Sample data for assigned orders for each week
         },
         {
-            name: 'Assigned Orders',
-            data: [50, 70, 60, 80, 90] // Sample data for reverse orders for each week
+            name: 'Picked Orders',
+            data: [50, 70, 60, 80, 90] // Sample data for picked orders for each week
         }
     ]);
 
     const [options] = useState({
         chart: {
             height: 'auto',
-            type: 'area',
-            zoom: {
-                enabled: false // Disable zooming
+            type: 'bar'
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '50%',
+                endingShape: 'rounded'
             }
         },
         dataLabels: {
             enabled: false
         },
-        stroke: {
-            curve: 'smooth'
-        },
         xaxis: {
             type: 'category',
             categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
         },
+        colors: ['#1975c9', '#FF5733'], // Change colors for each series
         tooltip: {
             x: {
                 format: 'dd/MM/yy HH:mm'
             },
-        },
-        colors: ['#1975c9', '#FF5733'], // Change colors for each series
-        toolbar: {
-            show: false // Hide the download option icon
         },
         responsive: [
             {
@@ -49,16 +47,21 @@ const ForwardReverseOrder = () => {
                     }
                 }
             }
-        ]
+        ],
+        grid: {
+            padding: {
+                bottom: 10 // Adjust the bottom padding to accommodate negative margin
+            }
+        }
     });
 
     return (
         <div className="box-shadow shadow-sm p10">
             <div className="row">
                 <div className="col">
-                    <h3 className="title">Forward Orders vs Reverse Orders</h3>
+                    <h3 className="title">Assigned Orders vs Picked Orders</h3>
                     <div id="chart">
-                        <ReactApexChart options={options} series={series} type="area" />
+                        <ReactApexChart options={options} series={series} type="bar" />
                     </div>
                 </div>
             </div>
