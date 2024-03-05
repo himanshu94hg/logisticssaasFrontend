@@ -17,7 +17,8 @@ const StatusBarChart = () => {
     }, {
         name: 'Lost',
         data: [5, 10, 12, 10, 8]
-    }];
+    }
+    ];
 
     const options = {
         chart: {
@@ -36,7 +37,7 @@ const StatusBarChart = () => {
             colors: ['#fff']
         },
         title: {
-            text: 'Delivery Status Week Wise'
+            text: ''
         },
         xaxis: {
             categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
@@ -61,6 +62,8 @@ const StatusBarChart = () => {
         </div>
     );
 };
+
+
 const NDRStatus = () => {
     return (
         <>

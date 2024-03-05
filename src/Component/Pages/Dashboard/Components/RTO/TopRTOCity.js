@@ -1,25 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 
 const TopRTOCity = () => {
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [data] = useState([
+    {
+      city: 'Mumbai',
+      rto_count: 500,
+      rto_count_percentage: 10,
+    },
+    {
+      city: 'Delhi',
+      rto_count: 600,
+      rto_count_percentage: 12,
+    },
+    {
+      city: 'Bangalore',
+      rto_count: 450,
+      rto_count_percentage: 9,
+    },
+    {
+      city: 'Kolkata',
+      rto_count: 300,
+      rto_count_percentage: 6,
+    },
+    {
+      city: 'Chennai',
+      rto_count: 350,
+      rto_count_percentage: 7,
+    },
+    {
+      city: 'Hyderabad',
+      rto_count: 400,
+      rto_count_percentage: 8,
+    },
+    {
+      city: 'Ahmedabad',
+      rto_count: 250,
+      rto_count_percentage: 5,
+    }
+  ]);
 
-  // useEffect(() => {
-  //   axios
-  //     .get('http://dev.shipease.in:8088/api/v1/top-rto-city/')
-  //     .then((response) => {
-  //       setData(response.data || []); // Ensure data is an array
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error fetching data:', error);
-  //       setError('Error fetching data. Please try again.');
-  //       setLoading(false);
-  //     });
-  // }, []);
-  
+  const [loading] = useState(false); // Since it's dummy data, no loading
+  const [error] = useState(null); // No error handling for dummy data
+
   return (
     <>
       <div className="box-shadow shadow-sm p10">

@@ -1,59 +1,79 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 
 const ShipmentOverview = () => {
+    const [courierPartner] = useState([
+        {
+            courier_partner: "Courier Partner 1",
+            total_awb_count: 100,
+            average_tat: 12,
+            average_shipment: 25,
+            total_rto: 5,
+            total_ndr: 5,
+        },
+        {
+            courier_partner: "Courier Partner 1",
+            total_awb_count: 100,
+            average_tat: 12,
+            average_shipment: 25,
+            total_rto: 5,
+            total_ndr: 5,
+        },
+        {
+            courier_partner: "Courier Partner 1",
+            total_awb_count: 100,
+            average_tat: 12,
+            average_shipment: 25,
+            total_rto: 5,
+            total_ndr: 5,
+        },
+        {
+            courier_partner: "Courier Partner 1",
+            total_awb_count: 100,
+            average_tat: 12,
+            average_shipment: 25,
+            total_rto: 5,
+            total_ndr: 5,
+        },
 
-    const [courierPartner, setCourierPartner] = useState([]);
-    // useEffect(() => {
-    //     axios.get('http://dev.shipease.in:8088/api/v1/shipment-overview/')
-    //         .then(response => {
-    //             setCourierPartner(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         });
-    // }, []);
+    ]);
 
     return (
         <>
-            <div className="box-shadow shadow-sm p10 top-selling-page">
+            <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
                 <div className="d-flex justify-content-between align-items-center">
                     <h4 className="title">Shipment Overview by Courier</h4>
                 </div>
                 <div className="table-responsive">
-                    <Table hover className="table-ui">
+                    <table className="custom-table w-100">
                         <thead>
                             <tr>
-                                <th scope="col" style={{ width: '30%' }}>Courier Partner</th>
+                                <th scope="col">Courier Partner</th>
                                 <th scope="col">Allocation Number</th>
-                                <th scope="col" style={{ width: '20%' }}>Average TAT</th>
-                                <th scope="col" style={{ width: '20%' }}>Average Shipment</th>
-                                <th scope="col" style={{ width: '15%' }}>Total RTO %</th>
-                                <th scope="col" style={{ width: '15%' }}>Total NDR %</th>
+                                <th scope="col">Average TAT</th>
+                                <th scope="col">Average Shipment</th>
+                                <th scope="col">Total RTO %</th>
+                                <th scope="col">Total NDR %</th>
                             </tr>
                         </thead>
                         <tbody>
                             {courierPartner.map((partner, index) => (
-                                <tr className="text-nowrap" key={index}>
+                                <tr key={index}>
                                     <td>{partner.courier_partner}</td>
                                     <td>{partner.total_awb_count}</td>
-                                    <td>Glossary</td>
-                                    <td>
-                                        <span className="text-green">
-                                            In Stock
-                                        </span>
-                                    </td>
-                                    <td>{/* Your RTO % value */}</td>
-                                    <td>{/* Your NDR % value */}</td>
+                                    <td>{partner.average_tat}</td>
+                                    <td>{partner.average_shipment}</td>
+                                    <td>{partner.total_rto}</td>
+                                    <td>{partner.total_ndr}</td>
+
                                 </tr>
                             ))}
                         </tbody>
-                    </Table>
+                    </table>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default ShipmentOverview;

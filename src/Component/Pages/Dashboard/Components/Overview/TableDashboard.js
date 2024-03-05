@@ -67,12 +67,42 @@ function TableDashboard() {
       total_charges: 35.99,
       weight: "3 kg",
       status: "Shipped"
+    },
+    {
+      order_number: 4,
+      customer_order_number: "CUS789",
+      awb_number: "AWB789",
+      courier_partner: "Courier C",
+      shipping_charges: 9.99,
+      total_charges: 35.99,
+      weight: "3 kg",
+      status: "Shipped"
+    },
+    {
+      order_number: 5,
+      customer_order_number: "CUS789",
+      awb_number: "AWB789",
+      courier_partner: "Courier C",
+      shipping_charges: 9.99,
+      total_charges: 35.99,
+      weight: "3 kg",
+      status: "Shipped"
+    },
+    {
+      order_number: 6,
+      customer_order_number: "CUS789",
+      awb_number: "AWB789",
+      courier_partner: "Courier C",
+      shipping_charges: 9.99,
+      total_charges: 35.99,
+      weight: "3 kg",
+      status: "Shipped"
     }
     // Add more dummy data as needed
   ];
 
   return (
-    <div className="box-shadow shadow-sm p10 top-selling-page">
+    <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="title">Last 30 Days Order</h4>
       </div>

@@ -17,7 +17,7 @@ const PerformanceRefAccounts = () => {
 
     return (
         <>
-            <div className="box-shadow shadow-sm p10 top-selling-page">
+            <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
                 <div className="d-flex justify-content-between align-items-center">
                     <h4 className="title">Performance Referral Accounts</h4>
                     <div>

@@ -9,23 +9,23 @@
     cursor: pointer;
 }
 
-.top-selling-page table td {
+.dashboard-table table td {
     max-width: 250px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.top-selling-page .table-ui th,
+.dashboard-table .table-ui th,
 .last-orders .table-ui th {
     background: transparent;
 }
 
-.top-selling-page .table>:not(:last-child)>:last-child>*,
+.dashboard-table .table>:not(:last-child)>:last-child>*,
 .last-orders .table>:not(:last-child)>:last-child>* {
     border-bottom-color: inherit;
 }
 
-.top-selling-page .table-hover>tbody>tr:hover,
+.dashboard-table .table-hover>tbody>tr:hover,
 .last-orders .table-hover>tbody>tr:hover {
     --bs-table-accent-bg: transparent;
 }
@@ -35,28 +35,29 @@
     --bs-table-accent-bg: #CEDBF2;
 }
 
-.top-selling-page table.custom-table tr td,
-.top-selling-page table.custom-table tr th {
+.dashboard-table table.custom-table tr td,
+.tdashboard-table table.custom-table tr th {
     padding: 5px 10px;
 }
 
-.top-selling-page table.custom-table tr td {
+.dashboard-table table.custom-table tr td {
     font-size: 1rem;
 }
 
-.top-selling-page table.custom-table tr th {
+.dashboard-table table.custom-table tr th {
     font-size: 0.8rem;
+    padding: 5px 10px;
 }
 
-.top-selling-page table.custom-table tbody tr:nth-of-type(odd) td {
+.dashboard-table table.custom-table tbody tr:nth-of-type(odd) td {
     background-color: var(--sh-primary-light);
 }
 
-.top-selling-page table.custom-table tbody tr:nth-of-type(odd) td:first-child {
+.dashboard-table table.custom-table tbody tr:nth-of-type(odd) td:first-child {
     border-radius: 0.5rem 0 0 0.5rem;
 }
 
-.top-selling-page table.custom-table tbody tr:nth-of-type(odd) td:last-child {
+.dashboard-table table.custom-table tbody tr:nth-of-type(odd) td:last-child {
     border-radius: 0 0.5rem 0.5rem 0;
 }
 
@@ -221,6 +222,16 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.top-rto-pincodes .pincode-search {
+    width: auto;
+}
+
+@media screen and (max-width: 1800px) {
+    .top-rto-pincodes .pincode-search {
+        width: 100%;
+    }
 }
 
 @media screen and (max-width: 1600px) {

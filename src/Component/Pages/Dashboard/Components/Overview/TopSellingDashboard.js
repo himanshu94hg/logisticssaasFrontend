@@ -40,11 +40,12 @@ function TopSellingDashboard() {
     { product_name: "Product D", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
     { product_name: "Product E", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
     { product_name: "Product F", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
+    { product_name: "Product g", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
     // Add more dummy data as needed
   ];
 
   return (
-    <div className="box-shadow shadow-sm p10 top-selling-page">
+    <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="title">Top Selling Products</h4>
       </div>
