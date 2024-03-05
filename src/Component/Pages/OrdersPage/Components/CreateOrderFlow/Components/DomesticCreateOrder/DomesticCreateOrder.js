@@ -85,8 +85,8 @@ const DomesticCreateOrder = () => {
                 product_category: "",
                 weight: 0,
                 sku: "",
-                hsn_code: "hsn code",
-                tax_rate: 0,
+                hsn_code: "",
+                tax_rate: '',
                 product_discount: 0,
                 hts_number: "",
                 export_reference_number: ""
