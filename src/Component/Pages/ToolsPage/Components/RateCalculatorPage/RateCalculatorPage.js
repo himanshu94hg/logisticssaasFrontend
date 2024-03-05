@@ -11,34 +11,24 @@ const RateCalculatorPage = () => {
   const [length, setLength] = useState(null);
   const [height, setHeight] = useState(null);
   const [breadth, setBreadth] = useState(null);
-  const [volWeight, setVolWeight] = useState(0.0);
+  const [volWeight, setVolWeight] = useState(0);
   const [RateTable, setRateTable] = useState(false);
   const [invoiceField, setInvoiceField] = useState(false);
   const [orderField, setOrderField] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [chargedWeight, setChargedWeight] = useState(0);
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
     source_pincode: null,
     destination_pincode: null,
-    weight: null,
+    weight: 0,
     volmetric_weight: volWeight,
     is_cod: "No",
 
   });
 
   const { sellerData, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
-
-  console.log(ratePrefilledData,)
-
-  // useEffect(()=>{
-  //  if(ratePrefilledData!=null || undefined){
-  //   setFormData((prevData) => ({
-  //     ...prevData,
-  //     [fieldName]: temp,
-  //   }))
-  //  }
-  // },[ratePrefilledData])
 
   useEffect(() => {
     scrollToBottom();
@@ -126,6 +116,17 @@ const RateCalculatorPage = () => {
     opacity: orderField ? 0.5 : 1,
     pointerEvents: orderField ? 'none' : 'auto',
   };
+
+
+  useEffect(() => {
+    const { weight, volmetric_weight } = formData;
+    if (weight > volmetric_weight) {
+      setChargedWeight(weight)
+    } else if (weight < volmetric_weight) {
+      setChargedWeight(volmetric_weight)
+    }
+  }, [formData.weight,formData.volmetric_weight])
+
 
   return (
     <>
@@ -235,7 +236,7 @@ const RateCalculatorPage = () => {
                 </label>
               </div>
               <div className="mt-3">
-                <p><strong>Estimated Volumetric Weight</strong>: <span>{volWeight} Kg</span></p>
+                <p><strong>Charged Weight:</strong><span>{chargedWeight} Kg</span></p>
               </div>
               <div className='mt-3 row'>
                 <label className='col-md-6' >Payment Type
