@@ -20,7 +20,6 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "@vx/tooltip": "^0.0.199",
-    "3.0.0": "^3.0.0",
     "anychart": "^8.12.0",
     "anychart-react": "^1.4.1",
     "apexcharts": "^3.45.2",
