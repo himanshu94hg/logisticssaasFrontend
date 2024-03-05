@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
@@ -579,6 +579,120 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
         }
     };
 
+    const pincodeRef = useRef(null);
+    const cityRef = useRef(null);
+    const stateRef = useRef(null);
+    const countryRef = useRef(null);
+
+    const handlePincodeChange = () => {
+        const pincode = pincodeRef.current.value;
+
+        if (pincode.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid 6-digit pincode.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
+            .then(response => {
+                if (response.data && response.data.length > 0) {
+                    const data = response.data[0];
+                    const postOffice = data.PostOffice[0];
+                    setFormData(prevState => ({
+                        ...prevState,
+                        shipping_details: {
+                            ...prevState.shipping_details,
+                            city: postOffice.District,
+                            state: postOffice.State,
+                            country: postOffice.Country
+                        }
+                    }));
+                    if (isChecked) {
+                        setFormData(prevState => ({
+                            ...prevState,
+                            billing_details: {
+                                ...prevState.billing_details,
+                                city: postOffice.District,
+                                state: postOffice.State,
+                                country: postOffice.Country
+                            }
+                        }));
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No data found for the given pincode.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    };
+
+    const pincodeRef1 = useRef(null);
+    const cityRef1 = useRef(null);
+    const stateRef1 = useRef(null);
+    const countryRef1 = useRef(null);
+
+    const handlePincodeChange1 = () => {
+        const pincode = pincodeRef1.current.value;
+
+        if (pincode.length < 6) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please enter a valid 6-digit pincode.',
+                confirmButtonText: 'OK'
+            });
+            return;
+        }
+
+        axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
+            .then(response => {
+                if (response.data && response.data.length > 0) {
+                    const data = response.data[0];
+                    const postOffice = data.PostOffice[0];
+                    setFormData(prevState => ({
+                        ...prevState,
+                        shipping_details: {
+                            ...prevState.shipping_details,
+                            city: postOffice.District,
+                            state: postOffice.State,
+                            country: postOffice.Country
+                        }
+                    }));
+                    if (!isChecked) {
+                        setFormData(prevState => ({
+                            ...prevState,
+                            billing_details: {
+                                ...prevState.billing_details,
+                                city: postOffice.District,
+                                state: postOffice.State,
+                                country: postOffice.Country
+                            }
+                        }));
+                    }
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'No data found for the given pincode.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+            });
+    };
+
 
     return (
         <div>
@@ -664,7 +778,12 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's Pincode"
-                                type="text" value={formData.shipping_details.pincode} onChange={(e) => handleChangeShiping(e, 'pincode')} />
+                                type="text"
+                                ref={pincodeRef}
+                                value={formData.shipping_details.pincode}
+                                onChange={(e) => handleChangeShiping(e, 'pincode')}
+                                onBlur={handlePincodeChange}
+                            />
                         </label>
 
                         {/* City */}
@@ -673,7 +792,11 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's City"
-                                type="text" value={formData.shipping_details.city} onChange={(e) => handleChangeShiping(e, 'city')} />
+                                type="text"
+                                ref={cityRef}
+                                value={formData.shipping_details.city}
+                                onChange={(e) => handleChangeShiping(e, 'city')}
+                            />
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -683,7 +806,11 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's State"
-                                type="text" value={formData.shipping_details.state} onChange={(e) => handleChangeShiping(e, 'state')} />
+                                type="text"
+                                ref={stateRef}
+                                value={formData.shipping_details.state}
+                                onChange={(e) => handleChangeShiping(e, 'state')}
+                            />
                         </label>
 
                         {/* Country */}
@@ -692,7 +819,11 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's State"
-                                type="text" value={formData.shipping_details.country} onChange={(e) => handleChangeShiping(e, 'country')} />
+                                type="text"
+                                ref={countryRef}
+                                value={formData.shipping_details.country}
+                                onChange={(e) => handleChangeShiping(e, 'country')}
+                            />
                         </label>
                     </div>
                 </div>
@@ -790,7 +921,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                                 <input
                                     className='input-field'
                                     placeholder="Enter Recipient's Pincode"
-                                    type="text" value={formData.billing_details.pincode} onChange={(e) => handleChangeBilling(e, 'pincode')} />
+                                    type="text" value={formData.billing_details.pincode} onChange={(e) => handleChangeBilling(e, 'pincode')} ref={pincodeRef1} onBlur={handlePincodeChange1} />
                             </label>
 
                             {/* City */}
@@ -799,7 +930,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                                 <input
                                     className='input-field'
                                     placeholder="Enter Recipient's City"
-                                    type="text" value={formData.billing_details.city} onChange={(e) => handleChangeBilling(e, 'city')} />
+                                    type="text" value={formData.billing_details.city} onChange={(e) => handleChangeBilling(e, 'city')} ref={cityRef1} disabled />
                             </label>
                         </div>
                         <div className='row mt-3 gap-2'>
@@ -809,7 +940,7 @@ const Step2 = ({ onPrev, onNext, formData, setFormData }) => {
                                 <input
                                     className='input-field'
                                     placeholder="Enter Recipient's State"
-                                    type="text" value={formData.billing_details.state} onChange={(e) => handleChangeBilling(e, 'state')} />
+                                    type="text" value={formData.billing_details.state} onChange={(e) => handleChangeBilling(e, 'state')} ref={stateRef1} disabled />
                             </label>
 
                             {/* Country */}
