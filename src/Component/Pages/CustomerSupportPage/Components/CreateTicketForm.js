@@ -41,7 +41,7 @@ const CreateTicketForm = (props) => {
   const [allSubCatagry, setAllSubCatagry] = useState([])
 
   const [ticketData, setTicketData] = useState({
-    category: 1,
+    category: null,
     sub_category: null,
     awb_number: "",
     description: "",
@@ -74,7 +74,7 @@ const CreateTicketForm = (props) => {
   }, []);
 
   useEffect(() => {
-    if (ticketData.category !== "") {
+    if (ticketData.category) {
       axios
         .get(`http://dev.shipease.in:8081/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
           headers: {
@@ -125,7 +125,7 @@ const CreateTicketForm = (props) => {
             'Content-Type': 'multipart/form-data',
           },
         });
-
+   
         if (response.status === 201) {
           toast.success("Ticket created successfully")
           setTicketData({
@@ -142,7 +142,7 @@ const CreateTicketForm = (props) => {
           toast.error("Something went wrong!")
         }
       } catch (error) {
-        toast.error("Something went wrong!")
+        toast.error(error?.response?.data?.detail)
       }
     }
 

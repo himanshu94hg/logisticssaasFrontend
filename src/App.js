@@ -2,7 +2,7 @@ import "./App.css";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
-import { ToastContainer, toast } from "react-toastify";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState, lazy } from "react";
 import Sidebar from "./Component/common/sidebar/SideNav";
 import { Routes, Route, useNavigate } from 'react-router-dom';
@@ -136,8 +136,21 @@ function App() {
 
       <ZoneMappingPop ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
       <section onClick={() => setZoneMapping(!ZoneMapping)} className={`backdrop ${ZoneMapping ? 'd-block' : 'd-none'}`}></section>
-   
-      <ToastContainer />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={2000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        pauseOnFocusLoss={true} 
+        transition={Bounce}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnHover
+        
+      />
+      {/* Same as */}
 
     </>
 
