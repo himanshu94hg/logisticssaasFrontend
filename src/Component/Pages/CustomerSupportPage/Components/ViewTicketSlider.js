@@ -110,11 +110,12 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
           <div className='ticket-view-field'>
             <div className='d-flex gap-2'>
               <p>Last Updated:</p>
-              <p className='fw-bold'>{moment(allTicket?.updated_at).format("YYYY-MM-DD")}</p>
+              <p className='fw-bold'>{moment(allTicket?.updated_at).format("DD MMM YYYY")}</p>
             </div>
             <div className='d-flex gap-2'>
               <p>Due Date:</p>
-              <p className='fw-bold'>{allTicket?.resolution_due_by}</p>
+              <p className='fw-bold'>{moment(allTicket?.resolution_due_by).format("DD MMM YYYY")}</p>
+
             </div>
           </div>
           <div className='ticket-view-field'>

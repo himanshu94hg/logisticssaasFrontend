@@ -69,10 +69,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
         
     };
 
-    const startOfMonth = new Date();
-    startOfMonth.setDate(1);
-    startOfMonth.setHours(0, 0, 0, 0);
-
 
     return (
         <>

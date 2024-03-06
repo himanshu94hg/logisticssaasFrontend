@@ -175,11 +175,14 @@ const Processing = ({ orders,handleSearch }) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
+                                                    {row.channel ? (
+                                                        <span className='text-capitalize me-2'>{row.channel}</span>
+                                                    ) : ''}
                                                     {row?.customer_order_number}
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>                                                </p>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
                                             </div>
                                         </td>
                                         <td>

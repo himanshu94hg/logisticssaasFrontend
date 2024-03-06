@@ -86,7 +86,7 @@ const DomesticCreateOrder = () => {
                 weight: 0,
                 sku: "",
                 hsn_code: "",
-                tax_rate: '',
+                tax_rate: null,
                 product_discount: 0,
                 hts_number: "",
                 export_reference_number: ""
@@ -94,7 +94,8 @@ const DomesticCreateOrder = () => {
         ],
     })
 
-    console.log(formData,"this is form data object")
+
+    console.log(formData,"this is a valid data")
 
     useEffect(() => {
         const updateProgressBarWidth = () => {
@@ -131,7 +132,7 @@ const DomesticCreateOrder = () => {
                 }
             }
         } catch (error) {
-            toast.error("Something went wrong!",error)
+            toast.error('something went wrong!')
         }
     };
 
