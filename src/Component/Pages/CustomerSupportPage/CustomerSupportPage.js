@@ -26,7 +26,7 @@ const CustomerSupportPage = () => {
   const [searchValue, setSearchValue] = useState("");
 
   const authToken = Cookies.get("access_token")
-  const apiUrl = "http://dev.shipease.in:8081/core-api/features/support-tickets/";
+  const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
 
   useEffect(() => {
     let url = apiUrl;

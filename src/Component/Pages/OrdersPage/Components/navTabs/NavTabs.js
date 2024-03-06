@@ -20,7 +20,7 @@ export default function NavTabs(props) {
   const sellerData = Cookies.get("user_id");
 
   const handleSubmit = () => {
-    const response = axios.get(`http://dev.shipease.in:8081/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
+    const response = axios.get(`https://dev.shipease.in/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
     .then((response) => {
       toast.success('Order Fetch Successfully');
     }).catch((error) => {

@@ -97,7 +97,7 @@ const AddWarehouse = () => {
                 }
             };
 
-            const response = await axios.post('http://dev.shipease.in:8081/core-api/features/warehouse/', formData,{
+            const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData,{
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,    
                     'Content-Type': 'application/json'
