@@ -9,7 +9,7 @@ const BulkCreateOrder = () => {
     const [bulkOrders, setBulkOrders] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
-
+    const [inputKey, setInputKey] = useState(0); // Add input key state
 
     const authToken = Cookies.get("access_token");
     const sellerId = Cookies.get("user_id");
@@ -31,10 +31,10 @@ const BulkCreateOrder = () => {
                 setBulkOrdersStatus(true);
             } else {
                 const errorData = response.data;
-                console.error('API Error:', errorData);
+                // toast.error(error?.response?.data?.detail);
             }
         } catch (error) {
-            console.error('Error uploading file:', error);
+            toast.error(error?.response?.data?.detail);
         }
     };
 
@@ -73,7 +73,7 @@ const BulkCreateOrder = () => {
             </section>
             <section className='inputs-container mx-auto mb-3 bulk-import-input'>
                 <div className='mid-text-container'>
-                    <input type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
+                    <input key={inputKey} type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
                     <LuUploadCloud className='font30 mb-3' />
                     <p>Drag And Drop to upload the files here.</p>
                     <p className='bo-or-text'>OR</p>
