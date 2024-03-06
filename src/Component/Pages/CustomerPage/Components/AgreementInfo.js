@@ -5,6 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
+import moment from 'moment';
 
 const AgreementInfo = () => {
   const [Basicinfo, setBasicinfo] = useState([]);
@@ -33,7 +34,7 @@ const AgreementInfo = () => {
       cancelButtonText: 'No, cancel!',
     }).then((result) => {
       if (result.isConfirmed) {
-        const newDate = new Date().toLocaleDateString();
+        const newDate = moment(new Date()).format("DD MMM YYYY")
         const newPlace = 'New Dynamic Place';
         setDynamicContent({
           name: 'Seller',
