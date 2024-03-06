@@ -79,6 +79,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         value={product.order_type}
                                         onChange={(e) => handleChange(e, 'order_type', index)}
                                     >
+                                        <option value="">Select</option>
                                         <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
                                         <option value="Automotive">Automotive</option>
                                         <option value="Baby Products">Baby Products </option>
