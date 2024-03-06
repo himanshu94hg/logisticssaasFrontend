@@ -26,5 +26,5 @@ jobs:
           sudo -i
           cd /home/ubuntu/ship_code/shipease_frontend/
           sudo git pull https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/Shipease-Technology/shipease_frontend.git
-          docker build -t shipease_frontend:v2 .
+          sudo docker build -t shipease_frontend:v2 .
           sudo bash -c "cd /root/Apps/ && docker-compose down && docker-compose up -d"
