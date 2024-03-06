@@ -28,7 +28,7 @@ const ShippingRates = () => {
             data.filter(item => item.partner === selectedCourier.value) :
             data;
 
-        return filteredData.map((item, index) => (
+        return filteredData?.map((item, index) => (
             <React.Fragment key={item.partner + index}>
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3}>{item.partner}</td>
