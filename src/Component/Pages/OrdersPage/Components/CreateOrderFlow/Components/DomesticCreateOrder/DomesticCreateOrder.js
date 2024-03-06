@@ -114,7 +114,7 @@ const DomesticCreateOrder = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await axios.post('http://dev.shipease.in:8083/orders-api/orders/', formData, {
+            const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`

@@ -43,7 +43,7 @@ const ShopifyIntegrationForm = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('http://dev.shipease.in:8081/core-api/channel/channel/', formData, {
+            const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'

@@ -20,7 +20,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
 
   useEffect(() => {
     if (ViewTicketInfo) {
-      axios.get(`http://dev.shipease.in:8081/core-api/features/support-tickets/${viewId}/`, {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/${viewId}/`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -58,7 +58,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://dev.shipease.in:8081/core-api/features/ticket-comments/',
+      const response = await axios.post('https://dev.shipease.in/core-api/features/ticket-comments/',
         {
           ticket: viewId,
           comment: newComment,

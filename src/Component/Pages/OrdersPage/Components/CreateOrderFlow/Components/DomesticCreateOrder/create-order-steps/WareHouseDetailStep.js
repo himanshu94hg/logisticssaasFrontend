@@ -18,7 +18,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`http://dev.shipease.in:8081/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
