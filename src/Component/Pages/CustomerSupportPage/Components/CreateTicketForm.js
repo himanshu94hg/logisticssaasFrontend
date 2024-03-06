@@ -79,7 +79,7 @@ const CreateTicketForm = (props) => {
 
   useEffect(() => {
     axios
-      .get('http://dev.shipease.in:8081/core-api/features/ticket-category/', {
+      .get('https://dev.shipease.in/core-api/features/ticket-category/', {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -95,7 +95,7 @@ const CreateTicketForm = (props) => {
   useEffect(() => {
     if (ticketData.category) {
       axios
-        .get(`http://dev.shipease.in:8081/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
+        .get(`https://dev.shipease.in/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -128,7 +128,7 @@ const CreateTicketForm = (props) => {
     if (ticketData.escalate_image !== "" && fileObj) {
       const postTicketData = async () => {
         try {
-          const response = await axios.post('http://dev.shipease.in:8081/core-api/features/support-tickets/', ticketData, {
+          const response = await axios.post('https://dev.shipease.in/core-api/features/support-tickets/', ticketData, {
             headers: {
               'Authorization': `Bearer ${authToken}`,
               'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ const CreateTicketForm = (props) => {
       }
       else {
         try {
-        const response=  await axios.post('http://dev.shipease.in:8081/core-api/features/support-tickets/', ticketData, {
+        const response=  await axios.post('https://dev.shipease.in/core-api/features/support-tickets/', ticketData, {
             headers: {
               'Authorization': `Bearer ${authToken}`,
               'Content-Type': 'application/json',

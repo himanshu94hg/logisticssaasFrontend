@@ -3,11 +3,11 @@ import moment from 'moment';
 import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { AddressStep } from './create-order-steps/AddressDetailStep';
 import { useNavigate } from 'react-router-dom';
-import { OrderStep } from './create-order-steps/OrderDetailsStep';
 import React, { useEffect,useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { OrderDetailsStep, OrderStep } from './create-order-steps/OrderDetailsStep';
+import { AddressDetailStep} from './create-order-steps/AddressDetailStep';
 import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
@@ -17,7 +17,7 @@ const DomesticCreateOrder = () => {
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
     const authToken = Cookies.get("access_token")
-    const currentDate = moment().format("YYYY-MM-DD");
+    const currentDate = new Date();
     const [activeTab, setActiveTab] = useState("All Orders");
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
@@ -94,6 +94,7 @@ const DomesticCreateOrder = () => {
         ],
     })
 
+    console.log(formData,"this is form data object")
 
     useEffect(() => {
         const updateProgressBarWidth = () => {
@@ -113,7 +114,7 @@ const DomesticCreateOrder = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await axios.post('http://dev.shipease.in:8083/orders-api/orders/', formData, {
+            const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`
@@ -174,14 +175,14 @@ const DomesticCreateOrder = () => {
                 <div className=''>
                     {/* Steps */}
                     {step === 1 && (
-                        <OrderStep
+                        <OrderDetailsStep
                             onNext={handleNext}
                             formData={formData}
                             setFormData={setFormData}
                         />
                     )}
                     {step === 2 && (
-                        <AddressStep
+                        <AddressDetailStep
                             onPrev={handlePrev}
                             onNext={handleNext}
                             formData={formData}
