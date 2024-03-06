@@ -13,33 +13,21 @@ import NDRFunnel from '../Components/NDR/NDRFunnel'
 const NDRDashboard = () => {
   return (
     <>
-      <Row className='cardsSpace'>
-        <Col className='col-12'>
-          <Row>
-            <Col className='col-3 cardsSpace'>
-              <SuccessByZone />
-              <SuccessbyCourier />
-            </Col>
-            <Col className='col-6 cardsSpace'>
-              <NDRTotalInfo />
-              <NDRStatus />
-              <NDRReasonSplit />
-            </Col>
-            <Col className='col-3 cardsSpace'>
-              <NDRtoDeliveryAttempt />
-              <SellerBuyerResponse />
-            </Col>
-          </Row>
+      <Row className='mb-3'>
+        <Col className="col-3 cardsSpace">
+          <SuccessByZone />
+          <SuccessbyCourier />
+          <NDRResponse />
         </Col>
-        <Col className='col-12'>
-          <Row>
-            <Col className='col-3'>
-              <NDRResponse />
-            </Col>
-            <Col className='col-9'>
-              <NDRFunnel />
-            </Col>
-          </Row>
+        <Col className="col-6 cardsSpace">
+          <NDRTotalInfo />
+          <NDRStatus />
+          <NDRFunnel />
+        </Col>
+        <Col className="col-3 cardsSpace">
+          <NDRtoDeliveryAttempt />
+          <NDRReasonSplit />
+          <SellerBuyerResponse />
         </Col>
       </Row>
     </>

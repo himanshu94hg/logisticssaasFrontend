@@ -26,20 +26,14 @@ const OrdersDashboard = () => {
         <Col className="col-6 cardsSpace">
           <TotalOrderInfo />
           <ForwardReverseOrder />
-          <Row>
-            <Col className='col-6'>
-              <BestSKU />
-            </Col>
-            <Col className='col-6'>
-              <DomesticInternational />
-            </Col>
-          </Row>
+          <BestSKU />
         </Col>
         <Col className="col-3 cardsSpace">
           <CancelOrder />
           <BuyerDemographic />
           <PrepaidCOD />
           <PopularOrdersLocation />
+          <DomesticInternational />
         </Col>
       </Row>
     </>
