@@ -41,7 +41,7 @@ const BasicInfo = ({ activeTab }) => {
     let error = '';
     switch (name) {
       case 'company_name':
-        if (alphabetic.test(value)) {
+        if (alphaNum.test(value)) {
           setFormData(prev => ({
             ...prev,
             [name]: value
@@ -217,6 +217,8 @@ const BasicInfo = ({ activeTab }) => {
   const uploadFile = async (e, type) => {
     const file = e.target.files[0];
     const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
+
+    console.log(logoFileSize,"logoFileSize")
     if (type === "company_logo") {
       if (logoFileSize > 2) {
         setLogoError("File shouldn't be greater than 2 mb")
@@ -245,7 +247,7 @@ const BasicInfo = ({ activeTab }) => {
     }
 
     if (type === "gstCertificate") {
-      if (logoFileSize > 2) {
+      if (logoFileSize > 3) {
         setDocsError("File shouldn't be greater than 3 mb")
       }
       else {
@@ -450,12 +452,12 @@ const BasicInfo = ({ activeTab }) => {
                     <span>GST Certificate<span className='custom-error'> *</span></span>
                     <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
-                    <button
+                    <a  
                       className='eye-button'
                       onClick={handlePreview}
                     >
                       <FontAwesomeIcon icon={faEye} />
-                    </button>
+                    </a>
                   </label>
                 </div>
               </div>
