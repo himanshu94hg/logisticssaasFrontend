@@ -175,6 +175,9 @@ const Processing = ({ orders,handleSearch }) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
+                                                    {row.channel ? (
+                                                        <span className='text-capitalize me-2'>{row.channel}</span>
+                                                    ) : ''}
                                                     {row?.customer_order_number}
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
