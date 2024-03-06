@@ -5,26 +5,74 @@ import React, {  useRef,useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+export const AddressDetailStep = ({ onPrev, onNext,  }) => {
+    const [isChecked, setIsChecked] = useState(true);
+    const [BillingDetails, setBillingDetails] = useState(true); 
+      const [formData, setFormData] = useState({
+        shipping_details: {
+            recipient_name: "",
+            address: "",
+            landmark: "",
+            country: "India",
+            state: "",
+            city: "",
+            pincode: "",
+            mobile_number: "",
+            email: "",
+            company_name: "",
+            contact_code: "91"
+        },
+        billing_details: {
+            customer_name: "",
+            address: "",
+            landmark: "",
+            country: "India",
+            state: "",
+            city: "",
+            pincode: "",
+            mobile_number: "",
+            email: "",
+            company_name: "",
+            contact_code: "91"
+        },       
+    })
+
+
+    console.log(formData,"error pages data")
+
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
 
     const handleChangeShiping = (e, field) => {
-        setFormData(prevData => ({
-            ...prevData,
-            shipping_details: {
-                ...prevData.shipping_details,
-                [field]: e.target.value
-            }
-        }));
-        setFormData(prevData => ({
-            ...prevData,
-            billing_details: {
-                ...prevData.shipping_details,
-                [field]: e.target.value
-            }
-        }));
+
+        if(isChecked){
+            setFormData(prevData => ({
+                ...prevData,
+                shipping_details: {
+                    ...prevData.shipping_details,
+                    [field]: e.target.value
+                }
+            }));
+
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    ...prevData.shipping_details,
+                    [field === 'recipient_name' ? 'customer_name' : field]: e.target.value
+                    
+                }
+            }));
+        }else{
+            setFormData(prevData => ({
+                ...prevData,
+                shipping_details: {
+                    ...prevData.shipping_details,
+                    [field]: e.target.value
+                }
+            }));
+        }
+       
     };
 
     const handleChangeBilling = (e, field) => {
@@ -62,8 +110,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         setFormData({ ...formData, [field]: e.target.value });
     };
 
-    const [isChecked, setIsChecked] = useState(true);
-    const [BillingDetails, setBillingDetails] = useState(true);
+   
 
 
 const handleCheckboxChange = () => {
@@ -74,7 +121,8 @@ const handleCheckboxChange = () => {
             ...prevData,
             billing_details: {
                 ...prevData.billing_details,
-                customer_name: prevData.shipping_details.recipient_name
+                customer_name: prevData.shipping_details.recipient_name,
+                recipient_name: undefined 
             }
         }));
     } else {
