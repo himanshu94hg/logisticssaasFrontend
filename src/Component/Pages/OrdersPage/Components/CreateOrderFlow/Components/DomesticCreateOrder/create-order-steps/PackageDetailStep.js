@@ -40,7 +40,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }));
     };
 
-    const [finalWeight, setFinalWeight] = useState()
+    const [finalWeight, setFinalWeight] = useState(0)
 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
     const chargedWeight = formData?.dimension_details.weight;

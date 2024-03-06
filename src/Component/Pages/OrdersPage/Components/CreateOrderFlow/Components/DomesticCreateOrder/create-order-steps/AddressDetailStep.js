@@ -1,69 +1,33 @@
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import 'react-toggle/style.css';
-import React, {  useRef,useState } from 'react';
+import { toast } from 'react-toastify';
+import React, { useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-export const AddressDetailStep = ({ onPrev, onNext,  }) => {
+export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
     const [isChecked, setIsChecked] = useState(true);
-    const [BillingDetails, setBillingDetails] = useState(true); 
-      const [formData, setFormData] = useState({
-        shipping_details: {
-            recipient_name: "",
-            address: "",
-            landmark: "",
-            country: "India",
-            state: "",
-            city: "",
-            pincode: "",
-            mobile_number: "",
-            email: "",
-            company_name: "",
-            contact_code: "91"
-        },
-        billing_details: {
-            customer_name: "",
-            address: "",
-            landmark: "",
-            country: "India",
-            state: "",
-            city: "",
-            pincode: "",
-            mobile_number: "",
-            email: "",
-            company_name: "",
-            contact_code: "91"
-        },       
-    })
+    const [BillingDetails, setBillingDetails] = useState(true);
 
-
-    console.log(formData,"error pages data")
 
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
 
     const handleChangeShiping = (e, field) => {
-
-        if(isChecked){
+        if (isChecked) {
             setFormData(prevData => ({
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
                     [field]: e.target.value
-                }
-            }));
-
-            setFormData(prevData => ({
-                ...prevData,
+                },
                 billing_details: {
-                    ...prevData.shipping_details,
-                    [field === 'recipient_name' ? 'customer_name' : field]: e.target.value
-                    
+                    ...prevData.billing_details,
+                    [field === "recipient_name" ? "customer_name" : field]: e.target.value
                 }
             }));
-        }else{
+        } else {
             setFormData(prevData => ({
                 ...prevData,
                 shipping_details: {
@@ -72,7 +36,6 @@ export const AddressDetailStep = ({ onPrev, onNext,  }) => {
                 }
             }));
         }
-       
     };
 
     const handleChangeBilling = (e, field) => {
@@ -106,45 +69,35 @@ export const AddressDetailStep = ({ onPrev, onNext,  }) => {
         }));
     };
 
-    const handleSelectChange = (e, field) => {
-        setFormData({ ...formData, [field]: e.target.value });
+    const handleCheckboxChange = () => {
+        const updatedIsChecked = !isChecked;
+        setIsChecked(updatedIsChecked);
+        if (updatedIsChecked) {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    ...prevData.billing_details,
+                }
+            }));
+        } else {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    customer_name: '',
+                    contact_code: '',
+                    mobile_number: '',
+                    email: '',
+                    company_name: '',
+                    address: '',
+                    landmark: '',
+                    pincode: '',
+                    city: '',
+                    state: '',
+                    country: ''
+                }
+            }));
+        }
     };
-
-   
-
-
-const handleCheckboxChange = () => {
-    const updatedIsChecked = !isChecked;
-    setIsChecked(updatedIsChecked);
-    if (updatedIsChecked) {
-        setFormData(prevData => ({
-            ...prevData,
-            billing_details: {
-                ...prevData.billing_details,
-                customer_name: prevData.shipping_details.recipient_name,
-                recipient_name: undefined 
-            }
-        }));
-    } else {
-        setFormData(prevData => ({
-            ...prevData,
-            billing_details: {
-                customer_name: '',
-                contact_code: '',
-                mobile_number: '',
-                email: '',
-                company_name: '',
-                address: '',
-                landmark: '',
-                pincode: '',
-                city: '',
-                state: '',
-                country: ''
-            }
-        }));
-    }
-};
-
 
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
@@ -153,19 +106,16 @@ const handleCheckboxChange = () => {
 
     const handlePincodeChange = () => {
         const pincode = pincodeRef.current.value;
-
         if (pincode.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter a valid 6-digit pincode.',
-                confirmButtonText: 'OK'
-            });
+            toast.error("Please enter a valid 6-digit pincode.")
             return;
         }
 
         axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
             .then(response => {
+                if( response?.data[0]?.Message ==="No records found"){
+                    toast.error("Please enter valid pincode!")
+                }
                 if (response.data && response.data.length > 0) {
                     const data = response.data[0];
                     const postOffice = data.PostOffice[0];
@@ -189,13 +139,6 @@ const handleCheckboxChange = () => {
                             }
                         }));
                     }
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'No data found for the given pincode.',
-                        confirmButtonText: 'OK'
-                    });
                 }
             })
             .catch(error => {
@@ -212,29 +155,18 @@ const handleCheckboxChange = () => {
         const pincode = pincodeRef1.current.value;
 
         if (pincode.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter a valid 6-digit pincode.',
-                confirmButtonText: 'OK'
-            });
+            toast.error("Please enter a valid 6-digit pincode.")
             return;
         }
 
         axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
             .then(response => {
+                if( response?.data[0]?.Message ==="No records found"){
+                    toast.error("Please enter valid pincode!")
+                }
                 if (response.data && response.data.length > 0) {
                     const data = response.data[0];
                     const postOffice = data.PostOffice[0];
-                    setFormData(prevState => ({
-                        ...prevState,
-                        shipping_details: {
-                            ...prevState.shipping_details,
-                            city: postOffice.District,
-                            state: postOffice.State,
-                            country: postOffice.Country
-                        }
-                    }));
                     if (!isChecked) {
                         setFormData(prevState => ({
                             ...prevState,
@@ -246,13 +178,6 @@ const handleCheckboxChange = () => {
                             }
                         }));
                     }
-                } else {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'No data found for the given pincode.',
-                        confirmButtonText: 'OK'
-                    });
                 }
             })
             .catch(error => {
@@ -343,13 +268,13 @@ const handleCheckboxChange = () => {
                         <label className='col'>
                             Pincode
                             <input
-                                className='input-field'
-                                placeholder="Enter Recipient's Pincode"
                                 type="text"
                                 ref={pincodeRef}
+                                className='input-field'
+                                placeholder="Enter Recipient's Pincode"
+                                onBlur={handlePincodeChange}
                                 value={formData.shipping_details.pincode}
                                 onChange={(e) => handleChangeShiping(e, 'pincode')}
-                                onBlur={handlePincodeChange}
                             />
                         </label>
 
@@ -357,10 +282,11 @@ const handleCheckboxChange = () => {
                         <label className='col'>
                             City
                             <input
-                                className='input-field'
-                                placeholder="Enter Recipient's City"
+                                disabled
                                 type="text"
                                 ref={cityRef}
+                                className='input-field'
+                                placeholder="Enter Recipient's City"
                                 value={formData.shipping_details.city}
                                 onChange={(e) => handleChangeShiping(e, 'city')}
                             />
@@ -371,10 +297,11 @@ const handleCheckboxChange = () => {
                         <label className='col'>
                             State
                             <input
-                                className='input-field'
-                                placeholder="Enter Recipient's State"
+                                disabled
                                 type="text"
                                 ref={stateRef}
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
                                 value={formData.shipping_details.state}
                                 onChange={(e) => handleChangeShiping(e, 'state')}
                             />
@@ -384,10 +311,11 @@ const handleCheckboxChange = () => {
                         <label className='col'>
                             Country
                             <input
-                                className='input-field'
-                                placeholder="Enter Recipient's State"
+                                disabled
                                 type="text"
                                 ref={countryRef}
+                                className='input-field'
+                                placeholder="Enter Recipient's State"
                                 value={formData.shipping_details.country}
                                 onChange={(e) => handleChangeShiping(e, 'country')}
                             />
@@ -486,18 +414,28 @@ const handleCheckboxChange = () => {
                             <label className='col'>
                                 Pincode
                                 <input
+                                    type="text"
+                                    ref={pincodeRef1}
                                     className='input-field'
                                     placeholder="Enter Recipient's Pincode"
-                                    type="text" value={formData.billing_details.pincode} onChange={(e) => handleChangeBilling(e, 'pincode')} ref={pincodeRef1} onBlur={handlePincodeChange1} />
+                                    onBlur={handlePincodeChange1}
+                                    value={formData.billing_details.pincode}
+                                    onChange={(e) => handleChangeBilling(e, 'pincode')}
+                                />
                             </label>
 
                             {/* City */}
                             <label className='col'>
                                 City
                                 <input
+                                    disabled
+                                    type="text"
+                                    ref={cityRef1}
                                     className='input-field'
                                     placeholder="Enter Recipient's City"
-                                    type="text" value={formData.billing_details.city} onChange={(e) => handleChangeBilling(e, 'city')} ref={cityRef1} disabled />
+                                    value={formData.billing_details.city}
+                                    onChange={(e) => handleChangeBilling(e, 'city')}
+                                />
                             </label>
                         </div>
                         <div className='row mt-3 gap-2'>
@@ -505,18 +443,28 @@ const handleCheckboxChange = () => {
                             <label className='col'>
                                 State
                                 <input
+                                    disabled
+                                    type="text"
+                                    ref={stateRef1}
                                     className='input-field'
                                     placeholder="Enter Recipient's State"
-                                    type="text" value={formData.billing_details.state} onChange={(e) => handleChangeBilling(e, 'state')} ref={stateRef1} disabled />
+                                    value={formData.billing_details.state}
+                                    onChange={(e) => handleChangeBilling(e, 'state')}
+
+                                />
                             </label>
 
                             {/* Country */}
                             <label className='col'>
                                 Country
                                 <input
+                                    disabled
+                                    type="text"
                                     className='input-field'
                                     placeholder="Enter Recipient's State"
-                                    type="text" value={formData.billing_details.country} onChange={(e) => handleChangeBilling(e, 'country')} />
+                                    value={formData.billing_details.country}
+                                    onChange={(e) => handleChangeBilling(e, 'country')}
+                                />
                             </label>
                         </div>
                     </div>
