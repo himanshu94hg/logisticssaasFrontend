@@ -5,7 +5,7 @@ import React, {  useRef,useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
+export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
@@ -17,7 +17,6 @@ export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData.shipping_details,
                 [field]: e.target.value
             }
-
         }));
         setFormData(prevData => ({
             ...prevData,
@@ -25,10 +24,8 @@ export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData.shipping_details,
                 [field]: e.target.value
             }
-
         }));
     };
-
 
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
@@ -37,21 +34,8 @@ export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData.billing_details,
                 [field]: e.target.value
             }
-
         }));
     };
-    // const handleChangeBilling = (e, field) => {
-    //     setFormData(prevData => ({
-    //         ...prevData,
-    //         billing_details: {
-    //             ...prevData.billing_details,
-    //             [field]: e.target.value,
-    //             customer_name: e.target.name === 'customer_name' ? e.target.value : prevData.billing_details.customer_name
-    //         }
-    //     }));
-    // };
-    
-    
 
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
@@ -60,7 +44,6 @@ export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData.shipping_details,
                 [field]: e.target.value
             }
-
         }));
     };
 
@@ -82,38 +65,38 @@ export const AddressStep = ({ onPrev, onNext, formData, setFormData }) => {
     const [isChecked, setIsChecked] = useState(true);
     const [BillingDetails, setBillingDetails] = useState(true);
 
-    const handleCheckboxChange = () => {
-        const updatedIsChecked = !isChecked;
-        setIsChecked(updatedIsChecked);
 
-        if (updatedIsChecked) {
-            setFormData(prevData => ({
-                ...prevData,
-                billing_details: {
-                    ...prevData.shipping_details,
-                    customer_name: prevData.shipping_details.recipient_name
-                }
-            }));
-        } else {
-            setFormData(prevData => ({
-                ...prevData,
-                billing_details: {
-                    ...prevData.billing_details,
-                    customer_name: '',
-                    contact_code: '',
-                    mobile_number: '',
-                    email: '',
-                    company_name: '',
-                    address: '',
-                    landmark: '',
-                    pincode: '',
-                    city: '',
-                    state: '',
-                    country: ''
-                }
-            }));
-        }
-    };
+const handleCheckboxChange = () => {
+    const updatedIsChecked = !isChecked;
+    setIsChecked(updatedIsChecked);
+    if (updatedIsChecked) {
+        setFormData(prevData => ({
+            ...prevData,
+            billing_details: {
+                ...prevData.billing_details,
+                customer_name: prevData.shipping_details.recipient_name
+            }
+        }));
+    } else {
+        setFormData(prevData => ({
+            ...prevData,
+            billing_details: {
+                customer_name: '',
+                contact_code: '',
+                mobile_number: '',
+                email: '',
+                company_name: '',
+                address: '',
+                landmark: '',
+                pincode: '',
+                city: '',
+                state: '',
+                country: ''
+            }
+        }));
+    }
+};
+
 
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);

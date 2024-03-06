@@ -1,4 +1,3 @@
-import moment from 'moment';
 import 'react-toggle/style.css';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
@@ -7,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown, } from '@fortawesome/free-solid-svg-icons';
 
 
-export const OrderStep = ({ onNext, formData, setFormData }) => {
+export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
     const [AddFields, SetAddFields] = useState(false)
     const [AddPayFields, SetAddPayFields] = useState(false)
 
@@ -59,20 +58,21 @@ export const OrderStep = ({ onNext, formData, setFormData }) => {
     };
 
     const handleDateChange = (date, field) => {
+        
         setFormData({
             ...formData,
             order_details: {
                 ...formData.order_details,
-                [field]: moment(date).format("YYYY-MM-DDTHH:mm:ssZ")
+                [field]: date
             }
         });
+        
     };
-
 
     const startOfMonth = new Date();
     startOfMonth.setDate(1);
     startOfMonth.setHours(0, 0, 0, 0);
-    const defaultDate = new Date();
+
 
     return (
         <>
@@ -114,10 +114,9 @@ export const OrderStep = ({ onNext, formData, setFormData }) => {
                             <div className="date-picker-container">
                                 <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                 <DatePicker
-                                    selected={formData.order_date || defaultDate}
+                                    selected={formData?.order_details?.order_date}
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="dd/MM/yyyy"
-                                    minDate={startOfMonth}
                                     maxDate={new Date()}
                                     className='input-field'
                                 />
