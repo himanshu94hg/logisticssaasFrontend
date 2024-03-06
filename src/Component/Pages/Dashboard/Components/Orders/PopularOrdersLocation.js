@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const PopularOrdersLocation = () => {
   const [popularLocations, setPopularLocations] = useState([]);
 
-  // useEffect(() => {
-  //   axios.get('http://dev.shipease.in:8088/api/v1/state-wise-order/')
-  //     .then(response => {
-  //       setPopularLocations(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.error('Error fetching data:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    // Dummy data with Indian states
+    const dummyData = [
+      { p_state: 'Maharashtra', total_orders: 150 },
+      { p_state: 'Tamil Nadu', total_orders: 120 },
+      { p_state: 'Karnataka', total_orders: 100 },
+      { p_state: 'Uttar Pradesh', total_orders: 90 },
+      { p_state: 'Gujarat', total_orders: 80 },
+    ];
+
+    setPopularLocations(dummyData);
+  }, []);
 
   return (
     <div className="box-shadow shadow-sm p10">
