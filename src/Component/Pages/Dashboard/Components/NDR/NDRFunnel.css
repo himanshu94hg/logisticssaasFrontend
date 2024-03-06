@@ -1,0 +1,35 @@
+.ndr-funnel .nav-item button {
+    padding: 0;
+    display: flex;
+    width: 134px;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: rgb(0 0 0 / 55%);
+}
+
+.ndr-funnel .nav-item button.active {
+    color: var(--sh-primary);
+    font-size: 1rem;
+}
+
+.funnel-chart {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stage {
+    height: 50px;
+    /* Adjust width as needed */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #000;
+    margin-bottom: 5px;
+    font-size: 1.2rem;
+    /* font-weight: 600; */
+    border-radius: 4px;
+}

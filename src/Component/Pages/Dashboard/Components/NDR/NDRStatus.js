@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactApexChart from 'react-apexcharts';
 
 const StatusBarChart = () => {
@@ -37,13 +37,20 @@ const StatusBarChart = () => {
             colors: ['#fff']
         },
         title: {
-            text: ''
+            text: '',
+            style: {
+                color: '#333' // Change text color here
+            }
         },
         xaxis: {
             categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
         },
         tooltip: {
             enabled: true, // Ensure tooltips are enabled
+            style: {
+                fontSize: '12px', // Adjust font size if needed
+                color: '#333'     // Change text color here
+            }
         },
         fill: {
             opacity: 1
@@ -51,9 +58,12 @@ const StatusBarChart = () => {
         legend: {
             position: 'top',
             horizontalAlign: 'left',
-            offsetX: 40
+            offsetX: 40,
+            labels: {
+                colors: '#333'
+            }
         },
-        colors: ['#008FFB', '#00E396', '#FEB019', '#FF4560', '#775DD0']
+        colors: ['#8ec2f1', '#9fe0a7', '#ffeb80', '#fdd7da', '#ac9ce2']
     };
 
     return (
@@ -63,8 +73,20 @@ const StatusBarChart = () => {
     );
 };
 
+// Add CSS to style data labels text color
+const chartStyles = `
+    .apexcharts-datalabel {
+        fill: #333 !important; // Change text color here
+    }
+`;
+
 
 const NDRStatus = () => {
+    useEffect(() => {
+        const styleTag = document.createElement('style');
+        styleTag.innerHTML = chartStyles;
+        document.head.appendChild(styleTag);
+    }, []);
     return (
         <>
             <div className="box-shadow shadow-sm p10">
