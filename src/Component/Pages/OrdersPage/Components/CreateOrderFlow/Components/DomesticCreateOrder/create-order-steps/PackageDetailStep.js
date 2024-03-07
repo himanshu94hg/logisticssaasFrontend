@@ -4,12 +4,46 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 
 export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const handleChange = (e, field) => {
-        setFormData({ ...formData, [field]: e.target.value });
+    const [errors, setErrors] = useState({});
+
+    const handleValidation = () => {
+        const { cod_charges } = formData?.charge_details;
+        const { invoice_amount, } = formData?.order_details;
+        const { weight, length, breadth, height } = formData?.dimension_details;
+
+        const errorsObj = {};
+
+        if (!invoice_amount) {
+            errorsObj.invoice_amount = "Invoice Amount is required!";
+        }
+        if (!cod_charges) {
+            errorsObj.cod_charges = "COD Charges is required!";
+        }
+        if (!weight) {
+            errorsObj.weight = "Dead Weight is required!";
+        }
+        if (!length) {
+            errorsObj.length = "Length is required!";
+        }
+        if (!breadth) {
+            errorsObj.breadth = "Breadth is required!";
+        }
+        if (!height) {
+            errorsObj.height = "Height is required!";
+        }
+        setErrors(errorsObj);
+        return Object.keys(errorsObj).length === 0;
+    };
+
+    const handleNext = () => {
+        const isValid = handleValidation();
+        if (isValid) {
+            onNext();
+        }
     };
 
     const handleChangeOrder = (e, field) => {
-        const value = e.target.value === '' ? null : e.target.value;
+        const value = e.target.value.trim();
         setFormData(prevData => ({
             ...prevData,
             order_details: {
@@ -19,7 +53,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }));
     };
     const handleChangeCharge = (e, field) => {
-        const charge = e.target.value === '' ? null : e.target.value;
+        const charge = e.target.value.trim();
         setFormData(prevData => ({
             ...prevData,
             charge_details: {
@@ -30,7 +64,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     };
 
     const handleChangeDimension = (e, field) => {
-        const charge = e.target.value === '' ? null : e.target.value;
+        const charge = e.target.value.trim();
         setFormData(prevData => ({
             ...prevData,
             dimension_details: {
@@ -71,25 +105,29 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             Invoice Amount
                             <input
-                                className='input-field'
-                                type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} />
+                                className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
+                                type="number" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} />
+                            {errors.invoice_amount && <span className="custom-error">{errors.invoice_amount}</span>}
                         </label>
 
                         {/* COD Charges */}
                         <label className='col'>
                             COD Charges
                             <input
-                                className='input-field'
-                                type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} />
+                                className={`input-field ${errors.cod_charges && 'input-field-error'}`}
+                                type="number" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} />
+                            {errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
                         </label>
                     </div>
                     <hr />
                     <div className=''>
                         <div className='fw-bold lh-base'>Dead Weight<br />
+                            {errors.weight && <span className="custom-error">{errors.weight}</span>}
                             <input
-                                className='input-field'
+                                // className='input-field'
+                                className={`input-field ${errors.cod_charges && 'input-field-error'}`}
                                 style={{ minWidth: '15    0px' }}
-                                type="text" value={formData.dimension_details.weight}
+                                type="number" value={formData.dimension_details.weight}
                                 onChange={(e) => handleChangeDimension(e, 'weight')} />
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
@@ -111,25 +149,29 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             Length (cm)
                             <input
-                                className='input-field'
-                                type="text" value={formData.dimension_details.length}
+                                className={`input-field ${errors.length && 'input-field-error'}`}
+                                type="number" value={formData.dimension_details.length}
                                 onChange={(e) => handleChangeDimension(e, 'length')} />
+                            {errors.length && <span className="custom-error">{errors.length}</span>}
+
                         </label>
 
                         {/* Breadth (cm) */}
                         <label className='col'>
                             Breadth (cm)
                             <input
-                                className='input-field'
-                                type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')} />
+                                className={`input-field ${errors.breadth && 'input-field-error'}`}
+                                type="number" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')} />
+                            {errors.breadth && <span className="custom-error">{errors.breadth}</span>}
                         </label>
 
                         {/* Height (cm) */}
                         <label className='col'>
                             Height (cm)
                             <input
-                                className='input-field'
-                                type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')} />
+                                className={`input-field ${errors.height && 'input-field-error'}`}
+                                type="number" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')} />
+                            {errors.height && <span className="custom-error">{errors.height}</span>}
                         </label>
                     </div>
                     <div className="volumetric-weight">
@@ -141,7 +183,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             <div className='d-flex justify-content-end my-3'>
                 {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
-                <button className='btn main-button ms-3' onClick={onNext}>Next</button>
+                <button className='btn main-button ms-3' onClick={handleNext}>Next</button>
             </div>
         </div>
     );

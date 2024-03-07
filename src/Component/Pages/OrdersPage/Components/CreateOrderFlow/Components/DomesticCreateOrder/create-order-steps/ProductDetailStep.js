@@ -2,10 +2,37 @@ import 'react-toggle/style.css';
 import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {  faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
+    const [errors, setErrors] = useState({});
+    const validateFormData = () => {
+        const newErrors = {};
+
+        formData.product_details.forEach((product, index) => {
+            if (!product.product_name?.trim()) {
+                newErrors[`product_name_${index}`] = 'Product Name is required!';
+            }
+            if (!product.product_qty?.trim()) {
+                newErrors[`product_qty_${index}`] = 'Product Quantity is required!';
+            }
+            if (!product.product_qty?.trim()) {
+                newErrors[`sku_${index}`] = 'SKU is required!';
+            }
+        });
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const onNextClicked = () => {
+        if (validateFormData()) {
+            onNext();
+        }
+    };
+
+
 
     const handleChange = (e, field, index) => {
         const updatedProducts = [...formData.product_details];
@@ -53,6 +80,16 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }
     }, [formData.product_details]);
 
+    const handlePriceValidation = (value, index) => {
+        const regex = /^\d{1,4}$/;
+        if (!regex.test(value)) {
+            setErrors((prevErrors) => ({ ...prevErrors, [`product_qty_${index}`]: 'Please enter(up to 4 digits).' }));
+        } else {
+            setErrors((prevErrors) => ({ ...prevErrors, [`product_qty_${index}`]: '' }));
+        }
+    };
+
+
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -65,12 +102,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <label className='col'>
                                     Product Name
                                     <input
-                                        className='input-field'
+                                        className={`input-field ${errors[`product_name_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder="Enter or search your product name"
                                         type="text"
                                         value={product.product_name}
                                         onChange={(e) => handleChange(e, 'product_name', index)}
                                     />
+                                    {errors[`product_name_${index}`] && <span className="custom-error">{errors[`product_name_${index}`]}</span>}
                                 </label>
                                 <label className='col'>
                                     <span>Product Category <span className='text-gray'>(Optional)</span></span>
@@ -96,6 +134,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         <option value="Sports & Outdoors">Sports & Outdoors </option>
                                         <option value="Tools & Home Improvement">Tools & Home Improvement</option>
                                         <option value="Toys & Games">Toys & Games</option>
+                                        <option value="Other">Other</option>
                                     </select>
                                 </label>
                             </div>
@@ -106,45 +145,32 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)} />
+                                        type="number" value={product.price} onChange={(e) => handleChange(e, 'price', index)} />
                                 </label>
-
-
-
                                 {/* Quantity */}
                                 <label className='col'>
                                     Quantity
                                     <input
-                                        className='input-field'
+                                        className={`input-field ${errors[`product_qty_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
-                                        type="text" value={product.product_qty} onChange={(e) => handleChange(e, 'product_qty', index)} />
+                                        pattern="[0-9]{4}"
+                                        onBlur={(e) => handlePriceValidation(e.target.value, index)}
+                                        type="number" value={product.product_qty} onChange={(e) => handleChange(e, 'product_qty', index)} />
+                                    {errors[`product_qty_${index}`] && <span className="custom-error">{errors[`product_qty_${index}`]}</span>}
                                 </label>
-                                {/* Quantity */}
-                                {/* <label className='col'>
-                            Product Category
-                            <input
-                                className='input-field'
-                                placeholder='Enter Product Quantity'
-                                type="number" value={formData.product_qty || '1'} onChange={(e) => handleChange(e, 'product_qty')} />
-                        </label> */}
-
-
-
                                 <label className='col-3'>
                                     SKU
                                     <input
                                         type="text"
-                                        className='input-field'
+                                        className={`input-field ${errors[`sku_${index}`] ? 'input-field-error' : ''}`}
                                         value={product.sku}
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />
+                                      {errors[`sku_${index}`] && <span className="custom-error">{errors[`sku_${index}`]}</span>}
                                 </label>
                             </div>
 
-                            <div className="row mt-3">
-
-                            </div>
                             <div className='row mt-4'>
                                 <p onClick={() => handleToggleAddFields(index)} className='add-fields-text'>
                                     <span>+ Add HSN Code, Tax Rate and Discount</span>
@@ -210,7 +236,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             <div className='d-flex justify-content-end my-3'>
                 {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
-                <button className='btn main-button ms-3' onClick={onNext}>Next</button>
+                <button className='btn main-button ms-3' onClick={onNextClicked}>Next</button>
 
             </div>
         </div>
