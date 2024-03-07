@@ -50,7 +50,7 @@ const StatusBarChart = () => {
             horizontalAlign: 'left',
             offsetX: 40
         },
-        colors: ['#00E396', '#FEB019', '#008FFB',]
+        colors: ['#8ec2f1', '#9fe0a7', '#fdd7da',]
     };
 
     return (

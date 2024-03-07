@@ -59,7 +59,7 @@ const ShipmentOverview = () => {
                         <tbody>
                             {courierPartner.map((partner, index) => (
                                 <tr key={index}>
-                                    <td>{partner.courier_partner}</td>
+                                    <td style={{ maxWidth: '2rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{partner.courier_partner}</td>
                                     <td>{partner.total_awb_count}</td>
                                     <td>{partner.average_tat}</td>
                                     <td>{partner.average_shipment}</td>
