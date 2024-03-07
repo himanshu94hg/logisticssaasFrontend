@@ -198,7 +198,7 @@ const RateCalculatorPage = () => {
               </div>
               <div className='mt-4'>
                 <p className='fw-bold lh-base'>Volumetric Weight <span className='info-container'><span className='question-icon'><FontAwesomeIcon icon={faQuestion} /></span>
-                  <span className='info-hover-show'>It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000 or 4000.</span></span>
+                  <span className='info-hover-show'>It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000.</span></span>
                 </p>
               </div>
               <div className="row">
