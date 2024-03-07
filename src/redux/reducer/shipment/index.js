@@ -9,7 +9,7 @@ export const shipmentSectionReducer = (state = initialState, action) => {
         case GET_SHIPMENT_DATA:
             return {
                 ...state,
-                shipmentCard: action?.payload
+                shipmentCard: action?.payload.results
             };
        
         default:

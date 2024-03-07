@@ -4,6 +4,7 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import moment from "moment";
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -120,79 +121,84 @@ const ActionRequested = ({shipmentCard}) => {
                         </thead>
                         <tbody>
                             {shipmentCard?.map((row, index) => (
-                                <React.Fragment key={row?.order_details?.id}>
+                                <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row?.order_details?.id)}
-                                                onChange={() => handleSelectRow(row?.order_details?.id)}
+                                                checked={selectedRows.includes(row.id)}
+                                                onChange={() => handleSelectRow(row.id)}
                                             />
                                         </td>
                                         <td>
+                                            {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.name}</p>
+                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
                                                 <div className='d-flex align-items-center'>
-                                                    {/* <DateFormatter dateTimeString={row?.ndrdetail[row.ndrdetail.length - 1]?.raised_date} /> */}
-                                                    <img src={ForwardIcon} className={`ms-2 ${row?.order_details?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
+                                            {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-                                                {/* {row?.ndrdetail?.length > 0 && (
-                                                    <React.Fragment key={row?.ndrdetail[row.ndrdetail.length - 1].id}>
-                                                        <p>{row?.ndrdetail[row.ndrdetail.length - 1]?.reason}</p>
-                                                    </React.Fragment>
-                                                )} */}
-                                                {/* <p><strong>Attempts: </strong>{row?.name}</p> */}
-                                                <p>{row?.name}</p>
+                                                <p><strong>Attempts: </strong>{row?.ndr_details.length}</p>
+                                                {row?.ndr_details.length > 0 && (
+                                                    row.ndr_details.map((detail, index) => (
+                                                        <p key={index}>NDR Reason: {detail.reason}</p>
+                                                    ))
+                                                )}
                                             </div>
                                         </td>
                                         <td>
+                                            {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.name}</p>
-                                                <p>Wt:  {row?.id} kg
+                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <br />
+                                                    <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     <span className='details-on-hover ms-2 align-middle'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.name}<br />{row?.name}<br /> Qt. {row?.name}
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.order_products.map((product, index) => (
+                                                                    <React.Fragment key={index}>
+                                                                        <strong>Product:</strong> {product.product_name}<br />
+                                                                        <strong>SKU:</strong> {product.sku}<br />
+                                                                        <strong>Qt.:</strong> {product.quantity}<br />
+                                                                    </React.Fragment>
+                                                                ))}
+                                                            </span>
                                                         </span>
-                                                    </span>
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
+                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.name}</p>
-                                                <p>{row?.username}
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p>{row?.shipping_detail?.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
-                                                            {row?.name}, {row?.name}, {row?.name}
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                                            </span>
                                                         </span>
-                                                    </span>
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.address.zipcode}</p>
-                                                {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
-                                                <p className='mt-1'><img src="https://ekartlogistics.com/assets/images/ekblueLogo.png" height={10} className='me-2' />{row?.order_details?.courier_partner}</p>
+                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                                <p className=''>{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            <p className='order-Status-box'>
-                                                <p>{row?.username}</p>
-                                                {/* {row?.ndr_attempts_data?.length > 0 && (
-                                                    <React.Fragment key={row.ndr_attempts_data[row.ndr_attempts_data.length - 1].id}>
-                                                    </React.Fragment>
-                                                 )}  */}
-                                            </p>
+                                            {/*  Status section  */}
+                                            <p className='order-Status-box'>{row.status}</p>
                                         </td>
                                         <td className='align-middle'>
+                                            {/* {row.ndr_action}
+                                                 {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button'>Attempt</button>
                                                 <div className='action-options'>
