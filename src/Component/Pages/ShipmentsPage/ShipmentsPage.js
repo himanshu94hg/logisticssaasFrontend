@@ -5,6 +5,7 @@ import RTOShipment from './Components/RTOShipment/RTOShipment';
 import ActionRequired from './Components/ActionRequired/ActionRequired';
 import ActionRequested from './Components/ActionRequested/ActionRequested';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
+import axios from "axios";
 
 
 const ShipmentsPage = () => {
@@ -23,10 +24,31 @@ const ShipmentsPage = () => {
     };
 
     useEffect(() => {
-        dispatch({ type: "SHIPMENT_DATA_ACTION" })
-    }, [])
+        let param = '';
+        switch (activeTab) {
+            case "Action Required":
+                param = "pending";
+                break;
+            case "Action Requested":
+                param = "requested";
+                break;
+            case "RTO":
+                param = "delivered";
+                break;
+            case "Delivered":
+                param = "rto";
+                break;
+            default:
+                param = '';
+        }
+
+        dispatch({ type: "SHIPMENT_DATA_ACTION", payload: param });
+    }, [dispatch, activeTab]);
+
 
     const { shipmentCard } = useSelector(state => state?.shipmentSectionReducer)
+
+    console.log(activeTab,"Active Tab")
 
     return (
         <>

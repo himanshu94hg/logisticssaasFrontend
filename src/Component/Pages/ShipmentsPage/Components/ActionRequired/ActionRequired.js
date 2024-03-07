@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
+import ForwardIcon from "../../../../../assets/image/icons/ForwardIcon.png";
+import moment from "moment";
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -154,29 +156,39 @@ const ActionRequired = ({shipmentCard}) => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
+                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
                                                 <div className='d-flex align-items-center'>
-                                                    {row.name}
-                                                    {/* <DateFormatter dateTimeString={row.ndr_raised_time} />
-                                                    <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
+                                                    <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-                                            <p><strong>Attepmts: </strong>{getRandomCount(reasons)}</p>
-                                            <p>{getRandomReason(reasons)}</p>
+                                                <p><strong>Attempts: </strong>{row?.ndr_details.length}</p>
+                                                {row?.ndr_details.length > 0 && (
+                                                    row.ndr_details.map((detail, index) => (
+                                                        <p key={index}>NDR Reason: {detail.reason}</p>
+                                                    ))
+                                                )}
                                             </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row.name}</p>
-                                                <p>Wt:  {row.id} kg
+                                                <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <br />
+                                                    <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row.name}<br />{row.name}<br /> Qt. {row.name}
+                                                            {row?.order_products.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
+                                                                </React.Fragment>
+                                                            ))}
                                                         </span>
                                                     </span>
                                                 </p>
@@ -185,32 +197,26 @@ const ActionRequired = ({shipmentCard}) => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.name}</p>
-                                                <p>{row.s_contact}
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p>{row?.shipping_detail?.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
-                                                        {row.name}<br />{row.name}<br /> Qt. {row.name}
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Tracking section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.username}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row.courier_partner}</p>
+                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                                <p className=''>{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.username}</p>
+                                            <p className='order-Status-box'>{row.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}

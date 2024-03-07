@@ -9,7 +9,7 @@ import { GET_SHIPMENT_DATA } from "../../../constants/shipment";
 async function shipmentFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URL}`,
+        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URL}?action=${data}`,
         data: data
     });
     return listData;
