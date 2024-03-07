@@ -1,7 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const ZoneOrdersChart = () => {
+    const [chartWidth, setChartWidth] = useState(380);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const screenWidth = window.innerWidth;
+            // Adjust the chart width based on screen size
+            if (screenWidth >= 1720) {
+                setChartWidth(380); // for larger screens
+            } else if (screenWidth >= 768) {
+                setChartWidth(290); // for medium screens
+            } else {
+                setChartWidth(200); // default width for smaller screens
+            }
+        };
+
+        // Call the handleResize function on initial load
+        handleResize();
+
+        // Add event listener to window resize event
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []); // Empty dependency array ensures that this effect runs only once on component mount
+
+
     const seriesData = [42, 47, 52, 58, 65];
     const total = seriesData.reduce((acc, curr) => acc + curr, 0);
     const percentages = seriesData.map(val => ((val / total) * 100).toFixed(2) + '%');
@@ -66,7 +92,7 @@ const ZoneOrdersChart = () => {
     return (
         <div>
             <div id="chart">
-                <ReactApexChart options={chartData.options} series={chartData.series} type="polarArea" width={380} />
+                <ReactApexChart options={chartData.options} series={chartData.series} type="polarArea" width={chartWidth} />
             </div>
             <div id="html-dist"></div>
         </div>

@@ -2,11 +2,45 @@ import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
 const WeightOrdersChart = () => {
+
+    const [chartWidth, setChartWidth] = useState(380);
+    const [resOffsetX, setresOffsetX] = useState(180)
+
+    useEffect(() => {
+        const handleResize = () => {
+            const screenWidth = window.innerWidth;
+            // Adjust the chart width based on screen size
+            if (screenWidth >= 1720) {
+                setChartWidth(380); // for larger screens
+                setresOffsetX(180); // for larger screens
+                console.log(resOffsetX)
+            } else if (screenWidth >= 768) {
+                setChartWidth(290); // for medium screens
+                setresOffsetX(100); // for medium screens
+                console.log(resOffsetX)
+            } else {
+                setChartWidth(200); // default width for smaller screens
+                setresOffsetX(100); // default width for smaller screens
+            }
+        };
+
+        // Call the handleResize function on initial load
+        handleResize();
+
+        // Add event listener to window resize event
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []); // Empty dependency array ensures that this effect runs only once on component mount
+
+
+
     const [chartData, setChartData] = useState({
         series: [],
         options: {
             chart: {
-                height: 390,
+                width: 390,
                 type: 'radialBar',
             },
             plotOptions: {
@@ -23,9 +57,9 @@ const WeightOrdersChart = () => {
                     dataLabels: {
                         name: {
                             show: true,
-                            fontSize: '14px',
+                            fontSize: '10px',
                             fontWeight: 'bold',
-                            offsetY: -10,
+                            offsetY: -5,
                             color: '#888',
                             formatter: function (val) {
                                 return val;
@@ -33,10 +67,10 @@ const WeightOrdersChart = () => {
                         },
                         value: {
                             show: true,
-                            fontSize: '14px',
+                            fontSize: '10px',
                             fontWeight: 'bold',
                             color: '#888',
-                            offsetY: 10,
+                            offsetY: 5,
                             formatter: function (val) {
                                 return val + ' Order(s)'
                             },
@@ -49,10 +83,10 @@ const WeightOrdersChart = () => {
             legend: {
                 show: true,
                 floating: true,
-                fontSize: '12px',
+                fontSize: '10px',
                 position: 'right',
                 offsetX: 180,
-                offsetY: 10,
+                offsetY: -8,
                 labels: {
                     useSeriesColors: true,
                 },
@@ -68,16 +102,17 @@ const WeightOrdersChart = () => {
             },
             responsive: [
                 {
-                    breakpoint: 480,
+                    breakpoint: 1600,
                     options: {
                         legend: {
-                            show: false,
+                            show: true,
                         },
                     },
                 },
             ],
         },
     });
+
 
     useEffect(() => {
         const orders = [
@@ -112,7 +147,7 @@ const WeightOrdersChart = () => {
     return (
         <div>
             <div id="chart">
-                <ReactApexChart options={chartData.options} series={chartData.series} type="radialBar" height={390} />
+                <ReactApexChart options={chartData.options} series={chartData.series} type="radialBar" width={chartWidth} />
             </div>
             <div id="html-dist"></div>
         </div>
@@ -121,7 +156,7 @@ const WeightOrdersChart = () => {
 
 const WeightProfile = () => {
     return (
-        <div className="box-shadow shadow-sm p10">
+        <div className="box-shadow shadow-sm p10 weight-profile-graph">
             <div className="row">
                 <div className="col">
                     <h4 className="title">Weight Profile in Kgs</h4>
