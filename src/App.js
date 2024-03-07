@@ -11,6 +11,7 @@ import Dashboard from "./Component/Pages/Dashboard/Dashboard";
 import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 import IndiaMapp from './Component/common/Graph/IndiaMapp';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
+import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
 import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
 import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
@@ -88,9 +89,9 @@ function App() {
                 <Route path={indexPattern} element={<Dashboard />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
-            <Route path={reassignOrdersPattern} element={<AllOrders userID={userID} />} />
-            <Route path={mergeOrdersPattern} element={<AllOrders />} />
-            <Route path={splitOrdersPattern} element={<AllOrders />} />
+            <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />
+            <Route path={mergeOrdersPattern} element={<MoreOnOrders />} />
+            <Route path={splitOrdersPattern} element={<MoreOnOrders />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />
             <Route path={dailyPrefrencesPattern} element={<DailyPrefrences />} />
