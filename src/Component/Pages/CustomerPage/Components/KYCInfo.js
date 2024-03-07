@@ -53,6 +53,9 @@ const KYCInfo = ({ activeTab }) => {
   };
 
   const handleChange = async (e) => {
+    
+    console.log(e,"select type dfata")
+
     const { name, value, type, files } = e.target;
     let updatedValue;
     if (type === 'file') {
@@ -170,7 +173,7 @@ const KYCInfo = ({ activeTab }) => {
                       value={formData.document_type}
                       onChange={handleChange}
                     >
-                      <option value="">Select Document Type</option>
+                      <option value="" disabled >Select Document Type</option>
                       <option value="Aadhar Card">Aadhar Card</option>
                       <option value="Pan Card">Pan Card</option>
                       <option value="Driving License">Driving License</option>
@@ -276,8 +279,7 @@ function Preview({ show, setShow, handleClose, handleShow, previewImage }) {
   return (
     <>
       <Modal show={show} onHide={handleClose}>
-        {/* <Modal.Header closeButton>
-        </Modal.Header> */}
+      
         <Modal.Body className='p-1'>
           {previewImage ?
             <img src={previewImage} width={"100%"} height={"400px"} alt="" />
