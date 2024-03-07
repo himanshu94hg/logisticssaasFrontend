@@ -136,8 +136,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
               </p>
             </div>
 
-            {console.log(allTicket?.escalate_image, "allTicket?.escalate_image")}
-
             {allTicket?.escalate_image &&
               <div className='d-flex gap-2 align-items-center'>
                 Attachment:
@@ -181,17 +179,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
           </div>
         </section>
       </section>
-      {/* <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        <button className='btn close-button text-white'>x</button>
-        {fileType === 'image' && (
-          <img src={`http://dev.shipease.in:8088/media/ticket/${allTicket?.escalate_image}`} alt="AttachmentImage" />
-        )}
-        {fileType !== 'image' && (
-          <a href={`http://dev.shipease.in:8088/media/ticket/${allTicket?.escalate_image}`} download>
-            Download File
-          </a>
-        )}
-      </section> */}
+    
       <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
         {allTicket && allTicket?.escalate_image && (
           <>

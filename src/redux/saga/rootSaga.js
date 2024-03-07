@@ -4,20 +4,22 @@ import { rateCalculatorWatcher } from "./action/tools/rateCalculator";
 import { reportSchedulerWatcher } from "./action/tools/reportScheduler";
 import { getBillingWatcher } from "./action/billing";
 import { getshipmentWatcher } from "./action/shipment";
+import { getmoreonorderWatcher } from "./action/moreonorder";
 import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
 import { zoneMappingWatcher } from "./action/tools/zoneMapping";
 import { customerSupportWatcher } from "./action/customerSupport";
 
 
 export default function* rootSaga() {
-  yield all([
-   rateCardWatcher(),
-   rateCalculatorWatcher(),
-   reportSchedulerWatcher(),
-   getBillingWatcher(),
-   getshipmentWatcher(),
-   serviceAbilityWatcher(),
-   zoneMappingWatcher(),
-   customerSupportWatcher()
-  ]);
+    yield all([
+        rateCardWatcher(),
+        rateCalculatorWatcher(),
+        reportSchedulerWatcher(),
+        getmoreonorderWatcher(),
+        getBillingWatcher(),
+        getshipmentWatcher(),
+        serviceAbilityWatcher(),
+        zoneMappingWatcher(),
+        customerSupportWatcher()
+    ]);
 }
