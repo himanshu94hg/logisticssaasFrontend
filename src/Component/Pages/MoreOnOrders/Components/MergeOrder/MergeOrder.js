@@ -11,33 +11,6 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
 const InfoMissing = () => {
     return (
         <>
@@ -175,13 +148,6 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                                 <p className=''>
                                                     {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
                                                     {row?.customer_order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row?.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row?.inserted)} */}
@@ -190,9 +156,6 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                                     <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
 
                                                 </p>
-                                                {/* <p>{row?.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row?.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -207,16 +170,13 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row?.s_city}</p>
-                                                <p>{row?.s_pincode}</p>
-                                                <p>{row?.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -259,15 +219,6 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                                 </div>
                                             </td>
                                         </td>
-                                        {/* shiping section here */}
-                                        {/* <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""}
-                                                    <span style={{right:'23px', width:'100px'}}>AWB Number</span>
-                                                </p>
-                                            </div>
-                                        </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
@@ -296,15 +247,6 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                             </div>
                                         </td>
                                     </tr>
-                                    {/* Additional information row */}
-                                    {/* <tr>
-                                        <td colSpan="9">
-                                            <div>
-                                                <p><strong>Product Name:</strong> {row?.product_name}</p>
-                                                <p><strong>Product SKU:</strong> {row?.product_sku}</p>
-                                            </div>
-                                        </td>
-                                    </tr> */}
                                 </React.Fragment>
                             ))}
                         </tbody>
