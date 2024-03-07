@@ -67,6 +67,7 @@ const DomesticInternational = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10">
+                <h4 className='title'>Domestic Vs International</h4>
                 <OrdersChart />
             </div>
         </>

@@ -1,5 +1,62 @@
-import React from 'react'
-import SuccessCourierGraph from '../../../../../assets/image/SuccessCourierGraph.png'
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
+
+const CourierNDRChart = () => {
+    const chartData = {
+        series: [{
+            name: 'NDR Raised',
+            data: [10, 15, 8, 12, 18] // Example data for NDR Raised
+        }, {
+            name: 'NDR Delivered',
+            data: [8, 10, 12, 14, 16] // Example data for NDR Delivered
+        }],
+        options: {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Courier A', 'Courier B', 'Courier C', 'Courier D', 'Courier E'],
+            },
+            yaxis: {
+                title: {
+                    text: ''
+                }
+            },
+            fill: {
+                opacity: 1
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val) {
+                        return val + " NDRs"
+                    }
+                }
+            }
+        }
+    };
+
+    return (
+        <div>
+            <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={350} />
+        </div>
+    );
+};
 
 const SuccessbyCourier = () => {
     return (
@@ -8,7 +65,7 @@ const SuccessbyCourier = () => {
                 <div className="row">
                     <div className="col">
                         <h4 className="title">Success by Courier</h4>
-                        <img className="graph-image" src={SuccessCourierGraph} alt="SuccessCourierGraph" />
+                        <CourierNDRChart />
                     </div>
                 </div>
             </div>
