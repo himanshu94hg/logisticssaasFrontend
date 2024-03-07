@@ -150,7 +150,7 @@ const BasicInfo = ({ activeTab }) => {
   useEffect(() => {
     if (activeTab === "Basic Information") {
       axios
-        .get('https://dev.shipease.in/core-api/seller/basic-info/', {
+        .get('http://dev.shipease.in:8081/core-api/seller/basic-info/', {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
@@ -193,7 +193,7 @@ const BasicInfo = ({ activeTab }) => {
 
     if (Object.keys(newErrors).length <=2) {
       try {
-        const response = await axios.post('https://dev.shipease.in/core-api/seller/basic-info/', formData, {
+        const response = await axios.post('http://dev.shipease.in:8081/core-api/seller/basic-info/', formData, {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
