@@ -9,15 +9,14 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const [errors, setErrors] = useState({});
     const validateFormData = () => {
         const newErrors = {};
-
-        formData.product_details.forEach((product, index) => {
-            if (!product.product_name?.trim()) {
+        formData?.product_details?.forEach((product, index) => {
+            if (!product?.product_name?.trim()) {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
-            if (!product.product_qty?.trim()) {
-                newErrors[`product_qty_${index}`] = 'Product Quantity is required!';
+            if (typeof product?.quantity !== 'string' || !product?.quantity.trim()) {
+                newErrors[`quantity_${index}`] = 'Product Quantity is required!';
             }
-            if (!product.product_qty?.trim()) {
+            if (!product?.sku?.trim()) {
                 newErrors[`sku_${index}`] = 'SKU is required!';
             }
         });
@@ -32,8 +31,6 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }
     };
 
-
-
     const handleChange = (e, field, index) => {
         const updatedProducts = [...formData.product_details];
         updatedProducts[index][field] = e.target.value;
@@ -45,7 +42,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             ...formData,
             product_details: [
                 ...(formData.product_details || []),
-                { product_name: '', order_type: 'Forward', price: '', product_qty: '1', sku: '', hsn_code: '', tax_rate: '', discount: '' },
+                { product_name: '', order_type: 'Forward', price: '', quantity: '', sku: '', hsn_code: '', tax_rate: '', discount: '' },
             ],
         });
         setAddFieldsStates([...addFieldsStates, false]);
@@ -68,12 +65,10 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         setAddFieldsStates(updatedAddFieldsStates);
     };
 
-    // Ensure at least one product is initially present
     useEffect(() => {
         if (!formData.product_details || formData.product_details.length === 0) {
             handleAddProduct();
         } else {
-            // Initialize addFieldsStates if it's not defined
             setAddFieldsStates((prevAddFieldsStates) =>
                 prevAddFieldsStates.length === formData.product_details.length ? prevAddFieldsStates : Array(formData.product_details.length).fill(false)
             );
@@ -83,9 +78,9 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const handlePriceValidation = (value, index) => {
         const regex = /^\d{1,4}$/;
         if (!regex.test(value)) {
-            setErrors((prevErrors) => ({ ...prevErrors, [`product_qty_${index}`]: 'Please enter(up to 4 digits).' }));
+            setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: 'Please enter(up to 4 digits).' }));
         } else {
-            setErrors((prevErrors) => ({ ...prevErrors, [`product_qty_${index}`]: '' }));
+            setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: '' }));
         }
     };
 
@@ -151,12 +146,12 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <label className='col'>
                                     Quantity
                                     <input
-                                        className={`input-field ${errors[`product_qty_${index}`] ? 'input-field-error' : ''}`}
+                                        className={`input-field ${errors[`quantity_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
-                                        type="number" value={product.product_qty} onChange={(e) => handleChange(e, 'product_qty', index)} />
-                                    {errors[`product_qty_${index}`] && <span className="custom-error">{errors[`product_qty_${index}`]}</span>}
+                                        type="number" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index)} />
+                                    {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
                                 </label>
                                 <label className='col-3'>
                                     SKU
@@ -167,7 +162,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />
-                                      {errors[`sku_${index}`] && <span className="custom-error">{errors[`sku_${index}`]}</span>}
+                                    {errors[`sku_${index}`] && <span className="custom-error">{errors[`sku_${index}`]}</span>}
                                 </label>
                             </div>
 
