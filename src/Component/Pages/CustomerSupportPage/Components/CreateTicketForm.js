@@ -4,20 +4,17 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { awsAccessKey } from '../../../../config';
 import React, { useState, useEffect } from 'react';
-import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
-
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
 // Reusable FormInput component
 const FormInput = ({ label, mandatory, type, value, onChange, options, name, fileInput, customClass, selectFile, clearFile }) => (
-
   <div className='ticket-form-row'>
-    {console.log(selectFile, "this is selecyed file")}
     <label>{label} <span className='text-danger'>{mandatory}</span></label>
     {type === 'select' ? (
-      <select className='select-field' name={name} value={value} onChange={onChange}>
-        <option value="" >Select {label}</option> {/* Placeholder option */}
+      <select className={`select-field ${customClass}`} name={name} value={value} onChange={onChange}>
+        <option value="" >Select {label}</option>
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.label}
@@ -41,7 +38,6 @@ const FormInput = ({ label, mandatory, type, value, onChange, options, name, fil
   </div>
 );
 
-
 const CreateTicketForm = (props) => {
   const [errors, setErrors] = useState({})
   const authToken = Cookies.get("access_token")
@@ -51,6 +47,9 @@ const CreateTicketForm = (props) => {
   const [allSubCatagry, setAllSubCatagry] = useState([])
   const [selectFile, setSelectFile] = useState(false)
   const [fileObj, setFileObj] = useState(null)
+  const [categoryStatus, setCategoryStatus] = useState(false)
+
+  console.log(categoryStatus,"setCategoryStatussetCategoryStatussetCategoryStatus")
 
   const [ticketData, setTicketData] = useState({
     category: null,
@@ -70,13 +69,6 @@ const CreateTicketForm = (props) => {
     label: subcategory.name,
   }));
 
-
-  const clearFile = () => {
-    setSelectFile(false);
-    setFileError("");
-    document.getElementById("fileInput").value = ""; // Reset the file input
-  };
-
   useEffect(() => {
     axios
       .get('https://dev.shipease.in/core-api/features/ticket-category/', {
@@ -86,11 +78,12 @@ const CreateTicketForm = (props) => {
       })
       .then(response => {
         setAllCatagery(response.data);
+        setCategoryStatus(false)
       })
       .catch(error => {
         toast.error('Error :', error)
       });
-  }, []);
+  }, [categoryStatus]);
 
   useEffect(() => {
     if (ticketData.category) {
@@ -117,13 +110,6 @@ const CreateTicketForm = (props) => {
     }
   }, [ticketData.category]);
 
-  const handleCreateTicket = (e) => {
-    setTicketData(prev => ({
-      ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
-
   useEffect(() => {
     if (ticketData.escalate_image !== "" && fileObj) {
       const postTicketData = async () => {
@@ -137,7 +123,7 @@ const CreateTicketForm = (props) => {
           if (response.status === 201) {
             toast.success("Ticket created successfully")
             setTicketData({
-              category: 1,
+              category: null,
               sub_category: null,
               awb_number: "",
               description: "",
@@ -145,6 +131,8 @@ const CreateTicketForm = (props) => {
             })
             setSelectFile(false);
             setFileObj(null)
+            setAllCatagery([])
+            setCategoryStatus(true)
             props?.setStatus(!props.status)
             props.setNewTicket(false)
             document.getElementById("fileInput").value = "";
@@ -153,72 +141,22 @@ const CreateTicketForm = (props) => {
           toast.error(error?.response?.data?.detail)
         }
       };
-      postTicketData(); 
+      postTicketData();
     }
   }, [ticketData.escalate_image, fileObj]);
-  
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const validationErrors = {};
-    if (!ticketData.awb_number.trim()) {
-      validationErrors.awb_number = "AWB is required!";
-    }
-    if (!ticketData.description.trim()) {
-      validationErrors.description = "Remarks is required!";
-    }
-    setErrors(validationErrors)
-  
-    if (Object.keys(validationErrors).length === 0) {
-      if (fileObj) {
-        try {
-          const responseData = await getFileData(fileObj?.name.replace(/\s/g, ""))
-          const awsUrl = responseData.data.url.url
-          const formData = new FormData();
-          formData.append('key', responseData.data.url.fields.key);
-          formData.append('file', fileObj);
-          formData.append('AWSAccessKeyId', awsAccessKey);
-          formData.append('policy', responseData.data.url.fields.policy);
-          formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
-          await uploadImageData(awsUrl, formData); // No need to check additionalData.status
-          const imageUrl = responseData?.data?.url?.url + fileObj?.name.replace(/\s/g, "")
-          setTicketData(prev => ({
-            ...prev,
-            escalate_image: imageUrl
-          }));
-        }
-        catch (error) {
-          toast.error(error?.response?.data?.detail)
-        }
-      }
-      else {
-        try {
-        const response=  await axios.post('https://dev.shipease.in/core-api/features/support-tickets/', ticketData, {
-            headers: {
-              'Authorization': `Bearer ${authToken}`,
-              'Content-Type': 'application/json',
-            },
-          });
-          if (response.status === 201) {
-            toast.success("Ticket created successfully")
-            setTicketData({
-              category: 1,
-              sub_category: null,
-              awb_number: "",
-              description: "",
-              escalate_image: ""
-            })
-            
-            props?.setStatus(!props.status)
-            props.setNewTicket(false)
-          }
 
-        } catch (error) {
-          toast.error(error?.response?.data?.detail)
-        }
-      }
-    }
+  const handleCreateTicket = (e) => {
+    setTicketData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }))
+  }
+  const clearFile = () => {
+    setSelectFile(false);
+    setFileError("");
+    setFileObj(null)
+    document.getElementById("fileInput").value = "";
   };
-  
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
@@ -234,51 +172,124 @@ const CreateTicketForm = (props) => {
     }
   };
 
+  console.log(fileObj,"this is file obj data")
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const validationErrors = {};
+    if (!ticketData.description.trim()) {
+      validationErrors.description = "Remarks is required!";
+    }
+    if (typeof ticketData?.category !== 'string' || !ticketData.category.trim()) {
+      validationErrors.category = "Category is required!";
+    }
+    if (typeof ticketData?.sub_category !== 'string' || !ticketData.sub_category.trim()) {
+      validationErrors.sub_category = "Sub category is required!";
+    }
+    setErrors(validationErrors)
+
+    if (Object.keys(validationErrors).length === 0) {
+      if (fileObj) {
+        try {
+          const responseData = await getFileData(fileObj?.name.replace(/\s/g, ""))
+          const awsUrl = responseData.data.url.url
+          const formData = new FormData();
+          formData.append('key', responseData.data.url.fields.key);
+          formData.append('file', fileObj);
+          formData.append('AWSAccessKeyId', awsAccessKey);
+          formData.append('policy', responseData.data.url.fields.policy);
+          formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+          await uploadImageData(awsUrl, formData);
+          const imageUrl = responseData?.data?.url?.url + fileObj?.name.replace(/\s/g, "")
+          setTicketData(prev => ({
+            ...prev,
+            escalate_image: imageUrl
+          }));
+        }
+        catch (error) {
+          toast.error(error?.response?.data?.detail)
+        }
+      }
+      else {
+        try {
+          const response = await axios.post('https://dev.shipease.in/core-api/features/support-tickets/', ticketData, {
+            headers: {
+              'Authorization': `Bearer ${authToken}`,
+              'Content-Type': 'application/json',
+            },
+          });
+          if (response.status === 201) {
+            toast.success("Ticket created successfully")
+            setTicketData({
+              category: null,
+              sub_category: null,
+              awb_number: "",
+              description: "",
+              escalate_image: ""
+            })
+
+            props?.setStatus(!props.status)
+            props.setNewTicket(false)
+            setAllCatagery([])
+            setCategoryStatus(true)
+          }
+
+        } catch (error) {
+          toast.error(error?.response?.data?.detail)
+        }
+      }
+    }
+
+  };
+
   return (
     <form onSubmit={handleSubmit}>
       <div className='slider-scroll-body'>
         <FormInput
           label="AWB Numbers (Comma Separated)"
           type="text"
-          mandatory={"*"}
-          customClass={`${errors.awb_number && "custom-input"}`}
           name={"awb_number"}
           value={ticketData.awb_number}
           onChange={(e) => handleCreateTicket(e)}
         />
-        {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
-
         <FormInput
-          label="Choose a Category"
           type="select"
+          mandatory={"*"}
           name={"category"}
-          onChange={(e) => handleCreateTicket(e)}
+          label="Choose a Category"
           options={categoryOptions}
-        />
-        <FormInput
-          label="Choose a Subcategory"
-          type="select"
-          name={"sub_category"}
           onChange={(e) => handleCreateTicket(e)}
-          options={subcategoryOptions}
+          customClass={`${errors.category && "custom-input"}`}
         />
+        {errors.category && <span className='error-text'>{errors.category}</span>}
+        <FormInput
+          type="select"
+          mandatory={"*"}
+          name={"sub_category"}
+          label="Choose a Subcategory"
+          options={subcategoryOptions}
+          onChange={(e) => handleCreateTicket(e)}
+          customClass={`${errors.sub_category && "custom-input"}`}
+        />
+        {errors.sub_category && <span className='error-text'>{errors.sub_category}</span>}
         <FormInput
           label="Remarks"
           type="textarea"
+          mandatory={"*"}
           name={"description"}
           value={ticketData.description}
-          customClass={`${errors.awb_number && "custom-input"}`}
           onChange={(e) => handleCreateTicket(e)}
+          customClass={`${errors.description && "custom-input"}`}
         />
         {errors.description && <span className='error-text'>{errors.description}</span>}
         <FormInput
-          label="Attachments (If any)"
           type="file"
           fileInput="fileInput"
           name="escalate_image"
-          selectFile={selectFile}
-          onChange={handleFileChange}
           clearFile={clearFile}
+          selectFile={selectFile}
+          label="Attachments (If any)"
+          onChange={handleFileChange}
         />
         {fileError != '' && <span className='error-text'>{fileError}</span>}
       </div>

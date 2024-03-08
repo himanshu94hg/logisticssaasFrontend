@@ -217,12 +217,16 @@ const AddWarehouse = () => {
         }
     };
 
+    const validateData=()=>{
+        
+    }
+
     return (
         <>
             <form id="formSubmit" onSubmit={handleSubmit}>
                 <div className='box-shadow shadow-sm p10 w-100 add-warehouse-section'>
                     <div className='inputs-container mx-auto mb-3'>
-                        <h3 className='mb-4'>Add New Pickup Address</h3>
+                        <h3 className='mb-4'>Add New Warehouse</h3>
                         <div className='d-flex gap-3'>
                             <label>
                                 Warehouse Name(do not use special symbols)
