@@ -6,6 +6,7 @@ import Cookies from 'js-cookie';
 import "./basicInfo.css"
 import { awsAccessKey } from '../../../../config';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
+import { toast } from 'react-toastify';
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -173,102 +174,121 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
+  const handleIFSCChange = async (e, index) => {
+    const newIFSC = e.target.value;
+    try {
+      const response = await axios.get(`https://ifsc.razorpay.com/${newIFSC}`);
+      if (response.status === 200) {
+        const { BRANCH, BANK } = response.data;
+        setAccounts(accounts.map((account, idx) => idx === index ? { ...account, branchName: BRANCH, bankName: BANK } : account));
+      } else {
+        throw new Error('Failed to fetch branch and bank details.');
+      }
+    } catch (error) {
+      if (error.response && error.response.status === 400 && error.response.data === "Not Found") {
+        toast.error('Invalid IFSC code. Please enter a valid IFSC code.');
+      } else {
+        toast.error('Error fetching branch and bank details.');
+      }
+    }
+  };
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div className='customer-details-container'>
-          <div>
-            {accounts?.map((account, index) => (
-              <div className='customer-details-form' key={index}>
-                <div className='details-form-row row'>
-                  <div className='col-3'>
-                    <h5>Account Details</h5>
-                    <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
+      <>
+        <form onSubmit={handleSubmit}>
+          <div className='customer-details-container'>
+            <div>
+              {accounts?.map((account, index) => (
+                  <div className='customer-details-form' key={index}>
+                    <div className='details-form-row row'>
+                      <div className='col-3'>
+                        <h5>Account Details</h5>
+                        <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
+                      </div>
+                      <div className='col-9'>
+                        <div className='d-flex w-100 gap-3 mt-4'>
+                          <label>
+                            <span> Account Holder Name<span className='custom-error'> *</span></span>
+                            <input className={`input-field ${errors[index]?.accountHolderName && "input-field-error"}`} type="text" value={account.accountHolderName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountHolderName: e.target.value } : acc))} />
+                            {errors[index]?.accountHolderName && <span className="error-text">{errors[index].accountHolderName}</span>}
+                          </label>
+                          <label>
+                            <span>  Account Number<span className='custom-error'> *</span></span>
+                            <input className={`input-field ${errors[index]?.accountNumber && "input-field-error"}`} type="text" value={account.accountNumber} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountNumber: e.target.value } : acc))} />
+                            {errors[index]?.accountNumber && <span className="error-text">{errors[index].accountNumber}</span>}
+                          </label>
+                        </div>
+                        <div className='d-flex w-100 gap-3 mt-4'>
+                          <label>
+                            <span>IFSC Code<span className='custom-error'> *</span></span>
+                            <input className={`input-field ${errors[index]?.ifscCode && "input-field-error"}`} type="text" value={account.ifscCode} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, ifscCode: e.target.value } : acc))} onBlur={(e) => handleIFSCChange(e, index)} />
+                            {errors[index]?.ifscCode && <span className="error-text">{errors[index].ifscCode}</span>}
+                          </label>
+                          <label>
+                            <span> Bank Name<span className='custom-error'> *</span></span>
+                            <input className={`input-field ${errors[index]?.bankName && "input-field-error"}`} type="text" value={account.bankName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, bankName: e.target.value } : acc))} />
+                            {errors[index]?.bankName && <span className="error-text">{errors[index].bankName}</span>}
+                          </label>
+                        </div>
+                        <div className='d-flex w-100 gap-3 mt-4'>
+                          <label>
+                            <span> Branch Name<span className='custom-error'> *</span></span>
+                            <input className={`input-field ${errors[index]?.branchName && "input-field-error"}`} type="text" value={account.branchName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, branchName: e.target.value } : acc))} />
+                            {errors[index]?.branchName && <span className="error-text">{errors[index].branchName}</span>}
+                          </label>
+                          <label className='position-relative'>
+                            Please Upload Cheque Image
+                            <input className="input-field" accept=".pdf" type="file" onChange={(e) => handleFileChange(e, index)} />
+                            <button
+                                className='eye-button'
+                                type='button'
+                                onClick={handlePreview}
+                            >
+                              <FontAwesomeIcon icon={faEye} />
+                            </button>
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    {account.isPrimary && (
+                        <div className='d-flex justify-content-end mt-2 me-3'>
+                          <button
+                              className='btn btn-danger mt-2'
+                              type='button'
+                              onClick={() => handleDelete(index)}
+                          >
+                            <FontAwesomeIcon icon={faTrashCan} />
+                          </button>
+                        </div>
+                    )}
+                    <hr />
                   </div>
-                  <div className='col-9'>
-                    <div className='d-flex w-100 gap-3 mt-4'>
-                      <label>
-                      <span> Account Holder Name<span className='custom-error'> *</span></span>
-                        <input className={`input-field ${errors[index]?.accountHolderName && "input-field-error"}`} type="text" value={account.accountHolderName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountHolderName: e.target.value } : acc))} />
-                        {errors[index]?.accountHolderName && <span className="error-text">{errors[index].accountHolderName}</span>}
-                      </label>
-                      <label>
-                      <span>  Account Number<span className='custom-error'> *</span></span>
-                        <input className={`input-field ${errors[index]?.accountNumber && "input-field-error"}`} type="text" value={account.accountNumber} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountNumber: e.target.value } : acc))} />
-                        {errors[index]?.accountNumber && <span className="error-text">{errors[index].accountNumber}</span>}
-                      </label>
-                    </div>
-                    <div className='d-flex w-100 gap-3 mt-4'>
-                      <label>
-                      <span>IFSC Code<span className='custom-error'> *</span></span>
-                        <input className={`input-field ${errors[index]?.ifscCode && "input-field-error"}`} type="text" value={account.ifscCode} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, ifscCode: e.target.value } : acc))} />
-                        {errors[index]?.ifscCode && <span className="error-text">{errors[index].ifscCode}</span>}
-                      </label>
-                      <label>
-                        <span> Bank Name<span className='custom-error'> *</span></span>
-                        <input className={`input-field ${errors[index]?.bankName && "input-field-error"}`} type="text" value={account.bankName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, bankName: e.target.value } : acc))} />
-                        {errors[index]?.bankName && <span className="error-text">{errors[index].bankName}</span>}
-                      </label>
-                    </div>
-                    <div className='d-flex w-100 gap-3 mt-4'>
-                      <label>
-                        <span> Branch Name<span className='custom-error'> *</span></span>
-                        <input  className={`input-field ${errors[index]?.branchName && "input-field-error"}`} type="text" value={account.branchName} onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, branchName: e.target.value } : acc))} />
-                        {errors[index]?.branchName && <span className="error-text">{errors[index].branchName}</span>}
-                      </label>
-                      <label className='position-relative'>
-                        Please Upload Cheque Image
-                        <input className="input-field" accept=".pdf" type="file" onChange={(e) => handleFileChange(e, index)} />
-                        <button
-                          className='eye-button'
-                          type='button'
-                          onClick={handlePreview}
-                        >
-                          <FontAwesomeIcon icon={faEye} />
-                        </button>
-                      </label>
-                    </div>
-                  </div>
+              ))}
+              <div className='d-flex justify-content-end'>
+                <div className='add-account-text' onClick={addAnotherAccount}>
+                  <FontAwesomeIcon icon={faPlus} /> Add Another Account
                 </div>
-                {account.isPrimary && (
-                  <div className='d-flex justify-content-end mt-2 me-3'>
-                    <button
-                      className='btn btn-danger mt-2'
-                      type='button'
-                      onClick={() => handleDelete(index)}
-                    >
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
-                  </div>
-                )}
-                <hr />
-              </div>
-            ))}
-            <div className='d-flex justify-content-end'>
-              <div className='add-account-text' onClick={addAnotherAccount}>
-                <FontAwesomeIcon icon={faPlus} /> Add Another Account
               </div>
             </div>
+            <div className='d-flex justify-content-end'>
+              <button className='btn main-button mt-3' type="submit">
+                Save
+              </button>
+            </div>
           </div>
-          <div className='d-flex justify-content-end'>
-            <button className='btn main-button mt-3' type="submit">
-              Save
-            </button>
-          </div>
-        </div>
-      </form>
-      <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        {pdfPreviews.map((pdfPreview, index) => (
-          pdfPreview && (
-            <embed key={index} src={pdfPreview} type="application/pdf" width="100%" height="100%" />
-          )
-        ))}
-      </section>
-      <div
-        onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
-        className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
-      ></div>
-    </>
+        </form>
+        <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
+          {pdfPreviews.map((pdfPreview, index) => (
+              pdfPreview && (
+                  <embed key={index} src={pdfPreview} type="application/pdf" width="100%" height="100%" />
+              )
+          ))}
+        </section>
+        <div
+            onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
+            className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
+        ></div>
+      </>
   );
 };
 

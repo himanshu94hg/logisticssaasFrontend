@@ -1,24 +1,22 @@
 import axios from "../../../../axios/index"
-import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_MOREON } from "../../../../axios/config";
-import { MOREONORDER_DATA_ACTION } from "../../constant/moreonorder";
-import { GET_MOREONORDER_DATA } from "../../../constants/moreonorder";
-
+import {call, put, takeLatest} from "@redux-saga/core/effects";
+import {API_URL, BASE_URL_MOREON} from "../../../../axios/config";
+import {MOREONORDER_DATA_ACTION} from "../../constant/moreonorder";
+import {GET_MOREONORDER_DATA} from "../../../constants/moreonorder";
 
 
 async function moreonorderFileAPI(data) {
-    console(data,"MoreOnOrder")
-    let listData = axios.request({
+    console.log(data,"MoreOnOrder")
+    return axios.request({
         method: "GET",
         url: `${BASE_URL_MOREON}${API_URL.GET_MOREONORDER_URL}${data}`,
         data: data
     });
-    return listData;
 }
 
 function* moreonorderFilesAction(action) {
     let { payload, reject } = action;
-    console(action,"MoreOnOrder")
+    console.log(action,"MoreOnOrder")
     try {
         let response = yield call(moreonorderFileAPI, payload);
         if (response.status === 200) {
@@ -32,6 +30,6 @@ function* moreonorderFilesAction(action) {
 }
 
 export function* getmoreonorderWatcher() {
-    console("MoreOnOrder")
+    console.log("MoreOnOrder");
     yield takeLatest(MOREONORDER_DATA_ACTION,moreonorderFilesAction);
 }
