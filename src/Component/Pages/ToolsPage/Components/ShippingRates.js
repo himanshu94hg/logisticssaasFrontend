@@ -9,7 +9,7 @@ const ShippingRates = () => {
     const { ratingCardData } = useSelector(state => state?.toolsSectionReducer);
 
     useEffect(() => {
-        dispatch({ type: "GET_RATE_CARD" });
+        dispatch({ type: "RATE_CARD_ACTION" });
     }, [dispatch]);
 
     const handleCourierChange = selectedOption => {
