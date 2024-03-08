@@ -41,6 +41,7 @@ const KYCInfo = ({ activeTab }) => {
         company_type: response?.data[0]?.company_type
       }))
       setFormList(response.data.map(item => ({
+        id:item?.id,
         documentType: item.document_type,
         documentName: item.document_name,
         documentNumber: item.document_id,
@@ -120,9 +121,29 @@ const KYCInfo = ({ activeTab }) => {
     }
   };
 
-  const handleDelete = (index) => {
+  const handleDelete = async (id) => {
+    console.log(id, "Deleted Id");
+    try {
+      const response = await fetch(`https://dev.shipease.in/core-api/seller/kyc-info-detail/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
+      if (!response.ok) {
+        toast.error('Failed to delete the Document');
+      } else {
+        toast.success('Document deleted successfully.');
+
+        setFormList(prevFormList => prevFormList.filter(item => item.id !== id));
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
+
 
   const [previewImage, setPreviewImage] = useState("");
   const [show, setShow] = useState(false);
@@ -241,7 +262,7 @@ const KYCInfo = ({ activeTab }) => {
                       <button
                         type="button"
                         className="btn delete-btn"
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDelete(item?.id)}
                       >
                         <FontAwesomeIcon icon={faTrashCan} />
                       </button>
@@ -273,20 +294,18 @@ export default KYCInfo;
 
 
 function Preview({ show, setShow, handleClose, handleShow, previewImage }) {
-
-  console.log(previewImage, "this is aimage url data")
-
   return (
-    <>
-      <Modal show={show} onHide={handleClose}>
-      
-        <Modal.Body className='p-1'>
-          {previewImage ?
-            <img src={previewImage} width={"100%"} height={"400px"} alt="" />
-            : <h2 className='p-4'>No image or document avalibale!</h2>
-          }
-        </Modal.Body>
-      </Modal>
-    </>
+      <>
+        <Modal show={show} onHide={handleClose}>
+          <Modal.Body className='p-1'>
+            {previewImage ? (
+                <img src={previewImage} width={"100%"} height={"400px"} alt="" />
+            ) : (
+                <h2 className='p-4'>No image or document available!</h2>
+            )}
+          </Modal.Body>
+        </Modal>
+      </>
   );
 }
+
