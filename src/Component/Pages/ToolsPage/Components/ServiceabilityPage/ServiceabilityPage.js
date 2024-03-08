@@ -1,9 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavTabs from './navTabs/NavTabs';
 import './ServiceabilityPage.css'
 import CouriersList from './CouriersList';
 import Select, { components } from "react-select";
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 
 const Option = (props) => {
@@ -39,18 +42,14 @@ const ServiceabilityPage = () => {
   const [selectedOptions, setSelectedOptions] = useState([]);
   const [activeTab, setActiveTab] = useState("Check Serviceability");
   const [pairPincode, setPairPincode] = useState({
-    pickup_pincode:'',
-    delivery_pincode:''
+    pickup_pincode: '',
+    delivery_pincode: ''
   });
-
-
-  console.log(pairPincodeError,"pairPincodepairPincode")
 
   const handleChange = (selected) => {
     setSelectedOptions(selected);
   };
 
-  console.log(activeTab,"activeTabactiveTabactiveTab")
 
   const getCourierAvalibility = (value) => {
     if (!validatePincode(zipcode)) {
@@ -82,11 +81,11 @@ const ServiceabilityPage = () => {
     }
   };
 
-  const pairHandleChange=(e)=>{
-    const{name,value}=e.target;
-    setPairPincode((prev)=>({
+  const pairHandleChange = (e) => {
+    const { name, value } = e.target;
+    setPairPincode((prev) => ({
       ...prev,
-      [name]:value
+      [name]: value
     }))
   }
   const pairHandleSubmit = () => {
@@ -97,14 +96,33 @@ const ServiceabilityPage = () => {
     if (!validatePincode(pairPincode.delivery_pincode)) {
       errors.delivery_pincode = "Delivery pincode is required!";
     }
-  
+
     setPairPincodeError(errors);
-  
+
     if (Object.keys(errors).length === 0) {
       dispatch({ type: "SERVICE_ABILITY_ACTION_PAIR", payload: pairPincode });
     }
   };
-  
+
+  const { shipeaseServicePincode } = useSelector(state => state?.toolsSectionReducer)
+
+  useEffect(() => {
+    if (shipeaseServicePincode!=null) {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([shipeaseServicePincode], { type: 'application/ms-excel' });
+      FileSaver.saveAs(blob, "shipease_serviceability-pincode.xlsx");
+    }
+  }, [shipeaseServicePincode])
+
+
+  useEffect(()=>{
+  dispatch({type:"GET_COURIER_SERVICE_ABILITY_ACTION"})
+  },[])
+
+const exportShipeaseServiceability=()=>{
+  dispatch({ type: "GET_SHIPEASE_SERVICE_ABILITY_ACTION" })
+}
+
   return (
     <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -117,14 +135,14 @@ const ServiceabilityPage = () => {
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <label className='w-100'>
                     Pickup Pincode
-                    <input className='input-field' name="pickup_pincode" type="text" placeholder='Enter your Pickup Pincode' onChange={pairHandleChange}/>
-                    {pairPincodeError.pickup_pincode && <p className="error-message">{pairPincodeError.pickup_pincode }</p>}
+                    <input className='input-field' name="pickup_pincode" type="text" placeholder='Enter your Pickup Pincode' onChange={pairHandleChange} />
+                    {pairPincodeError.pickup_pincode && <p className="error-message">{pairPincodeError.pickup_pincode}</p>}
                   </label>
                   <hr className='pair-hr' />
                   <label className='w-100'>
                     Delivery Pincode
-                    <input className='input-field' name="delivery_pincode" type="text" placeholder='Enter your Delivery Pincode' onChange={pairHandleChange}/>
-                    {pairPincodeError.delivery_pincode && <p className="error-message">{pairPincodeError.delivery_pincode }</p>}
+                    <input className='input-field' name="delivery_pincode" type="text" placeholder='Enter your Delivery Pincode' onChange={pairHandleChange} />
+                    {pairPincodeError.delivery_pincode && <p className="error-message">{pairPincodeError.delivery_pincode}</p>}
                   </label>
                 </div>
                 <div className='d-flex justify-content-end'>
@@ -138,7 +156,7 @@ const ServiceabilityPage = () => {
                 <h5>Check Serviceable Couriers</h5>
                 <label>
                   Enter Pickup or Delivery Pincode
-                  <input className='input-field' type="number" placeholder='Enter your Pincode'  onChange={handlePincodeChange}/>
+                  <input className='input-field' type="number" placeholder='Enter your Pincode' onChange={handlePincodeChange} />
                   {pincodeError && <p className="error-message">{pincodeError}</p>}
                 </label>
                 <div className='d-flex gap-2 justify-content-end'>
@@ -185,7 +203,7 @@ const ServiceabilityPage = () => {
 
                 </div>
                 <div className='d-flex justify-content-end'>
-                  <button className='btn main-button'>Export Shipease Serviceability</button>
+                  <button className='btn main-button' onClick={() => exportShipeaseServiceability()}>Export Shipease Serviceability</button>
                 </div>
               </div>
             </div>
