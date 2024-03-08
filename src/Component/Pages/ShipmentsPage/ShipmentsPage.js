@@ -33,10 +33,10 @@ const ShipmentsPage = () => {
                 param = "requested";
                 break;
             case "RTO":
-                param = "delivered";
+                param = "rto";
                 break;
             case "Delivered":
-                param = "rto";
+                param = "delivered";
                 break;
             default:
                 param = '';

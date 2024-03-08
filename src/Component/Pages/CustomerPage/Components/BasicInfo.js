@@ -10,6 +10,9 @@ import "./basicInfo.css"
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { awsAccessKey } from '../../../../config';
 import { toast } from 'react-toastify';
+import { Document, Page, pdfjs } from 'react-pdf';
+import Modal from "react-bootstrap/Modal";
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
@@ -126,15 +129,15 @@ const BasicInfo = ({ activeTab }) => {
         const response = await axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`);
         console.log(response, "this is response")
         if (response.data && response.data.length > 0) {
-        
-          const district = response.data[0]?.PostOffice[0]?.District;
-            const state = response.data[0]?.PostOffice[0]?.State;
 
-            setFormData(prev => ({
-              ...prev,
-              city: district || '',
-              state: state || '',
-            }));
+          const district = response.data[0]?.PostOffice[0]?.District;
+          const state = response.data[0]?.PostOffice[0]?.State;
+
+          setFormData(prev => ({
+            ...prev,
+            city: district || '',
+            state: state || '',
+          }));
         } else {
           throw new Error('No data found for the given pincode.');
         }
@@ -150,32 +153,32 @@ const BasicInfo = ({ activeTab }) => {
   useEffect(() => {
     if (activeTab === "Basic Information") {
       axios
-        .get('http://dev.shipease.in:8081/core-api/seller/basic-info/', {
-          headers: {
-            'Authorization': `Bearer ${hardcodedToken}`,
-          },
-        })
-        .then(response => {
-          setBasicInfoList(response.data);
-          const basicInfoData = response.data[0] || {};
-          setFormData(prevState => ({
-            ...prevState,
-            company_name: basicInfoData.company_name || '',
-            email: basicInfoData.email || '',
-            pan_number: basicInfoData.pan_number || '',
-            gst_number: basicInfoData.gst_number || '',
-            street: basicInfoData.street || '',
-            pincode: basicInfoData.pincode || '',
-            city: basicInfoData.city || '',
-            country: 'India',
-            state: basicInfoData.state || '',
-            website_url: basicInfoData.website_url || '',
-            mobile: basicInfoData.mobile || '',
-          }));
-        })
-        .catch(error => {
-          console.error('Error fetching basic info:', error);
-        });
+          .get('https://dev.shipease.in/core-api/seller/basic-info/', {
+            headers: {
+              'Authorization': `Bearer ${hardcodedToken}`,
+            },
+          })
+          .then(response => {
+            setBasicInfoList(response.data);
+            const basicInfoData = response.data[0] || {};
+            setFormData(prevState => ({
+              ...prevState,
+              company_name: basicInfoData.company_name || '',
+              email: basicInfoData.email || '',
+              pan_number: basicInfoData.pan_number || '',
+              gst_number: basicInfoData.gst_number || '',
+              street: basicInfoData.street || '',
+              pincode: basicInfoData.pincode || '',
+              city: basicInfoData.city || '',
+              country: 'India',
+              state: basicInfoData.state || '',
+              website_url: basicInfoData.gst_certificate || '',
+              mobile: basicInfoData.mobile || '',
+            }));
+          })
+          .catch(error => {
+            console.error('Error fetching basic info:', error);
+          });
     }
   }, [activeTab]);
 
@@ -193,16 +196,16 @@ const BasicInfo = ({ activeTab }) => {
 
     if (Object.keys(newErrors).length <=2) {
       try {
-        const response = await axios.post('http://dev.shipease.in:8081/core-api/seller/basic-info/', formData, {
+        const response = await axios.post('https://dev.shipease.in/core-api/seller/basic-info/', formData, {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
         });
 
         console.log(response,"response")
-              if(response?.status===201){
-                toast.success("Details update successfully")
-              }
+        if(response?.status===201){
+          toast.success("Details update successfully")
+        }
         // Handle successful form submission
       } catch (error) {
         console.error('Error during form submission:', error);
@@ -262,7 +265,7 @@ const BasicInfo = ({ activeTab }) => {
           formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
           const additionalData = await uploadImageData(awsUrl, formData);
           if (additionalData?.status == 204) {
-            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
+            const imageUrl = responseData?.data?.url?.url + "customerData/" + e.target.files[0]?.name.replace(/\s/g, "")
             setFormData(prev => ({
               ...prev,
               gst_certificate: imageUrl
@@ -316,169 +319,213 @@ const BasicInfo = ({ activeTab }) => {
     }
   }
 
+  const [previewImage, setPreviewImage] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = async (pdfUrl) => {
+    try {
+      const response = await axios.get(pdfUrl, {
+        responseType: 'blob'
+      });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const objectUrl = URL.createObjectURL(blob);
+      setShow(true);
+      setPreviewImage(objectUrl);
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+    }
+  }
+
+  console.log("imagesData",previewImage)
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div className='customer-details-container mb-2'>
-          <div className='customer-details-form'>
-            <div className='details-form-row row'>
-              <h5 className='col-3'>Primary Details</h5>
-              <div className='col-9'>
-                <label className='logo-file-upload'>
-                  <input className="input-field" type="file" onChange={(e) => uploadFile(e, 'company_logo')} />
-                  <div className='upload-logo-input'>
-                    <div className='d-flex flex-column align-items-center'>
-                      <div className='logo-img-cont'>
-                        <img src={logoPreview} alt="Logo Preview" height={50} />
+      <>
+        <form onSubmit={handleSubmit}>
+          <div className='customer-details-container mb-2'>
+            <div className='customer-details-form'>
+              <div className='details-form-row row'>
+                <h5 className='col-3'>Primary Details</h5>
+                <div className='col-9'>
+                  <label className='logo-file-upload'>
+                    <input className="input-field" type="file" onChange={(e) => uploadFile(e, 'company_logo')} />
+                    <div className='upload-logo-input'>
+                      <div className='d-flex flex-column align-items-center'>
+                        <div className='logo-img-cont'>
+                          <img src={logoPreview} alt="Logo Preview" height={50} />
+                        </div>
+                        <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
                       </div>
-                      <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
                     </div>
+                  </label>
+                  {logoError && <span className="custom-error">{logoError}</span>}
+                  <div className='d-flex w-100 gap-3 mt-4'>
+                    <label>
+                      <span>Company Name <span className='custom-error'>*</span></span>
+                      <input placeholder="Enter your company name" className={`input-field ${errors.company_name && "input-field-error"}`} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
+                      {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
+                    </label>
+                    <label>
+                      <span> Website URL<span className='custom-error'>*</span></span>
+                      <input
+                          placeholder='Enter your website URL'
+                          className={`input-field ${errors.website_url && "input-field-error"}`}
+                          type="text" name="website_url" value={formData.website_url}
+                          onChange={handleChange}
+                          onKeyUp={handleRegex}
+                      />
+                      {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
+                    </label>
                   </div>
-                </label>
-                {logoError && <span className="custom-error">{logoError}</span>}
-                <div className='d-flex w-100 gap-3 mt-4'>
+                </div>
+              </div>
+              <hr />
+              <div className='details-form-row row'>
+                <h5 className='col-3'>Contact Details</h5>
+                <div className='col-9 d-flex gap-3'>
                   <label>
-                    <span>Company Name <span className='custom-error'>*</span></span>
-                    <input placeholder="Enter your company name" className={`input-field ${errors.company_name && "input-field-error"}`} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
-                    {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
+                    <span>Mobile Number <span className='custom-error'> *</span></span>
+                    <div className='d-flex mobile-number-field'>
+                      <select
+                          className='input-field '
+                          disabled
+                      >
+                        <option value="+91">+91</option>
+                      </select>
+                      <input
+                          className={`input-field ${errors.mobile && "input-field-error"}`}
+                          type="text"
+                          name="mobile"
+                          value={formData.mobile}
+                          onChange={handleChange}
+                          placeholder='XXXXXXXXXX'
+                      />
+                    </div>
+                    {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
                   </label>
                   <label>
-                    <span> Website URL<span className='custom-error'>*</span></span>
+                    <span>Email<span className='custom-error'> *</span></span>
                     <input
-                      placeholder='Enter your website URL'
-                      className={`input-field ${errors.website_url && "input-field-error"}`}
-                      type="text" name="website_url" value={formData.website_url}
-                      onChange={handleChange}
-                      onKeyUp={handleRegex}
-                    />
-                    {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
+                        className={`input-field ${errors.email && "input-field-error"}`}
+                        type="text"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        onKeyUp={handleRegex}
+                        placeholder='i.e. abc@gmail.com' />
+                    {errors.email && <span className="custom-error">{errors.email}</span>}
                   </label>
                 </div>
               </div>
-            </div>
-            <hr />
-            <div className='details-form-row row'>
-              <h5 className='col-3'>Contact Details</h5>
-              <div className='col-9 d-flex gap-3'>
-                <label>
-                  <span>Mobile Number <span className='custom-error'> *</span></span>
-                  <div className='d-flex mobile-number-field'>
-                    <select
-                      className='input-field '
-                      disabled
-                    >
-                      <option value="+91">+91</option>
-                    </select>
-                    <input
-                      className={`input-field ${errors.mobile && "input-field-error"}`}
-                      type="text"
-                      name="mobile"
-                      value={formData.mobile}
-                      onChange={handleChange}
-                      placeholder='XXXXXXXXXX'
-                    />
+              <hr />
+              <div className='details-form-row row'>
+                <h5 className='col-3'>Address Details</h5>
+                <div className='col-9'>
+                  <div className='d-flex gap-3'>
+                    <label>
+                      <span>Address<span className='custom-error'>*</span></span>
+                      <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange} />
+                      {errors.street && <span className="custom-error">{errors.street}</span>}
+                    </label>
+                    <label>
+                      Landmark
+                      <input placeholder="Any nearby post office, market, Hospital as the landmark" className={`input-field`} type="text" name="landmark" value={formData.landmark} onChange={handleChange} />
+                    </label>
                   </div>
-                  {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
-                </label>
-                <label>
-                  <span>Email<span className='custom-error'> *</span></span>
-                  <input
-                    className={`input-field ${errors.email && "input-field-error"}`}
-                    type="text"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    onKeyUp={handleRegex}
-                    placeholder='i.e. abc@gmail.com' />
-                  {errors.email && <span className="custom-error">{errors.email}</span>}
-                </label>
-              </div>
-            </div>
-            <hr />
-            <div className='details-form-row row'>
-              <h5 className='col-3'>Address Details</h5>
-              <div className='col-9'>
-                <div className='d-flex gap-3'>
-                  <label>
-                    <span>Address<span className='custom-error'>*</span></span>
-                    <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange} />
-                    {errors.street && <span className="custom-error">{errors.street}</span>}
-                  </label>
-                  <label>
-                    Landmark
-                    <input placeholder="Any nearby post office, market, Hospital as the landmark" className={`input-field`} type="text" name="landmark" value={formData.landmark} onChange={handleChange} />
-                  </label>
-                </div>
-                <div className='d-flex gap-3 mt-3'>
-                  <label>
-                    <span>Pincode<span className='custom-error'> *</span></span>
-                    <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange} />
-                    {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
-                  </label>
-                  <label>
-                    <span>City<span className='custom-error'> *</span></span>
-                    <input placeholder="Enter your city" className={`input-field ${errors.city && "input-field-error"}`} type="text" name="city" value={formData.city} onChange={handleChange} />
-                    {errors.city && <span className="custom-error">{errors.city}</span>}
-                  </label>
-                  <label>
-                    <span>State<span className='custom-error'> *</span></span>
-                    <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
-                    {errors.state && <span className="custom-error">{errors.state}</span>}
-                  </label>
-                  <label>
-                    <span>Country<span className='custom-error'> *</span></span>
-                    <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
-                    {errors.country && <span className="custom-error">{errors.country}</span>}
-                  </label>
+                  <div className='d-flex gap-3 mt-3'>
+                    <label>
+                      <span>Pincode<span className='custom-error'> *</span></span>
+                      <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange} />
+                      {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
+                    </label>
+                    <label>
+                      <span>City<span className='custom-error'> *</span></span>
+                      <input placeholder="Enter your city" className={`input-field ${errors.city && "input-field-error"}`} type="text" name="city" value={formData.city} onChange={handleChange} />
+                      {errors.city && <span className="custom-error">{errors.city}</span>}
+                    </label>
+                    <label>
+                      <span>State<span className='custom-error'> *</span></span>
+                      <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
+                      {errors.state && <span className="custom-error">{errors.state}</span>}
+                    </label>
+                    <label>
+                      <span>Country<span className='custom-error'> *</span></span>
+                      <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
+                      {errors.country && <span className="custom-error">{errors.country}</span>}
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-            <hr />
-            <div className="details-form-row row">
-              <h5 className='col-3'>Taxation Details</h5>
-              <div className='col-9'>
-                <div className='d-flex gap-3 mt-3'>
-                  <label>
-                    <span>PAN Number<span className='custom-error'> *</span></span>
-                    <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange} />
-                    {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
-                  </label>
-                  <label>
-                    <span>GST Number<span className='custom-error'> *</span></span>
-                    <input className={`input-field ${errors.gst_number && "input-field-error"}`} type="text" name="gst_number" value={formData.gst_number} onChange={handleChange} />
-                    {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
-                  </label>
-                  <label className='position-relative'>
-                    <span>GST Certificate<span className='custom-error'> *</span></span>
-                    <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
-                    {docsError && <span className="custom-error">{docsError}</span>}
-                    <a  
-                      className='eye-button'
-                      onClick={handlePreview}
-                    >
-                      <FontAwesomeIcon icon={faEye} />
-                    </a>
-                  </label>
+              <hr />
+              <div className="details-form-row row">
+                <h5 className='col-3'>Taxation Details</h5>
+                <div className='col-9'>
+                  <div className='d-flex gap-3 mt-3'>
+                    <label>
+                      <span>PAN Number<span className='custom-error'> *</span></span>
+                      <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange} />
+                      {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
+                    </label>
+                    <label>
+                      <span>GST Number<span className='custom-error'> *</span></span>
+                      <input className={`input-field ${errors.gst_number && "input-field-error"}`} type="text" name="gst_number" value={formData.gst_number} onChange={handleChange} />
+                      {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
+                    </label>
+                    <label className='position-relative'>
+                      <span>GST Certificate<span className='custom-error'> *</span></span>
+                      <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
+                      {docsError && <span className="custom-error">{docsError}</span>}
+                    </label>
+                  </div>
                 </div>
               </div>
+              {formData.website_url && (
+                  <button
+                      type="button"
+                      style={{ float: 'right' }}
+                      className="btn preview-btn"
+                      onClick={() => handleShow(formData.website_url)}
+                  >
+                    View File
+                  </button>
+              )}
+              {/* Add other form sections here */}
             </div>
-            {/* Add other form sections here */}
+            <div className='d-flex justify-content-end mt-4'>
+              <button className='btn main-button' type="submit">Save</button>
+            </div>
           </div>
-          <div className='d-flex justify-content-end mt-4'>
-            <button className='btn main-button' type="submit">Save</button>
-          </div>
-        </div>
-      </form>
-      <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
-        {pdfPreview && (
-          <embed src={pdfPreview} type="application/pdf" width="100%" height="100%" />
-        )}
-      </section>
-      <div
-        onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
-        className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
-    </>
+        </form>
+        <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
+          {pdfPreview && (
+              <embed src={pdfPreview} type="application/pdf" width="100%" height="100%" />
+          )}
+        </section>
+        <div
+            onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
+            className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
+
+        <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
+      </>
   );
 };
 
 export default BasicInfo;
+
+function Preview({ show, handleClose, previewImage }) {
+  return (
+      <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '650px',overflow: 'hidden' }} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>PDF Preview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {previewImage && (
+              <Document file={previewImage}>
+                <Page pageNumber={1} width={400} height={300} />
+              </Document>
+          )}
+        </Modal.Body>
+      </Modal>
+  );
+}
+
+
