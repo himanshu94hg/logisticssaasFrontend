@@ -45,7 +45,7 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
 
@@ -88,7 +88,7 @@ const AccountInfo = ({ activeTab }) => {
           formData.append('bank_branch', account.branchName);
           formData.append('cheque_image', account.chequeImage);
 
-          await axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
+          axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
             headers: {
               'Authorization': `Bearer ${hardcodedToken}`,
               'Content-Type': 'multipart/form-data'
@@ -111,28 +111,50 @@ const AccountInfo = ({ activeTab }) => {
         bankName: '',
         branchName: '',
         chequeImage: null,
-        isPrimary: false,
+        is_primary: prevAccounts.length > 0 ? false : true,
       },
     ]);
     setPdfPreviews((prevPreviews) => [...prevPreviews, null]);
     setErrors((prevErrors) => [...prevErrors, {}]);
   }
 
-  const handleDelete = (index) => {
-    if (!accounts[index].isPrimary) {
-      const updatedAccounts = [...accounts];
-      const updatedPdfPreviews = [...pdfPreviews];
-      const updatedErrors = [...errors];
+  const handleDelete = async (index) => {
+    const accountToDelete = accounts[index];
+    console.log(accountToDelete.is_primary,"Delete Account")
+    if (!accountToDelete.is_primary) {
+      try {
+        const response = await fetch(`https://dev.shipease.in/core-api/seller/bank-info-details/${accountToDelete.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-      updatedAccounts.splice(index, 1);
-      updatedPdfPreviews.splice(index, 1);
-      updatedErrors.splice(index, 1);
+        if (!response.ok) {
+          toast.error('Failed to delete the account');
+        }
+        else {
+          toast.success('Account deleted successfully.');
+        }
 
-      setAccounts(updatedAccounts);
-      setPdfPreviews(updatedPdfPreviews);
-      setErrors(updatedErrors);
+        const updatedAccounts = [...accounts];
+        const updatedPdfPreviews = [...pdfPreviews];
+        const updatedErrors = [...errors];
+
+        updatedAccounts.splice(index, 1);
+        updatedPdfPreviews.splice(index, 1);
+        updatedErrors.splice(index, 1);
+
+        setAccounts(updatedAccounts);
+        setPdfPreviews(updatedPdfPreviews);
+        setErrors(updatedErrors);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
+
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
@@ -167,7 +189,7 @@ const AccountInfo = ({ activeTab }) => {
 
   const handlePreview = () => {
     if (pdfPreviews.length === 0) {
-      
+
       // Handle no previews available
     } else {
       setViewAttachmentContent(!viewAttachmentContent);
@@ -182,7 +204,7 @@ const AccountInfo = ({ activeTab }) => {
         const { BRANCH, BANK } = response.data;
         setAccounts(accounts.map((account, idx) => idx === index ? { ...account, branchName: BRANCH, bankName: BANK } : account));
       } else {
-        throw new Error('Failed to fetch branch and bank details.');
+        toast.error('Failed to fetch branch and bank details.');
       }
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data === "Not Found") {
@@ -203,7 +225,7 @@ const AccountInfo = ({ activeTab }) => {
                     <div className='details-form-row row'>
                       <div className='col-3'>
                         <h5>Account Details</h5>
-                        <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
+                        <p><i>{account.is_primary ? '(Primary Account)' : '(Other Account)'}</i></p>
                       </div>
                       <div className='col-9'>
                         <div className='d-flex w-100 gap-3 mt-4'>
@@ -250,7 +272,7 @@ const AccountInfo = ({ activeTab }) => {
                         </div>
                       </div>
                     </div>
-                    {account.isPrimary && (
+                    {!account.is_primary && (
                         <div className='d-flex justify-content-end mt-2 me-3'>
                           <button
                               className='btn btn-danger mt-2'
