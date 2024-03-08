@@ -6,7 +6,7 @@ const token=Cookies.get("access_token")
 const instance = axios.create({
     // baseURL: BASE_URL,
     headers: {
-        mode: "cors",
+        mode: "no-cors",
         "Content-Type": "application/json",
         Accept: "application/json",
         "Access-Control-Allow-Origin": "*",

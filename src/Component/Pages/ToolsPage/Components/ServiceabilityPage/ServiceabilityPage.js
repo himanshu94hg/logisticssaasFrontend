@@ -33,23 +33,78 @@ const courierOptions = [
 
 const ServiceabilityPage = () => {
   const dispatch = useDispatch()
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [zipcode, setZipcode] = useState("");
+  const [pincodeError, setPincodeError] = useState("");
+  const [pairPincodeError, setPairPincodeError] = useState({});
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const [activeTab, setActiveTab] = useState("Check Serviceability");
+  const [pairPincode, setPairPincode] = useState({
+    pickup_pincode:'',
+    delivery_pincode:''
+  });
+
+
+  console.log(pairPincodeError,"pairPincodepairPincode")
 
   const handleChange = (selected) => {
     setSelectedOptions(selected);
   };
 
-  const getCourierAvalibility = (value) => {
-    dispatch({
-      type: "SERVICE_ABILITY_ACTION", payload: {
-        pincode_type: value,
-        pincode: zipcode
-      }
-    })
-  }
+  console.log(activeTab,"activeTabactiveTabactiveTab")
 
+  const getCourierAvalibility = (value) => {
+    if (!validatePincode(zipcode)) {
+      setPincodeError("Please enter a valid 6-digit pincode.");
+      return;
+    }
+    if (value === "FM" || value === "LM") {
+      dispatch({
+        type: "SERVICE_ABILITY_ACTION", payload: {
+          pincode_type: value,
+          pincode: zipcode
+        }
+      });
+    }
+  };
+
+  const validatePincode = (input) => {
+    const regex = /^\d{6}$/;
+    return regex.test(input);
+  };
+
+  const handlePincodeChange = (e) => {
+    const { value } = e.target;
+    setZipcode(value);
+    if (value && !validatePincode(value)) {
+      setPincodeError("Pincode should be a 6-digit number");
+    } else {
+      setPincodeError("");
+    }
+  };
+
+  const pairHandleChange=(e)=>{
+    const{name,value}=e.target;
+    setPairPincode((prev)=>({
+      ...prev,
+      [name]:value
+    }))
+  }
+  const pairHandleSubmit = () => {
+    const errors = {};
+    if (!validatePincode(pairPincode.pickup_pincode)) {
+      errors.pickup_pincode = "Pickup pincode is required!";
+    }
+    if (!validatePincode(pairPincode.delivery_pincode)) {
+      errors.delivery_pincode = "Delivery pincode is required!";
+    }
+  
+    setPairPincodeError(errors);
+  
+    if (Object.keys(errors).length === 0) {
+      dispatch({ type: "SERVICE_ABILITY_ACTION_PAIR", payload: pairPincode });
+    }
+  };
+  
   return (
     <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -62,16 +117,18 @@ const ServiceabilityPage = () => {
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <label className='w-100'>
                     Pickup Pincode
-                    <input className='input-field' type="text" placeholder='Enter your Pickup Pincode' />
+                    <input className='input-field' name="pickup_pincode" type="text" placeholder='Enter your Pickup Pincode' onChange={pairHandleChange}/>
+                    {pairPincodeError.pickup_pincode && <p className="error-message">{pairPincodeError.pickup_pincode }</p>}
                   </label>
                   <hr className='pair-hr' />
                   <label className='w-100'>
                     Delivery Pincode
-                    <input className='input-field' type="text" placeholder='Enter your Delivery Pincode' />
+                    <input className='input-field' name="delivery_pincode" type="text" placeholder='Enter your Delivery Pincode' onChange={pairHandleChange}/>
+                    {pairPincodeError.delivery_pincode && <p className="error-message">{pairPincodeError.delivery_pincode }</p>}
                   </label>
                 </div>
                 <div className='d-flex justify-content-end'>
-                  <button className='btn main-button'>Pair Serviceability</button>
+                  <button className='btn main-button' onClick={pairHandleSubmit}>Pair Serviceability</button>
                 </div>
               </div>
             </div>
@@ -81,11 +138,12 @@ const ServiceabilityPage = () => {
                 <h5>Check Serviceable Couriers</h5>
                 <label>
                   Enter Pickup or Delivery Pincode
-                  <input className='input-field' type="text" placeholder='Enter your Pincode' />
+                  <input className='input-field' type="number" placeholder='Enter your Pincode'  onChange={handlePincodeChange}/>
+                  {pincodeError && <p className="error-message">{pincodeError}</p>}
                 </label>
                 <div className='d-flex gap-2 justify-content-end'>
-                  <button className='btn main-button'>FM Serviceability</button>
-                  <button className='btn main-button'>LM Serviceability</button>
+                  <button className='btn main-button' onClick={() => getCourierAvalibility("FM")}>FM Serviceability</button>
+                  <button className='btn main-button' onClick={() => getCourierAvalibility("LM")}>LM Serviceability</button>
                 </div>
               </div>
             </div>
