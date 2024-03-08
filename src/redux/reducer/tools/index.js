@@ -1,4 +1,4 @@
-import { GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA, GET_REPORT_SCHEDULER_DATA, GET_SERVICE_ABILITY_DATA, GET_SHIPEASE_SERVICE_PINCODE, GET_ZONE_MAPPING_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../constants/tools";
+import { GET_COURIER_PARTNER_NAME_DATA, GET_COURIER_SERVICEABLE_PINCODE_DATA, GET_RATE_CALCULATOR_DATA, GET_RATE_CARD_DATA, GET_REPORT_SCHEDULER_DATA, GET_SERVICE_ABILITY_DATA, GET_SHIPEASE_SERVICE_PINCODE, GET_ZONE_MAPPING_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../constants/tools";
 
 const initialState = {
     sellerData: [],
@@ -6,8 +6,10 @@ const initialState = {
     reportSchedularData: [],
     ratePrefilledData: null,
     serviceAbility: [],
-    zoneMapping:[],
-    shipeaseServicePincode:null,
+    zoneMapping: [],
+    shipeaseServicePincode: null,
+    courierPartnerName: [],
+    serviceCourierPincode: null
 };
 
 export const toolsSectionReducer = (state = initialState, action) => {
@@ -47,7 +49,16 @@ export const toolsSectionReducer = (state = initialState, action) => {
                 ...state,
                 shipeaseServicePincode: action?.payload
             };
-
+        case GET_COURIER_PARTNER_NAME_DATA:
+            return {
+                ...state,
+                courierPartnerName: action?.payload
+            };
+        case GET_COURIER_SERVICEABLE_PINCODE_DATA:
+            return {
+                ...state,
+                serviceCourierPincode: action?.payload
+            };
         default:
             return state
     }

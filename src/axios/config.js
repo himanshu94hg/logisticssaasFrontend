@@ -22,6 +22,7 @@ export const API_URL = {
     GET_CUSTOMER_SUPPORT:"/core-api/features/update-ticket-status/",
     GET_MOREONORDER_URL:"/orders-api/orders/",
     GET_SHIPEASE_SERVICEABILITY_PINCODE:"/courier-api/courier/tools/shipease-serviceability-pincodes/",
-    GET_COURIER_SERVICEABILITY_PINCODE:"/courier-api/courier/tools/shipease-serviceability-pincodes/"
+    GET_COURIER_PARTNER_NAME:"/core-api/shipease-admin/partners/",
+    GET_COURIER_SERVICE_PINCODE:"/courier-api/courier/tools/download-service-pincode/",
 
 };
