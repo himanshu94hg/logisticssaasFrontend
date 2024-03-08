@@ -1,6 +1,6 @@
 import Cookies from "js-cookie";
 import axios from "../../../../axios/index"
-import {  GET_RATE_CARD } from "../../constant/tools";
+import {  RATE_CARD_ACTION } from "../../constant/tools";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import {  GET_RATE_CARD_DATA } from "../../../constants/tools";
@@ -38,5 +38,5 @@ function* rateCardAction(action) {
 }
 
 export function* rateCardWatcher() {
-    yield takeLatest(GET_RATE_CARD, rateCardAction);
+    yield takeLatest(RATE_CARD_ACTION, rateCardAction);
 }
