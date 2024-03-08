@@ -95,31 +95,31 @@ const KYCInfo = ({ activeTab }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://dev.shipease.in/core-api/seller/kyc-info/',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${hardcodedToken}`,
-            'Content-Type': 'application/json',
-          },
-        }
+          'https://dev.shipease.in/core-api/seller/kyc-info/',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${hardcodedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
       );
       if (response.status == 201) {
-        fetchKYCData()
-        toast.success("KYC Details updated successfully")
+        fetchKYCData();
+        toast.success("KYC Details updated successfully");
+        setFormData({
+          company_type: '',
+          document_type: '',
+          document_id: '',
+          document_name: '',
+          document_upload: '',
+        });
       }
-      setFormList([...formList, formData]);
-      setFormData({
-        companyType: 'aaa',
-        documentType: '',
-        uploadDocument: null,
-        documentName: '',
-        documentNumber: '',
-      });
     } catch (error) {
       console.error('Error:', error);
     }
   };
+
 
   const handleDelete = async (id) => {
     console.log(id, "Deleted Id");
