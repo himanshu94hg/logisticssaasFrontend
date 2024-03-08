@@ -19,7 +19,6 @@ const ShipmentDashboard = () => {
         <Col className="col-6 cardsSpace">
           <ShipmentOverview />
           <ShipmentPerformance />
-          <DataTable />
         </Col>
         <Col className="col-3 cardsSpace">
           <OFDDataCard />

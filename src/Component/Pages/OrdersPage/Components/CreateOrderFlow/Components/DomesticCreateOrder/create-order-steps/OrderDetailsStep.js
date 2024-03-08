@@ -1,14 +1,34 @@
 import 'react-toggle/style.css';
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
+import "./createOrderStep.css"
 import 'react-datepicker/dist/react-datepicker.css';
+import {  alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronUp, faChevronDown, } from '@fortawesome/free-solid-svg-icons';
-
+import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
-    const [AddFields, SetAddFields] = useState(false)
-    const [AddPayFields, SetAddPayFields] = useState(false)
+    const [errors, setErrors] = useState({});
+    const [AddFields, SetAddFields] = useState(false);
+    const [AddPayFields, SetAddPayFields] = useState(false);
+
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!formData.order_details.customer_order_number) {
+            newErrors.customer_order_number = 'Customer Order Number is required!';
+        }
+        if (!formData.order_details.order_type) {
+            newErrors.order_type = 'Order Type is required!';
+        }
+        if (!formData.order_details.order_date) {
+            newErrors.order_date = 'Order Date is required!';
+        }
+        if (!formData.order_details.payment_type) {
+            newErrors.payment_type = 'Payment Type is required!';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -30,7 +50,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
             }
         }));
     };
-
     const handleChangeCharge = (e, field) => {
         const charge = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
@@ -52,13 +71,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
         });
     };
 
-    const handleToggleChange = (field) => {
-        const charValue = formData[field] ? null : "1";
-        setFormData({ ...formData, [field]: charValue });
-    };
-
     const handleDateChange = (date, field) => {
-        
         setFormData({
             ...formData,
             order_details: {
@@ -66,9 +79,31 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 [field]: date
             }
         });
-        
+    };
+    const handleToggleChange = (field) => {
+        const charValue = formData[field] ? null : "1";
+        setFormData({ ...formData, [field]: charValue });
     };
 
+    const startOfMonth = new Date();
+    startOfMonth.setDate(1);
+    startOfMonth.setHours(0, 0, 0, 0);
+
+    const onNextClicked = () => {
+        if (validateFormData()) {
+            onNext();
+        }
+    };
+    const handleCustomerOrderNumberChange = (e) => {
+        const value = e.target.value.replace(alphaNumReg, '');
+        setFormData(prevData => ({
+            ...prevData,
+            order_details: {
+                ...prevData.order_details,
+                customer_order_number: value
+            }
+        }));
+    };
 
     return (
         <>
@@ -82,27 +117,28 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             Customer Order Number
                             <input
                                 type="text"
-                                className='input-field'
+                                className={`input-field ${errors.customer_order_number&&'input-field-error'}`}
                                 value={formData.order_details.customer_order_number}
-                                onChange={(e) => handleChange(e, 'customer_order_number')}
+                                onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order ID'
                             />
+                            {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>
                     </div>
                     <div className='row mt-4'>
-
                         {/* Order Type */}
                         <label className='col'>
                             Order Type
                             <select
-                                className='select-field'
+                                className={`select-field ${errors.customer_order_number&&'input-field-error'}`}
                                 value={formData.order_details.order_type}
                                 onChange={(e) => handleSelectChange(e, 'order_type')}
                             >
-                                <option >Select Order Type</option>
+                                <option value="">Select Order Type</option>
                                 <option value="Forward">Forward</option>
                                 <option value="Reverse">Reverse</option>
                             </select>
+                            {errors.order_type && <div className="custom-error">{errors.order_type}</div>}
                         </label>
                         {/* Order Date with react-datepicker */}
                         <label className='col'>
@@ -114,22 +150,26 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="dd/MM/yyyy"
                                     maxDate={new Date()}
-                                    className='input-field'
+                                    className={`input-field ${errors.customer_order_number&&'input-field-error'}`}
                                 />
                             </div>
+                            {errors.order_date && <div className="custom-error">{errors.order_date}</div>}
                         </label>
 
                         <label className='col'>
                             Order Channel
                             <select
-                                className='select-field'
+                                className={`select-field`}
                                 value={formData.order_details.Channel}
                                 onChange={(e) => handleSelectChange(e, 'Channel')}
                             >
+                                <option value="">Select Order Channel</option>
                                 <option value="Custom">Custom</option>
                             </select>
+                            {/* {errors.Channel && <div className="custom-error">{errors.Channel}</div>} */}
                         </label>
                     </div>
+                    {/* Add Fields Section */}
                     <div className="row mt-4">
                         <p onClick={() => SetAddFields(!AddFields)} className='add-fields-text'>
                             <span>+ Add Order Tag, Reseller's </span>
@@ -137,6 +177,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                         </p>
                     </div>
 
+                    {/* Additional Fields */}
                     <div className={`row ${!AddFields ? 'd-none' : ''}`}>
                         <label className='col'>
                             Order Tag
@@ -154,25 +195,26 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 type="text"
                                 className='input-field'
                                 value={formData.other_details.reseller_name}
-                                onChange={(e) => handleChangeReseller(e, 'reseller_name')}
+                                onChange={(e) => handleChange(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
                             />
                         </label>
                     </div>
                     <hr />
+                    {/* Payment Section */}
                     <div className='row gap-2'>
-                        {/* Payment Type */}
                         <label className='col'>
                             Payment Type
                             <select
-                                className='select-field'
+                                className={`select-field ${errors.customer_order_number&&'input-field-error'}`}
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
                             >
-                                <option >Select Payment Type</option>
+                                <option value="">Select Payment Type</option>
                                 <option value="Prepaid">Prepaid</option>
                                 <option value="COD">COD</option>
                             </select>
+                            {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
                         </label>
                         <div className='col d-flex gap-4'>
                             <label style={{ height: '54px' }}>
@@ -198,8 +240,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 />
                             </label>
                         </div>
-
                     </div>
+                    {/* Add Payment Fields Section */}
                     <div className="row mt-4">
                         <p onClick={() => SetAddPayFields(!AddPayFields)} className='add-fields-text'>
                             <span>+ Add Shipping Charges, Gift Wrap, Transaction fee</span>
@@ -207,6 +249,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                         </p>
                     </div>
 
+                    {/* Additional Payment Fields */}
                     <div className={`row ${!AddPayFields ? 'd-none' : ''}`}>
                         <label className='col'>
                             Shipping Charges
@@ -239,13 +282,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             />
                         </label>
                     </div>
-                    {/* <hr /> */}
-
                 </div>
             </div>
             {/* Next Button */}
             <div className='d-flex justify-content-end my-3'>
-                <button className='btn main-button' onClick={onNext}>
+                <button className='btn main-button' onClick={onNextClicked}>
                     Next
                 </button>
             </div>

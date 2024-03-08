@@ -1,5 +1,37 @@
-import React from 'react'
-import CancelOrders from '../../../../../assets/image/CancelOrders.png'
+import React, { useState } from 'react';
+import ReactApexChart from 'react-apexcharts';
+
+const ApexChart = () => {
+    const [chartData, setChartData] = useState({
+        series: [44, 55, 40],
+        options: {
+            chart: {
+                type: 'donut',
+            },
+            responsive: [{
+                breakpoint: 480,
+                options: {
+                    chart: {
+                        width: 200
+                    },
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }],
+            labels: ['1st Attempt', '2nd Attempt', '3rd Attempt'] // Change the legend text here
+        }
+    });
+
+    return (
+        <div>
+            <div id="chart">
+                <ReactApexChart options={chartData.options} series={chartData.series} type="donut" />
+            </div>
+            <div id="html-dist"></div>
+        </div>
+    );
+};
 
 const NDRtoDeliveryAttempt = () => {
     return (
@@ -8,7 +40,7 @@ const NDRtoDeliveryAttempt = () => {
                 <div className="row">
                     <div className="col">
                         <h4 className="title">NDR to Delivery Attempt</h4>
-                        <img className="graph-image" src={CancelOrders} alt="CancelOrders"/>
+                        <ApexChart />
                     </div>
                 </div>
             </div>

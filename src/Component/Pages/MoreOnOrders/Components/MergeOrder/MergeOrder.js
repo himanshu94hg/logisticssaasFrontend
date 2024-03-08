@@ -10,6 +10,8 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
+import Cookies from "js-cookie";
+import {toast} from "react-toastify";
 
 const InfoMissing = () => {
     return (
@@ -64,6 +66,47 @@ const MergeOrder = ({ orders,handleSearch }) => {
         setBackDrop(false)
     }
 
+    const handleMergeOrders = async () => {
+        let authToken = Cookies.get("access_token");
+        if (selectedRows.length > 0) {
+            const data = JSON.stringify({
+                "order_ids": selectedRows.join(',')
+            });
+
+            const config = {
+                method: 'post',
+                url: `${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`,
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+
+            try {
+                const response = await axios.request(config);
+                if (response.status >= 200 && response.status < 300) {
+                    toast.success("Order merged successfully.");
+                } else {
+                    toast.error("Order cannot be merged.");
+                }
+            } catch (error) {
+                if (error.response) {
+                    toast.error(`Error: ${error.response.data.detail}`);
+                } else if (error.request) {
+                    toast.error("No response from server.");
+                } else {
+                    toast.error("Error setting up request.");
+                }
+            }
+        } else {
+            toast.error('Please select at least one order to merge.');
+        }
+    };
+
+
+
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -88,6 +131,9 @@ const MergeOrder = ({ orders,handleSearch }) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
+                        <div>
+                            <button className='btn main-button mr-10' onClick={handleMergeOrders}>Merge</button>
+                        </div>
                         <button className='btn main-button'>Export</button>
                         <div className='action-options bulk-actions ms-2'>
                             <div className='btn main-button'>

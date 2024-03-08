@@ -4,7 +4,8 @@ import ReactApexChart from 'react-apexcharts';
 const RTOChart = () => {
     const seriesData = [{
         name: "RTO Count",
-        data: [0, 10, 5, 25, 10] // example data for RTO count week-wise
+        data: [0, 10, 5, 25, 10], // example data for RTO count week-wise
+        color: '#1975C9',
     }];
 
     const chartOptions = {
@@ -14,9 +15,18 @@ const RTOChart = () => {
             zoom: {
                 enabled: false
             },
+            background: '#fff'
         },
         dataLabels: {
-            enabled: true
+            enabled: true,
+            colors: ['#8ec2f1'],
+            style: {
+                colors: ['#8ec2f1'], // specify data label text color
+                lineHeight: '1.2',
+                fontSize: '14px',
+                borderColor: ['#1975C9'], // specify border color for data labels
+                borderWidth: 1 // specify border width for data labels
+            }
         },
         stroke: {
             curve: 'straight'
@@ -26,9 +36,8 @@ const RTOChart = () => {
             align: 'left'
         },
         grid: {
-            // show: false,
             row: {
-                colors: ['#c5dcf1', 'transparent'],
+                colors: ['#1975C9', 'transparent'],
                 opacity: 0.5
             },
         },
@@ -37,7 +46,12 @@ const RTOChart = () => {
         },
         xaxis: {
             categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-        }
+        },
+
+        tooltip: {
+            theme: 'dark' // or 'light' for light theme
+        },
+
     };
 
     return (
