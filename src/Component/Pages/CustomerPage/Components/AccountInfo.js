@@ -88,12 +88,19 @@ const AccountInfo = ({ activeTab }) => {
           formData.append('bank_branch', account.branchName);
           formData.append('cheque_image', account.chequeImage);
 
-          axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
-            headers: {
-              'Authorization': `Bearer ${hardcodedToken}`,
-              'Content-Type': 'multipart/form-data'
-            },
-          });
+          if (!account.id) {
+            return axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
+              headers: {
+                'Authorization': `Bearer ${hardcodedToken}`,
+                'Content-Type': 'multipart/form-data'
+              },
+            }).then((response)=>{
+              if(response.status === 201)
+              {
+                toast.success('Account Added successfully.');
+              }
+            });
+          }
         }
       } catch (error) {
         console.error('Error:', error);
@@ -260,7 +267,7 @@ const AccountInfo = ({ activeTab }) => {
                           </label>
                           <label className='position-relative'>
                             Please Upload Cheque Image
-                            <input className="input-field" accept=".pdf" type="file" onChange={(e) => handleFileChange(e, index)} />
+                            <input className="input-field" accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
                             <button
                                 className='eye-button'
                                 type='button'
