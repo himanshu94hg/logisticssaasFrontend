@@ -22,3 +22,8 @@
     border-top: 1px dashed var(--sh-primary);
     margin-top: 40px;
 }
+
+.error-message{
+    color: red;
+    font-size:12px;
+}
