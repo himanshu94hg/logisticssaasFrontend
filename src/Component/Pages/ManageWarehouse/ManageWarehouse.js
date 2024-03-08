@@ -177,7 +177,7 @@ const ManageWarehouse = () => {
           <div className='button-container'>
             <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
             <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
-            <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Pickup Adress</button>
+            <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
           </div>
         </section>
 
