@@ -188,7 +188,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <label className='col'>
                                     Tax Rate
                                     <input
-                                        type="text"
+                                        type="number"
                                         className='input-field'
                                         value={product.tax_rate}
                                         onChange={(e) => handleChange(e, 'tax_rate', index)}
@@ -199,7 +199,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <label className='col'>
                                     Discount
                                     <input
-                                        type="text"
+                                        type="number"
                                         className='input-field'
                                         value={product.discount}
                                         onChange={(e) => handleChange(e, 'discount', index)}
