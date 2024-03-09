@@ -51,7 +51,7 @@ function* rateCalculatorActionByOrderId(action) {
         
     } catch (error) {
         console.log(error?.response?.data?.detail,"this is oder id data")
-       toast.error(`Data ${error?.response?.data?.detail}!`)
+       toast.error(`Please enter valid order id!`)
     }
 }
 
