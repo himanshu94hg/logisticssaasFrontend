@@ -7,6 +7,7 @@ import { getshipmentWatcher } from "./action/shipment";
 import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
 import { zoneMappingWatcher } from "./action/tools/zoneMapping";
 import { courierAllocationWatcher } from "./action/tools/courierAllocation";
+import { getupdateTicketStatusWatcher } from "./action/customerSupport";
 
 
 export default function* rootSaga() {
@@ -18,6 +19,7 @@ export default function* rootSaga() {
    getshipmentWatcher(),
    serviceAbilityWatcher(),
    zoneMappingWatcher(),
-   courierAllocationWatcher()
+   courierAllocationWatcher(),
+   getupdateTicketStatusWatcher()
   ]);
 }
