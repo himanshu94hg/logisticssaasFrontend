@@ -7,6 +7,8 @@ import "./basicInfo.css"
 import { awsAccessKey } from '../../../../config';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { toast } from 'react-toastify';
+import Modal from "react-bootstrap/Modal";
+import {Document, Page} from "react-pdf";
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -181,7 +183,7 @@ const AccountInfo = ({ activeTab }) => {
       formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
       const additionalData = await uploadImageData(awsUrl, formData);
       if (additionalData?.status == 204) {
-        const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
+        const imageUrl = responseData?.data?.url?.url + "customerData/" + e.target.files[0]?.name.replace(/\s/g, "")
         setAccounts(prevAccounts => {
           const updatedAccounts = [...prevAccounts];
           updatedAccounts[index].chequeImage = imageUrl;
@@ -221,6 +223,25 @@ const AccountInfo = ({ activeTab }) => {
       }
     }
   };
+
+  const [previewImage, setPreviewImage] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = async (pdfUrl) => {
+    try {
+      const response = await axios.get(pdfUrl, {
+        responseType: 'blob'
+      });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const objectUrl = URL.createObjectURL(blob);
+      setShow(true);
+      setPreviewImage(objectUrl);
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+    }
+  }
+
+  console.log("imagesData",previewImage)
 
   return (
       <>
@@ -268,13 +289,15 @@ const AccountInfo = ({ activeTab }) => {
                           <label className='position-relative'>
                             Please Upload Cheque Image
                             <input className="input-field" accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
-                            <button
-                                className='eye-button'
-                                type='button'
-                                onClick={handlePreview}
-                            >
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
+                            {account.cheque_image && (
+                                <button
+                                    className='eye-button'
+                                    type='button'
+                                    onClick={() => handleShow(account.cheque_image)}
+                                >
+                                  <FontAwesomeIcon icon={faEye} />
+                                </button>
+                            )}
                           </label>
                         </div>
                       </div>
@@ -317,8 +340,27 @@ const AccountInfo = ({ activeTab }) => {
             onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
             className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
         ></div>
+
+        <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
       </>
   );
 };
 
 export default AccountInfo;
+
+function Preview({ show, handleClose, previewImage }) {
+  return (
+      <Modal show={show} onHide={handleClose} >
+        <Modal.Header closeButton>
+          <Modal.Title>PDF Preview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {previewImage ? (
+              <img src={previewImage} width={"100%"} height={"400px"} alt="" />
+          ) : (
+              <h2 className='p-4'>No image or document available!</h2>
+          )}
+        </Modal.Body>
+      </Modal>
+  );
+}
