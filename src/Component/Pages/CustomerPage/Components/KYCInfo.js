@@ -294,6 +294,9 @@ function Preview({ show, setShow, handleClose, handleShow, previewImage }) {
   return (
       <>
         <Modal show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Image Preview</Modal.Title>
+          </Modal.Header>
           <Modal.Body className='p-1'>
             {previewImage ? (
                 <img src={previewImage} width={"100%"} height={"400px"} alt="" />
