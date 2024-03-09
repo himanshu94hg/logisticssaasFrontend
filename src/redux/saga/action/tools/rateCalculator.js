@@ -4,6 +4,7 @@ import axios from "../../../../axios/index"
 import {  RATE_CALCULATOR_ACTION, RATE_CALCULATOR_ACTION_ORDER_ID } from "../../constant/tools";
 import Swal from 'sweetalert2'
 import { GET_RATE_CALCULATOR_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../../constants/tools";
+import { toast } from "react-toastify";
 
 
 
@@ -47,9 +48,10 @@ function* rateCalculatorActionByOrderId(action) {
         if (response.status === 200) {
             yield put({ type: RATE_CALCULATOR_PREFILLED_DATA, payload: response?.data })
         }
-       
+        
     } catch (error) {
-        if (reject) reject(error);
+        console.log(error?.response?.data?.detail,"this is oder id data")
+       toast.error(`Data ${error?.response?.data?.detail}!`)
     }
 }
 
