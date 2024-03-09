@@ -60,7 +60,7 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
     };
 
     const handleCloseTicket = (id, status) => {
-        dispatch({ type: "CUSTOMER_SUPPORT_ACTION", payload: id, status: status })
+        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
     }
 console.log(activeTab,"activeTab")
     return (
