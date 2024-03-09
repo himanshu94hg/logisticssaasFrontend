@@ -240,35 +240,32 @@ const KYCInfo = ({ activeTab }) => {
             <div className="details-form-row row">
               <h5 className="col-3">Uploaded Documents</h5>
               <ul className="col-9 upload-doc-list">
-                {formList.map((item, index) => (
-                  <li key={index} className="row">
-                    <p className="col-11">
-                      <span className="me-4">
-                        Document Type: <strong>{item.documentType}</strong>
-                      </span>
-                      |
-                      <span className="mx-4">
-                        Document Name: <strong>{item.documentName}</strong>
-                      </span>
-                      |
-                      <span className="mx-4">
-                        Document Number: <strong>{item.documentNumber}</strong>
-                      </span>
-                    </p>
-                    <div className="col-1 d-flex gap-2 align-items-center">
-                      <button type="button" className="btn preview-btn" onClick={() => handleShow(item?.previewImg)}>
-                        <FontAwesomeIcon icon={faEye} />
-                      </button>
-                      <button
-                        type="button"
-                        className="btn delete-btn"
-                        onClick={() => handleDelete(item?.id)}
-                      >
-                        <FontAwesomeIcon icon={faTrashCan} />
-                      </button>
-                    </div>
-                  </li>
-                ))}
+                {formList.map((item, index) =>
+                    (item.documentType === "Pan Card" ||
+                        item.documentType === "Aadhar Card" ||
+                        item.documentType === "Driving License" ||
+                        item.documentType === "Voter ID Card") && (
+                        <li key={index} className="row">
+                          <p className="col-11">
+                            <span className="me-4">Document Type: <strong>{item.documentType}</strong></span>
+                            <span className="mx-4">Document Name: <strong>{item.documentName}</strong></span>|
+                            <span className="mx-4">Document Number: <strong>{item.documentNumber}</strong></span>
+                          </p>
+                          <div className="col-1 d-flex gap-2 align-items-center">
+                            <button type="button" className="btn preview-btn" onClick={() => handleShow(item.previewImg)}>
+                              <FontAwesomeIcon icon={faEye} />
+                            </button>
+                            <button
+                                type="button"
+                                className="btn delete-btn"
+                                onClick={() => handleDelete(item.id)}
+                            >
+                              <FontAwesomeIcon icon={faTrashCan} />
+                            </button>
+                          </div>
+                        </li>
+                    )
+                )}
               </ul>
             </div>
             <hr />
