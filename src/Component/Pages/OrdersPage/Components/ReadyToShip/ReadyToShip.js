@@ -18,6 +18,7 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
+import { toast } from 'react-toastify';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -46,7 +47,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ReadyToShip = ({ orders,handleSearch }) => {
+const ReadyToShip = ({ orders, handleSearch }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -105,10 +106,9 @@ const ReadyToShip = ({ orders,handleSearch }) => {
                     'Content-Type': 'application/json',
                 },
             });
-            if (!response.ok) {
-                throw new Error('Something went wrong');
+            if (response.status === 200) {
+                toast.success("Download label successfully")
             }
-
             const data = await response.blob();
             const url = window.URL.createObjectURL(data);
             const a = document.createElement('a');
@@ -119,7 +119,27 @@ const ReadyToShip = ({ orders,handleSearch }) => {
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error('Error:', error);
+            toast.error("Somethng went wrong!")
+        }
+    };
+    const handleGeneratePickup = async (orderId) => {
+        try {
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-pickup/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    orders: [
+                        orderId
+                    ]
+                })
+            });
+            if (response?.status === 200) {
+                toast.success("Generate Pickup successfully")
+            }
+        } catch (error) {
+            toast.error("Somethng went wrong!")
         }
     };
 
@@ -165,7 +185,7 @@ const ReadyToShip = ({ orders,handleSearch }) => {
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>
@@ -189,7 +209,7 @@ const ReadyToShip = ({ orders,handleSearch }) => {
                             </div>
                             <div className='action-list'>
                                 <ul>
-                                    <li>Download Label</li>
+                                    <li onClick={() => handleDownloadLabel()}>Download Label</li>
                                     <li>Download Invoice</li>
                                     <li>Generate Pickup</li>
                                 </ul>
@@ -235,16 +255,16 @@ const ReadyToShip = ({ orders,handleSearch }) => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                            <p className=''>
-                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
-                                                    :"" }
+                                                <p className=''>
+                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                                    : ""}
                                                     &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -340,7 +360,7 @@ const ReadyToShip = ({ orders,handleSearch }) => {
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className="btn main-button" onClick={() => handleDownloadLabel(row.id)}>
+                                                <button className="btn main-button" onClick={() => handleGeneratePickup(row.id)}>
                                                     Generate Pickup
                                                 </button>
                                                 <div className='action-options'>
