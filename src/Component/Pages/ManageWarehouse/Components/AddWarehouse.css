@@ -6,3 +6,9 @@
 .add-warehouse-section label {
     width: 100%;
 }
+.error{
+    color: red;
+}
+.input-field-error{
+    border: 1px solid red;
+}
