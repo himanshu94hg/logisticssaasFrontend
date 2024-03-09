@@ -8,7 +8,7 @@ import { GET_BILLING_DATA } from "../../../constants/billing";
 async function billingFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URL}`,
+        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URLW}`,
         data: data
     });
     return listData;
