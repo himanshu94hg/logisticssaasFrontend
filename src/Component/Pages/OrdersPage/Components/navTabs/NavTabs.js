@@ -138,6 +138,7 @@ export default function NavTabs(props) {
 
         </div>
         <div className="d-flex gap-10 align-items-center">
+          <button className="btn main-button" >Import Orders</button>
           <button className="btn main-button" onClick={handleSubmit}>Sync Orders</button>
           <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
         </div>
