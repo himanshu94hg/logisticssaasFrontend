@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import NavTabs from './navTabs/NavTabs';
 import './ServiceabilityPage.css'
+import NavTabs from './navTabs/NavTabs';
 import CouriersList from './CouriersList';
-import Select, { components } from "react-select";
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import Select, { components } from "react-select"
 
 
 const Option = (props) => {
@@ -19,36 +20,122 @@ const Option = (props) => {
   );
 };
 
-const courierOptions = [
-  { value: "bluedart", label: "Blue Dart" },
-  { value: "bluedart_surface", label: "Blue Dart Surface" },
-  { value: "xpressbees", label: "Xpressbees" },
-  { value: "xpressbees_surface", label: "Xpressbees Surface" },
-  { value: "ekart", label: "Ekart" },
-  { value: "delhivery", label: "Delhivery" },
-  { value: "dtdc", label: "DTDC" },
-  { value: "ecom_express", label: "Ecom Express" },
-  { value: "shadowfax", label: "ShadowFax" }
-];
 
 const ServiceabilityPage = () => {
   const dispatch = useDispatch()
-  const [selectedOptions, setSelectedOptions] = useState([]);
   const [zipcode, setZipcode] = useState("");
+  const [courierId, setCourierId] = useState(null)
+  const [pincodeError, setPincodeError] = useState("");
+  const [courierOptions, setCourierOptions] = useState([])
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  const [pairPincodeError, setPairPincodeError] = useState({});
   const [activeTab, setActiveTab] = useState("Check Serviceability");
-
+  const [pairPincode, setPairPincode] = useState({
+    pickup_pincode: '',
+    delivery_pincode: ''
+  });
+  const { shipeaseServicePincode, courierPartnerName, serviceAbility, serviceCourierPincode } = useSelector(state => state?.toolsSectionReducer)
+  console.log(serviceCourierPincode, "selectedOptionsselectedOptions")
   const handleChange = (selected) => {
     setSelectedOptions(selected);
   };
 
-  const getCourierAvalibility = (value) => {
-    dispatch({
-      type: "SERVICE_ABILITY_ACTION", payload: {
-        pincode_type: value,
-        pincode: zipcode
-      }
-    })
+  const validatePincode = (input) => {
+    const regex = /^\d{6}$/;
+    return regex.test(input);
+  };
+
+  const handlePincodeChange = (e) => {
+    const { value } = e.target;
+    setZipcode(value);
+  };
+
+  const pairHandleChange = (e) => {
+    const { name, value } = e.target;
+    setPairPincode((prev) => ({
+      ...prev,
+      [name]: value
+    }))
   }
+
+  const pairHandleSubmit = () => {
+    const errors = {};
+    if (!validatePincode(pairPincode.pickup_pincode)) {
+      errors.pickup_pincode = "Pickup pincode is required!";
+    }
+    if (!validatePincode(pairPincode.delivery_pincode)) {
+      errors.delivery_pincode = "Delivery pincode is required!";
+    }
+
+    setPairPincodeError(errors);
+
+    if (Object.keys(errors).length === 0) {
+      dispatch({ type: "SERVICE_ABILITY_PAIR_ACTION", payload: pairPincode });
+    }
+  };
+
+  console.log(pincodeError, "this is pincode error data")
+
+  const getCourierAvalibility = (value) => {
+    if (!validatePincode(zipcode)) {
+      setPincodeError("Please enter a valid 6-digit pincode.");
+      return;
+    }
+    if (value === "FM" || value === "LM") {
+      dispatch({
+        type: "SERVICE_ABILITY_SINGLE_ACTION", payload: {
+          pincode_type: value,
+          pincode: zipcode
+        }
+      });
+      setPincodeError('')
+    }
+  };
+  const getCourierServiceAvability = () => {
+    dispatch({ type: "GET_COURIER_SERVICE_ABILITY_FILTER_ACTION", payload: courierId })
+  }
+
+  const exportShipeaseServiceability = () => {
+    dispatch({ type: "GET_SHIPEASE_SERVICE_ABILITY_ACTION" })
+  }
+
+  useEffect(() => {
+    dispatch({ type: "GET_COURIER_PATNER_NAME_ACTION" })
+  }, [])
+
+  useEffect(() => {
+    if (shipeaseServicePincode!=null || serviceCourierPincode!=null) {
+      var FileSaver = require('file-saver');
+      var blob = new Blob([shipeaseServicePincode || serviceCourierPincode], { type: 'application/ms-excel' });
+      FileSaver.saveAs(blob, shipeaseServicePincode? "shipease_serviceability-pincode.xlsx":"serviceable-pincode.xlsx");
+    }
+  }, [shipeaseServicePincode,serviceCourierPincode])
+
+  useEffect(() => {
+    if (courierPartnerName && Array.isArray(courierPartnerName)) {
+      const transformedData = courierPartnerName?.map(item => ({
+        value: item.id,
+        label: item.title,
+      }));
+      setCourierOptions(transformedData);
+    }
+  }, [courierPartnerName]);
+
+  useEffect(() => {
+    const temp_data = selectedOptions?.map((item) => item.value);
+    const commaSeparatedString = temp_data.join(',');
+    setCourierId(commaSeparatedString)
+  }, [selectedOptions])
+
+  useEffect(() => {
+    if (serviceAbility) {
+      setPairPincode({
+        pickup_pincode: '',
+        delivery_pincode: ''
+      })
+      setZipcode('')
+    }
+  }, [serviceAbility])
 
   return (
     <>
@@ -62,16 +149,18 @@ const ServiceabilityPage = () => {
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <label className='w-100'>
                     Pickup Pincode
-                    <input className='input-field' type="text" placeholder='Enter your Pickup Pincode' />
+                    <input className='input-field' name="pickup_pincode" value={pairPincode.pickup_pincode} type="text" placeholder='Enter your Pickup Pincode' onChange={pairHandleChange} />
+                    {pairPincodeError.pickup_pincode && <p className="error-message">{pairPincodeError.pickup_pincode}</p>}
                   </label>
                   <hr className='pair-hr' />
                   <label className='w-100'>
                     Delivery Pincode
-                    <input className='input-field' type="text" placeholder='Enter your Delivery Pincode' />
+                    <input className='input-field' name="delivery_pincode" value={pairPincode.delivery_pincode} type="text" placeholder='Enter your Delivery Pincode' onChange={pairHandleChange} />
+                    {pairPincodeError.delivery_pincode && <p className="error-message">{pairPincodeError.delivery_pincode}</p>}
                   </label>
                 </div>
                 <div className='d-flex justify-content-end'>
-                  <button className='btn main-button'>Pair Serviceability</button>
+                  <button className='btn main-button' onClick={pairHandleSubmit}>Pair Serviceability</button>
                 </div>
               </div>
             </div>
@@ -81,11 +170,12 @@ const ServiceabilityPage = () => {
                 <h5>Check Serviceable Couriers</h5>
                 <label>
                   Enter Pickup or Delivery Pincode
-                  <input className='input-field' type="text" placeholder='Enter your Pincode' />
+                  <input className='input-field' type="number" value={zipcode} placeholder='Enter your Pincode' onChange={handlePincodeChange} />
+                  {pincodeError && <p className="error-message">{pincodeError}</p>}
                 </label>
-                <div className='d-flex gap-2 justify-content-end'>
-                  <button className='btn main-button'>FM Serviceability</button>
-                  <button className='btn main-button'>LM Serviceability</button>
+                <div className='d-flex gap-2 justify-content-end '>
+                  <button className='btn main-button' onClick={() => getCourierAvalibility("FM")}>FM Serviceability</button>
+                  <button className='btn main-button' onClick={() => getCourierAvalibility("LM")}>LM Serviceability</button>
                 </div>
               </div>
             </div>
@@ -110,9 +200,10 @@ const ServiceabilityPage = () => {
                   components={{ Option }}
                   onChange={handleChange}
                   value={selectedOptions}
+
                 />
                 <div className='d-flex justify-content-start'>
-                  <button className='btn main-button'>Export Courier Serviceability</button>
+                  <button className='btn main-button' disabled={selectedOptions.length === 0} onClick={() => getCourierServiceAvability()}>Export Courier Serviceability</button>
                 </div>
               </div>
             </div>
@@ -127,7 +218,7 @@ const ServiceabilityPage = () => {
 
                 </div>
                 <div className='d-flex justify-content-end'>
-                  <button className='btn main-button'>Export Shipease Serviceability</button>
+                  <button className='btn main-button' onClick={() => exportShipeaseServiceability()}>Export Shipease Serviceability</button>
                 </div>
               </div>
             </div>
@@ -137,10 +228,11 @@ const ServiceabilityPage = () => {
         <div className='box-shadow shadow-sm mt-3 p10 mb-3'>
           <h4>Instructions:</h4>
           <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
+            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
           </ul>
         </div>
       </section>

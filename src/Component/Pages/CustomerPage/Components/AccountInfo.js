@@ -7,6 +7,8 @@ import "./basicInfo.css"
 import { awsAccessKey } from '../../../../config';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { toast } from 'react-toastify';
+import Modal from "react-bootstrap/Modal";
+import {Document, Page} from "react-pdf";
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -45,7 +47,7 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     let isValid = true;
 
@@ -88,12 +90,19 @@ const AccountInfo = ({ activeTab }) => {
           formData.append('bank_branch', account.branchName);
           formData.append('cheque_image', account.chequeImage);
 
-          await axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
-            headers: {
-              'Authorization': `Bearer ${hardcodedToken}`,
-              'Content-Type': 'multipart/form-data'
-            },
-          });
+          if (!account.id) {
+            return axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
+              headers: {
+                'Authorization': `Bearer ${hardcodedToken}`,
+                'Content-Type': 'multipart/form-data'
+              },
+            }).then((response)=>{
+              if(response.status === 201)
+              {
+                toast.success('Account Added successfully.');
+              }
+            });
+          }
         }
       } catch (error) {
         console.error('Error:', error);
@@ -111,28 +120,50 @@ const AccountInfo = ({ activeTab }) => {
         bankName: '',
         branchName: '',
         chequeImage: null,
-        isPrimary: false,
+        is_primary: prevAccounts.length > 0 ? false : true,
       },
     ]);
     setPdfPreviews((prevPreviews) => [...prevPreviews, null]);
     setErrors((prevErrors) => [...prevErrors, {}]);
   }
 
-  const handleDelete = (index) => {
-    if (!accounts[index].isPrimary) {
-      const updatedAccounts = [...accounts];
-      const updatedPdfPreviews = [...pdfPreviews];
-      const updatedErrors = [...errors];
+  const handleDelete = async (index) => {
+    const accountToDelete = accounts[index];
+    console.log(accountToDelete.is_primary,"Delete Account")
+    if (!accountToDelete.is_primary) {
+      try {
+        const response = await fetch(`https://dev.shipease.in/core-api/seller/bank-info-details/${accountToDelete.id}`, {
+          method: 'DELETE',
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+            'Content-Type': 'application/json',
+          },
+        });
 
-      updatedAccounts.splice(index, 1);
-      updatedPdfPreviews.splice(index, 1);
-      updatedErrors.splice(index, 1);
+        if (!response.ok) {
+          toast.error('Failed to delete the account');
+        }
+        else {
+          toast.success('Account deleted successfully.');
+        }
 
-      setAccounts(updatedAccounts);
-      setPdfPreviews(updatedPdfPreviews);
-      setErrors(updatedErrors);
+        const updatedAccounts = [...accounts];
+        const updatedPdfPreviews = [...pdfPreviews];
+        const updatedErrors = [...errors];
+
+        updatedAccounts.splice(index, 1);
+        updatedPdfPreviews.splice(index, 1);
+        updatedErrors.splice(index, 1);
+
+        setAccounts(updatedAccounts);
+        setPdfPreviews(updatedPdfPreviews);
+        setErrors(updatedErrors);
+      } catch (error) {
+        console.error('Error:', error);
+      }
     }
   };
+
 
   const handleFileChange = async (e, index) => {
     const file = e.target.files[0];
@@ -152,7 +183,7 @@ const AccountInfo = ({ activeTab }) => {
       formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
       const additionalData = await uploadImageData(awsUrl, formData);
       if (additionalData?.status == 204) {
-        const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
+        const imageUrl = responseData?.data?.url?.url + "customerData/" + e.target.files[0]?.name.replace(/\s/g, "")
         setAccounts(prevAccounts => {
           const updatedAccounts = [...prevAccounts];
           updatedAccounts[index].chequeImage = imageUrl;
@@ -167,7 +198,7 @@ const AccountInfo = ({ activeTab }) => {
 
   const handlePreview = () => {
     if (pdfPreviews.length === 0) {
-      
+
       // Handle no previews available
     } else {
       setViewAttachmentContent(!viewAttachmentContent);
@@ -182,7 +213,7 @@ const AccountInfo = ({ activeTab }) => {
         const { BRANCH, BANK } = response.data;
         setAccounts(accounts.map((account, idx) => idx === index ? { ...account, branchName: BRANCH, bankName: BANK } : account));
       } else {
-        throw new Error('Failed to fetch branch and bank details.');
+        toast.error('Failed to fetch branch and bank details.');
       }
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data === "Not Found") {
@@ -192,6 +223,25 @@ const AccountInfo = ({ activeTab }) => {
       }
     }
   };
+
+  const [previewImage, setPreviewImage] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = async (pdfUrl) => {
+    try {
+      const response = await axios.get(pdfUrl, {
+        responseType: 'blob'
+      });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const objectUrl = URL.createObjectURL(blob);
+      setShow(true);
+      setPreviewImage(objectUrl);
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+    }
+  }
+
+  console.log("imagesData",previewImage)
 
   return (
       <>
@@ -203,7 +253,7 @@ const AccountInfo = ({ activeTab }) => {
                     <div className='details-form-row row'>
                       <div className='col-3'>
                         <h5>Account Details</h5>
-                        <p><i>{!account.isPrimary ? '(Primary Account)' : '(Other Account)'}</i></p>
+                        <p><i>{account.is_primary ? '(Primary Account)' : '(Other Account)'}</i></p>
                       </div>
                       <div className='col-9'>
                         <div className='d-flex w-100 gap-3 mt-4'>
@@ -238,19 +288,21 @@ const AccountInfo = ({ activeTab }) => {
                           </label>
                           <label className='position-relative'>
                             Please Upload Cheque Image
-                            <input className="input-field" accept=".pdf" type="file" onChange={(e) => handleFileChange(e, index)} />
-                            <button
-                                className='eye-button'
-                                type='button'
-                                onClick={handlePreview}
-                            >
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
+                            <input className="input-field" accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
+                            {account.cheque_image && (
+                                <button
+                                    className='eye-button'
+                                    type='button'
+                                    onClick={() => handleShow(account.cheque_image)}
+                                >
+                                  <FontAwesomeIcon icon={faEye} />
+                                </button>
+                            )}
                           </label>
                         </div>
                       </div>
                     </div>
-                    {account.isPrimary && (
+                    {!account.is_primary && (
                         <div className='d-flex justify-content-end mt-2 me-3'>
                           <button
                               className='btn btn-danger mt-2'
@@ -288,8 +340,27 @@ const AccountInfo = ({ activeTab }) => {
             onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
             className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
         ></div>
+
+        <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
       </>
   );
 };
 
 export default AccountInfo;
+
+function Preview({ show, handleClose, previewImage }) {
+  return (
+      <Modal show={show} onHide={handleClose} >
+        <Modal.Header closeButton>
+          <Modal.Title>PDF Preview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {previewImage ? (
+              <img src={previewImage} width={"100%"} height={"400px"} alt="" />
+          ) : (
+              <h2 className='p-4'>No image or document available!</h2>
+          )}
+        </Modal.Body>
+      </Modal>
+  );
+}

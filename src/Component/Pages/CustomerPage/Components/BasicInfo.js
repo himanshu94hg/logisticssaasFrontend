@@ -172,8 +172,9 @@ const BasicInfo = ({ activeTab }) => {
               city: basicInfoData.city || '',
               country: 'India',
               state: basicInfoData.state || '',
-              website_url: basicInfoData.gst_certificate || '',
+              website_url: basicInfoData.website_url || '',
               mobile: basicInfoData.mobile || '',
+              gst_certificate: basicInfoData.gst_certificate || '',
             }));
           })
           .catch(error => {
@@ -423,7 +424,7 @@ const BasicInfo = ({ activeTab }) => {
                   <div className='d-flex gap-3'>
                     <label>
                       <span>Address<span className='custom-error'>*</span></span>
-                      <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange} />
+                      <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange}  />
                       {errors.street && <span className="custom-error">{errors.street}</span>}
                     </label>
                     <label>
@@ -434,7 +435,7 @@ const BasicInfo = ({ activeTab }) => {
                   <div className='d-flex gap-3 mt-3'>
                     <label>
                       <span>Pincode<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange} />
+                      <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange}  />
                       {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
                     </label>
                     <label>
@@ -444,12 +445,12 @@ const BasicInfo = ({ activeTab }) => {
                     </label>
                     <label>
                       <span>State<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange} />
+                      <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange}  />
                       {errors.state && <span className="custom-error">{errors.state}</span>}
                     </label>
                     <label>
                       <span>Country<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
+                      <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange}  />
                       {errors.country && <span className="custom-error">{errors.country}</span>}
                     </label>
                   </div>
@@ -462,7 +463,7 @@ const BasicInfo = ({ activeTab }) => {
                   <div className='d-flex gap-3 mt-3'>
                     <label>
                       <span>PAN Number<span className='custom-error'> *</span></span>
-                      <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange} />
+                      <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange}  />
                       {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
                     </label>
                     <label>
@@ -478,12 +479,12 @@ const BasicInfo = ({ activeTab }) => {
                   </div>
                 </div>
               </div>
-              {formData.website_url && (
+              {formData.gst_certificate && (
                   <button
                       type="button"
                       style={{ float: 'right' }}
                       className="btn preview-btn"
-                      onClick={() => handleShow(formData.website_url)}
+                      onClick={() => handleShow(formData.gst_certificate)}
                   >
                     View File
                   </button>

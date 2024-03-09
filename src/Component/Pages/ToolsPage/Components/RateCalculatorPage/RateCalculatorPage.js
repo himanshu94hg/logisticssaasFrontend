@@ -4,7 +4,7 @@ import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
 import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
-
+import { debounce } from 'lodash';
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
   const dispatch = useDispatch();
@@ -22,13 +22,27 @@ const RateCalculatorPage = () => {
     shipment_type: "Forward",
     source_pincode: null,
     destination_pincode: null,
-    weight: 0,
+    weight: null,
     volmetric_weight: volWeight,
     is_cod: "No",
 
   });
 
-  const { sellerData, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
+  const { sellerData, reportSchedulerRes, ratePrefilledData,ratingCardData } = useSelector(state => state?.toolsSectionReducer)
+
+  console.log(sellerData,"ratingCardData")
+
+  useEffect(() => {
+    if (ratePrefilledData) {
+      setFormData(ratePrefilledData);
+    }
+  }, [ratePrefilledData]);
+
+  useEffect(() => {
+    if (reportSchedulerRes) {
+      setRateTable(true);
+    }
+  }, [reportSchedulerRes])
 
   useEffect(() => {
     scrollToBottom();
@@ -41,18 +55,10 @@ const RateCalculatorPage = () => {
   };
 
   const handleSubmit = () => {
-    setRateTable(true);
-    if (orderField) {
-      dispatch({
-        type: "RATE_CALCULATOR_ACTION_ORDER_ID",
-        payload: orderId
-      })
-    } else {
-      dispatch({
-        type: "RATE_CALCULATOR_ACTION",
-        payload: formData
-      })
-    }
+    dispatch({
+      type: "RATE_CALCULATOR_ACTION",
+      payload: formData
+    })
   }
 
   const handleSelect = (e, fieldName) => {
@@ -111,12 +117,10 @@ const RateCalculatorPage = () => {
     }
   }, [length, breadth, height, formData.is_cod])
 
-
   const containerStyle = {
     opacity: orderField ? 0.5 : 1,
     pointerEvents: orderField ? 'none' : 'auto',
   };
-
 
   useEffect(() => {
     const { weight, volmetric_weight } = formData;
@@ -125,8 +129,15 @@ const RateCalculatorPage = () => {
     } else if (weight < volmetric_weight) {
       setChargedWeight(volmetric_weight)
     }
-  }, [formData.weight,formData.volmetric_weight])
+  }, [formData.weight, formData.volmetric_weight])
 
+
+  const orderIdApiCAll=()=>{
+   dispatch({
+    type: "RATE_CALCULATOR_ACTION_ORDER_ID",
+    payload: orderId
+});
+  }
 
   return (
     <>
@@ -144,6 +155,9 @@ const RateCalculatorPage = () => {
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
               </label>
+              <div className='d-flex justify-content-end mt-4'>
+              <button className='btn main-button' onClick={orderIdApiCAll}>Search</button>
+              </div>
             </div>
             <div style={containerStyle}>
               <div className='row mt-4'>
@@ -152,6 +166,7 @@ const RateCalculatorPage = () => {
                   <select
                     name="shipment_type"
                     required
+                    value={formData.shipment_type}
                     className="select-field"
                     id="shipment_type"
                     onChange={(e) => handleSelect(e, "shipment_type")}
@@ -176,6 +191,7 @@ const RateCalculatorPage = () => {
                   <input
                     type="text"
                     className="input-field"
+                    value={formData.destination_pincode}
                     name={"destination_pincode"}
                     placeholder="Enter Delivery Pincode"
                     onChange={(e) => handleChange(e)}
@@ -188,6 +204,7 @@ const RateCalculatorPage = () => {
                   <input
                     type="text"
                     name={"weight"}
+                    value={formData.weight}
                     className='input-field'
                     onChange={(e) => handleChange(e)}
                   />
@@ -251,6 +268,7 @@ const RateCalculatorPage = () => {
                     className='input-field'
                     type="text"
                     name="invoice_amount"
+                    value={formData.invoice_amount}
                     onChange={(e) => handleChange(e)}
                   />
                 </label>}
@@ -264,10 +282,9 @@ const RateCalculatorPage = () => {
           <section className='box-shadow shadow-sm p10 col-5'></section>
         </div>
 
-        {orderField != true && <div>
-          {sellerData?.map((item) => {
+        {orderField!=true && <>  {sellerData?.map((item) => {
             return (
-              <div className={`${RateTable ? '' : 'd-none'}`}>
+              <div className={`${sellerData ? '' : 'd-none'}`}>
                 <section className='box-shadow shadow-sm p10'>
                   <div className='ship-container-row box-shadow shadow-sm' >
                     <div className='d-flex gap-2'>
@@ -277,7 +294,7 @@ const RateCalculatorPage = () => {
                       <div className='d-flex flex-column justify-content-center'>
                         <p>{item?.courier_partner}</p>
                         {/* <p>partner_title</p> */}
-                        <p>RTO Charges: ₹0</p>
+                        <p>RTO Charges: ₹{item?.rate}</p>
                       </div>
                     </div>
                     <div className='d-flex align-items-center gap-2'>
@@ -322,11 +339,8 @@ const RateCalculatorPage = () => {
                 </section>
               </div>
             )
-          })}
+          })}</>}
         </div>
-        }
-      </div>
-
     </>
   );
 };

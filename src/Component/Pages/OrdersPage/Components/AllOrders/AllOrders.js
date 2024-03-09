@@ -1,16 +1,21 @@
+import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
 import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import Cookies from 'js-cookie';
-import moment from 'moment';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import customImg from "../../../../../assets/image/integration/Manual.png"
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -40,7 +45,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const AllOrders = ({ orders,handleSearch }) => {
+const AllOrders = ({ orders, handleSearch }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -152,7 +157,7 @@ const AllOrders = ({ orders,handleSearch }) => {
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>
@@ -226,11 +231,16 @@ const AllOrders = ({ orders,handleSearch }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} /> */}
-                                                    {row.channel ? (
-                                                        <span className='text-capitalize me-2'>{row.channel}</span>
-                                                    ) : ''}
-                                                    <span className=''>{row.customer_order_number}</span>
+                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
+                                                    :"" }
+                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
