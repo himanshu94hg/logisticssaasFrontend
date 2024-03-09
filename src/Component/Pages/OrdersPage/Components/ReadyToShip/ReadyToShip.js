@@ -10,6 +10,14 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import customImg from "../../../../../assets/image/integration/Manual.png"
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -227,19 +235,17 @@ const ReadyToShip = ({ orders,handleSearch }) => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span> */}
-                                                    {row.channel ? (
-                                                        <span className='text-capitalize me-2'>{row.channel}</span>
-                                                    ) : ''}
-                                                    {row?.customer_order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
+                                            <p className=''>
+                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
+                                                    :"" }
+                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}

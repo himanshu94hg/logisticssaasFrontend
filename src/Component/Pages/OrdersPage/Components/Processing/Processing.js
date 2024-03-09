@@ -10,6 +10,14 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
 import moment from 'moment/moment';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import customImg from "../../../../../assets/image/integration/Manual.png"
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -173,12 +181,17 @@ const Processing = ({ orders,handleSearch }) => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
-                                                    {row.channel ? (
-                                                        <span className='text-capitalize me-2'>{row.channel}</span>
-                                                    ) : ''}
-                                                    {row?.customer_order_number}
+                                            <p className=''>
+                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
+                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
+                                                    :"" }
+                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
