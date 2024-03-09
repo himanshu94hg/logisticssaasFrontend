@@ -6,6 +6,7 @@ import { getBillingWatcher } from "./action/billing";
 import { getshipmentWatcher } from "./action/shipment";
 import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
 import { zoneMappingWatcher } from "./action/tools/zoneMapping";
+import { courierAllocationWatcher } from "./action/tools/courierAllocation";
 
 
 export default function* rootSaga() {
@@ -16,6 +17,7 @@ export default function* rootSaga() {
    getBillingWatcher(),
    getshipmentWatcher(),
    serviceAbilityWatcher(),
-   zoneMappingWatcher()
+   zoneMappingWatcher(),
+   courierAllocationWatcher()
   ]);
 }

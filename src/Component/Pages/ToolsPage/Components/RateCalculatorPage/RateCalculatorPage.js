@@ -28,7 +28,15 @@ const RateCalculatorPage = () => {
 
   });
 
-  const { sellerData, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
+  const { sellerData, reportSchedulerRes } = useSelector(state => state?.toolsSectionReducer)
+
+  useEffect(()=>{
+    if(reportSchedulerRes){
+      setRateTable(true);
+    }
+  },[reportSchedulerRes])
+
+  console.log(reportSchedulerRes,"reportSchedulerResreportSchedulerRes")
 
   useEffect(() => {
     scrollToBottom();
@@ -41,7 +49,7 @@ const RateCalculatorPage = () => {
   };
 
   const handleSubmit = () => {
-    setRateTable(true);
+   
     if (orderField) {
       dispatch({
         type: "RATE_CALCULATOR_ACTION_ORDER_ID",
@@ -277,7 +285,7 @@ const RateCalculatorPage = () => {
                       <div className='d-flex flex-column justify-content-center'>
                         <p>{item?.courier_partner}</p>
                         {/* <p>partner_title</p> */}
-                        <p>RTO Charges: ₹0</p>
+                        <p>RTO Charges: ₹{item?.rate}</p>
                       </div>
                     </div>
                     <div className='d-flex align-items-center gap-2'>

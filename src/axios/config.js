@@ -24,5 +24,6 @@ export const API_URL = {
     GET_SHIPEASE_SERVICEABILITY_PINCODE:"/courier-api/courier/tools/shipease-serviceability-pincodes/",
     GET_COURIER_PARTNER_NAME:"/core-api/shipease-admin/partners/",
     GET_COURIER_SERVICE_PINCODE:"/courier-api/courier/tools/download-service-pincode/",
+    GET_COURIER_ALLOCATION:"/courier-api/courier/tools/download-service-pincode/",
 
 };
