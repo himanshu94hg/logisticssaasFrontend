@@ -282,6 +282,15 @@
     justify-content: space-between;
 }
 
+.courier-dashboard .counters-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+}
+
+.courier-dashboard .counters-container .counter-item {}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
