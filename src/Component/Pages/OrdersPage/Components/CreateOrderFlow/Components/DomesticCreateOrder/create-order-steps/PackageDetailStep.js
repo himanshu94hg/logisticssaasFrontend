@@ -6,6 +6,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
     const [errors, setErrors] = useState({});
 
+    console.log(formData.order_details.payment_type, "Payment Type");
+
     const handleValidation = () => {
         const { cod_charges } = formData?.charge_details;
         const { invoice_amount, } = formData?.order_details;
@@ -112,11 +114,11 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
                         {/* COD Charges */}
                         <label className='col'>
-                            COD Charges
+                            <span>COD Charges <span className='text-gray'>(Optional)</span></span>
                             <input
-                                className={`input-field ${errors.cod_charges && 'input-field-error'}`}
+                                className={`input-field ${formData.order_details.payment_type === "cod" && errors.cod_charges ? 'input-field-error' : ''}`}
                                 type="number" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} />
-                            {errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
+                                {formData.order_details.payment_type === "cod" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
                         </label>
                     </div>
                     <hr />

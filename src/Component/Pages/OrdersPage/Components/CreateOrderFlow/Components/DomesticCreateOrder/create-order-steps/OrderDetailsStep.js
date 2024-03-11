@@ -211,8 +211,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
                             >
                                 <option value="">Select Payment Type</option>
-                                <option value="Prepaid">Prepaid</option>
-                                <option value="COD">COD</option>
+                                <option value="prepaid">Prepaid</option>
+                                <option value="cod">COD</option>
                             </select>
                             {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
                         </label>
