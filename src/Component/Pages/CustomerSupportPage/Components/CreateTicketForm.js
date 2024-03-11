@@ -241,6 +241,23 @@ const CreateTicketForm = (props) => {
     }
 
   };
+  const handleCancel = () => {
+    console.log("hit")
+    setTicketData({
+      category: null,
+      sub_category: null,
+      awb_number: "",
+      description: "",
+      escalate_image: ""
+
+    })
+    props.setNewTicket(false)
+    setSelectFile(false);
+    setFileObj(null)
+    setAllCatagery([]);
+    categoryStatus ? setCategoryStatus(false) : setCategoryStatus(true)
+    document.getElementById("fileInput").value = "";
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -295,7 +312,7 @@ const CreateTicketForm = (props) => {
         {fileError != '' && <span className='error-text'>{fileError}</span>}
       </div>
       <div className='ticket-form-btn'>
-        <button className='btn cancel-button' type="button" onClick={() => props.setNewTicket(false)}>
+        <button className='btn cancel-button' type="button" onClick={handleCancel}>
           Cancel
         </button>
         <button className='btn main-button' type="submit" disabled={isLoading} >
