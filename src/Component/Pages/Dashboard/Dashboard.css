@@ -276,6 +276,12 @@
     left: 28px;
 }
 
+.courier-dashboard .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
