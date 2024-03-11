@@ -27,8 +27,8 @@ const FormInput = ({ label, mandatory, type, value, onChange, options, name, fil
       <div className="file-input-container">
         <input className='input-field choose-file-container' type={type} onChange={onChange} name={name} id={fileInput} />
         {selectFile && (
-          <span style={{ position: "relative", right: "-89%", top: "-24px", cursor: "pointer" }}>
-            <FontAwesomeIcon icon={faTimesCircle} className="clear-file-icon text-danger" onClick={clearFile} size="lg" /> {/* Using size="2x" for extra-large */}
+            <span style={{ position: "relative", right: "-95%", top: "-30px", cursor: "pointer" }}>
+            <FontAwesomeIcon icon={faTimesCircle} className="clear-file-icon" onClick={clearFile} size="lg" /> {/* Using size="2x" for extra-large */}
           </span>
         )}
       </div>
