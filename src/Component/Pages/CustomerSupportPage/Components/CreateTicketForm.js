@@ -290,6 +290,7 @@ const CreateTicketForm = (props) => {
           selectFile={selectFile}
           label="Attachments (If any)"
           onChange={handleFileChange}
+          accept=".pdf, image/*"
         />
         {fileError != '' && <span className='error-text'>{fileError}</span>}
       </div>
