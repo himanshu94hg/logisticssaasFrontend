@@ -116,9 +116,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>COD Charges <span className='text-gray'>(Optional)</span></span>
                             <input
-                                className={`input-field ${formData.order_details.payment_type === "cod" && errors.cod_charges ? 'input-field-error' : ''}`}
+                                className={`input-field ${formData.order_details.payment_type === "Cod" && errors.cod_charges ? 'input-field-error' : ''}`}
                                 type="number" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} />
-                                {formData.order_details.payment_type === "cod" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
+                                {formData.order_details.payment_type === "Cod" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
                         </label>
                     </div>
                     <hr />
