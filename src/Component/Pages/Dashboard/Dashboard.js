@@ -13,14 +13,15 @@ import EmployeeDash from "./DashboardTabs/EmployeeDash";
 import CourierDelays from "./DashboardTabs/CourierDelays";
 import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
 import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
+import CourierDashboard from "./DashboardTabs/CourierDashboard";
 
 
 function Dashboard() {
   const [activeTab, setActiveTab] = useState("Overview");
 
-  const {checkAuth}=useSelector(state=>state?.authDataReducer)
+  const { checkAuth } = useSelector(state => state?.authDataReducer)
 
-  console.log(checkAuth,"i am reducer data is");
+  console.log(checkAuth, "i am reducer data is");
 
   return (
     <>
@@ -32,38 +33,38 @@ function Dashboard() {
 
       {/* Orders */}
       <div className={`${activeTab === "Orders" ? "d-block" : "d-none"}`}>
-        <OrdersDashboard  activeTab={activeTab}/>
+        <OrdersDashboard activeTab={activeTab} />
       </div>
 
       {/* Shipment */}
       <div className={`${activeTab === "Shipment" ? "d-block" : "d-none"}`}>
-        <ShipmentDashboard  activeTab={activeTab}/>
+        <ShipmentDashboard activeTab={activeTab} />
       </div>
 
       {/* NDR */}
       <div className={`${activeTab === "NDR" ? "d-block" : "d-none"}`}>
-        <NDRDashboard  activeTab={activeTab}/>
+        <NDRDashboard activeTab={activeTab} />
       </div>
 
 
       {/* RTO */}
       <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-        <RTODashboard  activeTab={activeTab}/>
+        <RTODashboard activeTab={activeTab} />
       </div>
 
       {/* Courier Delays */}
       <div className={`${activeTab === "Courier Delays" ? "d-block" : "d-none"}`}>
-        <CourierDelays  activeTab={activeTab}/>
+        <CourierDashboard activeTab={activeTab} />
       </div>
 
       {/* Whatsapp Comm */}
       <div className={`${activeTab === "Whatsapp Comm" ? "d-block" : "d-none"}`}>
-        <WhatsappComm  activeTab={activeTab}/>
+        <WhatsappComm activeTab={activeTab} />
       </div>
 
       {/* SubAccounts*/}
       <div className={`${activeTab === "Sub Accounts" ? "d-block" : "d-none"}`}>
-        <SubAccounts  activeTab={activeTab}/>
+        <SubAccounts activeTab={activeTab} />
       </div>
 
       {/* Employees*/}
@@ -73,7 +74,7 @@ function Dashboard() {
 
       {/* Employees*/}
       <div className={`${activeTab === "P & L" ? "d-block" : "d-none"}`}>
-        <PnL activeTab={activeTab}/>
+        <PnL activeTab={activeTab} />
       </div>
 
     </>
