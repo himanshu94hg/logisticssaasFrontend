@@ -238,3 +238,8 @@ a:hover {
 #sidenav .nav-link.main {
     padding-block: 2px;
 }
+
+#sidenav .logo-container {
+    background: #fff;
+    margin-bottom: 15px;
+}

@@ -75,6 +75,9 @@ function TotalShipment() {
   }, [])
 
 
+
+
+
   return (
     <>
       <div className="box-shadow shadow-sm p10">
@@ -141,8 +144,8 @@ function TotalShipment() {
                         className="progress-bar"
                         role="progressbar"
                         style={{
-                          width: `${shimpmetCard.intransit_orders}%`,
-                          backgroundColor: colorScale.in_transit,
+                          width: `${shimpmetCard?.intransit_orders}%`,
+                          backgroundColor: colorScale?.in_transit,
                         }}
                         aria-valuenow={shimpmetCard?.intransit_orders}
                         aria-valuemin="0"
@@ -154,7 +157,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">NDR</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard.ndr_orders} ({shimpmetCard?.ndr_orders}%)
+                        {shimpmetCard?.ndr_orders} ({shimpmetCard?.ndr_orders}%)
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -184,9 +187,9 @@ function TotalShipment() {
                         role="progressbar"
                         style={{
                           width: `${shimpmetCard?.out_for_delivery}%`,
-                          backgroundColor: colorScale.out_for_delivery,
+                          backgroundColor: colorScale?.out_for_delivery,
                         }}
-                        aria-valuenow={shimpmetCard.out_for_delivery}
+                        aria-valuenow={shimpmetCard?.out_for_delivery}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
@@ -196,7 +199,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Picked Up</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard.picked_up_orders} ({shimpmetCard.picked_up_orders}%)
+                        {shimpmetCard?.picked_up_orders} ({shimpmetCard?.picked_up_orders}%)
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -204,10 +207,10 @@ function TotalShipment() {
                         className="progress-bar"
                         role="progressbar"
                         style={{
-                          width: `${shimpmetCard.picked_up_orders}%`,
+                          width: `${shimpmetCard?.picked_up_orders}%`,
                           backgroundColor: colorScale.picked_up,
                         }}
-                        aria-valuenow={shimpmetCard.picked_up_orders}
+                        aria-valuenow={shimpmetCard?.picked_up_orders}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
@@ -217,7 +220,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Shipped</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard.shipped_orders} ({shimpmetCard.shipped_orders}%)
+                        {shimpmetCard?.shipped_orders} ({shimpmetCard?.shipped_orders}%)
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -225,10 +228,10 @@ function TotalShipment() {
                         className="progress-bar"
                         role="progressbar"
                         style={{
-                          width: `${shimpmetCard.shipped_orders}%`,
-                          backgroundColor: colorScale.shipped,
+                          width: `${shimpmetCard?.shipped_orders}%`,
+                          backgroundColor: colorScale?.shipped,
                         }}
-                        aria-valuenow={shimpmetCard.shipped_orders}
+                        aria-valuenow={shimpmetCard?.shipped_orders}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>

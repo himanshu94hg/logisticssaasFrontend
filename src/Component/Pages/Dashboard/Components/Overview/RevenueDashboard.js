@@ -31,7 +31,6 @@ function RevenueDashboard() {
     dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION"})
   }, []);
 
-  console.log(revenueCard,"revenueCardrevenueCardrevenueCard")
 
   return (
     <div className="box-shadow shadow-sm p10">

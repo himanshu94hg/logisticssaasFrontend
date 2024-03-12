@@ -75,30 +75,27 @@ const CourierDashboard = () => {
             <div key={index} className="accordion-row box-shadow shadow-sm mb-3 p10">
               <div className="accordion-header" onClick={() => toggleRow(index)}>
                 <h4>{item.title}</h4>
+                <div>Mode: {item.Mode}</div>
                 <div>Shipment Count: {item['Shipment Count']}</div>
                 <div>
                   Performance Rating: {generateStars(item['Performance Rating'])}
                 </div>
                 <span>{openIndex === index ? <FontAwesomeIcon icon={faChevronDown} /> : <FontAwesomeIcon icon={faChevronUp} />}</span>
               </div>
+
               {openIndex === index && (
                 <div className="accordion-content p10">
-                  <div>Mode: {item.Mode}</div>
-                  <div>Surface: {item.Surface}</div>
-                  <div className="bar-graph">
-                    <div className="bar prepaid" style={{ width: `${(item['Prepaid Order'] / item['Shipment Count']) * 100}%` }}>
-                      Prepaid: {item['Prepaid Order']}
-                    </div>
-                    <div className="bar cod" style={{ width: `${(item['COD Order'] / item['Shipment Count']) * 100}%` }}>
-                      COD: {item['COD Order']}
-                    </div>
+                  <hr className='my-3' />
+                  <div className='counters-container'>
+                    <div className='counter-item'>Prepaid: {item['Prepaid Order']}</div>
+                    <div className='counter-item'>Delivered: {item['Delivered']}</div>
+                    <div className='counter-item'>NDR Delivered: {item['NDR Delivered']}</div>
+                    <div className='counter-item'>RTO: {item['RTO']}</div>
+                    <div className='counter-item'>COD: {item['COD Order']}</div>
+                    <div className='counter-item'>1st Attempt Delivered: {item['1st Attempt Delivered']}</div>
+                    <div className='counter-item'>NDR Raised: {item['NDR Raised']}</div>
+                    <div className='counter-item'>Lost / Damaged: {item['Lost / Damaged']}</div>
                   </div>
-                  <div>Delivered: {item['Delivered']}</div>
-                  <div>1st Attempt Delivered: {item['1st Attempt Delivered']}</div>
-                  <div>NDR Delivered: {item['NDR Delivered']}</div>
-                  <div>NDR Raised: {item['NDR Raised']}</div>
-                  <div>RTO: {item['RTO']}</div>
-                  <div>Lost / Damaged: {item['Lost / Damaged']}</div>
                 </div>
               )}
             </div>

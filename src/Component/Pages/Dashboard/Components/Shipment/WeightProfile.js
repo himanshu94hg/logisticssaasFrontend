@@ -17,7 +17,6 @@ const WeightOrdersChart = () => {
             } else if (screenWidth >= 768) {
                 setChartWidth(290); // for medium screens
                 setresOffsetX(100); // for medium screens
-                console.log(resOffsetX)
             } else {
                 setChartWidth(200); // default width for smaller screens
                 setresOffsetX(100); // default width for smaller screens

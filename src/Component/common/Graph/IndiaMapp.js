@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDatamapsIndiaUmd from "react-datamaps-india";
+import { useSelector } from "react-redux";
 
-const IndiaMapp = () => {
+const IndiaMapp = ({statewiseData}) => {
+  const [stateData,setStateData]=useState([])
+
+  const mydata = useSelector(state => state?.dashboardOverviewReducer?.stateWiseData)
+
+
   const dummyData = {
-    Maharashtra: { sales: 100, value: 'Maharashtra' },
+    Maharashtra: { sales: 0, value: 'Maharashtra' },
     Karnataka: { sales: 80, value: 'Karnataka' },
     Delhi: { sales: 80, value: 'Delhi' },
     'Madhya Pradesh': { sales: 10, value: 'Madhya Pradesh' },
     'Uttar Pradesh': { sales: 10, value: 'Uttar Pradesh' },
     Gujarat: { sales: 10, value: 'Gujarat' },
-    // Add dummy data for other states...
   };
+
+  
+  useEffect(()=>{
+    if(mydata){
+      const mappedData = Object.keys(mydata).reduce((acc, key) => {
+        if (key !== "null") {
+          acc[key] = { sales: mydata[key], value: key };
+        }
+        return acc;
+      }, {});
+      setStateData(mappedData)
+     }
+  },[statewiseData])
 
   const hasData = (stateName) => {
     return dummyData.hasOwnProperty(stateName);
@@ -18,6 +36,8 @@ const IndiaMapp = () => {
 
   const colorWithData = "#111"; // Color for states with data
   const colorWithoutData = "#ccc"; // Color for states without data
+
+  console.log(stateData,"stateDatastateData")
 
   return (
     <div style={{ position: "relative" }}>
