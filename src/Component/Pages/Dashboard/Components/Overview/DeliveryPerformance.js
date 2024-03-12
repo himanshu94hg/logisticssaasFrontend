@@ -73,12 +73,10 @@ const DeliveryPerformance = () => {
 
         const chart = new ApexCharts(document.getElementById('chart'), options);
         chart.render();
-
-        // Cleanup function to destroy the chart when component unmounts
         return () => {
             chart.destroy();
         };
-    }, []); // Empty dependency array ensures useEffect runs only once after initial render
+    }, []); 
 
     return (
         <div className='box-shadow shadow-sm p10' style={{ minHeight: '300px', maxHeight: '500px' }}>

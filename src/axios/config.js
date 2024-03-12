@@ -36,5 +36,9 @@ export const API_URL = {
     GET_DASHBOARD_OVERVIEW_COUNTER_CARD:"/orders-api/dashboard/overview/counter-card/",
     GET_DASHBOARD_OVERVIEW_TOPSELL_CARD:"/orders-api/dashboard/overview/top-selling-products/",
     GET_DASHBOARD_OVERVIEW_STATEWISE_SPLIT:"/orders-api/dashboard/overview/state-wise-split/",
+    GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE:"/orders-api/dashboard/overview/delivery-performance/",
+    GET_DASHBOARD_OVERVIEW_COURIERISE_ALLOCATION:"/orders-api/dashboard/overview/courier-wise-allocation/",
+    GET_DASHBOARD_OVERVIEW_MOST_POPULAR:"/orders-api/dashboard/overview/most-popular-customers/",
+    GET_DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES:"/orders-api/dashboard/overview/weight-discrepancy/",
 
 };

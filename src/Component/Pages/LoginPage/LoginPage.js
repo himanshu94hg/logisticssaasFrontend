@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
-import { getIndexRoute, indexPattern } from '../../../Routes';
+import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
 
 const LoginPage = ({ setTokenExists ,tokenExists}) => {
   const navigate = useNavigate();
@@ -81,12 +81,13 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
               <i>Password</i>
             </div>
             <div className="links">
-              <a href="#">Forgot Password?</a> <a href="#">Signup</a>
+              <a href="#">Forgot Password?</a> <a href="#" onClick={()=>navigate(signUpPattern)}>Signup</a>
             </div>
             <button className='btn main-button' type="submit" >Login</button>
           </form>
         </div>
       </div>
+
     </section>
   );
 };

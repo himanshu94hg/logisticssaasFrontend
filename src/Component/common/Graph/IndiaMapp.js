@@ -1,43 +1,12 @@
-import React, { useEffect, useState } from "react";
 import ReactDatamapsIndiaUmd from "react-datamaps-india";
-import { useSelector } from "react-redux";
 
-const IndiaMapp = ({statewiseData}) => {
-  const [stateData,setStateData]=useState([])
-
-  const mydata = useSelector(state => state?.dashboardOverviewReducer?.stateWiseData)
-
-
-  const dummyData = {
-    Maharashtra: { sales: 0, value: 'Maharashtra' },
-    Karnataka: { sales: 80, value: 'Karnataka' },
-    Delhi: { sales: 80, value: 'Delhi' },
-    'Madhya Pradesh': { sales: 10, value: 'Madhya Pradesh' },
-    'Uttar Pradesh': { sales: 10, value: 'Uttar Pradesh' },
-    Gujarat: { sales: 10, value: 'Gujarat' },
-  };
-
-  
-  useEffect(()=>{
-    if(mydata){
-      const mappedData = Object.keys(mydata).reduce((acc, key) => {
-        if (key !== "null") {
-          acc[key] = { sales: mydata[key], value: key };
-        }
-        return acc;
-      }, {});
-      setStateData(mappedData)
-     }
-  },[statewiseData])
-
+const IndiaMapp = ({ stateMapData }) => {
   const hasData = (stateName) => {
-    return dummyData.hasOwnProperty(stateName);
+    return stateMapData.hasOwnProperty(stateName);
   };
 
-  const colorWithData = "#111"; // Color for states with data
-  const colorWithoutData = "#ccc"; // Color for states without data
-
-  console.log(stateData,"stateDatastateData")
+  const colorWithData = "#111";
+  const colorWithoutData = "#ccc";
 
   return (
     <div style={{ position: "relative" }}>
@@ -45,26 +14,22 @@ const IndiaMapp = ({statewiseData}) => {
         style={{ width: "50%", height: "50%", position: "relative", left: "25%" }}
         responsive
         customFill={(geography) => {
-          const stateName = geography.properties.name;
-          return hasData(stateName) ? colorWithData : colorWithoutData; // Return color based on data presence
+          const stateName = geography?.properties?.name;
+          return hasData(stateName) ? colorWithData : colorWithoutData; 
         }}
         hoverComponent={({ value }) => {
-          // Check if value is defined to avoid errors
           if (!value) return null;
-          // Check if dummy data exists for the hovered state
-          const stateData = dummyData[value.name];
+          const stateData = stateMapData[value?.name];
           if (stateData) {
-            // Display dummy data if available
             return (
               <div className="hover-tooltip">
                 <div className="tooltip-content">
-                  <p>{stateData.value}</p>
-                  <p>Orders: {stateData.sales}</p>
+                  <p>{stateData?.value}</p>
+                  <p>Orders: {stateData?.sales}</p>
                 </div>
               </div>
             );
           } else {
-            // If no dummy data is available, display a message
             return (
               <div className="hover-tooltip">
                 <div className="tooltip-content">

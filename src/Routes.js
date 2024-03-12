@@ -9,6 +9,10 @@ export const loginPattern = "/login";
 export const getLoginRoute = () => {
     return generatePath(loginPattern);
 };
+export const signUpPattern = "/sign-up";
+export const getSignupRoute = () => {
+    return generatePath(signUpPattern);
+};
 export const ordersPattern = "/orders";
 export const getOrdersRoute = () => {
     return generatePath(ordersPattern);
