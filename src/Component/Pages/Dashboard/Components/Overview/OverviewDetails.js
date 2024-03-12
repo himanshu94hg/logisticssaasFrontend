@@ -46,13 +46,12 @@ const OverviewDetails = () => {
     }
   }, [activeTab])
 
-
-
   const { codDetails,ndrDetails,rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
   const capitalize = (str) => {
     return str.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   };
-  console.log(ndrDetails, "this is dashboard data")
+
+  
   return (
     <>
       <div className="box-shadow shadow-sm p10 overview-details-counters">

@@ -4,7 +4,6 @@ import { useSelector } from "react-redux";
 
 // Custom Table component
 function CustomTable({ data }) {
-  console.log(data,"this is a dat>>>>>>>>>>>>>>>>>>>>>>>")
   return (
     <table className="custom-table w-100">
       <thead>
@@ -19,8 +18,8 @@ function CustomTable({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data?.slice(0,7)?.map((order) => (
-          <tr key={order.order_number}>
+        {data?.slice(0,7)?.map((order,index) => (
+          <tr key={index}>
             <td>{order.customer_order_number}</td>
             <td>{order.awb_number || "N/A"}</td>
             <td>{order.courier_partner || "N/A"}</td>

@@ -53,8 +53,8 @@ function* topSellAction(action) {
 
 //STATEWISE SPLIT API'S
 async function statewiseSplitApi(data) {
+    console.log("data is coming")
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
-
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_STATEWISE_SPLIT}?${queryParams}`,
@@ -63,6 +63,7 @@ async function statewiseSplitApi(data) {
     return listData
 }
 function* stateWiseSplitAction(action) {
+    console.log("object","tgis is s s")
     let { payload, reject } = action;
     try {
         let response = yield call(statewiseSplitApi, payload);
