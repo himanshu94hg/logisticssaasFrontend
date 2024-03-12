@@ -2,7 +2,6 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE, BASE_URL_ORDER } from "../../../../axios/config";
 import axios from "../../../../axios/index"
 import {  RATE_CALCULATOR_ACTION, RATE_CALCULATOR_ACTION_ORDER_ID } from "../../constant/tools";
-import Swal from 'sweetalert2'
 import { GET_RATE_CALCULATOR_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../../constants/tools";
 import { toast } from "react-toastify";
 
@@ -29,7 +28,7 @@ async function rateCalcultorAPIOrderId(data) {
 }
 
 function* rateCalculatorAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(rateCalcultorAPI, payload);
         if (response.status === 200) {
@@ -37,12 +36,11 @@ function* rateCalculatorAction(action) {
         }
        
     } catch (error) {
-        if (reject) reject(error);
     }
 }
 
 function* rateCalculatorActionByOrderId(action) {
-    let { payload, reject } = action;
+    let { payload, } = action;
     try {
         let response = yield call(rateCalcultorAPIOrderId, payload);
         if (response.status === 200) {

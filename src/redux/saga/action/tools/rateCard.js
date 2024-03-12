@@ -1,4 +1,3 @@
-import Cookies from "js-cookie";
 import axios from "../../../../axios/index"
 import { RATE_CARD_ACTION } from "../../constant/tools";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
