@@ -1,16 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ReactDatamapsIndiaUmd from "react-datamaps-india";
+import { useSelector } from "react-redux";
 
-const IndiaMapp = () => {
+const IndiaMapp = ({statewiseData}) => {
+  const [stateData,setStateData]=useState([])
+
+  console.log(statewiseData,"statewiseDatastatewiseDatastatewiseData")
+
   const dummyData = {
-    Maharashtra: { sales: 100, value: 'Maharashtra' },
+    Maharashtra: { sales: 0, value: 'Maharashtra' },
     Karnataka: { sales: 80, value: 'Karnataka' },
     Delhi: { sales: 80, value: 'Delhi' },
     'Madhya Pradesh': { sales: 10, value: 'Madhya Pradesh' },
     'Uttar Pradesh': { sales: 10, value: 'Uttar Pradesh' },
     Gujarat: { sales: 10, value: 'Gujarat' },
-    // Add dummy data for other states...
   };
+
+  
+  // useEffect(()=>{
+  //   if(statewiseData){
+  //     const mappedData = Object.keys(statewiseData).reduce((acc, key) => {
+  //       if (key !== "null") {
+  //         acc[key] = { sales: statewiseData[key], value: key };
+  //       }
+  //       return acc;
+  //     }, {});
+  //    }
+  // },[statewiseData])
 
   const hasData = (stateName) => {
     return dummyData.hasOwnProperty(stateName);
