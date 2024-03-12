@@ -1,19 +1,21 @@
-import { GET_DASHBOARD_OVERVIEW_COD_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_COUNTER_CARD_DATA, 
-    GET_DASHBOARD_OVERVIEW_LAST_ORDERS_DATA, GET_DASHBOARD_OVERVIEW_NDR_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_REVENUE_CARD_DATA, 
+import {
+    GET_DASHBOARD_OVERVIEW_COD_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_COUNTER_CARD_DATA,
+    GET_DASHBOARD_OVERVIEW_LAST_ORDERS_DATA, GET_DASHBOARD_OVERVIEW_NDR_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_REVENUE_CARD_DATA,
     GET_DASHBOARD_OVERVIEW_RTO_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_SHIPMENTCARD_DATA, GET_DASHBOARD_OVERVIEW_STATEWISE_DATA,
-     GET_DASHBOARD_OVERVIEW_TOPSELL_DATA,  } from "../../../constants/dashboard/overview";
+    GET_DASHBOARD_OVERVIEW_TOPSELL_DATA,
+} from "../../../constants/dashboard/overview";
 
 const initialState = {
-    shimpmetCard:null,
-    ndrDetails:null,
-    codDetails:null,
-    rtoDetails:null,
-    lastOrders:[],
-    revenueCard:null,
-    counterCard:null,
-    topSellCard:[],
-    stateWiseData:null
-    
+    shimpmetCard: null,
+    ndrDetails: null,
+    codDetails: null,
+    rtoDetails: null,
+    lastOrders: [],
+    revenueCard: null,
+    counterCard: null,
+    topSellCard: [],
+    stateWiseData: null
+
 };
 
 export const dashboardOverviewReducer = (state = initialState, action) => {
@@ -33,7 +35,6 @@ export const dashboardOverviewReducer = (state = initialState, action) => {
                 ...state,
                 codDetails: action?.payload
             };
-       
         case GET_DASHBOARD_OVERVIEW_RTO_DETAILS_DATA:
             return {
                 ...state,
@@ -49,7 +50,6 @@ export const dashboardOverviewReducer = (state = initialState, action) => {
                 ...state,
                 revenueCard: action?.payload
             };
-       
         case GET_DASHBOARD_OVERVIEW_COUNTER_CARD_DATA:
             return {
                 ...state,
@@ -61,11 +61,12 @@ export const dashboardOverviewReducer = (state = initialState, action) => {
                 topSellCard: action?.payload
             };
         case GET_DASHBOARD_OVERVIEW_STATEWISE_DATA:
+            console.log(action?.payload,"this is a stateWiseDatastateWiseData")
             return {
                 ...state,
                 stateWiseData: action?.payload
             };
-       
+
         default:
             return state
     }

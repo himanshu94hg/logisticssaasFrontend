@@ -31,7 +31,6 @@ function* lastOrderAction(action) {
 //TOP SAIL PRODUCTS API'S
 async function topSellApi(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
-
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_TOPSELL_CARD}?${queryParams}`,
@@ -51,32 +50,14 @@ function* topSellAction(action) {
     }
 }
 
-//STATEWISE SPLIT API'S
-async function statewiseSplitApi(data) {
-    console.log("data is coming")
-    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
-    let listData = axios.request({
-        method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_STATEWISE_SPLIT}?${queryParams}`,
-        // data: data
-    });
-    return listData
-}
-function* stateWiseSplitAction(action) {
-    console.log("object","tgis is s s")
-    let { payload, reject } = action;
-    try {
-        let response = yield call(statewiseSplitApi, payload);
-        if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, payload: response?.data })
-        }
-    } catch (error) {
-        if (reject) reject(error);
-    }
-}
+
 
 export function* getLastOrderWatcher() {
     yield takeLatest(DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION, lastOrderAction);
     yield takeLatest(DASHBOARD_OVERVIEW_TOPSELL_ACTION, topSellAction);
-    yield takeLatest(DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION, stateWiseSplitAction);
 }
+
+
+// useEffect(() => {
+//     dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION" })
+//   }, [])

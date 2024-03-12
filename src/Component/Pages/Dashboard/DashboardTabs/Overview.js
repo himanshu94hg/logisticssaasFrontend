@@ -14,10 +14,7 @@ import WeightDiscrepancies from '../Components/Overview/WeightDiscrepancies';
 import { useDispatch } from 'react-redux';
 
 const Overview = () => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION" })
-  }, [])
+
   return (
     <Row className='mb-3'>
       <Col className="col-3 cardsSpace">
