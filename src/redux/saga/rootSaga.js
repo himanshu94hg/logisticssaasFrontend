@@ -8,6 +8,11 @@ import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
 import { zoneMappingWatcher } from "./action/tools/zoneMapping";
 import { courierAllocationWatcher } from "./action/tools/courierAllocation";
 import { getupdateTicketStatusWatcher } from "./action/customerSupport";
+import { getshipmentCardWatcher } from "./action/dashboard/overview/shipmentCard";
+import { getCodDetailsWatcher } from "./action/dashboard/overview/codDetails";
+import { getLastOrderWatcher } from "./action/dashboard/overview/lastOrders";
+import { getRevenueCardWatcher } from "./action/dashboard/overview/revenueCard";
+import { getCounterCardWatcher } from "./action/dashboard/overview/counterCard";
 
 
 export default function* rootSaga() {
@@ -20,6 +25,11 @@ export default function* rootSaga() {
    serviceAbilityWatcher(),
    zoneMappingWatcher(),
    courierAllocationWatcher(),
-   getupdateTicketStatusWatcher()
+   getupdateTicketStatusWatcher(),
+   getshipmentCardWatcher(),
+   getCodDetailsWatcher(),
+   getLastOrderWatcher(),
+   getRevenueCardWatcher(),
+   getCounterCardWatcher()
   ]);
 }

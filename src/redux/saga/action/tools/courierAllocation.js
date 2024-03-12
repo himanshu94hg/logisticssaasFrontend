@@ -1,6 +1,6 @@
 import axios from "../../../../axios/index"
 import { COURIER_ALLOCATION_ACTION,  } from "../../constant/tools";
-import { call, put, takeLatest } from "@redux-saga/core/effects";
+import { call,  takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 
 async function courierAllocationAPI(data) {

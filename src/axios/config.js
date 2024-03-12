@@ -26,4 +26,15 @@ export const API_URL = {
     GET_COURIER_SERVICE_PINCODE:"/courier-api/courier/tools/download-service-pincode/",
     GET_COURIER_ALLOCATION:"/courier-api/courier/tools/download-service-pincode/",
 
+    //DASHBOARD API'S 
+    GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD:"/orders-api/dashboard/overview/shipment-card/",
+    GET_DASHBOARD_OVERVIEW_NDR_DETAILS:"/orders-api/dashboard/ndr/counter-cards/",
+    GET_DASHBOARD_OVERVIEW_COD_DETAILS:"/orders-api/dashboard/overview/cod-details/",
+    GET_DASHBOARD_OVERVIEW_RTO_DETAILS:"/orders-api/dashboard/overview/rto-status/",
+    GET_DASHBOARD_OVERVIEW_LAST_ORDERS:"/orders-api/dashboard/overview/get-last-orders/",
+    GET_DASHBOARD_OVERVIEW_REVENUE_CARD:"/orders-api/dashboard/overview/revenue-analytics-card/",
+    GET_DASHBOARD_OVERVIEW_COUNTER_CARD:"/orders-api/dashboard/overview/counter-card/",
+    GET_DASHBOARD_OVERVIEW_TOPSELL_CARD:"/orders-api/dashboard/overview/top-selling-products/",
+    GET_DASHBOARD_OVERVIEW_STATEWISE_SPLIT:"/orders-api/dashboard/overview/state-wise-split/",
+
 };
