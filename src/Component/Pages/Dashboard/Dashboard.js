@@ -20,8 +20,6 @@ function Dashboard() {
 
   const {checkAuth}=useSelector(state=>state?.authDataReducer)
 
-  console.log(checkAuth,"i am reducer data is");
-
   return (
     <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

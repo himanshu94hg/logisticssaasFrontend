@@ -23,10 +23,6 @@ function TotalInfoDashboard() {
 
   const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
 
-  console.log(counterCard, "this is card data")
-
-
-
   return (
     <>
       <div className="grid gap-3">
