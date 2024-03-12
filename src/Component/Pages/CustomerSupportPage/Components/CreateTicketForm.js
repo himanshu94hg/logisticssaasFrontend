@@ -9,33 +9,33 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 
 // Reusable FormInput component
-const FormInput = ({ label, mandatory, type, value, onChange, options, name, fileInput, customClass, selectFile, clearFile }) => (
-  <div className='ticket-form-row'>
-    <label>{label} <span className='text-danger'>{mandatory}</span></label>
-    {type === 'select' ? (
-      <select className={`select-field ${customClass}`} name={name} value={value} onChange={onChange}>
-        <option value="" >Select {label}</option>
-        {options.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
-    ) : type === 'textarea' ? (
-      <textarea className={`input-field text-field ${customClass}`} rows="4" value={value} name={name} onChange={onChange} />
-    ) : type === 'file' ? (
-      <div className="file-input-container">
-        <input className='input-field choose-file-container' type={type} onChange={onChange} name={name} id={fileInput} />
-        {selectFile && (
-          <span style={{ position: "relative", right: "-89%", top: "-24px", cursor: "pointer" }}>
-            <FontAwesomeIcon icon={faTimesCircle} className="clear-file-icon text-danger" onClick={clearFile} size="lg" /> {/* Using size="2x" for extra-large */}
+const FormInput = ({ label, mandatory, type, value, onChange, onBlur, options, name, fileInput, customClass, selectFile, clearFile }) => (
+    <div className='ticket-form-row'>
+      <label>{label} <span className='text-danger'>{mandatory}</span></label>
+      {type === 'select' ? (
+          <select className={`select-field ${customClass}`} name={name} value={value} onChange={onChange}>
+            <option value="" >Select {label}</option>
+            {options.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+            ))}
+          </select>
+      ) : type === 'textarea' ? (
+          <textarea className={`input-field text-field ${customClass}`} rows="4" value={value} name={name} onChange={onChange} onBlur={onBlur} />
+      ) : type === 'file' ? (
+          <div className="file-input-container">
+            <input className='input-field choose-file-container' type={type} onChange={onChange} onBlur={onBlur} name={name} id={fileInput} />
+            {selectFile && (
+                <span style={{ position: "relative", right: "-95%", top: "-30px", cursor: "pointer" }}>
+            <FontAwesomeIcon icon={faTimesCircle} className="clear-file-icon" onClick={clearFile} size="lg" /> {/* Using size="2x" for extra-large */}
           </span>
-        )}
-      </div>
-    ) : (
-      <input className={`input-field x ${customClass}`} type={type} value={value} onChange={onChange} name={name} />
-    )}
-  </div>
+            )}
+          </div>
+      ) : (
+          <input className={`input-field x ${customClass}`} type={type} value={value} onChange={onChange} onBlur={onBlur} name={name} />
+      )}
+    </div>
 );
 
 const CreateTicketForm = (props) => {
@@ -146,11 +146,43 @@ const CreateTicketForm = (props) => {
   }, [ticketData.escalate_image, fileObj]);
 
   const handleCreateTicket = (e) => {
+    const { name, value } = e.target;
     setTicketData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
-    }))
-  }
+      [name]: value
+    }));
+  };
+
+  const handleBlurAWB = (e) => {
+    const { name, value } = e.target;
+    if (name === 'awb_number') {
+      const awbNumbers = value.split(',').map(number => number.trim());
+      validateAWBNumbers(awbNumbers);
+    }
+  };
+
+  const validateAWBNumbers = (awbNumbers) => {
+    const authToken = Cookies.get("access_token");
+
+    return axios.post(
+        'https://dev.shipease.in/core-api/shipping/validate-awb-number/',
+        {
+          awb_numbers: awbNumbers
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'application/json'
+          }
+        }
+    ).then(response => {
+      console.warn(response, "Response")
+    }).catch(error => {
+      toast.error("One of these AWB numbers is invalid.");
+    });
+  };
+
+
   const clearFile = () => {
     setSelectFile(false);
     setFileError("");
@@ -241,6 +273,23 @@ const CreateTicketForm = (props) => {
     }
 
   };
+  const handleCancel = () => {
+    console.log("hit")
+    setTicketData({
+      category: null,
+      sub_category: null,
+      awb_number: "",
+      description: "",
+      escalate_image: ""
+
+    })
+    props.setNewTicket(false)
+    setSelectFile(false);
+    setFileObj(null)
+    setAllCatagery([]);
+    categoryStatus ? setCategoryStatus(false) : setCategoryStatus(true)
+    document.getElementById("fileInput").value = "";
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -251,6 +300,7 @@ const CreateTicketForm = (props) => {
           name={"awb_number"}
           value={ticketData.awb_number}
           onChange={(e) => handleCreateTicket(e)}
+          onBlur={(e) => handleBlurAWB(e)}
         />
         <FormInput
           type="select"
@@ -290,11 +340,12 @@ const CreateTicketForm = (props) => {
           selectFile={selectFile}
           label="Attachments (If any)"
           onChange={handleFileChange}
+          accept=".pdf, image/*"
         />
         {fileError != '' && <span className='error-text'>{fileError}</span>}
       </div>
       <div className='ticket-form-btn'>
-        <button className='btn cancel-button' type="button" onClick={() => props.setNewTicket(false)}>
+        <button className='btn cancel-button' type="button" onClick={handleCancel}>
           Cancel
         </button>
         <button className='btn main-button' type="submit" disabled={isLoading} >

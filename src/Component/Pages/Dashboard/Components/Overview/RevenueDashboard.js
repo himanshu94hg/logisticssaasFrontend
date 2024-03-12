@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
 import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function RevenueDashboard() {
   const [selectedInterval, setSelectedInterval] = useState("1W");
   const [revenueData, setRevenueData] = useState({ prepade_revenue_data: 0, cod_revenue_data: 0 });
   const [totalSumOrder, setTotalSumOrder] = useState(0);
-
+  const dispatch = useDispatch()
   const fetchRevenueData = (interval) => {
     const endpointMap = {
       "1D": "one-day-revenue",
@@ -16,22 +18,20 @@ function RevenueDashboard() {
       "6M": "six-month-revenue",
       "1Y": "one-year-revenue",
     };
-
     const endpoint = endpointMap[interval];
-    // axios
-    //   .get(`http://dev.shipease.in:8088/api/v1/${endpoint}/`)
-    //   .then(response => {
-    //     console.log('Data:', response.data);
-    //     setRevenueData(response.data);
-    //   })
-    //   .catch(error => {
-    //     console.error('Error:', error);
-    //   });
   };
+
+  const {revenueCard}=useSelector(state=>state?.dashboardOverviewReducer)
 
   useEffect(() => {
     fetchRevenueData(selectedInterval);
   }, [selectedInterval]);
+
+  useEffect(() => {
+    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION"})
+  }, []);
+
+  console.log(revenueCard,"revenueCardrevenueCardrevenueCard")
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -55,7 +55,7 @@ function RevenueDashboard() {
             <AiOutlineArrowUp className=" font15" />
             {/* {revenueData.prepade_revenue_data}% */}
           </p>
-          <p className="text-red">{revenueData.prepade_revenue_data}</p>
+          <p className="text-red">{revenueCard?.prepaid_revenue || "NA"}</p>
         </li>
 
         <li className={`bg-green-light text-green`}>
@@ -64,7 +64,7 @@ function RevenueDashboard() {
             <AiOutlineArrowUp className=" font15" />
             {/* {revenueData.cod_revenue_data}% */}
           </p>
-          <p>{revenueData.cod_revenue_data}</p>
+          <p className="text-red">{revenueCard?.cod_revenue ||"NA"}</p>
         </li>
 
         {/* Add other items based on your API response structure */}
@@ -72,7 +72,7 @@ function RevenueDashboard() {
         <li className={`bg-red-light text-red`}>
           <p>Total Delivered Orders</p>
           <AiOutlineArrowUp className=" font15" />
-          <p>{revenueData?.total_revenue_data || '0'}</p>
+          <p className="text-red">{revenueCard?.total_delivered_orders}</p>
         </li>
       </ul>
     </div>

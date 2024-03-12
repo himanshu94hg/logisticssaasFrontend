@@ -84,6 +84,32 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }
     };
 
+    const handleProductNameChange = (e, index) => {
+        const updatedProducts = [...formData.product_details];
+        const newProductName = e.target.value;
+
+        updatedProducts[index].product_name = newProductName;
+
+        if (updatedProducts[index].skuCheckboxChecked) {
+            updatedProducts[index].sku = newProductName;
+        }
+
+        setFormData({ ...formData, product_details: updatedProducts });
+    };
+
+    const handleSkuCheckboxChange = (e, index) => {
+        const updatedProducts = [...formData.product_details];
+        const isChecked = e.target.checked;
+        updatedProducts[index].skuCheckboxChecked = isChecked;
+
+        if (isChecked) {
+            updatedProducts[index].sku = updatedProducts[index].product_name;
+        }
+
+        setFormData({ ...formData, product_details: updatedProducts });
+    };
+
+
 
     return (
         <div>
@@ -101,7 +127,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder="Enter or search your product name"
                                         type="text"
                                         value={product.product_name}
-                                        onChange={(e) => handleChange(e, 'product_name', index)}
+                                        onChange={(e) => handleProductNameChange(e, index)}
                                     />
                                     {errors[`product_name_${index}`] && <span className="custom-error">{errors[`product_name_${index}`]}</span>}
                                 </label>
@@ -162,7 +188,15 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />
-                                    {errors[`sku_${index}`] && <span className="custom-error">{errors[`sku_${index}`]}</span>}
+                                    {errors[`sku_${index}`] && <span className="custom-error" style={{display:"block"}}>{errors[`sku_${index}`]}</span>}
+                                    <span>
+                                        <input
+                                            type="checkbox"
+                                            checked={product.skuCheckboxChecked}
+                                            onChange={(e) => handleSkuCheckboxChange(e, index)}
+                                            style={{display:"inline"}}
+                                        />  Product name as SKU
+                                    </span>
                                 </label>
                             </div>
 

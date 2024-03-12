@@ -28,9 +28,8 @@ const RateCalculatorPage = () => {
 
   });
 
-  const { sellerData, reportSchedulerRes, ratePrefilledData,ratingCardData } = useSelector(state => state?.toolsSectionReducer)
+  const { sellerData, reportSchedulerRes, ratePrefilledData, ratingCardData } = useSelector(state => state?.toolsSectionReducer)
 
-  console.log(sellerData,"ratingCardData")
 
   useEffect(() => {
     if (ratePrefilledData) {
@@ -77,12 +76,66 @@ const RateCalculatorPage = () => {
       setOrderField(false);
     }
   }
+  // const handleChange = (e) => {
+  //   const scaleDataName = e.target.name;
+  //   if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
+  //     setLength(e.target.value);
+  //     setHeight(e.target.value);
+  //     setBreadth(e.target.value);
+  //   } else {
+  //     const { name, value } = e.target;
+  //     setFormData(prevData => ({
+  //       ...prevData,
+  //       [name]: value
+  //     }));
+  //     if (name === "is_cod" && value === "Yes") {
+  //       setFormData(prevData => ({
+  //         ...prevData,
+  //         invoice_amount: parseInt(e.target.value)
+  //       }));
+  //     } else if (name === "is_cod" && value === "No") {
+  //       setFormData(prevData => {
+  //         const { invoice_amount, ...rest } = prevData;
+  //         return rest;
+  //       });
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   const volmetricWeight = length * breadth * height / 5000
+  //   setVolWeight(volmetricWeight)
+  //   setFormData(prevData => ({
+  //     ...prevData,
+  //     volmetric_weight: volmetricWeight
+  //   }));
+  //   if (formData?.is_cod === "Yes") {
+  //     setInvoiceField(true)
+  //   } else {
+  //     setInvoiceField(false)
+  //   }
+  // }, [length, breadth, height, formData.is_cod])
+
+  
+  // useEffect(() => {
+  //   const { weight, volmetric_weight } = formData;
+  //   if (weight > volmetric_weight) {
+  //     setChargedWeight(weight)
+  //   } else if (weight < volmetric_weight) {
+  //     setChargedWeight(volmetric_weight)
+  //   }
+  // }, [formData.weight, formData.volmetric_weight])
   const handleChange = (e) => {
     const scaleDataName = e.target.name;
     if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
-      setLength(e.target.value);
-      setHeight(e.target.value);
-      setBreadth(e.target.value);
+      const { name, value } = e.target;
+      if (name === "length") {
+        setLength(value);
+      } else if (name === "breadth") {
+        setBreadth(value);
+      } else if (name === "height") {
+        setHeight(value);
+      }
     } else {
       const { name, value } = e.target;
       setFormData(prevData => ({
@@ -102,41 +155,39 @@ const RateCalculatorPage = () => {
       }
     }
   };
-
+  
   useEffect(() => {
-    const volmetricWeight = length * breadth * height / 50000
-    setVolWeight(volmetricWeight)
+    const volmetricWeight = length * breadth * height / 5000;
+    setVolWeight(volmetricWeight);
     setFormData(prevData => ({
       ...prevData,
       volmetric_weight: volmetricWeight
     }));
     if (formData?.is_cod === "Yes") {
-      setInvoiceField(true)
+      setInvoiceField(true);
     } else {
-      setInvoiceField(false)
+      setInvoiceField(false);
     }
-  }, [length, breadth, height, formData.is_cod])
-
+  }, [length, breadth, height, formData.is_cod]);
+  
+  useEffect(() => {
+    const { weight, volmetric_weight } = formData;
+    if (volmetric_weight !== null) {
+      const newChargedWeight = Math.max(weight, volmetric_weight);
+      setChargedWeight(newChargedWeight);
+    }
+  }, [formData.weight, formData.volmetric_weight]);
+  
   const containerStyle = {
     opacity: orderField ? 0.5 : 1,
     pointerEvents: orderField ? 'none' : 'auto',
   };
 
-  useEffect(() => {
-    const { weight, volmetric_weight } = formData;
-    if (weight > volmetric_weight) {
-      setChargedWeight(weight)
-    } else if (weight < volmetric_weight) {
-      setChargedWeight(volmetric_weight)
-    }
-  }, [formData.weight, formData.volmetric_weight])
-
-
-  const orderIdApiCAll=()=>{
-   dispatch({
-    type: "RATE_CALCULATOR_ACTION_ORDER_ID",
-    payload: orderId
-});
+  const orderIdApiCAll = () => {
+    dispatch({
+      type: "RATE_CALCULATOR_ACTION_ORDER_ID",
+      payload: orderId
+    });
   }
 
   return (
@@ -156,7 +207,7 @@ const RateCalculatorPage = () => {
                 />
               </label>
               <div className='d-flex justify-content-end mt-4'>
-              <button className='btn main-button' onClick={orderIdApiCAll}>Search</button>
+                <button className='btn main-button' onClick={orderIdApiCAll}>Search</button>
               </div>
             </div>
             <div style={containerStyle}>
@@ -178,7 +229,7 @@ const RateCalculatorPage = () => {
                 <label className='col'>
                   Pickup Pincode
                   <input
-                    type="text"
+                     type="number"
                     className="input-field"
                     name={"source_pincode"}
                     value={formData.source_pincode}
@@ -189,7 +240,7 @@ const RateCalculatorPage = () => {
                 <label className='col'>
                   Delivery Pincode
                   <input
-                    type="text"
+                    type="number"
                     className="input-field"
                     value={formData.destination_pincode}
                     name={"destination_pincode"}
@@ -202,7 +253,7 @@ const RateCalculatorPage = () => {
                 <label className='col-4'>
                   <span className='fw-bold'>Actual Weight</span>
                   <input
-                    type="text"
+                    type="number"
                     name={"weight"}
                     value={formData.weight}
                     className='input-field'
@@ -224,7 +275,7 @@ const RateCalculatorPage = () => {
                   Length (cm)
                   <input
                     className='input-field'
-                    type="text"
+                    type="number"
                     name="length"
                     onChange={(e) => handleChange(e)}
                   />
@@ -235,7 +286,7 @@ const RateCalculatorPage = () => {
                   Breadth (cm)
                   <input
                     className='input-field'
-                    type="text"
+                    type="number"
                     name="breadth"
                     onChange={(e) => handleChange(e)}
                   />
@@ -246,7 +297,7 @@ const RateCalculatorPage = () => {
                   Height (cm)
                   <input
                     className='input-field'
-                    type="text"
+                    type="number"
                     name="height"
                     onChange={(e) => handleChange(e)}
                   />
@@ -282,65 +333,65 @@ const RateCalculatorPage = () => {
           <section className='box-shadow shadow-sm p10 col-5'></section>
         </div>
 
-        {orderField!=true && <>  {sellerData?.map((item) => {
-            return (
-              <div className={`${sellerData ? '' : 'd-none'}`}>
-                <section className='box-shadow shadow-sm p10'>
-                  <div className='ship-container-row box-shadow shadow-sm' >
-                    <div className='d-flex gap-2'>
-                      <div className='img-container'>
-                        <img src="" alt="" />
-                      </div>
-                      <div className='d-flex flex-column justify-content-center'>
-                        <p>{item?.courier_partner}</p>
-                        {/* <p>partner_title</p> */}
-                        <p>RTO Charges: ₹{item?.rate}</p>
-                      </div>
+        {sellerData && <>  {sellerData?.map((item) => {
+          return (
+            <div className={`${sellerData ? '' : 'd-none'}`}>
+              <section className='box-shadow shadow-sm p10'>
+                <div className='ship-container-row box-shadow shadow-sm' >
+                  <div className='d-flex gap-2'>
+                    <div className='img-container'>
+                      <img src="" alt="" />
                     </div>
-                    <div className='d-flex align-items-center gap-2'>
-                      <table className='performance-rating'>
-                        <tbody>
-                          <tr>
-                            <td>Pickup Performance</td>
-                            <td><StarRating rating={4.5} /></td>
-                          </tr>
-                          <tr>
-                            <td>Delivery Performance</td>
-                            <td><StarRating rating={4.5} /></td>
-                          </tr>
-                          <tr>
-                            <td>NDR Performance</td>
-                            <td><StarRating rating={4.5} /></td>
-                          </tr>
-                          <tr>
-                            <td>RTO Performance</td>
-                            <td><StarRating rating={4.5} /></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                      <div className="chart-container">
-                        <PieChart rating={4.5} />
-                        <p>Overall Rating</p>
-                      </div>
+                    <div className='d-flex flex-column justify-content-center'>
+                      <p>{item?.courier_partner}</p>
+                      {/* <p>partner_title</p> */}
+                      <p>RTO Charges: ₹{item?.rate}</p>
                     </div>
-                    <div className='ss-shipment-charges'>
-                      <p><strong>₹{item?.total_charge} </strong> <span>(Inclusive of all taxes )</span><br />
-                        <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
-                        <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
-                        <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
-                      </p>
-                    </div>
-                    <div className='d-flex flex-column gap-2 align-items-end'>
-                      <button className='btn main-button'>Ship Now</button>
-                      <p><span>EDD: <strong></strong></span></p>
-                    </div>
-                    <span className={`recommended ${true ? '' : 'd-none'}`}></span>
                   </div>
-                </section>
-              </div>
-            )
-          })}</>}
-        </div>
+                  <div className='d-flex align-items-center gap-2'>
+                    <table className='performance-rating'>
+                      <tbody>
+                        <tr>
+                          <td>Pickup Performance</td>
+                          <td><StarRating rating={4.5} /></td>
+                        </tr>
+                        <tr>
+                          <td>Delivery Performance</td>
+                          <td><StarRating rating={4.5} /></td>
+                        </tr>
+                        <tr>
+                          <td>NDR Performance</td>
+                          <td><StarRating rating={4.5} /></td>
+                        </tr>
+                        <tr>
+                          <td>RTO Performance</td>
+                          <td><StarRating rating={4.5} /></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div className="chart-container">
+                      <PieChart rating={4.5} />
+                      <p>Overall Rating</p>
+                    </div>
+                  </div>
+                  <div className='ss-shipment-charges'>
+                    <p><strong>₹{item?.total_charge} </strong> <span>(Inclusive of all taxes )</span><br />
+                      <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
+                      <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
+                      <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
+                    </p>
+                  </div>
+                  <div className='d-flex flex-column gap-2 align-items-end'>
+                    <button className='btn main-button'>Ship Now</button>
+                    <p><span>EDD: <strong></strong></span></p>
+                  </div>
+                  <span className={`recommended ${true ? '' : 'd-none'}`}></span>
+                </div>
+              </section>
+            </div>
+          )
+        })}</>}
+      </div>
     </>
   );
 };

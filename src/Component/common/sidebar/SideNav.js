@@ -104,7 +104,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 };
 
 const SideNav = (props) => {
-  const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
   // const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
   const [openDropdown, setOpenDropdown] = useState(null);

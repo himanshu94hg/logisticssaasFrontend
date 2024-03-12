@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 // Custom Table component
 function CustomTable({ data }) {
+  console.log(data,"this is a dat>>>>>>>>>>>>>>>>>>>>>>>")
   return (
     <table className="custom-table w-100">
       <thead>
@@ -16,14 +19,14 @@ function CustomTable({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data.map((order) => (
+        {data?.slice(0,7)?.map((order) => (
           <tr key={order.order_number}>
             <td>{order.customer_order_number}</td>
             <td>{order.awb_number || "N/A"}</td>
             <td>{order.courier_partner || "N/A"}</td>
             <td>{order.shipping_charges || 0.0}</td>
             <td>{order.total_charges || "N/A"}</td>
-            <td>{order.weight}</td>
+            <td>{order.weight || "N/A"}</td>
             <td>{order.status}</td>
           </tr>
         ))}
@@ -34,7 +37,13 @@ function CustomTable({ data }) {
 
 // TableDashboard component
 function TableDashboard() {
+  const dispatch=useDispatch()
   const [isLoading, setIsLoading] = useState(false);
+  const {lastOrders}=useSelector(state=>state?.dashboardOverviewReducer)
+
+  useEffect(()=>{
+    dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION"})
+  },[])
 
   // Dummy data array
   const dummyData = [
@@ -108,7 +117,7 @@ function TableDashboard() {
       </div>
       <div className="table-responsive">
         {!isLoading ? (
-          <CustomTable data={dummyData} />
+          <CustomTable data={lastOrders} />
         ) : (
           <p>Loading...</p>
         )}
