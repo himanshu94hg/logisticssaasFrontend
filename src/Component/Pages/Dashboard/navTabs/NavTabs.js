@@ -129,7 +129,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                P & L
+                Business Health
               </div>
             </Nav.Link>
           </div>

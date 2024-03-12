@@ -15,7 +15,7 @@ const WeightOrdersChart = () => {
                 setresOffsetX(180); // for larger screens
                 console.log(resOffsetX)
             } else if (screenWidth >= 768) {
-                setChartWidth(290); // for medium screens
+                setChartWidth(300); // for medium screens
                 setresOffsetX(100); // for medium screens
             } else {
                 setChartWidth(200); // default width for smaller screens
@@ -56,9 +56,9 @@ const WeightOrdersChart = () => {
                     dataLabels: {
                         name: {
                             show: true,
-                            fontSize: '10px',
+                            fontSize: '12px',
                             fontWeight: 'bold',
-                            offsetY: -5,
+                            offsetY: 130,
                             color: '#888',
                             formatter: function (val) {
                                 return val;
@@ -66,10 +66,10 @@ const WeightOrdersChart = () => {
                         },
                         value: {
                             show: true,
-                            fontSize: '10px',
+                            fontSize: '14px',
                             fontWeight: 'bold',
+                            offsetY: 130,
                             color: '#888',
-                            offsetY: 5,
                             formatter: function (val) {
                                 return val + ' Order(s)'
                             },
@@ -77,15 +77,15 @@ const WeightOrdersChart = () => {
                     },
                 },
             },
-            colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5'],
+            colors: ['#1ab7ea', '#0084ff', '#39539E', '#0077B5', '#4CAF50'],
             labels: [],
             legend: {
                 show: true,
                 floating: true,
-                fontSize: '10px',
+                fontSize: '12px',
                 position: 'right',
                 offsetX: 180,
-                offsetY: -8,
+                offsetY: 3,
                 labels: {
                     useSeriesColors: true,
                 },
@@ -93,7 +93,7 @@ const WeightOrdersChart = () => {
                     size: 0,
                 },
                 formatter: function (seriesName, opts) {
-                    return seriesName;
+                    return seriesName + ':  ' + opts.w.globals.series[opts.seriesIndex];
                 },
                 itemMargin: {
                     vertical: 3,
@@ -105,7 +105,39 @@ const WeightOrdersChart = () => {
                     options: {
                         legend: {
                             show: true,
+                            offsetX: 180,
+                            offsetY: -3,
                         },
+                        plotOptions: {
+                            radialBar: {
+                                dataLabels: {
+                                    name: {
+                                        show: true,
+                                        floating: true,
+                                        position: 'left',
+                                        fontSize: '12px',
+                                        fontWeight: 'bold',
+                                        offsetY: 100,
+                                        color: '#888',
+                                        formatter: function (val) {
+                                            return val;
+                                        },
+                                    },
+                                    value: {
+                                        show: true,
+                                        floating: true,
+                                        position: 'right',
+                                        fontSize: '14px',
+                                        fontWeight: 'bold',
+                                        color: '#888',
+                                        offsetY: 98,
+                                        formatter: function (val) {
+                                            return val + ' Order(s)'
+                                        },
+                                    },
+                                },
+                            }
+                        }
                     },
                 },
             ],
@@ -155,7 +187,7 @@ const WeightOrdersChart = () => {
 
 const WeightProfile = () => {
     return (
-        <div className="box-shadow shadow-sm p10 weight-profile-graph">
+        <div className="box-shadow shadow-sm p10 radial-bar">
             <div className="row">
                 <div className="col">
                     <h4 className="title">Weight Profile in Kgs</h4>

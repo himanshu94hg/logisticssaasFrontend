@@ -295,6 +295,10 @@
     padding-block: 5px;
 }
 
+.radial-bar .apexcharts-legend-series {
+    margin: 1px !important;
+}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
@@ -305,7 +309,7 @@
         right: 150px !important;
     }
 
-    .weight-profile-graph .apexcharts-legend-series {
+    .radial-bar .apexcharts-legend-series {
         margin: 0 !important;
     }
 
