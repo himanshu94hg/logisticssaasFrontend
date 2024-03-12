@@ -8,35 +8,24 @@ import './totalInfoDashboard.css'
 import Graph from "../../../../common/Graph/Graph";
 import LineGraph from "../../../../common/Graph/LineGraph";
 import DataTable from "./DataTable/DataTable";
+import { useDispatch, useSelector } from "react-redux";
 
-function TotalInfoDashboard() { 
+function TotalInfoDashboard() {
+  const dispatch = useDispatch()
+  const [todayRevenue, setTodayRevenue] = useState(null);
+  const [dailyShipment, setDailyShipment] = useState(null);
   const [totalCustomer, setTotalCustomer] = useState(null);
-  const [dailyShipment,setDailyShipment]=useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
-  const [todayRevenue,setTodayRevenue]=useState(null);
-  
+
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const [customerResponse,shipmentResponse, sellingResponse, revenueResponse] =
-    //       await Promise.all([
-    //         axios.get('http://dev.shipease.in:8088/api/v1/top-customer/'),
-    //         axios.get('http://dev.shipease.in:8088/api/v1/daly-shipment/'),
-    //         axios.get('http://dev.shipease.in:8088/api/v1/avg-sellingprice/'),
-    //         axios.get('http://dev.shipease.in:8088/api/v1/today-revenue/'),
-    //       ]);
+    dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION" })
+  }, [])
 
-    //     setTotalCustomer(customerResponse.data);
-    //     setDailyShipment(shipmentResponse.data);
-    //     setAverageSelling(sellingResponse.data);
-    //     setTodayRevenue(revenueResponse.data);
-    //   } catch (error) {
-    //     console.error('Error:', error);
-    //   }
-    // };
+  const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
 
-    // fetchData();
-  }, []);
+  console.log(counterCard, "this is card data")
+
+
 
   return (
     <>
@@ -48,7 +37,6 @@ function TotalInfoDashboard() {
               <div className="col-10 col-lg-10 col-sm-12 col-md-12">
                 <div className="d-flex justify-content-start gap-10">
                   <div className="infoCardIconContainer bg-green">
-                    {/* <CiUser /> */}
                     <svg width="25" height="26" viewBox="0 0 25 26" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M16.6003 12.8877C16.3904 12.7943 16.1805 12.7099 15.9676 12.6316C17.4399 11.417 18.38 9.56363 18.38 7.49021C18.38 3.84364 15.4709 0.878174 11.8937 0.878174C8.31639 0.878174 5.40728 3.84364 5.40728 7.49021C5.40728 9.56664 6.35038 11.4231 7.82267 12.6346C3.26388 14.3313 0 18.7976 0 24.0263H2.16114C2.16114 18.5565 6.52776 14.1083 11.8907 14.1083C13.23 14.1083 14.5249 14.3795 15.7399 14.9129L16.6003 12.8877ZM11.8937 3.08118C14.2795 3.08118 16.2189 5.05816 16.2189 7.49021C16.2189 9.92226 14.2795 11.8992 11.8937 11.8992C9.50783 11.8992 7.56842 9.91924 7.56842 7.49021C7.56842 5.06117 9.50783 3.08118 11.8937 3.08118ZM14.8855 17.8543C14.8855 18.1617 15.0511 18.442 15.3172 18.5836L19.1014 20.6209C19.2196 20.6841 19.3497 20.7173 19.4798 20.7173C19.6099 20.7173 19.74 20.6841 19.8582 20.6209L23.6424 18.5836C23.9085 18.4389 24.0741 18.1587 24.0741 17.8543C24.0741 17.5499 23.9085 17.2666 23.6424 17.125L19.8582 15.0847C19.6217 14.9581 19.3379 14.9581 19.1014 15.0847L15.3172 17.125C15.0511 17.2666 14.8855 17.5469 14.8855 17.8543ZM19.4798 16.7513L21.5286 17.8543L19.4798 18.9573L17.431 17.8543L19.4798 16.7513Z" fill="white" />
                       <path d="M19.9179 21.4567L15.5718 19.3967L14.8149 20.6826L19.9179 23.1004L25.0001 20.6932L24.2433 19.4073L19.9179 21.4567Z" fill="white" />
@@ -58,13 +46,9 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Total Customer</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                    {totalCustomer?.total_customer_last_30_days || 0}
-                      </h2>
-                    <p className="font12 text-blue-dark">Best customers 
-                     {totalCustomer?.top_customer_last_30_days} 
-                    
-                    
-                    </p>
+                      {counterCard?.total_customers || 0}
+                    </h2>
+                    <p className="font12 text-blue-dark">Best customers</p>
                   </div>
                 </div>
               </div>
@@ -72,9 +56,7 @@ function TotalInfoDashboard() {
                 <LineGraph cardColor="#3BB54B" />
                 <div className="card-footer">
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                  {totalCustomer?.percentage_increase_last_30_days_vs_last_60_days |0} %
-                    
-                   
+                    {totalCustomer?.percentage_increase_last_30_days_vs_last_60_days | 0} %
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     this month
@@ -99,23 +81,19 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Daily Shipment</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-
-                    {dailyShipment?.total_shipment_count || 0}
-                      </h2>
-                    <p className="font12 text-yellow">Pending 
-                    
-                  {dailyShipment?.total_pending_data}
+                      {counterCard?.daily_shipment}
+                    </h2>
+                    <p className="font12 text-yellow">Pending
+                      {dailyShipment?.total_pending_data}
                     </p>
                   </div>
                 </div>
               </div>
               <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
-                {/* <img src="graph-red.png" className="inline-block" /> */}
-                {/* <Graph/> */}
                 <LineGraph cardColor="#F6B954" />
                 <div className="card-footer">
                   <span className="text-yellow font13 pt20 bold-600 d-block text-end">
-                  {dailyShipment ? `+${dailyShipment.average_shipment_per_day}%` : '+0%'}
+                    {dailyShipment ? `+${dailyShipment.average_shipment_per_day}%` : '+0%'}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     this month
@@ -141,11 +119,8 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Average Selling Price</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                    {avarageSelling?.average_invoice_amount_30_days||0}
-                    
-                      {/* {avarageSelling?.average_invoice_amount_30_days} */}
-                      
-                      </h2>
+                      {counterCard?.avg_selling_price}
+                    </h2>
                     <p className="font12 text-blue">Seller </p>
                   </div>
                 </div>
@@ -178,11 +153,10 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Today’s Revenue</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                     {todayRevenue?.today_revenue || 0} 
-                       {/* {todayRevenue?.today_revenue} */}
-                      </h2>
-                    <p className="font12 text-red">Yesterday 
-                    {todayRevenue?.yesterday_revenue}  
+                      {counterCard?.today_revenue || 0}
+                    </h2>
+                    <p className="font12 text-red">Yesterday
+                      {todayRevenue?.yesterday_revenue}
                     </p>
                   </div>
                 </div>
@@ -192,8 +166,8 @@ function TotalInfoDashboard() {
                 <div className="card-footer">
 
                   <span className="text-red font13 pt20 bold-600 d-block text-end">
-                  {todayRevenue ? `+${todayRevenue.percentage_change}%` : '+0%'}
-                  
+                    {todayRevenue ? `+${todayRevenue.percentage_change}%` : '+0%'}
+
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
                     comparative analysis

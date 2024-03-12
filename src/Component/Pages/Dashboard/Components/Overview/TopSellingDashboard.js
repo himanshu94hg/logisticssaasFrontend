@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, } from "react";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 function CustomTable({ data }) {
   return (
@@ -17,7 +19,7 @@ function CustomTable({ data }) {
           <tr key={index}>
             <td>{index + 1}</td>
             <td title={product.product_name}>{product.product_name}</td>
-            <td>{product.revenue}</td>
+            <td>{product.total}</td>
             <td>
               <span className="text-green">
                 {product.deliveredPercentage}%
@@ -32,17 +34,18 @@ function CustomTable({ data }) {
 }
 
 function TopSellingDashboard() {
-  // Dummy data
-  const dummyData = [
-    { product_name: "Product A", revenue: 50000, deliveredPercentage: 70, rtoPercentage: 5 },
-    { product_name: "Product B", revenue: 35000, deliveredPercentage: 65, rtoPercentage: 8 },
-    { product_name: "Product C", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
-    { product_name: "Product D", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
-    { product_name: "Product E", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
-    { product_name: "Product F", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
-    { product_name: "Product g", revenue: 45000, deliveredPercentage: 75, rtoPercentage: 3 },
-    // Add more dummy data as needed
-  ];
+  const dispatch = useDispatch()
+  const { topSellCard } = useSelector(state => state?.dashboardOverviewReducer)
+
+  useEffect(() => {
+    dispatch({
+      type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: {
+        start_date: "2023-12-01",
+        end_date: "2024-03-11"
+      }
+    })
+  }, [])
+
 
   return (
     <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
@@ -50,7 +53,7 @@ function TopSellingDashboard() {
         <h4 className="title">Top Selling Products</h4>
       </div>
       <div className="table-responsive">
-        <CustomTable data={dummyData} />
+        <CustomTable data={topSellCard} />
       </div>
     </div>
   );
