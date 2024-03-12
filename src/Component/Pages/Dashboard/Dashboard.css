@@ -289,6 +289,12 @@
     gap: 20px;
 }
 
+.subaccount-perf select {
+    min-width: unset;
+    height: auto;
+    padding-block: 5px;
+}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {

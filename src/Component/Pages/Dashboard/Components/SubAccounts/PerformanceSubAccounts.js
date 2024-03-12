@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Table from "react-bootstrap/Table";
 
 const PerformanceSubAccounts = () => {
 
@@ -17,20 +16,21 @@ const PerformanceSubAccounts = () => {
 
     return (
         <>
-            <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
+            <div className="box-shadow shadow-sm p10 subaccount-perf dashboard-table">
                 <div className="d-flex justify-content-between align-items-center">
                     <h4 className="title">Performance Sub Accounts</h4>
                     <div>
-                        <label className="me-2 font12" htmlFor="selectOption">Account</label>
-                        <select className="font12" id="selectOption" value={selectedOption} onChange={handleSelectChange}>
-                            <option value="Child One">Child One</option>
-                            <option value="Child Two">Child Two</option>
-                            <option value="Child Three">Child Three</option>
-                        </select>
+                        <label className="d-flex flex-row align-items-center gap-2 font12" htmlFor="selectOption">Account
+                            <select className="select-field font12" id="selectOption" value={selectedOption} onChange={handleSelectChange}>
+                                <option value="Child One">Child One</option>
+                                <option value="Child Two">Child Two</option>
+                                <option value="Child Three">Child Three</option>
+                            </select>
+                        </label>
                     </div>
                 </div>
                 <div className="table-responsive">
-                    <Table hover className="table-ui">
+                    <table className="custom-table w-100">
                         <thead>
                             <tr>
                                 <th scope="col">{selectedOption}</th>
@@ -53,7 +53,7 @@ const PerformanceSubAccounts = () => {
                                 </tr>
                             ))}
                         </tbody>
-                    </Table>
+                    </table>
                 </div>
             </div>
         </>
