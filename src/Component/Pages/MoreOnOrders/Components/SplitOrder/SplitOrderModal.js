@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 
 function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
     const [warehouseData, setWarehouseData] = useState([]);
@@ -20,7 +20,11 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
                 }
             }).then((response) => {
                 setWarehouseData(response.data);
-                setSelectedWarehouses(new Array(orderDetails.order_products.length).fill(""));
+                const initialSelectedWarehouses = orderDetails.order_products.map(product => {
+                    const warehouse = response.data.find(warehouse => warehouse.warehouse_name === (orderDetails?.pickup_details?.p_warehouse_name || ''));
+                    return warehouse ? warehouse.id : '';
+                });
+                setSelectedWarehouses(initialSelectedWarehouses);
                 setLoading(false);
             }).catch(error => {
                 setLoading(false);
@@ -28,6 +32,7 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
             });
         }
     }, [show, orderDetails]);
+
 
     const handleSplitOrder = () => {
         const requestData = {
@@ -88,7 +93,10 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
                                             }}>
                                             <option value="">Select Warehouse</option>
                                             {warehouseData.map((warehouse, warehouseIndex) => (
-                                                <option key={warehouseIndex} value={warehouse.id}>
+                                                <option
+                                                    key={warehouseIndex}
+                                                    value={warehouse.id}
+                                                >
                                                     {warehouse.warehouse_name}
                                                 </option>
                                             ))}
