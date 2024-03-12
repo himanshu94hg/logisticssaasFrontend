@@ -61,6 +61,7 @@ export const dashboardOverviewReducer = (state = initialState, action) => {
                 topSellCard: action?.payload
             };
         case GET_DASHBOARD_OVERVIEW_STATEWISE_DATA:
+            console.log(action?.payload,"this is a stateWiseDatastateWiseData")
             return {
                 ...state,
                 stateWiseData: action?.payload

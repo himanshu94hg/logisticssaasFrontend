@@ -5,7 +5,8 @@ import { useSelector } from "react-redux";
 const IndiaMapp = ({statewiseData}) => {
   const [stateData,setStateData]=useState([])
 
-  console.log(statewiseData,"statewiseDatastatewiseDatastatewiseData")
+  const mydata = useSelector(state => state?.dashboardOverviewReducer?.stateWiseData)
+
 
   const dummyData = {
     Maharashtra: { sales: 0, value: 'Maharashtra' },
@@ -17,16 +18,17 @@ const IndiaMapp = ({statewiseData}) => {
   };
 
   
-  // useEffect(()=>{
-  //   if(statewiseData){
-  //     const mappedData = Object.keys(statewiseData).reduce((acc, key) => {
-  //       if (key !== "null") {
-  //         acc[key] = { sales: statewiseData[key], value: key };
-  //       }
-  //       return acc;
-  //     }, {});
-  //    }
-  // },[statewiseData])
+  useEffect(()=>{
+    if(mydata){
+      const mappedData = Object.keys(mydata).reduce((acc, key) => {
+        if (key !== "null") {
+          acc[key] = { sales: mydata[key], value: key };
+        }
+        return acc;
+      }, {});
+      setStateData(mappedData)
+     }
+  },[statewiseData])
 
   const hasData = (stateName) => {
     return dummyData.hasOwnProperty(stateName);
@@ -34,6 +36,8 @@ const IndiaMapp = ({statewiseData}) => {
 
   const colorWithData = "#111"; // Color for states with data
   const colorWithoutData = "#ccc"; // Color for states without data
+
+  console.log(stateData,"stateDatastateData")
 
   return (
     <div style={{ position: "relative" }}>

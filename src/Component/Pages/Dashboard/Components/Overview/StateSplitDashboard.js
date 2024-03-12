@@ -6,18 +6,18 @@ import { useSelector } from "react-redux";
 function StateSplitDashboard() {
 
   const dispatch = useDispatch();
-  const {statewiseData}=useSelector(state=>state?.dashboardOverviewReducer)
-  
-  console.log(statewiseData,"this is state wise dtaa")
+
 
 
   useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION",payload:{
-      start_date:"2023-11-01",
-      end_date:"2024-03-12",
-    } })
+    dispatch({
+      type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: {
+        start_date: "2023-11-01",
+        end_date: "2024-03-12",
+      }
+    })
   }, [])
- 
+
   return (
     <div className="box-shadow shadow-sm p10 state-wise-card">
       <div className="card-heading">
@@ -28,7 +28,7 @@ function StateSplitDashboard() {
         <h5 className="total-count">0 <span className="font12 text-gray">Sales</span></h5>
         <p className="font12 text-gray">Compared To Last Month</p>
       </div>
-      <IndiaMapp statewiseData={statewiseData}/>
+      <IndiaMapp />
     </div>
   );
 }
