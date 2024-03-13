@@ -15,7 +15,7 @@ const WhatsAppNDRChart = () => {
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: '55%',
+                    columnWidth: '25%',
                     endingShape: 'rounded'
                 },
             },
@@ -37,7 +37,8 @@ const WhatsAppNDRChart = () => {
             },
             fill: {
                 opacity: 1
-            }
+            },
+            colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
         }
     });
 

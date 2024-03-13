@@ -66,7 +66,7 @@ const TopRTOCity = () => {
                     <div className="progress mb-15">
                       <div
                         style={{
-                          backgroundColor: index % 2 === 0 ? 'blue' : 'red',
+                          backgroundColor: index % 2 === 0 ? '#1975C9' : '#1975C9',
                           width: `${cityData.rto_count_percentage}%`,
                         }}
                         role="progressbar"

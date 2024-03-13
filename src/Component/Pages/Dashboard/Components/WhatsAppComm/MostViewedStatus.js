@@ -80,7 +80,8 @@ const TopStatusChart = () => {
                     return val;
                 }
             }
-        }
+        },
+        colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
     };
 
     const seriesData = [{

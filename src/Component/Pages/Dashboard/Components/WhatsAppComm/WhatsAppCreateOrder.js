@@ -35,6 +35,7 @@ const WhatsAppOrdersChart = () => {
                     text: 'Number of Orders'
                 }
             },
+            colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'], // Set colors here
             fill: {
                 opacity: 1
             }
