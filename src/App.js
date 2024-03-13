@@ -49,9 +49,11 @@ import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/Courie
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
 import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern } from "./Routes";
 import SignUpPage from "./Component/Pages/SignupPage";
+import { useDispatch } from "react-redux";
 
 
 function App() {
+  const dispatch=useDispatch()
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [ZoneMapping, setZoneMapping] = useState(false)
@@ -73,8 +75,12 @@ function App() {
     }
   }, [tokenChecked, tokenExists, navigate]);
 
+  useEffect(()=>{
+    dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
+    Cookies.set('pathName',window.location.pathname);
+  },[ window.location.pathname])
 
-  console.log( window.location.pathname,"this is debug data")
+
 
   return (
     <>

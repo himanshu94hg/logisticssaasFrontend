@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiMiniArrowTrendingUp } from 'react-icons/hi2';
+import { useDispatch } from "react-redux";
 
 function CourierWiseDashboard() {
+  const dispatch = useDispatch();
+
   const [cData] = useState([
     { courier_partner: "eKart", total_percentage: 0.75, image_url: 'https://www.shipease.in/public/assets/admin/images/20220608000026.png' },
     { courier_partner: "Shadowfax", total_percentage: 0.65, image_url: 'https://www.shipease.in/public/assets/admin/images/20210102174032.jpeg' },
@@ -10,6 +13,15 @@ function CourierWiseDashboard() {
     { courier_partner: "XpressBees", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20210102174413.png' },
     { courier_partner: "The Professional Courier", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20231021174726.jpg' },
   ]);
+
+  useEffect(() => {
+    dispatch({
+      type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload: {
+        start_date: "2024-02-11",
+        end_date: "2024-03-11"
+      }
+    })
+  }, [])
 
   return (
     <div className="box-shadow shadow-sm p10">

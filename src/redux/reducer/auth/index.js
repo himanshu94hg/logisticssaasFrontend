@@ -1,8 +1,9 @@
-import { LOGIN_DATA, SIGN_UP_DATA } from "../../constants/auth";
+import { LOGIN_DATA, PATHNAME_ACTION, SIGN_UP_DATA } from "../../constants/auth";
 
 const initialState = {
     checkAuth: null,
-    signUpRes:null
+    signUpRes:null,
+    pathName:null
 };
 
 export const authDataReducer = (state = initialState, action) => {
@@ -13,10 +14,14 @@ export const authDataReducer = (state = initialState, action) => {
                 checkAuth: action?.payload?.data?.access_token
             };
         case SIGN_UP_DATA:
-            console.log(action.payload,"this is a reactr js data")
             return {
                 ...state,
                 signUpRes: action?.payload
+            };
+        case PATHNAME_ACTION:
+            return {
+                ...state,
+                pathName: action?.payload
             };
         default:
             return state
