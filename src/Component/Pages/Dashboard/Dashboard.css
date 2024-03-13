@@ -42,6 +42,7 @@
 
 .dashboard-table table.custom-table tr td {
     font-size: 1rem;
+    text-transform: capitalize;
 }
 
 .dashboard-table table.custom-table tr th {

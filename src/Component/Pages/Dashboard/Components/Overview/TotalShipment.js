@@ -21,12 +21,12 @@ function TotalShipment() {
 
   const getColorScale = () => {
     const colorScale = {
-      delivered: "rgb(255, 0, 0)",
-      in_transit: "rgb(255, 165, 0)",
-      ndr: "rgb(255, 255, 0)",
-      out_for_delivery: "rgb(0, 255, 0)",
-      picked_up: "rgb(0, 0, 255)",
-      shipped: "rgb(75, 0, 130)"
+      delivered: "#3BB54B",
+      in_transit: "#FFD300",
+      ndr: "#F31429",
+      out_for_delivery: "#1975C9",
+      picked_up: "#A020F0",
+      shipped: "#0F3C5B"
     };
     return colorScale;
   };
@@ -75,7 +75,7 @@ function TotalShipment() {
                 <div className="progress-widget">
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">delivered</p>
+                      <p className="font12 bold-600 mb-2">Delivered</p>
                       <p className="font12 text-gray mb-0">
                         {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders)}
                       </p>
@@ -138,7 +138,7 @@ function TotalShipment() {
                   </div>
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Out of delivery</p>
+                      <p className="font12 bold-600 mb-2">Out For Delivery</p>
                       <p className="font12 text-gray mb-0">
                         {shimpmetCard?.out_for_delivery}  {percentage(shimpmetCard?.out_for_delivery)}
                       </p>

@@ -4,6 +4,8 @@ import EkartLogo from '../../../../../assets/image/integration/Ekart.png'
 import ShadowFax from '../../../../../assets/image/integration/ShadowFax.png'
 import Delhivery from '../../../../../assets/image/integration/Delhivery.png'
 import Bluedart from '../../../../../assets/image/integration/Bluedart.png'
+import XpressBees from '../../../../../assets/image/integration/XpressBees.png'
+import Professional from '../../../../../assets/image/integration/Professional.png'
 import { useDispatch } from "react-redux";
 
 function CourierWiseDashboard() {
@@ -14,8 +16,8 @@ function CourierWiseDashboard() {
     { courier_partner: "Shadowfax", total_percentage: 0.65, image_url: ShadowFax },
     { courier_partner: "Delhivery Lite", total_percentage: 0.85, image_url: Delhivery },
     { courier_partner: "BlueDart Surface", total_percentage: 0.85, image_url: Bluedart },
-    { courier_partner: "XpressBees", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20210102174413.png' },
-    { courier_partner: "The Professional Courier", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20231021174726.jpg' },
+    { courier_partner: "XpressBees", total_percentage: 0.85, image_url: XpressBees },
+    { courier_partner: "The Professional Courier", total_percentage: 0.85, image_url: Professional },
   ]);
 
   useEffect(() => {
