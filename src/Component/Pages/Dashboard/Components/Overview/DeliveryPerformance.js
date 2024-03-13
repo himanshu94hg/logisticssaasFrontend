@@ -22,7 +22,7 @@ const DeliveryPerformance = () => {
         });
     }, [dispatch]);
 
-    const deliveryData = useSelector(state => state?.getSplitWiseStateWatcher);
+    const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
 
     useEffect(() => {
         if (deliveryData) {
@@ -39,13 +39,17 @@ const DeliveryPerformance = () => {
 
     const renderChart = (data) => {
         console.log('Rendering chart with data:', data);
+
+        // Handle empty late_orders array
+        const lateDeliveriesData = data.late_orders.length > 0 ? data.late_orders : [{ week_number: 0, count: 0 }];
+
         const options = {
             series: [{
                 name: "Late Deliveries",
-                data: data.late_orders
+                data: lateDeliveriesData.map(item => item.count)
             }, {
                 name: "On-time Deliveries",
-                data: data.on_time_orders
+                data: data.on_time_orders.map(item => item.count)
             }],
             chart: {
                 height: 350,
@@ -67,7 +71,7 @@ const DeliveryPerformance = () => {
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                categories: lateDeliveriesData.map(item => `Week ${item.week_number}`),
                 labels: {
                     rotateAlways: true,
                     rotate: -45,
