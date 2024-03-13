@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
+import { toast } from 'react-toastify';
 
 const LoginPage = ({ setTokenExists ,tokenExists}) => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
         password: password,
       });
       if (response.status == 200) {
+        toast.success("User Logged in succesfully!")
         setTokenExists(true)
         navigate(indexPattern); 
         Cookies.set('access_token', response?.data?.access_token)

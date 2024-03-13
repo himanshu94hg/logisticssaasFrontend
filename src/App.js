@@ -1,6 +1,5 @@
 import "./App.css";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState, lazy } from "react";
@@ -68,17 +67,18 @@ function App() {
     setTokenChecked(true);
   }, []);
 
-
   useEffect(() => {
-    if (tokenChecked && !tokenExists) {
+    if (tokenChecked && !tokenExists && window.location.pathname != signUpPattern) {
       navigate(loginPattern);
     }
   }, [tokenChecked, tokenExists, navigate]);
 
 
+  console.log( window.location.pathname,"this is debug data")
+
   return (
     <>
-      <div className="container p-0 m-0" style={{ display: "flex" }}>
+      <div className="container p-0 m-0" style={{ }}>
         <div className="rightContainer">
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
@@ -88,7 +88,7 @@ function App() {
             {
               tokenExists ?
                 <Route path={indexPattern} element={<Dashboard />} /> :
-                <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} /> 
+                <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
             <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />
             <Route path={mergeOrdersPattern} element={<MoreOnOrders />} />
@@ -145,13 +145,13 @@ function App() {
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
-        pauseOnFocusLoss={true} 
+        pauseOnFocusLoss={true}
         transition={Bounce}
         closeOnClick
         rtl={false}
         draggable
         pauseOnHover
-        
+
       />
       {/* Same as */}
 

@@ -25,6 +25,8 @@ export const API_URL = {
     GET_COURIER_PARTNER_NAME:"/core-api/shipease-admin/partners/",
     GET_COURIER_SERVICE_PINCODE:"/courier-api/courier/tools/download-service-pincode/",
     GET_COURIER_ALLOCATION:"/courier-api/courier/tools/download-service-pincode/",
+    POST_SELLER_SIGNUP:"/core-api/seller/sign-up/",
+
 
     //DASHBOARD API'S 
     GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD:"/orders-api/dashboard/overview/shipment-card/",

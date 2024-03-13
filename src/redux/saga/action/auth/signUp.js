@@ -1,32 +1,39 @@
 import axios from "../../../../axios/index"
 import { SELLER_SIGNUP_ACTION } from "../../constant/auth";
-import {call, put, takeLatest} from "@redux-saga/core/effects";
-import {API_URL, BASE_URL_MOREON} from "../../../../axios/config";
+import { call, put, takeLatest } from "@redux-saga/core/effects";
+import { API_URL, BASE_URL_CORE, } from "../../../../axios/config";
+import { SIGN_UP_DATA } from "../../../constants/auth";
+import { toast } from "react-toastify";
 
 
 async function signUpAPI(data) {
-    console.log(data,"MoreOnOrder")
     return axios.request({
-        method: "GET",
-        url: `${BASE_URL_MOREON}${API_URL.GET_MOREONORDER_URL}${data}`,
+        method: "POST",
+        url: `${BASE_URL_CORE}${API_URL.POST_SELLER_SIGNUP}`,
         data: data
     });
 }
-
 function* signUpAction(action) {
-    let { payload, reject } = action;
+    let { payload, } = action;
     try {
         let response = yield call(signUpAPI, payload);
-        if (response.status === 200) {
-            // yield put({ type: GET_MOREONORDER_DATA, payload: response?.data })
+        if (response.status === 201) {
+            toast.success("User Registered successfully")
+            yield put({ type: SIGN_UP_DATA, payload: response?.status })
         }
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        {
+            Object.entries(error?.response?.data).map(([key, value]) => (
+                <>
+                    {toast.error(value[0])}
+                </>
+            ))
+        }
     }
 }
 
 export function* getSignupWatcher() {
-    yield takeLatest(SELLER_SIGNUP_ACTION,signUpAction);
+    yield takeLatest(SELLER_SIGNUP_ACTION, signUpAction);
 }
