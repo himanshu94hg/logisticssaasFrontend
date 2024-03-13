@@ -16,7 +16,6 @@ const CourierAllocationPage = () => {
     dispatch({ type: "COURIER_ALLOCATION_PARTNER_ACTION" });
   }, [dispatch]);
 
-  // Load partnersData from localStorage on component mount
   useEffect(() => {
     const storedData = localStorage.getItem('partnersData');
     if (storedData) {
