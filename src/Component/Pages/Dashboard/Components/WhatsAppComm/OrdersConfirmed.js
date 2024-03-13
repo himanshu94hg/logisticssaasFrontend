@@ -37,7 +37,8 @@ const WhatsAppOrdersConfirmedChart = () => {
             },
             fill: {
                 opacity: 1
-            }
+            },
+            colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
         }
     });
 

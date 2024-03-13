@@ -15,7 +15,7 @@ const WhatsAppNDRChart = () => {
             plotOptions: {
                 bar: {
                     horizontal: false,
-                    columnWidth: '55%',
+                    columnWidth: '25%',
                     endingShape: 'rounded'
                 },
             },
@@ -37,7 +37,8 @@ const WhatsAppNDRChart = () => {
             },
             fill: {
                 opacity: 1
-            }
+            },
+            colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
         }
     });
 
@@ -52,7 +53,7 @@ const AbundantChecking = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10">
-                <h4 className="title">Abundant Checking</h4>
+                <h4 className="title">Abundant Checkout</h4>
                 <WhatsAppNDRChart />
             </div>
         </>
