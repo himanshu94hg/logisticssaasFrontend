@@ -1,22 +1,51 @@
 import React, { useEffect } from 'react';
 import ApexCharts from 'apexcharts';
+import { useDispatch, useSelector } from "react-redux";
 
 const DeliveryPerformance = () => {
-    useEffect(() => {
-        // Sample data for demonstration
-        const data = {
-            lateDeliveries: [5, 7, 3, 8, 4], // Number of late deliveries for each week
-            onTimeDeliveries: [20, 18, 22, 17, 21] // Number of on-time deliveries for each week
-        };
+    const dispatch = useDispatch();
 
-        // Chart options
+    useEffect(() => {
+        const currentDate = new Date();
+        const startDate = new Date(currentDate);
+        startDate.setDate(startDate.getDate() - 30);
+
+        const formattedStartDate = formatDate(startDate);
+        const formattedEndDate = formatDate(currentDate);
+
+        dispatch({
+            type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION",
+            payload: {
+                start_date: formattedStartDate,
+                end_date: formattedEndDate
+            }
+        });
+    }, [dispatch]);
+
+    const deliveryData = useSelector(state => state?.getSplitWiseStateWatcher);
+
+    useEffect(() => {
+        if (deliveryData) {
+            renderChart(deliveryData);
+        }
+    }, [deliveryData]);
+
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    };
+
+    const renderChart = (data) => {
+        console.log('Rendering chart with data:', data);
         const options = {
             series: [{
                 name: "Late Deliveries",
-                data: data.lateDeliveries
+                data: data.late_orders
             }, {
                 name: "On-time Deliveries",
-                data: data.onTimeDeliveries
+                data: data.on_time_orders
             }],
             chart: {
                 height: 350,
@@ -40,7 +69,7 @@ const DeliveryPerformance = () => {
             xaxis: {
                 categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
                 labels: {
-                    rotateAlways: true, // Rotate labels always
+                    rotateAlways: true,
                     rotate: -45,
                 },
             },
@@ -76,7 +105,7 @@ const DeliveryPerformance = () => {
         return () => {
             chart.destroy();
         };
-    }, []); 
+    };
 
     return (
         <div className='box-shadow shadow-sm p10' style={{ minHeight: '300px', maxHeight: '500px' }}>

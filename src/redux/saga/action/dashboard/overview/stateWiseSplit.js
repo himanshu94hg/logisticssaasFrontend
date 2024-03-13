@@ -36,7 +36,7 @@ async function deliveryPerformanceAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE}?${queryParams}`,
-        // data: data
+        data: data
     });
     return listData
 }
@@ -45,7 +45,7 @@ function* deliveryPerformanceAction(action) {
     try {
         let response = yield call(deliveryPerformanceAPI, payload);
         if (response.status === 200) {
-            // yield put({ type: GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, payload: response?.data })
+            yield put({ type: GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
