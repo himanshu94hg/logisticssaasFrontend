@@ -27,8 +27,10 @@ export const API_URL = {
     GET_COURIER_ALLOCATION:"/courier-api/courier/tools/download-service-pincode/",
     GET_COURIER_ALLOCATION_PARTNER:"/core-api/features/courier-category/",
     GET_COURIER_POST_ALLOCATION:"/core-api/seller/tools/save-general-preference/",
+    POST_SELLER_SIGNUP:"/core-api/seller/sign-up/",
 
-    //DASHBOARD API'S 
+
+    //DASHBOARD OVERVIEW API'S 
     GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD:"/orders-api/dashboard/overview/shipment-card/",
     GET_DASHBOARD_OVERVIEW_NDR_DETAILS:"/orders-api/dashboard/ndr/counter-cards/",
     GET_DASHBOARD_OVERVIEW_COD_DETAILS:"/orders-api/dashboard/overview/cod-details/",
@@ -38,5 +40,12 @@ export const API_URL = {
     GET_DASHBOARD_OVERVIEW_COUNTER_CARD:"/orders-api/dashboard/overview/counter-card/",
     GET_DASHBOARD_OVERVIEW_TOPSELL_CARD:"/orders-api/dashboard/overview/top-selling-products/",
     GET_DASHBOARD_OVERVIEW_STATEWISE_SPLIT:"/orders-api/dashboard/overview/state-wise-split/",
+    GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE:"/orders-api/dashboard/overview/delivery-performance/",
+    GET_DASHBOARD_OVERVIEW_COURIERISE_ALLOCATION:"/orders-api/dashboard/overview/courier-wise-allocation/",
+    GET_DASHBOARD_OVERVIEW_MOST_POPULAR:"/orders-api/dashboard/overview/most-popular-customers/",
+    GET_DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES:"/orders-api/dashboard/overview/weight-discrepancy/",
+
+  //DASHBOARD ORDERS API'S 
+
 
 };

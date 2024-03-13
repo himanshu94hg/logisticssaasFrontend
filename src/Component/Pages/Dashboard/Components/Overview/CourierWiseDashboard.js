@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiMiniArrowTrendingUp } from 'react-icons/hi2';
 import EkartLogo from '../../../../../assets/image/integration/Ekart.png'
 import ShadowFax from '../../../../../assets/image/integration/ShadowFax.png'
 import Delhivery from '../../../../../assets/image/integration/Delhivery.png'
 import Bluedart from '../../../../../assets/image/integration/Bluedart.png'
+import { useDispatch } from "react-redux";
 
 function CourierWiseDashboard() {
+  const dispatch = useDispatch();
+
   const [cData] = useState([
     { courier_partner: "eKart", total_percentage: 0.75, image_url: EkartLogo },
     { courier_partner: "Shadowfax", total_percentage: 0.65, image_url: ShadowFax },
@@ -14,6 +17,15 @@ function CourierWiseDashboard() {
     { courier_partner: "XpressBees", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20210102174413.png' },
     { courier_partner: "The Professional Courier", total_percentage: 0.85, image_url: 'https://www.shipease.in/public/assets/admin/images/20231021174726.jpg' },
   ]);
+
+  useEffect(() => {
+    dispatch({
+      type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload: {
+        start_date: "2024-02-11",
+        end_date: "2024-03-11"
+      }
+    })
+  }, [])
 
   return (
     <div className="box-shadow shadow-sm p10">

@@ -34,6 +34,7 @@
     "devextreme-react": "^23.2.3",
     "faker": "^6.6.6",
     "file-saver": "^2.0.5",
+    "formik": "^2.4.5",
     "html2canvas": "^1.4.1",
     "jquery": "^3.7.1",
     "js-cookie": "^3.0.5",
@@ -54,6 +55,7 @@
     "react-datamaps-india": "^0.6.0",
     "react-datepicker": "^4.25.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.0",
     "react-icons": "^4.11.0",
     "react-jvectormap": "^0.0.16",
     "react-leaflet": "^4.2.1",
@@ -86,7 +88,8 @@
     "styled-components": "^6.1.8",
     "sweetalert2": "^11.10.2",
     "web-vitals": "^2.1.4",
-    "xlsx": "^0.18.5"
+    "xlsx": "^0.18.5",
+    "yup": "^1.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
