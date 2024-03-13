@@ -6,6 +6,7 @@ const PerformanceRefAccounts = () => {
         { counter_itme: 'Booked', one: 'X (Y%)' },
         { counter_itme: 'NDR', one: 'X (Y%)' },
         { counter_itme: 'RTO', one: 'X (Y%)' },
+        { counter_itme: 'Delivered', one: 'X (Y%)' },
     ]
 
     const [selectedOption, setSelectedOption] = useState('Child One');
@@ -17,8 +18,8 @@ const PerformanceRefAccounts = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10 subaccount-perf dashboard-table">
-                <div className="d-flex justify-content-between align-items-center">
-                    <h4 className="title">Performance Referral Accounts</h4>
+                <div className="d-flex justify-content-between align-items-center mb-3">
+                    <h4 className="title mb-0">Performance Referral Accounts</h4>
                     <div>
                         <label className="d-flex flex-row align-items-center gap-2 font12" htmlFor="selectOption">Account
                             <select className="select-field font12" id="selectOption" value={selectedOption} onChange={handleSelectChange}>

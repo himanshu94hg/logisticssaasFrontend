@@ -46,12 +46,12 @@ const OverviewDetails = () => {
     }
   }, [activeTab])
 
-  const { codDetails,ndrDetails,rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
+  const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
   const capitalize = (str) => {
     return str.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   };
 
-  
+
   return (
     <>
       <div className="box-shadow shadow-sm p10 overview-details-counters">
@@ -76,21 +76,23 @@ const OverviewDetails = () => {
               </div>
             </div>
           ))} */}
-          { ndrDetails&& activeTab === "ndr" && <>
+          {ndrDetails && activeTab === "ndr" && <>
             {Object.entries(ndrDetails).map(([key, value]) => (
-              <div className='d-flex justify-content-between align-items-center' key={key}>
+              <div className='d-flex justify-content-between align-items-center w-100' key={key}>
                 <div className='counter-sets'>
-                <p>{value?value:0}</p>
+                  <p>{value ? value : 0}</p>
+                  <hr />
                   <p>{capitalize(key)}</p>
                 </div>
               </div>
             ))}
           </>}
-          {codDetails&& activeTab === "cod" && <>
+          {codDetails && activeTab === "cod" && <>
             {Object.entries(codDetails).map(([key, value]) => (
               <div className='d-flex justify-content-between align-items-center' key={key}>
                 <div className='counter-sets'>
-                  <p>{value?value:0}</p>
+                  <p>{value ? value : 0}</p>
+                  <hr />
                   <p>{capitalize(key)}</p>
                 </div>
               </div>
@@ -100,7 +102,8 @@ const OverviewDetails = () => {
             {Object.entries(rtoDetails).map(([key, value]) => (
               <div className='d-flex justify-content-between align-items-center' key={key}>
                 <div className='counter-sets'>
-                <p>{value?value:0}</p>
+                  <p>{value ? value : 0}</p>
+                  <hr />
                   <p>{capitalize(key)}</p>
                 </div>
               </div>
