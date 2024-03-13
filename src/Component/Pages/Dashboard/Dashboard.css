@@ -216,13 +216,29 @@
     align-items: center;
     height: 60%;
     justify-content: space-between;
+    gap: 0.8rem;
 }
 
 .overview-details-counters .counter-sets {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 1rem;
+    background: #26a0fc;
+    color: #fff;
+    border-radius: 0.5rem;
+    width: 100%;
 }
+
+.overview-details-counters .counter-sets hr {
+    border: none;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(to right, #ffffff08, #fff, #ffffff08);
+    height: 2px;
+    width: 100%;
+    margin-block: 0 10px;
+}
+
 
 .top-rto-pincodes .pincode-search {
     width: auto;
