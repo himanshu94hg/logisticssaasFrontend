@@ -1,25 +1,25 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
-import MostViewedStatus from '../Components/WhatsAppComm/MostViewedStatus'
-import SentOverTime from '../Components/WhatsAppComm/SentOverTime'
+import BussinessHealthInfo from '../Components/PnL/BussinessHealthInfo'
+import TotalProfitAndLoss from '../Components/PnL/TotalProfitAndLoss'
+import OrdersSourceStat from '../Components/PnL/OrdersSourceStat'
 
 const PnL = () => {
   return (
     <>
-      <Row className='cardsSpace'>
-        <Col className='col-12'>
-          <WhatsAppTotalInfo />
+      <Row className='mb-3'>
+        <Col className="col-3 cardsSpace">
+          <TotalProfitAndLoss />
         </Col>
+        <Col className="col-6 cardsSpace">
+          <BussinessHealthInfo />
+        </Col>
+        <Col className="col-3 cardsSpace">
+        </Col>
+      </Row>
+      <Row>
         <Col className='col-12'>
-          <Row>
-            <Col className='col-6 cardsSpace'>
-              <MostViewedStatus />
-            </Col>
-            <Col className='col-6 cardsSpace'>
-              <SentOverTime />
-            </Col>
-          </Row>
+          <OrdersSourceStat />
         </Col>
       </Row>
     </>

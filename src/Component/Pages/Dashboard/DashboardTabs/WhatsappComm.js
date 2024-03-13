@@ -20,8 +20,6 @@ import AbundantChecking from '../Components/WhatsAppComm/AbundantChecking'
 const WhatsappComm = () => {
   return (
     <>
-
-
       <Row className='mb-3'>
         <Col className="col-3 cardsSpace">
           <MostViewedStatus />
@@ -29,21 +27,22 @@ const WhatsappComm = () => {
         </Col>
         <Col className="col-6 cardsSpace">
           <WhatsAppTotalInfo />
-          <Row>
-            <Col>
-              <OrdersConfirmed />
-            </Col>
-            <Col>
-              <WhatsAppNDR />
-            </Col>
-          </Row>
+          <WhatsAppNDR />
         </Col>
         <Col className="col-3 cardsSpace">
           <SentOverTime />
+          <OrdersConfirmed />
+        </Col>
+      </Row>
+      <Row className='mb-3'>
+        <Col className='col-6'>
           <CodToPrepaidConversion />
+        </Col>
+        <Col className='col-6'>
           <AbundantChecking />
         </Col>
       </Row>
+
     </>
   )
 }
