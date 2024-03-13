@@ -27,7 +27,7 @@ const ChartComponent = () => {
         },
         yaxis: {
             title: {
-                text: '$ (thousands)'
+                text: '₹ (thousands)'
             }
         },
         fill: {
@@ -36,7 +36,7 @@ const ChartComponent = () => {
         tooltip: {
             y: {
                 formatter: function (val) {
-                    return "$ " + val + " thousands"
+                    return "₹ " + val + " thousands"
                 }
             }
         }
@@ -45,23 +45,28 @@ const ChartComponent = () => {
     const series = [
         {
             name: 'Online',
-            data: [44, 55, 57, 56, 61]
+            data: [44, 55, 57, 56, 61],
+            color: '#d1e3f4'
         },
         {
             name: 'Offline',
-            data: [76, 85, 101, 98, 87]
+            data: [76, 85, 101, 98, 87],
+            color: '#a3c8e9'
         },
         {
             name: 'Sales Order',
-            data: [35, 41, 36, 26, 45]
+            data: [35, 41, 36, 26, 45],
+            color: '#75acdf'
         },
         {
             name: 'Direct',
-            data: [55, 49, 62, 42, 65]
+            data: [55, 49, 62, 42, 65],
+            color: '#4791d4'
         },
         {
             name: 'Marketplace',
-            data: [35, 41, 36, 26, 45]
+            data: [35, 41, 36, 26, 45],
+            color: '#1975C9'
         }
     ];
 
@@ -78,7 +83,7 @@ const OrdersSourceStat = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10">
-                <h4 className="title">Profit and Loss</h4>
+                <h4 className="title">Orders Source Stat</h4>
                 <ChartComponent />
             </div>
         </>
