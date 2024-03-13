@@ -28,7 +28,7 @@ export const API_URL = {
     POST_SELLER_SIGNUP:"/core-api/seller/sign-up/",
 
 
-    //DASHBOARD API'S 
+    //DASHBOARD OVERVIEW API'S 
     GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD:"/orders-api/dashboard/overview/shipment-card/",
     GET_DASHBOARD_OVERVIEW_NDR_DETAILS:"/orders-api/dashboard/ndr/counter-cards/",
     GET_DASHBOARD_OVERVIEW_COD_DETAILS:"/orders-api/dashboard/overview/cod-details/",
@@ -42,5 +42,8 @@ export const API_URL = {
     GET_DASHBOARD_OVERVIEW_COURIERISE_ALLOCATION:"/orders-api/dashboard/overview/courier-wise-allocation/",
     GET_DASHBOARD_OVERVIEW_MOST_POPULAR:"/orders-api/dashboard/overview/most-popular-customers/",
     GET_DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES:"/orders-api/dashboard/overview/weight-discrepancy/",
+
+  //DASHBOARD ORDERS API'S 
+
 
 };
