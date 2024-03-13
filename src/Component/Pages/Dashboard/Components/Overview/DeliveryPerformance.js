@@ -24,8 +24,6 @@ const DeliveryPerformance = () => {
 
     const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
 
-    console.log(deliveryData,"Delivery Performance")
-
     useEffect(() => {
         if (deliveryData) {
             renderChart(deliveryData);
@@ -40,14 +38,13 @@ const DeliveryPerformance = () => {
     };
 
     const renderChart = (data) => {
-        console.log('Rendering chart with data:', data);
         const options = {
             series: [{
                 name: "Late Deliveries",
-                data: data.late_orders
+                data: data.late_orders?.map(item => item.count)
             }, {
                 name: "On-time Deliveries",
-                data: data.on_time_orders
+                data: data.on_time_orders?.map(item => item.count)
             }],
             chart: {
                 height: 350,
@@ -69,7 +66,7 @@ const DeliveryPerformance = () => {
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                categories: data.late_orders.map(item => `Week ${item.week_number}`),
                 labels: {
                     rotateAlways: true,
                     rotate: -45,
