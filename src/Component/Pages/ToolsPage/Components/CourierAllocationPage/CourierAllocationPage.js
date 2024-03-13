@@ -1,201 +1,103 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react';
 import NavTabs from './navTabs/NavTabs';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import './CourierAllocationPage.css'
+import './CourierAllocationPage.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SetPreferenceRules from './SetPreferenceRules';
+import { useDispatch, useSelector } from "react-redux";
 
 const CourierAllocationPage = () => {
   const [activeTab, setActiveTab] = useState("Courier Preferences");
-  const initialCouriers = [
-    'courier_Blue Dart',
-    'courier_Blue Dart Surface',
-    'courier_Xpressbees',
-    'courier_Xpressbees Surface',
-    'courier_Ekart',
-    'courier_Delhivery',
-    'courier_DTDC',
-    'courier_Ecom Express',
-    'courier_ShadowFax',
-  ];
-  const [couriers, setCouriers] = useState(initialCouriers);
+  const dispatch = useDispatch();
+  const partnersData = useSelector(state => state?.toolsSectionReducer.courierAllocation);
 
-  const initialList1 = [
-    'list1_Blue Dart',
-    'list1_Blue Dart Surface',
-    'list1_Xpressbees',
-    'list1_Xpressbees Surface',
-    'list1_Ekart',
-    'list1_Delhivery',
-    'list1_DTDC',
-    'list1_Ecom Express',
-    'list1_ShadowFax',
-  ];
-  const [list1, setList1] = useState(initialList1);
+  useEffect(() => {
+    dispatch({ type: "COURIER_ALLOCATION_PARTNER_ACTION" });
+  }, [dispatch]);
 
-  const initialList2 = [
-    'list2_Blue Dart',
-    'list2_Blue Dart Surface',
-    'list2_Xpressbees',
-    'list2_Xpressbees Surface',
-    'list2_Ekart',
-    'list2_Delhivery',
-    'list2_DTDC',
-    'list2_Ecom Express',
-    'list2_ShadowFax',
-  ];
-  const [list2, setList2] = useState(initialList2);
+  useEffect(() => {
+    const storedData = localStorage.getItem('partnersData');
+    if (storedData) {
+      dispatch({ type: "GET_COURIER_ALLOCATION_DATA", payload: JSON.parse(storedData) });
+    }
+  }, [dispatch]);
 
   const handleDragEnd = (result) => {
     if (!result.destination) return;
-
     const { source, destination } = result;
 
-    switch (source.droppableId) {
-      case 'couriers':
-        const newCouriers = Array.from(couriers);
-        const [removedCourier] = newCouriers.splice(source.index, 1);
-        newCouriers.splice(destination.index, 0, removedCourier);
-        setCouriers(newCouriers);
-        break;
-      case 'list1':
-        const newList1 = Array.from(list1);
-        const [removedList1] = newList1.splice(source.index, 1);
-        newList1.splice(destination.index, 0, removedList1);
-        setList1(newList1);
-        break;
-      case 'list2':
-        const newList2 = Array.from(list2);
-        const [removedList2] = newList2.splice(source.index, 1);
-        newList2.splice(destination.index, 0, removedList2);
-        setList2(newList2);
-        break;
-      default:
-        break;
+    if (source.droppableId === destination.droppableId) {
+      const categoryIndex = parseInt(source.droppableId, 10);
+      const newPartnersData = [...partnersData];
+      const partners = newPartnersData[categoryIndex].partners;
+      const [removed] = partners.splice(source.index, 1);
+      partners.splice(destination.index, 0, removed);
+      const formattedPayload = newPartnersData.reduce((acc, category) => {
+        return acc.concat(category.partners.map((partner, index) => ({
+          courier_category: category.id,
+          partner: partner.id,
+          priority: index + 1
+        })));
+      }, []);
+      dispatch({ type: "COURIER_ALLOCATION_PARTNER_POST_ACTION", payload: formattedPayload });
     }
   };
 
-  const handleResetCouriers = () => {
-    setCouriers(initialCouriers);
-  };
-
-  const handleResetList1 = () => {
-    setList1(initialList1);
-  };
-
-  const handleResetList2 = () => {
-    setList2(initialList2);
-  };
-
   return (
-    <>
-      <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <section className={`courier-preference box-shadow shadow-sm white-block p10 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
-        <div className='courier-preference-list'>
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <div className='Weight-slab'>
-              <h5>For Weight 0.5 to 3</h5>
-              <Droppable droppableId="couriers">
-                {(provided) => (
-                  <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {couriers.map((courier, index) => (
-                      <Draggable key={courier} draggableId={courier} index={index}>
-                        {(provided) => (
-                          <li
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <FontAwesomeIcon icon={faEllipsisVertical} /> {courier}
-                          </li>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-              {/* <button className='btn main-button me-3' onClick={handleResetCouriers}>Sort As Cheapest</button> */}
-              {/* <button className='btn main-button' onClick={handleResetCouriers}>Sort As Fastest</button> */}
-            </div>
-            <div className='Weight-slab'>
-              <h5>For Weight 3 to 10</h5>
-              <Droppable droppableId="list1">
-                {(provided) => (
-                  <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {list1.map((item, index) => (
-                      <Draggable key={item} draggableId={item} index={index}>
-                        {(provided) => (
-                          <li
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <FontAwesomeIcon icon={faEllipsisVertical} /> {item}
-                          </li>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-              {/* <button className='btn main-button me-3' onClick={handleResetList1}>Sort As Cheapest</button> */}
-              {/* <button className='btn main-button' onClick={handleResetList1}>Sort As Fastest</button> */}
-            </div>
-            <div className='Weight-slab'>
-              <h5>For Weight 10+</h5>
-              <Droppable droppableId="list2">
-                {(provided) => (
-                  <ul {...provided.droppableProps} ref={provided.innerRef}>
-                    {list2.map((item, index) => (
-                      <Draggable key={item} draggableId={item} index={index}>
-                        {(provided) => (
-                          <li
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
-                            <FontAwesomeIcon icon={faEllipsisVertical} /> {item}
-                          </li>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </ul>
-                )}
-              </Droppable>
-              {/* <button className='btn main-button me-3' onClick={handleResetList2}>Sort As Cheapest</button> */}
-              {/* <button className='btn main-button' onClick={handleResetList2}>Sort As Fastest</button> */}
-            </div>
-          </DragDropContext>
-        </div>
-
-        <div className='cp-or-line'>
-          <hr />
-          <span>OR</span>
-        </div>
-        <div className='default-sorting-section'>
-          <label>
-            Sort by default sorting options
-            <select className='select-field' name="" id="">
-              <option value="">Select</option>
-              <option value="">Sort as Cheapest</option>
-              <option value="">Sort as Fastest</option>
-            </select>
-          </label>
-        </div>
-
-        <button className='btn main-button'>Submit</button>
-      </section>
-
-      <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
-        <SetPreferenceRules />
-      </section>
-
-    </>
-  )
+      <>
+        <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+        <section className={`courier-preference box-shadow shadow-sm white-block p10 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
+          <div className='courier-preference-list'>
+            <DragDropContext onDragEnd={handleDragEnd}>
+              {partnersData?.map((category, index) => (
+                  <div className='Weight-slab' key={category.id}>
+                    <h5>{category.title}</h5>
+                    <Droppable droppableId={index.toString()}>
+                      {(provided) => (
+                          <ul {...provided.droppableProps} ref={provided.innerRef}>
+                            {category.partners.map((partner, index) => (
+                                <Draggable key={partner.id.toString()} draggableId={partner.id.toString()} index={index}>
+                                  {(provided) => (
+                                      <li
+                                          ref={provided.innerRef}
+                                          {...provided.draggableProps}
+                                          {...provided.dragHandleProps}
+                                      >
+                                        <FontAwesomeIcon icon={faEllipsisVertical} /> {partner.title}
+                                      </li>
+                                  )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
+                          </ul>
+                      )}
+                    </Droppable>
+                  </div>
+              ))}
+            </DragDropContext>
+          </div>
+          <div className='cp-or-line'>
+            <hr />
+            <span>OR</span>
+          </div>
+          <div className='default-sorting-section'>
+            <label>
+              Sort by default sorting options
+              <select className='select-field' name="" id="">
+                <option value="">Select</option>
+                <option value="">Sort as Cheapest</option>
+                <option value="">Sort as Fastest</option>
+              </select>
+            </label>
+          </div>
+          <button className='btn main-button'>Submit</button>
+        </section>
+        <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
+          <SetPreferenceRules />
+        </section>
+      </>
+  );
 }
 
 export default CourierAllocationPage;
