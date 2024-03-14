@@ -24,7 +24,9 @@ function* signUpAction(action) {
         else {
         }
     } catch (error) {
-        {
+        console.log(error?.response?.data,"this is error handing data")
+        {  
+         
             Object.entries(error?.response?.data).map(([key, value]) => (
                 <>
                     {toast.error(value[0])}
