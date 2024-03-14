@@ -124,7 +124,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     Product Name
                                     <input
                                         className={`input-field ${errors[`product_name_${index}`] ? 'input-field-error' : ''}`}
-                                        placeholder="Enter or search your product name"
+                                        placeholder="Enter your product name"
                                         type="text"
                                         value={product.product_name}
                                         onChange={(e) => handleProductNameChange(e, index)}
