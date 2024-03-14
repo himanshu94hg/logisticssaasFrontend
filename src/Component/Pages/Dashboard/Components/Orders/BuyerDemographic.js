@@ -1,8 +1,11 @@
 import React from 'react'
 import { FaFemale } from "react-icons/fa";
 import { FaMale } from "react-icons/fa";
+import { useSelector } from 'react-redux';
 
-const BuyerDemographic = () => {
+const BuyerDemographic = ({}) => {
+const {buyerDemographicCard}=useSelector(state=>state?.dashboardOrderReducer)
+
     return (
         <>
             <div className="box-shadow shadow-sm p10">
@@ -16,7 +19,7 @@ const BuyerDemographic = () => {
                                 </div>
                                 <div className='d-flex flex-column gap-1'>
                                     <h5 className='font13 mb-0'>Female</h5>
-                                    <h5 className='fw-bold'>40%</h5>
+                                    <h5 className='fw-bold'>{buyerDemographicCard?.female}%</h5>
                                 </div>
                             </div>
                             <div className='gender-side'>
@@ -25,7 +28,7 @@ const BuyerDemographic = () => {
                                 </div>
                                 <div className='d-flex flex-column gap-1'>
                                     <h5 className='font13 mb-0'>Male</h5>
-                                    <h5 className='fw-bold'>60%</h5>
+                                    <h5 className='fw-bold'>{buyerDemographicCard?.male}%</h5>
                                 </div>
                             </div>
                         </div>

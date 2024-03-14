@@ -1,20 +1,30 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useDispatch } from 'react-redux'
 import { Col, Row } from 'react-bootstrap'
-import TopSellingDashboard from '../Components/Overview/TopSellingDashboard'
+import BestSKU from '../Components/Orders/BestSKU'
+import PrepaidCOD from '../Components/Orders/PrepaidCOD'
+import CancelOrder from '../Components/Orders/CancelOrder'
+import { dateRangeDashboard } from '../../../../dateRange'
+import OrderDetails from '../Components/Orders/OrderDetails'
 import ChannelByOrder from '../Components/Orders/ChannelByOrder'
 import TotalOrderInfo from '../Components/Orders/TotalOrderInfo'
-import CancelOrder from '../Components/Orders/CancelOrder'
 import BuyerDemographic from '../Components/Orders/BuyerDemographic'
-import PrepaidCOD from '../Components/Orders/PrepaidCOD'
-import TableDashboard from '../Components/Overview/TableDashboard'
-import DomesticInternational from '../Components/Orders/DomesticInternational'
-import BestSKU from '../Components/Orders/BestSKU'
-import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
-import WarehouseInformation from '../Components/Orders/WarehouseInformation'
-import OrderDetails from '../Components/Orders/OrderDetails'
 import ForwardReverseOrder from '../Components/Orders/ForwardReverseOrder'
+import WarehouseInformation from '../Components/Orders/WarehouseInformation'
+import DomesticInternational from '../Components/Orders/DomesticInternational'
+import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
 
-const OrdersDashboard = () => {
+
+const OrdersDashboard = ({ activeTab }) => {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (activeTab === "Orders") {
+      dispatch({ type: 'DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION', payload: dateRangeDashboard })
+    }
+  }, [activeTab])
+
+
   return (
     <>
       <Row className='mb-3'>

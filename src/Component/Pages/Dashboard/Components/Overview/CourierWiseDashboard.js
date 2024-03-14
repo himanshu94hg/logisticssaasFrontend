@@ -29,8 +29,6 @@ function CourierWiseDashboard() {
 
   const {courierWiseData}=useSelector(state=>state?.dashboardOverviewReducer)
 
-  console.log(courierWiseData,"courierWiseDatacourierWiseDatacourierWiseData")
-  
 
   return (
     <div className="box-shadow shadow-sm p10">
