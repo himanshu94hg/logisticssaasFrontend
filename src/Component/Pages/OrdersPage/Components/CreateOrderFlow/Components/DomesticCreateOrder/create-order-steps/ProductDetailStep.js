@@ -166,7 +166,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="number" value={product.price} onChange={(e) => handleChange(e, 'price', index)} />
+                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)} 
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
                                 </label>
                                 {/* Quantity */}
                                 <label className='col'>
@@ -176,7 +182,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
-                                        type="number" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index)} />
+                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index)} 
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
                                     {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
                                 </label>
                                 <label className='col-3'>
