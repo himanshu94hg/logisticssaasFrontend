@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { AiOutlineArrowUp } from "react-icons/ai";
-import axios from "axios";
+import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { AiOutlineArrowUp } from "react-icons/ai";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function RevenueDashboard() {
+  const dispatch = useDispatch()
   const [selectedInterval, setSelectedInterval] = useState("1W");
   const [revenueData, setRevenueData] = useState({ prepade_revenue_data: 0, cod_revenue_data: 0 });
-  const [totalSumOrder, setTotalSumOrder] = useState(0);
-  const dispatch = useDispatch()
+
   const fetchRevenueData = (interval) => {
     const endpointMap = {
       "1D": "one-day-revenue",
@@ -21,14 +22,14 @@ function RevenueDashboard() {
     const endpoint = endpointMap[interval];
   };
 
-  const {revenueCard}=useSelector(state=>state?.dashboardOverviewReducer)
+  const { revenueCard } = useSelector(state => state?.dashboardOverviewReducer)
 
   useEffect(() => {
     fetchRevenueData(selectedInterval);
   }, [selectedInterval]);
 
   useEffect(() => {
-    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION"})
+    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:dateRangeDashboard})
   }, []);
 
 
@@ -48,30 +49,30 @@ function RevenueDashboard() {
       </div>
 
       <ul className="list-ui mt20">
-        <li className={`bg-red-light text-red`}>
+        <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>Prepaid Revenue</p>
-          <p className="text-red">
+          <p className="">
             <AiOutlineArrowUp className=" font15" />
             {/* {revenueData.prepade_revenue_data}% */}
           </p>
-          <p className="text-red">{revenueCard?.prepaid_revenue || "NA"}</p>
+          <p className="">{revenueCard?.prepaid_revenue || "NA"}</p>
         </li>
 
-        <li className={`bg-green-light text-green`}>
+        <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>COD Revenue</p>
           <p>
             <AiOutlineArrowUp className=" font15" />
             {/* {revenueData.cod_revenue_data}% */}
           </p>
-          <p className="text-red">{revenueCard?.cod_revenue ||"NA"}</p>
+          <p className="">{revenueCard?.cod_revenue || "NA"}</p>
         </li>
 
         {/* Add other items based on your API response structure */}
 
-        <li className={`bg-red-light text-red`}>
+        <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>Total Delivered Orders</p>
           <AiOutlineArrowUp className=" font15" />
-          <p className="text-red">{revenueCard?.total_delivered_orders}</p>
+          <p className="">{revenueCard?.total_delivered_orders}</p>
         </li>
       </ul>
     </div>

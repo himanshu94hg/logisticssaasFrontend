@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 // Custom Table component
 function CustomTable({ data }) {
@@ -41,73 +42,9 @@ function TableDashboard() {
   const {lastOrders}=useSelector(state=>state?.dashboardOverviewReducer)
 
   useEffect(()=>{
-    dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION"})
+    dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION",payload:dateRangeDashboard})
   },[])
 
-  // Dummy data array
-  const dummyData = [
-    {
-      order_number: 1,
-      customer_order_number: "CUS123",
-      awb_number: "AWB123",
-      courier_partner: "Courier A",
-      shipping_charges: 5.99,
-      total_charges: 25.99,
-      weight: "1 kg",
-      status: "Delivered"
-    },
-    {
-      order_number: 2,
-      customer_order_number: "CUS456",
-      awb_number: "AWB456",
-      courier_partner: "Courier B",
-      shipping_charges: 7.99,
-      total_charges: 30.99,
-      weight: "2 kg",
-      status: "Pending"
-    },
-    {
-      order_number: 3,
-      customer_order_number: "CUS789",
-      awb_number: "AWB789",
-      courier_partner: "Courier C",
-      shipping_charges: 9.99,
-      total_charges: 35.99,
-      weight: "3 kg",
-      status: "Shipped"
-    },
-    {
-      order_number: 4,
-      customer_order_number: "CUS789",
-      awb_number: "AWB789",
-      courier_partner: "Courier C",
-      shipping_charges: 9.99,
-      total_charges: 35.99,
-      weight: "3 kg",
-      status: "Shipped"
-    },
-    {
-      order_number: 5,
-      customer_order_number: "CUS789",
-      awb_number: "AWB789",
-      courier_partner: "Courier C",
-      shipping_charges: 9.99,
-      total_charges: 35.99,
-      weight: "3 kg",
-      status: "Shipped"
-    },
-    {
-      order_number: 6,
-      customer_order_number: "CUS789",
-      awb_number: "AWB789",
-      courier_partner: "Courier C",
-      shipping_charges: 9.99,
-      total_charges: 35.99,
-      weight: "3 kg",
-      status: "Shipped"
-    }
-    // Add more dummy data as needed
-  ];
 
   return (
     <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">

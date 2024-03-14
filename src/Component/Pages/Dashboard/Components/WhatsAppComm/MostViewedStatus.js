@@ -80,7 +80,8 @@ const TopStatusChart = () => {
                     return val;
                 }
             }
-        }
+        },
+        colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
     };
 
     const seriesData = [{
@@ -99,18 +100,8 @@ const MostViewedStatus = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10" style={{ height: '284px' }}>
-                <div className="row">
-                    <div className="col">
-                        <h4 className="title">Top 5 most viewed status</h4>
-                    </div>
-                    {/* <div className="p-18px">
-                        <div className="text-center" style={{ padding: "6rem" }}>
-                            <p className="noDataHeader">No Data Available</p>
-                            <img width="62" height="67" src="https://app.shiprocket.in/app/img/trackingpage/noData.png" alt="" />
-                        </div>
-                    </div> */}
-                    <TopStatusChart />
-                </div>
+                <h4 className="title">Top 5 most viewed status</h4>
+                <TopStatusChart />
             </div>
         </>
     )

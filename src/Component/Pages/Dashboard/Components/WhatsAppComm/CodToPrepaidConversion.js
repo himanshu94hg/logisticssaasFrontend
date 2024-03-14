@@ -1,59 +1,59 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const WhatsAppNDRChart = () => {
+const ChartComponent = () => {
     const [chartData, setChartData] = useState({
         series: [{
-            name: 'WhatsApp Orders',
-            data: [20, 25, 30, 35, 40] // Sample data for weeks 1 to 5
+            name: "Desktops",
+            data: [10, 41, 35, 51, 49],
+            color: '#1975C9'
         }],
         options: {
             chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '55%',
-                    endingShape: 'rounded'
-                },
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
             },
             dataLabels: {
                 enabled: false
             },
             stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
+                curve: 'straight'
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#C5DCF1', 'transparent'],
+                    opacity: 1
+                },
             },
             xaxis: {
                 categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-            },
-            yaxis: {
-                title: {
-                    text: 'Number of Orders'
-                }
-            },
-            fill: {
-                opacity: 1
             }
         }
     });
 
     return (
-        <div id="chart">
-            <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={350} />
+        <div>
+            <div id="chart">
+                <ReactApexChart options={chartData.options} series={chartData.series} type="line" height={350} />
+            </div>
+            <div id="html-dist"></div>
         </div>
     );
-}
+};
 
 const CodToPrepaidConversion = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10">
                 <h4 className="title">COD To Prepaid Conversion</h4>
-                <WhatsAppNDRChart />
+                <ChartComponent />
             </div>
         </>
     )

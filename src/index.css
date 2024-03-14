@@ -95,6 +95,10 @@ p {
   background: var(--sh-primary) !important;
 }
 
+.bg-sh-primary-light {
+  background: var(--sh-primary-light) !important;
+}
+
 .text-gray {
   color: #727986;
 }

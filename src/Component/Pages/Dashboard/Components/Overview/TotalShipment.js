@@ -2,86 +2,53 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
+import { percentage } from "../../../../../customFunction/percentage";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function TotalShipment() {
   const dispatch = useDispatch()
   const [data, setData] = useState(null);
+  const [totalShipment, setTotalShipment] = useState(null);
+
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
   useEffect(() => {
-    const fetchData = () => {
-      const dummyData = {
-        total_status_wise_count: 1000,
-        channel_percentage_data: [
-          {
-            name: "delivered",
-            total_count: 200,
-            total_percentage: 50
-          },
-          {
-            name: "In transit",
-            total_count: 300,
-            total_percentage: 30
-          },
-          {
-            name: "ndr",
-            total_count: 100,
-            total_percentage: 10
-          },
-          {
-            name: "out_for_delivery",
-            total_count: 150,
-            total_percentage: 15
-          },
-          {
-            name: "picked_up",
-            total_count: 100,
-            total_percentage: 10
-          },
-          {
-            name: "shipped",
-            total_count: 150,
-            total_percentage: 15
-          }
-        ]
-      };
+    if (shimpmetCard) {
+      const total_shipment = Object.values(shimpmetCard).reduce((acc, value) => acc + value, 0)
+      setTotalShipment(total_shipment)
+    }
+    setTimeout(() => {
+      setData(shimpmetCard);
+    }, 1000);
+  }, [shimpmetCard]);
 
-      setTimeout(() => {
-        setData(dummyData);
-      }, 1000); // Simulate 1 second delay
-    };
-
-    fetchData();
-  }, []);
-
-  // Updated function to get predefined color scale for each channel
   const getColorScale = () => {
     const colorScale = {
-      delivered: "rgb(255, 0, 0)",
-      in_transit: "rgb(255, 165, 0)",
-      ndr: "rgb(255, 255, 0)",
-      out_for_delivery: "rgb(0, 255, 0)",
-      picked_up: "rgb(0, 0, 255)",
-      shipped: "rgb(75, 0, 130)"
+      delivered: "#3BB54B",
+      in_transit: "#FFD300",
+      ndr: "#F31429",
+      out_for_delivery: "#1975C9",
+      picked_up: "#A020F0",
+      shipped: "#0F3C5B"
     };
-
     return colorScale;
   };
 
   const colorScale = getColorScale();
 
   useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION" })
+    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
   }, [])
 
-
-
+  // const percentage = (value,totalShipment) => {
+  //   return  totalShipment===0?`(0)%`: `(${parseInt((value / totalShipment) * 100)}%)`
+  // }
 
 
   return (
     <>
       <div className="box-shadow shadow-sm p10">
-        {data && data.channel_percentage_data && Array.isArray(data.channel_percentage_data) && data.channel_percentage_data.length > 0 ? (
+        {data ? (
           <div className="">
             <div className="row">
               <div className="col-8">
@@ -91,16 +58,14 @@ function TotalShipment() {
                   </div>
                   <div className="">
                     <p className="font13 text-gray m-0">Total Shipment</p>
-                    <h2 className="font20 title-text bold-600 m0">{data?.total_status_wise_count}</h2>
+                    <h2 className="font20 title-text bold-600 m0">{totalShipment}</h2>
                   </div>
                 </div>
               </div>
               <div className="col-4">
                 <div className="text-end">
-                  {/* Assuming you have a graph image for each channel, replace 'graph-red.png' with the actual image path */}
                   <img src="graph-red.png" className="inline-block w-100" alt="Graph" />
                   <span className="text-color font13 pt20 bold-600 d-block">
-                    {/* Replace '({totalCreated}%)' with the actual value you want to display */}
                   </span>
                   <p className="text-xs text-gray font13 m0 text-gray-600">
                     this month
@@ -113,9 +78,9 @@ function TotalShipment() {
                 <div className="progress-widget">
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">delivered</p>
+                      <p className="font12 bold-600 mb-2">Delivered</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.delivered_orders} ({shimpmetCard?.delivered_orders}%)
+                        {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -136,7 +101,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">In Transit</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.intransit_orders} ({shimpmetCard?.intransit_orders}%)
+                        {shimpmetCard?.intransit_orders} {percentage(shimpmetCard?.intransit_orders, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -157,7 +122,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">NDR</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.ndr_orders} ({shimpmetCard?.ndr_orders}%)
+                        {shimpmetCard?.ndr_orders} {percentage(shimpmetCard?.ndr_orders, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -176,9 +141,9 @@ function TotalShipment() {
                   </div>
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Out of delivery</p>
+                      <p className="font12 bold-600 mb-2">Out For Delivery</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.out_for_delivery} ({shimpmetCard?.out_for_delivery}%)
+                        {shimpmetCard?.out_for_delivery}  {percentage(shimpmetCard?.out_for_delivery, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -199,7 +164,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Picked Up</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.picked_up_orders} ({shimpmetCard?.picked_up_orders}%)
+                        {shimpmetCard?.picked_up_orders}   {percentage(shimpmetCard?.picked_up_orders, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -220,7 +185,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Shipped</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.shipped_orders} ({shimpmetCard?.shipped_orders}%)
+                        {shimpmetCard?.shipped_orders}   {percentage(shimpmetCard?.shipped_orders, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">

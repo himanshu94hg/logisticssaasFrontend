@@ -42,6 +42,7 @@
 
 .dashboard-table table.custom-table tr td {
     font-size: 1rem;
+    text-transform: capitalize;
 }
 
 .dashboard-table table.custom-table tr th {
@@ -313,6 +314,16 @@
 
 .radial-bar .apexcharts-legend-series {
     margin: 1px !important;
+}
+
+.w-create-order text {
+    fill: #111;
+    transform: translate(1px, 3px);
+}
+
+.w-create-order .apexcharts-datalabels rect {
+    height: 21px;
+    width: 76px;
 }
 
 

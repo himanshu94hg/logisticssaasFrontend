@@ -6,12 +6,12 @@ import { BASE_URL_ORDER ,API_URL} from "../../../../../axios/config";
 import { DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION } from "../../../constant/dashboard/overview";
 import { GET_DASHBOARD_OVERVIEW_SHIPMENTCARD_DATA } from "../../../../constants/dashboard/overview";
 
-
-
 async function shipmentCardAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD}?${queryParams}`,
         // data: data
     });
     return listData

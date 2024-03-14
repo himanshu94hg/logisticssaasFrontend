@@ -1,6 +1,5 @@
 import "./App.css";
 import Cookies from "js-cookie";
-import { useDispatch } from "react-redux";
 import 'devextreme/dist/css/dx.light.css';
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import React, { useEffect, useState, lazy } from "react";
@@ -48,10 +47,13 @@ import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/Serviceab
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern } from "./Routes";
+import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern } from "./Routes";
+import SignUpPage from "./Component/Pages/SignupPage";
+import { useDispatch } from "react-redux";
 
 
 function App() {
+  const dispatch=useDispatch()
   const navigate = useNavigate();
   const [WalletRecharge, setWalletRecharge] = useState(false)
   const [ZoneMapping, setZoneMapping] = useState(false)
@@ -67,17 +69,22 @@ function App() {
     setTokenChecked(true);
   }, []);
 
-
   useEffect(() => {
-    if (tokenChecked && !tokenExists) {
+    if (tokenChecked && !tokenExists && window.location.pathname != signUpPattern) {
       navigate(loginPattern);
     }
   }, [tokenChecked, tokenExists, navigate]);
 
+  useEffect(()=>{
+    dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
+    Cookies.set('pathName',window.location.pathname);
+  },[ window.location.pathname])
+
+
 
   return (
     <>
-      <div className="container p-0 m-0" style={{ display: "flex" }}>
+      <div className="container p-0 m-0" style={{ }}>
         <div className="rightContainer">
           {tokenExists && <>
             <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
@@ -129,6 +136,7 @@ function App() {
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
+            <Route path={signUpPattern} element={<SignUpPage />} />
           </Routes>
         </div>
       </div>
@@ -143,13 +151,13 @@ function App() {
         autoClose={2000}
         hideProgressBar={false}
         newestOnTop={false}
-        pauseOnFocusLoss={true} 
+        pauseOnFocusLoss={true}
         transition={Bounce}
         closeOnClick
         rtl={false}
         draggable
         pauseOnHover
-        
+
       />
       {/* Same as */}
 

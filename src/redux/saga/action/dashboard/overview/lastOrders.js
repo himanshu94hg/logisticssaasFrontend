@@ -9,9 +9,11 @@ import { GET_DASHBOARD_OVERVIEW_LAST_ORDERS_DATA, GET_DASHBOARD_OVERVIEW_STATEWI
 
 //LAST ORDER API'S
 async function lastOrderAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_LAST_ORDERS}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_LAST_ORDERS}?${queryParams}`,
         // data: data
     });
     return listData

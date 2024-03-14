@@ -9,9 +9,11 @@ import { GET_DASHBOARD_OVERVIEW_COD_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_NDR_DET
 
 //NDR API 
 async function ndrDetailsAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_NDR_DETAILS}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_NDR_DETAILS}?${queryParams}`,
         // data: data
     });
     return listData
@@ -30,9 +32,11 @@ function* ndrDetailsAction(action) {
 
 // COD API
 async function codDetailsAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_COD_DETAILS}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_COD_DETAILS}?${queryParams}`,
         // data: data
     });
     return listData
@@ -49,12 +53,13 @@ function* codDetailsAction(action) {
     }
 }
 
-
 // RTO API
 async function rtoDetailsAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_RTO_DETAILS}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_RTO_DETAILS}?${queryParams}`,
         // data: data
     });
     return listData

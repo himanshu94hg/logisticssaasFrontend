@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { CiUser } from "react-icons/ci";
-import axios from "axios";
 import Col from "react-bootstrap/Col";
 import TableDashboard from "./TableDashboard";
 import './totalInfoDashboard.css'

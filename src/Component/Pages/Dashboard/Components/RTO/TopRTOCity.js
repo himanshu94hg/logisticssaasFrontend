@@ -5,32 +5,32 @@ const TopRTOCity = () => {
     {
       city: 'Mumbai',
       rto_count: 500,
-      rto_count_percentage: 10,
+      rto_count_percentage: 35,
     },
     {
       city: 'Delhi',
       rto_count: 600,
-      rto_count_percentage: 12,
+      rto_count_percentage: 25,
     },
     {
       city: 'Bangalore',
       rto_count: 450,
-      rto_count_percentage: 9,
+      rto_count_percentage: 10,
     },
     {
       city: 'Kolkata',
       rto_count: 300,
-      rto_count_percentage: 6,
+      rto_count_percentage: 15,
     },
     {
       city: 'Chennai',
       rto_count: 350,
-      rto_count_percentage: 7,
+      rto_count_percentage: 5,
     },
     {
       city: 'Hyderabad',
       rto_count: 400,
-      rto_count_percentage: 8,
+      rto_count_percentage: 5,
     },
     {
       city: 'Ahmedabad',
@@ -66,7 +66,7 @@ const TopRTOCity = () => {
                     <div className="progress mb-15">
                       <div
                         style={{
-                          backgroundColor: index % 2 === 0 ? 'blue' : 'red',
+                          backgroundColor: index % 2 === 0 ? '#1975C9' : '#1975C9',
                           width: `${cityData.rto_count_percentage}%`,
                         }}
                         role="progressbar"

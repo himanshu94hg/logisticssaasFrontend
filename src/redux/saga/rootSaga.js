@@ -14,6 +14,8 @@ import { getLastOrderWatcher } from "./action/dashboard/overview/lastOrders";
 import { getRevenueCardWatcher } from "./action/dashboard/overview/revenueCard";
 import { getCounterCardWatcher } from "./action/dashboard/overview/counterCard";
 import { getSplitWiseStateWatcher } from "./action/dashboard/overview/stateWiseSplit";
+import { getSignupWatcher } from "./action/auth/signUp";
+import { getOrdersTabWatcher } from "./action/dashboard/order/orders";
 
 
 export default function* rootSaga() {
@@ -32,6 +34,8 @@ export default function* rootSaga() {
    getLastOrderWatcher(),
    getRevenueCardWatcher(),
    getCounterCardWatcher(),
-   getSplitWiseStateWatcher()
+   getSplitWiseStateWatcher(),
+   getSignupWatcher(),
+   getOrdersTabWatcher()
   ]);
 }
