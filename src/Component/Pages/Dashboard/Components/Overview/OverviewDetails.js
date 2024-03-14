@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const OverviewDetails = () => {
   const dispatch = useDispatch()
@@ -36,13 +37,13 @@ const OverviewDetails = () => {
 
   useEffect(() => {
     if (activeTab === "ndr") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION" })
+      dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
     }
     if (activeTab === "cod") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION" })
+      dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION",payload:dateRangeDashboard  })
     }
     if (activeTab === "rto") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION" })
+      dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION",payload:dateRangeDashboard })
     }
   }, [activeTab])
 

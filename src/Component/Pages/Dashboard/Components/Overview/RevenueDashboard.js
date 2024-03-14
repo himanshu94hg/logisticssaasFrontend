@@ -3,14 +3,12 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function RevenueDashboard() {
   const dispatch = useDispatch()
   const [selectedInterval, setSelectedInterval] = useState("1W");
   const [revenueData, setRevenueData] = useState({ prepade_revenue_data: 0, cod_revenue_data: 0 });
-  const [totalSumOrder, setTotalSumOrder] = useState(0);
-  const endDate = moment(new Date()).format("YYYY-MM-DD")
-  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
 
   const fetchRevenueData = (interval) => {
     const endpointMap = {
@@ -31,10 +29,7 @@ function RevenueDashboard() {
   }, [selectedInterval]);
 
   useEffect(() => {
-    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:{
-      start_date:startDate,
-      end_date:endDate
-    }})
+    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:dateRangeDashboard})
   }, []);
 
 
