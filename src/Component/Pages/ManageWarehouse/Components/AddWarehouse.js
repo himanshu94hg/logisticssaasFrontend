@@ -22,139 +22,31 @@ const AddWarehouse = () => {
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
-    // const handleSubmit = async (event) => {
-    //     event.preventDefault();
-    //     try {
-    //         const seller = sellerData;
-    //         const warehouse_name = event.target.warehouse_name.value;
-    //         const address_line1 = event.target.address_line1.value;
-    //         const address_line2 = event.target.address_line2.value;
-    //         const contact_name = event.target.contact_name.value;
-    //         const contact_number = event.target.contact_number.value;
-    //         const support_email = event.target.support_email.value;
-    //         const support_phone = event.target.support_phone.value;
-    //         const gst_number = event.target.gst_number.value;
-    //         const country_code = "+91";
-    //         const pincode = event.target.pincode.value;
-    //         const city = event.target.city.value;
-    //         const state = event.target.state.value;
-    //         const country = event.target.country.value;
-
-    //         let rto_warehouse_name, rto_contact_person_name, rto_contact_number, rto_alternate_number, rto_email, rto_address, rto_landmark, rto_pincode, rto_city, rto_state, rto_country;
-
-    //         if (!SameRTO) {
-    //             rto_warehouse_name = warehouse_name;
-    //             rto_contact_person_name = contact_name;
-    //             rto_contact_number = contact_number;
-    //             rto_alternate_number = '';
-    //             rto_email = support_email;
-    //             rto_address = address_line1 + ', ' + address_line2;
-    //             rto_landmark = '';
-    //             rto_pincode = pincode;
-    //             rto_city = city;
-    //             rto_state = state;
-    //             rto_country = country;
-    //         } else {
-    //             rto_warehouse_name = event.target.rto_warehouse_name.value;
-    //             rto_contact_person_name = event.target.rto_contact_person_name.value;
-    //             rto_contact_number = event.target.rto_contact_number.value;
-    //             rto_alternate_number = event.target.rto_alternate_number.value;
-    //             rto_email = event.target.rto_email.value;
-    //             rto_address = event.target.rto_address.value;
-    //             rto_landmark = event.target.rto_landmark.value;
-    //             rto_pincode = event.target.rto_pincode.value;
-    //             rto_city = event.target.rto_city.value;
-    //             rto_state = event.target.rto_state.value;
-    //             rto_country = event.target.rto_country.value;
-    //         }
-
-    //         const formData = {
-    //             seller,
-    //             warehouse_name,
-    //             address_line1,
-    //             address_line2,
-    //             contact_number,
-    //             contact_name,
-    //             support_phone,
-    //             support_email,
-    //             gst_number,
-    //             country_code,
-    //             city,
-    //             state,
-    //             pincode,
-    //             country,
-    //             rto_details: {
-    //                 warehouse_name: rto_warehouse_name,
-    //                 contact_person_name: rto_contact_person_name,
-    //                 contact_number: rto_contact_number,
-    //                 alternate_number: rto_alternate_number,
-    //                 email: rto_email,
-    //                 address: rto_address,
-    //                 landmark: rto_landmark,
-    //                 pincode: rto_pincode,
-    //                 city: rto_city,
-    //                 state: rto_state,
-    //                 country: rto_country
-    //             }
-    //         };
-
-    //         const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData,{
-    //             headers: {
-    //                 'Authorization': `Bearer ${hardcodedToken}`,    
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         });
-
-    //         console.log('Response:', response);
-
-    //         if (response.status === 201) {
-    //             const responseData = response.data;
-    //             console.log('API Response:', responseData);
-    //             Swal.fire({
-    //                 icon: 'success',
-    //                 title: 'Success',
-    //                 text: 'Warehouse added successfully!',
-    //                 confirmButtonText: 'OK'
-    //             }).then(() => {
-    //                 const form = document.getElementById('formSubmit');
-    //                 const formInputs = form.querySelectorAll('input');
-    //                 formInputs.forEach(input => {
-    //                     input.value = null;
-    //                 });
-    //                 SetAddFields(false);
-    //                 setSameRTO(false);
-    //             });
-    //         } else {
-    //             const errorData = response.data;
-    //             console.error('API Error:', errorData);
-    //             Swal.fire({
-    //                 icon: 'error',
-    //                 title: 'Oops...',
-    //                 text: 'Failed to add warehouse. Please try again later.',
-    //                 confirmButtonText: 'OK'
-    //             });
-    //         }
-    //     } catch (error) {
-    //         console.error('Fetch Error:', error.message);
-    //         Swal.fire({
-    //             icon: 'error',
-    //             title: 'Oops...',
-    //             text: 'Failed to add warehouse. Please try again later.',
-    //             confirmButtonText: 'OK'
-    //         });
-    //     }
-    // };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // Get form data
+
             const warehouseName = event.target.warehouse_name.value;
             const contactName = event.target.contact_name.value;
             const contactNumber = event.target.contact_number.value;
             const gstNumber = event.target.gst_number.value;
             const addressLine1 = event.target.address_line1.value;
             const pincode = event.target.pincode.value;
+
+            const seller = sellerData;
+            const warehouse_name = event.target.warehouse_name.value;
+            const address_line1 = event.target.address_line1.value;
+            const address_line2 = event.target.address_line2.value;
+            const contact_name = event.target.contact_name.value;
+            const contact_number = event.target.contact_number.value;
+            const support_email = event.target.support_email.value;
+            const support_phone = event.target.support_phone.value;
+            const gst_number = event.target.gst_number.value;
+            const country_code = "+91";
+            const city = event.target.city.value;
+            const state = event.target.state.value;
+            const country = event.target.country.value;
 
             // Validate form fields
             const newErrors = {};
@@ -181,7 +73,101 @@ const AddWarehouse = () => {
                 return;
             }
 
-            // Rest of the form submission logic...
+
+            let rto_warehouse_name, rto_contact_person_name, rto_contact_number, rto_alternate_number, rto_email, rto_address, rto_landmark, rto_pincode, rto_city, rto_state, rto_country;
+
+            if (!SameRTO) {
+                rto_warehouse_name = warehouse_name;
+                rto_contact_person_name = contact_name;
+                rto_contact_number = contact_number;
+                rto_alternate_number = '';
+                rto_email = support_email;
+                rto_address = address_line1 + ', ' + address_line2;
+                rto_landmark = '';
+                rto_pincode = pincode;
+                rto_city = city;
+                rto_state = state;
+                rto_country = country;
+            } else {
+                rto_warehouse_name = event.target.rto_warehouse_name.value;
+                rto_contact_person_name = event.target.rto_contact_person_name.value;
+                rto_contact_number = event.target.rto_contact_number.value;
+                rto_alternate_number = event.target.rto_alternate_number.value;
+                rto_email = event.target.rto_email.value;
+                rto_address = event.target.rto_address.value;
+                rto_landmark = event.target.rto_landmark.value;
+                rto_pincode = event.target.rto_pincode.value;
+                rto_city = event.target.rto_city.value;
+                rto_state = event.target.rto_state.value;
+                rto_country = event.target.rto_country.value;
+            }
+
+            const formData = {
+                seller,
+                warehouse_name,
+                address_line1,
+                address_line2,
+                contact_number,
+                contact_name,
+                support_phone,
+                support_email,
+                gst_number,
+                country_code,
+                city,
+                state,
+                pincode,
+                country,
+                rto_details: {
+                    warehouse_name: rto_warehouse_name,
+                    contact_person_name: rto_contact_person_name,
+                    contact_number: rto_contact_number,
+                    alternate_number: rto_alternate_number,
+                    email: rto_email,
+                    address: rto_address,
+                    landmark: rto_landmark,
+                    pincode: rto_pincode,
+                    city: rto_city,
+                    state: rto_state,
+                    country: rto_country
+                }
+            };
+
+            const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData,{
+                headers: {
+                    'Authorization': `Bearer ${hardcodedToken}`,    
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log('Response:', response);
+
+            if (response.status === 201) {
+                const responseData = response.data;
+                console.log('API Response:', responseData);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'Warehouse added successfully!',
+                    confirmButtonText: 'OK'
+                }).then(() => {
+                    const form = document.getElementById('formSubmit');
+                    const formInputs = form.querySelectorAll('input');
+                    formInputs.forEach(input => {
+                        input.value = null;
+                    });
+                    SetAddFields(false);
+                    setSameRTO(false);
+                });
+            } else {
+                const errorData = response.data;
+                console.error('API Error:', errorData);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Failed to add warehouse. Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            }
         } catch (error) {
             console.error('Fetch Error:', error.message);
             Swal.fire({
