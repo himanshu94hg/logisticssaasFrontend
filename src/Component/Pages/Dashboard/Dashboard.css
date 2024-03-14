@@ -316,6 +316,16 @@
     margin: 1px !important;
 }
 
+.w-create-order text {
+    fill: #111;
+    transform: translate(1px, 3px);
+}
+
+.w-create-order .apexcharts-datalabels rect {
+    height: 21px;
+    width: 76px;
+}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {

@@ -63,7 +63,7 @@ const OrdersChart = () => {
 const WhatsAppCreateOrder = () => {
     return (
         <>
-            <div className="box-shadow shadow-sm p10">
+            <div className="box-shadow shadow-sm p10 w-create-order">
                 <h4 className="title">Create Order Flow</h4>
                 <OrdersChart />
             </div>
