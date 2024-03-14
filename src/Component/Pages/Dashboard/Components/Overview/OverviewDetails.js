@@ -78,9 +78,10 @@ const OverviewDetails = () => {
           ))} */}
           {ndrDetails && activeTab === "ndr" && <>
             {Object.entries(ndrDetails).map(([key, value]) => (
-              <div className='d-flex justify-content-between align-items-center' key={key}>
+              <div className='d-flex justify-content-between align-items-center w-100' key={key}>
                 <div className='counter-sets'>
                   <p>{value ? value : 0}</p>
+                  <hr />
                   <p>{capitalize(key)}</p>
                 </div>
               </div>
@@ -91,6 +92,7 @@ const OverviewDetails = () => {
               <div className='d-flex justify-content-between align-items-center' key={key}>
                 <div className='counter-sets'>
                   <p>{value ? value : 0}</p>
+                  <hr />
                   <p>{capitalize(key)}</p>
                 </div>
               </div>
@@ -101,6 +103,7 @@ const OverviewDetails = () => {
               <div className='d-flex justify-content-between align-items-center' key={key}>
                 <div className='counter-sets'>
                   <p>{value ? value : 0}</p>
+                  <hr />
                   <p>{capitalize(key)}</p>
                 </div>
               </div>

@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { HiArrowNarrowDown, HiArrowNarrowUp } from 'react-icons/hi';
+import EkartLogo from '../../../../../assets/image/integration/Ekart.png'
+import ShadowFax from '../../../../../assets/image/integration/ShadowFax.png'
+import Delhivery from '../../../../../assets/image/integration/Delhivery.png'
+import Bluedart from '../../../../../assets/image/integration/Bluedart.png'
+import XpressBees from '../../../../../assets/image/integration/XpressBees.png'
+import Professional from '../../../../../assets/image/integration/Professional.png'
 
 const TopRTOCourier = () => {
   const [loading, setLoading] = useState(false); // No loading state needed for dummy data
@@ -10,42 +16,42 @@ const TopRTOCourier = () => {
     {
       courier_partner: {
         title: "Ekart",
-        image: "https://www.shipease.in/public/assets/admin/images/20220608000026.png"
+        image: EkartLogo
       },
       rto_count: 20
     },
     {
       courier_partner: {
         title: "Shadowfax",
-        image: "https://www.shipease.in/public/assets/admin/images/20210102174032.jpeg"
+        image: ShadowFax
       },
       rto_count: 15
     },
     {
       courier_partner: {
         title: "Delhivery",
-        image: "https://www.shipease.in/public/assets/admin/images/20230708174144.jpeg"
+        image: Delhivery
       },
       rto_count: 15
     },
     {
       courier_partner: {
         title: "Bluedart",
-        image: "https://www.shipease.in/public/assets/admin/images/20230622130433.png"
+        image: Bluedart
       },
       rto_count: 15
     },
     {
       courier_partner: {
         title: "XpressBees",
-        image: "https://www.shipease.in/public/assets/admin/images/20210102174413.png"
+        image: XpressBees
       },
       rto_count: 15
     },
     {
       courier_partner: {
         title: "The Professional Courier",
-        image: "https://www.shipease.in/public/assets/admin/images/20231021174726.jpg"
+        image: Professional
       },
       rto_count: 15
     }

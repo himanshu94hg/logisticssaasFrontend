@@ -1,63 +1,107 @@
 import React, { useEffect, useState } from 'react'
-import SuccessZoneGraph from '../../../../../assets/image/SuccessZoneGraph.png'
-import axios from 'axios';
-import { Table } from 'react-bootstrap';
+import ReactApexChart from 'react-apexcharts';
+
+const TopStatusChart = () => {
+
+    const [chartHeight, setChartHeight] = useState(380);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const screenWidth = window.innerWidth;
+            // Adjust the chart width based on screen size
+            if (screenWidth >= 1694) {
+                setChartHeight(220); // for larger screens
+            } else if (screenWidth >= 768) {
+                setChartHeight(265); // for medium screens
+            } else {
+                setChartHeight(200); // default width for smaller screens
+            }
+        };
+
+        // Call the handleResize function on initial load
+        handleResize();
+
+        // Add event listener to window resize event
+        window.addEventListener('resize', handleResize);
+
+        // Clean up the event listener on component unmount
+        return () => window.removeEventListener('resize', handleResize);
+    }, []); // Empty dependency array ensures that this effect runs only once on component mount
+
+
+    const statusData = [
+        { status: 'Pending', count: 120 },
+        { status: 'In Progress', count: 250 },
+        { status: 'Completed', count: 180 },
+        { status: 'Cancelled', count: 90 },
+        { status: 'Delayed', count: 150 }
+    ];
+
+    const options = {
+        chart: {
+            type: 'bar',
+            height: 220 // Adjust the height here
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded'
+            },
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: statusData.map(item => item.status),
+            labels: {
+                rotate: -45,
+                style: {
+                    fontSize: '12px'
+                }
+            }
+        },
+        yaxis: {
+            title: {
+                text: ''
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (val) {
+                    return val;
+                }
+            }
+        },
+        colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'] // Set colors here
+    };
+
+    const seriesData = [{
+        name: 'Count',
+        data: statusData.map(item => item.count)
+    }];
+
+    return (
+        <div id="chart">
+            <ReactApexChart options={options} series={seriesData} type="bar" height={chartHeight} />
+        </div>
+    );
+};
 
 const MostViewedStatus = () => {
-    const [courierPartner, setCourierPartner] = useState([]);
-    // useEffect(() => {
-    //     axios.get('http://dev.shipease.in:8088/api/v1/shipment-overview/')
-    //         .then(response => {
-    //             setCourierPartner(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         });
-    // }, []);
     return (
         <>
-            <div className="box-shadow shadow-sm p10">
-                <div className="row">
-                    <div className="col">
-                        <h4 className="title">Top 5 most viewed status</h4>
-                    </div>
-                    <div className="table-responsive">
-                    {/* <Table hover className="table-ui">
-                        <thead>
-                            <tr>
-                                <th scope="col" style={{ width: '30%' }}>Courier Partner</th>
-                                <th scope="col">Allocation Number</th>
-                                <th scope="col" style={{ width: '20%' }}>Average TAT</th>
-                                <th scope="col" style={{ width: '20%' }}>Average Shipment</th>
-                                <th scope="col" style={{ width: '15%' }}>Total RTO %</th>
-                                <th scope="col" style={{ width: '15%' }}>Total NDR %</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {courierPartner.map((partner, index) => (
-                                <tr className="text-nowrap" key={index}>
-                                    <td>{partner.courier_partner}</td>
-                                    <td>{partner.total_awb_count}</td>
-                                    <td>Glossary</td>
-                                    <td>
-                                        <span className="text-green">
-                                            In Stock
-                                        </span>
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table> */}
-                    <div className="p-18px">
-                           <div className="text-center" style={{padding: "6rem"}}>
-                              <p className="noDataHeader">No Data Available</p>
-                              <img width="62" height="67" src="https://app.shiprocket.in/app/img/trackingpage/noData.png" alt=""/>
-                           </div>
-                        </div>
-                </div>
-                </div>
+            <div className="box-shadow shadow-sm p10" style={{ height: '284px' }}>
+                <h4 className="title">Top 5 most viewed status</h4>
+                <TopStatusChart />
             </div>
         </>
     )

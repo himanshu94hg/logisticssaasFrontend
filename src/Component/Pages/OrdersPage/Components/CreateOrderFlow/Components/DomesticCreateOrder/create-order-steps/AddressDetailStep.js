@@ -293,7 +293,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 </select>
                                 <input
                                     className={`input-field ${errors.mobile_number && 'input-field-error'}`}
-                                    type="text"
+                                    type="number"
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => handleChangeShiping(e, 'mobile_number')}
                                     placeholder='X X X X X X X X X X'
@@ -447,7 +447,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     </select>
                                     <input
                                         className={`input-field ${errors.billing_mobile_number && 'input-field-error'}`}
-                                        type="text"
+                                        type="number"
                                         value={formData.billing_details.mobile_number}
                                         onChange={(e) => handleChangeBilling(e, 'mobile_number')}
                                         placeholder='X X X X X X X X X X'

@@ -42,6 +42,7 @@
 
 .dashboard-table table.custom-table tr td {
     font-size: 1rem;
+    text-transform: capitalize;
 }
 
 .dashboard-table table.custom-table tr th {
@@ -216,13 +217,29 @@
     align-items: center;
     height: 60%;
     justify-content: space-between;
+    gap: 0.8rem;
 }
 
 .overview-details-counters .counter-sets {
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 1rem;
+    background: #26a0fc;
+    color: #fff;
+    border-radius: 0.5rem;
+    width: 100%;
 }
+
+.overview-details-counters .counter-sets hr {
+    border: none;
+    background: rgb(0, 0, 0);
+    background: linear-gradient(to right, #ffffff08, #fff, #ffffff08);
+    height: 2px;
+    width: 100%;
+    margin-block: 0 10px;
+}
+
 
 .top-rto-pincodes .pincode-search {
     width: auto;
@@ -276,6 +293,39 @@
     left: 28px;
 }
 
+.courier-dashboard .accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.courier-dashboard .counters-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, auto);
+    gap: 20px;
+}
+
+.subaccount-perf select {
+    min-width: unset;
+    height: auto;
+    padding-block: 5px;
+}
+
+.radial-bar .apexcharts-legend-series {
+    margin: 1px !important;
+}
+
+.w-create-order text {
+    fill: #111;
+    transform: translate(1px, 3px);
+}
+
+.w-create-order .apexcharts-datalabels rect {
+    height: 21px;
+    width: 76px;
+}
+
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
@@ -286,7 +336,7 @@
         right: 150px !important;
     }
 
-    .weight-profile-graph .apexcharts-legend-series {
+    .radial-bar .apexcharts-legend-series {
         margin: 0 !important;
     }
 

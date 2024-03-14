@@ -21,7 +21,8 @@ code {
 
 body {
   /* background-color: #CEDBF2 !important; */
-  background-color: #deebf7 !important;
+  /* background-color: #deebf7 !important; */
+  background-color: #eaf2fa !important;
   font-family: "Roboto", sans-serif;
 }
 
@@ -92,6 +93,10 @@ p {
 
 .bg-sh-primary {
   background: var(--sh-primary) !important;
+}
+
+.bg-sh-primary-light {
+  background: var(--sh-primary-light) !important;
 }
 
 .text-gray {
@@ -718,6 +723,6 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
   color: #fff;
 }
 
-.shadow-sm{
+.shadow-sm {
   box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
 }
