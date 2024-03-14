@@ -46,7 +46,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const Processing = ({ orders,handleSearch }) => {
+const Processing = ({ orders, handleSearch, setEditOrderSection }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -98,6 +98,10 @@ const Processing = ({ orders,handleSearch }) => {
     }
 
 
+    const openEditingSection = () => {
+        setEditOrderSection(true)
+    }
+
 
 
     return (
@@ -107,7 +111,7 @@ const Processing = ({ orders,handleSearch }) => {
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)}/>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>
@@ -181,16 +185,16 @@ const Processing = ({ orders,handleSearch }) => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                            <p className=''>
-                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
-                                                    :"" }
+                                                <p className=''>
+                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                                    : ""}
                                                     &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -239,25 +243,23 @@ const Processing = ({ orders,handleSearch }) => {
                                                 <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
+                                        {/* pickup adress */}
                                         <td className='align-middle'>
-                                            {/* pickup adress */}
-                                            <td className='align-middle'>
-                                                <div className='cell-inside-box'>
-                                                    <p>{row?.pickup_details?.p_warehouse_name}
-                                                        <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.pickup_details?.p_address_line1},
-                                                                {row?.pickup_details?.p_address_line2},<br />
-                                                                {row?.pickup_details?.p_city},
-                                                                {row?.pickup_details?.p_state},
-                                                                {row?.pickup_details?.p_pincode}
-                                                            </span>
+                                            <div className='cell-inside-box'>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1},
+                                                            {row?.pickup_details?.p_address_line2},<br />
+                                                            {row?.pickup_details?.p_city},
+                                                            {row?.pickup_details?.p_state},
+                                                            {row?.pickup_details?.p_pincode}
                                                         </span>
-                                                    </p>
+                                                    </span>
+                                                </p>
 
-                                                </div>
-                                            </td>
+                                            </div>
                                         </td>
 
 
@@ -274,7 +276,7 @@ const Processing = ({ orders,handleSearch }) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Edit Order</li>
+                                                            <li onClick={openEditingSection}>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
