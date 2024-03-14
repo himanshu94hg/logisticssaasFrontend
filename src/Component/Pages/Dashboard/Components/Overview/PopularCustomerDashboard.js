@@ -4,6 +4,7 @@ import { BiSolidBadgeCheck } from "react-icons/bi";
 import { FaStar } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { percentage } from "../../../../../customFunction/percentage";
 
 
 function PopularCustomerDashboard() {
@@ -53,8 +54,9 @@ function PopularCustomerDashboard() {
   }, [])
 
   const {mostPopularCusData}=useSelector(state=>state?.dashboardOverviewReducer)
+  const total=mostPopularCusData.reduce((acc,data)=>acc+data.count,0)
 
-  console.log(mostPopularCusData,"this is most popular dtaa")
+  console.log(mostPopularCusData,"this is most popular dtaa",total)
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -64,19 +66,19 @@ function PopularCustomerDashboard() {
           <li>
             <div className="d-flex align-items-top justify-content-center">
               <div>
-                <p className="mb-0 bold-600 font13 mr-5" style={{ width: '150px' }}>{customer.b_customer_name}</p>
+                <p className="mb-0 bold-600 font13 mr-5" style={{ width: '150px' }}>{customer.recipient_name}</p>
                 <span className="font13 text-gray">
-                  {customer.total_bookings} Purchases{" "}
-                  <BiSolidBadgeCheck className="font15 text-sh-primary" />{" "}
+                  {customer.count} Purchases{" "}
+                  <BiSolidBadgeCheck className="font15 text-sh-primary" />
                 </span>
               </div>
             </div>
           </li>
           <li className="w50">
             <div className="d-flex justify-content-between">
-              <p className="font12 bold-600 mb-10">{renderStars(customer.rating_percentage)}</p>
+              <p className="font12 bold-600 mb-10">{renderStars(90)}</p>
               <p className="font12 bold-600 mb-10">
-                <span className="text-gray-light ">({customer.rating_percentage}%)</span>
+                <span className="text-gray-light ">{percentage(customer.count,total)}</span>
               </p>
             </div>
 

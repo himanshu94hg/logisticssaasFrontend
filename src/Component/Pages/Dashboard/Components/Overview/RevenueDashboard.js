@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { AiOutlineArrowUp } from "react-icons/ai";
-import axios from "axios";
+import moment from "moment";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import moment from "moment";
+import React, { useState, useEffect } from "react";
+import { AiOutlineArrowUp } from "react-icons/ai";
 
 function RevenueDashboard() {
   const dispatch = useDispatch()

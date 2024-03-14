@@ -1,37 +1,19 @@
 import React, {useEffect} from 'react';
 import ReactApexChart from 'react-apexcharts';
 import {useDispatch, useSelector} from "react-redux";
+import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const MixedWeightChart = () => {
-
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const currentDate = new Date();
-    const startDate = new Date(currentDate);
-    startDate.setDate(startDate.getDate() - 30);
-
-    const formattedStartDate = formatDate(startDate);
-    const formattedEndDate = formatDate(currentDate);
-
     dispatch({
       type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION",
-      payload: {
-        start_date: formattedStartDate,
-        end_date: formattedEndDate
-      }
+      payload:dateRangeDashboard
     });
-  }, [dispatch]);
+  }, []);
 
   const deliveryData = useSelector(state => state?.dashboardOverviewReducer.weightDispenceryData);
-  console.log(deliveryData, "weightDispenceryData Performance Data");
-
-  const formatDate = (date) => {
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
 
   const seriesData = [
     {

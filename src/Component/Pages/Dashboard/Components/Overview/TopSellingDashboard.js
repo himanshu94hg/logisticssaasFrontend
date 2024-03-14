@@ -2,8 +2,12 @@ import moment from "moment";
 import React, { useEffect, } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
+import { percentage } from "../../../../../customFunction/percentage";
 
 function CustomTable({ data }) {
+
+ const total=data.reduce((acc,data)=>acc+data.total,0) 
+
   return (
     <table className="custom-table w-100">
       <thead>
@@ -23,10 +27,10 @@ function CustomTable({ data }) {
             <td>{product.total}</td>
             <td>
               <span className="text-green">
-                {product.deliveredPercentage}%
+                {percentage(product.total,total)}
               </span>
             </td>
-            <td>{product.rtoPercentage}%</td>
+            <td>  {percentage(product.total,total)}</td>
           </tr>
         ))}
       </tbody>

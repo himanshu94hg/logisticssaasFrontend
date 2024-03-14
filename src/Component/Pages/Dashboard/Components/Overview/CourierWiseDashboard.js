@@ -9,6 +9,8 @@ import Delhivery from '../../../../../assets/image/integration/Delhivery.png'
 import Bluedart from '../../../../../assets/image/integration/Bluedart.png'
 import XpressBees from '../../../../../assets/image/integration/XpressBees.png'
 import Professional from '../../../../../assets/image/integration/Professional.png'
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
+import { percentage } from "../../../../../customFunction/percentage";
 
 function CourierWiseDashboard() {
   const dispatch = useDispatch();
@@ -26,29 +28,33 @@ function CourierWiseDashboard() {
 
   useEffect(() => {
     dispatch({
-      type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload: {
-        start_date:startDate,
-        end_date:endDate
-      }
+      type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload:dateRangeDashboard
     })
   }, [])
 
   const {courierWiseData}=useSelector(state=>state?.dashboardOverviewReducer)
+
+  const totalValue = courierWiseData.reduce((acc, courier) => acc + courier.value, 0);
+
+
+
+
+  console.log(courierWiseData,"courierWiseData")
 
 
   return (
     <div className="box-shadow shadow-sm p10">
       <h4 className="title">Courier Wise allocation</h4>
       <ul className="list-ui list-ui-point mt20">
-        {cData.map((courier, index) => (
+        {courierWiseData.map((courier, index) => (
           <li key={index} className="">
             <p className="font12 bold-600 mb-10">
-              <img src={courier.image_url} className="inline-block" alt={courier.courier_partner.title} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
-              <span className="ms-2">{courier.courier_partner}</span>
+              <img src={courier.courier_image} className="inline-block" alt={courier.courier_name} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
+              <span className="ms-2">{courier.courier_name}</span>
             </p>
             <p className="font12 bold-600 mb-10">
-              <HiMiniArrowTrendingUp className=" font15 text-green" /> {courier.total_percentage}
-              <span className="text-gray-light ">({(courier.total_percentage * 100).toFixed(2)}%)</span>
+              <HiMiniArrowTrendingUp className=" font15 text-green" /> {courier.value}
+              <span className="text-gray-light ">{percentage(courier.value,totalValue)}</span>
             </p>
           </li>
         ))}

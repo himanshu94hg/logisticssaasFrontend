@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import moment from "moment";
+import { percentage } from "../../../../../customFunction/percentage";
 
 function TotalShipment() {
   const dispatch = useDispatch()
@@ -44,9 +45,9 @@ function TotalShipment() {
     }})
   }, [])
 
-  const percentage = (value) => {
-    return  totalShipment===0?`(0)%`: `(${parseInt((value / totalShipment) * 100)}%)`
-  }
+  // const percentage = (value,totalShipment) => {
+  //   return  totalShipment===0?`(0)%`: `(${parseInt((value / totalShipment) * 100)}%)`
+  // }
 
 
   return (
@@ -84,7 +85,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Delivered</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders)}
+                        {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders,totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -105,7 +106,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">In Transit</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.intransit_orders} {percentage(shimpmetCard?.intransit_orders)}
+                        {shimpmetCard?.intransit_orders} {percentage(shimpmetCard?.intransit_orders,totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -126,7 +127,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">NDR</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.ndr_orders} {percentage(shimpmetCard?.ndr_orders)}
+                        {shimpmetCard?.ndr_orders} {percentage(shimpmetCard?.ndr_orders,totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -147,7 +148,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Out For Delivery</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.out_for_delivery}  {percentage(shimpmetCard?.out_for_delivery)}
+                        {shimpmetCard?.out_for_delivery}  {percentage(shimpmetCard?.out_for_delivery,totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -168,7 +169,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Picked Up</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.picked_up_orders}   {percentage(shimpmetCard?.picked_up_orders)}
+                        {shimpmetCard?.picked_up_orders}   {percentage(shimpmetCard?.picked_up_orders,totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -189,7 +190,7 @@ function TotalShipment() {
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Shipped</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.shipped_orders}   {percentage(shimpmetCard?.shipped_orders)}
+                        {shimpmetCard?.shipped_orders}   {percentage(shimpmetCard?.shipped_orders,totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">

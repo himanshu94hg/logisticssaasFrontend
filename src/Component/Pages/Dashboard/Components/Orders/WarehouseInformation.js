@@ -1,21 +1,10 @@
 
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import IndiaMap from '../../../../../assets/image/IndiaMap.png';
 
 const WarehouseInformation = () => {
     const [stateAllocation, setStateAllocation] = useState([]);
 
-    // useEffect(() => {
-    //     axios.get('http://dev.shipease.in:8088/api/v1/state-wise-order/')
-    //         .then(response => {
-    //             setStateAllocation(response.data);
-    //         })
-    //         .catch(error => {
-    //             console.error('Error fetching data:', error);
-    //         });
-    // }, []);
-    
     return (
         <div className="box-shadow shadow-sm p10 state-wise-card">
             <div className="card-heading">
