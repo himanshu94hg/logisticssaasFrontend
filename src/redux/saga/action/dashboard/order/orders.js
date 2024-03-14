@@ -175,7 +175,7 @@ function* skuProductAction(action) {
     try {
         let response = yield call(skuProductApi, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);

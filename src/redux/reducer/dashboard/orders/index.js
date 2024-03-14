@@ -49,6 +49,7 @@ export const dashboardOrderReducer = (state = initialState, action) => {
                 warehouseData: action?.payload
             };
         case GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA:
+          console.log(action,"this is my sku data")
             return {
                 ...state,
                 skuProductData: action?.payload

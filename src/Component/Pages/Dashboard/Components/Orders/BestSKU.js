@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const ParentComponent = () => {
     // Dummy data for products including unit sold and revenue
@@ -27,6 +28,10 @@ const ParentComponent = () => {
 
     // State to track the selected option
     const [selectedOption, setSelectedOption] = useState('unitsSold');
+
+    const {skuProductData}=useSelector(state=>state?.dashboardOrderReducer)
+
+    console.log(skuProductData,"skuProductDataskuProductData")
 
     // Function to handle select change
     const handleSelectChange = (event) => {

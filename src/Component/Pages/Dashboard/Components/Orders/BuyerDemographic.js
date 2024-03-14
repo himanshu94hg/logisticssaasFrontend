@@ -6,6 +6,8 @@ import { useSelector } from 'react-redux';
 const BuyerDemographic = ({}) => {
 const {buyerDemographicCard}=useSelector(state=>state?.dashboardOrderReducer)
 
+console.log(buyerDemographicCard,"buyerDemographicCard")
+
     return (
         <>
             <div className="box-shadow shadow-sm p10">
