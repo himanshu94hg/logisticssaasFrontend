@@ -1,50 +1,61 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactApexChart from 'react-apexcharts';
 
-const WhatsAppOrdersChart = () => {
-    const [chartData, setChartData] = useState({
-        series: [{
-            name: 'WhatsApp Orders',
-            data: [20, 25, 30, 35, 40] // Sample data for weeks 1 to 5
-        }],
-        options: {
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '55%',
-                    endingShape: 'rounded'
+const OrdersChart = () => {
+    const seriesData = [42, 47, 52, 58, 65];
+    const labels = ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'];
+
+    const options = {
+        chart: {
+            width: 380,
+            type: 'polarArea'
+        },
+        labels: labels,
+        fill: {
+            opacity: 1
+        },
+        stroke: {
+            width: 1,
+            colors: undefined
+        },
+        yaxis: {
+            show: false
+        },
+        legend: {
+            position: 'bottom'
+        },
+        plotOptions: {
+            polarArea: {
+                rings: {
+                    strokeWidth: 0
                 },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-            },
-            yaxis: {
-                title: {
-                    text: 'Number of Orders'
-                }
-            },
-            colors: ['#1975C9', '#1975C9', '#1975C9', '#1975C9', '#1975C9'], // Set colors here
-            fill: {
-                opacity: 1
+                spokes: {
+                    strokeWidth: 0
+                },
+            }
+        },
+        dataLabels: {
+            enabled: true, // Enable data labels
+            enabledOnSeries: undefined, // By default, enable data labels on all series
+            textAnchor: 'middle',
+            formatter: function (val, { seriesIndex, w }) {
+                return labels[seriesIndex] + ': ' + w.config.series[seriesIndex]; // Display week label and absolute value
+            }
+        },
+        theme: {
+            monochrome: {
+                enabled: true,
+                shadeTo: 'light',
+                shadeIntensity: 0.6
             }
         }
-    });
+    };
 
     return (
-        <div id="chart">
-            <ReactApexChart options={chartData.options} series={chartData.series} type="bar" height={350} />
+        <div>
+            <div id="chart">
+                <ReactApexChart options={options} series={seriesData} type="polarArea" width={380} />
+            </div>
         </div>
     );
 }
@@ -54,7 +65,7 @@ const WhatsAppCreateOrder = () => {
         <>
             <div className="box-shadow shadow-sm p10">
                 <h4 className="title">Create Order Flow</h4>
-                <WhatsAppOrdersChart />
+                <OrdersChart />
             </div>
         </>
     )

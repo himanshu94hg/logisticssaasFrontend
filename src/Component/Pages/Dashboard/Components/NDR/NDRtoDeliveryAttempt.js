@@ -19,7 +19,8 @@ const ApexChart = () => {
                     }
                 }
             }],
-            labels: ['1st Attempt', '2nd Attempt', '3rd Attempt'] // Change the legend text here
+            labels: ['1st Attempt', '2nd Attempt', '3rd Attempt'], // Change the legend text here
+            colors: ['#1975C9', '#60a9eb', '#C5DCF1'] // Set custom colors here
         }
     });
 
