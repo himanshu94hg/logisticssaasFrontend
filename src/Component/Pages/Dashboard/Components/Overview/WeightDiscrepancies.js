@@ -1,17 +1,48 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import ReactApexChart from 'react-apexcharts';
+import {useDispatch, useSelector} from "react-redux";
 
 const MixedWeightChart = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const currentDate = new Date();
+    const startDate = new Date(currentDate);
+    startDate.setDate(startDate.getDate() - 30);
+
+    const formattedStartDate = formatDate(startDate);
+    const formattedEndDate = formatDate(currentDate);
+
+    dispatch({
+      type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION",
+      payload: {
+        start_date: formattedStartDate,
+        end_date: formattedEndDate
+      }
+    });
+  }, [dispatch]);
+
+  const deliveryData = useSelector(state => state?.dashboardOverviewReducer.weightDispenceryData);
+  console.log(deliveryData, "weightDispenceryData Performance Data");
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const seriesData = [
     {
       name: 'Total Orders',
       type: 'column',
-      data: [60, 40, 80, 70, 50], // Total orders for the last 5 weeks
+      data: deliveryData?.map(item=>item.total_order), // Total orders for the last 5 weeks
     },
     {
       name: 'Orders with Discrepancies',
       type: 'line',
-      data: [30, 20, 40, 35, 25], // Orders with discrepancies for the last 5 weeks
+      data: deliveryData?.map(item=>item.disputed_order), // Orders with discrepancies for the last 5 weeks
     },
   ];
 
@@ -36,7 +67,7 @@ const MixedWeightChart = () => {
     },
     xaxis: {
       type: 'category',
-      categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'], // Explicitly specify categories
+      categories: deliveryData?.map(item=>`Week ${item.week}`),
       labels: {
         rotateAlways: true, // Rotate labels always
         rotate: -45,

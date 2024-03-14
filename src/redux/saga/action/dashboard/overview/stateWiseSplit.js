@@ -4,7 +4,8 @@ import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
 import {  DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION, DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION, DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION, DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION, DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION, } from "../../../constant/dashboard/overview";
-import { GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA, GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, GET_DASHBOARD_OVERVIEW_STATEWISE_DATA,GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA } from "../../../../constants/dashboard/overview";
+import { GET_DASHBOARD_OVERVIEW_STATEWISE_DATA,GET_DASHBOARD_OVERVIEW_WEIGHT_DISPENCERY_DATA,GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA, } from "../../../../constants/dashboard/overview";
+import { GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA, GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, } from "../../../../constants/dashboard/overview";
 
 //LAST ORDER API'S
 async function splitWiseStateAPI(data) {
@@ -77,7 +78,6 @@ function* courierwiseAllocationAction(action) {
 
 //GET_DASHBOARD_OVERVIEW_MOST_POPULAR CUSTOMER API'S
 async function mostPopularCustomerAPI(data) {
-    console.log(data,"this is data")
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
 
     let listData = axios.request({
@@ -106,7 +106,7 @@ async function  weightDiscrepanciesAPI(data) {
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES}?${queryParams}`,
-        // data: data
+        data: data
     });
     return listData
 }
@@ -115,7 +115,7 @@ function*  weightDiscrepanciesAction(action) {
     try {
         let response = yield call( weightDiscrepanciesAPI, payload);
         if (response.status === 200) {
-            // yield put({ type: GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, payload: response?.data })
+            yield put({ type: GET_DASHBOARD_OVERVIEW_WEIGHT_DISPENCERY_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
