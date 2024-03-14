@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
-const CanceledOrdersChart = () => {
+const CanceledOrdersChart = ({orderCancelled}) => {
     const canceledOrdersData = [
         { week: 'Week 1', count: 10 },
         { week: 'Week 2', count: 41 },
@@ -55,12 +56,14 @@ const CanceledOrdersChart = () => {
 
 function CancelOrder() {
 
+    const {orderCancelled}=useSelector(state=>state?.dashboardOrderReducer)
+
     return (
         <div className="box-shadow shadow-sm p10">
             <div className="row">
                 <div className="col">
                     <h4 className="title">Cancel Orders</h4>
-                    <CanceledOrdersChart />
+                    <CanceledOrdersChart orderCancelled={orderCancelled} />
                 </div>
             </div>
         </div>

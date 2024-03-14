@@ -46,12 +46,12 @@ export const API_URL = {
   GET_DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES: "/orders-api/dashboard/overview/weight-discrepancy/",
 
   //DASHBOARD ORDERS API'S 
-  GET_DASHBOARD_ORDERS_STORE_BASED: "/orders-api/dashboard/orders/store_based_orders/",
+  GET_DASHBOARD_ORDERS_STORE_BASED: "/orders-api/dashboard/orders/store-based-orders/",
   GET_DASHBOARD_ORDERS_COUNT: "/orders-api/dashboard/order-count/",
   GET_DASHBOARD_ORDERS_CANCELLED_ORDERS: "/orders-api/dashboard/orders/cancelled-orders-api/",
   GET_DASHBOARD_ORDERS_MPS_ORDER: "/orders-api/dashboard/orders/mps-order/",
   GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC: "/orders-api/dashboard/buyer-demographic/",
-  GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER: " /orders-api/dashboard/orders/prepaid-cod-counter/",
+  GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER: "/orders-api/dashboard/orders/prepaid-cod-counter/",
   GET_DASHBOARD_ORDERS_WAREHOUSE_INFN: "/orders-api/dashboard/orders/warehouse-information/",
   GET_DASHBOARD_ORDERS_BEST_SKU_PROJECT: "/orders-api/dashboard/orders/best-sku-product/",
 
