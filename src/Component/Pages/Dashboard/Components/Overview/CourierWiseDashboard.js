@@ -1,4 +1,3 @@
-import moment from "moment";
 import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { HiMiniArrowTrendingUp } from 'react-icons/hi2';
@@ -10,12 +9,11 @@ import Bluedart from '../../../../../assets/image/integration/Bluedart.png'
 import XpressBees from '../../../../../assets/image/integration/XpressBees.png'
 import Professional from '../../../../../assets/image/integration/Professional.png'
 import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
-import { percentage } from "../../../../../customFunction/percentage";
+import { percentage } from "../../../../../customFunction/functionLogic";
+
 
 function CourierWiseDashboard() {
   const dispatch = useDispatch();
-  const endDate = moment(new Date()).format("YYYY-MM-DD")
-  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
 
   const [cData] = useState([
     { courier_partner: "eKart", total_percentage: 0.75, image_url: EkartLogo },
@@ -33,14 +31,7 @@ function CourierWiseDashboard() {
   }, [])
 
   const {courierWiseData}=useSelector(state=>state?.dashboardOverviewReducer)
-
   const totalValue = courierWiseData.reduce((acc, courier) => acc + courier.value, 0);
-
-
-
-
-  console.log(courierWiseData,"courierWiseData")
-
 
   return (
     <div className="box-shadow shadow-sm p10">

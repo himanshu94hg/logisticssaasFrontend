@@ -21,7 +21,7 @@ function* ordersStoreBasedAction(action) {
     try {
         let response = yield call(ordersStoreBasedAPI, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_STORE_BASED_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_STORE_BASED_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
@@ -43,7 +43,7 @@ function* ordersCountAction(action) {
     try {
         let response = yield call(ordersCountAPI, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_COUNT_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_COUNT_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
@@ -65,7 +65,7 @@ function* ordersCancelledAction(action) {
     try {
         let response = yield call(ordersCancelledAPI, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_CANCELLED_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_CANCELLED_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);

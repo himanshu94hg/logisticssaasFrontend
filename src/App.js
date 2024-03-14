@@ -136,7 +136,7 @@ function App() {
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
-            <Route path={signUpPattern} element={<SignUpPage />} />
+            {/* <Route path={signUpPattern} element={<SignUpPage />} /> */}
           </Routes>
         </div>
       </div>
