@@ -217,6 +217,7 @@ const KYCInfo = ({ activeTab }) => {
                     <input
                       className="input-field"
                       type="text"
+                      placeholder='Enter document name'
                       name="document_name"
                       value={formData.document_name}
                       onChange={handleChange}
@@ -227,6 +228,7 @@ const KYCInfo = ({ activeTab }) => {
                     Document Number:
                     <input
                       className="input-field"
+                      placeholder='Enter document number'
                       type="text"
                       name="document_id"
                       value={formData.document_id}
