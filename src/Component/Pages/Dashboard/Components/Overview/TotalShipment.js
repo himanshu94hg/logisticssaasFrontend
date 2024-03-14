@@ -2,11 +2,15 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
+import moment from "moment";
 
 function TotalShipment() {
   const dispatch = useDispatch()
   const [data, setData] = useState(null);
   const [totalShipment, setTotalShipment] = useState(null);
+  const endDate = moment(new Date()).format("YYYY-MM-DD")
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
+  
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
   useEffect(() => {
@@ -34,11 +38,14 @@ function TotalShipment() {
   const colorScale = getColorScale();
 
   useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION" })
+    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION",payload:{
+      start_date:startDate,
+      end_date:endDate
+    }})
   }, [])
 
   const percentage = (value) => {
-    return `(${parseInt((value / totalShipment) * 100)}%)`
+    return  totalShipment===0?`(0)%`: `(${parseInt((value / totalShipment) * 100)}%)`
   }
 
 

@@ -1,9 +1,13 @@
+import moment from "moment";
+import { useDispatch } from "react-redux";
 import React, { useEffect, useState } from "react";
 import { HiMiniArrowTrendingUp } from 'react-icons/hi2';
-import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 function CourierWiseDashboard() {
   const dispatch = useDispatch();
+  const endDate = moment(new Date()).format("YYYY-MM-DD")
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
 
   const [cData] = useState([
     { courier_partner: "eKart", total_percentage: 0.75, image_url: 'https://www.shipease.in/public/assets/admin/images/20220608000026.png' },
@@ -17,11 +21,16 @@ function CourierWiseDashboard() {
   useEffect(() => {
     dispatch({
       type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload: {
-        start_date: "2024-02-11",
-        end_date: "2024-03-11"
+        start_date:startDate,
+        end_date:endDate
       }
     })
   }, [])
+
+  const {courierWiseData}=useSelector(state=>state?.dashboardOverviewReducer)
+
+  console.log(courierWiseData,"courierWiseDatacourierWiseDatacourierWiseData")
+  
 
   return (
     <div className="box-shadow shadow-sm p10">

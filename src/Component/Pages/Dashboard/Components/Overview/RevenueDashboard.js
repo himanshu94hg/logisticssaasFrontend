@@ -3,12 +3,16 @@ import { AiOutlineArrowUp } from "react-icons/ai";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import moment from "moment";
 
 function RevenueDashboard() {
+  const dispatch = useDispatch()
   const [selectedInterval, setSelectedInterval] = useState("1W");
   const [revenueData, setRevenueData] = useState({ prepade_revenue_data: 0, cod_revenue_data: 0 });
   const [totalSumOrder, setTotalSumOrder] = useState(0);
-  const dispatch = useDispatch()
+  const endDate = moment(new Date()).format("YYYY-MM-DD")
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
+
   const fetchRevenueData = (interval) => {
     const endpointMap = {
       "1D": "one-day-revenue",
@@ -28,7 +32,10 @@ function RevenueDashboard() {
   }, [selectedInterval]);
 
   useEffect(() => {
-    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION"})
+    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:{
+      start_date:startDate,
+      end_date:endDate
+    }})
   }, []);
 
 

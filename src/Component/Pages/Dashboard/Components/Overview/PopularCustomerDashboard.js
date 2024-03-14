@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import moment from "moment/moment";
+import React, { useEffect, useState } from "react";
 import { BiSolidBadgeCheck } from "react-icons/bi";
 import { FaStar } from "react-icons/fa6";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 
 function PopularCustomerDashboard() {
+
+  const endDate = moment(new Date()).format("YYYY-MM-DD"); // Current date
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); // One month ago
+
+  console.log("Start Date:", startDate);
+  console.log("End Date:", endDate);
+
   // Dummy data to simulate the response from the API
   const dummyData = [
     {
@@ -31,11 +41,25 @@ function PopularCustomerDashboard() {
     return stars;
   };
 
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch({
+      type: 'DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION', payload: {
+        start_date: startDate,
+        end_date: endDate
+      }
+    })
+  }, [])
+
+  const {mostPopularCusData}=useSelector(state=>state?.dashboardOverviewReducer)
+
+  console.log(mostPopularCusData,"this is most popular dtaa")
 
   return (
     <div className="box-shadow shadow-sm p10">
       <h4 className="title">Most Popular Customers</h4>
-      {popularCustomers.map((customer, index) => (
+      {mostPopularCusData?.map((customer, index) => (
         <ul key={index} className="d-flex justify-content-between align-items-center p0 list-none">
           <li>
             <div className="d-flex align-items-top justify-content-center">

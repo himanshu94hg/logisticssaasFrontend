@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -38,10 +39,15 @@ function CustomTable({ data }) {
 function TableDashboard() {
   const dispatch=useDispatch()
   const [isLoading, setIsLoading] = useState(false);
+  const endDate = moment(new Date()).format("YYYY-MM-DD")
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
   const {lastOrders}=useSelector(state=>state?.dashboardOverviewReducer)
 
   useEffect(()=>{
-    dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION"})
+    dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION",payload:{
+      start_date:startDate,
+      end_date:endDate
+    }})
   },[])
 
   // Dummy data array

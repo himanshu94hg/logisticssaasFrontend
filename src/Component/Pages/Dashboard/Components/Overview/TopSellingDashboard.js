@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useEffect, } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -35,13 +36,15 @@ function CustomTable({ data }) {
 
 function TopSellingDashboard() {
   const dispatch = useDispatch()
+  const endDate = moment(new Date()).format("YYYY-MM-DD")
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
   const { topSellCard } = useSelector(state => state?.dashboardOverviewReducer)
 
   useEffect(() => {
     dispatch({
       type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: {
-        start_date: "2023-12-01",
-        end_date: "2024-03-11"
+        start_date:startDate,
+        end_date:endDate
       }
     })
   }, [])

@@ -9,6 +9,7 @@ import Graph from "../../../../common/Graph/Graph";
 import LineGraph from "../../../../common/Graph/LineGraph";
 import DataTable from "./DataTable/DataTable";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 
 function TotalInfoDashboard() {
   const dispatch = useDispatch()
@@ -16,9 +17,14 @@ function TotalInfoDashboard() {
   const [dailyShipment, setDailyShipment] = useState(null);
   const [totalCustomer, setTotalCustomer] = useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
+  const endDate = moment(new Date()).format("YYYY-MM-DD")
+  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
 
   useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION" })
+    dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION",payload:{
+      start_date:startDate,
+      end_date:endDate
+    }})
   }, [])
 
   const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
