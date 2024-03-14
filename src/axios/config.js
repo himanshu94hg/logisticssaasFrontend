@@ -25,8 +25,8 @@ export const API_URL = {
   GET_COURIER_PARTNER_NAME: "/core-api/shipease-admin/partners/",
   GET_COURIER_SERVICE_PINCODE: "/courier-api/courier/tools/download-service-pincode/",
   GET_COURIER_ALLOCATION: "/courier-api/courier/tools/download-service-pincode/",
-    GET_COURIER_ALLOCATION_PARTNER:"/core-api/features/courier-category/",
-    GET_COURIER_POST_ALLOCATION:"/core-api/seller/tools/save-general-preference/",
+  GET_COURIER_ALLOCATION_PARTNER: "/core-api/features/courier-category/",
+  GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
 
 
@@ -46,6 +46,6 @@ export const API_URL = {
   GET_DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES: "/orders-api/dashboard/overview/weight-discrepancy/",
 
   //DASHBOARD ORDERS API'S 
-  GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC:"/orders-api/dashboard/buyer-demographic/"
+  GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC: "/orders-api/dashboard/buyer-demographic/"
 
 };
