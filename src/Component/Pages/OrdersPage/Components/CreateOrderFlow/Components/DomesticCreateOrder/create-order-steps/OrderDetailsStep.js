@@ -233,12 +233,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             <label style={{ width: '100%' }} className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
                                 Number of packets
                                 <input
-                                    type="number"
+                                    type="text"
                                     className='input-field'
-                                    value={formData.other_details.number_of_packets || '1'}
+                                    value={formData.other_details.number_of_packets || 0}
                                     onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
+                                    placeholder='Enter Number of Packets'
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                             </label>
+
                         </div>
                     </div>
                     {/* Add Payment Fields Section */}
