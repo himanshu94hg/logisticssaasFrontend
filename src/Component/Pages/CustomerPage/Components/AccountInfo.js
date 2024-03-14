@@ -9,6 +9,7 @@ import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { toast } from 'react-toastify';
 import Modal from "react-bootstrap/Modal";
 import {Document, Page} from "react-pdf";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -224,11 +225,13 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
+  const [handelAWSImage, sethandelAWSImage] = useState("");
   const [previewImage, setPreviewImage] = useState("");
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = async (pdfUrl) => {
     try {
+      sethandelAWSImage(pdfUrl)
       const response = await axios.get(pdfUrl, {
         responseType: 'blob'
       });
@@ -241,7 +244,7 @@ const AccountInfo = ({ activeTab }) => {
     }
   }
 
-  console.log("imagesData",previewImage)
+  console.log("handelAWSImage",handelAWSImage)
 
   return (
       <>
@@ -293,12 +296,14 @@ const AccountInfo = ({ activeTab }) => {
                                 <button
                                     className='eye-button'
                                     type='button'
-                                    onClick={() => handleShow(account.cheque_image)}
+                                    onClick={() => {
+                                        handleShow(account.cheque_image);
+                                    }}
                                 >
-                                  <FontAwesomeIcon icon={faEye} />
+                                    <FontAwesomeIcon icon={faEye} />
                                 </button>
                             )}
-                          </label>
+                        </label>
                         </div>
                       </div>
                     </div>
@@ -340,27 +345,31 @@ const AccountInfo = ({ activeTab }) => {
             onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
             className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}
         ></div>
-
-        <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
+        <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} handelAWSImage={handelAWSImage} />
       </>
   );
 };
 
 export default AccountInfo;
 
-function Preview({ show, handleClose, previewImage }) {
+function Preview({ show, handleClose, previewImage, handelAWSImage }) {
+  const isPDF = handelAWSImage && handelAWSImage.endsWith('.pdf');
+  console.log(handelAWSImage,"Pdf")
+
   return (
-      <Modal show={show} onHide={handleClose} >
-        <Modal.Header closeButton>
-          <Modal.Title>PDF Preview</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {previewImage ? (
-              <img src={previewImage} width={"100%"} height={"400px"} alt="" />
-          ) : (
-              <h2 className='p-4'>No image or document available!</h2>
-          )}
-        </Modal.Body>
-      </Modal>
+    <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '670px', overflow: 'hidden' }} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Image/PDF Preview</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {isPDF ? (
+          <Document file={previewImage}>
+            <Page pageNumber={1} width={400} />
+          </Document>
+        ) : (
+          <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+        )}
+      </Modal.Body>
+    </Modal>
   );
 }
