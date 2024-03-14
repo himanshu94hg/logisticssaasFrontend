@@ -107,7 +107,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
         }
     };
     const handleCustomerOrderNumberChange = (e) => {
-        const value = e.target.value.replace(alphaNumReg, '');
+        const value = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
             ...prevData,
             order_details: {
