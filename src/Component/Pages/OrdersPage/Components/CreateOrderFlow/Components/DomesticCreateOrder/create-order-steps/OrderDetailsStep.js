@@ -39,7 +39,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 [field]: value
             }
         }));
-    };
+    };    
+
+    const handleReSeller = (e, field) => {
+        const value = e.target.value === '' ? null : e.target.value;
+        setFormData(prevData => ({
+            ...prevData,
+            other_details: {
+                ...prevData.other_details,
+                [field]: value
+            }
+        }));
+    };    
+
     const handleChangeReseller = (e, field) => {
         const info = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
@@ -195,7 +207,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 type="text"
                                 className='input-field'
                                 value={formData.other_details.reseller_name}
-                                onChange={(e) => handleChange(e, 'reseller_name')}
+                                onChange={(e) => handleReSeller(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
                             />
                         </label>
