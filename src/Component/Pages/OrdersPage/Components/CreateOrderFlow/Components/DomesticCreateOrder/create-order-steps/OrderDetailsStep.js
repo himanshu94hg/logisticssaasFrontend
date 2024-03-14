@@ -278,6 +278,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 value={formData.charge_details.shipping_charges}
                                 onChange={(e) => handleChangeCharge(e, 'shipping_charges')}
                                 placeholder='Enter Shipping Charges'
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                         <label className='col'>
@@ -298,6 +303,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 value={formData.charge_details.transaction_fee}
                                 onChange={(e) => handleChangeCharge(e, 'transaction_fee')}
                                 placeholder='Enter Transaction fee'
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                     </div>
