@@ -1,25 +1,21 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
-import MostViewedStatus from '../Components/WhatsAppComm/MostViewedStatus'
-import SentOverTime from '../Components/WhatsAppComm/SentOverTime'
+import EmpTotalInfo from '../Components/EmployeeDash/EmpTotalInfo'
+import EmployeesPerformance from '../Components/EmployeeDash/EmployeesPerformance'
+import RevenueByEmployees from '../Components/EmployeeDash/RevenueByEmployees'
 
 const EmployeeDash = () => {
   return (
     <>
-      <Row className='cardsSpace'>
-        <Col className='col-12'>
-          <WhatsAppTotalInfo />
+      <Row className='mb-3'>
+        <Col className="col-3 cardsSpace">
+          <EmployeesPerformance />
         </Col>
-        <Col className='col-12'>
-          <Row>
-            <Col className='col-6 cardsSpace'>
-              <MostViewedStatus />
-            </Col>
-            <Col className='col-6 cardsSpace'>
-              <SentOverTime />
-            </Col>
-          </Row>
+        <Col className="col-6 cardsSpace">
+          <EmpTotalInfo />
+        </Col>
+        <Col className="col-3 cardsSpace">
+          <RevenueByEmployees />
         </Col>
       </Row>
     </>
