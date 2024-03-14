@@ -239,6 +239,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         value={product.tax_rate}
                                         onChange={(e) => handleChange(e, 'tax_rate', index)}
                                         placeholder='Enter Tax Rate'
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
 
@@ -250,6 +255,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         value={product.discount}
                                         onChange={(e) => handleChange(e, 'discount', index)}
                                         placeholder='Enter Product Discount'
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
                             </div>
