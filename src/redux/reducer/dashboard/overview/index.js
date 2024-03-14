@@ -3,7 +3,7 @@ import {
     GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA,
     GET_DASHBOARD_OVERVIEW_LAST_ORDERS_DATA, GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, GET_DASHBOARD_OVERVIEW_NDR_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_REVENUE_CARD_DATA,
     GET_DASHBOARD_OVERVIEW_RTO_DETAILS_DATA, GET_DASHBOARD_OVERVIEW_SHIPMENTCARD_DATA, GET_DASHBOARD_OVERVIEW_STATEWISE_DATA,
-    GET_DASHBOARD_OVERVIEW_TOPSELL_DATA,
+    GET_DASHBOARD_OVERVIEW_TOPSELL_DATA, GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA,
 } from "../../../constants/dashboard/overview";
 
 const initialState = {
@@ -16,8 +16,10 @@ const initialState = {
     counterCard: null,
     topSellCard: [],
     stateWiseData: null,
-    courierWiseData:[],
-    mostPopularCusData:[]
+    courierWiseData: [],
+    mostPopularCusData: [],
+    deliveryPerformanceData: [],
+    stateWiseData: null
 
 };
 
@@ -77,6 +79,11 @@ export const dashboardOverviewReducer = (state = initialState, action) => {
             return {
                 ...state,
                 mostPopularCusData: action?.payload
+            }
+        case GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA:
+            return {
+                ...state,
+                deliveryPerformanceData: action?.payload
             };
 
         default:

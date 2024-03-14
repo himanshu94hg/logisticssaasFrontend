@@ -22,7 +22,8 @@ const DeliveryPerformance = () => {
         });
     }, [dispatch]);
 
-    const deliveryData = useSelector(state => state?.getSplitWiseStateWatcher);
+    const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
+    console.log(deliveryData, "Delivery Performance Data");
 
     useEffect(() => {
         if (deliveryData) {
@@ -39,72 +40,76 @@ const DeliveryPerformance = () => {
 
     const renderChart = (data) => {
         console.log('Rendering chart with data:', data);
-        const options = {
-            series: [{
-                name: "Late Deliveries",
-                data: data.late_orders
-            }, {
-                name: "On-time Deliveries",
-                data: data.on_time_orders
-            }],
-            chart: {
-                height: 350,
-                type: 'bar'
-            },
-            plotOptions: {
-                bar: {
-                    horizontal: false,
-                    columnWidth: '55%',
-                    endingShape: 'rounded'
+        if (data && data.on_time_orders && data.late_orders) {
+            const options = {
+                series: [{
+                    name: "Late Deliveries",
+                    data: data.late_orders.map(item => item.count)
+                }, {
+                    name: "On-time Deliveries",
+                    data: data.on_time_orders.map(item => item.count)
+                }],
+                chart: {
+                    height: 350,
+                    type: 'bar'
                 },
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                show: true,
-                width: 2,
-                colors: ['transparent']
-            },
-            xaxis: {
-                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
-                labels: {
-                    rotateAlways: true,
-                    rotate: -45,
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: '55%',
+                        endingShape: 'rounded'
+                    },
                 },
-            },
-            yaxis: {
-                title: {
-                    text: 'Deliveries'
-                }
-            },
-            fill: {
-                opacity: 1
-            },
-            tooltip: {
-                y: {
-                    formatter: function (val) {
-                        return val + " deliveries";
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    show: true,
+                    width: 2,
+                    colors: ['transparent']
+                },
+                xaxis: {
+                    categories:  ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    labels: {
+                        rotateAlways: true,
+                        rotate: -45,
+                    },
+                },
+                yaxis: {
+                    title: {
+                        text: 'Deliveries'
                     }
-                }
-            },
-            responsive: [
-                {
-                    breakpoint: 768,
-                    options: {
-                        chart: {
-                            height: 300
+                },
+                fill: {
+                    opacity: 1
+                },
+                tooltip: {
+                    y: {
+                        formatter: function (val) {
+                            return val + " deliveries";
                         }
                     }
-                }
-            ]
-        };
+                },
+                responsive: [
+                    {
+                        breakpoint: 768,
+                        options: {
+                            chart: {
+                                height: 300
+                            }
+                        }
+                    }
+                ]
+            };
 
-        const chart = new ApexCharts(document.getElementById('chart'), options);
-        chart.render();
-        return () => {
-            chart.destroy();
-        };
+            const chart = new ApexCharts(document.getElementById('chart'), options);
+            chart.render();
+            return () => {
+                chart.destroy();
+            };
+        } else {
+            console.error('Delivery data is not valid:', data);
+        }
     };
 
     return (

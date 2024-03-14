@@ -4,7 +4,7 @@ import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
 import {  DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION, DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION, DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION, DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION, DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION, } from "../../../constant/dashboard/overview";
-import { GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA, GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, } from "../../../../constants/dashboard/overview";
+import { GET_DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_DATA, GET_DASHBOARD_OVERVIEW_MOST_POPULAR_CUSTOMER_DATA, GET_DASHBOARD_OVERVIEW_STATEWISE_DATA,GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA } from "../../../../constants/dashboard/overview";
 
 //LAST ORDER API'S
 async function splitWiseStateAPI(data) {
@@ -45,7 +45,7 @@ function* deliveryPerformanceAction(action) {
     try {
         let response = yield call(deliveryPerformanceAPI, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_OVERVIEW_STATEWISE_DATA, payload: response?.data })
+            yield put({ type: GET_DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
