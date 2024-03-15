@@ -292,7 +292,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 </select>
                                 <input
                                     className={`input-field ${errors.mobile_number && 'input-field-error'}`}
-                                    type="number"
+                                    type="text"
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => handleChangeShiping(e, 'mobile_number')}
                                     placeholder='X X X X X X X X X X'
