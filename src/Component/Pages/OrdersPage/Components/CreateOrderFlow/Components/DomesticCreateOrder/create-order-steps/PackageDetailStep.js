@@ -18,8 +18,11 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
         }
-        if (!cod_charges) {
-            errorsObj.cod_charges = "COD Charges is required!";
+        if(formData.order_details.payment_type === "Cod")
+        {
+            if (!cod_charges) {
+                errorsObj.cod_charges = "COD Charges is required!";
+            }
         }
         if (!weight) {
             errorsObj.weight = "Dead Weight is required!";
@@ -34,11 +37,13 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             errorsObj.height = "Height is required!";
         }
         setErrors(errorsObj);
+        console.log("Package Details Data",Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
     };
 
     const handleNext = () => {
         const isValid = handleValidation();
+        console.log("Package Details",isValid)
         if (isValid) {
             onNext();
         }
