@@ -3,6 +3,8 @@ import './MISPage.css'
 import NavTabs from './Components/navTabs/NavTabs';
 import ScheduledReportsMIS from './Components/ScheduledReportsMIS/ScheduledReportsMIS';
 import ActivityLogsMIS from './Components/ActivityLogsMIS/ActivityLogsMIS';
+import DownloadMIS from './Components/DownloadMIS/DownloadMIS';
+import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
 
 
 const MISPage = () => {
@@ -34,13 +36,13 @@ const MISPage = () => {
             </div>
 
             {/* BillingMIS */}
-            <div className={`${activeTab === "BillingMIS" ? "d-block" : "d-none"}`}>
-                <ActivityLogsMIS />
+            <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
+                <ReportsMIS />
             </div>
 
             {/* ReturnsMIS */}
-            <div className={`${activeTab === "ReturnsMIS" ? "d-block" : "d-none"}`}>
-                <ScheduledReportsMIS />
+            <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
+                <DownloadMIS />
             </div>
         </>
     )

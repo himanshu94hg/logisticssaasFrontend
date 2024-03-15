@@ -45,29 +45,26 @@ export default function NavTabs(props) {
                 props.setActiveTab("ScheduledReportsMIS");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
                 Scheduled Reports
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "BillingMIS" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "ReportsMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("BillingMIS");
+                props.setActiveTab("ReportsMIS");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
                 Reports
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "ReturnsMIS" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "DownloadMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("ReturnsMIS");
+                props.setActiveTab("DownloadMIS");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
                 Downloads

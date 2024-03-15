@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import axios from "axios";
 
-const ActivityLogsMIS = () => {
+const DownloadMIS = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -145,4 +145,4 @@ const ActivityLogsMIS = () => {
     );
 };
 
-export default ActivityLogsMIS;
+export default DownloadMIS;
