@@ -1,16 +1,18 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
+import React, { useEffect, useState } from 'react';
 
 const OrdersChart = () => {
-    const [chartData, setChartData] = React.useState({
+    const { mpsData } = useSelector(state => state?.dashboardOrderReducer)
+    const [chartData, setChartData] = useState({
         series: [
             {
                 name: 'SPS Orders',
-                data: [30, 40, 35, 50, 49] // SPS orders data for each week
+                data: []
             },
             {
                 name: 'MPS Orders',
-                data: [20, 35, 30, 40, 45] // MPS orders data for each week
+                data: []
             }
         ],
         options: {
@@ -23,7 +25,7 @@ const OrdersChart = () => {
                 align: 'left'
             },
             xaxis: {
-                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
+                categories: []
             },
             legend: {
                 position: 'bottom'
@@ -31,9 +33,35 @@ const OrdersChart = () => {
         }
     });
 
+    useEffect(() => {
+       if(mpsData){
+        const mpsValues = [];
+        const spsValues = [];
+        const weekValues = [];
+        mpsData.forEach(item => {
+            mpsValues.push(item.mps);
+            spsValues.push(item.sps);
+            weekValues.push("Week " + item.week);
+        });
+        setChartData(prevState => ({
+            ...prevState,
+            series: [
+                { ...prevState.series[0], data: spsValues },
+                { ...prevState.series[1], data: mpsValues }
+            ],
+            options: {
+                ...prevState.options,
+                xaxis: {
+                    categories: weekValues
+                }
+            }
+        }));
+       }
+    }, [mpsData]);
+
     return (
         <div>
-            <ReactApexChart
+           <ReactApexChart
                 options={chartData.options}
                 series={chartData.series}
                 type="line"
@@ -44,7 +72,6 @@ const OrdersChart = () => {
 };
 
 function OrderDetails() {
-
     return (
         <div className="box-shadow shadow-sm p10">
             <div className="row">

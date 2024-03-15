@@ -1,15 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const ForwardReverseOrder = () => {
+   const[data1,setData1]=useState([])
+   const[data2,setData2]=useState([])
+   const[data3,setData3]=useState([])
+    const { assignPick } = useSelector(state => state?.dashboardOrderReducer)
+
+
+
+
+
+    console.log(assignPick, "assignPickassignPick")
     const [series] = useState([
         {
             name: 'Assigned Orders',
-            data: [100, 150, 200, 180, 220] // Sample data for assigned orders for each week
+            data: data2
         },
         {
             name: 'Picked Orders',
-            data: [50, 70, 60, 80, 90] // Sample data for picked orders for each week
+            data: data3
         }
     ]);
 
@@ -30,7 +41,7 @@ const ForwardReverseOrder = () => {
         },
         xaxis: {
             type: 'category',
-            categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5']
+            categories: data1
         },
         colors: ['#1975c9', '#FF5733'], // Change colors for each series
         tooltip: {
@@ -54,6 +65,18 @@ const ForwardReverseOrder = () => {
             }
         }
     });
+
+    useEffect(() => {
+        if (assignPick) {
+            const categories = assignPick?.map(item => `Week ${item.week_number}`);
+            const assignedData = assignPick?.map(item => item.assigned);
+            const pickedData = assignPick?.map(item => item.picked);
+
+            setData1(categories)
+            setData2(assignedData)
+            setData3(pickedData)
+        }
+    }, [assignPick])
 
     return (
         <div className="box-shadow shadow-sm p10">
