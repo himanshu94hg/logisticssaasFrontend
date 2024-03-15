@@ -1,26 +1,36 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import WhatsAppTotalInfo from '../Components/WhatsAppComm/WhatsAppTotalInfo'
-import MostViewedStatus from '../Components/WhatsAppComm/MostViewedStatus'
-import SentOverTime from '../Components/WhatsAppComm/SentOverTime'
+import EmpTotalInfo from '../Components/EmployeeDash/EmpTotalInfo'
+import EmployeesPerformance from '../Components/EmployeeDash/EmployeesPerformance'
+import TeamDash from '../Components/EmployeeDash/TeamDash'
+import AttendanceandPunctuality from '../Components/EmployeeDash/AttendanceandPunctuality'
+import QualityMetrics from '../Components/EmployeeDash/QualityMetrics'
+import ProductivityMetrics from '../Components/EmployeeDash/ProductivityMetrics'
+import TaskCompletionRates from '../Components/EmployeeDash/TaskCompletionRates'
 
 const EmployeeDash = () => {
   return (
     <>
-      <Row className='cardsSpace'>
-        <Col className='col-12'>
-          <WhatsAppTotalInfo />
+      <Row className='mb-3'>
+        <Col className="col-3 cardsSpace">
+          <EmployeesPerformance />
+          <AttendanceandPunctuality />
         </Col>
-        <Col className='col-12'>
-          <Row>
-            <Col className='col-6 cardsSpace'>
-              <MostViewedStatus />
-            </Col>
-            <Col className='col-6 cardsSpace'>
-              <SentOverTime />
-            </Col>
-          </Row>
+        <Col className="col-6 cardsSpace">
+          <EmpTotalInfo />
+          <QualityMetrics />
         </Col>
+        <Col className="col-3 cardsSpace">
+          <TaskCompletionRates />
+          <ProductivityMetrics />
+        </Col>
+      </Row>
+
+      <Row className='mb-3'>
+        <Col className="col-12 cardsSpace">
+          <TeamDash />
+        </Col>
+
       </Row>
     </>
   )
