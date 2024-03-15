@@ -182,7 +182,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
-                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index)} 
+                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"} 
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();
