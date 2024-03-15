@@ -76,6 +76,7 @@ const RateCalculatorPage = () => {
       setOrderField(false);
     }
   }
+  
   // const handleChange = (e) => {
   //   const scaleDataName = e.target.name;
   //   if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
