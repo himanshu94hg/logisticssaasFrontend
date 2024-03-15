@@ -2,11 +2,11 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import EmpTotalInfo from '../Components/EmployeeDash/EmpTotalInfo'
 import EmployeesPerformance from '../Components/EmployeeDash/EmployeesPerformance'
-import RevenueByEmployees from '../Components/EmployeeDash/RevenueByEmployees'
 import TeamDash from '../Components/EmployeeDash/TeamDash'
 import AttendanceandPunctuality from '../Components/EmployeeDash/AttendanceandPunctuality'
 import QualityMetrics from '../Components/EmployeeDash/QualityMetrics'
 import ProductivityMetrics from '../Components/EmployeeDash/ProductivityMetrics'
+import TaskCompletionRates from '../Components/EmployeeDash/TaskCompletionRates'
 
 const EmployeeDash = () => {
   return (
@@ -21,7 +21,7 @@ const EmployeeDash = () => {
           <QualityMetrics />
         </Col>
         <Col className="col-3 cardsSpace">
-          <RevenueByEmployees />
+          <TaskCompletionRates />
           <ProductivityMetrics />
         </Col>
       </Row>
