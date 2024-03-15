@@ -30,25 +30,25 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "OrdersMIS" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "ActivityLogsMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("OrdersMIS");
+                props.setActiveTab("ActivityLogsMIS");
               }}
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Orders
+                Activity Logs
               </div>
             </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "ShipmentsMIS" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "ScheduledReportsMIS" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("ShipmentsMIS");
+                props.setActiveTab("ScheduledReportsMIS");
               }}
             >
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Shipments
+                Scheduled Reports
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "BillingMIS" ? "active" : ""}`}
@@ -59,7 +59,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Billing
+                Reports
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "ReturnsMIS" ? "active" : ""}`}
@@ -70,40 +70,17 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Returns
+                Downloads
               </div>
             </Nav.Link>
           </div>
         </Nav>
       </Navbar.Collapse>
-      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
-        <div className="selected-option">
-          {selectedOption || "Select an option"}
-          <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
 
-        </div>
-
-        <div className={`options-container ${isOpen ? "open" : ""}`}>
-          <div
-            className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Domestic")}
-          >
-            Domestic
-          </div>
-          <div
-            className={`option ${selectedOption === "International" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("International")}
-          >
-            International
-          </div>
-        </div>
-
-      </div>
-      <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button">Sync Orders</button>
+      {/* <div className="d-flex gap-10 align-items-center">
         <button className="btn main-button">Import CSV</button>
         <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
-      </div>
+      </div> */}
     </Navbar>
   );
 }
