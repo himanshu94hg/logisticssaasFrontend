@@ -350,6 +350,11 @@ const AddWarehouse = () => {
                                     placeholder='Enter Pincode'
                                     ref={pincodeRef1}
                                     onBlur={handlePincodeChange1}
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                  {errors.pincode && <div className="error">{errors.pincode}</div>}
                             </label>
