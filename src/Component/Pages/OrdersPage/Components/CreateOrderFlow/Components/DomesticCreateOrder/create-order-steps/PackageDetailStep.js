@@ -147,7 +147,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 type="text" value={formData.dimension_details.weight}
                                 onChange={(e) => handleChangeDimension(e, 'weight')} 
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /^[0-9\b.]+$/;
+                                    if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}/>
