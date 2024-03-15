@@ -105,19 +105,19 @@ const RemittanceLogs = ({billingCard}) => {
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total COD:     <span>&#8377; 234232</span></p>
+                        <p>Total COD:     <span>&#8377; {data?.cod_total ?? 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Remitted:     <span>&#8377; 234232</span></p>
+                        <p>COD Remitted:     <span>&#8377; {data?.remitted_cod ?? 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Pending:     <span>&#8377; 234232</span></p>
+                        <p>COD Pending:     <span>&#8377; {data?.cod_total - data?.remitted_cod ?? 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remittance Date:     <span>&#8377; 234232</span></p>
+                        <p>Next Remittance Date:     <span>&#8377; {data?.nextRemitDate ?? ""}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remit Amount:     <span>&#8377; 234232</span></p>
+                        <p>Next Remit Amount:     <span>&#8377; {data?.nextRemitCod ?? 0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -160,15 +160,16 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {/* <DateFormatter dateTimeString={row.datetime} /> */}
+                                                    {/* <DateFormatter dateTimeString={row?.datetime} /> */}
+                                                    {row?.datetime}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Courier detail */}
+                                            {/* crf_id */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row?.crf_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -176,15 +177,15 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
-                                                </p>
+                                                {row?.utr_number}
+                                                </p>  
                                             </div>
                                         </td>
                                         <td>
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
-                                                {row.name}
+                                                <p className='text-capitalize'>
+                                                    {row?.mode}
                                                 </p>
                                             </div>
                                         </td>
@@ -192,7 +193,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹    {row.website}
+                                                    ₹{0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -200,7 +201,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹    {row.website}
+                                                ₹{0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -208,7 +209,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹   {row.website}
+                                                ₹{0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -216,7 +217,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹   {row.website}
+                                                    ₹{row?.amount}
                                                 </p>
                                             </div>
                                         </td>
@@ -225,7 +226,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                 {row.website}
+                                                 {row?.description}
                                                 </p>
                                             </div>
                                         </td>

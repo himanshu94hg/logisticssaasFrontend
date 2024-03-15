@@ -113,7 +113,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row?.id ?? 1}
                                                 </p>
                                             </div>
                                         </td>
@@ -121,7 +121,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row?.note_number ?? 10}
                                                 </p>
                                             </div>
                                         </td>
@@ -129,7 +129,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row?.note_date ?? "2024-01-01"}
                                                 </p>
                                             </div>
                                         </td>
@@ -137,7 +137,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹   {row.name}
+                                                    ₹   {row?.total ?? 100}
                                                 </p>
                                             </div>
                                         </td>
@@ -145,7 +145,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <button className='btn main-button' style={{ width: '100px' }}>View</button>
+                                                    <button className='btn main-button' style={{ width: '100px' }}>View Receipt</button>
                                                 </p>
                                             </div>
                                         </td>

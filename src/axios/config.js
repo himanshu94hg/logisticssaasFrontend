@@ -1,4 +1,4 @@
-import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl } from "../config";
+import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl,billingDummyBaseUrl } from "../config";
 
 
 export const BASE_URL_CORE = coreBaseUrl;
@@ -6,6 +6,8 @@ export const BASE_URL_ORDER = orderBaseUrl;
 export const BASE_URL_DUMMY = dummyBaseUrl;
 export const BASE_URL_MOREON = moreonBaseUrl;
 export const BASE_URL_COURIER = courierBaseUrl;
+export const BASE_URL_BILLING = billingDummyBaseUrl;
+
 
 export const API_URL = {
   index: "/",
@@ -16,6 +18,7 @@ export const API_URL = {
   GET_BILLING_URL: "/orders-api/orders/shipment/",
   GET_RATE_THROUGH_ORDERID: "/orders-api/orders/order-detail/",
   GET_BILLING_URLW: "/core-api/features/billing/passbook/",
+  GET_BILLING_SHIPING_URL: "/todos/",
   CHECK_SERVICE_ABILITY_PINCODE: "/courier-api/courier/tools/check-pincode-serviceability/",
   CHECK_SERVICE_ABILITY_PINCODE_PAIR: "/courier-api/courier/tools/check-pair-serviceability/",
   GET_ZONE_MAPPING: "/core-api/seller/tools/zone-mapping/",
