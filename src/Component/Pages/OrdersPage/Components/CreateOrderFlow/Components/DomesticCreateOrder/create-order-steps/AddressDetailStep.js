@@ -297,6 +297,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => handleChangeShiping(e, 'mobile_number')}
                                     placeholder='X X X X X X X X X X'
+                                    maxLength={10}
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                             </div>
                             {errors.mobile_number && <div className="custom-error">{errors.mobile_number}</div>}
@@ -354,6 +360,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 onBlur={handlePincodeChange}
                                 value={formData.shipping_details.pincode}
                                 onChange={(e) => handleChangeShiping(e, 'pincode')}
+                                maxLength={6}
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                             {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                         </label>
@@ -447,10 +459,16 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     </select>
                                     <input
                                         className={`input-field ${errors.billing_mobile_number && 'input-field-error'}`}
-                                        type="number"
+                                        type="text"
                                         value={formData.billing_details.mobile_number}
                                         onChange={(e) => handleChangeBilling(e, 'mobile_number')}
                                         placeholder='X X X X X X X X X X'
+                                        maxLength={10}
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </div>
                                 {errors.billing_mobile_number && <div className="custom-error">{errors.billing_mobile_number}</div>}
@@ -508,6 +526,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     onBlur={handlePincodeChange1}
                                     value={formData.billing_details.pincode}
                                     onChange={(e) => handleChangeBilling(e, 'pincode')}
+                                    maxLength={6}
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                }}
                                 />
                                 {errors.billing_pincode && <div className="custom-error">{errors.billing_pincode}</div>}
                             </label>
