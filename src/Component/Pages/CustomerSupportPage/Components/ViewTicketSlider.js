@@ -3,7 +3,6 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineDownload } from "react-icons/ai";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import Modal from "react-bootstrap/Modal";
