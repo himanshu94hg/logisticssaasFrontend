@@ -18,8 +18,11 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
         }
-        if (!cod_charges) {
-            errorsObj.cod_charges = "COD Charges is required!";
+        if(formData.order_details.payment_type === "COD")
+        {
+            if (!cod_charges) {
+                errorsObj.cod_charges = "COD Charges is required!";
+            }
         }
         if (!weight) {
             errorsObj.weight = "Dead Weight is required!";
@@ -34,11 +37,13 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             errorsObj.height = "Height is required!";
         }
         setErrors(errorsObj);
+        console.log("Package Details Data",Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
     };
 
     const handleNext = () => {
         const isValid = handleValidation();
+        console.log("Package Details",isValid)
         if (isValid) {
             onNext();
         }
@@ -122,7 +127,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>COD Charges <span className='text-gray'>(Optional)</span></span>
                             <input
-                                className={`input-field ${formData.order_details.payment_type === "Cod" && errors.cod_charges ? 'input-field-error' : ''}`}
+                                className={`input-field ${formData.order_details.payment_type === "COD" && errors.cod_charges ? 'input-field-error' : ''}`}
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} 
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
@@ -130,7 +135,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }}
                             />
-                                {formData.order_details.payment_type === "Cod" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
+                                {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
                         </label>
                     </div>
                     <hr />
