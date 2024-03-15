@@ -6,8 +6,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
     const [errors, setErrors] = useState({});
 
-    console.log(formData.order_details.payment_type, "Payment Type");
-
     const handleValidation = () => {
         const { cod_charges } = formData?.charge_details;
         const { invoice_amount, } = formData?.order_details;
