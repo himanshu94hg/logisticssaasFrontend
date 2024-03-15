@@ -105,7 +105,9 @@ const BasicInfo = ({ activeTab }) => {
         }
         break;
       case 'pan_number':
-        if (panRegex.test(value)) {
+        const panPattern = /^[a-zA-Z0-9]{0,10}$/;
+        //if (panRegex.test(value)) {
+        if (panPattern.test(value)) {
           setFormData(prev => ({
             ...prev,
             [name]: value
@@ -186,14 +188,19 @@ const BasicInfo = ({ activeTab }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = {};
-    Object.entries(formData).forEach(([key, value]) => {
-      if (value === '') {
-        newErrors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+    const newErrors = Object.keys(formData).reduce((errors, key) => {
+      if (!formData[key]) {
+        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      } else if (key === 'pan_number' && formData[key].length !== 10) {
+        errors[key] = "PAN number must consist of exactly 10 characters.";
+      } else if (key === 'gst_number' && formData[key].length !== 15) {
+        errors[key] = "GST number must consist of exactly 15 characters.";
+      } else if (key === 'pincode' && formData[key].length !== 6) {
+        errors[key] = "Pincode must consist of exactly 6 characters.";
       }
-    });
+      return errors;
+    }, {});
     setErrors(newErrors);
-
 
     if (Object.keys(newErrors).length <=2) {
       try {
@@ -207,7 +214,7 @@ const BasicInfo = ({ activeTab }) => {
         if(response?.status===201){
           toast.success("Details update successfully")
         }
-        // Handle successful form submission
+         // Handle successful form submission
       } catch (error) {
         console.error('Error during form submission:', error);
       }
