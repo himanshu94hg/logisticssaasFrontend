@@ -9,6 +9,8 @@ function StateSplitDashboard() {
   const [totalSales, setTotalSales] = useState(0);
   const mydata = useSelector(state => state?.dashboardOverviewReducer?.stateWiseData)
 
+console.log(stateMapData,"stateMapData??????")
+
   useEffect(() => {
     if (mydata) {
       const mappedData = Object.keys(mydata).reduce((acc, key) => {

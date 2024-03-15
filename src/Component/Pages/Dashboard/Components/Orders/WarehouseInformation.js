@@ -1,9 +1,27 @@
 
 import React, { useState, useEffect } from "react";
 import IndiaMap from '../../../../../assets/image/IndiaMap.png';
+import IndiaMapp from "../../../../common/Graph/IndiaMapp";
+import { useSelector } from "react-redux";
 
 const WarehouseInformation = () => {
     const [stateAllocation, setStateAllocation] = useState([]);
+    const [stateMapData, setStateMapData] = useState({})
+    const { warehouseData } = useSelector(state => state?.dashboardOrderReducer)
+
+    useEffect(() => {
+        if (warehouseData) {
+            const transformedData = warehouseData?.reduce((acc, item) => {
+                acc[item.pickup_details__p_state] = {
+                    sales: item.count,
+                    value: item.pickup_details__p_state
+                };
+                return acc;
+            }, {});
+            setStateMapData(transformedData)
+        }
+
+    }, [warehouseData])
 
     return (
         <div className="box-shadow shadow-sm p10 state-wise-card">
@@ -11,19 +29,7 @@ const WarehouseInformation = () => {
                 <h4 className="title">Warehouse Information</h4>
                 <p className="export-report">Export Report</p>
             </div>
-            <div className="d-flex">
-                <img src={IndiaMap} style={{ width: '60%' }} alt="India Map" />
-                <ul className="list-ui">
-                    {stateAllocation.map((state, index) => (
-                        <li key={index} className="">
-                            <p className="font12 bold-600 mb-10">
-                            {state.p_state}&nbsp;&nbsp;&nbsp;&nbsp;
-                            {state.total_orders}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
-            </div>
+            <IndiaMapp stateMapData={stateMapData} />
         </div>
     );
 };
