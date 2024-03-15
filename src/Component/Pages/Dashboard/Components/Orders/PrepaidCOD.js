@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const ApexChart = () => {
-  const chartData = {
+
+  const { orderPrepaidData } = useSelector(state => state?.dashboardOrderReducer)
+
+  console.log(orderPrepaidData, "dashboardOrderReducer")
+
+
+
+
+  const [chartData, setChartData] = useState({
     series: [{
       name: 'Prepaid',
-      data: [30, 40, 45, 50, 55] // Prepaid orders data for each week
+      data: []
     }, {
       name: 'COD',
-      data: [20, 25, 30, 35, 40] // COD orders data for each week
+      data: []
     }],
     options: {
       chart: {
@@ -49,7 +58,33 @@ const ApexChart = () => {
         }
       }
     }
-  };
+  })
+
+  useEffect(() => {
+    if (orderPrepaidData) {
+      const codValues = [];
+      const prepaidValues = [];
+      const weekValues = [];
+      orderPrepaidData?.forEach(item => {
+        codValues.push(item.cod);
+        prepaidValues.push(item.prepaid);
+        weekValues.push("Week " + item.week_number);
+      });
+      setChartData(prevState => ({
+        ...prevState,
+        series: [
+          { ...prevState.series[0], data: prepaidValues },
+          { ...prevState.series[1], data: codValues }
+        ],
+        options: {
+          ...prevState.options,
+          xaxis: {
+            categories: weekValues
+          }
+        }
+      }));
+    }
+  }, [orderPrepaidData]);
 
   return (
     <div>

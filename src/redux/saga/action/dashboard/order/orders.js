@@ -3,8 +3,8 @@
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
-import { DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION, DASHBOARD_ORDERS_CANCELLED_ACTION, DASHBOARD_ORDERS_COUNT_ACTION, DASHBOARD_ORDERS_MPS_ACTION, DASHBOARD_ORDERS_PREPAID_COD_ACTION, DASHBOARD_ORDERS_SKU_PROJECT_ACTION, DASHBOARD_ORDERS_STORE_BASED_ACTION, DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION } from "../../../constant/dashboard/orders";
-import { GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC_DATA, GET_DASHBOARD_ORDERS_CANCELLED_DATA, GET_DASHBOARD_ORDERS_COUNT_DATA, GET_DASHBOARD_ORDERS_MPS_DATA, GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA, GET_DASHBOARD_ORDERS_STORE_BASED_DATA, GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA } from "../../../../constants/dashboard/orders";
+import { DASHBOARD_ORDERS_ASSIGNED_PICKED_ACTION, DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION, DASHBOARD_ORDERS_CANCELLED_ACTION, DASHBOARD_ORDERS_COUNT_ACTION, DASHBOARD_ORDERS_MPS_ACTION, DASHBOARD_ORDERS_PREPAID_COD_ACTION, DASHBOARD_ORDERS_SKU_PROJECT_ACTION, DASHBOARD_ORDERS_STORE_BASED_ACTION, DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION } from "../../../constant/dashboard/orders";
+import { GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_DATA, GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC_DATA, GET_DASHBOARD_ORDERS_CANCELLED_DATA, GET_DASHBOARD_ORDERS_COUNT_DATA, GET_DASHBOARD_ORDERS_MPS_DATA, GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA, GET_DASHBOARD_ORDERS_STORE_BASED_DATA, GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA } from "../../../../constants/dashboard/orders";
 
 
 //1.GET_DASHBOARD_ORDERS_STORE_BASED
@@ -87,7 +87,29 @@ function* ordersMpsAction(action) {
     try {
         let response = yield call(ordersMpsAPI, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_MPS_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_MPS_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+
+//4.GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_ORDER
+async function  assignedPickedAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_ORDER}?${queryParams}`,
+    });
+    return listData
+}
+function* assignedPickedAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call( assignedPickedAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
@@ -131,7 +153,7 @@ function* prepaidCodAction(action) {
     try {
         let response = yield call(prepaidCodApi, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
@@ -153,7 +175,7 @@ function* wareHouseInfoAction(action) {
     try {
         let response = yield call(wareHouseInfoApi, payload);
         if (response.status === 200) {
-            yield put({ type: GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA, payload: response?.data?.data })
+            yield put({ type: GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA, payload: response?.data })
         }
     } catch (error) {
         if (reject) reject(error);
@@ -188,6 +210,7 @@ export function* getOrdersTabWatcher() {
     yield takeLatest(DASHBOARD_ORDERS_COUNT_ACTION, ordersCountAction);
     yield takeLatest(DASHBOARD_ORDERS_CANCELLED_ACTION, ordersCancelledAction);
     yield takeLatest(DASHBOARD_ORDERS_MPS_ACTION, ordersMpsAction);
+    yield takeLatest(DASHBOARD_ORDERS_ASSIGNED_PICKED_ACTION, assignedPickedAction);
     yield takeLatest(DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION, ordersBuyerDemoAction);
     yield takeLatest(DASHBOARD_ORDERS_PREPAID_COD_ACTION, prepaidCodAction);
     yield takeLatest(DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION, wareHouseInfoAction);

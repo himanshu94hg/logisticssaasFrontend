@@ -24,6 +24,7 @@ const OrdersDashboard = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_ORDERS_COUNT_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_ORDERS_CANCELLED_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_ORDERS_MPS_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_ORDERS_ASSIGNED_PICKED_ACTION", payload: dateRangeDashboard })
       dispatch({ type: 'DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION', payload: dateRangeDashboard })
       dispatch({ type: 'DASHBOARD_ORDERS_PREPAID_COD_ACTION', payload: dateRangeDashboard })
       dispatch({ type: 'DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION', payload: dateRangeDashboard })
