@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useEffect, } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { percentage } from "../../../../../customFunction/percentage";
+import { percentage } from "../../../../../customFunction/functionLogic";
 
 function CustomTable({ data }) {
 

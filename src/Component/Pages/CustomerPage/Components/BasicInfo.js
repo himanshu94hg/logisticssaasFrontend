@@ -201,8 +201,9 @@ const BasicInfo = ({ activeTab }) => {
       return errors;
     }, {});
     setErrors(newErrors);
+    console.log("Error Data",Object.keys(newErrors).length)
 
-    if (Object.keys(newErrors).length <=2) {
+    if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post('https://dev.shipease.in/core-api/seller/basic-info/', formData, {
           headers: {
@@ -535,5 +536,3 @@ function Preview({ show, handleClose, previewImage }) {
       </Modal>
   );
 }
-
-

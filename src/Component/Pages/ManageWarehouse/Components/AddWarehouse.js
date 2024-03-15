@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
-import "./AddWarehouse.css"
+import "./AddWarehouse.css";
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
@@ -23,11 +23,10 @@ const AddWarehouse = () => {
     const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
 
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-              // Get form data
+
             const warehouseName = event.target.warehouse_name.value;
             const contactName = event.target.contact_name.value;
             const contactNumber = event.target.contact_number.value;
@@ -160,7 +159,7 @@ const AddWarehouse = () => {
                     formInputs.forEach(input => {
                         input.value = null;
                     });
-                    SetAddFields(false);    
+                    SetAddFields(false);
                     setSameRTO(false);
                 });
             } else {

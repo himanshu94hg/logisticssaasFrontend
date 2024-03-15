@@ -2,16 +2,21 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
-import { percentage } from "../../../../../customFunction/percentage";
 import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
+import { percentage } from "../../../../../customFunction/functionLogic";
 
 function TotalShipment() {
   const dispatch = useDispatch()
   const [data, setData] = useState(null);
   const [totalShipment, setTotalShipment] = useState(null);
-
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
+
+  
+  useEffect(() => {
+    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
+  }, [])
+  
   useEffect(() => {
     if (shimpmetCard) {
       const total_shipment = Object.values(shimpmetCard).reduce((acc, value) => acc + value, 0)
@@ -35,14 +40,6 @@ function TotalShipment() {
   };
 
   const colorScale = getColorScale();
-
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-  }, [])
-
-  // const percentage = (value,totalShipment) => {
-  //   return  totalShipment===0?`(0)%`: `(${parseInt((value / totalShipment) * 100)}%)`
-  // }
 
 
   return (

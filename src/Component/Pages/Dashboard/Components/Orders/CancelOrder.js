@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
-const CanceledOrdersChart = () => {
-    const canceledOrdersData = [
-        { week: 'Week 1', count: 10 },
-        { week: 'Week 2', count: 41 },
-        { week: 'Week 3', count: 35 },
-        { week: 'Week 4', count: 51 },
-        { week: 'Week 5', count: 49 }
-    ];
+const CanceledOrdersChart = ({}) => {
+    const [canceledOrdersData, setCanceledOrdersData] = useState([])
+    const { orderCancel } = useSelector(state => state?.dashboardOrderReducer)
+
+    useEffect(() => {
+        if (orderCancel) {
+            let temp = []
+            orderCancel?.map((item) => {
+                temp.push({
+                    week: "Week " + item.week,
+                    count: item?.total_orders
+                })
+            })
+            setCanceledOrdersData(temp)
+        }
+    }, [orderCancel])
+
 
     const options = {
         chart: {
@@ -35,13 +45,13 @@ const CanceledOrdersChart = () => {
             },
         },
         xaxis: {
-            categories: canceledOrdersData.map(item => item.week),
+            categories: canceledOrdersData?.map(item => item.week),
         }
     };
 
     const series = [{
         name: "Canceled Orders",
-        data: canceledOrdersData.map(item => item.count),
+        data: canceledOrdersData?.map(item => item.count),
     }];
 
     return (
@@ -54,13 +64,12 @@ const CanceledOrdersChart = () => {
 };
 
 function CancelOrder() {
-
     return (
         <div className="box-shadow shadow-sm p10">
             <div className="row">
                 <div className="col">
                     <h4 className="title">Cancel Orders</h4>
-                    <CanceledOrdersChart />
+                    <CanceledOrdersChart  />
                 </div>
             </div>
         </div>

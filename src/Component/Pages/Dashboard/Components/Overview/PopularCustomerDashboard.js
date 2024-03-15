@@ -1,36 +1,14 @@
-import moment from "moment/moment";
-import React, { useEffect, useState } from "react";
-import { BiSolidBadgeCheck } from "react-icons/bi";
+import React, { useEffect } from "react";
 import { FaStar } from "react-icons/fa6";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { percentage } from "../../../../../customFunction/percentage";
+import { BiSolidBadgeCheck } from "react-icons/bi";
+import { percentage } from "../../../../../customFunction/functionLogic";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 
 function PopularCustomerDashboard() {
-
-  const endDate = moment(new Date()).format("YYYY-MM-DD"); // Current date
-  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); // One month ago
-
-  console.log("Start Date:", startDate);
-  console.log("End Date:", endDate);
-
-  // Dummy data to simulate the response from the API
-  const dummyData = [
-    {
-      b_customer_name: "John Doe",
-      total_bookings: 10,
-      rating_percentage: 80,
-    },
-    {
-      b_customer_name: "Jane Smith",
-      total_bookings: 15,
-      rating_percentage: 90,
-    },
-    // Add more dummy data as needed
-  ];
-
-  const [popularCustomers, setPopularCustomers] = useState(dummyData);
+  const dispatch = useDispatch()
 
   const renderStars = (percentage) => {
     const totalStars = 5;
@@ -42,21 +20,15 @@ function PopularCustomerDashboard() {
     return stars;
   };
 
-  const dispatch = useDispatch()
-
   useEffect(() => {
     dispatch({
-      type: 'DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION', payload: {
-        start_date: startDate,
-        end_date: endDate
-      }
+      type: 'DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION', payload: dateRangeDashboard
     })
   }, [])
 
-  const {mostPopularCusData}=useSelector(state=>state?.dashboardOverviewReducer)
-  const total=mostPopularCusData.reduce((acc,data)=>acc+data.count,0)
+  const { mostPopularCusData } = useSelector(state => state?.dashboardOverviewReducer)
+  const total = mostPopularCusData.reduce((acc, data) => acc + data.count, 0)
 
-  console.log(mostPopularCusData,"this is most popular dtaa",total)
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -78,7 +50,7 @@ function PopularCustomerDashboard() {
             <div className="d-flex justify-content-between">
               <p className="font12 bold-600 mb-10">{renderStars(90)}</p>
               <p className="font12 bold-600 mb-10">
-                <span className="text-gray-light ">{percentage(customer.count,total)}</span>
+                <span className="text-gray-light ">{percentage(customer.count, total)}</span>
               </p>
             </div>
 

@@ -1,29 +1,19 @@
-import React, { useEffect } from 'react';
 import ApexCharts from 'apexcharts';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
+import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const DeliveryPerformance = () => {
     const dispatch = useDispatch();
+    const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
 
     useEffect(() => {
-        const currentDate = new Date();
-        const startDate = new Date(currentDate);
-        startDate.setDate(startDate.getDate() - 30);
-
-        const formattedStartDate = formatDate(startDate);
-        const formattedEndDate = formatDate(currentDate);
-
         dispatch({
             type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION",
-            payload: {
-                start_date: formattedStartDate,
-                end_date: formattedEndDate
-            }
+            payload: dateRangeDashboard
         });
     }, [dispatch]);
 
-    const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
-    console.log(deliveryData, "Delivery Performance Data");
 
     useEffect(() => {
         if (deliveryData) {
@@ -39,7 +29,6 @@ const DeliveryPerformance = () => {
     };
 
     const renderChart = (data) => {
-        console.log('Rendering chart with data:', data);
         if (data && data.on_time_orders && data.late_orders) {
             const options = {
                 series: [{
@@ -108,7 +97,7 @@ const DeliveryPerformance = () => {
                 chart.destroy();
             };
         } else {
-            console.error('Delivery data is not valid:', data);
+            // console.error('Delivery data is not valid:', data);
         }
     };
 

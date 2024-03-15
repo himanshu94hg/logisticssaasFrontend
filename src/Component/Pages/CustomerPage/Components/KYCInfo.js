@@ -256,29 +256,29 @@ const KYCInfo = ({ activeTab }) => {
                   </label>
                 </div>
                 <div className="d-flex gap-3 mt-3">
-                <label>
-  Document Name:
-  <input
-    className={`input-field ${errors.document_name && "input-field-error"}`}
-    type="text"
-    name="document_name"
-    value={formData.document_name}
-    onChange={handleChange}
-  />
-  {errors.document_name && <span className="error-text">{errors.document_name}</span>}
-</label>
-<label>
-  Document Number:
-  <input
-    className={`input-field ${errors.document_number && "input-field-error"}`}
-    type="text"
-    name="document_id"
-    value={formData.document_id}
-    onChange={handleChange}
-  />
-  {errors.document_id && <span className="error-text">{errors.document_id}</span>}
-</label>
-
+                  <label>
+                    Document Name:
+                    <input
+                      className="input-field"
+                      type="text"
+                      placeholder='Enter document name'
+                      name="document_name"
+                      value={formData.document_name}
+                      onChange={handleChange}
+                    />
+                    {errors[0] == "" && <span className="error-text">{errors[0]}</span>}
+                  </label>
+                  <label>
+                    Document Number:
+                    <input
+                      className="input-field"
+                      placeholder='Enter document number'
+                      type="text"
+                      name="document_id"
+                      value={formData.document_id}
+                      onChange={handleChange}
+                    />
+                  </label>
                 </div>
               </div>
             </div>

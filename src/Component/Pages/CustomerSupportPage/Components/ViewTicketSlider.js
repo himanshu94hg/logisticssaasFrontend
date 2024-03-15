@@ -3,9 +3,11 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react'
 import { AiOutlineDownload } from "react-icons/ai";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import AttachmentImage from '../../../../assets/image/AttachmentImage.jpg'
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import Modal from "react-bootstrap/Modal";
+import {Document, Page} from "react-pdf";
+import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 
 
 const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
@@ -80,12 +82,33 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
     }
   };
   function extractFileName(fullPath) {
-    // Split the fullPath string by '/' to get an array of parts
+    // Split the fullPath string by '/' to get an array of parts.
     const parts = fullPath.split('/');
     // Get the last part of the array, which should be the file name
     const fileName = parts[parts.length - 1];
     return fileName;
   }
+
+  const [handelAWSImage, sethandelAWSImage] = useState("");
+  const [previewImage, setPreviewImage] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = async (pdfUrl) => {
+    try {
+      sethandelAWSImage(pdfUrl)
+      const response = await axios.get(pdfUrl, {
+        responseType: 'blob'
+      });
+      const blob = new Blob([response.data], { type: 'application/pdf' });
+      const objectUrl = URL.createObjectURL(blob);
+      setShow(true);
+      setPreviewImage(objectUrl);
+    } catch (error) {
+      console.error('Error fetching PDF:', error);
+    }
+  }
+
+  console.log("handelAWSImage",handelAWSImage)
   return (
     <>
       <div
@@ -141,7 +164,9 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
                 Attachment:
                 <span
                   className='view-attachment'
-                  onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
+                  onClick={() => {
+                    handleShow(allTicket.escalate_image);
+                  }}
                 >
                   <FontAwesomeIcon icon={faEye} />
                 </span>
@@ -202,8 +227,32 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
         onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
         className={`backdrop ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
 
+      <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} handelAWSImage={handelAWSImage} />
+
     </>
   )
 }
 
 export default ViewTicketSlider
+
+function Preview({ show, handleClose, previewImage, handelAWSImage }) {
+  const isPDF = handelAWSImage && handelAWSImage.endsWith('.pdf');
+  console.log(handelAWSImage,"Pdf")
+
+  return (
+    <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '670px', overflow: 'hidden' }} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Image/PDF Preview</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {isPDF ? (
+          <Document file={previewImage}>
+            <Page pageNumber={1} width={400} />
+          </Document>
+        ) : (
+          <img src={previewImage} alt="Preview" style={{ maxWidth: '100%', maxHeight: '100%' }} />
+        )}
+      </Modal.Body>
+    </Modal>
+  );
+}
