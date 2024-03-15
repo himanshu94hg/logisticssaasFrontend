@@ -224,7 +224,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const pincodeRef1 = useRef(null);
     const cityRef1 = useRef(null);
     const stateRef1 = useRef(null);
-    const countryRef1 = useRef(null);
 
     const handlePincodeChange1 = () => {
         const pincode = pincodeRef1.current.value;
