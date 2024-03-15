@@ -72,8 +72,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             }
         }
 
-
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
