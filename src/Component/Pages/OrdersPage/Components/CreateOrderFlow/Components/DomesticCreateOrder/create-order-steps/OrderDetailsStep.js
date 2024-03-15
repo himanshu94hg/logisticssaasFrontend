@@ -39,7 +39,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 [field]: value
             }
         }));
-    };
+    };    
+
+    const handleReSeller = (e, field) => {
+        const value = e.target.value === '' ? null : e.target.value;
+        setFormData(prevData => ({
+            ...prevData,
+            other_details: {
+                ...prevData.other_details,
+                [field]: value
+            }
+        }));
+    };    
+
     const handleChangeReseller = (e, field) => {
         const info = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
@@ -95,7 +107,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
         }
     };
     const handleCustomerOrderNumberChange = (e) => {
-        const value = e.target.value.replace(alphaNumReg, '');
+        const value = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
             ...prevData,
             order_details: {
@@ -195,7 +207,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 type="text"
                                 className='input-field'
                                 value={formData.other_details.reseller_name}
-                                onChange={(e) => handleChange(e, 'reseller_name')}
+                                onChange={(e) => handleReSeller(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
                             />
                         </label>
@@ -233,12 +245,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             <label style={{ width: '100%' }} className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
                                 Number of packets
                                 <input
-                                    type="number"
+                                    type="text"
                                     className='input-field'
-                                    value={formData.other_details.number_of_packets || '1'}
+                                    value={formData.other_details.number_of_packets || 0}
                                     onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
+                                    placeholder='Enter Number of Packets'
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                             </label>
+
                         </div>
                     </div>
                     {/* Add Payment Fields Section */}
@@ -259,6 +278,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 value={formData.charge_details.shipping_charges}
                                 onChange={(e) => handleChangeCharge(e, 'shipping_charges')}
                                 placeholder='Enter Shipping Charges'
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                         <label className='col'>
@@ -279,6 +303,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 value={formData.charge_details.transaction_fee}
                                 onChange={(e) => handleChangeCharge(e, 'transaction_fee')}
                                 placeholder='Enter Transaction fee'
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                     </div>

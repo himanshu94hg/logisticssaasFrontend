@@ -124,7 +124,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     Product Name
                                     <input
                                         className={`input-field ${errors[`product_name_${index}`] ? 'input-field-error' : ''}`}
-                                        placeholder="Enter or search your product name"
+                                        placeholder="Enter your product name"
                                         type="text"
                                         value={product.product_name}
                                         onChange={(e) => handleProductNameChange(e, index)}
@@ -166,7 +166,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="number" value={product.price} onChange={(e) => handleChange(e, 'price', index)} />
+                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)} 
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
                                 </label>
                                 {/* Quantity */}
                                 <label className='col'>
@@ -176,7 +182,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
-                                        type="number" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index)} />
+                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"} 
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
                                     {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
                                 </label>
                                 <label className='col-3'>
@@ -227,6 +239,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         value={product.tax_rate}
                                         onChange={(e) => handleChange(e, 'tax_rate', index)}
                                         placeholder='Enter Tax Rate'
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
 
@@ -238,6 +255,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         value={product.discount}
                                         onChange={(e) => handleChange(e, 'discount', index)}
                                         placeholder='Enter Product Discount'
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
                             </div>
