@@ -23,7 +23,7 @@ function EmpTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={NDRicon} alt="iconOrders" width={24} />
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">Total Employees</p>
+                    <p className="font14 text-gray m-0 ws-nowrap">Active Employees</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{totalNdr.total_ndr_count}</h3>
                   </div>
                   <div className="col-2">
@@ -45,7 +45,7 @@ function EmpTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">Primary Employees</p>
+                    <p className="font14 text-gray m-0 ws-nowrap">Productive Employees</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{actionReq.total_ndr_count}</h3>
                   </div>
                   <div className="col-2">
@@ -67,7 +67,7 @@ function EmpTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">other Employees</p>
+                    <p className="font14 text-gray m-0 ws-nowrap">Unproductive Employees</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{actionRequested.total_ndr_count}</h3>
                   </div>
                   <div className="col-2">
