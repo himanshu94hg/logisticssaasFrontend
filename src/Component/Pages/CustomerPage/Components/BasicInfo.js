@@ -346,6 +346,7 @@ const BasicInfo = ({ activeTab }) => {
       console.error('Error fetching PDF:', error);
     }
   }
+  
 
   return (
       <>
