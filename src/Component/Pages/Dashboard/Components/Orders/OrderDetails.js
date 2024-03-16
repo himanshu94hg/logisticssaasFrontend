@@ -34,34 +34,34 @@ const OrdersChart = () => {
     });
 
     useEffect(() => {
-       if(mpsData){
-        const mpsValues = [];
-        const spsValues = [];
-        const weekValues = [];
-        mpsData.forEach(item => {
-            mpsValues.push(item.mps);
-            spsValues.push(item.sps);
-            weekValues.push("Week " + item.week);
-        });
-        setChartData(prevState => ({
-            ...prevState,
-            series: [
-                { ...prevState.series[0], data: spsValues },
-                { ...prevState.series[1], data: mpsValues }
-            ],
-            options: {
-                ...prevState.options,
-                xaxis: {
-                    categories: weekValues
+        if (mpsData) {
+            const mpsValues = [];
+            const spsValues = [];
+            const weekValues = [];
+            mpsData.forEach(item => {
+                mpsValues.push(item.mps);
+                spsValues.push(item.sps);
+                weekValues.push("Week " + item.week);
+            });
+            setChartData(prevState => ({
+                ...prevState,
+                series: [
+                    { ...prevState.series[0], data: spsValues },
+                    { ...prevState.series[1], data: mpsValues }
+                ],
+                options: {
+                    ...prevState.options,
+                    xaxis: {
+                        categories: weekValues
+                    }
                 }
-            }
-        }));
-       }
+            }));
+        }
     }, [mpsData]);
 
     return (
         <div>
-           <ReactApexChart
+            <ReactApexChart
                 options={chartData.options}
                 series={chartData.series}
                 type="line"
