@@ -19,6 +19,7 @@ import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -123,11 +124,13 @@ const ReadyToShip = ({ orders, handleSearch }) => {
         }
     };
     const handleGeneratePickup = async (orderId) => {
+        let authToken = Cookies.get("access_token")
         try {
             const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-pickup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
                 },
                 body: JSON.stringify({
                     orders: [
@@ -139,8 +142,8 @@ const ReadyToShip = ({ orders, handleSearch }) => {
                 toast.success("Generate Pickup successfully")
             }
         } catch (error) {
-            toast.error("Somethng went wrong!")
-        }
+            toast.error("Something went wrong!")
+        }        
     };
 
     const handleDownloadInvoice = async (orderId) => {
