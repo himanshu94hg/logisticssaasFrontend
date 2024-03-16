@@ -198,7 +198,7 @@ const BasicInfo = ({ activeTab }) => {
       } else if (key === 'gst_number' && formData[key].length !== 15) {
         errors[key] = "GST number must consist of exactly 15 characters.";
       } else if (key === 'pincode' && formData[key].length !== 6) {
-        errors[key] = "Pincode must consist of exactly 6 characters.";
+        errors[key] = "Pincode should be 6 digits!.";
       }
       return errors;
     }, {});
