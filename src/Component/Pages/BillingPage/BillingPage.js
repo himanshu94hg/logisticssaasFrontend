@@ -26,7 +26,6 @@ const BillingPage = () => {
     };
 
 
-
     useEffect(()=>{
         dispatch({type:"BILLING_DATA_ACTION"})
     },[])
