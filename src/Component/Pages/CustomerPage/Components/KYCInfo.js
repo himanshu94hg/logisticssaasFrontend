@@ -54,10 +54,10 @@ const KYCInfo = ({ activeTab }) => {
   };
 
   const handleChange = async (e) => {
-    
-    console.log(e,"select type dfata")
 
-    const { name, value, type, files } = e.target;
+    console.log(e,"select type dfata")
+    
+        const { name, value, type, files } = e.target;
     let updatedValue;
     if (type === 'file') {
       try {
@@ -91,7 +91,7 @@ const KYCInfo = ({ activeTab }) => {
 
   console.log(formData, "this is dummay data")
 
-  const handleSubmit = async (e) => {
+ /* const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const response = await axios.post(
@@ -118,7 +118,51 @@ const KYCInfo = ({ activeTab }) => {
     } catch (error) {
       console.error('Error:', error);
     }
+  };*/
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const newErrors = Object.keys(formData).reduce((errors, key) => {
+      if (!formData[key]) {
+        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      } else if (key === 'document_name' && /\d/.test(formData[key])) {
+        errors[key] = "Document name should not contain numbers.";
+      } else if (key === 'document_id' && /[a-zA-Z]/.test(formData[key])) {
+        errors[key] = "Document number should not contain letters.";
+      }
+      return errors;
+    }, {});
+    setErrors(newErrors);
+  
+    if (Object.keys(newErrors).length <= 2) {
+      try {
+        const response = await axios.post(
+          'https://dev.shipease.in/core-api/seller/kyc-info/',
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${hardcodedToken}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        );
+        if (response.status === 201) {
+          fetchKYCData();
+          toast.success("KYC Details updated successfully");
+          setFormData({
+            company_type: '',
+            document_type: '',
+            document_id: '',
+            document_name: '',
+            document_upload: '',
+          });
+        }
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
   };
+  
 
 
   const handleDelete = async (id) => {

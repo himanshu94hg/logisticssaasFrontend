@@ -17,6 +17,7 @@ const RateCalculatorPage = () => {
   const [orderField, setOrderField] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [chargedWeight, setChargedWeight] = useState(0);
+  const [errors, setErrors] = useState([]);
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -54,12 +55,44 @@ const RateCalculatorPage = () => {
   };
 
   const handleSubmit = () => {
-    dispatch({
+    const newErrors = Object.keys(formData).reduce((errors, key) => {
+      if (!formData[key]) {
+        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      } else if (key === 'source_pincode' && formData[key].length !== 6) {
+        errors[key] = " Pincode must consist of 6 characters.";
+      } else if (key === 'destination_pincode' && formData[key].length !== 6) {
+        errors[key] = "Pincode must consist of 6 characters.";
+      }
+      return errors;
+    }, {});
+    setErrors(newErrors);
+
+      dispatch({
       type: "RATE_CALCULATOR_ACTION",
       payload: formData
     })
   }
+  const handleReset = () => {
+    console.log("Resetting form...");
 
+  /*  setLength('');
+    setHeight('');
+    setBreadth('');
+    setVolWeight(0);
+    setInvoiceField(false);
+    setOrderField('false');
+    setOrderId("");
+    setChargedWeight(0);
+    setFormData({
+      shipment_type: "Forward",
+      source_pincode: null,
+      destination_pincode: null,
+      weight: null,
+      volmetric_weight: 0, // assuming you want to reset it to 0 here
+      is_cod: "No",
+    });
+    console.log("Form reset completed.");*/
+}
   const handleSelect = (e, fieldName) => {
     const temp = e.target.value
     setFormData((prevData) => ({
@@ -231,24 +264,38 @@ const RateCalculatorPage = () => {
                 <label className='col'>
                   Pickup Pincode
                   <input
-                     type="number"
-                    className="input-field"
+                    type="text"
+                    className={`input-field ${errors.source_pincode && "input-field-error"}`}
                     name={"source_pincode"}
                     value={formData.source_pincode}
                     placeholder="Enter Pickup Pincode"
                     onChange={(e) => handleChange(e)}
+                    maxLength={6}
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}                  
                   />
+                   {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
                 </label>
                 <label className='col'>
                   Delivery Pincode
                   <input
-                    type="number"
-                    className="input-field"
+                    type="text"
+                    className={`input-field ${errors.destination_pincode && "input-field-error"}`}
                     value={formData.destination_pincode}
                     name={"destination_pincode"}
                     placeholder="Enter Delivery Pincode"
                     onChange={(e) => handleChange(e)}
+                    maxLength={6}
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}
                   />
+                  {errors.destination_pincode && <span className="error-text">{errors.destination_pincode}</span>}
                 </label>
               </div>
               <div className='mt-5 row flex-row align-items-end'>
@@ -260,6 +307,7 @@ const RateCalculatorPage = () => {
                     value={formData.weight}
                     className='input-field'
                     onChange={(e) => handleChange(e)}
+                    placeholder='e.g 0.9 for 900 gm'
                   />
                 </label>
                 <label className='col'>
@@ -280,6 +328,12 @@ const RateCalculatorPage = () => {
                     type="number"
                     name="length"
                     onChange={(e) => handleChange(e)}
+                    placeholder='Enter Length in cm'
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}
                   />
                 </label>
 
@@ -291,6 +345,12 @@ const RateCalculatorPage = () => {
                     type="number"
                     name="breadth"
                     onChange={(e) => handleChange(e)}
+                    placeholder='Enter Breadth in cm'
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}
                   />
                 </label>
 
@@ -302,6 +362,12 @@ const RateCalculatorPage = () => {
                     type="number"
                     name="height"
                     onChange={(e) => handleChange(e)}
+                    placeholder='Enter Height in cm'
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}
                   />
                 </label>
               </div>
@@ -319,16 +385,21 @@ const RateCalculatorPage = () => {
                   Invoice Amount
                   <input
                     className='input-field'
-                    type="text"
+                    type="number"
                     name="invoice_amount"
                     value={formData.invoice_amount}
                     onChange={(e) => handleChange(e)}
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}
                   />
                 </label>}
               </div>
             </div>
             <div className='d-flex w-100 justify-content-end mt-4'>
-              <button onClick={() => setRateTable(false)} type='reset' className="btn main-button-outline">Reset</button>
+            <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
               <button onClick={() => handleSubmit()} type='button' className="ms-2 btn main-button">Calculate</button>
             </div>
           </section>

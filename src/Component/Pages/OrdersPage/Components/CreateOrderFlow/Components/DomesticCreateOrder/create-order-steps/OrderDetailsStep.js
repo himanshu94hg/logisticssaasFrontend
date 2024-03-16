@@ -15,7 +15,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
     const validateFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
-            newErrors.customer_order_number = 'Customer Order Number is required!';
+            newErrors.customer_order_number = ' Order Number is required!';
         }
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
@@ -126,13 +126,13 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                     <div className='row'>
                         {/* Customer Order Number */}
                         <label className='col'>
-                            Customer Order Number
+                           <span>Order Number <span className='mandatory'>*</span></span>  
                             <input
                                 type="text"
                                 className={`input-field ${errors.customer_order_number&&'input-field-error'}`}
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
-                                placeholder='Enter Customer Order ID'
+                                placeholder='Enter Customer Order Number'
                             />
                             {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>
