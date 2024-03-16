@@ -177,6 +177,7 @@ const BasicInfo = ({ activeTab }) => {
               website_url: basicInfoData.website_url || '',
               mobile: basicInfoData.mobile || '',
               gst_certificate: basicInfoData.gst_certificate || '',
+              company_logo: basicInfoData.company_logo || '',
             }));
           })
           .catch(error => {
@@ -345,7 +346,7 @@ const BasicInfo = ({ activeTab }) => {
     }
   }
 
-  console.log("imagesData",previewImage)
+  console.log("Basic Info Data",formData)
 
   return (
       <>
