@@ -7,8 +7,8 @@ import { DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION,  } from "../../../constant/dash
 import { GET_DASHBOARD_OVERVIEW_COUNTER_CARD_DATA,  } from "../../../../constants/dashboard/overview";
 
 async function counterCardAPI(data) {
+    
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
-
     let listData = axios.request({
         method: "GET",
         url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_COUNTER_CARD}?${queryParams}`,
@@ -18,6 +18,7 @@ async function counterCardAPI(data) {
 }
 function* counterCardAction(action) {
     let { payload, reject } = action;
+
     try {
         let response = yield call(counterCardAPI, payload);
         if (response.status === 200) {

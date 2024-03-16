@@ -1,63 +1,90 @@
-import React from 'react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
+import React, { useEffect, useState } from 'react';
 
 const OrdersChart = () => {
-    const series = [
-        {
-            name: 'B2B',
-            data: [30, 40, 45, 50, 55] // Weekly B2B orders data
-        },
-        {
-            name: 'B2C',
-            data: [45, 50, 55, 60, 65] // Weekly B2C orders data
-        },
-        {
-            name: 'Hyperlocal',
-            data: [20, 25, 30, 35, 40] // Weekly Hyperlocal orders data
-        },
-        {
-            name: 'International',
-            data: [10, 15, 20, 25, 30] // Weekly International orders data
-        }
-    ];
 
-    const options = {
-        chart: {
-            type: 'bar',
-            height: 350
-        },
-        plotOptions: {
-            bar: {
-                horizontal: false,
-                columnWidth: '55%',
-                endingShape: 'rounded'
+    const { intVsDom } = useSelector(state => state?.dashboardOrderReducer)
+
+    const [chartData, setChartData] = useState({
+        series: [
+            {
+                name: 'Domestic',
+                data: []
             },
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-        },
-        xaxis: {
-            categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'], // Weeks
-        },
-        yaxis: {
-            title: {
-                text: 'Orders'
+            {
+                name: 'International',
+                data: []
             }
-        },
-        fill: {
-            opacity: 1
+        ],
+        options: {
+            chart: {
+                type: 'bar',
+                height: 350
+            },
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '55%',
+                    endingShape: 'rounded'
+                },
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                show: true,
+                width: 2,
+                colors: ['transparent']
+            },
+            xaxis: {
+                categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            },
+            yaxis: {
+                title: {
+                    text: 'Orders'
+                }
+            },
+            fill: {
+                opacity: 1
+            }
         }
-    };
+    })
+
+
+    useEffect(() => {
+        if (intVsDom) {
+            const categories = [];
+            const domestic = [];
+            const international = [];
+            intVsDom?.domestic.forEach(item => {
+                categories.push("Week " + item.week_number);
+                domestic?.push(item.count);
+            });
+            intVsDom?.international.forEach(item => {
+                categories.push("Week " + item.week_number);
+                international?.push(item.count);
+            });
+            setChartData(prevState => ({
+                ...prevState,
+                series: [
+                    { ...prevState.series[0], data: domestic },
+                    { ...prevState.series[1], data: international }
+                ],
+                options: {
+                    ...prevState.options,
+                    xaxis: {
+                        categories: [...new Set(categories)]
+                    }
+                }
+            }));
+        }
+    }, [intVsDom]);
 
     return (
         <div>
             <div id="chart">
-                <ReactApexChart options={options} series={series} type="bar" height={350} />
+                <ReactApexChart options={chartData?.options} series={chartData?.series} type="bar" height={350} />
             </div>
         </div>
     );

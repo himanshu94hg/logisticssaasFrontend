@@ -1,48 +1,74 @@
 
-import React from 'react';
+import { forEach } from 'lodash';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const OFDChart = () => {
-    const seriesData = [
-        {
-            name: 'OFD',
-            data: [3, 4, 2, 5, 3] // Example data for Order Fulfillment Duration (OFD) for Week 1 to Week 5
-        }
-    ];
+    const { ofdData } = useSelector(state => state?.dashboardShpmentReducer)
 
-    const options = {
-        chart: {
-            height: 350,
-            type: 'line',
-            zoom: {
-                enabled: false
+    const [chartData, setChartData] = useState({
+        seriesData: [
+            {
+                name: 'OFD',
+                data: []
             }
-        },
-        dataLabels: {
-            enabled: false
-        },
-        stroke: {
-            curve: 'straight'
-        },
-        title: {
-            text: '',
-            align: 'left'
-        },
-        grid: {
-            row: {
-                colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
-                opacity: 0.5
+        ],
+        options: {
+            chart: {
+                height: 350,
+                type: 'line',
+                zoom: {
+                    enabled: false
+                }
             },
-        },
-        xaxis: {
-            categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: 'straight'
+            },
+            title: {
+                text: '',
+                align: 'left'
+            },
+            grid: {
+                row: {
+                    colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                    opacity: 0.5
+                },
+            },
+            xaxis: {
+                categories: [],
+            }
         }
-    };
+    })
+    useEffect(() => {
+        if (ofdData) {
+            const ofdCounts = [];
+            const catData = [];
+            ofdData.forEach((item) => {
+                ofdCounts.push(item.ofd_count);
+                catData.push("Week " + item.week);
+            });
+            setChartData(prev => ({
+                ...prev,
+                seriesData: [{ ...prev.seriesData[0], data: ofdCounts }],
+                options: {
+                    ...prev.options,
+                    xaxis: {
+                        categories: catData
+                    }
+                }
+            }))
+        }
+    }, [ofdData])
+    console.log(chartData, "this is my ofd data")
 
     return (
         <div>
             <div id="ofd-chart">
-                <ReactApexChart options={options} series={seriesData} type="line" height={350} />
+                <ReactApexChart options={chartData?.options} series={chartData?.seriesData} type="line" height={350} />
             </div>
         </div>
     );
