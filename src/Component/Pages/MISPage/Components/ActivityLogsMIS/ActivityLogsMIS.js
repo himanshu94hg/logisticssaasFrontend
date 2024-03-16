@@ -6,20 +6,25 @@ const ActivityLogsMIS = () => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [orders, setAllOrders] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get('http://dev.shipease.in:8088/order/v1/allorderdetail/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
+    const [orders, setAllOrders] = useState([
+        {
+            id: 1,
+            userDetails: 'John Doe',
+            date: '2024-03-15',
+            time: '10:00 AM',
+            action: 'Logged In',
+            description: 'User logged into the system.'
+        },
+        {
+            id: 2,
+            userDetails: 'Jane Smith',
+            date: '2024-03-15',
+            time: '11:30 AM',
+            action: 'Logged Out',
+            description: 'User logged out of the system.'
+        },
+        // Add more dummy data as needed
+    ]);
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -60,11 +65,8 @@ const ActivityLogsMIS = () => {
                                 <img src={SearchIcon} alt="Search" />
                             </button>
                         </label>
-
                     </div>
-                    <div className='button-container'>
-
-                    </div>
+                    <div className='button-container'></div>
                 </div>
                 <div className='table-container'>
                     <table className=" w-100">
@@ -77,15 +79,11 @@ const ActivityLogsMIS = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
+                                <th style={{ width: '25%' }}>User Details</th>
+                                <th>Date</th>
+                                <th>Time</th>
                                 <th>Action</th>
-
+                                <th>Description</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -102,36 +100,33 @@ const ActivityLogsMIS = () => {
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
+                                            {/* User Details */}
                                             <div className='cell-inside-box'>
+                                                {row.userDetails}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
+                                            {/* Date */}
                                             <div className='cell-inside-box'>
-
+                                                {row.date}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
+                                            {/* Time */}
                                             <div className='cell-inside-box'>
-
+                                                {row.time}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
+                                            {/* Action */}
                                             <div className='cell-inside-box'>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* pickup adress */}
-                                            <div className='cell-inside-box'>
-
+                                                {row.action}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
+                                            {/* Description */}
                                             <div className='cell-inside-box'>
+                                                {row.description}
                                             </div>
                                         </td>
                                     </tr>
