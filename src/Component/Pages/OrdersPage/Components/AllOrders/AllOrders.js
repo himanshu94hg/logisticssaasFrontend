@@ -328,7 +328,7 @@ const AllOrders = ({ orders, handleSearch }) => {
                                             {/* {row?.ndr_action}
                                              {row?.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : ''}</button>
+                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : row?.status === 'pickup_requested' ? 'Download Label': ''}</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />

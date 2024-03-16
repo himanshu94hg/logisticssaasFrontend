@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
-import "./AddWarehouse.css"
+import "./AddWarehouse.css";
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
@@ -58,16 +58,20 @@ const AddWarehouse = () => {
             }
             if (!contactNumber) {
                 newErrors.contactNumber = "Contact Number is required";
+            } else if (contactNumber.length !== 10) {
+                newErrors.contactNumber = "Contact Number should be 10 digits";
             }
             if (!gstNumber) {
                 newErrors.gstNumber = "GST Number is required";
+            }  else if (!/^\d{15}$/.test(gstNumber) && gstNumber.length !== 15) {
+                newErrors.gstNumber = "GST Number should contain exactly 15 digits ";
             }
             if (!addressLine1) {
                 newErrors.addressLine1 = "Address Line 1 is required";
             }
             if (!pincode) {
                 newErrors.pincode = "Pincode is required";
-            }
+            } 
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
@@ -191,7 +195,7 @@ const AddWarehouse = () => {
     const handlePincodeChange = async () => {
         const pincode = pincodeRef.current.value;
 
-        if (pincode.length < 6) {
+                if (pincode.length < 6) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -293,6 +297,12 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.contactNumber&&'input-field-error'}`}
                                     name="contact_number"
                                     placeholder='Enter Contact Person Number'
+                                    maxLength={10} 
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                   {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
                             </label>
@@ -303,6 +313,7 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.gstNumber&&'input-field-error'}`}
                                     name="gst_number"
                                     placeholder='Enter GST Number'
+                                    maxLength={15}
                                 />
                                  {errors.gstNumber && <div className="error">{errors.gstNumber}</div>}
                             </label>
@@ -338,6 +349,11 @@ const AddWarehouse = () => {
                                     placeholder='Enter Pincode'
                                     ref={pincodeRef1}
                                     onBlur={handlePincodeChange1}
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                  {errors.pincode && <div className="error">{errors.pincode}</div>}
                             </label>

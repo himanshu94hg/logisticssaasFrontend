@@ -59,7 +59,3 @@ export function* getLastOrderWatcher() {
     yield takeLatest(DASHBOARD_OVERVIEW_TOPSELL_ACTION, topSellAction);
 }
 
-
-// useEffect(() => {
-//     dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION" })
-//   }, [])

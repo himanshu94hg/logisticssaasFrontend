@@ -3,6 +3,7 @@ import React, { useEffect, } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { percentage } from "../../../../../customFunction/functionLogic";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function CustomTable({ data }) {
 
@@ -46,10 +47,7 @@ function TopSellingDashboard() {
 
   useEffect(() => {
     dispatch({
-      type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: {
-        start_date:startDate,
-        end_date:endDate
-      }
+      type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard
     })
   }, [])
 

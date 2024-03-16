@@ -7,9 +7,11 @@ import { DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION, } from "../../../constant/dashb
 import { GET_DASHBOARD_OVERVIEW_REVENUE_CARD_DATA, } from "../../../../constants/dashboard/overview";
 
 async function revenueCardAPI(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_REVENUE_CARD}`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_OVERVIEW_REVENUE_CARD}?${queryParams}`,
         // data: data
     });
     return listData
