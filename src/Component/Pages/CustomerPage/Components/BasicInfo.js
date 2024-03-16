@@ -248,7 +248,7 @@ const BasicInfo = ({ activeTab }) => {
           formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
           const additionalData = await uploadImageData(awsUrl, formData);
           if (additionalData?.status == 204) {
-            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
+            const imageUrl = responseData?.data?.url?.url + "customerData/" + e.target.files[0]?.name.replace(/\s/g, "")
             setFormData(prev => ({
               ...prev,
               company_logo: imageUrl
@@ -362,7 +362,7 @@ const BasicInfo = ({ activeTab }) => {
                     <div className='upload-logo-input'>
                       <div className='d-flex flex-column align-items-center'>
                         <div className='logo-img-cont'>
-                          <img src={logoPreview} alt="Logo Preview" height={50} />
+                          <img src={formData.company_logo ? formData.company_logo : logoPreview} alt="Logo Preview" height={50} />
                         </div>
                         <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
                       </div>
