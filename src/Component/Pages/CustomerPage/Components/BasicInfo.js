@@ -202,6 +202,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       return errors;
     }, {});
+    
     setErrors(newErrors);
     console.log("Error Data",Object.keys(newErrors).length)
 
