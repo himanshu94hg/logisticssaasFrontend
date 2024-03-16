@@ -71,7 +71,7 @@ const AddWarehouse = () => {
             }
             if (!pincode) {
                 newErrors.pincode = "Pincode is required";
-            } 
+            }
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
@@ -138,7 +138,7 @@ const AddWarehouse = () => {
 
             const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData,{
                 headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,    
+                    'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'
                 }
             });
@@ -195,7 +195,7 @@ const AddWarehouse = () => {
     const handlePincodeChange = async () => {
         const pincode = pincodeRef.current.value;
 
-                if (pincode.length < 6) {
+        if (pincode.length < 6) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -253,12 +253,12 @@ const AddWarehouse = () => {
             }
         } catch (error) {
             console.error('Error fetching data:', error);
-          
+
         }
     };
 
-    const validateData=()=>{
-        
+    const validateData = () => {
+
     }
 
     return (
@@ -272,50 +272,58 @@ const AddWarehouse = () => {
                                 Warehouse Name(do not use special symbols)
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.warehouseName&&'input-field-error'}`}
+                                    className={`input-field ${errors.warehouseName && 'input-field-error'}`}
                                     name="warehouse_name"
                                     placeholder='Enter Warehouse Name'
                                 />
-                                  {errors.warehouseName && <div className="error">{errors.warehouseName}</div>}
+                                {errors.warehouseName && <div className="error">{errors.warehouseName}</div>}
                             </label>
                             <label>
                                 Contact Person Name
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.contactName&&'input-field-error'}`}
+                                    className={`input-field ${errors.contactName && 'input-field-error'}`}
                                     name="contact_name"
                                     placeholder='Enter Contact Person Name'
                                 />
-                                 {errors.contactName && <div className="error">{errors.contactName}</div>}
+                                {errors.contactName && <div className="error">{errors.contactName}</div>}
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
                             <label>
                                 Contact Number
-                                <input
-                                    type="text"
-                                    className={`input-field ${errors.contactNumber&&'input-field-error'}`}
-                                    name="contact_number"
-                                    placeholder='Enter Contact Person Number'
-                                    maxLength={10} 
-                                    onKeyPress={(e) => {
-                                        if (!/\d/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                                  {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
+                                <div className='d-flex mobile-number-field'>
+                                    <select
+                                        className='input-field '
+                                        disabled
+                                    >
+                                        <option value="+91">+91</option>
+                                    </select>
+                                    <input
+                                        type="text"
+                                        className={`input-field ${errors.contactNumber && 'input-field-error'}`}
+                                        name="contact_number"
+                                        placeholder='XXXXXXXXXX'
+                                        maxLength={10}
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
+                                </div>    
+                                    {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
                             </label>
                             <label>
                                 GST Number
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.gstNumber&&'input-field-error'}`}
+                                    className={`input-field ${errors.gstNumber && 'input-field-error'}`}
                                     name="gst_number"
                                     placeholder='Enter GST Number'
                                     maxLength={15}
                                 />
-                                 {errors.gstNumber && <div className="error">{errors.gstNumber}</div>}
+                                {errors.gstNumber && <div className="error">{errors.gstNumber}</div>}
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
@@ -323,11 +331,11 @@ const AddWarehouse = () => {
                                 Warehouse Address 1
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.addressLine1&&'input-field-error'}`}
+                                    className={`input-field ${errors.addressLine1 && 'input-field-error'}`}
                                     name="address_line1"
                                     placeholder='Enter Warehouse Address 1'
                                 />
-                                 {errors.addressLine1 && <div className="error">{errors.addressLine1}</div>}
+                                {errors.addressLine1 && <div className="error">{errors.addressLine1}</div>}
                             </label>
                             <label>
                                 Warehouse Address 2
@@ -344,7 +352,7 @@ const AddWarehouse = () => {
                                 Pincode
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.pincode&&'input-field-error'}`}
+                                    className={`input-field ${errors.pincode && 'input-field-error'}`}
                                     name="pincode"
                                     placeholder='Enter Pincode'
                                     ref={pincodeRef1}
@@ -355,7 +363,7 @@ const AddWarehouse = () => {
                                         }
                                     }}
                                 />
-                                 {errors.pincode && <div className="error">{errors.pincode}</div>}
+                                {errors.pincode && <div className="error">{errors.pincode}</div>}
                             </label>
                             <label>
                                 City
@@ -439,14 +447,14 @@ const AddWarehouse = () => {
                         </div>
                         <hr />
                         <label className='d-flex flex-row align-items-center mt-3'>
-                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} />
+                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} defaultChecked={true} />
                             Use a different address as RTO address
                         </label>
                         <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
                             <h3 className='mt-3 mb-0'>Add RTO Address</h3>
                             <div className='d-flex gap-3'>
                                 <label>
-                                    Warehouse Name(do not use sp    ecial symbols)
+                                    Warehouse Name(do not use special symbols)
                                     <input
                                         type="text"
                                         className='input-field'
