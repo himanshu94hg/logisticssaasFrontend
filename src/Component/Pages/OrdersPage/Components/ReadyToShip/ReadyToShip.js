@@ -6,7 +6,6 @@ import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/f
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
