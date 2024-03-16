@@ -14,6 +14,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import Modal from "react-bootstrap/Modal";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
   const [logoError, setLogoError] = useState("");
