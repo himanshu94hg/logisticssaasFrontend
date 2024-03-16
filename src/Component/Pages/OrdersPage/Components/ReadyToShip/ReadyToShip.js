@@ -20,6 +20,7 @@ import customImg from "../../../../../assets/image/integration/Manual.png"
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
+
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
 
