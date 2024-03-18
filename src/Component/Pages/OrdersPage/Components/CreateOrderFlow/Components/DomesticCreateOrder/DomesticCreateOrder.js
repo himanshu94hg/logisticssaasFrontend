@@ -81,7 +81,7 @@ const DomesticCreateOrder = () => {
         product_details: [
             {
                 product_name: "",
-                quantity: 1,
+                quantity: '',
                 unit_price: 0,
                 product_category: "",
                 weight: 0,
