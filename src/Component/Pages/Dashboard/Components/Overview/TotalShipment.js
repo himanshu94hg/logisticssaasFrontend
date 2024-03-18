@@ -13,9 +13,9 @@ function TotalShipment() {
 
 
   
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
+  // }, [])
   
   useEffect(() => {
     if (shimpmetCard) {
@@ -29,6 +29,7 @@ function TotalShipment() {
 
   const getColorScale = () => {
     const colorScale = {
+      yet_to_pick: "#2489BE",
       delivered: "#3BB54B",
       in_transit: "#FFD300",
       ndr: "#F31429",
@@ -73,9 +74,32 @@ function TotalShipment() {
             <div className="row">
               <div className="col">
                 <div className="progress-widget">
+                  {/* Shipped */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Delivered</p>
+                      <p className="font12 bold-600 mb-2">Shipped</p>
+                      <p className="font12 text-gray mb-0">
+                        {shimpmetCard?.shipped_orders}   {percentage(shimpmetCard?.shipped_orders, totalShipment)}
+                      </p>
+                    </div>
+                    <div className="progress mb-2">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{
+                          width: `${shimpmetCard?.shipped_orders}%`,
+                          backgroundColor: colorScale?.shipped,
+                        }}
+                        aria-valuenow={shimpmetCard?.shipped_orders}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                  {/* Yet To Pick */}
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="font12 bold-600 mb-2">Yet To Pick</p>
                       <p className="font12 text-gray mb-0">
                         {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders, totalShipment)}
                       </p>
@@ -86,7 +110,7 @@ function TotalShipment() {
                         role="progressbar"
                         style={{
                           width: `${shimpmetCard?.delivered_orders}%`,
-                          backgroundColor: colorScale.delivered,
+                          backgroundColor: colorScale.yet_to_pick,
                         }}
                         aria-valuenow={shimpmetCard?.delivered_orders}
                         aria-valuemin="0"
@@ -94,69 +118,7 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">In Transit</p>
-                      <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.intransit_orders} {percentage(shimpmetCard?.intransit_orders, totalShipment)}
-                      </p>
-                    </div>
-                    <div className="progress mb-2">
-                      <div
-                        className="progress-bar"
-                        role="progressbar"
-                        style={{
-                          width: `${shimpmetCard?.intransit_orders}%`,
-                          backgroundColor: colorScale?.in_transit,
-                        }}
-                        aria-valuenow={shimpmetCard?.intransit_orders}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">NDR</p>
-                      <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.ndr_orders} {percentage(shimpmetCard?.ndr_orders, totalShipment)}
-                      </p>
-                    </div>
-                    <div className="progress mb-2">
-                      <div
-                        className="progress-bar"
-                        role="progressbar"
-                        style={{
-                          width: `${shimpmetCard?.ndr_orders}%`,
-                          backgroundColor: colorScale.ndr,
-                        }}
-                        aria-valuenow={shimpmetCard?.ndr_orders}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
-                  <div className="mb-3">
-                    <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Out For Delivery</p>
-                      <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.out_for_delivery}  {percentage(shimpmetCard?.out_for_delivery, totalShipment)}
-                      </p>
-                    </div>
-                    <div className="progress mb-2">
-                      <div
-                        className="progress-bar"
-                        role="progressbar"
-                        style={{
-                          width: `${shimpmetCard?.out_for_delivery}%`,
-                          backgroundColor: colorScale?.out_for_delivery,
-                        }}
-                        aria-valuenow={shimpmetCard?.out_for_delivery}
-                        aria-valuemin="0"
-                        aria-valuemax="100"
-                      ></div>
-                    </div>
-                  </div>
+                  {/* Picked Up */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Picked Up</p>
@@ -178,11 +140,12 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+                  {/* In Transit */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Shipped</p>
+                      <p className="font12 bold-600 mb-2">In Transit</p>
                       <p className="font12 text-gray mb-0">
-                        {shimpmetCard?.shipped_orders}   {percentage(shimpmetCard?.shipped_orders, totalShipment)}
+                        {shimpmetCard?.intransit_orders} {percentage(shimpmetCard?.intransit_orders, totalShipment)}
                       </p>
                     </div>
                     <div className="progress mb-2">
@@ -190,10 +153,77 @@ function TotalShipment() {
                         className="progress-bar"
                         role="progressbar"
                         style={{
-                          width: `${shimpmetCard?.shipped_orders}%`,
-                          backgroundColor: colorScale?.shipped,
+                          width: `${shimpmetCard?.intransit_orders}%`,
+                          backgroundColor: colorScale?.in_transit,
                         }}
-                        aria-valuenow={shimpmetCard?.shipped_orders}
+                        aria-valuenow={shimpmetCard?.intransit_orders}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                  {/* OFD */}
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="font12 bold-600 mb-2">Out For Delivery</p>
+                      <p className="font12 text-gray mb-0">
+                        {shimpmetCard?.out_for_delivery}  {percentage(shimpmetCard?.out_for_delivery, totalShipment)}
+                      </p>
+                    </div>
+                    <div className="progress mb-2">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{
+                          width: `${shimpmetCard?.out_for_delivery}%`,
+                          backgroundColor: colorScale?.out_for_delivery,
+                        }}
+                        aria-valuenow={shimpmetCard?.out_for_delivery}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+
+                  {/* Delivered */}
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="font12 bold-600 mb-2">Delivered</p>
+                      <p className="font12 text-gray mb-0">
+                        {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders, totalShipment)}
+                      </p>
+                    </div>
+                    <div className="progress mb-2">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{
+                          width: `${shimpmetCard?.delivered_orders}%`,
+                          backgroundColor: colorScale.delivered,
+                        }}
+                        aria-valuenow={shimpmetCard?.delivered_orders}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                  {/* NDR */}
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="font12 bold-600 mb-2">NDR</p>
+                      <p className="font12 text-gray mb-0">
+                        {shimpmetCard?.ndr_orders} {percentage(shimpmetCard?.ndr_orders, totalShipment)}
+                      </p>
+                    </div>
+                    <div className="progress mb-2">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{
+                          width: `${shimpmetCard?.ndr_orders}%`,
+                          backgroundColor: colorScale.ndr,
+                        }}
+                        aria-valuenow={shimpmetCard?.ndr_orders}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>
