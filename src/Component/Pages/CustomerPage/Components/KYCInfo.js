@@ -253,6 +253,7 @@ const KYCInfo = ({ activeTab }) => {
                     <input
                       className="input-field"
                       type="file"
+                      fileinput="fileinput"
                       name="document_upload"
                       onChange={handleChange}
                     />
