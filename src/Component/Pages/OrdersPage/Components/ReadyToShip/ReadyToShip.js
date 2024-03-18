@@ -6,7 +6,6 @@ import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/f
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
@@ -19,39 +18,14 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
-
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
 
 const ReadyToShip = ({ orders, handleSearch }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
 
@@ -90,12 +64,12 @@ const ReadyToShip = ({ orders, handleSearch }) => {
 
 
     const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
+        setMoreFilters(true);
         setBackDrop(true)
     }
 
     const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
+        setMoreFilters(false);
         setBackDrop(false)
     }
 
@@ -388,7 +362,7 @@ const ReadyToShip = ({ orders, handleSearch }) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
+                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
 
                 {/* <div id='sidePanel' className="side-panel">
                     <div className='sidepanel-closer'>

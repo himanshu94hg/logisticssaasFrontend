@@ -7,7 +7,6 @@ import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
@@ -18,6 +17,7 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
+import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -46,10 +46,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const Manifest = ({ orders,handleSearch }) => {
+const Manifest = ({ orders, handleSearch }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
 
@@ -84,12 +85,12 @@ const Manifest = ({ orders,handleSearch }) => {
     };
 
     const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
+        setMoreFilters(true);
         setBackDrop(true)
     }
 
     const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
+        setMoreFilters(false);
         setBackDrop(false)
     }
 
@@ -109,7 +110,7 @@ const Manifest = ({ orders,handleSearch }) => {
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)}/>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>
@@ -181,16 +182,16 @@ const Manifest = ({ orders,handleSearch }) => {
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                            <p className=''>
-                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
-                                                    :"" }
+                                                <p className=''>
+                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                                    : ""}
                                                     &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -307,7 +308,7 @@ const Manifest = ({ orders,handleSearch }) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
+                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
 
                 {/* <div id='sidePanel' className="side-panel">
                     <div className='sidepanel-closer'>
