@@ -142,7 +142,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.customer_order_number}
+                                                    {row?.order_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -150,7 +150,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
-                                                    {row?.courier_partner}
+                                                    {row?.order_detail?.courier_partner}
                                                 </p>
                                             </div>
                                         </td>
@@ -158,7 +158,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.awb_assigned_date}
+                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
                                                 </p>  
                                             </div>
                                         </td>
@@ -174,7 +174,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row?.total_charges}
+                                                    -
                                                 </p>
                                             </div>
                                         </td>
@@ -182,7 +182,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.excess_weight_charges}
+                                                    -
                                                 </p>
                                             </div>
                                         </td>
@@ -190,7 +190,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.total_charges + row?.excess_weight_charges}
+                                                    -
                                                 </p>
                                               
                                             </div>
@@ -199,8 +199,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.weight / 1000} Kg<br></br>
-                                                {row?.length * row?.breadth * row?.height} Cm
+                                                    -
                                                 </p>
                                               
                                             </div>
@@ -235,3 +234,4 @@ const ShippingCharges = ({billingCard}) => {
 };
 
 export default ShippingCharges;
+
