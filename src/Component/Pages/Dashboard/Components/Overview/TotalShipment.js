@@ -12,11 +12,11 @@ function TotalShipment() {
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
 
-  
+
   useEffect(() => {
     dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
   }, [])
-  
+
   useEffect(() => {
     if (shimpmetCard) {
       const total_shipment = Object.values(shimpmetCard).reduce((acc, value) => acc + value, 0)
@@ -29,6 +29,7 @@ function TotalShipment() {
 
   const getColorScale = () => {
     const colorScale = {
+      yet_to_pick: "#2489BE",
       delivered: "#3BB54B",
       in_transit: "#FFD300",
       ndr: "#F31429",
@@ -73,6 +74,29 @@ function TotalShipment() {
             <div className="row">
               <div className="col">
                 <div className="progress-widget">
+                  {/* Yet To Pick */}
+                  <div className="mb-3">
+                    <div className="d-flex align-items-center justify-content-between">
+                      <p className="font12 bold-600 mb-2">Yet To Pick</p>
+                      <p className="font12 text-gray mb-0">
+                        {shimpmetCard?.delivered_orders} {percentage(shimpmetCard?.delivered_orders, totalShipment)}
+                      </p>
+                    </div>
+                    <div className="progress mb-2">
+                      <div
+                        className="progress-bar"
+                        role="progressbar"
+                        style={{
+                          width: `${shimpmetCard?.delivered_orders}%`,
+                          backgroundColor: colorScale.yet_to_pick,
+                        }}
+                        aria-valuenow={shimpmetCard?.delivered_orders}
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                      ></div>
+                    </div>
+                  </div>
+                  {/* Delivered */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Delivered</p>
@@ -94,6 +118,7 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+                  {/* In Transit */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">In Transit</p>
@@ -115,6 +140,7 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+                  {/* NDR */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">NDR</p>
@@ -136,6 +162,7 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+                  {/* OFD */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Out For Delivery</p>
@@ -157,6 +184,7 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+                  {/* Picked Up */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Picked Up</p>
@@ -178,6 +206,7 @@ function TotalShipment() {
                       ></div>
                     </div>
                   </div>
+                  {/* Shipped */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
                       <p className="font12 bold-600 mb-2">Shipped</p>
