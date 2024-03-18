@@ -135,6 +135,7 @@ const AddWarehouse = () => {
                     country: rto_country
                 }
             };
+            console.log(formData,"formDataformDataformData")
 
             const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData,{
                 headers: {
@@ -142,9 +143,6 @@ const AddWarehouse = () => {
                     'Content-Type': 'application/json'
                 }
             });
-
-            console.log('Response:', response);
-
             if (response.status === 201) {
                 const responseData = response.data;
                 console.log('API Response:', responseData);
@@ -260,6 +258,7 @@ const AddWarehouse = () => {
     const validateData = () => {
 
     }
+
 
     return (
         <>
