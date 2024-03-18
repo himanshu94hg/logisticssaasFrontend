@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import NDRTotalInfo from '../Components/NDR/NDRTotalInfo'
 import SuccessByZone from '../Components/NDR/SuccessByZone'
@@ -9,8 +9,21 @@ import NDRtoDeliveryAttempt from '../Components/NDR/NDRtoDeliveryAttempt'
 import SellerBuyerResponse from '../Components/NDR/SellerBuyerResponse'
 import NDRResponse from '../Components/NDR/NDRResponse'
 import NDRFunnel from '../Components/NDR/NDRFunnel'
+import { useDispatch } from 'react-redux'
+import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 
-const NDRDashboard = () => {
+const NDRDashboard = ({activeTab}) => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (activeTab === "NDR") {
+      dispatch({ type: "DASHBOARD_NDR_COUNTER_CARDS_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_NDR_STATUS_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_NDR_SUCCESS_BY_COURIER_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_NDR_SUCCESS_BY_ZONE_ACTION", payload: dateRangeDashboard })
+    }
+  }, [activeTab])
+
   return (
     <>
       <Row className='mb-3'>

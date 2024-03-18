@@ -12,11 +12,11 @@ function TotalShipment() {
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
 
-
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-  }, [])
-
+  
+  // useEffect(() => {
+  //   dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
+  // }, [])
+  
   useEffect(() => {
     if (shimpmetCard) {
       const total_shipment = Object.values(shimpmetCard).reduce((acc, value) => acc + value, 0)

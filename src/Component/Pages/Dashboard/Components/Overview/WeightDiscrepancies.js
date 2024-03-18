@@ -6,12 +6,12 @@ import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 const MixedWeightChart = () => {
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch({
-      type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION",
-      payload:dateRangeDashboard
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION",
+  //     payload:dateRangeDashboard
+  //   });
+  // }, []);
 
   const deliveryData = useSelector(state => state?.dashboardOverviewReducer.weightDispenceryData);
 

@@ -26,11 +26,11 @@ console.log(stateMapData,"stateMapData??????")
     }
   }, [mydata])
 
-  useEffect(() => {
-    dispatch({
-      type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload:dateRangeDashboard
-    })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload:dateRangeDashboard
+  //   })
+  // }, [])
 
   return (
     <div className="box-shadow shadow-sm p10 state-wise-card">
