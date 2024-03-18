@@ -39,7 +39,6 @@ const CourierDashboard = ({activeTab}) => {
 
 
   const {courierData}=useSelector(state=>state?.dashboardCourierReducer);
-console.log(courierData,"courierDatacourierData")
 
   const data = [
     {

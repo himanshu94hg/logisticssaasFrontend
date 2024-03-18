@@ -32,6 +32,6 @@ function* couriersAction(action) {
     }
 }
 
-export function* getCouriersWatcher() {
+export function* getDashboardCouriersWatcher() {
     yield takeLatest(DASHBOARD_COURIER_ACTION, couriersAction);
 }

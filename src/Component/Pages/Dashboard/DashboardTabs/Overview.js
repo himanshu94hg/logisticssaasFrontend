@@ -19,8 +19,7 @@ const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    const token = Cookies.get('token');
-    if (activeTab === "Overview" && token) {
+    if (activeTab === "Overview") {
       dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: dateRangeDashboard })
