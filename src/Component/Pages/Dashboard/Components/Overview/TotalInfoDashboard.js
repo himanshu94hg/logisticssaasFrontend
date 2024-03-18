@@ -17,9 +17,9 @@ function TotalInfoDashboard() {
   const [totalCustomer, setTotalCustomer] = useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
 
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION",payload:dateRangeDashboard })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION",payload:dateRangeDashboard })
+  // }, [])
 
   const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
 

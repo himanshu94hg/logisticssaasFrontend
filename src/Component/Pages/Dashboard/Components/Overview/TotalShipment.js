@@ -13,9 +13,9 @@ function TotalShipment() {
 
 
   
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
+  // }, [])
   
   useEffect(() => {
     if (shimpmetCard) {
