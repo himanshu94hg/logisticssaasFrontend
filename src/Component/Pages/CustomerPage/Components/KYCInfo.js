@@ -127,8 +127,6 @@ const KYCInfo = ({ activeTab }) => {
         errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
       } else if (key === 'document_name' && /\d/.test(formData[key])) {
         errors[key] = "Document name should not contain numbers.";
-      } else if (key === 'document_id' && /[a-zA-Z]/.test(formData[key])) {
-        errors[key] = "Document number should not contain letters.";
       } else if (key === 'document_type' && !formData[key]) {
         errors[key] = "Please select your document.";
       }
