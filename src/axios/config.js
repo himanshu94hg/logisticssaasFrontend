@@ -29,6 +29,9 @@ export const API_URL = {
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
 
+  //PAYMENT
+  GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
+
 
   //DASHBOARD OVERVIEW API'S 
   GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD: "/orders-api/dashboard/overview/shipment-card/",
