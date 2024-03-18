@@ -81,18 +81,19 @@ const ReportsMIS = () => {
     // Handle form submit
     const handleSubmit = e => {
         e.preventDefault();
-        if (firstSelectedOption !== null) {
-            console.log('First selected option:', firstSelectedOption);
-            console.log('Second selected option:', secondSelectedOption);
-            console.log('Start date:', startDate);
-            console.log('End date:', endDate);
+        if (firstSelectedOption !== null && secondSelectedOption !== null) {
             setShowComponent(firstSelectedOption.value);
-            console.log(showComponent);
-        } else {
+        } else if (firstSelectedOption === null) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                text: 'First selected option is null. Cannot submit form.',
+                text: 'Please Select Type to create report',
+            });
+        } else if (secondSelectedOption === null) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Please Select Subtype to create report',
             });
         }
     };

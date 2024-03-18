@@ -20,7 +20,7 @@ const ShipmentPerformance = () => {
     <div className="box-shadow shadow-sm p10 dashboard-table">
       <div className="row">
         <div className="col">
-          <h4 className="title">Weight Profile in Kgs</h4>
+          <h4 className="title">Performance Metrics</h4>
           <div className="table-responsive">
             <table className="custom-table w-100">
               <thead>
