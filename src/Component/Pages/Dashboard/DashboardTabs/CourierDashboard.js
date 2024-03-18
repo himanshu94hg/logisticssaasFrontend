@@ -1,10 +1,14 @@
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { faStar, faStarHalfAlt } from '@fortawesome/free-solid-svg-icons';
 import { faStar as farStar } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch } from 'react-redux';
+import { dateRangeDashboard } from '../../../../customFunction/dateRange';
+import { useSelector } from 'react-redux';
 
-const CourierDashboard = () => {
+const CourierDashboard = ({activeTab}) => {
+  const dispatch=useDispatch()
   const [openIndex, setOpenIndex] = useState(0); // Defaulting the first row to be open
 
   const toggleRow = (index) => {
@@ -32,6 +36,10 @@ const CourierDashboard = () => {
 
     return stars;
   };
+
+
+  const {courierData}=useSelector(state=>state?.dashboardCourierReducer);
+console.log(courierData,"courierDatacourierData")
 
   const data = [
     {
@@ -67,18 +75,24 @@ const CourierDashboard = () => {
     // Add more rows as needed
   ];
 
+
+  useEffect(()=>{
+    if(activeTab==="Courier Delays"){
+      dispatch({type:"DASHBOARD_COURIER_ACTION",payload:dateRangeDashboard})
+    }
+  },[activeTab])
   return (
     <>
       <section className='courier-dashboard'>
         <div className="accordion">
-          {data.map((item, index) => (
+          {courierData?.map((item, index) => (
             <div key={index} className="accordion-row box-shadow shadow-sm mb-3 p10">
               <div className="accordion-header" onClick={() => toggleRow(index)}>
-                <h4>{item.title}</h4>
-                <div>Mode: {item.Mode}</div>
-                <div>Shipment Count: {item['Shipment Count']}</div>
+                <h4>{item.courier_name}</h4>
+                <div>Mode: Surface</div>
+                <div>Shipment Count: {item?.total_shipment}</div>
                 <div>
-                  Performance Rating: {generateStars(item['Performance Rating'])}
+                  Performance Rating: {generateStars(item?.rating)}
                 </div>
                 <span>{openIndex === index ? <FontAwesomeIcon icon={faChevronDown} /> : <FontAwesomeIcon icon={faChevronUp} />}</span>
               </div>
@@ -87,14 +101,14 @@ const CourierDashboard = () => {
                 <div className="accordion-content p10">
                   <hr className='my-3' />
                   <div className='counters-container'>
-                    <div className='counter-item'>Prepaid: {item['Prepaid Order']}</div>
-                    <div className='counter-item'>Delivered: {item['Delivered']}</div>
-                    <div className='counter-item'>NDR Delivered: {item['NDR Delivered']}</div>
-                    <div className='counter-item'>RTO: {item['RTO']}</div>
-                    <div className='counter-item'>COD: {item['COD Order']}</div>
-                    <div className='counter-item'>1st Attempt Delivered: {item['1st Attempt Delivered']}</div>
-                    <div className='counter-item'>NDR Raised: {item['NDR Raised']}</div>
-                    <div className='counter-item'>Lost / Damaged: {item['Lost / Damaged']}</div>
+                    <div className='counter-item'>Prepaid: {item?.prepaid}</div>
+                    <div className='counter-item'>Delivered: {item?.delivered}</div>
+                    <div className='counter-item'>NDR Delivered: {item?.ndr_delivered}</div>
+                    <div className='counter-item'>RTO: {item?.rto}</div>
+                    <div className='counter-item'>COD: {item?.cod}</div>
+                    <div className='counter-item'>1st Attempt Delivered: {item?.first_attempt_delivered}</div>
+                    <div className='counter-item'>NDR Raised: {item?.ndr_raised}</div>
+                    <div className='counter-item'>Lost / Damaged: {item?.lost_damaged}</div>
                   </div>
                 </div>
               )}

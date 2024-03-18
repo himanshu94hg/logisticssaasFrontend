@@ -64,7 +64,7 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
 
 
-  //asdasd
+  //DASHBOARD COURIER API'S
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
 
 };
