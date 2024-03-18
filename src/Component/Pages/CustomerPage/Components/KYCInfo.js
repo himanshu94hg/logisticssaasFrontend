@@ -120,49 +120,53 @@ const KYCInfo = ({ activeTab }) => {
      }
    };*/
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+   const handleSubmit = async (e) => {
+    e.preventDefault(); 
     const newErrors = Object.keys(formData).reduce((errors, key) => {
-      if (!formData[key]) {
+      if (key !== 'document_upload' && !formData[key]) {
         errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
       } else if (key === 'document_name' && /\d/.test(formData[key])) {
         errors[key] = "Document name should not contain numbers.";
       } else if (key === 'document_id' && /[a-zA-Z]/.test(formData[key])) {
         errors[key] = "Document number should not contain letters.";
+      } else if (key === 'document_type' && !formData[key]) {
+        errors[key] = "Please select your document.";
       }
       return errors;
     }, {});
     setErrors(newErrors);
-
-    if (Object.keys(newErrors).length <= 2) {
-      try {
-        const response = await axios.post(
-          'https://dev.shipease.in/core-api/seller/kyc-info/',
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
-              'Content-Type': 'application/json',
-            },
-          }
-        );
-        if (response.status === 201) {
-          fetchKYCData();
-          toast.success("KYC Details updated successfully");
-          setFormData({
-            company_type: '',
-            document_type: '',
-            document_id: '',
-            document_name: '',
-            document_upload: '',
-          });
+  
+    if (Object.keys(newErrors).length !== 0) {
+      return;
+    }
+  
+    try {
+      const response = await axios.post(
+        'https://dev.shipease.in/core-api/seller/kyc-info/',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${hardcodedToken}`,
+            'Content-Type': 'application/json',
+          },
         }
-      } catch (error) {
-        console.error('Error:', error);
+      );
+      if (response.status === 201) {
+        fetchKYCData();
+        toast.success("KYC Details updated successfully");
+        setFormData({
+          company_type: '',
+          document_type: '',
+          document_id: '',
+          document_name: '',
+          document_upload: '',
+        });
       }
+    } catch (error) {
+      console.error('Error:', error);
     }
   };
-
+  
 
 
   const handleDelete = async (id) => {
@@ -265,7 +269,6 @@ const KYCInfo = ({ activeTab }) => {
                       name="document_name"
                       value={formData.document_name}
                       onChange={handleChange}
-                      required
                     />
                     {errors.document_name && <span className="error-text">{errors.document_name}</span>}
                   </label>
@@ -277,7 +280,6 @@ const KYCInfo = ({ activeTab }) => {
                       name="document_id"
                       value={formData.document_id}
                       onChange={handleChange}
-                      required
                     />
                     {errors.document_id && <span className="error-text">{errors.document_id}</span>}
                   </label>
