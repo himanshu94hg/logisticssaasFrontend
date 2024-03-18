@@ -13,12 +13,14 @@ import OverviewDetails from '../Components/Overview/OverviewDetails';
 import WeightDiscrepancies from '../Components/Overview/WeightDiscrepancies';
 import { useDispatch } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
+import Cookies from 'js-cookie';
 
-const Overview = ({activeTab}) => {
+const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (activeTab === "Overview") {
+    const token = Cookies.get('token');
+    if (activeTab === "Overview" && token) {
       dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: dateRangeDashboard })
@@ -30,9 +32,8 @@ const Overview = ({activeTab}) => {
       dispatch({ type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION", payload: dateRangeDashboard })
-
     }
-  }, [activeTab])
+  }, [activeTab, dispatch])
 
   return (
     <Row className='mb-3'>
