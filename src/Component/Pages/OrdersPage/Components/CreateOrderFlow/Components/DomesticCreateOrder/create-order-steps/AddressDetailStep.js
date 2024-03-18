@@ -572,7 +572,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     disabled
                                     type="text"
                                     className={`input-field ${errors.billing_country && 'input-field-error'}`}
-                                    placeholder="Enter Recipient's State"
+                                    placeholder="Enter Recipient's Country"
                                     value={formData.billing_details.country}
                                     onChange={(e) => handleChangeBilling(e, 'country')}
                                 />

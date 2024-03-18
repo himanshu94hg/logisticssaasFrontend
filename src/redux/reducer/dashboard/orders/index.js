@@ -1,7 +1,8 @@
 import {
     GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_DATA,
     GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC_DATA, GET_DASHBOARD_ORDERS_CANCELLED_DATA,
-    GET_DASHBOARD_ORDERS_COUNT_DATA, GET_DASHBOARD_ORDERS_MPS_DATA,
+    GET_DASHBOARD_ORDERS_COUNT_DATA, GET_DASHBOARD_ORDERS_INTVSDOM_DATA, GET_DASHBOARD_ORDERS_MPS_DATA,
+    GET_DASHBOARD_ORDERS_POPULAR_LOCATION_DATA,
     GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA,
     GET_DASHBOARD_ORDERS_STORE_BASED_DATA, GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA
 } from "../../../constants/dashboard/orders";
@@ -15,7 +16,9 @@ const initialState = {
     buyerDemographicCard: null,
     orderPrepaidData: [],
     warehouseData: null,
-    skuProductData: []
+    skuProductData: [],
+    popularLocation:[],
+    intVsDom:null
 };
 
 export const dashboardOrderReducer = (state = initialState, action) => {
@@ -64,6 +67,16 @@ export const dashboardOrderReducer = (state = initialState, action) => {
             return {
                 ...state,
                 skuProductData: action?.payload
+            };
+        case GET_DASHBOARD_ORDERS_POPULAR_LOCATION_DATA:
+            return {
+                ...state,
+                popularLocation: action?.payload
+            };
+        case GET_DASHBOARD_ORDERS_INTVSDOM_DATA:
+            return {
+                ...state,
+                intVsDom: action?.payload
             };
         default:
             return state

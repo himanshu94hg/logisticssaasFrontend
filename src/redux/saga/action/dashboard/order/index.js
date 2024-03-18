@@ -3,8 +3,8 @@
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
-import { DASHBOARD_ORDERS_ASSIGNED_PICKED_ACTION, DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION, DASHBOARD_ORDERS_CANCELLED_ACTION, DASHBOARD_ORDERS_COUNT_ACTION, DASHBOARD_ORDERS_MPS_ACTION, DASHBOARD_ORDERS_PREPAID_COD_ACTION, DASHBOARD_ORDERS_SKU_PROJECT_ACTION, DASHBOARD_ORDERS_STORE_BASED_ACTION, DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION } from "../../../constant/dashboard/orders";
-import { GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_DATA, GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC_DATA, GET_DASHBOARD_ORDERS_CANCELLED_DATA, GET_DASHBOARD_ORDERS_COUNT_DATA, GET_DASHBOARD_ORDERS_MPS_DATA, GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA, GET_DASHBOARD_ORDERS_STORE_BASED_DATA, GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA } from "../../../../constants/dashboard/orders";
+import { DASHBOARD_ORDERS_ASSIGNED_PICKED_ACTION, DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION, DASHBOARD_ORDERS_CANCELLED_ACTION, DASHBOARD_ORDERS_COUNT_ACTION, DASHBOARD_ORDERS_INTVSDOM_ACTION, DASHBOARD_ORDERS_MPS_ACTION, DASHBOARD_ORDERS_POPULAR_LOCATION_ACTION, DASHBOARD_ORDERS_PREPAID_COD_ACTION, DASHBOARD_ORDERS_SKU_PROJECT_ACTION, DASHBOARD_ORDERS_STORE_BASED_ACTION, DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION } from "../../../constant/dashboard/orders";
+import { GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_DATA, GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC_DATA, GET_DASHBOARD_ORDERS_CANCELLED_DATA, GET_DASHBOARD_ORDERS_COUNT_DATA, GET_DASHBOARD_ORDERS_INTVSDOM_DATA, GET_DASHBOARD_ORDERS_MPS_DATA, GET_DASHBOARD_ORDERS_POPULAR_LOCATION_DATA, GET_DASHBOARD_ORDERS_PREPAID_COD_DATA, GET_DASHBOARD_ORDERS_SKU_PROJECT_DATA, GET_DASHBOARD_ORDERS_STORE_BASED_DATA, GET_DASHBOARD_ORDERS_WAREHOUSE_INFO_DATA } from "../../../../constants/dashboard/orders";
 
 
 //1.GET_DASHBOARD_ORDERS_STORE_BASED
@@ -95,7 +95,7 @@ function* ordersMpsAction(action) {
 }
 
 
-//4.GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_ORDER
+//5.GET_DASHBOARD_ORDERS_ASSIGNED_PICKED_ORDER
 async function  assignedPickedAPI(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     let listData = axios.request({
@@ -117,7 +117,7 @@ function* assignedPickedAction(action) {
 }
 
 
-//5. GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC
+//6. GET_DASHBOARD_ORDERS_BUYERDEMOGRAPHIC
 async function ordersBuyerDemoAPI(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     let listData = axios.request({
@@ -139,7 +139,7 @@ function* ordersBuyerDemoAction(action) {
 }
 
 
-//6. GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER
+//7. GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER
 async function prepaidCodApi(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     let listData = axios.request({
@@ -161,7 +161,7 @@ function* prepaidCodAction(action) {
 }
 
 
-//7. GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER
+//8. GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER
 async function wareHouseInfoApi(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     let listData = axios.request({
@@ -183,7 +183,7 @@ function* wareHouseInfoAction(action) {
 }
 
 
-//8. GET_DASHBOARD_ORDERS_BEST_SKU_PROJECT
+//9. GET_DASHBOARD_ORDERS_BEST_SKU_PROJECT
 async function skuProductApi(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     let listData = axios.request({
@@ -205,6 +205,48 @@ function* skuProductAction(action) {
 }
 
 
+//10. GET_DASHBOARD_ORDERS_BEST_SKU_PROJECT
+async function orderPopularApi(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_ORDERS_POPULAR_LOACTION}?${queryParams}`,
+    });
+    return listData
+}
+function* orderPopularAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(orderPopularApi, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_DASHBOARD_ORDERS_POPULAR_LOCATION_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+//11. GET_DASHBOARD_ORDERS_INTVSDOM
+async function intVsDomApi(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_ORDERS_INTERVSDOM}?${queryParams}`,
+    });
+    return listData
+}
+function* intVsDomAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(intVsDomApi, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_DASHBOARD_ORDERS_INTVSDOM_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 export function* getOrdersTabWatcher() {
     yield takeLatest(DASHBOARD_ORDERS_STORE_BASED_ACTION, ordersStoreBasedAction);
     yield takeLatest(DASHBOARD_ORDERS_COUNT_ACTION, ordersCountAction);
@@ -215,4 +257,6 @@ export function* getOrdersTabWatcher() {
     yield takeLatest(DASHBOARD_ORDERS_PREPAID_COD_ACTION, prepaidCodAction);
     yield takeLatest(DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION, wareHouseInfoAction);
     yield takeLatest(DASHBOARD_ORDERS_SKU_PROJECT_ACTION, skuProductAction);
+    yield takeLatest(DASHBOARD_ORDERS_POPULAR_LOCATION_ACTION, orderPopularAction);
+    yield takeLatest(DASHBOARD_ORDERS_INTVSDOM_ACTION, intVsDomAction);
 }

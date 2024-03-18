@@ -1,0 +1,25 @@
+.reports-mis .filter-container {
+    z-index: 2;
+    position: relative;
+}
+
+.reports-mis .table-container {
+    z-index: 1;
+    position: relative;
+}
+
+.reports-mis .search-container {
+    display: flex;
+    gap: 20px;
+    align-items: flex-end;
+    width: 100%;
+}
+
+.reports-mis .css-13cymwt-control,
+.reports-mis .css-t3ipsp-control,
+.reports-mis .css-t3ipsp-control:hover {
+    border-color: var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    border-width: 1px;
+    box-shadow: none;
+}

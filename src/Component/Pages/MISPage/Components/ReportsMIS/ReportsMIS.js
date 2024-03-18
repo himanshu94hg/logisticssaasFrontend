@@ -1,145 +1,177 @@
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import axios from "axios";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import Select from 'react-select';
+import OrdersTableMIS from './Components/OrdersTableMIS';
+import ShippingTableMIS from './Components/ShippingTableMIS';
+import Swal from 'sweetalert2';
 
 const ReportsMIS = () => {
+    const [showComponent, setShowComponent] = useState(null);
+    const [firstSelectedOption, setFirstSelectedOption] = useState(null);
+    const [secondSelectedOption, setSecondSelectedOption] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
-    const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [orders, setAllOrders] = useState([]);
+    const firstOptions = [
+        { value: '', label: 'Select Option' },
+        { value: 'Orders', label: 'Orders' },
+        { value: 'Shipment', label: 'Shipment' },
+        { value: 'Billing', label: 'Billing' },
+        { value: 'Returns', label: 'Returns' },
+    ];
 
-    useEffect(() => {
-        axios
-            .get('http://dev.shipease.in:8088/order/v1/allorderdetail/') // Replace with your API endpoint
-            .then(response => {
-                console.log('Data is data:', response.data);
-                setAllOrders(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
+    const secondOptionsMap = {
+        Orders: [
+            { value: '', label: 'Select Option' },
+            { value: 'all_order', label: 'All Orders' },
+            { value: 'process_order', label: 'Processing Order' },
+            { value: 'shipped_order', label: 'Shipped Order' },
+            { value: 'manifest_order', label: 'Manifested Order' },
+            { value: 'delivered_order', label: 'Delivered Order' },
+            { value: 'picked_orders', label: 'Picked Orders' },
+            { value: 'archive_orders', label: 'Archive Orders' },
+        ],
+        Shipment: [
+            { value: '', label: 'Select Option' },
+            { value: 'all_ndr', label: 'All NDR' },
+            { value: 'ndr_delivered', label: 'NDR Delivered' },
+            { value: 'rto_report', label: 'RTO Report' },
+        ],
+        Billing: [
+            { value: '', label: 'Select Option' },
+            { value: 'shipping_charges', label: 'Shipping Charges' },
+            { value: 'weight_reconciliation', label: 'Weight Reconciliatio' },
+            { value: 'remittance_logs', label: 'Remittance Logs' },
+            { value: 'onhold_reconciliation', label: 'Onhold Reconciliatio' },
+            { value: 'invoices', label: 'Invoices' },
+        ],
+        Returns: [
+            { value: '', label: 'Select Option' },
+            { value: 'return_order', label: 'All Return Order' },
+            { value: 'reverse_order', label: 'All Reverse Order' },
+        ],
+    };
+
+    const secondOptions = firstSelectedOption
+        ? secondOptionsMap[firstSelectedOption.value]
+        : [];
+
+    // Handle select change
+    const handleFirstSelectChange = selectedOption => {
+        setFirstSelectedOption(selectedOption);
+        setSecondSelectedOption(null); // Reset second select
+    };
+
+    const handleSecondSelectChange = selectedOption => {
+        setSecondSelectedOption(selectedOption);
+    };
+
+    // Handle date picker change
+    const handleStartDateChange = date => {
+        setStartDate(date);
+    };
+
+    const handleEndDateChange = date => {
+        setEndDate(date);
+    };
+
+    // Handle form submit
+    const handleSubmit = e => {
+        e.preventDefault();
+        if (firstSelectedOption !== null) {
+            console.log('First selected option:', firstSelectedOption);
+            console.log('Second selected option:', secondSelectedOption);
+            console.log('Start date:', startDate);
+            console.log('End date:', endDate);
+            setShowComponent(firstSelectedOption.value);
+            console.log(showComponent);
+        } else {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'First selected option is null. Cannot submit form.',
             });
-    }, []);
-
-
-    // Handler for "Select All" checkbox
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
-        } else {
-            setSelectedRows([]);
         }
     };
 
-    // Handler for individual checkbox
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
 
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-        } else {
-            setSelectedRows([...selectedRows, orderId]);
-        }
 
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
-            setSelectAll(false);
-        }
-    };
 
     return (
-        <section className='position-relative'>
+        <section className='position-relative reports-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label>
-                            <input type="text" placeholder="" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
+                            Type
+                            <Select
+                                value={firstSelectedOption}
+                                onChange={handleFirstSelectChange}
+                                options={firstOptions}
+                                placeholder="Select an option"
+                            />
                         </label>
-
+                        <label>
+                            subtype
+                            <Select
+                                value={secondSelectedOption}
+                                onChange={handleSecondSelectChange}
+                                options={secondOptions}
+                                placeholder="Select a suboption"
+                                isDisabled={!firstSelectedOption}
+                            />
+                        </label>
+                        <label>
+                            From Date
+                            <div className='date-picker-container'>
+                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+                                {/* <DatePicker
+                                    dateFormat='dd/MM/yyyy'
+                                    className='input-field'
+                                /> */}
+                                <DatePicker
+                                    dateFormat='dd/MM/yyyy'
+                                    className='input-field'
+                                    selected={startDate}
+                                    onChange={handleStartDateChange}
+                                />
+                            </div>
+                        </label>
+                        <label>
+                            To Date
+                            <div className='date-picker-container'>
+                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+                                <DatePicker
+                                    dateFormat='dd/MM/yyyy'
+                                    className='input-field'
+                                    selected={endDate}
+                                    onChange={handleEndDateChange}
+                                />
+                            </div>
+                        </label>
+                        <button onClick={handleSubmit} className='btn main-button'>Search</button>
                     </div>
-                    <div className='button-container'>
-
-                    </div>
+                    <div className='button-container'></div>
                 </div>
-                <div className='table-container'>
-                    <table className=" w-100">
-                        <thead className="sticky-header">
-                            <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
-                                </th>
-                                <th style={{ width: '25%' }}>Order Details</th>
-                                <th>Customer details</th>
-                                <th>Package Details</th>
-                                <th>Payment</th>
-                                <th>Pickup Address</th>
-                                <th>Shipping Details</th>
-                                <th>Status</th>
-                                <th>Action</th>
 
-                            </tr>
-                            <tr className="blank-row"><td></td></tr>
-                        </thead>
-                        <tbody>
-                            {orders.map((row, index) => (
-                                <React.Fragment key={row.id}>
-                                    {index > 0 && <tr className="blank-row"><td></td></tr>}
-                                    <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
-                                            <input
-                                                type="checkbox"
-                                                checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
-                                            />
-                                        </td>
-                                        <td>
-                                            {/* order detail */}
-                                            <div className='cell-inside-box'>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* customer detail */}
-                                            <div className='cell-inside-box'>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* package  details */}
-                                            <div className='cell-inside-box'>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* payment section here */}
-                                            <div className='cell-inside-box'>
-                                            </div>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* pickup adress */}
-                                            <div className='cell-inside-box'>
-
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </React.Fragment>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                {showComponent !== null && ( // Conditional rendering only if showComponent is true and selectOption is truthy
+                    showComponent === 'Orders' ? (
+                        <OrdersTableMIS
+                            subtype={secondSelectedOption.value}
+                            startDate={startDate}
+                            endDate={endDate}
+                        />
+                    ) : showComponent === 'Shipment' ? (
+                        <ShippingTableMIS
+                            subtype={secondSelectedOption.value}
+                            startDate={startDate}
+                            endDate={endDate}
+                        />
+                    ) : ''
+                )}
             </div>
         </section>
     );

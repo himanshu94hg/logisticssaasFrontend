@@ -1,34 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const ZoneOrdersChart = () => {
     const [chartWidth, setChartWidth] = useState(380);
+    const [seriesArrayData, setSeriesArrayData] = useState([]);
+    const [zoneData, setZoneData] = useState([]);
+    const { zoneWiseData } = useSelector(state => state?.dashboardShpmentReducer)
+    console.log(zoneData, "zoneWiseDatazoneWiseData")
+
+    useEffect(() => {
+        if (zoneWiseData) {
+            const keysArray = [];
+            const valuesArray = [];
+
+            Object.entries(zoneWiseData).forEach(([key, value], index) => {
+                keysArray.push(key.split("_").join(" "));
+                valuesArray.push(value);
+            });
+            setSeriesArrayData(valuesArray)
+            setZoneData(keysArray)
+        }
+    }, [zoneWiseData])
 
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth;
-            // Adjust the chart width based on screen size
             if (screenWidth >= 1720) {
-                setChartWidth(380); // for larger screens
+                setChartWidth(380);
             } else if (screenWidth >= 768) {
-                setChartWidth(290); // for medium screens
+                setChartWidth(290);
             } else {
-                setChartWidth(200); // default width for smaller screens
+                setChartWidth(200);
             }
         };
-
-        // Call the handleResize function on initial load
         handleResize();
-
-        // Add event listener to window resize event
         window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
-    }, []); // Empty dependency array ensures that this effect runs only once on component mount
+    }, []);
 
-
-    const seriesData = [42, 47, 52, 58, 65];
+    const seriesData =seriesArrayData
     const total = seriesData.reduce((acc, curr) => acc + curr, 0);
     const percentages = seriesData.map(val => ((val / total) * 100).toFixed(2) + '%');
 
@@ -39,7 +50,7 @@ const ZoneOrdersChart = () => {
                 width: 380,
                 type: 'polarArea'
             },
-            labels: ['Zone A', 'Zone B', 'Zone C', 'Zone D', 'Zone E'],
+            labels: zoneData,
             fill: {
                 opacity: 1
             },
@@ -70,7 +81,7 @@ const ZoneOrdersChart = () => {
                     shadeIntensity: 0.6
                 }
             },
-            colors: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'], // Change colors here
+            colors: ['#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF'],
             dataLabels: {
                 enabled: true,
                 formatter: function (val) {
@@ -81,7 +92,6 @@ const ZoneOrdersChart = () => {
                     fontSize: '12px',
                     colors: ['#000']
                 },
-                // Use percentages as labels
                 formatter: function (val, { seriesIndex }) {
                     return percentages[seriesIndex];
                 }

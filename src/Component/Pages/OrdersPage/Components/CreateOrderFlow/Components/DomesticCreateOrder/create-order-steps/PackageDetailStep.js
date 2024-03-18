@@ -108,7 +108,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     <div className='row'>
                         {/* Invoice Amount */}
                         <label className='col'>
-                            Invoice Amount
+                            <span>Invoice Amount <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
                                 type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} 
@@ -138,7 +138,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     </div>
                     <hr />
                     <div className=''>
-                        <div className='fw-bold lh-base'>Dead Weight<br />
+                        <div className='fw-bold lh-base'>Dead Weight <span className='mandatory'>*</span><br />
                             {errors.weight && <span className="custom-error">{errors.weight}</span>}
                             <input
                                 // className='input-field'
@@ -147,7 +147,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 type="text" value={formData.dimension_details.weight}
                                 onChange={(e) => handleChangeDimension(e, 'weight')} 
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /^[0-9\b.]+$/;
+                                    if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}/>
@@ -160,7 +161,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         </label>
                     </div>
                     <div className='mt-4'>
-                        <p className='fw-bold lh-base'>Volumetric Weight<br />
+                        <p className='fw-bold lh-base'>Volumetric Weight <span className='mandatory'>*</span><br />
                             <span className="font12 fw-normal">Enter packages dimensions to calculate Volumetric Weight
                             </span>
                         </p>

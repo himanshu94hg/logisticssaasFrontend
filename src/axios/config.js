@@ -59,6 +59,13 @@ export const API_URL = {
   GET_DASHBOARD_ORDERS_PREPAID_COD_COUNTER: "/orders-api/dashboard/orders/prepaid-cod-counter/",
   GET_DASHBOARD_ORDERS_WAREHOUSE_INFN: "/orders-api/dashboard/orders/warehouse-information/",
   GET_DASHBOARD_ORDERS_BEST_SKU_PROJECT: "/orders-api/dashboard/orders/best-sku-product/",
+  GET_DASHBOARD_ORDERS_POPULAR_LOACTION: "/orders-api/dashboard/orders/popular-order-location/",
+  GET_DASHBOARD_ORDERS_INTERVSDOM: "/orders-api/dashboard/orders/international-vs-domestic/",
 
-  
+  //DASHBOARD SHIPMENT API'S
+  GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE: "/orders-api/dashboard/shipment/weight-profile/",
+  GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
+  GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
+
+
 };
