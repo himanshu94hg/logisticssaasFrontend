@@ -33,6 +33,7 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
         // localStorage.setItem('token', token);
         Cookies.set('user_id', response?.data?.user_id)
         dispatch({type:LOGIN_DATA,payload:response})
+        window.location.reload()
       }
 
     } catch (error) {

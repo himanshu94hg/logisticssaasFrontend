@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import './WeightRecoPage.css'
 import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import SettledReco from './Components/SettledReco/SettledReco';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
+import { useDispatch } from 'react-redux';
 
 
 const WeightRecoPage = () => {
+    const dispatch=useDispatch()
     const [activeTab, setActiveTab] = useState("Weight Reconciliation");
-
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
 
@@ -20,6 +21,10 @@ const WeightRecoPage = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
+
+    useEffect(()=>{
+       dispatch({type:"COURIER_WEIGHT_RECO_ACTION"})
+    },[])
 
     return (
         <>

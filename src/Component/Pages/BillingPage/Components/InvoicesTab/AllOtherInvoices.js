@@ -72,7 +72,7 @@ const AllOtherInvoices = ({billingCard}) => {
                                     {/* order detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.name}
+                                            {row?.inv_id ?? 1}
                                         </p>
                                     </div>
                                 </td>
@@ -80,7 +80,7 @@ const AllOtherInvoices = ({billingCard}) => {
                                     {/* Courier detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.name}
+                                            {row?.invoice_date ?? "2024-01-01"}
                                         </p>
                                     </div>
                                 </td>
@@ -88,7 +88,7 @@ const AllOtherInvoices = ({billingCard}) => {
                                     {/* AWB Assigned Date */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.name}
+                                            {row?.due_date ?? "2024-01-01"}
                                         </p>
                                     </div>
                                 </td>
@@ -96,7 +96,7 @@ const AllOtherInvoices = ({billingCard}) => {
                                     {/* Shipment Status */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.name}
+                                            {row?.total ?? 0}
                                         </p>
                                     </div>
                                 </td>
@@ -104,20 +104,18 @@ const AllOtherInvoices = ({billingCard}) => {
                                     {/* Applied Weight Charges */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.order_number}
+                                            {row?.status ?? "Paid"}
                                         </p>
                                     </div>
                                 </td>
                                 <td>
-                                    {/* Excess Weight Charges */}
+                                    {/* View Transaction Details */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row.order_number}
+                                            <button className='btn main-button' style={{ width: '100px' }}>View</button>
                                         </p>
                                     </div>
                                 </td>
-
-
                             </tr>
                         </React.Fragment>
                     ))}

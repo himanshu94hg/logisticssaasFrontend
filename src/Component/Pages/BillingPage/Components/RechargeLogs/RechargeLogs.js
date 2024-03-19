@@ -37,7 +37,6 @@ const RechargeLogs = ({billingCard}) => {
 
 
 
-
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -96,7 +95,7 @@ const RechargeLogs = ({billingCard}) => {
                         <p>Total Credit: <span>&#8377; {data?.total_credit}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Debit: <span>&#8377; {data?.total_devit}</span></p>
+                        <p>Total Debit: <span>&#8377; {data?.$total_debit}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -134,7 +133,8 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {/* <DateFormatter dateTimeString={row?.datetime} /> */}
+                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
                                                 </p>
                                             </div>
                                         </td>
@@ -142,7 +142,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                {row?.payment_gateway_order_id ?? "-"}
                                                 </p>
                                             </div>
                                         </td>
@@ -150,7 +150,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹  {row.website}
+                                                    ₹  {row?.amount}
                                                 </p>
                                             </div>
                                         </td>
@@ -158,7 +158,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.website}
+                                                {row?.description}
                                                 </p>
                                             </div>
                                         </td>

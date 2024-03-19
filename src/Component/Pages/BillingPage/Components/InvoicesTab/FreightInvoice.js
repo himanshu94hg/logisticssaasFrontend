@@ -83,67 +83,67 @@ const FreightInvoice = ({billingCard}) => {
                 </thead>
                 <tbody>
                     {billingCard?.map((row, index) => (
-                        <React.Fragment key={row.id}>
-                            {index > 0 && <tr className="blank-row"><td></td></tr>}
-                            <tr className='table-row box-shadow'>
-                                <td className='checkbox-cell'>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectedRows.includes(row.id)}
-                                        onChange={() => handleSelectRow(row.id)}
-                                    />
-                                </td>
-                                <td>
-                                    {/* order detail */}
-                                    <div className='cell-inside-box'>
-                                        <p className=''>
-                                        {row.name}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td>
-                                    {/* Courier detail */}
-                                    <div className='cell-inside-box'>
-                                        <p className=''>
-                                        {row.name}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td>
-                                    {/* AWB Assigned Date */}
-                                    <div className='cell-inside-box'>
-                                        <p className=''>
-                                        {row.name}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td>
-                                    {/* Shipment Status */}
-                                    <div className='cell-inside-box'>
-                                        <p className=''>
-                                        ₹{row.name}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td>
-                                    {/* Applied Weight Charges */}
-                                    <div className='cell-inside-box'>
-                                        <p className=''>
-                                            {row.name}
-                                        </p>
-                                    </div>
-                                </td>
-                                <td>
-                                    {/* Excess Weight Charges */}
-                                    <div className='cell-inside-box'>
-                                        <button className='btn main-button' style={{width:'100px'}}>View</button>
-                                    </div>
-                                </td>
-
-
-                            </tr>
-                        </React.Fragment>
-                    ))}
+                            <React.Fragment key={row.id}>
+                                {index > 0 && <tr className="blank-row"><td></td></tr>}
+                                <tr className='table-row box-shadow'>
+                                    <td className='checkbox-cell'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectedRows.includes(row.id)}
+                                            onChange={() => handleSelectRow(row.id)}
+                                        />
+                                    </td>
+                                    <td>
+                                        {/* order detail */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                {row?.inv_id ?? 1}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* Courier detail */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                {row?.invoice_date ?? "2024-01-01"}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* AWB Assigned Date */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                {row?.due_date ?? "2024-01-01"}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* Shipment Status */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                {row?.total ?? 0}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* Applied Weight Charges */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                {row?.status ?? "Paid"}
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {/* View Transaction Details */}
+                                        <div className='cell-inside-box'>
+                                            <p className=''>
+                                                <button className='btn main-button' style={{ width: '100px' }}>View</button>
+                                            </p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </React.Fragment>
+                        ))}
                 </tbody>
             </table>
         </div>
