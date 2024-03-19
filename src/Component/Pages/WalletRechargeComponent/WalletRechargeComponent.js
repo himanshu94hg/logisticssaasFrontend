@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
-    const [sellerBalance, setSellerBalance] = useState(null);
     const [rechargeAmount, setRechargeAmount] = useState('');
     const [paymentMode, setPaymentMode] = useState('credit_card');
     const [couponCode, setCouponCode] = useState('');
