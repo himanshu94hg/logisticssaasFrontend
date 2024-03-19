@@ -119,6 +119,7 @@ const KYCInfo = ({ activeTab }) => {
        console.error('Error:', error);
      }
    };*/
+   
 
    const handleSubmit = async (e) => {
     e.preventDefault(); 
