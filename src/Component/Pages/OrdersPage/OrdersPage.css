@@ -230,6 +230,10 @@
   z-index: 5;
 }
 
+.side-panel.open {
+  right: 0;
+}
+
 .cell-inside-box {
   display: flex;
   flex-direction: column;

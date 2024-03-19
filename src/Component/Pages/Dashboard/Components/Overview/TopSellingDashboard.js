@@ -45,11 +45,11 @@ function TopSellingDashboard() {
   const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
   const { topSellCard } = useSelector(state => state?.dashboardOverviewReducer)
 
-  useEffect(() => {
-    dispatch({
-      type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard
-    })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard
+  //   })
+  // }, [])
 
 
   return (

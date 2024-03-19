@@ -32,7 +32,7 @@ export const API_URL = {
 
   //DASHBOARD OVERVIEW API'S 
   GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD: "/orders-api/dashboard/overview/shipment-card/",
-  GET_DASHBOARD_OVERVIEW_NDR_DETAILS: "/orders-api/dashboard/ndr/counter-cards/",
+  GET_DASHBOARD_OVERVIEW_NDR_DETAILS: "/orders-api/dashboard/overview/ndr-details/",
   GET_DASHBOARD_OVERVIEW_COD_DETAILS: "/orders-api/dashboard/overview/cod-details/",
   GET_DASHBOARD_OVERVIEW_RTO_DETAILS: "/orders-api/dashboard/overview/rto-status/",
   GET_DASHBOARD_OVERVIEW_LAST_ORDERS: "/orders-api/dashboard/overview/get-last-orders/",
@@ -63,5 +63,20 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
 
+
+  //DASHBOARD NDR API'S
+  GET_DASHBOARD_NDR_COUNTER_CARDS: "/orders-api/dashboard/ndr/counter-cards/",
+  GET_DASHBOARD_NDR_NDR_STATUS: "/orders-api/dashboard/ndr/ndr-status/",
+  GET_DASHBOARD_NDR_SUCCESS_BY_COURIER: "/orders-api/dashboard/ndr/success-by-courier/",
+  GET_DASHBOARD_NDR_SUCCESS_BY_ZONE: "/orders-api/dashboard/ndr/success-by-zone/",
+
+  //DASHBOARD RTO API'S
+  GET_DASHBOARD_RTO_TOP_RTO: "/orders-api/dashboard/rto/top-rto/",
+  GET_DASHBOARD_RTO_TOP_CITY: "/orders-api/dashboard/rto/top-rto-city/",
+  GET_DASHBOARD_RTO_COUNT_MONTHWISE: "/orders-api/dashboard/rto/month-wise-rto-count/",
+  GET_DASHBOARD_RTO_TOP_COURIER: "/orders-api/dashboard/rto/top-rto-courier/",
+
+  //DASHBOARD COURIER API'S
+  GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
 
 };
