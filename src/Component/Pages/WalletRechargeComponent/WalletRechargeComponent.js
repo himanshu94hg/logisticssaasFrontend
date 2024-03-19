@@ -22,6 +22,8 @@ const WalletRechargeComponent = (props) => {
 
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
     const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
+    // console.log(paymentCard,"paymentSetCard")
+
 
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);

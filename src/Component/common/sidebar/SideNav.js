@@ -1,7 +1,7 @@
 import './SideNav.css';
 import OMSIcon from "./Icons/OMSIcon";
 import MISIcon from "./Icons/MISIcon";
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import ToolsIcons from "./Icons/ToolsIcons";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
@@ -18,61 +18,49 @@ import FullLogo from '../../../assets/image/logo/logo.svg'
 import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 
-
-
 const Dropdown = ({ links, isOpen }) => {
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
-        <NavLink key={index} to={link.to} onClick={link.onClick}>
+        <Link key={index} to={link.to} onClick={link.onClick}>
           {link.label}
-        </NavLink>
+        </Link>
       ))}
     </div>
   );
 };
 
-const MenuItem = ({ state,to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
+const MenuItem = ({ state, to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  // const [isDropdownOpen, setDropdownOpen] = useState(true);
   const location = useLocation();
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
     onDropdownToggle(label);
   };
-
-
-  console.log(hasDropdown,"totototototototo",dropdownLinks)
-
-
   useEffect(() => {
-    // Close the dropdown when another dropdown is opened
     if (label !== openDropdown) {
       setDropdownOpen(false);
     }
   }, [openDropdown, label]);
 
-  const NavLinkComponent = hasDropdown ? 'div' : NavLink;
+  const NavLinkComponent = hasDropdown ? 'div' : Link;
+
+  console.log(hasDropdown,"NavLinkComponentNavLinkComponent")
 
   const isActive = () => {
     if (!hasDropdown) {
-      // If there's no dropdown, check if the current route matches the main menu item
       return location.pathname === to;
     }
-
-    // If there's a dropdown, check if the current route matches either the main menu item or any dropdown option
     return (
-      location.pathname === to ||
-      dropdownLinks.some((link) => location.pathname === link.to)
+      location.pathname === to || dropdownLinks.some((link) => location.pathname === link.to)
     );
   };
 
   return (
     <div className="nav-link main" onClick={hasDropdown ? handleDropdownToggle : null}>
       <div className="sidebar-label-wrapper">
-
-        <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
+        <NavLinkComponent to={to} state= {  "yourData" }  className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
           {label === "Dashboard" && <DashboardIcon />}
           {label === "Orders" && <OrdersIcon />}
           {label === "More On Orders" && <MoreOnOrdersIcon />}
@@ -87,8 +75,6 @@ const MenuItem = ({ state,to, label, hasDropdown, dropdownLinks, isExpanded, ope
           {label === "Customer Support" && <CustomerSupportIcon />}
           {label === "Settings" && <SettingsIcon />}
           {/* Add other icons based on the menu item */}
-
-
           {isExpanded && <span className="mx-2">{label}
             {hasDropdown && (
               <span className={`dropdown-arrow ms-2 ${isDropdownOpen ? 'open' : ''}`}>
@@ -98,7 +84,6 @@ const MenuItem = ({ state,to, label, hasDropdown, dropdownLinks, isExpanded, ope
           </span>}
         </NavLinkComponent>
       </div>
-
       {/* {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />} */}
       {hasDropdown && <Dropdown links={dropdownLinks} isOpen={isDropdownOpen} />}
     </div>
@@ -111,8 +96,6 @@ const SideNav = (props) => {
   const [Logo, setLogo] = useState(mobileLogo);
   const [openDropdown, setOpenDropdown] = useState(null);
 
-
-
   useEffect(() => {
     if (isExpanded === true) {
       setLogo(FullLogo)
@@ -121,14 +104,12 @@ const SideNav = (props) => {
     }
   }, [isExpanded])
 
-
   const handleMouseEnter = () => {
     setExpanded(true);
   };
 
   const handleMouseLeave = () => {
     setExpanded(false);
-    // Close all dropdowns when slider is closed
     setOpenDropdown(null);
   };
 
@@ -154,7 +135,7 @@ const SideNav = (props) => {
         { to: "/Reassign-orders", label: "Reassign Orders" },
         { to: "/merge-orders", label: "Merge Orders" },
         { to: "/split-orders", label: "Split Orders" },
-        { to: "/create-order", label: "Reverse Order" , state: { data: "yourData" } },
+        { to: "/create-order", label: "Reverse Order", state: { data: "yourData" } },
       ],
     },
     { to: "/Shipments", label: "Shipments" },
