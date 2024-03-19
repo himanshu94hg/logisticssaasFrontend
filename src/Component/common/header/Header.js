@@ -17,6 +17,11 @@ export default function Header(props) {
 
   const gettoken = Cookies.get('access_token');
 
+  const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
+  const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
+
+  console.log(setPayment?.balance,"Get Payment Data");
+
   return (
     <Navbar
       className="box-shadow shadow-sm p10-inline"
@@ -68,7 +73,7 @@ export default function Header(props) {
             <Nav.Link>
               <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
                 <span className="iconContainer walletIcon px-2">
-                  <div className="walletBalance">₹ 10,00,000</div>
+                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
                   <WalletIcon />
                   {/* <FontAwesomeIcon icon={faWallet} /> */}
                 </span>
