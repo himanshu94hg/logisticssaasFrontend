@@ -6,6 +6,7 @@ import { shipmentSectionReducer } from "./shipment";
 import { dashboardOverviewReducer } from "./dashboard/overview"; 
 import { dashboardOrderReducer } from "./dashboard/orders";
 import { dashboardShpmentReducer } from "./dashboard/shipment";
+import { paymentSectionReducer } from "./payment";
 import { dashboardCourierReducer } from "./dashboard/couriers";
 import { dashboardNdrReducer } from "./dashboard/ndr";
 import { dashboardRtoReducer } from "./dashboard/rto";
@@ -18,6 +19,7 @@ export const rootReducer = combineReducers({
     dashboardOverviewReducer,
     dashboardOrderReducer,
     dashboardShpmentReducer,
+    paymentSectionReducer,
     dashboardCourierReducer,
     dashboardNdrReducer,
     dashboardRtoReducer,
