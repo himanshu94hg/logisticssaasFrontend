@@ -37,7 +37,6 @@ const RechargeLogs = ({billingCard}) => {
 
 
 
-
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
