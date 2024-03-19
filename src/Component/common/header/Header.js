@@ -21,6 +21,10 @@ export default function Header(props) {
 
   const gettoken = Cookies.get('access_token');
 
+  const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
+  const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
+
+
   return (
     <Navbar
       className="box-shadow shadow-sm p10-inline"

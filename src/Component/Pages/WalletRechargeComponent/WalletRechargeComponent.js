@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
-    const [sellerBalance, setSellerBalance] = useState(null);
     const [rechargeAmount, setRechargeAmount] = useState('');
     const [paymentMode, setPaymentMode] = useState('credit_card');
     const [couponCode, setCouponCode] = useState('');
@@ -22,9 +21,16 @@ const WalletRechargeComponent = (props) => {
 
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
     const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
-    // console.log(paymentCard,"paymentSetCard")
 
 
+    useEffect(() => {
+        if (paymentCard !== null && paymentSetCard !== null) {
+            localStorage.setItem('paymentCard', JSON.stringify(paymentCard));
+            localStorage.setItem('paymentSetCard', JSON.stringify(paymentSetCard));
+        }
+    }, [paymentCard, paymentSetCard]);
+
+    
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);
     };

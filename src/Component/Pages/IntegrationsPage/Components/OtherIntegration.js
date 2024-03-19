@@ -7,6 +7,7 @@ const OtherIntegration = () => {
         { title: 'IVR (Cloud Connect)', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
         { title: 'Pragma', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
         // Add more data as needed
+        
     ];
 
     return (

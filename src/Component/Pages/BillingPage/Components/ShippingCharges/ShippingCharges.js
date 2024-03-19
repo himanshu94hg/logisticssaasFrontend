@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SidePanel from './SidePanel/SidePanel';
+import { Modal } from 'react-bootstrap';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -74,13 +75,15 @@ const ShippingCharges = ({billingCard}) => {
         setBackDrop(false)
     }
 
+    const [show, setShow] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
 
+    const handleShow = (row) => {
+        setSelectedRow(row); 
+        setShow(true);
+    };
 
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
+    const handleClose = () => setShow(false);
 
 
     return (
@@ -142,7 +145,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.name}
+                                                    {row?.order_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -150,7 +153,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
-                                                    {row.name}
+                                                    {row?.order_detail?.courier_partner}
                                                 </p>
                                             </div>
                                         </td>
@@ -158,7 +161,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.name}
+                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
                                                 </p>  
                                             </div>
                                         </td>
@@ -166,7 +169,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
-                                                    {row.website}
+                                                    {row?.status}
                                                 </p>
                                             </div>
                                         </td>
@@ -174,7 +177,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹ {row.website}
+                                                    -
                                                 </p>
                                             </div>
                                         </td>
@@ -182,7 +185,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.website}
+                                                    -
                                                 </p>
                                             </div>
                                         </td>
@@ -190,7 +193,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.website}
+                                                    -
                                                 </p>
                                               
                                             </div>
@@ -199,8 +202,7 @@ const ShippingCharges = ({billingCard}) => {
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.website}
-                                                 
+                                                    -
                                                 </p>
                                               
                                             </div>
@@ -209,7 +211,7 @@ const ShippingCharges = ({billingCard}) => {
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
-                                               <button className='btn main-button'>View</button>
+                                                <button className='btn main-button' onClick={() => handleShow(row)}>View</button>
                                             </div>
                                         </td>
 
@@ -228,10 +230,40 @@ const ShippingCharges = ({billingCard}) => {
                 </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
+                <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
             </div>
         </section >
     );
 };
 
 export default ShippingCharges;
+
+function Preview({ show, handleClose, selectedRow }) {
+    return (
+        <Modal show={show} onHide={handleClose} size="lg">
+            <Modal.Header closeButton>
+                <Modal.Title>Transaction Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <table className="table">
+                    <tbody>
+                        <tr>
+                            <th>Date</th>
+                            <th>AWB CODE</th>
+                            <th>Balance</th>
+                            <th>Amount</th>
+                            <th>Description</th>
+                        </tr>
+                        <tr>
+                            <td>{selectedRow?.datetime ? <DateFormatter dateTimeString={selectedRow?.datetime} /> : ''}</td>
+                            <td>{selectedRow?.order_detail?.awb_number}</td>
+                            <td>{selectedRow?.balance}</td>
+                            <td>{selectedRow?.amount}</td>
+                            <td>{selectedRow?.description}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Modal.Body>
+        </Modal>
+    );
+}
