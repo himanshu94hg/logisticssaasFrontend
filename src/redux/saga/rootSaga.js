@@ -4,6 +4,7 @@ import { rateCalculatorWatcher } from "./action/tools/rateCalculator";
 import { reportSchedulerWatcher } from "./action/tools/reportScheduler";
 import { getBillingWatcher } from "./action/billing";
 import { getshipmentWatcher } from "./action/shipment";
+import { getpaymentWatcher } from "./action/payment";
 import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
 import { zoneMappingWatcher } from "./action/tools/zoneMapping";
 import { courierAllocationWatcher } from "./action/tools/courierAllocation";
