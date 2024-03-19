@@ -205,7 +205,7 @@ const ReportSchedulerPage = () => {
                   </label>
                   <label>
                     Report Name
-                    <input className='input-field' type="text" name={"report_title"} onChange={(e)=>handleChange(e,"report_title")} />
+                    <input className='input-field' placeholder='Enter Report Name' type="text" name={"report_title"} onChange={(e)=>handleChange(e,"report_title")} />
                   </label>
                   <label>Recipients Email IDs
                   {/* <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} /> */}

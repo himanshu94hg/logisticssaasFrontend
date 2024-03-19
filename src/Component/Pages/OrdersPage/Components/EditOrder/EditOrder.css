@@ -1,0 +1,26 @@
+.edit-order-section {
+    position: fixed;
+    height: 100vh;
+    background-color: #fff;
+    top: 0;
+    right: -50em;
+    z-index: 6;
+    transition: 1s;
+    width: 40em;
+}
+
+
+
+.edit-order-section.open-edit {
+    right: 0;
+}
+
+.edit-order-header {
+    padding: 30px;
+    background-color: var(--sh-primary-light);
+}
+
+.edit-order-body {
+    padding-block: 20px;
+    padding-inline: 30px 20px;
+}

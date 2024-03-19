@@ -6,7 +6,6 @@ import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/f
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
@@ -16,39 +15,13 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
-
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        console.log("DateTimeString:", dateTimeString);
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
+import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 const AllOrders = ({ orders, handleSearch }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
 
     // Handler for "Select All" checkbox
@@ -80,12 +53,12 @@ const AllOrders = ({ orders, handleSearch }) => {
     };
 
     const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
+        setMoreFilters(true);
         setBackDrop(true)
     }
 
     const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
+        setMoreFilters(false);
         setBackDrop(false)
     }
 
@@ -231,15 +204,15 @@ const AllOrders = ({ orders, handleSearch }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row.channel.toLowerCase()==="shopify"?<img src={shopifyImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="woocommerce"?<img src={woocomImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="opencart"?<img src={openCartImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="storehippo"?<img src={storeHipImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="magento"?<img src={magentoImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazon"?<img src={amazonImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="amazondirect"?<img src={amazonDirImg} alt="Manual" width="20"/>
-                                                    :row.channel.toLowerCase()==="custom"?<img src={customImg} alt="Manual" width="20"/>
-                                                    :"" }
+                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                                    : ""}
                                                     &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -328,7 +301,7 @@ const AllOrders = ({ orders, handleSearch }) => {
                                             {/* {row?.ndr_action}
                                              {row?.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : ''}</button>
+                                                <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : row?.status === 'pickup_requested' ? 'Download Label' : ''}</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -352,7 +325,7 @@ const AllOrders = ({ orders, handleSearch }) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
+                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
 
                 {/* <div id='sidePanel' className="side-panel">
                     <div className='sidepanel-closer'>

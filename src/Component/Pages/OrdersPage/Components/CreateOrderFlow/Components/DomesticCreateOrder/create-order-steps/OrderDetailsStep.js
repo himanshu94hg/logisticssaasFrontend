@@ -15,7 +15,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
     const validateFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
-            newErrors.customer_order_number = 'Customer Order Number is required!';
+            newErrors.customer_order_number = ' Order Number is required!';
         }
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
@@ -39,7 +39,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 [field]: value
             }
         }));
-    };
+    };    
+
+    const handleReSeller = (e, field) => {
+        const value = e.target.value === '' ? null : e.target.value;
+        setFormData(prevData => ({
+            ...prevData,
+            other_details: {
+                ...prevData.other_details,
+                [field]: value
+            }
+        }));
+    };    
+
     const handleChangeReseller = (e, field) => {
         const info = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
@@ -95,7 +107,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
         }
     };
     const handleCustomerOrderNumberChange = (e) => {
-        const value = e.target.value.replace(alphaNumReg, '');
+        const value = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
             ...prevData,
             order_details: {
@@ -114,13 +126,13 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                     <div className='row'>
                         {/* Customer Order Number */}
                         <label className='col'>
-                            Customer Order Number
+                           <span>Order Number <span className='mandatory'>*</span></span>  
                             <input
                                 type="text"
                                 className={`input-field ${errors.customer_order_number&&'input-field-error'}`}
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
-                                placeholder='Enter Customer Order ID'
+                                placeholder='Enter Customer Order Number'
                             />
                             {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>
@@ -195,7 +207,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 type="text"
                                 className='input-field'
                                 value={formData.other_details.reseller_name}
-                                onChange={(e) => handleChange(e, 'reseller_name')}
+                                onChange={(e) => handleReSeller(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
                             />
                         </label>
@@ -212,7 +224,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             >
                                 <option value="">Select Payment Type</option>
                                 <option value="Prepaid">Prepaid</option>
-                                <option value="Cod">COD</option>
+                                <option value="COD">COD</option>
                             </select>
                             {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
                         </label>
@@ -233,12 +245,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             <label style={{ width: '100%' }} className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
                                 Number of packets
                                 <input
-                                    type="number"
+                                    type="text"
                                     className='input-field'
-                                    value={formData.other_details.number_of_packets || '1'}
+                                    value={formData.other_details.number_of_packets || 0}
                                     onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
+                                    placeholder='Enter Number of Packets'
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                             </label>
+
                         </div>
                     </div>
                     {/* Add Payment Fields Section */}
@@ -259,6 +278,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 value={formData.charge_details.shipping_charges}
                                 onChange={(e) => handleChangeCharge(e, 'shipping_charges')}
                                 placeholder='Enter Shipping Charges'
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                         <label className='col'>
@@ -279,6 +303,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                 value={formData.charge_details.transaction_fee}
                                 onChange={(e) => handleChangeCharge(e, 'transaction_fee')}
                                 placeholder='Enter Transaction fee'
+                                onKeyPress={(e) => {
+                                    if (!/\d/.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                     </div>

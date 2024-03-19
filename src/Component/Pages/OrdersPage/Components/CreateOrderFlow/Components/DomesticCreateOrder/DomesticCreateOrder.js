@@ -13,6 +13,7 @@ import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
 
 const DomesticCreateOrder = () => {
+    
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);

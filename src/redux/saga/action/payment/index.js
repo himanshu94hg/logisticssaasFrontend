@@ -1,0 +1,59 @@
+import axios from "../../../../axios/index"
+import { call, put, takeLatest } from "@redux-saga/core/effects";
+import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
+import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION } from "../../constant/payment";
+import { GET_PAYMENT_DATA,SET_PAYMENT_DATA } from "../../../constants/payment";
+
+
+
+async function paymentFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_DUMMY}${API_URL.GET_PAYMENT_URL}`,
+        //data: data
+    });
+    return listData;
+}
+
+async function paymentSetFileAPI(data) {
+    let listData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_DUMMY}${API_URL.GET_PAYMENT_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+function* paymentFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(paymentFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_PAYMENT_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+function* paymentSetFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(paymentSetFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: SET_PAYMENT_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+
+export function* getpaymentWatcher() {
+    yield takeLatest(PAYMENT_DATA_ACTION,paymentFilesAction);
+    yield takeLatest(PAYMENT_SET_DATA_ACTION,paymentSetFilesAction);
+}

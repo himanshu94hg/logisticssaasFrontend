@@ -10,6 +10,7 @@ import AllOrders from './Components/AllOrders/AllOrders';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router';
+import EditOrder from './Components/EditOrder/EditOrder';
 
 
 const OrdersPage = () => {
@@ -17,8 +18,10 @@ const OrdersPage = () => {
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
-    const [orders,setOrders]=useState([])
-    const [searchValue,setSearchValue]=useState("")
+    const [orders, setOrders] = useState([])
+    const [searchValue, setSearchValue] = useState("")
+
+    const [EditOrderSection, setEditOrderSection] = useState(false)
 
 
     const location=useLocation()
@@ -34,15 +37,15 @@ const OrdersPage = () => {
         setIsOpen(!isOpen);
     };
 
-    const sellerData=Cookies.get("user_id")
-    let authToken=Cookies.get("access_token")
+    const sellerData = Cookies.get("user_id")
+    let authToken = Cookies.get("access_token")
 
-    let allOrders=`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}`
-    let unprocessable=`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
-    let processing=`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
-    let readyToShip=`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders=`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
-    let manifest=`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
+    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}`
+    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
+    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
+    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
+    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
+    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
 
 
     useEffect(() => {
@@ -69,18 +72,18 @@ const OrdersPage = () => {
             default:
                 apiUrl = '';
         }
-    
+
         if (apiUrl) {
             // Add search parameter if searchValue is not empty
-            if (searchValue?.trim() !== '' && searchValue?.length>=3) {
+            if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
-    
+
             axios.get(apiUrl, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                })
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
                 .then(response => {
                     console.log('Data is data:', response.data.results);
                     setOrders(response.data.results);
@@ -90,8 +93,8 @@ const OrdersPage = () => {
                 });
         }
     }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
-    
-    const handleSearch=(value)=>{
+
+    const handleSearch = (value) => {
         setSearchValue(value)
     }
 
@@ -102,35 +105,41 @@ const OrdersPage = () => {
 
             {/* All Orders */}
             <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                <AllOrders activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
+                <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
             </div>
-            
+
             {/* Unprocessable */}
             <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                <Unprocessable activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
+                <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
             </div>
 
-             {/* Processing */}
-             <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
-                <Processing activeTab={activeTab} orders={orders} handleSearch={handleSearch}/>
+            {/* Processing */}
+            <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
+                <Processing
+                    activeTab={activeTab} orders={orders}
+                    handleSearch={handleSearch}
+                    setEditOrderSection={setEditOrderSection}
+                />
             </div>
 
-             {/* ReadyToShip */}
-             <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                <ReadyToShip activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
+            {/* ReadyToShip */}
+            <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
+                <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
             </div>
 
-             {/* Manifest */}
-             <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                <Manifest activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
+            {/* Manifest */}
+            <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
+                <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
             </div>
 
-             {/* Returns */}
-             <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                <ReturnOrders activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
+            {/* Returns */}
+            <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
+                <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
             </div>
 
-           
+
+            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} />
+
         </>
     )
 }

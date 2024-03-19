@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import './MISPage.css'
-import OrdersMIS from './Components/OrdersMIS/OrdersMIS';
 import NavTabs from './Components/navTabs/NavTabs';
-import ShipmentsMIS from './Components/ShipmentsMIS/ShipmentsMIS';
-import BillingMIS from './Components/BillingMIS/BillingMIS';
-import ReturnsMIS from './Components/ReturnsMIS/ReturnsMIS';
+import ScheduledReportsMIS from './Components/ScheduledReportsMIS/ScheduledReportsMIS';
+import ActivityLogsMIS from './Components/ActivityLogsMIS/ActivityLogsMIS';
+import DownloadMIS from './Components/DownloadMIS/DownloadMIS';
+import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
+
 
 const MISPage = () => {
-    const [activeTab, setActiveTab] = useState("OrdersMIS");
+    const [activeTab, setActiveTab] = useState("ActivityLogsMIS");
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
@@ -25,23 +26,23 @@ const MISPage = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             {/* OrdersMIS */}
-            <div className={`${activeTab === "OrdersMIS" ? "d-block" : "d-none"}`}>
-                <OrdersMIS />
+            <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
+                <ActivityLogsMIS />
             </div>
-            
+
             {/* ShipmentsMIS */}
-            <div className={`${activeTab === "ShipmentsMIS" ? "d-block" : "d-none"}`}>
-                <ShipmentsMIS />
+            <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
+                <ScheduledReportsMIS />
             </div>
-            
+
             {/* BillingMIS */}
-            <div className={`${activeTab === "BillingMIS" ? "d-block" : "d-none"}`}>
-                <BillingMIS />
+            <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
+                <ReportsMIS />
             </div>
-            
+
             {/* ReturnsMIS */}
-            <div className={`${activeTab === "ReturnsMIS" ? "d-block" : "d-none"}`}>
-                <ReturnsMIS />
+            <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
+                <DownloadMIS />
             </div>
         </>
     )
