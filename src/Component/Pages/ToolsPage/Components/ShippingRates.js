@@ -4,8 +4,8 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 const ShippingRates = () => {
-    const [selectedCourier, setSelectedCourier] = useState(null);
     const dispatch = useDispatch();
+    const [selectedCourier, setSelectedCourier] = useState(null);
     const { ratingCardData } = useSelector(state => state?.toolsSectionReducer);
 
     useEffect(() => {
@@ -15,18 +15,19 @@ const ShippingRates = () => {
     const handleCourierChange = selectedOption => {
         setSelectedCourier(selectedOption);
     };
-
-    const shippingSelectData = [
-        { value: 'all', label: 'All Couriers' },
-        { value: 'Shadowfax', label: 'Shadowfax' },
-        { value: 'Delhivery', label: 'Delhivery' },
-        { value: 'Xpressbees A', label: 'Xpressbees A' },
-    ];
-
+ 
+    const shippingSelectData = ratingCardData?.map(item => ({
+        value: item.partner,
+        label: item.partner
+    }));
+    shippingSelectData?.unshift({ value: 'all', label: 'All Couriers' });
     const renderRows = data => {
-        const filteredData = selectedCourier && selectedCourier.value !== 'all' ?
-            data.filter(item => item.partner === selectedCourier.value) :
-            data;
+        let filteredData = [...data];
+
+        if (selectedCourier && selectedCourier.length > 0 && selectedCourier[0].value !== 'all') {
+            const selectedValues = selectedCourier.map(option => option.value);
+            filteredData = data.filter(item => selectedValues.includes(item.partner));
+        }
 
         return filteredData?.map((item, index) => (
             <React.Fragment key={item.partner + index}>
@@ -75,6 +76,7 @@ const ShippingRates = () => {
                                 options={shippingSelectData}
                                 placeholder="Select Courier"
                                 isSearchable
+                                isMulti  
                             />
                         </label>
                     </div>

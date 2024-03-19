@@ -20,11 +20,11 @@ function PopularCustomerDashboard() {
     return stars;
   };
 
-  useEffect(() => {
-    dispatch({
-      type: 'DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION', payload: dateRangeDashboard
-    })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: 'DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION', payload: dateRangeDashboard
+  //   })
+  // }, [])
 
   const { mostPopularCusData } = useSelector(state => state?.dashboardOverviewReducer)
   const total = mostPopularCusData.reduce((acc, data) => acc + data.count, 0)

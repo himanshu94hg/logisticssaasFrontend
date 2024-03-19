@@ -3,6 +3,7 @@ import { HiTrendingDown, HiTrendingUp } from "react-icons/hi";
 import NDRicon from '../../../../../assets/image/icons/NDRicon.png'
 import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png'
 import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
+import { useSelector } from "react-redux";
 
 function NDRTotalInfo() {
   // Dummy data
@@ -12,6 +13,9 @@ function NDRTotalInfo() {
     actionReq: { total_ndr_count: 25 },
     ndrdeleverd: { total_delivered_ndr_count: 75 }
   };
+
+  const {counterData}=useSelector(state=>state?.dashboardNdrReducer)
+  console.log(counterData,"courierData")
 
   const [totalNdr, setTotalNdr] = useState(dummyData.totalNdr);
   const [actionRequested, setActionRequested] = useState(dummyData.actionRequested);
@@ -32,7 +36,7 @@ function NDRTotalInfo() {
                       <img src={NDRicon} alt="iconOrders" width={24} />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{totalNdr.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.total_ndr}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -58,7 +62,7 @@ function NDRTotalInfo() {
 
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{actionReq.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_required}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -83,7 +87,7 @@ function NDRTotalInfo() {
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{actionRequested.total_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_requested}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -108,7 +112,7 @@ function NDRTotalInfo() {
                       <img src={NDRdelivered} alt="iconRTO" width={24} />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd.total_delivered_ndr_count}</h3>
+                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.ndr_delivered}</h3>
                   </div>
                   <div className="col-2">
                     <HiTrendingDown className="trending-icon" />

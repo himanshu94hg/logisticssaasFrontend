@@ -2,6 +2,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import IndiaMapp from "../../../../common/Graph/IndiaMapp";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function StateSplitDashboard() {
   const dispatch = useDispatch();
@@ -25,14 +26,11 @@ console.log(stateMapData,"stateMapData??????")
     }
   }, [mydata])
 
-  useEffect(() => {
-    dispatch({
-      type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: {
-        start_date: "2023-11-01",
-        end_date: "2024-03-12",
-      }
-    })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload:dateRangeDashboard
+  //   })
+  // }, [])
 
   return (
     <div className="box-shadow shadow-sm p10 state-wise-card">

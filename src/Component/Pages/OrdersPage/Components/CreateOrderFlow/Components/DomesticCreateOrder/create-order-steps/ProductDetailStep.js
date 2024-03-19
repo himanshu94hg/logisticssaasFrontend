@@ -13,9 +13,9 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             if (!product?.product_name?.trim()) {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
-            if (typeof product?.quantity !== 'string' || !product?.quantity.trim()) {
+            if (typeof product?.quantity !== 'string' || !product?.quantity.trim() || isNaN(Number(product?.quantity))|| Number(product?.quantity) <= 0) {
                 newErrors[`quantity_${index}`] = 'Product Quantity is required!';
-            }
+            }            
             if (!product?.sku?.trim()) {
                 newErrors[`sku_${index}`] = 'SKU is required!';
             }
@@ -27,7 +27,9 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
     const onNextClicked = () => {
         if (validateFormData()) {
-            onNext();
+            if (formData.product_details && formData.product_details.length > 0) {
+                onNext();
+            }
         }
     };
 
@@ -104,6 +106,8 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
         if (isChecked) {
             updatedProducts[index].sku = updatedProducts[index].product_name;
+        }else{
+            updatedProducts[index].sku = '';
         }
 
         setFormData({ ...formData, product_details: updatedProducts });
@@ -121,7 +125,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             {formData.product_details.length === 1 ? '' : ''}
                             <div className='row'>
                                 <label className='col'>
-                                    Product Name
+                                     <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
                                         className={`input-field ${errors[`product_name_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder="Enter your product name"
@@ -176,7 +180,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 </label>
                                 {/* Quantity */}
                                 <label className='col'>
-                                    Quantity
+                                    <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
                                         className={`input-field ${errors[`quantity_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
@@ -192,7 +196,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
                                 </label>
                                 <label className='col-3'>
-                                    SKU
+                                     <span>SKU <span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         className={`input-field ${errors[`sku_${index}`] ? 'input-field-error' : ''}`}
@@ -263,18 +267,22 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     />
                                 </label>
                             </div>
-                            {formData.product_details.length === 1 ? (
-                                <hr />
-                            ) : (
-                                <>
-                                    <div className='d-flex justify-content-end mt-3'>
-                                        <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
-                                            <FontAwesomeIcon icon={faTrashCan} title='Delete' />
-                                        </button>
-                                    </div>
-                                    <hr className='mt-2' />
-                                </>
-                            )}
+                            <div key={index}>
+        {/* Render delete button only if there are more than one product details */}
+        {formData.product_details.length > 1 && (
+            <>
+                {/* Conditionally render delete button based on index */}
+                {index > 0 && (
+                    <div className='d-flex justify-content-end mt-3'>
+                        <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
+                            <FontAwesomeIcon icon={faTrashCan} title='Delete' />
+                        </button>
+                    </div>
+                )}
+                <hr className='mt-2' />
+            </>
+        )}
+    </div>
                         </div>
                     ))}
                     <div className='d-flex justify-content-end'>

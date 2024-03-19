@@ -14,6 +14,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 import Modal from "react-bootstrap/Modal";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
+
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
   const [logoError, setLogoError] = useState("");
@@ -177,6 +178,7 @@ const BasicInfo = ({ activeTab }) => {
               website_url: basicInfoData.website_url || '',
               mobile: basicInfoData.mobile || '',
               gst_certificate: basicInfoData.gst_certificate || '',
+              company_logo: basicInfoData.company_logo || '',
             }));
           })
           .catch(error => {
@@ -196,10 +198,11 @@ const BasicInfo = ({ activeTab }) => {
       } else if (key === 'gst_number' && formData[key].length !== 15) {
         errors[key] = "GST number must consist of exactly 15 characters.";
       } else if (key === 'pincode' && formData[key].length !== 6) {
-        errors[key] = "Pincode must consist of exactly 6 characters.";
+        errors[key] = "Pincode should be 6 digits!.";
       }
       return errors;
     }, {});
+    
     setErrors(newErrors);
     console.log("Error Data",Object.keys(newErrors).length)
 
@@ -246,7 +249,7 @@ const BasicInfo = ({ activeTab }) => {
           formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
           const additionalData = await uploadImageData(awsUrl, formData);
           if (additionalData?.status == 204) {
-            const imageUrl = responseData?.data?.url?.url + e.target.files[0]?.name.replace(/\s/g, "")
+            const imageUrl = responseData?.data?.url?.url + "customerData/" + e.target.files[0]?.name.replace(/\s/g, "")
             setFormData(prev => ({
               ...prev,
               company_logo: imageUrl
@@ -344,8 +347,7 @@ const BasicInfo = ({ activeTab }) => {
       console.error('Error fetching PDF:', error);
     }
   }
-
-  console.log("imagesData",previewImage)
+  
 
   return (
       <>
@@ -360,7 +362,7 @@ const BasicInfo = ({ activeTab }) => {
                     <div className='upload-logo-input'>
                       <div className='d-flex flex-column align-items-center'>
                         <div className='logo-img-cont'>
-                          <img src={logoPreview} alt="Logo Preview" height={50} />
+                          <img src={formData.company_logo ? formData.company_logo : logoPreview} alt="Logo Preview" height={50} />
                         </div>
                         <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
                       </div>

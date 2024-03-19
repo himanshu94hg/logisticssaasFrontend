@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Switch from 'react-switch';
-import './SidePanel.css'
+import './MoreFiltersPanel.css'
 
 const CustomDatePicker = ({ selectedDate, onChange }) => {
     return (
@@ -16,7 +16,7 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
     );
 };
 
-const SidePanel = (props) => {
+const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
@@ -60,8 +60,8 @@ const SidePanel = (props) => {
 
     return (
         <>
-            <div id='sidePanel' className="side-panel">
-                <div id='sidepanel-closer' onClick={props.CloseSidePanel}>
+            <div id='sidePanel' className={`side-panel ${MoreFilters ? 'open' : ''}`}>
+                <div id='sidepanel-closer' onClick={CloseSidePanel}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
                 <section className='sidepanel-header'>
@@ -141,4 +141,4 @@ const SidePanel = (props) => {
     )
 }
 
-export default SidePanel
+export default MoreFiltersPanel

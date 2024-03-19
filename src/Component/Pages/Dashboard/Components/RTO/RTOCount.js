@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const RTOChart = () => {
+    const { rtoCountMonthwise } = useSelector(state => state?.dashboardRtoReducer)
+    const [weekNumbers, setWeekNumbers] = useState([]);
+    const [rtoStatusCounts, setRTOStatusCounts] = useState([]);
+
+    useEffect(() => {
+        const extractedWeekNumbers = rtoCountMonthwise.map(item => "Week "+item.week_number);
+        const extractedRTOStatusCounts = rtoCountMonthwise.map(item => item.rto_status_count);
+        setWeekNumbers(extractedWeekNumbers);
+        setRTOStatusCounts(extractedRTOStatusCounts);
+    }, [rtoCountMonthwise]);
+
+
     const seriesData = [{
         name: "RTO Count",
-        data: [0, 10, 5, 25, 10], // example data for RTO count week-wise
+        data: rtoStatusCounts, // example data for RTO count week-wise
         color: '#1975C9',
     }];
 
@@ -45,7 +58,7 @@ const RTOChart = () => {
             show: true, // Hide y-axis line
         },
         xaxis: {
-            categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            categories: weekNumbers
         },
 
         tooltip: {

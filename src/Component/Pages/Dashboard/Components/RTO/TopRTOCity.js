@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { percentage } from '../../../../../customFunction/functionLogic';
 
 const TopRTOCity = () => {
+
+
+  const {rtoTopCity}=useSelector(state=>state?.dashboardRtoReducer)
+  const totalValue=rtoTopCity.reduce((acc,value)=>acc+value.count,0)
+
+  console.log(totalValue,"this is top rto cirtyt")
+
   const [data] = useState([
     {
       city: 'Mumbai',
@@ -53,24 +62,24 @@ const TopRTOCity = () => {
                 <p>Loading data...</p>
               ) : error ? (
                 <p>{error}</p>
-              ) : Array.isArray(data) && data.length !== undefined && data.length !== null ? (
-                data.map((cityData, index) => (
+              ) : Array.isArray(rtoTopCity) && rtoTopCity?.length !== undefined && rtoTopCity?.length !== null ? (
+                rtoTopCity?.map((cityData, index) => (
                   <div key={index}>
                     <div className="d-flex justify-content-between">
-                      <p className="font12 bold-600 mb-10">{cityData.city}</p>
+                      <p className="font12 bold-600 mb-10">{cityData.city_name}</p>
                       <p className="font12 bold-600 mb-10">
-                        {cityData.rto_count}{" "}
-                        <span className="text-gray-light ">({cityData.rto_count_percentage}%)</span>
+                        {cityData.count}{" "}
+                        <span className="text-gray-light ">{percentage(cityData?.count,totalValue)}</span>
                       </p>
                     </div>
                     <div className="progress mb-15">
                       <div
                         style={{
                           backgroundColor: index % 2 === 0 ? '#1975C9' : '#1975C9',
-                          width: `${cityData.rto_count_percentage}%`,
+                          width: `${cityData?.count/totalValue*100}`,
                         }}
                         role="progressbar"
-                        aria-valuenow={cityData.rto_count_percentage}
+                        aria-valuenow={cityData?.count/totalValue*100}
                         aria-valuemin="0"
                         aria-valuemax="100"
                       ></div>

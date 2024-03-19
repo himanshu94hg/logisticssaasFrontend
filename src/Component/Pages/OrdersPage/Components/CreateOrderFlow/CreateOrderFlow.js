@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './CreateOrderFlow.css'
 import NavTabs from './Components/navTabs/NavTabs';
 import DomesticCreateOrder from './Components/DomesticCreateOrder/DomesticCreateOrder';
 import InternationalCreateOrders from './Components/InternationalCreateOrders/InternationalCreateOrders';
 import QuickCreateOrder from './Components/QuickCreateOrder/QuickCreateOrder';
 import BulkCreateOrder from './Components/BulkCreateOrder/BulkCreateOrder';
+import { useLocation } from 'react-router-dom';
 
 
 const CreateOrderFlow = () => {
+
+    const location = useLocation();
     const [activeTab, setActiveTab] = useState("DomesticCreateOrder");
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
@@ -21,6 +24,16 @@ const CreateOrderFlow = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
+
+    useEffect(() => {
+        if (location.pathname === "/create-order" && location.state && location.state.tabs === "BulkCreateOrder") {
+            setActiveTab("BulkCreateOrder");
+        } else if (location.pathname === "/create-order") {
+            setActiveTab("DomesticCreateOrder");
+        }
+    }, [location]);
+
+
 
     return (
         <>

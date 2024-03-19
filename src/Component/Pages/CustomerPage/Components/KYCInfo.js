@@ -54,7 +54,7 @@ const KYCInfo = ({ activeTab }) => {
   };
 
   const handleChange = async (e) => {
-    
+
     console.log(e,"select type dfata")
 
     const { name, value, type, files } = e.target;
@@ -91,20 +91,65 @@ const KYCInfo = ({ activeTab }) => {
 
   console.log(formData, "this is dummay data")
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  /* const handleSubmit = async (e) => {
+     e.preventDefault();
+     try {
+       const response = await axios.post(
+           'https://dev.shipease.in/core-api/seller/kyc-info/',
+           formData,
+           {
+             headers: {
+               Authorization: `Bearer ${hardcodedToken}`,
+               'Content-Type': 'application/json',
+             },
+           }
+       );
+       if (response.status == 201) {
+         fetchKYCData();
+         toast.success("KYC Details updated successfully");
+         setFormData({
+           company_type: '',
+           document_type: '',
+           document_id: '',
+           document_name: '',
+           document_upload: '',
+         });
+       }
+     } catch (error) {
+       console.error('Error:', error);
+     }
+   };*/
+
+   const handleSubmit = async (e) => {
+    e.preventDefault(); 
+    const newErrors = Object.keys(formData).reduce((errors, key) => {
+      if (key !== 'document_upload' && !formData[key]) {
+        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      } else if (key === 'document_name' && /\d/.test(formData[key])) {
+        errors[key] = "Document name should not contain numbers.";
+      } else if (key === 'document_type' && !formData[key]) {
+        errors[key] = "Please select your document.";
+      }
+      return errors;
+    }, {});
+    setErrors(newErrors);
+  
+    if (Object.keys(newErrors).length !== 0) {
+      return;
+    }
+  
     try {
       const response = await axios.post(
-          'https://dev.shipease.in/core-api/seller/kyc-info/',
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${hardcodedToken}`,
-              'Content-Type': 'application/json',
-            },
-          }
+        'https://dev.shipease.in/core-api/seller/kyc-info/',
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${hardcodedToken}`,
+            'Content-Type': 'application/json',
+          },
+        }
       );
-      if (response.status == 201) {
+      if (response.status === 201) {
         fetchKYCData();
         toast.success("KYC Details updated successfully");
         setFormData({
@@ -119,6 +164,7 @@ const KYCInfo = ({ activeTab }) => {
       console.error('Error:', error);
     }
   };
+  
 
 
   const handleDelete = async (id) => {
@@ -189,7 +235,7 @@ const KYCInfo = ({ activeTab }) => {
                   <label>
                     Document Type:
                     <select
-                      className="select-field"
+                      className={`input-field ${errors.document_type && "input-field-error"}`}
                       name="document_type"
                       value={formData.document_type}
                       onChange={handleChange}
@@ -200,12 +246,14 @@ const KYCInfo = ({ activeTab }) => {
                       <option value="Driving License">Driving License</option>
                       <option value="Voter ID Card">Voter ID Card</option>
                     </select>
+                    {errors.document_type && <span className="error-text">{errors.document_type}</span>}
                   </label>
                   <label>
                     Upload Document:
                     <input
                       className="input-field"
                       type="file"
+                      fileinput="fileinput"
                       name="document_upload"
                       onChange={handleChange}
                     />
@@ -215,25 +263,24 @@ const KYCInfo = ({ activeTab }) => {
                   <label>
                     Document Name:
                     <input
-                      className="input-field"
+                      className={`input-field ${errors.document_name && "input-field-error"}`}
                       type="text"
-                      placeholder='Enter document name'
                       name="document_name"
                       value={formData.document_name}
                       onChange={handleChange}
                     />
-                    {errors[0] == "" && <span className="error-text">{errors[0]}</span>}
+                    {errors.document_name && <span className="error-text">{errors.document_name}</span>}
                   </label>
                   <label>
                     Document Number:
                     <input
-                      className="input-field"
-                      placeholder='Enter document number'
+                      className={`input-field ${errors.document_id && "input-field-error"}`}
                       type="text"
                       name="document_id"
                       value={formData.document_id}
                       onChange={handleChange}
                     />
+                    {errors.document_id && <span className="error-text">{errors.document_id}</span>}
                   </label>
                 </div>
               </div>
@@ -243,30 +290,30 @@ const KYCInfo = ({ activeTab }) => {
               <h5 className="col-3">Uploaded Documents</h5>
               <ul className="col-9 upload-doc-list">
                 {formList.map((item, index) =>
-                    (item.documentType === "Pan Card" ||
-                        item.documentType === "Aadhar Card" ||
-                        item.documentType === "Driving License" ||
-                        item.documentType === "Voter ID Card") && (
-                        <li key={index} className="row">
-                          <p className="col-11">
-                            <span className="me-4">Document Type: <strong>{item.documentType}</strong></span>
-                            <span className="mx-4">Document Name: <strong>{item.documentName}</strong></span>|
-                            <span className="mx-4">Document Number: <strong>{item.documentNumber}</strong></span>
-                          </p>
-                          <div className="col-1 d-flex gap-2 align-items-center">
-                            <button type="button" className="btn preview-btn" onClick={() => handleShow(item.previewImg)}>
-                              <FontAwesomeIcon icon={faEye} />
-                            </button>
-                            <button
-                                type="button"
-                                className="btn delete-btn"
-                                onClick={() => handleDelete(item.id)}
-                            >
-                              <FontAwesomeIcon icon={faTrashCan} />
-                            </button>
-                          </div>
-                        </li>
-                    )
+                  (item.documentType === "Pan Card" ||
+                    item.documentType === "Aadhar Card" ||
+                    item.documentType === "Driving License" ||
+                    item.documentType === "Voter ID Card") && (
+                    <li key={index} className="row">
+                      <p className="col-11">
+                        <span className="me-4">Document Type: <strong>{item.documentType}</strong></span>
+                        <span className="mx-4">Document Name: <strong>{item.documentName}</strong></span>|
+                        <span className="mx-4">Document Number: <strong>{item.documentNumber}</strong></span>
+                      </p>
+                      <div className="col-1 d-flex gap-2 align-items-center">
+                        <button type="button" className="btn preview-btn" onClick={() => handleShow(item.previewImg)}>
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn delete-btn"
+                          onClick={() => handleDelete(item.id)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </button>
+                      </div>
+                    </li>
+                  )
                 )}
               </ul>
             </div>
@@ -294,20 +341,20 @@ export default KYCInfo;
 
 function Preview({ show, setShow, handleClose, handleShow, previewImage }) {
   return (
-      <>
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title>Image Preview</Modal.Title>
-          </Modal.Header>
-          <Modal.Body className='p-1'>
-            {previewImage ? (
-                <img src={previewImage} width={"100%"} height={"400px"} alt="" />
-            ) : (
-                <h2 className='p-4'>No image or document available!</h2>
-            )}
-          </Modal.Body>
-        </Modal>
-      </>
+    <>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Image Preview</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className='p-1'>
+          {previewImage ? (
+            <img src={previewImage} width={"100%"} height={"400px"} alt="" />
+          ) : (
+            <h2 className='p-4'>No image or document available!</h2>
+          )}
+        </Modal.Body>
+      </Modal>
+    </>
   );
 }
 

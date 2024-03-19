@@ -1,39 +1,41 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const WeightOrdersChart = () => {
-
     const [chartWidth, setChartWidth] = useState(380);
     const [resOffsetX, setresOffsetX] = useState(180)
+
+    const {weightProfile}=useSelector(state=>state?.dashboardShpmentReducer)
+
+    console.log(weightProfile,"weightProfileweightProfile")
+
+    // useEffect(()=>{
+
+    //     const data = Object.entries(weightProfile)?.map(([key, value], index) => ({ id: index, key, value }));
+           
+    // },[weightProfile])
+
 
     useEffect(() => {
         const handleResize = () => {
             const screenWidth = window.innerWidth;
-            // Adjust the chart width based on screen size
             if (screenWidth >= 1720) {
-                setChartWidth(380); // for larger screens
-                setresOffsetX(180); // for larger screens
-                console.log(resOffsetX)
+                setChartWidth(380);
+                setresOffsetX(180);
             } else if (screenWidth >= 768) {
-                setChartWidth(300); // for medium screens
-                setresOffsetX(100); // for medium screens
+                setChartWidth(300); 
+                setresOffsetX(100); 
             } else {
-                setChartWidth(200); // default width for smaller screens
-                setresOffsetX(100); // default width for smaller screens
+                setChartWidth(200);
+                setresOffsetX(100);
             }
         };
 
-        // Call the handleResize function on initial load
         handleResize();
-
-        // Add event listener to window resize event
         window.addEventListener('resize', handleResize);
-
-        // Clean up the event listener on component unmount
         return () => window.removeEventListener('resize', handleResize);
-    }, []); // Empty dependency array ensures that this effect runs only once on component mount
-
-
+    }, []);
 
     const [chartData, setChartData] = useState({
         series: [],
@@ -146,34 +148,31 @@ const WeightOrdersChart = () => {
 
 
     useEffect(() => {
-        const orders = [
-            { id: 1, count: 75 },
-            { id: 2, count: 80 },
-            { id: 3, count: 50 },
-            { id: 4, count: 69 },
-        ];
-
-        const slabs = [
-            { id: 1, min: 0.5, max: 3, label: '0.5kg - 3kg' },
-            { id: 2, min: 3, max: 5, label: '3kg - 5kg' },
-            { id: 3, min: 5, max: 10, label: '5kg - 10kg' },
-            { id: 4, min: 10, max: Infinity, label: '10kg Above' },
-        ];
+       if(weightProfile){
+        const orders = Object.entries(weightProfile)?.map(([key, count], index) => ({ id: index, count }));
+        const slabs = Object.entries(weightProfile)?.map(([label, value], index) => ({ id: index, label, value }));
+        // const slabs = Object.entries(weightProfile)?.map(([key, value], index) => ({ id: index, key, value }));
+        // const slabs = [
+        //     { id: 1, min: 0.5, max: 3, label: '0.5kg - 3kg' },
+        //     { id: 2, min: 3, max: 5, label: '3kg - 5kg' },
+        //     { id: 3, min: 5, max: 10, label: '5kg - 10kg' },
+        //     { id: 4, min: 10, max: Infinity, label: '10kg Above' },
+        // ];
 
         const ordersInSlabs = slabs.map(slab => ({
             weight_slab_id: slab.id,
             number_of_orders: orders.find(order => order.id === slab.id).count
         }));
-
         setChartData(prevState => ({
             ...prevState,
             series: ordersInSlabs.map(slabs => slabs.number_of_orders),
             options: {
                 ...prevState.options,
-                labels: slabs.map(slab => slab.label)
+                labels: slabs.map(slab => slab.label.split("_").join(' '))
             }
         }));
-    }, []);
+       }
+    }, [weightProfile]);
 
     return (
         <div>

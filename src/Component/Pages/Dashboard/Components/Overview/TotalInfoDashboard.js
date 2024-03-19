@@ -8,6 +8,7 @@ import Graph from "../../../../common/Graph/Graph";
 import LineGraph from "../../../../common/Graph/LineGraph";
 import DataTable from "./DataTable/DataTable";
 import { useDispatch, useSelector } from "react-redux";
+import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function TotalInfoDashboard() {
   const dispatch = useDispatch()
@@ -16,11 +17,13 @@ function TotalInfoDashboard() {
   const [totalCustomer, setTotalCustomer] = useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
 
-  useEffect(() => {
-    dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION" })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION",payload:dateRangeDashboard })
+  // }, [])
 
   const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
+
+  console.log(counterCard,"counterCardcounterCardcounterCard")
 
   return (
     <>
