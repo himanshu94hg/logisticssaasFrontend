@@ -274,7 +274,7 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                         <td className='align-middle'>
                                             {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Edit Order</button>
+                                                <button className='btn main-button'>Reassign Order</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
