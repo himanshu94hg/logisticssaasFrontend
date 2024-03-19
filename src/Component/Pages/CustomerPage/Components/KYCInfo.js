@@ -159,6 +159,7 @@ const KYCInfo = ({ activeTab }) => {
           document_name: '',
           document_upload: '',
         });
+        e.target.reset(); 
       }
     } catch (error) {
       console.error('Error:', error);
