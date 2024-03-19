@@ -1,23 +1,52 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const StatusBarChart = () => {
+    const { ndrStatus } = useSelector(state => state?.dashboardNdrReducer)
+    const [weekNumbers, setWeekNumbers] = useState([]);
+    const [delivered, setDelivered] = useState([]);
+    const [rto, setRTO] = useState([]);
+    const [lost, setLost] = useState([]);
+    const [pending, setPending] = useState([]);
+  
+    useEffect(() => {
+      const extractedWeekNumbers = [];
+      const extractedDelivered = [];
+      const extractedRTO = [];
+      const extractedLost = [];
+      const extractedPending = [];
+      ndrStatus?.forEach(item => {
+        extractedWeekNumbers.push("Week "+item.week_number);
+        extractedDelivered.push(item.delivered);
+        extractedRTO.push(item.rto);
+        extractedPending.push(item.pending);
+        extractedLost.push(item.lost);
+      });
+      setWeekNumbers(extractedWeekNumbers);
+      setDelivered(extractedDelivered);
+      setRTO(extractedRTO);
+      setLost(extractedLost);
+      setPending(extractedPending);
+    }, [ndrStatus]); 
+  
+    
     const seriesData = [{
         name: 'Delivered',
-        data: [44, 55, 41, 37, 22]
-    }, {
+        data:delivered
+    },
+    {
         name: 'RTO',
-        data: [53, 32, 33, 52, 13]
-    }, {
+        data:rto
+    },
+    {
         name: 'Pending',
-        data: [12, 17, 11, 9, 15]
-    }, {
+        data: pending
+    },
+    {
         name: 'Reattempt',
-        data: [9, 7, 5, 8, 6]
-    }, {
-        name: 'Lost',
-        data: [5, 10, 12, 10, 8]
-    }
+        data: lost
+    },
     ];
 
     const options = {
@@ -39,17 +68,17 @@ const StatusBarChart = () => {
         title: {
             text: '',
             style: {
-                color: '#333' // Change text color here
+                color: '#333'
             }
         },
         xaxis: {
-            categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+            categories:weekNumbers,
         },
         tooltip: {
-            enabled: true, // Ensure tooltips are enabled
+            enabled: true,
             style: {
-                fontSize: '12px', // Adjust font size if needed
-                color: '#333'     // Change text color here
+                fontSize: '12px', 
+                color: '#333'     
             }
         },
         fill: {
@@ -72,14 +101,11 @@ const StatusBarChart = () => {
         </div>
     );
 };
-
-// Add CSS to style data labels text color
 const chartStyles = `
     .apexcharts-datalabel {
         fill: #333 !important; // Change text color here
     }
 `;
-
 
 const NDRStatus = () => {
     useEffect(() => {

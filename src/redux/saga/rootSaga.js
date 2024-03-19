@@ -17,7 +17,9 @@ import { getSplitWiseStateWatcher } from "./action/dashboard/overview/stateWiseS
 import { getSignupWatcher } from "./action/auth/signUp";
 import { getOrdersTabWatcher } from "./action/dashboard/order";
 import { getShipmentTabWatcher } from "./action/dashboard/shipment";
-import { getpaymentWatcher } from "./action/payment";
+import { getDashboardCouriersWatcher } from "./action/dashboard/courier";
+import { getDashboardRtoWatcher } from "./action/dashboard/rto";
+import { getDashboardNdrWatcher } from "./action/dashboard/ndr";
 
 
 export default function* rootSaga() {
@@ -40,6 +42,9 @@ export default function* rootSaga() {
    getSignupWatcher(),
    getOrdersTabWatcher(),
    getShipmentTabWatcher(),
-   getpaymentWatcher()
+   getpaymentWatcher(),
+   getDashboardNdrWatcher(),
+   getDashboardRtoWatcher(),
+   getDashboardCouriersWatcher()
   ]);
 }
