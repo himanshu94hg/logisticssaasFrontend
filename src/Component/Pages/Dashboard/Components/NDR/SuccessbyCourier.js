@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const CourierNDRChart = () => {
-    const chartData = {
+    const { successByCourier } = useSelector(state => state?.dashboardNdrReducer)
+
+    const [chartData, setChartData] = useState({
         series: [{
             name: 'NDR Raised',
-            data: [10, 15, 8, 12, 18] // Example data for NDR Raised
+            data: [10, 15, 8, 12, 18] 
         }, {
             name: 'NDR Delivered',
-            data: [8, 10, 12, 14, 16] // Example data for NDR Delivered
+            data: [8, 10, 12, 14, 16]
         }],
         options: {
             chart: {
@@ -31,7 +34,7 @@ const CourierNDRChart = () => {
                 colors: ['transparent']
             },
             xaxis: {
-                categories: ['Courier A', 'Courier B', 'Courier C', 'Courier D', 'Courier E'],
+                categories: ['Courier A', 'Courier B', 'Courier C', 'Courier D', 'Courier E',],
             },
             yaxis: {
                 title: {
@@ -49,7 +52,32 @@ const CourierNDRChart = () => {
                 }
             }
         }
-    };
+    });
+
+    useEffect(() => {
+        if (successByCourier && successByCourier?.length > 0) {
+            const seriesData = [{
+                name: 'NDR Raised',
+                data: successByCourier.map(courier => courier.ndr_raised)
+            }, {
+                name: 'NDR Delivered',
+                data: successByCourier.map(courier => courier.ndr_delivered)
+            }];
+            const categories = successByCourier.map(courier => courier.courier_partner);
+            setChartData(prevState => ({
+                ...prevState,
+                series: seriesData,
+                options: {  
+                    ...prevState.options,
+                    xaxis: {
+                        ...prevState.options.xaxis,
+                        categories: categories
+                    }
+                }
+            }));
+        }
+    }, [successByCourier]);
+
 
     return (
         <div>

@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect,useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { OrderDetailsStep, OrderStep } from './create-order-steps/OrderDetailsStep';
@@ -20,6 +20,9 @@ const DomesticCreateOrder = () => {
     const currentDate = new Date();
     const [activeTab, setActiveTab] = useState("All Orders");
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
+
+    const location=useLocation();
+    console.log(location,"this is a uselocation data")
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -93,9 +96,6 @@ const DomesticCreateOrder = () => {
             }
         ],
     })
-
-
-    console.log(formData,"this is a valid data")
 
     useEffect(() => {
         const updateProgressBarWidth = () => {
