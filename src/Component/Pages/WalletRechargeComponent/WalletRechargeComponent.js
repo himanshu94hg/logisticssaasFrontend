@@ -6,9 +6,7 @@ import './WalletRechargeComponent.css';
 import ccAvenue from '../../../assets/image/logo/ccAvenue.png';
 import RazorpayImg from '../../../assets/image/logo/Razorpay.png';
 import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import Cookies from 'js-cookie';
 
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
@@ -22,9 +20,10 @@ const WalletRechargeComponent = (props) => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [dispatch]);
 
-    const paymentCard  = useSelector(state => state?.paymentSectionReducer.paymentCard)
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+    const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
 
-    console.log("Payment Section API",paymentCard?.balance);
+    console.log("Payment Section Post API", sellerBalance);
 
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);
@@ -50,7 +49,7 @@ const WalletRechargeComponent = (props) => {
         try {
             const options = {
                 key: "rzp_test_K1d2c5jJQMbVkn",
-                amount: parseFloat(rechargeAmount) * 100,
+                amount: (rechargeAmount) * 100,
                 currency: "INR",
                 name: "Shipease",
                 description: "Wallet Recharge",
@@ -72,13 +71,14 @@ const WalletRechargeComponent = (props) => {
                         console.log("Payment successful!");
                         let data = JSON.stringify({
                             razorpay_payment_id: response.razorpay_payment_id,
-                            amount: options.amount,
+                            amount: rechargeAmount,
                             description: options.description
                         });
                         dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
+
                     } else {
                         console.log("Payment failed!");
-                    }                    
+                    }
                 }
             };
 
@@ -87,13 +87,8 @@ const WalletRechargeComponent = (props) => {
         } catch (error) {
             console.error("Error in creating order:", error);
         }
-    }, [Razorpay, rechargeAmount]);
-
-    useEffect(() => {
-        if (isLoaded && rechargeAmount !== '') { 
-            handleRecharge();
-        }
-    }, [isLoaded, handleRecharge, rechargeAmount]);
+    }, [Razorpay, rechargeAmount, dispatch]);
+    
 
     return (
         <>
@@ -110,7 +105,7 @@ const WalletRechargeComponent = (props) => {
                             <h4 className='my-3'>Your Wallet</h4>
                             <div className='balance-amount'>
                                 <p>₹</p>
-                                <p className='fw-bold font30'>{paymentCard?.balance}</p>
+                                <p className='fw-bold font30'>{paymentSetCard?.balance ?? paymentCard?.balance}</p>
                             </div>
                             <p className='font13'>Current Wallet Amount</p>
                         </div>
