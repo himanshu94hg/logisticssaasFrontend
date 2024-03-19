@@ -74,7 +74,6 @@ const MoreOnOrders = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
-
             {/* reassign */}
             <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
                 <ReassignOrder activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>

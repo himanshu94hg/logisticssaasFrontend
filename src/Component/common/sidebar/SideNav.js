@@ -32,7 +32,7 @@ const Dropdown = ({ links, isOpen }) => {
   );
 };
 
-const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
+const MenuItem = ({ state,to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   // const [isDropdownOpen, setDropdownOpen] = useState(true);
   const location = useLocation();
@@ -42,6 +42,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
     onDropdownToggle(label);
   };
 
+
+  console.log(hasDropdown,"totototototototo",dropdownLinks)
 
 
   useEffect(() => {
@@ -152,7 +154,7 @@ const SideNav = (props) => {
         { to: "/Reassign-orders", label: "Reassign Orders" },
         { to: "/merge-orders", label: "Merge Orders" },
         { to: "/split-orders", label: "Split Orders" },
-        { to: "/reverse-order", label: "Reverse Order" },
+        { to: "/create-order", label: "Reverse Order" , state: { data: "yourData" } },
       ],
     },
     { to: "/Shipments", label: "Shipments" },
@@ -203,9 +205,10 @@ const SideNav = (props) => {
         />
       </div>
       <div className="menu-container">
-        {menuItems.map((item, index) => (
+        {menuItems?.map((item, index) => (
           <MenuItem
             key={index}
+            state={item.state}
             to={item.to}
             label={item.label}
             hasDropdown={item.hasDropdown}

@@ -33,7 +33,10 @@
 }
 
 .customer-details-form input[type="file"] {
-    padding-left: 0;
+    text-align: left; 
+    padding-left: 3px;
+    padding-top: 4px;
+
 }
 
 .customer-details-form hr {
