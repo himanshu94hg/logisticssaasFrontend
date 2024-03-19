@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
 import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
@@ -9,9 +8,13 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import { useSelector } from 'react-redux';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
+
+    const weightRecoData=useSelector(state=>state?.weightRecoReducer)
+    console.log(weightRecoData,"weightRecoDataweightRecoDataweightRecoData")
 
     useEffect(() => {
         const formattedDateTime = formatDateTime(dateTimeString);
@@ -64,17 +67,6 @@ const WeightRecoTab = () => {
         return reasons[randomIndex].data;
     };
 
-
-    useEffect(() => {
-        axios
-            .get('http://dev.shipease.in:8088/weight/v1/weight-recancel-data/') // Replace with your API endpoint
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
 
 

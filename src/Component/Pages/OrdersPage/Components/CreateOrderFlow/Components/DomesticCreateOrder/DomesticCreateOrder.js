@@ -13,7 +13,6 @@ import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
 
 const DomesticCreateOrder = () => {
-    
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
@@ -21,9 +20,6 @@ const DomesticCreateOrder = () => {
     const currentDate = new Date();
     const [activeTab, setActiveTab] = useState("All Orders");
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
-
-    const location=useLocation();
-    console.log(location,"this is a uselocation data")
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -97,6 +93,7 @@ const DomesticCreateOrder = () => {
             }
         ],
     })
+
 
     useEffect(() => {
         const updateProgressBarWidth = () => {

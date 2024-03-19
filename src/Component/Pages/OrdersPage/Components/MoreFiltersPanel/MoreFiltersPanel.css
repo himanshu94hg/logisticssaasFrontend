@@ -57,3 +57,33 @@
     bottom: 0;
     right: 0;
 }
+
+.morefilters-panel .rmsc .dropdown-container {
+    background-color: transparent;
+    border: 1px solid var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    padding-left: 10px;
+}
+
+.morefilters-panel .rmsc .dropdown-content {
+    width: 90%;
+}
+
+.morefilters-panel .form-input-fields {
+    overflow-x: clip;
+}
+
+.morefilters-panel .css-b62m3t-container:focus-visible {
+    outline: none;
+}
+
+.morefilters-panel .css-13cymwt-control {
+    border-color: var(--sh-primary-middle);
+    border-radius: 0.5rem;
+}
+
+.morefilters-panel .sku-checkbox label {
+    display: flex;
+    gap: 7px;
+    flex-direction: row;
+}

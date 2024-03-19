@@ -6,7 +6,7 @@ const initialState = {
     zoneWiseData:null
 };
 
-export const dashboardShpmentReducer = (state = initialState, action) => {
+export const dashboardShipmentReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE_DATA:
             return {

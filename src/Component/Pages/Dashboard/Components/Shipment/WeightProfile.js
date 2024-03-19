@@ -6,7 +6,7 @@ const WeightOrdersChart = () => {
     const [chartWidth, setChartWidth] = useState(380);
     const [resOffsetX, setresOffsetX] = useState(180)
 
-    const {weightProfile}=useSelector(state=>state?.dashboardShpmentReducer)
+    const {weightProfile}=useSelector(state=>state?.dashboardShipmentReducer)
 
     console.log(weightProfile,"weightProfileweightProfile")
 
