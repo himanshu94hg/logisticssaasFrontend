@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export default function Header(props) {
 
-  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+  //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
  
 
   const handleLogout = () => {
