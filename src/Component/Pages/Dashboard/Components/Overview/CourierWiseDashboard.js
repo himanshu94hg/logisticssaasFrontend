@@ -24,11 +24,11 @@ function CourierWiseDashboard() {
     { courier_partner: "The Professional Courier", total_percentage: 0.85, image_url: Professional },
   ]);
 
-  useEffect(() => {
-    dispatch({
-      type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload:dateRangeDashboard
-    })
-  }, [])
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload:dateRangeDashboard
+  //   })
+  // }, [])
 
   const {courierWiseData}=useSelector(state=>state?.dashboardOverviewReducer)
   const totalValue = courierWiseData.reduce((acc, courier) => acc + courier.value, 0);

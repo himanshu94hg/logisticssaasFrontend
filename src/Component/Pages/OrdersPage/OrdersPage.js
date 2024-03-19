@@ -9,6 +9,7 @@ import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
 import AllOrders from './Components/AllOrders/AllOrders';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useLocation } from 'react-router';
 import EditOrder from './Components/EditOrder/EditOrder';
 
 
@@ -21,6 +22,11 @@ const OrdersPage = () => {
     const [searchValue, setSearchValue] = useState("")
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
+
+
+    const location=useLocation()
+
+    // console.log(location,"locationlocationlocation")
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);

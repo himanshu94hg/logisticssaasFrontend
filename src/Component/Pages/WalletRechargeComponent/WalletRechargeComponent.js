@@ -1,17 +1,36 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
-import './WalletRechargeComponent.css'
-import { Link } from 'react-router-dom'
-import ccAvenue from '../../../assets/image/logo/ccAvenue.png'
-import Razorpay from '../../../assets/image/logo/Razorpay.png'
-import redeemIcon from '../../../assets/image/icons/redeemIcon.png'
+import React, { useCallback, useEffect, useState } from "react";
+import useRazorpay from "react-razorpay";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import './WalletRechargeComponent.css';
+import ccAvenue from '../../../assets/image/logo/ccAvenue.png';
+import RazorpayImg from '../../../assets/image/logo/Razorpay.png';
+import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
+import { useDispatch, useSelector } from 'react-redux';
 
 const WalletRechargeComponent = (props) => {
+    const dispatch = useDispatch()
     const [rechargeAmount, setRechargeAmount] = useState('');
     const [paymentMode, setPaymentMode] = useState('credit_card');
     const [couponCode, setCouponCode] = useState('');
+    const [Razorpay, isLoaded] = useRazorpay();
 
+    useEffect(() => {
+        dispatch({ type: "PAYMENT_DATA_ACTION" });
+    }, [dispatch]);
+
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+    const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
+
+
+    useEffect(() => {
+        if (paymentCard !== null && paymentSetCard !== null) {
+            localStorage.setItem('paymentCard', JSON.stringify(paymentCard));
+            localStorage.setItem('paymentSetCard', JSON.stringify(paymentSetCard));
+        }
+    }, [paymentCard, paymentSetCard]);
+
+    
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);
     };
@@ -25,21 +44,57 @@ const WalletRechargeComponent = (props) => {
     };
 
     const handlePredefinedAmountClick = (amount) => {
-        setRechargeAmount(amount);
+        setRechargeAmount(amount.toString());
     };
 
     const handleAddCoupon = () => {
-        // Implement coupon code validation and addition logic here
-        // For simplicity, just logging the coupon code
         console.log('Coupon added:', couponCode);
     };
 
-    const handleRecharge = () => {
-        // Implement recharge logic here
-        // For simplicity, just logging the recharge amount and payment mode
-        console.log('Recharge amount:', rechargeAmount);
-        console.log('Payment mode:', paymentMode);
-    };
+    const handleRecharge = useCallback(async () => {
+        try {
+            const options = {
+                key: "rzp_test_K1d2c5jJQMbVkn",
+                amount: (rechargeAmount) * 100,
+                currency: "INR",
+                name: "Shipease",
+                description: "Wallet Recharge",
+                image: "https://example.com/your_logo",
+                prefill: {
+                    name: "Shipease",
+                    email: "nitesh.singh@shipease.in",
+                    contact: "6352256974",
+                },
+                notes: {
+                    address: "Testing Address",
+                },
+                theme: {
+                    color: "3399cc",
+                },
+                handler: async (response) => {
+                    console.log("Response Data", response);
+                    if (response.razorpay_payment_id) {
+                        console.log("Payment successful!");
+                        let data = JSON.stringify({
+                            razorpay_payment_id: response.razorpay_payment_id,
+                            amount: rechargeAmount,
+                            description: options.description
+                        });
+                        dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
+
+                    } else {
+                        console.log("Payment failed!");
+                    }
+                }
+            };
+
+            const rzpay = new Razorpay(options);
+            rzpay.open();
+        } catch (error) {
+            console.error("Error in creating order:", error);
+        }
+    }, [Razorpay, rechargeAmount, dispatch]);
+    
 
     return (
         <>
@@ -56,7 +111,7 @@ const WalletRechargeComponent = (props) => {
                             <h4 className='my-3'>Your Wallet</h4>
                             <div className='balance-amount'>
                                 <p>₹</p>
-                                <p className='fw-bold font30'>6204.25</p>
+                                <p className='fw-bold font30'>{paymentSetCard?.balance ?? paymentCard?.balance}</p>
                             </div>
                             <p className='font13'>Current Wallet Amount</p>
                         </div>
@@ -68,10 +123,10 @@ const WalletRechargeComponent = (props) => {
                         <div className='d-flex flex-column my-3 px-3'>
                             <span style={{ fontSize: '0.9rem' }}>Or Select From Below:</span>
                             <div className='d-flex gap-3'>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1000)}>2000</button>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(1500)}>5000</button>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(2000)}>10000</button>
-                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(5000)}>20000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(2000)}>2000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(5000)}>5000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(10000)}>10000</button>
+                                <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(20000)}>20000</button>
                             </div>
                         </div>
                         <label className='d-flex gap-3 my-3 px-3'>
@@ -84,7 +139,7 @@ const WalletRechargeComponent = (props) => {
                                         checked={paymentMode === 'credit_card'}
                                         onChange={handlePaymentModeChange}
                                     />
-                                    <img src={Razorpay} alt="Razorpay" height={20} />
+                                    <img src={RazorpayImg} alt="Razorpay" height={20} />
                                 </label>
                                 <label className='d-flex gap-1 align-items-center'>
                                     <input
@@ -95,7 +150,6 @@ const WalletRechargeComponent = (props) => {
                                     />
                                     <img src={ccAvenue} alt="ccAvenue" height={15} />
                                 </label>
-                                {/* Add more payment modes as needed */}
                             </div>
                         </label>
                         <div className='d-flex flex-column gap my-3 px-3'>
@@ -113,9 +167,8 @@ const WalletRechargeComponent = (props) => {
                     </div>
                 </div>
             </section>
-
         </>
-    )
-}
+    );
+};
 
-export default WalletRechargeComponent
+export default WalletRechargeComponent;

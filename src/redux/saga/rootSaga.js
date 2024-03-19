@@ -4,6 +4,7 @@ import { rateCalculatorWatcher } from "./action/tools/rateCalculator";
 import { reportSchedulerWatcher } from "./action/tools/reportScheduler";
 import { getBillingWatcher } from "./action/billing";
 import { getshipmentWatcher } from "./action/shipment";
+import { getpaymentWatcher } from "./action/payment";
 import { serviceAbilityWatcher } from "./action/tools/serviceAbility";
 import { zoneMappingWatcher } from "./action/tools/zoneMapping";
 import { courierAllocationWatcher } from "./action/tools/courierAllocation";
@@ -17,6 +18,9 @@ import { getSplitWiseStateWatcher } from "./action/dashboard/overview/stateWiseS
 import { getSignupWatcher } from "./action/auth/signUp";
 import { getOrdersTabWatcher } from "./action/dashboard/order";
 import { getShipmentTabWatcher } from "./action/dashboard/shipment";
+import { getDashboardCouriersWatcher } from "./action/dashboard/courier";
+import { getDashboardRtoWatcher } from "./action/dashboard/rto";
+import { getDashboardNdrWatcher } from "./action/dashboard/ndr";
 
 
 export default function* rootSaga() {
@@ -38,6 +42,10 @@ export default function* rootSaga() {
    getSplitWiseStateWatcher(),
    getSignupWatcher(),
    getOrdersTabWatcher(),
-   getShipmentTabWatcher()
+   getShipmentTabWatcher(),
+   getpaymentWatcher(),
+   getDashboardNdrWatcher(),
+   getDashboardRtoWatcher(),
+   getDashboardCouriersWatcher()
   ]);
 }

@@ -47,6 +47,17 @@ export const omsIntegrationPattern = "/OMS-integration";
 export const getOmsIntegrationRoute = () => {
     return generatePath(omsIntegrationPattern);
 };
+
+export const apiIntegrationPattern = "/API-integration";
+export const getApiIntegrationRoute = () => {
+    return generatePath(apiIntegrationPattern);
+};
+
+export const otherIntegrationPattern = "/other-integration";
+export const getOtherIntegrationRoute = () => {
+    return generatePath(otherIntegrationPattern);
+};
+
 export const couriersIntegrationPattern = "/couriers-integration";
 export const getCouriersIntegrationRoute = () => {
     return generatePath(couriersIntegrationPattern);

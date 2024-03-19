@@ -28,9 +28,9 @@ function RevenueDashboard() {
     fetchRevenueData(selectedInterval);
   }, [selectedInterval]);
 
-  useEffect(() => {
-    dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:dateRangeDashboard})
-  }, []);
+  // useEffect(() => {
+  //   dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:dateRangeDashboard})
+  // }, []);
 
 
   return (

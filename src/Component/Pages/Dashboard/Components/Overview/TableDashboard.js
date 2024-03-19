@@ -41,9 +41,9 @@ function TableDashboard() {
   const [isLoading, setIsLoading] = useState(false);
   const {lastOrders}=useSelector(state=>state?.dashboardOverviewReducer)
 
-  useEffect(()=>{
-    dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION",payload:dateRangeDashboard})
-  },[])
+  // useEffect(()=>{
+  //   dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION",payload:dateRangeDashboard})
+  // },[])
 
 
   return (

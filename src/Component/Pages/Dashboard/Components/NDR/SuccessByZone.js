@@ -1,14 +1,17 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const ZoneWiseNDRChart = () => {
-    const chartData = {
+    const {successByZone}=useSelector(state=>state?.dashboardNdrReducer)
+
+    const [chartData, setChartData] = useState({
         series: [{
             name: 'NDR Raised',
-            data: [20, 30, 25, 40, 35] // Sample data for NDR Raised
+            data: [20, 30, 25, 40, 35] 
         }, {
             name: 'NDR Delivered',
-            data: [15, 25, 20, 30, 28] // Sample data for NDR Delivered
+            data: [15, 25, 20, 30, 28] 
         }],
         options: {
             chart: {
@@ -49,7 +52,32 @@ const ZoneWiseNDRChart = () => {
                 }
             }
         }
-    };
+    })
+
+    useEffect(() => {
+        if (successByZone && successByZone?.length > 0) {
+            const seriesData = [{
+                name: 'NDR Raised',
+                data: successByZone?.map(courier => courier.ndr_raised)
+            }, {
+                name: 'NDR Delivered',
+                data: successByZone?.map(courier => courier.ndr_delivered)
+            }];
+            const categories = successByZone?.map(courier => courier.zone);
+            setChartData(prevState => ({
+                ...prevState,
+                series: seriesData,
+                options: {  
+                    ...prevState.options,
+                    xaxis: {
+                        ...prevState.options.xaxis,
+                        categories: categories
+                    }
+                }
+            }));
+        }
+    }, [successByZone]);
+
 
     return (
         <div>
