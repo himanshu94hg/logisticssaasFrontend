@@ -69,13 +69,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
   return (
     <div className="nav-link main" onClick={hasDropdown ? handleDropdownToggle : null}>
       <div className="sidebar-label-wrapper">
-        {/* <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active"   {...(to === "/create-order" && { state: { myData: "Data to pass" } })}> */}
-        <NavLinkComponent
-          to={to}
-          className={`nav-link ${isActive() ? 'active' : ''}`}
-          activeClassName="active"
-          {...(to === "/reverse-order" && { state: { myData: "Data to pass" } })}
-        >
+
+        <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
           {label === "Dashboard" && <DashboardIcon />}
           {label === "Orders" && <OrdersIcon />}
           {label === "More On Orders" && <MoreOnOrdersIcon />}
