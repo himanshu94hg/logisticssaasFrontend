@@ -1,16 +1,33 @@
 import 'react-toggle/style.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "./createOrderStep.css"
 import 'react-datepicker/dist/react-datepicker.css';
-import {  alphaNumReg } from '../../../../../../../../regex';
+import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router';
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
+    const location = useLocation();
     const [errors, setErrors] = useState({});
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
+    const [orderStaus, setOrderStatus] = useState(false)
+
+    useEffect(() => {
+        if (location?.state?.orderType!= "normalOrder") {
+            setOrderStatus(true)
+            setFormData({
+                ...formData,
+                order_details: {
+                    ...formData.order_details,
+                    order_type: "Reverse",
+                    payment_type:"Prepaid"
+                }
+            });
+        }
+    }, [location])
 
     const validateFormData = () => {
         const newErrors = {};
@@ -39,7 +56,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 [field]: value
             }
         }));
-    };    
+    };
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -50,7 +67,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 [field]: value
             }
         }));
-    };    
+    };
 
     const handleChangeReseller = (e, field) => {
         const info = e.target.value === '' ? null : e.target.value;
@@ -78,7 +95,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
             ...formData,
             order_details: {
                 ...formData.order_details,
-                [field]: e.target.value
+                [field]: "Reverse"
             }
         });
     };
@@ -126,10 +143,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                     <div className='row'>
                         {/* Customer Order Number */}
                         <label className='col'>
-                           <span>Order Number <span className='mandatory'>*</span></span>  
+                            <span>Order Number <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                className={`input-field ${errors.customer_order_number&&'input-field-error'}`}
+                                className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
@@ -142,9 +159,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                         <label className='col'>
                             Order Type
                             <select
-                                className={`select-field ${errors.customer_order_number&&'input-field-error'}`}
+                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
                                 value={formData.order_details.order_type}
                                 onChange={(e) => handleSelectChange(e, 'order_type')}
+                                disabled={orderStaus}
                             >
                                 <option value="">Select Order Type</option>
                                 <option value="Forward">Forward</option>
@@ -162,7 +180,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="dd/MM/yyyy"
                                     maxDate={new Date()}
-                                    className={`input-field ${errors.customer_order_number&&'input-field-error'}`}
+                                    className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
                                 />
                             </div>
                             {errors.order_date && <div className="custom-error">{errors.order_date}</div>}
@@ -218,9 +236,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                         <label className='col'>
                             Payment Type
                             <select
-                                className={`select-field ${errors.customer_order_number&&'input-field-error'}`}
+                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
+                                disabled={orderStaus}
                             >
                                 <option value="">Select Payment Type</option>
                                 <option value="Prepaid">Prepaid</option>
