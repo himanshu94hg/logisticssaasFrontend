@@ -135,7 +135,7 @@ const RechargeLogs = ({billingCard}) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                 {/* <DateFormatter dateTimeString={row?.datetime} /> */}
-                                                {row?.datetime}
+                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
                                                 </p>
                                             </div>
                                         </td>
@@ -143,7 +143,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.id}
+                                                {row?.payment_gateway_order_id ?? "-"}
                                                 </p>
                                             </div>
                                         </td>
