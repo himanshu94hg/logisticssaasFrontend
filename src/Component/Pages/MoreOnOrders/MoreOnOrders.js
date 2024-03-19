@@ -39,32 +39,33 @@ const MoreOnOrders = () => {
             case "Split Order":
                 apiUrl = split;
                 break;
-            case "Ready to Ship":
+            case "Reverse Order":
                 apiUrl = reverse;
                 break;
             default:
                 apiUrl = '';
         }
-
+    
         if (apiUrl) {
-            if (searchValue?.trim() !== '' && searchValue?.length>=3) {
+            if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
-
+    
             axios.get(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
             })
-                .then(response => {
-                    console.log('Data is data:', response.data.results);
-                    setOrders(response.data.results);
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+            .then(response => {
+                console.log('Data is data:', response.data.results);
+                setOrders(response.data.results);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
         }
     }, [activeTab, authToken, sellerData, searchValue, reassign, merge, split, reverse]);
+    
 
     const handleSearch=(value)=>{
         setSearchValue(value)
