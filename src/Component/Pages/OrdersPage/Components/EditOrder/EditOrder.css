@@ -3,13 +3,11 @@
     height: 100vh;
     background-color: #fff;
     top: 0;
-    right: -50em;
+    right: -100vw;
     z-index: 6;
     transition: 1s;
-    width: 40em;
+    width: 50vw;
 }
-
-
 
 .edit-order-section.open-edit {
     right: 0;
@@ -18,9 +16,43 @@
 .edit-order-header {
     padding: 30px;
     background-color: var(--sh-primary-light);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .edit-order-body {
     padding-block: 20px;
     padding-inline: 30px 20px;
+    height: calc(100vh - 100px);
+    overflow-y: scroll;
+}
+
+.step-container {
+    padding: 15px;
+    background-color: var(--sh-primary-light);
+    background-color: #F1F2F4;
+    border-radius: 0.5rem;
+    margin-bottom: 10px;
+}
+
+.sub-details-section {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 0.5rem;
+    margin-top: 1rem;
+    height: auto;
+}
+
+.eo-input-container {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.eo-input-container .gift-wrap {
+    display: flex;
+    margin-top: 18px;
+    gap: 8px;
 }
