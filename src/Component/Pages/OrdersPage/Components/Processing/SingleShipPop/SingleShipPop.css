@@ -1,11 +1,11 @@
 .single-ship-container {
-    width: 80%;
+    width: 80vw;
     height: 80vh;
     overflow-y: clip;
     background-color: var(--sh-primary-light);
     position: fixed;
     top: 10%;
-    right: -100em;
+    right: -100vw;
     z-index: 6;
     transition: 0.5s;
     border-radius: 0.5rem;
