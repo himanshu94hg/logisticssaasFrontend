@@ -65,19 +65,6 @@ const WeightRecoTab = () => {
     };
 
 
-    useEffect(() => {
-        axios
-            .get('http://dev.shipease.in:8088/weight/v1/weight-recancel-data/') // Replace with your API endpoint
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
-
-
-
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);

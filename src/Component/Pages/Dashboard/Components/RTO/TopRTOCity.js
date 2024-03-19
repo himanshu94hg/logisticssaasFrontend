@@ -4,49 +4,10 @@ import { percentage } from '../../../../../customFunction/functionLogic';
 
 const TopRTOCity = () => {
 
-
   const {rtoTopCity}=useSelector(state=>state?.dashboardRtoReducer)
   const totalValue=rtoTopCity.reduce((acc,value)=>acc+value.count,0)
 
   console.log(totalValue,"this is top rto cirtyt")
-
-  const [data] = useState([
-    {
-      city: 'Mumbai',
-      rto_count: 500,
-      rto_count_percentage: 35,
-    },
-    {
-      city: 'Delhi',
-      rto_count: 600,
-      rto_count_percentage: 25,
-    },
-    {
-      city: 'Bangalore',
-      rto_count: 450,
-      rto_count_percentage: 10,
-    },
-    {
-      city: 'Kolkata',
-      rto_count: 300,
-      rto_count_percentage: 15,
-    },
-    {
-      city: 'Chennai',
-      rto_count: 350,
-      rto_count_percentage: 5,
-    },
-    {
-      city: 'Hyderabad',
-      rto_count: 400,
-      rto_count_percentage: 5,
-    },
-    {
-      city: 'Ahmedabad',
-      rto_count: 250,
-      rto_count_percentage: 5,
-    }
-  ]);
 
   const [loading] = useState(false); // Since it's dummy data, no loading
   const [error] = useState(null); // No error handling for dummy data
@@ -68,15 +29,16 @@ const TopRTOCity = () => {
                     <div className="d-flex justify-content-between">
                       <p className="font12 bold-600 mb-10">{cityData.city_name}</p>
                       <p className="font12 bold-600 mb-10">
-                        {cityData.count}{" "}
+                        {cityData.count}
                         <span className="text-gray-light ">{percentage(cityData?.count,totalValue)}</span>
+                          {console.log(cityData?.count/totalValue*100,"this will the horable")}
                       </p>
                     </div>
                     <div className="progress mb-15">
                       <div
                         style={{
                           backgroundColor: index % 2 === 0 ? '#1975C9' : '#1975C9',
-                          width: `${cityData?.count/totalValue*100}`,
+                          width: `${cityData?.count/totalValue*100}%`,
                         }}
                         role="progressbar"
                         aria-valuenow={cityData?.count/totalValue*100}

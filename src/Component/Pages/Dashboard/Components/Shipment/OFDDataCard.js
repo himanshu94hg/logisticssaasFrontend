@@ -5,7 +5,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 
 const OFDChart = () => {
-    const { ofdData } = useSelector(state => state?.dashboardShpmentReducer)
+    const { ofdData } = useSelector(state => state?.dashboardShipmentReducer)
 
     const [chartData, setChartData] = useState({
         seriesData: [

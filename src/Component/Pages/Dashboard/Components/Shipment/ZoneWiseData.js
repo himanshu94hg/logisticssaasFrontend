@@ -6,7 +6,7 @@ const ZoneOrdersChart = () => {
     const [chartWidth, setChartWidth] = useState(380);
     const [seriesArrayData, setSeriesArrayData] = useState([]);
     const [zoneData, setZoneData] = useState([]);
-    const { zoneWiseData } = useSelector(state => state?.dashboardShpmentReducer)
+    const { zoneWiseData } = useSelector(state => state?.dashboardShipmentReducer)
     console.log(zoneData, "zoneWiseDatazoneWiseData")
 
     useEffect(() => {
