@@ -17,10 +17,15 @@ const WalletRechargeComponent = (props) => {
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
+        dispatch({ type: "CONFIGURATION_DATA_ACTION" });
     }, [dispatch]);
 
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
     const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
+    const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
+
+    const razorpayKey = configurationCard?.[0]?.razorpay_key;
+    console.log("Configuration",razorpayKey);
 
 
     useEffect(() => {
@@ -54,7 +59,7 @@ const WalletRechargeComponent = (props) => {
     const handleRecharge = useCallback(async () => {
         try {
             const options = {
-                key: "rzp_test_K1d2c5jJQMbVkn",
+                key: razorpayKey,
                 amount: (rechargeAmount) * 100,
                 currency: "INR",
                 name: "Shipease",

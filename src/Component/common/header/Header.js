@@ -24,7 +24,6 @@ export default function Header(props) {
   const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
   const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
 
-
   return (
     <Navbar
       className="box-shadow shadow-sm p10-inline"
@@ -76,7 +75,7 @@ export default function Header(props) {
             <Nav.Link>
               <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
                 <span className="iconContainer walletIcon px-2">
-                  <div className="walletBalance">₹ {paymentCard?.balance}</div>
+                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
                   <WalletIcon />
                   {/* <FontAwesomeIcon icon={faWallet} /> */}
                 </span>

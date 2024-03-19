@@ -36,6 +36,7 @@ export const API_URL = {
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
+  GET_CONFIGURATION_URL:"/core-api/seller/general-configuration/",
 
 
   //DASHBOARD OVERVIEW API'S 
