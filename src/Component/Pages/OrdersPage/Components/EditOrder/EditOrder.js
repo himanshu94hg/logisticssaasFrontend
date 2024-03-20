@@ -1,21 +1,120 @@
 import React, { useState } from 'react';
 import './EditOrder.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarAlt, faChevronDown, faChevronRight, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { PackageDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/PackageDetailStep';
+import { OrderDetailsStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/OrderDetailsStep';
+import { AddressDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/AddressDetailStep';
+import { ProductDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/ProductDetailStep';
+import { WareHouseDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/WareHouseDetailStep';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
-    const [activeSection, setActiveSection] = useState(1);
-    const [orderDate, setOrderDate] = useState(new Date());
+    const [activeSection, setActiveSection] = useState("Order Details");
+    const currentDate = new Date();
+    const [formData, setFormData] = useState({
+        order_details: {
+            customer_order_number: '',
+            invoice_amount: '',
+            is_mps: false,
+            warehouse_id: '',
+            order_tag: '',
+            payment_type: '',
+            order_date: currentDate,
+            order_type: "",
+            channel: "custom",
+            channel_id: null
+        },
+        shipping_details: {
+            recipient_name: "",
+            address: "",
+            landmark: "",
+            country: "India",
+            state: "",
+            city: "",
+            pincode: "",
+            mobile_number: "",
+            email: "",
+            company_name: "",
+            contact_code: "91"
+        },
+        billing_details: {
+            customer_name: "",
+            address: "",
+            landmark: "",
+            country: "India",
+            state: "",
+            city: "",
+            pincode: "",
+            mobile_number: "",
+            email: "",
+            company_name: "",
+            contact_code: "91"
+        },
+        other_details: {
+            number_of_packets: 0,
+            reseller_name: ""
+        },
+        charge_details: {
+            cod_charges: '',
+            shipping_charges: '',
+            transaction_fee: '',
+            is_gift_wrap: true
+        },
+        dimension_details: {
+            weight: '',
+            length: '',
+            breadth: '',
+            height: '',
+            vol_weight: ''
+        },
+        product_details: [
+            {
+                product_name: "",
+                quantity: '',
+                unit_price: 0,
+                product_category: "",
+                weight: 0,
+                sku: "",
+                hsn_code: "",
+                tax_rate: null,
+                product_discount: 0,
+                hts_number: "",
+                export_reference_number: ""
+            }
+        ],
+    })
 
-    const handleSectionClick = (sectionIndex) => {
-        setActiveSection(sectionIndex === activeSection ? null : sectionIndex);
+    const handleNext = () => {
+
     };
 
-    const handleOrderDateChange = (date) => {
-        setOrderDate(date)
+    const handlePrev = () => {
+
     };
+
+    const handleFormSubmit = async () => {
+        // try {
+        //     const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': `Bearer ${authToken}`
+        //         }
+        //     });
+        //     if (response !== null) {
+        //         if (response.status === 201) {
+        //             const responseData = response.data;
+        //             toast.success("Order Created successfully!")
+        //             navigation('/Orders');
+        //         } else {
+        //             const errorData = response.data;
+        //             toast.error("Something went wrong!", errorData)
+        //         }
+        //     }
+        // } catch (error) {
+        //     toast.error('something went wrong!')
+        // }
+    };
+
 
     return (
         <>
@@ -28,362 +127,85 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                         <h2 className='mb-1'>#<span className='text-capitalize'>order_14524aq</span></h2>
                         <h5 className='mb-0'>Edit Your Order Details!</h5>
                     </div>
-                    <button className='btn main-button' onClick={() => setEditOrderSection(false)}>Update</button>
                 </section>
                 <section className='edit-order-body'>
-                    <form>
-                        <AccordionSection
-                            title="Order Details"
-                            isActive={activeSection === 1}
-                            onClick={() => handleSectionClick(1)}
-                        >
-                            {/* Your Order Details */}
-                            <div className='eo-input-container'>
-                                <label>
-                                    Order Number
-                                    <input
-                                        type="text"
-                                        className="input-field"
-                                        placeholder='Enter Customer Order Number'
+                    <section className='navigation-side'>
+                        <ul>
+                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details</li>
+                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details</li>
+                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details</li>
+                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details</li>
+                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details</li>
+                        </ul>
+                    </section>
+                    <section className='details-side'>
+                        <section className='details-component'>
+                            {/* Order Details */}
+                            {activeSection === "Order Details" && (
+                                <div>
+                                    <OrderDetailsStep
+                                        onNext={handleNext}
+                                        onPrev={handlePrev}
+                                        formData={formData}
+                                        setFormData={setFormData}
                                     />
-                                </label>
-                                <label>
-                                    Order Type
-                                    <select
-                                        className="select-field"
-                                    >
-                                        <option value="">Select Order Type</option>
-                                        <option value="Forward">Forward</option>
-                                        <option value="Reverse">Reverse</option>
-                                    </select>
-                                </label>
-                                <label>
-                                    Order Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            selected={orderDate}
-                                            onSelect={handleOrderDateChange}
-                                            dateFormat='dd/MM/yyyy'
-                                            className='input-field'
-                                        />
-                                    </div>
-                                </label>
-                                <label>
-                                    Payment Type
-                                    <select
-                                        className="select-field"
-                                    >
-                                        <option value="">Select Payment Type</option>
-                                        <option value="Prepaid">Prepaid</option>
-                                        <option value="COD">COD</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Shipping Details"
-                            isActive={activeSection === 2}
-                            onClick={() => handleSectionClick(2)}
-                        >
-                            {/* Your Shipping Details */}
-                            <div className="eo-input-container">
-                                <label>
-                                    Recipient Name
-                                    <input
-                                        className="input-field"
-                                        placeholder='Enter Recipient Name'
-                                        type="text" />
-                                </label>
-                                <label>
-                                    Mobile Number
-                                    <div className='d-flex mobile-number-field'>
-                                        <select
-                                            className='input-field '
-                                            disabled
-                                        >
-                                            <option value="+91">+91</option>
-                                            {/* Add more country codes as needed */}
-                                        </select>
-                                        <input
-                                            className="input-field"
-                                            type="text"
-                                            placeholder='X X X X X X X X X X'
-                                        />
-                                    </div>
-                                </label>
-                                <label>
-                                    Email
-                                    <input
-                                        className='input-field'
-                                        placeholder='i.e. abc@gmail.com'
-                                        type="email" />
-                                </label>
-                                <label>
-                                    Company Name
-                                    <input
-                                        className='input-field'
-                                        placeholder='i.e. abc@gmail.com'
-                                        type="email" />
-                                </label>
-                                <label>
-                                    Address
-                                    <input
-                                        className="input-field"
-                                        placeholder="House/Floor No. Building Name or Street, Locality"
-                                        type="text"
+                                </div>
+                            )}
+
+                            {/* Shipping Details */}
+                            {activeSection === "Shipping Details" && (
+                                <div>
+                                    <AddressDetailStep
+                                        onNext={handleNext}
+                                        onPrev={handlePrev}
+                                        formData={formData}
+                                        setFormData={setFormData}
                                     />
-                                </label>
-                                <label>
-                                    Landmark
-                                    <input
-                                        className="input-field"
-                                        placeholder="Any nearby post office, market, Hospital as the landmark"
-                                        type="text"
+                                </div>
+                            )}
+
+                            {/* Product Details */}
+                            {activeSection === "Product Details" && (
+                                <div>
+                                    <ProductDetailStep
+                                        onNext={handleNext}
+                                        onPrev={handlePrev}
+                                        formData={formData}
+                                        setFormData={setFormData}
                                     />
-                                </label>
-                            </div>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Product Details"
-                            isActive={activeSection === 3}
-                            onClick={() => handleSectionClick(3)}
-                        >
-                            {/* Your Product Details fields */}
-                            <div className="eo-input-container">
-                                <label>
-                                    Product Name
-                                    <input
-                                        className="input-field"
-                                        placeholder="Enter your product name"
-                                        type="text"
+                                </div>
+                            )}
+
+                            {/* Package Details */}
+                            {activeSection === "Package Details" && (
+                                <div>
+                                    <PackageDetailStep
+                                        onNext={handleNext}
+                                        onPrev={handlePrev}
+                                        formData={formData}
+                                        setFormData={setFormData}
                                     />
-                                </label>
-                                <label>
-                                    Product Category
-                                    <select
-                                        className='select-field'
-                                    >
-                                        <option value="">Select</option>
-                                        <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
-                                        <option value="Automotive">Automotive</option>
-                                        <option value="Baby Products">Baby Products </option>
-                                        <option value="Clothing, Shoes & Jewelry">Clothing, Shoes & Jewelry </option>
-                                        <option value="Collectibles & Fine Art">Collectibles & Fine Art </option>
-                                        <option value="Electronics">Electronics </option>
-                                        <option value="Handmade Products">Handmade Products </option>
-                                        <option value="Health & Household">Health & Household</option>
-                                        <option value="Home & Kitchen">Home & Kitchen</option>
-                                        <option value="Industrial & Scientific">Industrial & Scientific </option>
-                                        <option value="Office Products">Office Products </option>
-                                        <option value="Patio, Lawn & Garden">Patio, Lawn & Garden</option>
-                                        <option value="Pet Supplies">Pet Supplies</option>
-                                        <option value="Sports & Outdoors">Sports & Outdoors </option>
-                                        <option value="Tools & Home Improvement">Tools & Home Improvement</option>
-                                        <option value="Toys & Games">Toys & Games</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </label>
-                                <label className='col'>
-                                    Unit Price
-                                    <input
-                                        className='input-field'
-                                        placeholder="Enter Unit Price"
-                                        type="text"
+                                </div>
+                            )}
+
+                            {/* Warehouse Details */}
+                            {activeSection === "Warehouse Details" && (
+                                <div>
+                                    <WareHouseDetailStep
+                                        onSubmit={handleFormSubmit}
+                                        onPrev={handlePrev}
+                                        formData={formData}
+                                        setFormData={setFormData}
                                     />
-                                </label>
-                                <label className='col'>
-                                    Quantity
-                                    <input
-                                        className='input-field'
-                                        placeholder="Enter Product Quantity"
-                                        type="text"
-                                    />
-                                </label>
-                                <label className='col'>
-                                    SKU
-                                    <input
-                                        className='input-field'
-                                        placeholder="Enter SKU"
-                                        type="text"
-                                    />
-                                </label>
-                            </div>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Package Details"
-                            isActive={activeSection === 4}
-                            onClick={() => handleSectionClick(4)}
-                        >
-                            {/* Your Package Details fields */}
-                            <div className="eo-input-container">
-                                <label>
-                                    Invoice Amount
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        placeholder='Enter invoice amount'
-                                    />
-                                </label>
-                                <label>
-                                    COD Charges
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        placeholder='Enter COD charges'
-                                    />
-                                </label>
-                                <label>
-                                    Dead Weight
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                        placeholder='Enter dead weight'
-                                    />
-                                </label>
-                                <p className='fw-bold lh-base'>Volumetric Weight</p>
-                                <label className='col'>
-                                    Length (cm)
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                    />
-                                </label>
-                                <label className='col'>
-                                    Breadth (cm)
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                    />
-                                </label>
-                                <label className='col'>
-                                    Height (cm)
-                                    <input
-                                        className="input-field"
-                                        type="text"
-                                    />
-                                </label>
-                                <p>Charged Weight:&nbsp; 0 Kg</p>
-                            </div>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Warehouse Details"
-                            isActive={activeSection === 5}
-                            onClick={() => handleSectionClick(5)}
-                        >
-                            {/* Your Warehouse Details fields */}
-                            <label className='w-100'>
-                                Warehouse
-                                <select
-                                    className='select-field w-100'
-                                >
-                                    <option value="">Select</option>
-                                    <option value=""></option>
-                                </select>
-                            </label>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Optional Details"
-                            isActive={activeSection === 6}
-                            onClick={() => handleSectionClick(6)}
-                        >
-                            {/* Your Optional Details fields */}
-                            <div className="eo-input-container">
-                                <label>
-                                    Order Tag
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Customer Order Tag'
-                                    />
-                                </label>
-                                <label>
-                                    Reseller Name
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Reseller Name'
-                                    />
-                                </label>
-                                <label>
-                                    Shipping Charges
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Shipping Charges'
-                                    />
-                                </label>
-                                <label className='gift-wrap'>
-                                    Gift Wrap
-                                    <input
-                                        type="checkbox"
-                                    />
-                                </label>
-                                <label>
-                                    Transaction fee
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Transaction fee'
-                                    />
-                                </label>
-                                <label>
-                                    HSN Code
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Transaction fee'
-                                    />
-                                </label>
-                                <label>
-                                    Tax Rate
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Transaction fee'
-                                    />
-                                </label>
-                                <label>
-                                    Discount
-                                    <input
-                                        type="text"
-                                        className='input-field'
-                                        placeholder='Enter Transaction fee'
-                                    />
-                                </label>
-                            </div>
-                        </AccordionSection>
-                        {/* Add more AccordionSection components for other sections */}
-                    </form>
+                                </div>
+                            )}
+                        </section>
+                        <button className='btn main-button ms-3 mt-3' onClick={() => setEditOrderSection(false)}>Update</button>
+                    </section>
                 </section>
             </section>
             <div onClick={() => setEditOrderSection(false)} className={`backdrop ${EditOrderSection ? 'd-block' : 'd-none'}`}></div>
         </>
-    );
-};
-
-const AccordionSection = ({ title, isActive, onClick, children }) => {
-    return (
-        <div className='step-container'>
-            <div
-                style={{ cursor: 'pointer' }}
-                onClick={onClick}
-            >
-                <div className='d-flex align-items-center justify-content-between'>
-                    {title}
-                    {isActive ? (
-                        <div className='d-flex gap-3 align-items-center'>
-                            <FontAwesomeIcon icon={faChevronUp} />
-                        </div>
-                    ) : (
-                        <div className='d-flex gap-3 align-items-center'>
-                            <FontAwesomeIcon icon={faChevronDown} />
-                        </div>
-                    )}
-                </div>
-            </div>
-            {isActive && <div className='sub-details-section'>{children}</div>}
-        </div>
     );
 };
 

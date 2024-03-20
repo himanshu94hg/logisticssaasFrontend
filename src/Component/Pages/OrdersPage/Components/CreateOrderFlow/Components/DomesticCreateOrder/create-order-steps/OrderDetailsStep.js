@@ -16,14 +16,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
     const [orderStaus, setOrderStatus] = useState(false)
 
     useEffect(() => {
-        if (location?.state?.orderType!= "normalOrder") {
+        if (location?.state?.orderType != "normalOrder") {
             setOrderStatus(true)
             setFormData({
                 ...formData,
                 order_details: {
                     ...formData.order_details,
                     order_type: "Reverse",
-                    payment_type:"Prepaid"
+                    payment_type: "Prepaid"
                 }
             });
         }
@@ -154,7 +154,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                             {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-4'>
+                    <div className='row mt-4 gap-2'>
                         {/* Order Type */}
                         <label className='col'>
                             Order Type
@@ -208,7 +208,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                     </div>
 
                     {/* Additional Fields */}
-                    <div className={`row ${!AddFields ? 'd-none' : ''}`}>
+                    <div className={`row gap-2 ${!AddFields ? 'd-none' : ''}`}>
                         <label className='col'>
                             Order Tag
                             <input
@@ -288,7 +288,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                     </div>
 
                     {/* Additional Payment Fields */}
-                    <div className={`row ${!AddPayFields ? 'd-none' : ''}`}>
+                    <div className={`row gap-2 ${!AddPayFields ? 'd-none' : ''}`}>
                         <label className='col'>
                             Shipping Charges
                             <input
@@ -333,7 +333,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 </div>
             </div>
             {/* Next Button */}
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 <button className='btn main-button' onClick={onNextClicked}>
                     Next
                 </button>
