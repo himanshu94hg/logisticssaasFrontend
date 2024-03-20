@@ -22,16 +22,16 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
         }
     }, [dispatch, shipingData, orderId]);
 
-    useEffect(() => {
-        if (moreorderCard !== null) {
-            if (moreorderCard?.status === true) {
-                toast.success(moreorderCard?.message);
-                setSingleShip(false);
-            } else {
-                toast.error(moreorderCard?.message);
-            }
-        }
-    }, [moreorderCard]);
+    // useEffect(() => {
+    //     if (moreorderCard !== null) {
+    //         if (moreorderCard?.status === true) {
+    //             toast.success(moreorderCard?.message);
+    //             setSingleShip(false);
+    //         } else {
+    //             toast.error(moreorderCard?.message);
+    //         }
+    //     }
+    // }, [moreorderCard]);
     
 
 
@@ -49,6 +49,14 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
 
     const handleSubmit = (option) => {
         setShipingData(option);
+        if (moreorderCard !== null) {
+            if (moreorderCard?.status === true) {
+                toast.success(moreorderCard?.message);
+                setSingleShip(false);
+            } else {
+                toast.error(moreorderCard?.message);
+            }
+        }
     };
     
     const handleClose = () => {
