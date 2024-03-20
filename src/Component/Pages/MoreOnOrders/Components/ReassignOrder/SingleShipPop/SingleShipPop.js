@@ -22,18 +22,6 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
         }
     }, [dispatch, shipingData, orderId]);
 
-    // useEffect(() => {
-    //     if (moreorderCard !== null) {
-    //         if (moreorderCard?.status === true) {
-    //             toast.success(moreorderCard?.message);
-    //             setSingleShip(false);
-    //         } else {
-    //             toast.error(moreorderCard?.message);
-    //         }
-    //     }
-    // }, [moreorderCard]);
-    
-
 
     const addDays = (date, days) => {
         const result = new Date(date);
