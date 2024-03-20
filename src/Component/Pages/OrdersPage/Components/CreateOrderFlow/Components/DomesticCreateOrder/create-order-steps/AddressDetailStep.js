@@ -264,7 +264,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>Shipping Details</h3>
-                    <div className='row'>
+                    <div className='row gap-2'>
                         {/* Customer Name */}
                         <label className='col'>
                             <span>Recipient Name <span className='mandatory'>*</span></span>
@@ -305,7 +305,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             {errors.mobile_number && <div className="custom-error">{errors.mobile_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-3'>
+                    <div className='row mt-3 gap-2'>
                         <label className='col'>
                             <span>Email <span className='text-gray'>(optional)</span></span>
                             <input
@@ -582,7 +582,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     </div>
                 )}
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 {/* Add three more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onNextClicked}>Next</button>

@@ -13,9 +13,9 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             if (!product?.product_name?.trim()) {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
-            if (typeof product?.quantity !== 'string' || !product?.quantity.trim() || isNaN(Number(product?.quantity))|| Number(product?.quantity) <= 0) {
+            if (typeof product?.quantity !== 'string' || !product?.quantity.trim() || isNaN(Number(product?.quantity)) || Number(product?.quantity) <= 0) {
                 newErrors[`quantity_${index}`] = 'Product Quantity is required!';
-            }            
+            }
             if (!product?.sku?.trim()) {
                 newErrors[`sku_${index}`] = 'SKU is required!';
             }
@@ -106,7 +106,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
         if (isChecked) {
             updatedProducts[index].sku = updatedProducts[index].product_name;
-        }else{
+        } else {
             updatedProducts[index].sku = '';
         }
 
@@ -123,9 +123,9 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
-                            <div className='row'>
+                            <div className='row gap-2'>
                                 <label className='col'>
-                                     <span>Product Name <span className='mandatory'>*</span></span>
+                                    <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
                                         className={`input-field ${errors[`product_name_${index}`] ? 'input-field-error' : ''}`}
                                         placeholder="Enter your product name"
@@ -163,14 +163,14 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     </select>
                                 </label>
                             </div>
-                            <div className='row mt-3'>
+                            <div className='row mt-3 gap-2'>
                                 {/* SKU */}
                                 <label className='col'>
                                     Unit Price
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)} 
+                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();
@@ -186,7 +186,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
-                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"} 
+                                        type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
                                                 e.preventDefault();
@@ -195,8 +195,8 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     />
                                     {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
                                 </label>
-                                <label className='col-3'>
-                                     <span>SKU <span className='mandatory'>*</span></span>
+                                <label className='col'>
+                                    <span>SKU <span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
                                         className={`input-field ${errors[`sku_${index}`] ? 'input-field-error' : ''}`}
@@ -204,13 +204,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />
-                                    {errors[`sku_${index}`] && <span className="custom-error" style={{display:"block"}}>{errors[`sku_${index}`]}</span>}
+                                    {errors[`sku_${index}`] && <span className="custom-error" style={{ display: "block" }}>{errors[`sku_${index}`]}</span>}
                                     <span>
                                         <input
                                             type="checkbox"
                                             checked={product.skuCheckboxChecked}
                                             onChange={(e) => handleSkuCheckboxChange(e, index)}
-                                            style={{display:"inline"}}
+                                            style={{ display: "inline" }}
                                         />  Product name as SKU
                                     </span>
                                 </label>
@@ -268,31 +268,31 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 </label>
                             </div>
                             <div key={index}>
-        {/* Render delete button only if there are more than one product details */}
-        {formData.product_details.length > 1 && (
-            <>
-                {/* Conditionally render delete button based on index */}
-                {index > 0 && (
-                    <div className='d-flex justify-content-end mt-3'>
-                        <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
-                            <FontAwesomeIcon icon={faTrashCan} title='Delete' />
-                        </button>
-                    </div>
-                )}
-                <hr className='mt-2' />
-            </>
-        )}
-    </div>
+                                {/* Render delete button only if there are more than one product details */}
+                                {formData.product_details.length > 1 && (
+                                    <>
+                                        {/* Conditionally render delete button based on index */}
+                                        {index > 0 && (
+                                            <div className='d-flex justify-content-end mt-3'>
+                                                <button className='btn delete-btn' onClick={() => handleRemoveProduct(index)}>
+                                                    <FontAwesomeIcon icon={faTrashCan} title='Delete' />
+                                                </button>
+                                            </div>
+                                        )}
+                                        <hr className='mt-2' />
+                                    </>
+                                )}
+                            </div>
                         </div>
                     ))}
-                    <div className='d-flex justify-content-end'>
+                    <div className='d-flex justify-content-end mt-3'>
                         <div className='add-product-onclick' onClick={handleAddProduct}>
                             <FontAwesomeIcon icon={faPlus} /> Add Product
                         </div>
                     </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onNextClicked}>Next</button>
