@@ -11,7 +11,7 @@ import Cookies from 'js-cookie';
 
 
 const MoreOnOrders = () => {
-    const dispatch = useDispatch();
+    const dispatch = useDispatch()
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [activeTab, setActiveTab] = useState("Merge Order");
     const [isOpen, setIsOpen] = useState(false);
