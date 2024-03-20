@@ -1,8 +1,9 @@
-import { GET_PAYMENT_DATA,SET_PAYMENT_DATA } from "../../constants/payment";
+import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA } from "../../constants/payment";
 
 const initialState = {
     paymentCard:null,
     paymentSetCard:[],
+    configurationCard:null,
 };
 
 export const paymentSectionReducer = (state = initialState, action) => {
@@ -16,6 +17,11 @@ export const paymentSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 paymentSetCard: action?.payload
+            };
+        case GET_CONFIGURATION_DATA:
+            return {
+                ...state,
+                configurationCard: action?.payload
             };
        
         default:

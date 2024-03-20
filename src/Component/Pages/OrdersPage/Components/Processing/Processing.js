@@ -19,7 +19,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
-const Processing = ({ orders, handleSearch, setEditOrderSection }) => {
+const Processing = ({ orders, handleSearch, setEditOrderSection ,setOrderId}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -72,8 +72,9 @@ const Processing = ({ orders, handleSearch, setEditOrderSection }) => {
     }
 
 
-    const openEditingSection = () => {
+    const openEditingSection = (id) => {
         setEditOrderSection(true)
+        setOrderId(id)
     }
 
 
@@ -250,7 +251,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection }) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={openEditingSection}>Edit Order</li>
+                                                            <li onClick={()=>openEditingSection(row?.id)}>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>

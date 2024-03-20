@@ -29,13 +29,12 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({billingCard}) => {
+const ShippingCharges = ({ billingCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -79,7 +78,7 @@ const ShippingCharges = ({billingCard}) => {
     const [selectedRow, setSelectedRow] = useState(null);
 
     const handleShow = (row) => {
-        setSelectedRow(row); 
+        setSelectedRow(row);
         setShow(true);
     };
 
@@ -162,7 +161,7 @@ const ShippingCharges = ({billingCard}) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
-                                                </p>  
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -195,7 +194,7 @@ const ShippingCharges = ({billingCard}) => {
                                                 <p className=''>
                                                     -
                                                 </p>
-                                              
+
                                             </div>
                                         </td>
                                         <td>
@@ -204,7 +203,7 @@ const ShippingCharges = ({billingCard}) => {
                                                 <p className=''>
                                                     -
                                                 </p>
-                                              
+
                                             </div>
 
                                         </td>

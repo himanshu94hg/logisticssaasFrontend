@@ -33,9 +33,11 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_PARTNER: "/core-api/features/courier-category/",
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
+  ORDER_DETAILS_API:"/orders-api/orders/order-complete-detail/",
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
+  GET_CONFIGURATION_URL:"/core-api/seller/general-configuration/",
 
 
   //DASHBOARD OVERVIEW API'S 

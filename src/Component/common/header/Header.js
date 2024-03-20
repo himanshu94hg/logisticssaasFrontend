@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 export default function Header(props) {
 
-  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+  //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
  
 
   const handleLogout = () => {
@@ -23,7 +23,6 @@ export default function Header(props) {
 
   const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
   const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
-
 
   return (
     <Navbar
@@ -76,7 +75,7 @@ export default function Header(props) {
             <Nav.Link>
               <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
                 <span className="iconContainer walletIcon px-2">
-                  <div className="walletBalance">₹ {paymentCard?.balance}</div>
+                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
                   <WalletIcon />
                   {/* <FontAwesomeIcon icon={faWallet} /> */}
                 </span>

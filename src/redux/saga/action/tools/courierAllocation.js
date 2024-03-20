@@ -55,7 +55,6 @@ function* courierAllocationGetAction(action) {
 }
 
 function* courierAllocationPostAction(action) {
-    console.log(action,"Action All Data")
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationPostAPI, payload);
@@ -69,7 +68,6 @@ function* courierAllocationPostAction(action) {
 
 
 export function* courierAllocationWatcher() {
-    console.log("Payload Post Data Watcher");
     yield takeLatest(COURIER_ALLOCATION_ACTION, courierAllocationAction);
     yield takeLatest(COURIER_ALLOCATION_PARTNER_ACTION, courierAllocationGetAction);
     yield takeLatest(COURIER_ALLOCATION_PARTNER_POST_ACTION, courierAllocationPostAction);

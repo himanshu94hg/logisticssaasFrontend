@@ -1,47 +1,61 @@
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Switch from 'react-switch';
+import Select from 'react-select';
 import './MoreFiltersPanel.css'
 
-const CustomDatePicker = ({ selectedDate, onChange }) => {
-    return (
-        <DatePicker
-            selected={selectedDate}
-            onChange={date => onChange(date)}
-            dateFormat="yyyy-MM-dd"
-        />
-    );
-};
+const SourceOptions = [
+    { label: "Amazon_IN", value: "Amazon_IN" },
+    { label: "Custom", value: "Custom" },
+    { label: "Shopify", value: "Shopify", disabled: true },
+    // Add more options as needed
+];
+
+const OrderStatus = [
+    { label: "Pending", value: "" },
+    { label: "Shipped", value: "" },
+    { label: "Ready to Ship", value: "" },
+    // Add more options as needed
+];
+
+const paymentOptions = [
+    { label: "Prepaid", value: "Prepaid" },
+    { label: "COD", value: "cod" },
+    // Add more options as needed
+];
+
+const PickupAddresses = [
+    { label: "Adress 1", value: "Adress1" },
+    // Add more options as needed
+];
+
+const Ordertags = [
+    { label: "Tag 1", value: "Tag1" },
+    // Add more options as needed
+];
+
+const CourierPartner = [
+    { label: "Courier 1", value: "Courier1" },
+    // Add more options as needed
+];
 
 const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
-    const [paymentOption, setPaymentOption] = useState('');
+    const [SaveFilter, setSaveFilter] = useState(false)
 
-    const handlePaymentOptionChange = (e) => {
-        setPaymentOption(e.target.value);
+    const handleCheckboxChange = () => {
+        setSaveFilter(prevState => !prevState);
     };
 
-    const handleStartDateChange = date => {
-        setStartDate(date);
-    };
+    const [sourceSelected, setSourceSelected] = useState([]);
 
-    const handleEndDateChange = date => {
-        setEndDate(date);
-    };
 
-    const handleNameChange = e => {
-        setName(e.target.value);
-    };
 
-    const handleLocationChange = e => {
-        setLocation(e.target.value);
-    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -56,11 +70,9 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         setLocation('');
     };
 
-
-
     return (
         <>
-            <div id='sidePanel' className={`side-panel ${MoreFilters ? 'open' : ''}`}>
+            <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
                 <div id='sidepanel-closer' onClick={CloseSidePanel}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
@@ -72,67 +84,121 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                <label htmlFor="startDate">Start Date:
-                                    <CustomDatePicker selectedDate={startDate} onChange={handleStartDateChange} />
+                                <label>
+                                    Start Date
+                                    <div className="date-picker-container">
+                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+                                        <DatePicker
+                                            dateFormat='dd/MM/yyyy'
+                                            className='input-field'
+                                        />
+                                    </div>
                                 </label>
-                                <label htmlFor="endDate">End Date:
-                                    <CustomDatePicker selectedDate={endDate} onChange={handleEndDateChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="paymentOption">Payment Option:</label>
-                                <select
-                                    id="paymentOption"
-                                    value={paymentOption}
-                                    onChange={handlePaymentOptionChange}
-                                >
-                                    <option value="">Select Payment Option</option>
-                                    <option value="Cash on Delivery">Cash on Delivery</option>
-                                    <option value="Prepaid">Prepaid</option>
-                                    {/* Add more options as needed */}
-                                </select>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="name">Order Source
-                                    <input type="text" id="name" value={name} onChange={handleNameChange} />
+                                <label>
+                                    End Date
+                                    <div className="date-picker-container">
+                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+                                        <DatePicker
+                                            dateFormat='dd/MM/yyyy'
+                                            className='input-field'
+                                        />
+                                    </div>
                                 </label>
                             </div>
                             <div className='filter-row'>
-                                <label htmlFor="location">Store Name
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
+                                <label >Order Status
+                                    <Select
+                                        options={OrderStatus}
+                                        isMulti
+                                        isSearchable
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
-                                <label htmlFor="location">Channel
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
+                                <label >Order Source
+                                    <Select
+                                        options={SourceOptions}
+                                        defaultValue={sourceSelected}
+                                        onChange={setSourceSelected}
+                                        isMulti
+                                        isSearchable
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
-                                <label htmlFor="location">Order ID
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
+                                <label>Courier Partner
+                                    <Select
+                                        options={CourierPartner}
+                                        isMulti
+                                        isSearchable
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
-                                <label htmlFor="location">Payment
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
+                                <label>Payment Option
+                                    <Select
+                                        options={paymentOptions}
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
-                                <label htmlFor="location">Status
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
+                                <label>Pickup Address
+                                    <Select
+                                        options={PickupAddresses}
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
-                                <label htmlFor="location">Product
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
+                                <label>Order Tag
+                                    <Select
+                                        options={Ordertags}
+                                        isMulti
+                                        isSearchable
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Search Multiple Order Ids
+                                    <input className='input-field' type="text" placeholder='Enter Order ID comma separated' />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>SKU
+                                    <input className='input-field' type="text" placeholder='Enter SKU' />
+                                </label>
+                            </div>
+                            <div className='filter-row sku-checkbox'>
+                                <label>
+                                    Single SKU
+                                    <input type="radio" name="skuType" id="" />
+                                </label>
+                                <label>
+                                    Multi SKU
+                                    <input type="radio" name="skuType" id="" />
+                                </label>
+                                <label>
+                                    Match Exact
+                                    <input type="radio" name="skuType" id="" />
                                 </label>
                             </div>
                         </div>
-                        <div className='advanced-filter-footer text-end'>
-                            <button className='btn seconadary-button' type="button" onClick={handleReset}>
-                                Reset
-                            </button>
-                            <button className='btn main-button ms-3' type="submit">Submit</button>
+                        <div className='more-filters-footer'>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={SaveFilter}
+                                    onChange={handleCheckboxChange}
+                                />
+                                {!SaveFilter ? 'Save Filter' : (
+                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                )}
+                            </label>
+                            <div>
+                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                    Reset
+                                </button>
+                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </section>

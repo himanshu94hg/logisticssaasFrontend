@@ -61,7 +61,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                                 <p>Loading...</p>
                             ) : (
                                 warehouses.map(warehouse => (
-                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 cursor-pointer sm-warehouse-item">
                                         <label>
                                             <input
                                                 type="radio"
@@ -85,7 +85,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                     </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
             </div>
