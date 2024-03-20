@@ -12,6 +12,7 @@ import { dashboardNdrReducer } from "./dashboard/ndr";
 import { dashboardRtoReducer } from "./dashboard/rto";
 import { weightRecoReducer } from "./weightReco";
 import { moreorderSectionReducer } from "./moreorder";
+import { orderSectionReducer } from "./orders";
 
 export const rootReducer = combineReducers({
     authDataReducer,
@@ -26,5 +27,6 @@ export const rootReducer = combineReducers({
     dashboardNdrReducer,
     dashboardRtoReducer,
     weightRecoReducer,
-    moreorderSectionReducer
+    moreorderSectionReducer,
+    orderSectionReducer
 })

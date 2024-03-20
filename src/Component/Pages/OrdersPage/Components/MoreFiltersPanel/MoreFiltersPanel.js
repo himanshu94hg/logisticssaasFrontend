@@ -36,19 +36,26 @@ const Ordertags = [
     // Add more options as needed
 ];
 
+const CourierPartner = [
+    { label: "Courier 1", value: "Courier1" },
+    // Add more options as needed
+];
+
 const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
+    const [SaveFilter, setSaveFilter] = useState(false)
+
+    const handleCheckboxChange = () => {
+        setSaveFilter(prevState => !prevState);
+    };
 
     const [sourceSelected, setSourceSelected] = useState([]);
 
 
 
-    const handleLocationChange = e => {
-        setLocation(e.target.value);
-    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -119,6 +126,15 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 </label>
                             </div>
                             <div className='filter-row'>
+                                <label>Courier Partner
+                                    <Select
+                                        options={CourierPartner}
+                                        isMulti
+                                        isSearchable
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
                                 <label>Payment Option
                                     <Select
                                         options={paymentOptions}
@@ -166,11 +182,23 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 </label>
                             </div>
                         </div>
-                        <div className='advanced-filter-footer text-end'>
-                            <button className='btn seconadary-button' type="button" onClick={handleReset}>
-                                Reset
-                            </button>
-                            <button className='btn main-button ms-3' type="submit">Submit</button>
+                        <div className='more-filters-footer'>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={SaveFilter}
+                                    onChange={handleCheckboxChange}
+                                />
+                                {!SaveFilter ? 'Save Filter' : (
+                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                )}
+                            </label>
+                            <div>
+                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                    Reset
+                                </button>
+                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </section>

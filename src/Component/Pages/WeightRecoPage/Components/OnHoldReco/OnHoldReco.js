@@ -9,6 +9,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import { useSelector } from 'react-redux';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -43,6 +44,10 @@ const WeightRecoTab = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+
+    const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
+    console.log(weightRecoData, "weightRecoDataweightRecoDataweightRecoData")
+
 
 
     const reasons = [
@@ -135,15 +140,15 @@ const WeightRecoTab = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {data.map((row, index) => (
-                                <React.Fragment key={row?.reconciliation_details?.id}>
+                            {weightRecoData?.map((row, index) => (
+                                <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row?.reconciliation_details?.id)}
-                                                onChange={() => handleSelectRow(row?.reconciliation_details?.id)}
+                                                checked={selectedRows.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
                                         <td>
@@ -154,7 +159,7 @@ const WeightRecoTab = () => {
                                                     {row?.order_details?.order_number}
                                                 </p> */}
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    <DateFormatter dateTimeString={row?.reconciliation_details?.created} />
+                                                    {/* <DateFormatter dateTimeString={row?.reconciliation_details?.created} /> */}
                                                     {/* <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
@@ -165,7 +170,7 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order_details?.order_number}</p>
+                                                <p>{row?.id}</p>
                                                 {/* <p>{row.s_contact}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -182,7 +187,7 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order_details?.awb_number}</p>
+                                                <p>{row?.rating?.count}</p>
                                                 
                                             </div>
                                         </td>
@@ -193,7 +198,7 @@ const WeightRecoTab = () => {
                                                 <p className='mt-1'>
 
                                                     <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' />
-                                                    <span className='text-capitalize'>{row?.order_details?.courier_partner}</span>
+                                                    <span className='text-capitalize'>{row?.category}</span>
                                                 </p>
                                             </div>
 
@@ -201,13 +206,13 @@ const WeightRecoTab = () => {
                                         <td className='align-middle'>
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>₹{row?.reconciliation_details?.charged_amount} </p>
+                                                <p>₹{row?.price} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* Charged Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>₹{row?.reconciliation_details?.charged_amount} </p>
+                                                <p>₹{row?.price} </p>
                                             </div>
                                         </td>
                                     </tr>
@@ -232,3 +237,5 @@ const WeightRecoTab = () => {
 };
 
 export default WeightRecoTab;
+
+

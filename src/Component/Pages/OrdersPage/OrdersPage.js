@@ -20,11 +20,12 @@ const OrdersPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
+    const[orderId,setOrderId]=useState(null)
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
 
 
-    const location=useLocation()
+    const location = useLocation()
 
     // console.log(location,"locationlocationlocation")
 
@@ -102,41 +103,41 @@ const OrdersPage = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
+            <div className='orders-section-tabs'>
+                {/* All Orders */}
+                <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
+                    <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
 
-            {/* All Orders */}
-            <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                {/* Unprocessable */}
+                <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
+                    <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Processing */}
+                <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
+                    <Processing
+                        activeTab={activeTab} orders={orders}
+                        handleSearch={handleSearch}
+                        setEditOrderSection={setEditOrderSection}
+                    />
+                </div>
+
+                {/* ReadyToShip */}
+                <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
+                    <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Manifest */}
+                <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
+                    <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Returns */}
+                <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
+                    <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
             </div>
-
-            {/* Unprocessable */}
-            <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Processing */}
-            <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
-                <Processing
-                    activeTab={activeTab} orders={orders}
-                    handleSearch={handleSearch}
-                    setEditOrderSection={setEditOrderSection}
-                />
-            </div>
-
-            {/* ReadyToShip */}
-            <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Manifest */}
-            <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Returns */}
-            <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} />
 
