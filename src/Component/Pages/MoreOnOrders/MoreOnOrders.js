@@ -17,15 +17,23 @@ const MoreOnOrders = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [orders,setOrders]=useState([])
     const [searchValue,setSearchValue]=useState("")
+    const [reassignedOrderId, setReassignedOrderId] = useState(null);
 
     const sellerData=Cookies.get("user_id")
     let authToken=Cookies.get("access_token")
 
-    let reassign=`https://dev.shipease.in/orders-api/orders/reassign/`
+    let reassign=`https://dev.shipease.in/core-api/shipping/reassign/`
     let merge=`https://dev.shipease.in/orders-api/orders/merge-order/`
     let split=`https://dev.shipease.in/orders-api/orders/split-order/`
     let reverse=`https://dev.shipease.in/orders-api/orders/reverse-order/`
 
+    useEffect(() => {
+        if (activeTab === "Reassign Order" && reassignedOrderId !== null) {
+            dispatch({ type: "REASSIGN_DATA_ACTION", payload: reassignedOrderId });
+        }
+    }, [dispatch, activeTab, reassignedOrderId]);     
+
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
     useEffect(() => {
         let apiUrl = '';
@@ -71,13 +79,16 @@ const MoreOnOrders = () => {
         setSearchValue(value)
     }
 
+    const handleReassignOrder = (orderId) => {
+        setReassignedOrderId(orderId);
+    };
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
             {/* reassign */}
             <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
-                <ReassignOrder activeTab={activeTab} orders={orders}  handleSearch={handleSearch}/>
+                <ReassignOrder activeTab={activeTab} orders={orders}  handleSearch={handleSearch} reassignCard={reassignCard} handleReassignOrder={handleReassignOrder}/>
             </div>
 
             {/* merge */}

@@ -22,6 +22,7 @@ import { getDashboardCouriersWatcher } from "./action/dashboard/courier";
 import { getDashboardRtoWatcher } from "./action/dashboard/rto";
 import { getDashboardNdrWatcher } from "./action/dashboard/ndr";
 import { getWeightRecoWatcher } from "./action/weightReco";
+import { getmoreorderWatcher } from "./action/moreorder";
 
 
 export default function* rootSaga() {
@@ -48,6 +49,7 @@ export default function* rootSaga() {
    getDashboardNdrWatcher(),
    getDashboardRtoWatcher(),
    getDashboardCouriersWatcher(),
-   getWeightRecoWatcher()
+   getWeightRecoWatcher(),
+   getmoreorderWatcher()
   ]);
 }

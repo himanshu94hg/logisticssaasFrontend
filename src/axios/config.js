@@ -38,6 +38,10 @@ export const API_URL = {
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
   GET_CONFIGURATION_URL:"/core-api/seller/general-configuration/",
 
+  //MOREONORDER REASSIGN
+  GET_REASSIGN_URL:"/core-api/shipping/ship-rate-card-reassign/",
+  GET_REASSIGN_SHIP_URL:"/core-api/shipping/reassign-order/",
+
 
   //DASHBOARD OVERVIEW API'S 
   GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD: "/orders-api/dashboard/overview/shipment-card/",
