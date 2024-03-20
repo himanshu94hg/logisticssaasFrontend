@@ -114,15 +114,6 @@ const AllOrders = ({ orders, handleSearch }) => {
         }
     };
 
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
-
     return (
         <section className='position-relative'>
             <div className="position-relative">

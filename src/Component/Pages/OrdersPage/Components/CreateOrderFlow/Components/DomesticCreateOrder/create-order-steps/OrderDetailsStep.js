@@ -8,15 +8,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
 
-export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
+export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
     const location = useLocation();
     const [errors, setErrors] = useState({});
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
 
+    console.log(location , "this is location?.state?.orderType")
+
     useEffect(() => {
-        if (location?.state?.orderType != "normalOrder") {
+        if (location?.state?.orderType != "normalOrder" && location.pathname==="/create-order" || editStatus!="editStatus" && location.pathname==="/Orders" ) {
             setOrderStatus(true)
             setFormData({
                 ...formData,
@@ -27,7 +29,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
                 }
             });
         }
-    }, [location])
+        
+    }, [location, editStatus])
 
     const validateFormData = () => {
         const newErrors = {};

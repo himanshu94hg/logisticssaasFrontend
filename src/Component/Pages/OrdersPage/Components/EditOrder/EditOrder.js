@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EditOrder.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
@@ -7,8 +7,12 @@ import { OrderDetailsStep } from '../CreateOrderFlow/Components/DomesticCreateOr
 import { AddressDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/AddressDetailStep';
 import { ProductDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/ProductDetailStep';
 import { WareHouseDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/WareHouseDetailStep';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
+const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
+    const dispatch = useDispatch()
     const [activeSection, setActiveSection] = useState("Order Details");
     const currentDate = new Date();
     const [formData, setFormData] = useState({
@@ -83,37 +87,110 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
             }
         ],
     })
+    const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
-    const handleNext = () => {
+    useEffect(() => {
+        if (orderUpdateRes === 200) {
+            setEditOrderSection(false)
+        }
+    }, [orderUpdateRes])
 
+    const handleUpdate = () => {
+        
+        dispatch({
+            type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
+                formData: formData,
+                orderId: orderId
+            }
+        })
     };
 
-    const handlePrev = () => {
+    useEffect(() => {
+        if (orderId) {
+            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+        }
+    }, [orderId])
 
-    };
+    useEffect(() => {
+        if (orderDetailsData) {
+            setFormData(prevData => ({
+                ...prevData,
+                order_details: {
+                    customer_order_number: orderDetailsData?.customer_order_number,
+                    invoice_amount: orderDetailsData?.invoice_amount,
+                    is_mps: orderDetailsData?.is_mps,
+                    // warehouse_id: orderDetailsData,
+                    order_tag: orderDetailsData?.order_tag,
+                    payment_type: orderDetailsData?.payment_type,
+                    order_date:currentDate,
+                    order_type: orderDetailsData?.order_type,
+                    channel: orderDetailsData?.channel,
+                    channel_id: orderDetailsData?.channel_id
+                },
+                shipping_details: {
+                    recipient_name: orderDetailsData?.shipping_detail?.recipient_name,
+                    address: orderDetailsData?.shipping_detail?.address,
+                    landmark: orderDetailsData?.shipping_detail?.landmark,
+                    country: "India",
+                    state: orderDetailsData?.shipping_detail?.state,
+                    city: orderDetailsData?.shipping_detail?.city,
+                    pincode: orderDetailsData?.shipping_detail?.pincode,
+                    mobile_number: orderDetailsData?.shipping_detail?.mobile_number,
+                    email: orderDetailsData?.shipping_detail?.email,
+                    company_name: orderDetailsData?.shipping_detail?.company_name,
+                    contact_code: "91"
+                },
+                billing_details: {
+                    customer_name: orderDetailsData?.shipping_detail?.recipient_name,
+                    address: orderDetailsData?.shipping_detail?.address,
+                    landmark: orderDetailsData?.shipping_detail?.landmark,
+                    country: "India",
+                    state: orderDetailsData?.shipping_detail?.state,
+                    city: orderDetailsData?.shipping_detail?.city,
+                    pincode: orderDetailsData?.shipping_detail?.pincode,
+                    mobile_number: orderDetailsData?.shipping_detail?.mobile_number,
+                    email: orderDetailsData?.shipping_detail?.email,
+                    company_name: orderDetailsData?.shipping_detail?.company_name,
+                    contact_code: "91"
+                },
+                other_details: {
+                    number_of_packets: orderDetailsData?.other_details?.number_of_packets,
+                    reseller_name: orderDetailsData?.other_details?.reseller_name
+                },
+                charge_details: {
+                    cod_charges: orderDetailsData?.charge_detail?.cod_charges,
+                    shipping_charges: orderDetailsData?.charge_detail?.shipping_charges,
+                    transaction_fee: orderDetailsData?.charge_detail?.transaction_fee,
+                    is_gift_wrap: orderDetailsData?.charge_detail?.is_gift_wrap ? "Yes" : "No"
+                },
+                dimension_details: {
+                    weight: orderDetailsData?.dimension_detail?.weight,
+                    length: orderDetailsData?.dimension_detail?.length,
+                    breadth: orderDetailsData?.dimension_detail?.breadth,
+                    height: orderDetailsData?.dimension_detail?.height,
+                    vol_weight: orderDetailsData?.dimension_detail?.vol_weight
+                },
+                product_details:
+                    orderDetailsData?.order_products?.map(product => ({
+                        sku: product.sku,
+                        product_name: product.product_name,
+                        quantity: product.quantity,
+                        product_category: product.product_category,
+                        unit_price: product.unit_price,
+                        hsn_code: product.hsn_code,
+                        tax_rate: product.tax_rate,
+                        product_discount: product.product_discount
+                    }))
+            }))
+        }
+    }, [orderDetailsData])
+    
+    
+    const dateString = 'Wed Mar 20 2024 16:59:06 GMT+0530 (India Standard Time)';
+    const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ')+" (India Standard Time)";
+    
+    console.log(currentDate,formattedDate, "this is current data")
 
-    const handleFormSubmit = async () => {
-        // try {
-        //     const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': `Bearer ${authToken}`
-        //         }
-        //     });
-        //     if (response !== null) {
-        //         if (response.status === 201) {
-        //             const responseData = response.data;
-        //             toast.success("Order Created successfully!")
-        //             navigation('/Orders');
-        //         } else {
-        //             const errorData = response.data;
-        //             toast.error("Something went wrong!", errorData)
-        //         }
-        //     }
-        // } catch (error) {
-        //     toast.error('something went wrong!')
-        // }
-    };
 
 
     return (
@@ -124,7 +201,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                 </div>
                 <section className='edit-order-header'>
                     <div>
-                        <h2 className='mb-1'>#<span className='text-capitalize'>order_14524aq</span></h2>
+                        <h2 className='mb-1'>Order Id : <span className='text-capitalize'>{orderDetailsData?.customer_order_number}</span></h2>
                         <h5 className='mb-0'>Edit Your Order Details!</h5>
                     </div>
                 </section>
@@ -144,8 +221,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                             {activeSection === "Order Details" && (
                                 <div>
                                     <OrderDetailsStep
-                                        onNext={handleNext}
-                                        onPrev={handlePrev}
+                                        editStatus={"editStatus"}
                                         formData={formData}
                                         setFormData={setFormData}
                                     />
@@ -156,8 +232,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                             {activeSection === "Shipping Details" && (
                                 <div>
                                     <AddressDetailStep
-                                        onNext={handleNext}
-                                        onPrev={handlePrev}
                                         formData={formData}
                                         setFormData={setFormData}
                                     />
@@ -168,8 +242,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                             {activeSection === "Product Details" && (
                                 <div>
                                     <ProductDetailStep
-                                        onNext={handleNext}
-                                        onPrev={handlePrev}
                                         formData={formData}
                                         setFormData={setFormData}
                                     />
@@ -180,8 +252,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                             {activeSection === "Package Details" && (
                                 <div>
                                     <PackageDetailStep
-                                        onNext={handleNext}
-                                        onPrev={handlePrev}
                                         formData={formData}
                                         setFormData={setFormData}
                                     />
@@ -192,15 +262,13 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                             {activeSection === "Warehouse Details" && (
                                 <div>
                                     <WareHouseDetailStep
-                                        onSubmit={handleFormSubmit}
-                                        onPrev={handlePrev}
                                         formData={formData}
                                         setFormData={setFormData}
                                     />
                                 </div>
                             )}
                         </section>
-                        <button className='btn main-button ms-3 mt-3' onClick={() => setEditOrderSection(false)}>Update</button>
+                        <button className='btn main-button ms-3 mt-3' onClick={() => handleUpdate()}>Update</button>
                     </section>
                 </section>
             </section>

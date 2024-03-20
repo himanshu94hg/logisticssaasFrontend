@@ -20,6 +20,7 @@ const OrdersPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
+    const[orderId,setOrderId]=useState(null)
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
 
@@ -119,6 +120,7 @@ const OrdersPage = () => {
                     activeTab={activeTab} orders={orders}
                     handleSearch={handleSearch}
                     setEditOrderSection={setEditOrderSection}
+                    setOrderId={setOrderId}
                 />
             </div>
 
@@ -138,7 +140,7 @@ const OrdersPage = () => {
             </div>
 
 
-            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} />
+            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId}/>
 
         </>
     )
