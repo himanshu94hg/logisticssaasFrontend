@@ -36,6 +36,11 @@ const Ordertags = [
     // Add more options as needed
 ];
 
+const CourierPartner = [
+    { label: "Courier 1", value: "Courier1" },
+    // Add more options as needed
+];
+
 const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -46,9 +51,6 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
 
 
 
-    const handleLocationChange = e => {
-        setLocation(e.target.value);
-    };
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -113,6 +115,15 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         options={SourceOptions}
                                         defaultValue={sourceSelected}
                                         onChange={setSourceSelected}
+                                        isMulti
+                                        isSearchable
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Courier Partner
+                                    <Select
+                                        options={CourierPartner}
                                         isMulti
                                         isSearchable
                                     />
