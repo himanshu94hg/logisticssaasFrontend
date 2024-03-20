@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
@@ -46,14 +47,24 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders,handleSearch,reassignCard,handleReassignOrder }) => {
+const ReassignOrder = ({ orders,handleSearch }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-    console.log("MOREONORDER Reassign",reassignCard);
+    useEffect(() => {
+        if (selectedOrderId !== null) {
+            dispatch({ type: "REASSIGN_DATA_ACTION", payload: selectedOrderId });
+        }
+    }, [dispatch, selectedOrderId]);       
+
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+
+    console.log("Reassign Sample",reassignCard)
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -95,7 +106,6 @@ const ReassignOrder = ({ orders,handleSearch,reassignCard,handleReassignOrder })
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
         setSingleShip(true);
-        handleReassignOrder(orderId);
     };
 
     return (

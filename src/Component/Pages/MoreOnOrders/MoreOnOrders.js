@@ -28,14 +28,6 @@ const MoreOnOrders = () => {
     let reverse=`https://dev.shipease.in/orders-api/orders/reverse-order/`
 
     useEffect(() => {
-        if (activeTab === "Reassign Order" && reassignedOrderId !== null) {
-            dispatch({ type: "REASSIGN_DATA_ACTION", payload: reassignedOrderId });
-        }
-    }, [dispatch, activeTab, reassignedOrderId]);     
-
-    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
-
-    useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
             case "Reassign Order":
@@ -88,7 +80,7 @@ const MoreOnOrders = () => {
 
             {/* reassign */}
             <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
-                <ReassignOrder activeTab={activeTab} orders={orders}  handleSearch={handleSearch} reassignCard={reassignCard} handleReassignOrder={handleReassignOrder}/>
+                <ReassignOrder activeTab={activeTab} orders={orders}  handleSearch={handleSearch} />
             </div>
 
             {/* merge */}
