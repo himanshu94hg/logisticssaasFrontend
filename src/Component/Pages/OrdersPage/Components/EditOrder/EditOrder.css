@@ -6,7 +6,7 @@
     right: -100vw;
     z-index: 6;
     transition: 1s;
-    width: 45vw;
+    width: 50vw;
 }
 
 .edit-order-section.open-edit {
@@ -57,6 +57,10 @@
 
 .edit-order-body .details-side .details-component .inputs-container {
     width: 90%;
+}
+
+.edit-order-body .details-side .details-component .warehouse-options .sm-warehouse-item{
+    width: 50%;
 }
 
 .edit-order-body .navigation-side ul {
