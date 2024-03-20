@@ -430,7 +430,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     <div className={`inputs-container mx-auto mb-3 ${BillingDetails ? '' : 'd-none'}`}>
                         {/* Step 2 content */}
                         <h3 className='mb-4'>Billing Details</h3>
-                        <div className='row'>
+                        <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
                                 Recipient Name

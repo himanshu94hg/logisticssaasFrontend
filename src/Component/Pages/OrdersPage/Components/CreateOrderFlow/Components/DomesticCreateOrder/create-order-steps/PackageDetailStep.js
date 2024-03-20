@@ -166,7 +166,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             </span>
                         </p>
                     </div>
-                    <div className="row">
+                    <div className="row gap-2">
 
                         {/* Length (cm) */}
                         <label className='col'>

@@ -61,7 +61,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                                 <p>Loading...</p>
                             ) : (
                                 warehouses.map(warehouse => (
-                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 col-sm-12 cursor-pointer">
+                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 cursor-pointer sm-warehouse-item">
                                         <label>
                                             <input
                                                 type="radio"
