@@ -95,7 +95,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData }) => {
             ...formData,
             order_details: {
                 ...formData.order_details,
-                [field]: "Reverse"
+                [field]: e.target.value
             }
         });
     };
