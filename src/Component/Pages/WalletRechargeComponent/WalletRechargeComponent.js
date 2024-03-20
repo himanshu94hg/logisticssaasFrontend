@@ -99,7 +99,6 @@ const WalletRechargeComponent = (props) => {
             console.error("Error in creating order:", error);
         }
     }, [Razorpay, rechargeAmount, dispatch]);
-    
 
     return (
         <>
