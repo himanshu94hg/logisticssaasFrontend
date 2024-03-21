@@ -22,13 +22,17 @@ const OrdersPage = () => {
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+
+
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
 
 
     const location = useLocation()
 
-    // console.log(location,"locationlocationlocation")
+    console.log(currentPage,"locationlocationlocation")
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -42,12 +46,13 @@ const OrdersPage = () => {
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}`
-    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
-    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
-    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns`
-    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
+    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
+    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+
 
 
     useEffect(() => {
@@ -141,7 +146,13 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
                     <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
-                <Pagination totalItems={totalItems} />
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />

@@ -3,9 +3,7 @@ import { faBackwardStep, faForwardStep } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Pagination.css'
 
-const Pagination = ({ totalItems }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+const Pagination = ({ totalItems ,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage}) => {
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
 
