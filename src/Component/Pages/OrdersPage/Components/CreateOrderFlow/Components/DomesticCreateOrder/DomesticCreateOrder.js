@@ -4,10 +4,10 @@ import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { useLocation, useNavigate } from 'react-router-dom';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { OrderDetailsStep, OrderStep } from './create-order-steps/OrderDetailsStep';
-import { AddressDetailStep} from './create-order-steps/AddressDetailStep';
+import { AddressDetailStep } from './create-order-steps/AddressDetailStep';
 import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
@@ -94,7 +94,6 @@ const DomesticCreateOrder = () => {
         ],
     })
 
-
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;
@@ -126,7 +125,7 @@ const DomesticCreateOrder = () => {
                     navigation('/Orders');
                 } else {
                     const errorData = response.data;
-                    toast.error("Something went wrong!",errorData)
+                    toast.error("Something went wrong!", errorData)
                 }
             }
         } catch (error) {
