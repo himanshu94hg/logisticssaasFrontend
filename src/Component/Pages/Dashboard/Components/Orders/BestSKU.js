@@ -24,8 +24,8 @@ const ParentComponent = () => {
                     <h4 className="title mb-0">Best SKU Products</h4>
                     <label>
                         <select value={selectedOption} onChange={handleSelectChange} className="select-field">
-                            <option value="unitsSold">Show Top Products by Units Sold</option>
-                            <option value="revenue">Show Top Products by Revenue</option>
+                            <option value="unitsSold">Top Products by Units Sold</option>
+                            <option value="revenue">Top Products by Revenue</option>
                         </select>
                     </label>
                 </div>
