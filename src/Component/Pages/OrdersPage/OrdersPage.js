@@ -7,6 +7,7 @@ import ReadyToShip from './Components/ReadyToShip/ReadyToShip';
 import Manifest from './Components/Manifest/Manifest';
 import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
 import AllOrders from './Components/AllOrders/AllOrders';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router';
@@ -14,8 +15,8 @@ import EditOrder from './Components/EditOrder/EditOrder';
 
 
 const OrdersPage = () => {
+    const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState("Processing");
-
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
@@ -23,11 +24,9 @@ const OrdersPage = () => {
     const[orderId,setOrderId]=useState(null)
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
-
+    // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
     const location = useLocation()
-
-    // console.log(location,"locationlocationlocation")
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -47,7 +46,6 @@ const OrdersPage = () => {
     let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
     let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns`
     let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
-
 
     useEffect(() => {
         let apiUrl = '';
@@ -145,4 +143,4 @@ const OrdersPage = () => {
     )
 }
 
-export default OrdersPage
+export default OrdersPage;
