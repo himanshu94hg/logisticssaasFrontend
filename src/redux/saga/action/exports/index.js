@@ -9,7 +9,7 @@ import { GET_EXPORT_DATA, } from "../../../constants/exports";
 async function exportFileAPI(data) {
     console.log("All Export Data",data)
     let listData = axios.request({
-        method: "GET",
+        method: "POST",
         responseType: 'blob',
         url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_URL}`,
         data: data

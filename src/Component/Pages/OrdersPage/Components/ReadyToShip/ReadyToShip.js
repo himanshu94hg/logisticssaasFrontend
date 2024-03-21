@@ -30,60 +30,18 @@ const ReadyToShip = ({ orders, handleSearch }) => {
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
+    const [exportButtonClick, setExportButtonClick] = useState(false)
     let authToken = Cookies.get("access_token")
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-
-    // const handleExport = () => {
-    //     try {
-    //         const response = {
-    //             "order_tab": {
-    //               "type": "Ready_to_ship",
-    //               "subtype": ""
-    //             },
-    //             "order_id": "886",
-    //             "courier": "",
-    //             "awb_number": "",
-    //             "min_awb_assign_date": "",
-    //             "max_awb_assign_date": "",
-    //             "status": "",
-    //             "order_type": "Forward",
-    //             "customer_order_number": "",
-    //             "channel": "",
-    //             "min_invoice_amount": "",
-    //             "max_invoice_amount": "",
-    //             "warehouse_id": "",
-    //             "product_name": "",
-    //             "delivery_address": "",
-    //             "min_weight": "",
-    //             "max_weight": "",
-    //             "min_product_qty": "",
-    //             "max_product_qty": "",
-    //             "rto_status": false,
-    //             "global_type": "",
-    //             "payment_type": "Prepaid"
-    //           };
-
-    //         dispatch({ type: "EXPORT_DATA_ACTION",payload:response });
-            
-    //         if (exportCard!=null) {
-    //             var FileSaver = require('file-saver');
-    //             var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-    //             FileSaver.saveAs(blob, `${response.order_tab.type}.xlsx`);
-    //         }
-    //     } catch (error) {
-    //         console.error('Error exporting data:', error);
-    //     }
-    // };
-
-const handleExport = () => {
-    try {
+    const handleExport = () => {
+        setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": "Unprocessable",
-                "subtype": ""
+              "type": "Ready_to_ship",
+              "subtype": ""
             },
-            "order_id": "",
+            "order_id": `${selectedRows.join(',')}`,
             "courier": "",
             "awb_number": "",
             "min_awb_assign_date": "",
@@ -104,40 +62,18 @@ const handleExport = () => {
             "rto_status": false,
             "global_type": "",
             "payment_type": "Prepaid"
-        };
+          };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+    };
 
-        axios.get('https://dev.shipease.in/orders-api/orders/export-order/', {
-            headers: {
-                'Authorization': `Bearer ${authToken}`, 
-                'Content-Type': 'application/json'
-            },
-            responseType: 'blob',
-            params: requestData
-        })
-        .then(response => {
-            const blob = new Blob([response.data], { type: 'application/ms-excel' });
-            const fileName = 'exported_data.xlsx';
-            if (window.navigator.msSaveOrOpenBlob) {
-                // For IE and Edge
-                window.navigator.msSaveOrOpenBlob(blob, fileName);
-            } else {
-                const url = window.URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.style.display = 'none';
-                a.href = url;
-                a.download = fileName;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-            }
-        })
-        .catch(error => {
-            console.error('Error exporting data:', error);
-        });
-    } catch (error) {
-        console.error('Error exporting data:', error);
-    }
-};
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Ready_to_ship"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);    
 
 
     // Handler for "Select All" checkbox
@@ -290,7 +226,7 @@ const handleExport = () => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button' onClick={handleExport}>Export</button>
+                        <button className='btn main-button' onClick={() => handleExport()}>Export</button>
                         <div className='action-options bulk-actions ms-2'>
                             <div className='btn main-button'>
                                 <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />

@@ -7,6 +7,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import { useDispatch, useSelector } from 'react-redux';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
@@ -19,10 +20,54 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 const AllOrders = ({ orders, handleSearch }) => {
 
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const handleExport = () => {
+        setExportButtonClick(true);
+        const requestData = {
+            "order_tab": {
+              "type": "",
+              "subtype": ""
+            },
+            "order_id": `${selectedRows.join(',')}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": "",
+            "global_type": "",
+            "payment_type": ""
+          };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"All_Orders"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
 
     // Pagination logic starts
 
@@ -149,7 +194,7 @@ const AllOrders = ({ orders, handleSearch }) => {
                                 <span>Cancel order</span> </p>
                         </div>
                         <div className='button-container'>
-                            <button className='btn main-button'>Export</button>
+                            <button className='btn main-button' onClick={() => handleExport()}>Export</button>
                             <div className='action-options bulk-actions ms-2'>
                                 <div className='btn main-button'>
                                     <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />

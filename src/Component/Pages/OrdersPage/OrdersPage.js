@@ -29,7 +29,7 @@ const OrdersPage = () => {
     
     // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
-    const location = useLocation()
+    //const location = useLocation()
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
