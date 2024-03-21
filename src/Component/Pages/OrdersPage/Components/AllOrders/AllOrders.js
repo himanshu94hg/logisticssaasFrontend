@@ -24,13 +24,6 @@ const AllOrders = ({ orders, handleSearch }) => {
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
 
-    // Pagination logic starts
-
-    
-
-    // Pagination logic ends
-
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {

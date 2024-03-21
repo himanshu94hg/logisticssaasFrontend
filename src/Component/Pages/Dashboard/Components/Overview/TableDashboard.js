@@ -24,9 +24,9 @@ function CustomTable({ data }) {
             <td>{order.customer_order_number}</td>
             <td>{order.awb_number || "N/A"}</td>
             <td>{order.courier_partner || "N/A"}</td>
-            <td>{order.shipping_charges || 0.0}</td>
-            <td>{order.total_charges || "N/A"}</td>
-            <td>{order.weight || "N/A"}</td>
+            <td>{order.charge_detail__shipping_charges || 0}</td>
+            <td>{order.charge_detail__total_charges || 0}</td>
+            <td>{order.dimension_detail__weight || "N/A"}</td>
             <td>{order.status}</td>
           </tr>
         ))}

@@ -4,10 +4,11 @@ import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -27,12 +28,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                 setLoading(false);
             } catch (error) {
                 setLoading(false);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to fetch warehouses. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
+                toast.error("Failed to fetch warehouses. Please try again later")
             }
         };
 
@@ -49,6 +45,19 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
             }
         }));
     };
+
+    useEffect(() => {
+        if (wareHouseName && warehouses) {
+            let data = warehouses.filter(item => item?.warehouse_name === wareHouseName)
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                order_details: {
+                    ...prevFormData.order_details,
+                    warehouse_id: data[0]?.id
+                }
+            }));
+        }
+    }, [wareHouseName, warehouses])
 
     return (
         <div>

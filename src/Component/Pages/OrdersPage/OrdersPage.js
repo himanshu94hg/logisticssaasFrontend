@@ -94,6 +94,11 @@ const OrdersPage = () => {
         setSearchValue(value)
     }
 
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("")
+        }
+    }, [activeTab])
 
     return (
         <>
