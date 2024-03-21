@@ -90,8 +90,13 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Resolution Due By</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+            <FontAwesomeIcon 
+              icon={faCalendarAlt} 
+              className='calendar-icon' 
+              onClick={() => document.getElementById("resolutionDate").focus()}
+            />
             <DatePicker
+              id="resolutionDate"
               selected={resolutionDate}
               onChange={handleResolutionDateChange}
               dateFormat='dd/MM/yyyy'
@@ -102,8 +107,13 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Last Updated</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+            <FontAwesomeIcon 
+              icon={faCalendarAlt} 
+              className='calendar-icon' 
+              onClick={() => document.getElementById("endDate").focus()}
+            />
             <DatePicker
+              id="endDate"
               selected={endDate}
               onChange={handleEndDateChange}
               dateFormat='dd/MM/yyyy'
@@ -112,7 +122,6 @@ const FilterTicketsForm = (props) => {
           </div>
         </div>
       </div>
-
       <div className='mt-4 d-flex'>
         <button className='btn main-button-outline' onClick={handleReset}>Reset</button>
         <button className='btn main-button ms-3' onClick={handleApply}>
