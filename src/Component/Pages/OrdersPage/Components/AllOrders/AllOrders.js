@@ -52,6 +52,7 @@ const AllOrders = ({ orders, handleSearch }) => {
             setSelectAll(false);
         }
     };
+    //   src>redux>saga>action>dashboard>shipment>index.js
 
     const handleSidePanel = () => {
         setMoreFilters(true);
