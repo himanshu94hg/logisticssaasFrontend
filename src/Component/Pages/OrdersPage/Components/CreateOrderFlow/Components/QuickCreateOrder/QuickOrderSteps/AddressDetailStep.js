@@ -1,22 +1,12 @@
 import axios from 'axios';
-import 'react-toggle/style.css';
+import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
-import React, { useRef, useState,useEffect  } from 'react';
-import 'react-datepicker/dist/react-datepicker.css';
 
-
-export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const [isChecked, setIsChecked] = useState(() => {
-        const savedCheckboxState = localStorage.getItem('isChecked');
-        return savedCheckboxState ? JSON.parse(savedCheckboxState) : true;
-    });
+const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+    const [isChecked, setIsChecked] = useState(true);
     const [BillingDetails, setBillingDetails] = useState(true);
 
     const [errors, setErrors] = useState({});
-
-    useEffect(() => {
-        localStorage.setItem('isChecked', JSON.stringify(isChecked));
-    }, [isChecked]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -89,8 +79,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }
     };
 
-
-
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
@@ -149,7 +137,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }));
     };
 
-    /*const handleCheckboxChange = () => {
+    const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
         if (updatedIsChecked) {
@@ -177,30 +165,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 }
             }));
         }
-    };*/
-    const handleCheckboxChange = () => {
-        const updatedIsChecked = !isChecked;
-        setIsChecked(updatedIsChecked);
-        if (!updatedIsChecked) {
-            setFormData(prevData => ({
-                ...prevData,
-                billing_details: {
-                    customer_name: '',
-                    contact_code: '',
-                    mobile_number: '',
-                    email: '',
-                    company_name: '',
-                    address: '',
-                    landmark: '',
-                    pincode: '',
-                    city: '',
-                    state: '',
-                    country: ''
-                }
-            }));
-        }
     };
-
 
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
@@ -290,10 +255,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
     return (
         <div>
-            <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
+            <div className='box-shadow p10 w-100'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
-                    <h3 className='mb-4'>Shipping Details</h3>
+                    {/* <h3 className='mb-4'>Shipping Details</h3> */}
                     <div className='row gap-2'>
                         {/* Customer Name */}
                         <label className='col'>
@@ -310,7 +275,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <span>Mobile Number <span className='mandatory'>*</span></span>
                             <div className='d-flex mobile-number-field'>
                                 <select
-                                    className='input-field'
+                                    className='input-field '
                                     value={formData.shipping_details.contact_code}
                                     onChange={(e) => handleSelectShiping(e, 'contact_code')}
                                     disabled
@@ -335,25 +300,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             {errors.mobile_number && <div className="custom-error">{errors.mobile_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-3 gap-2'>
-                        <label className='col'>
-                            <span>Email <span className='text-gray'>(optional)</span></span>
-                            <input
-                                className='input-field'
-                                placeholder='i.e. abc@gmail.com'
-                                type="email" value={formData.shipping_details.email} onChange={(e) => handleChangeShiping(e, 'email')} />
-                        </label>
-                        <label className='col'>
-                            <span>Company Name <span className='text-gray'>(optional)</span></span>
-                            <input
-                                className='input-field'
-                                placeholder="Enter Recipient's Company Name"
-                                type="email" value={formData.shipping_details.company_name} onChange={(e) => handleChangeShiping(e, 'company_name')} />
-                        </label>
-                    </div>
-
-                    <hr />
-                    <div className='row'>
+                    <div className='row mt-3'>
                         {/* Address */}
                         <label className='col'>
                             <span>Address <span className='mandatory'>*</span></span>
@@ -363,19 +310,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 type="text" value={formData.shipping_details.address} onChange={(e) => handleChangeShiping(e, 'address')} />
                             {errors.address && <div className="custom-error">{errors.address}</div>}
                         </label>
-                    </div>
-                    <div className='row mt-3'>
-                        {/* Address 2 (Optional) */}
-                        <label className='col'>
-                            <span>Landmark <span className='mandatory'>*</span></span>
-                            <input
-                                className={`input-field ${errors.landmark && 'input-field-error'}`}
-                                placeholder="Any nearby post office, market, Hospital as the landmark"
-                                type="text" value={formData.shipping_details.landmark} onChange={(e) => handleChangeShiping(e, 'landmark')} />
-                            {errors.landmark && <div className="custom-error">{errors.landmark}</div>}
-                        </label>
-                    </div>
-                    <div className='row mt-3 gap-2'>
                         {/* Pincode */}
                         <label className='col'>
                             <span>Pincode <span className='mandatory'>*</span></span>
@@ -396,52 +330,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             />
                             {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                         </label>
-
-                        {/* City */}
-                        <label className='col'>
-                            <span>City  <span className='mandatory'>*</span></span>
-                            <input
-                                disabled
-                                type="text"
-                                ref={cityRef}
-                                className={`input-field ${errors.city && 'input-field-error'}`}
-                                placeholder="Enter Recipient's City"
-                                value={formData.shipping_details.city}
-                                onChange={(e) => handleChangeShiping(e, 'city')}
-                            />
-                            {errors.city && <div className="custom-error">{errors.city}</div>}
-                        </label>
-                    </div>
-                    <div className='row mt-3 gap-2'>
-                        {/* State */}
-                        <label className='col'>
-                            <span>State <span className='mandatory'>*</span></span>
-                            <input
-                                disabled
-                                type="text"
-                                ref={stateRef}
-                                className={`input-field ${errors.state && 'input-field-error'}`}
-                                placeholder="Enter Recipient's State"
-                                value={formData.shipping_details.state}
-                                onChange={(e) => handleChangeShiping(e, 'state')}
-                            />
-                            {errors.state && <div className="custom-error">{errors.state}</div>}
-                        </label>
-
-                        {/* Country */}
-                        <label className='col'>
-                            <span>Country  <span className='mandatory'>*</span></span>
-                            <input
-                                disabled
-                                type="text"
-                                ref={countryRef}
-                                className={`input-field ${errors.country && 'input-field-error'}`}
-                                placeholder="Enter Recipient's State"
-                                value={formData.shipping_details.country}
-                                onChange={(e) => handleChangeShiping(e, 'country')}
-                            />
-                            {errors.country && <div className="custom-error">{errors.country}</div>}
-                        </label>
                     </div>
                 </div>
 
@@ -452,7 +340,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             type="checkbox"
                             checked={isChecked}
                             onChange={handleCheckboxChange}
-                            bydefaultChecked = {true}
                         />
                         <label>Billing Address is the same as Shipping address</label>
                     </div>
@@ -503,24 +390,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             </label>
                         </div>
                         <div className='row mt-3'>
-                            <label className='col'>
-                                <span>Email <span className='text-gray'>(optional)</span></span>
-                                <input
-                                    className='input-field'
-                                    placeholder='i.e. abc@gmail.com'
-                                    type="email" value={formData.billing_details.email} onChange={(e) => handleChangeBilling(e, 'email')} />
-                            </label>
-                            <label className='col'>
-                                <span>Company Name <span className='text-gray'>(optional)</span></span>
-                                <input
-                                    className='input-field'
-                                    placeholder="Enter Recipient's Company Name"
-                                    type="email" value={formData.billing_details.company_name} onChange={(e) => handleChangeBilling(e, 'company_name')} />
-                            </label>
-                        </div>
-
-                        <hr />
-                        <div className='row'>
                             {/* Address */}
                             <label className='col'>
                                 Address
@@ -530,19 +399,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     type="text" value={formData.billing_details.address} onChange={(e) => handleChangeBilling(e, 'address')} />
                                 {errors.billing_address && <div className="custom-error">{errors.billing_address}</div>}
                             </label>
-                        </div>
-                        <div className='row mt-3'>
-                            {/* Address 2 (Optional) */}
-                            <label className='col'>
-                                Landmark
-                                <input
-                                    className={`input-field ${errors.billing_landmark && 'input-field-error'}`}
-                                    placeholder="Any nearby post office, market, Hospital as the landmark"
-                                    type="text" value={formData.billing_details.landmark} onChange={(e) => handleChangeBilling(e, 'landmark')} />
-                                {errors.billing_landmark && <div className="custom-error">{errors.billing_landmark}</div>}
-                            </label>
-                        </div>
-                        <div className='row mt-3 gap-2'>
                             {/* Pincode */}
                             <label className='col'>
                                 Pincode
@@ -559,65 +415,17 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         if (!/\d/.test(e.key)) {
                                             e.preventDefault();
                                         }
-                                }}
+                                    }}
                                 />
                                 {errors.billing_pincode && <div className="custom-error">{errors.billing_pincode}</div>}
-                            </label>
-
-                            {/* City */}
-                            <label className='col'>
-                                City
-                                <input
-                                    disabled
-                                    type="text"
-                                    ref={cityRef1}
-                                    className={`input-field ${errors.billing_city && 'input-field-error'}`}
-                                    placeholder="Enter Recipient's City"
-                                    value={formData.billing_details.city}
-                                    onChange={(e) => handleChangeBilling(e, 'city')}
-                                />
-                                {errors.billing_city && <div className="custom-error">{errors.billing_city}</div>}
-                            </label>
-                        </div>
-                        <div className='row mt-3 gap-2'>
-                            {/* State */}
-                            <label className='col'>
-                                State
-                                <input
-                                    disabled
-                                    type="text"
-                                    ref={stateRef1}
-                                    className={`input-field ${errors.billing_state && 'input-field-error'}`}
-                                    placeholder="Enter Recipient's State"
-                                    value={formData.billing_details.state}
-                                    onChange={(e) => handleChangeBilling(e, 'state')}
-
-                                />
-                                 {errors.billing_state && <div className="custom-error">{errors.billing_state}</div>}
-                            </label>
-
-                            {/* Country */}
-                            <label className='col'>
-                                Country
-                                <input
-                                    disabled
-                                    type="text"
-                                    className={`input-field ${errors.billing_country && 'input-field-error'}`}
-                                    placeholder="Enter Recipient's Country"
-                                    value={formData.billing_details.country}
-                                    onChange={(e) => handleChangeBilling(e, 'country')}
-                                />
-                                 {errors.billing_country && <div className="custom-error">{errors.billing_country}</div>}
                             </label>
                         </div>
                     </div>
                 )}
             </div>
-            <div className='d-flex justify-content-end my-3 cof-btn-container'>
-                {/* Add three more input fields as needed */}
-                <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
-                <button className='btn main-button ms-3' onClick={onNextClicked}>Next</button>
-            </div>
         </div>
     );
 };
+
+
+export default AddressDetailStep
