@@ -15,7 +15,6 @@ function NDRTotalInfo() {
   };
 
   const {counterData}=useSelector(state=>state?.dashboardNdrReducer)
-  console.log(counterData,"courierData")
 
   const [totalNdr, setTotalNdr] = useState(dummyData.totalNdr);
   const [actionRequested, setActionRequested] = useState(dummyData.actionRequested);

@@ -59,6 +59,7 @@ export default function NavTabs(props) {
               onClick={() => {
                 props.setActiveTab("NDR");
               }}
+              title="Non-Delivery Report"
             >
               {" "}
               <div className="navItemsContainer">
@@ -70,6 +71,7 @@ export default function NavTabs(props) {
               onClick={() => {
                 props.setActiveTab("RTO");
               }}
+              title="Return to Origin"
             >
               {" "}
               <div className="navItemsContainer">

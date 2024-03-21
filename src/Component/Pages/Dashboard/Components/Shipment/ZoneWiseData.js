@@ -7,7 +7,6 @@ const ZoneOrdersChart = () => {
     const [seriesArrayData, setSeriesArrayData] = useState([]);
     const [zoneData, setZoneData] = useState([]);
     const { zoneWiseData } = useSelector(state => state?.dashboardShipmentReducer)
-    console.log(zoneData, "zoneWiseDatazoneWiseData")
 
     useEffect(() => {
         if (zoneWiseData) {
@@ -42,7 +41,9 @@ const ZoneOrdersChart = () => {
 
     const seriesData = seriesArrayData
     const total = seriesData.reduce((acc, curr) => acc + curr, 0);
-    const percentages = seriesData.map(val => ((val / total) * 100).toFixed(2) + '%');
+    const percentages = total !== 0
+        ? seriesData.map(val => ((val / total) * 100).toFixed(2) + '%')
+        : seriesData.map(() => '0%');
 
     const chartData = {
         series: seriesData,

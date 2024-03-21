@@ -86,12 +86,10 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
-                    console.log('This is a dummy data api', response.data.count);
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
                 });
         }
     }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
@@ -100,6 +98,11 @@ const OrdersPage = () => {
         setSearchValue(value)
     }
 
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("")
+        }
+    }, [activeTab])
 
     return (
         <>

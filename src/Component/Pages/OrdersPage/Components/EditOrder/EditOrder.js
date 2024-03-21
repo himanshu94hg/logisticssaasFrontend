@@ -15,6 +15,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
     const [activeSection, setActiveSection] = useState("Order Details");
     const currentDate = new Date();
+    const [wareHouseName, setWareHouseName] = useState("")
     const [formData, setFormData] = useState({
         order_details: {
             customer_order_number: '',
@@ -96,7 +97,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     }, [orderUpdateRes])
 
     const handleUpdate = () => {
-        
+
         dispatch({
             type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
                 formData: formData,
@@ -122,7 +123,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     // warehouse_id: orderDetailsData,
                     order_tag: orderDetailsData?.order_tag,
                     payment_type: orderDetailsData?.payment_type,
-                    order_date:currentDate,
+                    order_date: currentDate,
                     order_type: orderDetailsData?.order_type,
                     channel: orderDetailsData?.channel,
                     channel_id: orderDetailsData?.channel_id
@@ -182,14 +183,14 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                         product_discount: product.product_discount
                     }))
             }))
+            setWareHouseName(orderDetailsData?.pickup_details?.p_warehouse_name)
         }
     }, [orderDetailsData])
-    
-    
+
+
     const dateString = 'Wed Mar 20 2024 16:59:06 GMT+0530 (India Standard Time)';
-    const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ')+" (India Standard Time)";
-    
-    console.log(currentDate,formattedDate, "this is current data")
+    const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ') + " (India Standard Time)";
+
 
 
 
@@ -262,6 +263,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                             {activeSection === "Warehouse Details" && (
                                 <div>
                                     <WareHouseDetailStep
+                                        wareHouseName={wareHouseName}
                                         formData={formData}
                                         setFormData={setFormData}
                                     />

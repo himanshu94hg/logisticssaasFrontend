@@ -3,11 +3,8 @@ import { useSelector } from 'react-redux';
 import { percentage } from '../../../../../customFunction/functionLogic';
 
 const TopRTOCity = () => {
-
   const {rtoTopCity}=useSelector(state=>state?.dashboardRtoReducer)
   const totalValue=rtoTopCity.reduce((acc,value)=>acc+value.count,0)
-
-  console.log(totalValue,"this is top rto cirtyt")
 
   const [loading] = useState(false); // Since it's dummy data, no loading
   const [error] = useState(null); // No error handling for dummy data

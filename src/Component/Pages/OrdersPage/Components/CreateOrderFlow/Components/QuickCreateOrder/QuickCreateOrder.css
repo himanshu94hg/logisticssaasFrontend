@@ -1,0 +1,58 @@
+.wd-selected-option {
+    height: 36px;
+    border: 1px solid var(--sh-primary-middle);
+    min-width: 100%;
+    padding-inline: 10px;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.wd-clear-selection {
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.wd-warehouse-dropdown {
+    position: relative;
+}
+
+.wd-dropdown-content {
+    border: 1px solid var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    margin-top: 6px;
+    position: absolute;
+    background: #fff;
+    width: 100%;
+    bottom: 41px;
+    box-shadow: 8px -8px 7px rgba(0, 0, 0, 0.1) !important;
+}
+
+.wd-search-input {
+    height: 36px;
+    border: none;
+    border-top: 1px solid var(--sh-primary-middle);
+    min-width: 100%;
+    padding-left: 10px;
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+.wd-options {
+    height: 18rem;
+    overflow-y: scroll;
+    border-radius: 0 0 0.5rem 0.5rem;
+    overflow-x: clip;
+}
+
+.wd-option {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    font-size: 14px;
+}
+
+.wd-option:hover {
+    background-color: var(--sh-primary-light);
+}
