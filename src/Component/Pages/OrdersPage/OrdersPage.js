@@ -11,6 +11,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useLocation } from 'react-router';
 import EditOrder from './Components/EditOrder/EditOrder';
+import Pagination from './Components/Pagination/Pagination';
 
 
 const OrdersPage = () => {
@@ -20,7 +21,7 @@ const OrdersPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
-    const[orderId,setOrderId]=useState(null)
+    const [orderId, setOrderId] = useState(null)
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
 
@@ -99,6 +100,8 @@ const OrdersPage = () => {
         setSearchValue(value)
     }
 
+    let totalItems = 500;
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -120,6 +123,7 @@ const OrdersPage = () => {
                         activeTab={activeTab} orders={orders}
                         handleSearch={handleSearch}
                         setEditOrderSection={setEditOrderSection}
+                        setOrderId={setOrderId}
                     />
                 </div>
 
@@ -137,9 +141,10 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
                     <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
+                <Pagination totalItems={totalItems} />
             </div>
 
-            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} />
+            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
 
         </>
     )
