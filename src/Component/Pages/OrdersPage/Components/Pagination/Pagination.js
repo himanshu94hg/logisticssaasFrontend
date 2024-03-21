@@ -74,10 +74,7 @@ const Pagination = ({ totalItems }) => {
                 <div className="result-count">
                     Showing {startIndex} to {endIndex} of {totalItemsCount} results.
                 </div>
-                {/* Result count */}
-                <div className="result-count">
-                    0 Selected
-                </div>
+
                 {/* Dropdown for items per page */}
                 <div className="items-per-page-dropdown">
                     Rows per page:
