@@ -10,7 +10,6 @@ import AllOrders from './Components/AllOrders/AllOrders';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation } from 'react-router';
 import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
 
@@ -23,7 +22,9 @@ const OrdersPage = () => {
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
-
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
     const [EditOrderSection, setEditOrderSection] = useState(false)
     // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
@@ -74,7 +75,6 @@ const OrdersPage = () => {
         }
 
         if (apiUrl) {
-            // Add search parameter if searchValue is not empty
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
@@ -85,7 +85,8 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
-                    console.log('Data is data:', response.data.results);
+                    console.log('This is a dummy data api', response.data.count);
+                    setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
@@ -98,7 +99,6 @@ const OrdersPage = () => {
         setSearchValue(value)
     }
 
-    let totalItems = 500;
 
     return (
         <>
@@ -139,7 +139,13 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
                     <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
-                <Pagination totalItems={totalItems} />
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />

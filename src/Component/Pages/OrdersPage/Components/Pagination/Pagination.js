@@ -3,18 +3,20 @@ import { faBackwardStep, faForwardStep } from '@fortawesome/free-solid-svg-icons
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Pagination.css'
 
-const Pagination = ({ totalItems }) => {
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+const Pagination = ({ totalItems ,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage}) => {
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
 
+    useEffect(()=>{
+     if(totalItems){
+        setTotalItemsCount(totalItems)
+     }
+    },[totalItems])
+
     useEffect(() => {
-        // Ensure current page stays within bounds when items per page changes
         setCurrentPage(1);
     }, [itemsPerPage, totalItemsCount]);
 
-    // Calculate total pages
     const totalPages = Math.ceil(totalItemsCount / itemsPerPage);
 
     const handleFirstPage = () => {
@@ -51,14 +53,8 @@ const Pagination = ({ totalItems }) => {
         setGoToPage("");
     };
 
-    // Calculate start and end indices
     const startIndex = Math.min((currentPage - 1) * itemsPerPage + 1, totalItemsCount);
     const endIndex = Math.min(currentPage * itemsPerPage, totalItemsCount);
-
-    // Debugging statements
-    console.log("totalItemsCount:", totalItemsCount);
-    console.log("itemsPerPage:", itemsPerPage);
-    console.log("totalPages:", totalPages);
 
     return (
         <div className='my-2'>
