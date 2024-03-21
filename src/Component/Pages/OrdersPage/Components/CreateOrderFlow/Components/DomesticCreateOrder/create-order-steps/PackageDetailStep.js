@@ -166,7 +166,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             </span>
                         </p>
                     </div>
-                    <div className="row">
+                    <div className="row gap-2">
 
                         {/* Length (cm) */}
                         <label className='col'>
@@ -218,7 +218,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={handleNext}>Next</button>

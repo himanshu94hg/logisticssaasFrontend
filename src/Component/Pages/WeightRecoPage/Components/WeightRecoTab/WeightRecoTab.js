@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
 import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
@@ -9,33 +8,36 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import { useSelector } from 'react-redux';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
+// const DateFormatter = ({ dateTimeString }) => {
+//     const [formattedDate, setFormattedDate] = useState('');
 
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
 
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
 
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+//     useEffect(() => {
+//         const formattedDateTime = formatDateTime(dateTimeString);
+//         setFormattedDate(formattedDateTime);
+//     }, [dateTimeString]);
 
-        return formattedDateTime;
-    };
+//     const formatDateTime = (dateTimeString) => {
+//         const options = {
+//             year: 'numeric',
+//             month: 'short',
+//             day: '2-digit',
+//             hour: '2-digit',
+//             minute: '2-digit',
+//             hour12: true,
+//         };
 
-    return <p>{formattedDate}</p>;
-};
+//         const dateObject = new Date(dateTimeString);
+//         const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+//         return formattedDateTime;
+//     };
+
+//     return <p>{formattedDate}</p>;
+// };
 
 const WeightRecoTab = () => {
 
@@ -43,6 +45,9 @@ const WeightRecoTab = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+
+    const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
+    console.log(weightRecoData, "weightRecoDataweightRecoDataweightRecoData")
 
 
     const reasons = [
@@ -64,17 +69,6 @@ const WeightRecoTab = () => {
         return reasons[randomIndex].data;
     };
 
-
-    useEffect(() => {
-        axios
-            .get('http://dev.shipease.in:8088/weight/v1/weight-recancel-data/') // Replace with your API endpoint
-            .then(response => {
-                setData(response.data);
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, []);
 
 
 
@@ -151,7 +145,7 @@ const WeightRecoTab = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {data.map((row, index) => (
+                            {weightRecoData?.map((row, index) => (
                                 <React.Fragment key={row?.reconciliation_details?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -167,10 +161,10 @@ const WeightRecoTab = () => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row?.order_details?.order_number}
+                                                    {row?.category}
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    <DateFormatter dateTimeString={row?.reconciliation_details?.created} />
+                                                    {/* <DateFormatter dateTimeString={row?.reconciliation_details?.created} /> */}
                                                     {/* <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
@@ -181,7 +175,7 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row.order_details?.product_name}</p>
+                                                <p>{row?.category}</p>
                                                 {/* <p>{row.s_contact}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -198,13 +192,13 @@ const WeightRecoTab = () => {
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>₹{row?.reconciliation_details?.charged_amount}</p>
+                                                <p>₹{row?.price}</p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.order_details?.awb_number}
+                                                <p className='details-on-hover anchor-awb'>{row?.ratingClasses?.count}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
                                                 <p className='mt-1'>
@@ -218,27 +212,27 @@ const WeightRecoTab = () => {
                                         <td className='align-middle'>
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.reconciliation_details?.e_weight} kg</p>
+                                                <p>Wt:  {row?.rating?.rate} kg</p>
                                                 <p>LBH: {row?.reconciliation_details?.e_length}cm x {row?.reconciliation_details?.e_breadth}cm x {row?.reconciliation_details?.e_height}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* Charged Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.reconciliation_details?.c_weight} kg</p>
+                                                <p>Wt:  {row?.rating?.rate} kg</p>
                                                 <p>LBH: {row?.reconciliation_details?.c_length}cm x {row?.reconciliation_details?.c_breadth}cm x {row?.reconciliation_details?.c_height}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* Settled Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.reconciliation_details?.s_weight || '0'} kg</p>
+                                            <p>Wt:  {row?.rating?.rate} kg</p>
                                                 <p>LBH: {row?.reconciliation_details?.s_length || '0'}cm x {row?.reconciliation_details?.s_breadth || '0'}cm x {row?.reconciliation_details?.s_height || '0'}cm</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.reconciliation_details?.status}</p>
+                                            <p className='order-Status-box'>Open</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}

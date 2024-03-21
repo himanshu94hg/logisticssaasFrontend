@@ -3,7 +3,7 @@ import moment from 'moment';
 import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import React, { useEffect,useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import { OrderDetailsStep, OrderStep } from './create-order-steps/OrderDetailsStep';
@@ -13,7 +13,6 @@ import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
 
 const DomesticCreateOrder = () => {
-    
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
@@ -95,8 +94,6 @@ const DomesticCreateOrder = () => {
         ],
     })
 
-
-    console.log(formData,"this is a valid data")
 
     useEffect(() => {
         const updateProgressBarWidth = () => {

@@ -5,10 +5,14 @@ import { billingSectionReducer } from "./billing";
 import { shipmentSectionReducer } from "./shipment";  
 import { dashboardOverviewReducer } from "./dashboard/overview"; 
 import { dashboardOrderReducer } from "./dashboard/orders";
-import { dashboardShpmentReducer } from "./dashboard/shipment";
+import { dashboardShipmentReducer } from "./dashboard/shipment";
+import { paymentSectionReducer } from "./payment";
 import { dashboardCourierReducer } from "./dashboard/couriers";
 import { dashboardNdrReducer } from "./dashboard/ndr";
 import { dashboardRtoReducer } from "./dashboard/rto";
+import { weightRecoReducer } from "./weightReco";
+import { moreorderSectionReducer } from "./moreorder";
+import { orderSectionReducer } from "./orders";
 
 export const rootReducer = combineReducers({
     authDataReducer,
@@ -17,8 +21,12 @@ export const rootReducer = combineReducers({
     shipmentSectionReducer,
     dashboardOverviewReducer,
     dashboardOrderReducer,
-    dashboardShpmentReducer,
+    dashboardShipmentReducer,
+    paymentSectionReducer,
     dashboardCourierReducer,
     dashboardNdrReducer,
     dashboardRtoReducer,
+    weightRecoReducer,
+    moreorderSectionReducer,
+    orderSectionReducer
 })

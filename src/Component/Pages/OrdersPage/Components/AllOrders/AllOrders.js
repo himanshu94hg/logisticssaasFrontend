@@ -16,6 +16,7 @@ import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import Pagination from '../Pagination/Pagination';
 
 const AllOrders = ({ orders, handleSearch }) => {
 
@@ -23,6 +24,14 @@ const AllOrders = ({ orders, handleSearch }) => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
+
+    // Pagination logic starts
+
+    let totalItems = 500;
+
+    // Pagination logic ends
+
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -113,15 +122,6 @@ const AllOrders = ({ orders, handleSearch }) => {
             console.error('Error:', error);
         }
     };
-
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
 
     return (
         <section className='position-relative'>
@@ -325,6 +325,7 @@ const AllOrders = ({ orders, handleSearch }) => {
                         </tbody>
                     </table>
                 </div>
+                <Pagination totalItems={totalItems} />
                 <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
 
                 {/* <div id='sidePanel' className="side-panel">

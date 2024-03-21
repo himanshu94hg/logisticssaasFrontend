@@ -9,6 +9,7 @@ import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
 import AllOrders from './Components/AllOrders/AllOrders';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import { useLocation } from 'react-router';
 import EditOrder from './Components/EditOrder/EditOrder';
 
 
@@ -19,8 +20,14 @@ const OrdersPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
+    const[orderId,setOrderId]=useState(null)
 
     const [EditOrderSection, setEditOrderSection] = useState(false)
+
+
+    const location = useLocation()
+
+    // console.log(location,"locationlocationlocation")
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -38,7 +45,7 @@ const OrdersPage = () => {
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
     let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
     let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
+    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns`
     let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
 
 
@@ -96,41 +103,41 @@ const OrdersPage = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
+            <div className='orders-section-tabs'>
+                {/* All Orders */}
+                <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
+                    <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
 
-            {/* All Orders */}
-            <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                {/* Unprocessable */}
+                <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
+                    <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Processing */}
+                <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
+                    <Processing
+                        activeTab={activeTab} orders={orders}
+                        handleSearch={handleSearch}
+                        setEditOrderSection={setEditOrderSection}
+                    />
+                </div>
+
+                {/* ReadyToShip */}
+                <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
+                    <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Manifest */}
+                <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
+                    <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Returns */}
+                <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
+                    <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
             </div>
-
-            {/* Unprocessable */}
-            <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Processing */}
-            <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
-                <Processing
-                    activeTab={activeTab} orders={orders}
-                    handleSearch={handleSearch}
-                    setEditOrderSection={setEditOrderSection}
-                />
-            </div>
-
-            {/* ReadyToShip */}
-            <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Manifest */}
-            <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Returns */}
-            <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} />
 

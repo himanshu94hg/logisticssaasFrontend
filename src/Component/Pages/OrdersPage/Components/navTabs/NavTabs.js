@@ -137,7 +137,7 @@ export default function NavTabs(props) {
       <div className="d-flex gap-10 align-items-center">
         <button className="btn main-button" onClick={() => navigate(createOrderPattern,{state:{tabs:"BulkCreateOrder"}})}>Import Orders</button>
         <button className="btn main-button" onClick={handleSubmit}>Sync Orders</button>
-        <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
+        <button onClick={() => navigate(createOrderPattern,{state:{orderType:"normalOrder"}})} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</button>
       </div>
     </Navbar>
   );

@@ -119,6 +119,7 @@ const KYCInfo = ({ activeTab }) => {
        console.error('Error:', error);
      }
    };*/
+   
 
    const handleSubmit = async (e) => {
     e.preventDefault(); 
@@ -159,6 +160,7 @@ const KYCInfo = ({ activeTab }) => {
           document_name: '',
           document_upload: '',
         });
+        e.target.reset(); 
       }
     } catch (error) {
       console.error('Error:', error);

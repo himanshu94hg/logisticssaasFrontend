@@ -6,9 +6,13 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 
 export default function Header(props) {
+
+  //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+ 
 
   const handleLogout = () => {
     Cookies.remove('access_token');
@@ -16,6 +20,9 @@ export default function Header(props) {
   };
 
   const gettoken = Cookies.get('access_token');
+
+  const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
+  const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
 
   return (
     <Navbar
@@ -68,7 +75,7 @@ export default function Header(props) {
             <Nav.Link>
               <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
                 <span className="iconContainer walletIcon px-2">
-                  <div className="walletBalance">₹ 10,00,000</div>
+                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
                   <WalletIcon />
                   {/* <FontAwesomeIcon icon={faWallet} /> */}
                 </span>

@@ -1,4 +1,4 @@
-import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl } from "../config";
+import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl,billingDummyBaseUrl } from "../config";
 
 
 export const BASE_URL_CORE = coreBaseUrl;
@@ -6,6 +6,8 @@ export const BASE_URL_ORDER = orderBaseUrl;
 export const BASE_URL_DUMMY = dummyBaseUrl;
 export const BASE_URL_MOREON = moreonBaseUrl;
 export const BASE_URL_COURIER = courierBaseUrl;
+export const BASE_URL_BILLING = billingDummyBaseUrl;
+
 
 export const API_URL = {
   index: "/",
@@ -16,6 +18,9 @@ export const API_URL = {
   GET_BILLING_URL: "/orders-api/orders/shipment/",
   GET_RATE_THROUGH_ORDERID: "/orders-api/orders/order-detail/",
   GET_BILLING_URLW: "/core-api/features/billing/passbook/",
+  GET_BILLING_SHIPING_URL: "/todos/",
+  GET_BILLING_SHIP_URL: "/core-api/features/billing/shipping-charge/",
+  GET_BILLING_RECHARGE_URL: "/core-api/features/billing/recharge-log/",
   CHECK_SERVICE_ABILITY_PINCODE: "/courier-api/courier/tools/check-pincode-serviceability/",
   CHECK_SERVICE_ABILITY_PINCODE_PAIR: "/courier-api/courier/tools/check-pair-serviceability/",
   GET_ZONE_MAPPING: "/core-api/seller/tools/zone-mapping/",
@@ -28,6 +33,15 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_PARTNER: "/core-api/features/courier-category/",
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
+  ORDER_DETAILS_API:"/orders-api/orders/order-complete-detail/",
+
+  //PAYMENT
+  GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
+  GET_CONFIGURATION_URL:"/core-api/seller/general-configuration/",
+
+  //MOREONORDER REASSIGN
+  GET_REASSIGN_URL:"/core-api/shipping/ship-rate-card-reassign/",
+  GET_REASSIGN_SHIP_URL:"/core-api/shipping/reassign-order/",
 
 
   //DASHBOARD OVERVIEW API'S 

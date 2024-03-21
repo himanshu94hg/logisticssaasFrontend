@@ -1,14 +1,198 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './EditOrder.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
+import { PackageDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/PackageDetailStep';
+import { OrderDetailsStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/OrderDetailsStep';
+import { AddressDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/AddressDetailStep';
+import { ProductDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/ProductDetailStep';
+import { WareHouseDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/WareHouseDetailStep';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
-    const [activeSection, setActiveSection] = useState(1);
+const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
+    const dispatch = useDispatch()
+    const [activeSection, setActiveSection] = useState("Order Details");
+    const currentDate = new Date();
+    const [formData, setFormData] = useState({
+        order_details: {
+            customer_order_number: '',
+            invoice_amount: '',
+            is_mps: false,
+            warehouse_id: '',
+            order_tag: '',
+            payment_type: '',
+            order_date: currentDate,
+            order_type: "",
+            channel: "custom",
+            channel_id: null
+        },
+        shipping_details: {
+            recipient_name: "",
+            address: "",
+            landmark: "",
+            country: "India",
+            state: "",
+            city: "",
+            pincode: "",
+            mobile_number: "",
+            email: "",
+            company_name: "",
+            contact_code: "91"
+        },
+        billing_details: {
+            customer_name: "",
+            address: "",
+            landmark: "",
+            country: "India",
+            state: "",
+            city: "",
+            pincode: "",
+            mobile_number: "",
+            email: "",
+            company_name: "",
+            contact_code: "91"
+        },
+        other_details: {
+            number_of_packets: 0,
+            reseller_name: ""
+        },
+        charge_details: {
+            cod_charges: '',
+            shipping_charges: '',
+            transaction_fee: '',
+            is_gift_wrap: true
+        },
+        dimension_details: {
+            weight: '',
+            length: '',
+            breadth: '',
+            height: '',
+            vol_weight: ''
+        },
+        product_details: [
+            {
+                product_name: "",
+                quantity: '',
+                unit_price: 0,
+                product_category: "",
+                weight: 0,
+                sku: "",
+                hsn_code: "",
+                tax_rate: null,
+                product_discount: 0,
+                hts_number: "",
+                export_reference_number: ""
+            }
+        ],
+    })
+    const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
-    const handleSectionClick = (sectionIndex) => {
-        setActiveSection(sectionIndex === activeSection ? null : sectionIndex);
+    useEffect(() => {
+        if (orderUpdateRes === 200) {
+            setEditOrderSection(false)
+        }
+    }, [orderUpdateRes])
+
+    const handleUpdate = () => {
+        
+        dispatch({
+            type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
+                formData: formData,
+                orderId: orderId
+            }
+        })
     };
+
+    useEffect(() => {
+        if (orderId) {
+            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+        }
+    }, [orderId])
+
+    useEffect(() => {
+        if (orderDetailsData) {
+            setFormData(prevData => ({
+                ...prevData,
+                order_details: {
+                    customer_order_number: orderDetailsData?.customer_order_number,
+                    invoice_amount: orderDetailsData?.invoice_amount,
+                    is_mps: orderDetailsData?.is_mps,
+                    // warehouse_id: orderDetailsData,
+                    order_tag: orderDetailsData?.order_tag,
+                    payment_type: orderDetailsData?.payment_type,
+                    order_date:currentDate,
+                    order_type: orderDetailsData?.order_type,
+                    channel: orderDetailsData?.channel,
+                    channel_id: orderDetailsData?.channel_id
+                },
+                shipping_details: {
+                    recipient_name: orderDetailsData?.shipping_detail?.recipient_name,
+                    address: orderDetailsData?.shipping_detail?.address,
+                    landmark: orderDetailsData?.shipping_detail?.landmark,
+                    country: "India",
+                    state: orderDetailsData?.shipping_detail?.state,
+                    city: orderDetailsData?.shipping_detail?.city,
+                    pincode: orderDetailsData?.shipping_detail?.pincode,
+                    mobile_number: orderDetailsData?.shipping_detail?.mobile_number,
+                    email: orderDetailsData?.shipping_detail?.email,
+                    company_name: orderDetailsData?.shipping_detail?.company_name,
+                    contact_code: "91"
+                },
+                billing_details: {
+                    customer_name: orderDetailsData?.shipping_detail?.recipient_name,
+                    address: orderDetailsData?.shipping_detail?.address,
+                    landmark: orderDetailsData?.shipping_detail?.landmark,
+                    country: "India",
+                    state: orderDetailsData?.shipping_detail?.state,
+                    city: orderDetailsData?.shipping_detail?.city,
+                    pincode: orderDetailsData?.shipping_detail?.pincode,
+                    mobile_number: orderDetailsData?.shipping_detail?.mobile_number,
+                    email: orderDetailsData?.shipping_detail?.email,
+                    company_name: orderDetailsData?.shipping_detail?.company_name,
+                    contact_code: "91"
+                },
+                other_details: {
+                    number_of_packets: orderDetailsData?.other_details?.number_of_packets,
+                    reseller_name: orderDetailsData?.other_details?.reseller_name
+                },
+                charge_details: {
+                    cod_charges: orderDetailsData?.charge_detail?.cod_charges,
+                    shipping_charges: orderDetailsData?.charge_detail?.shipping_charges,
+                    transaction_fee: orderDetailsData?.charge_detail?.transaction_fee,
+                    is_gift_wrap: orderDetailsData?.charge_detail?.is_gift_wrap ? "Yes" : "No"
+                },
+                dimension_details: {
+                    weight: orderDetailsData?.dimension_detail?.weight,
+                    length: orderDetailsData?.dimension_detail?.length,
+                    breadth: orderDetailsData?.dimension_detail?.breadth,
+                    height: orderDetailsData?.dimension_detail?.height,
+                    vol_weight: orderDetailsData?.dimension_detail?.vol_weight
+                },
+                product_details:
+                    orderDetailsData?.order_products?.map(product => ({
+                        sku: product.sku,
+                        product_name: product.product_name,
+                        quantity: product.quantity,
+                        product_category: product.product_category,
+                        unit_price: product.unit_price,
+                        hsn_code: product.hsn_code,
+                        tax_rate: product.tax_rate,
+                        product_discount: product.product_discount
+                    }))
+            }))
+        }
+    }, [orderDetailsData])
+    
+    
+    const dateString = 'Wed Mar 20 2024 16:59:06 GMT+0530 (India Standard Time)';
+    const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ')+" (India Standard Time)";
+    
+    console.log(currentDate,formattedDate, "this is current data")
+
+
+
     return (
         <>
             <section className={`edit-order-section ${EditOrderSection ? 'open-edit' : ''}`}>
@@ -16,101 +200,80 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection }) => {
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
                 <section className='edit-order-header'>
-                    <h2 className='mb-0'>Edit Your Order!</h2>
+                    <div>
+                        <h2 className='mb-1'>Order Id : <span className='text-capitalize'>{orderDetailsData?.customer_order_number}</span></h2>
+                        <h5 className='mb-0'>Edit Your Order Details!</h5>
+                    </div>
                 </section>
                 <section className='edit-order-body'>
-                    <form>
-                        <AccordionSection
-                            title="Order Details"
-                            isActive={activeSection === 1}
-                            onClick={() => handleSectionClick(1)}
-                        >
-                            {/* Your Order Details */}
-                            <label>
-                                Customer Order Number:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Order Type:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Order Date:
-                                <input type="text" />
-                            </label>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Order Details"
-                            isActive={activeSection === 2}
-                            onClick={() => handleSectionClick(2)}
-                        >
-                            {/* Your Order Details */}
-                            <label>
-                                Customer Order Number:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Order Type:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Order Date:
-                                <input type="text" />
-                            </label>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Shipping Details"
-                            isActive={activeSection === 3}
-                            onClick={() => handleSectionClick(3)}
-                        >
-                            {/* Your Shipping Details fields */}
-                            <label>
-                                Recipient Name:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Mobile Number:
-                                <input type="text" />
-                            </label>
-                        </AccordionSection>
-                        <AccordionSection
-                            title="Shipping Details"
-                            isActive={activeSection === 4}
-                            onClick={() => handleSectionClick(4)}
-                        >
-                            {/* Your Shipping Details fields */}
-                            <label>
-                                Recipient Name:
-                                <input type="text" />
-                            </label>
-                            <label>
-                                Mobile Number:
-                                <input type="text" />
-                            </label>
-                        </AccordionSection>
+                    <section className='navigation-side'>
+                        <ul>
+                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details</li>
+                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details</li>
+                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details</li>
+                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details</li>
+                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details</li>
+                        </ul>
+                    </section>
+                    <section className='details-side'>
+                        <section className='details-component'>
+                            {/* Order Details */}
+                            {activeSection === "Order Details" && (
+                                <div>
+                                    <OrderDetailsStep
+                                        editStatus={"editStatus"}
+                                        formData={formData}
+                                        setFormData={setFormData}
+                                    />
+                                </div>
+                            )}
 
-                        {/* Add more AccordionSection components for other sections */}
+                            {/* Shipping Details */}
+                            {activeSection === "Shipping Details" && (
+                                <div>
+                                    <AddressDetailStep
+                                        formData={formData}
+                                        setFormData={setFormData}
+                                    />
+                                </div>
+                            )}
 
-                        <button type="submit">Submit</button>
-                    </form>
+                            {/* Product Details */}
+                            {activeSection === "Product Details" && (
+                                <div>
+                                    <ProductDetailStep
+                                        formData={formData}
+                                        setFormData={setFormData}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Package Details */}
+                            {activeSection === "Package Details" && (
+                                <div>
+                                    <PackageDetailStep
+                                        formData={formData}
+                                        setFormData={setFormData}
+                                    />
+                                </div>
+                            )}
+
+                            {/* Warehouse Details */}
+                            {activeSection === "Warehouse Details" && (
+                                <div>
+                                    <WareHouseDetailStep
+                                        formData={formData}
+                                        setFormData={setFormData}
+                                    />
+                                </div>
+                            )}
+                        </section>
+                        <button className='btn main-button ms-3 mt-3' onClick={() => handleUpdate()}>Update</button>
+                    </section>
                 </section>
             </section>
             <div onClick={() => setEditOrderSection(false)} className={`backdrop ${EditOrderSection ? 'd-block' : 'd-none'}`}></div>
         </>
-    );
-};
-
-const AccordionSection = ({ title, isActive, onClick, children }) => {
-    return (
-        <div className='step-container'>
-            <div
-                style={{ cursor: 'pointer' }}
-                onClick={onClick}
-            >
-                {title} {isActive ? '▲' : '▼'}
-            </div>
-            {isActive && <div>{children}</div>}
-        </div>
     );
 };
 

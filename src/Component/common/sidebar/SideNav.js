@@ -152,7 +152,7 @@ const SideNav = (props) => {
         { to: "/Reassign-orders", label: "Reassign Orders" },
         { to: "/merge-orders", label: "Merge Orders" },
         { to: "/split-orders", label: "Split Orders" },
-        { to: "/reverse-order", label: "Reverse Order" },
+        { to: "/create-order", label: "Reverse Order" },
       ],
     },
     { to: "/Shipments", label: "Shipments" },
