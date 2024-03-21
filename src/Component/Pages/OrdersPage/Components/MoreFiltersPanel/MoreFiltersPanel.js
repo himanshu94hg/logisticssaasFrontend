@@ -54,9 +54,6 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
 
     const [sourceSelected, setSourceSelected] = useState([]);
 
-
-
-
     const handleSubmit = e => {
         e.preventDefault();
         console.log('Filter submitted:', { startDate, endDate, name, location });

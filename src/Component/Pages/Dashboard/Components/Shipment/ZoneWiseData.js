@@ -7,7 +7,6 @@ const ZoneOrdersChart = () => {
     const [seriesArrayData, setSeriesArrayData] = useState([]);
     const [zoneData, setZoneData] = useState([]);
     const { zoneWiseData } = useSelector(state => state?.dashboardShipmentReducer)
-    console.log(zoneData, "zoneWiseDatazoneWiseData")
 
     useEffect(() => {
         if (zoneWiseData) {

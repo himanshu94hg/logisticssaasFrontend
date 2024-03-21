@@ -3,13 +3,7 @@ import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 
 const ApexChart = () => {
-
   const { orderPrepaidData } = useSelector(state => state?.dashboardOrderReducer)
-
-  console.log(orderPrepaidData, "dashboardOrderReducer")
-
-
-
 
   const [chartData, setChartData] = useState({
     series: [{

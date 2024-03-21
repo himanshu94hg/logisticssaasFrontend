@@ -40,9 +40,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
             axios.get(`https://dev.shipease.in/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
-                    console.log("Response", response);
                 }).catch((error) => {
-                    console.log("Error", error)
                 });
         }
     }, [orderId]);
@@ -54,7 +52,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
             }
         })
             .then((response) => {
-                console.log("Response", response);
                 if (response.data.status === true) {
                     setSingleShip(false);
                     navigation('/Orders');
@@ -71,7 +68,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                 toast.error("Pincode is not serviceable! ")
             });
     };
-    console.log("partner", shipingResponse);
     const handleClose = () => {
         setSingleShip(false); // Close the modal
     };

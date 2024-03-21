@@ -67,7 +67,7 @@ const RateCalculatorPage = () => {
     }, {});
     setErrors(newErrors);
 
-      dispatch({
+    dispatch({
       type: "RATE_CALCULATOR_ACTION",
       payload: formData
     })
@@ -75,31 +75,39 @@ const RateCalculatorPage = () => {
   const handleReset = () => {
     console.log("Resetting form...");
 
-  /*  setLength('');
-    setHeight('');
-    setBreadth('');
-    setVolWeight(0);
-    setInvoiceField(false);
-    setOrderField('false');
-    setOrderId("");
-    setChargedWeight(0);
-    setFormData({
-      shipment_type: "Forward",
-      source_pincode: null,
-      destination_pincode: null,
-      weight: null,
-      volmetric_weight: 0, // assuming you want to reset it to 0 here
-      is_cod: "No",
-    });
-    console.log("Form reset completed.");*/
-}
-  const handleSelect = (e, fieldName) => {
-    const temp = e.target.value
-    setFormData((prevData) => ({
-      ...prevData,
-      [fieldName]: temp,
-    }))
+    /*  setLength('');
+      setHeight('');
+      setBreadth('');
+      setVolWeight(0);
+      setInvoiceField(false);
+      setOrderField('false');
+      setOrderId("");
+      setChargedWeight(0);
+      setFormData({
+        shipment_type: "Forward",
+        source_pincode: null,
+        destination_pincode: null,
+        weight: null,
+        volmetric_weight: 0, // assuming you want to reset it to 0 here
+        is_cod: "No",
+      });
+      console.log("Form reset completed.");*/
   }
+  const handleSelect = (e, fieldName) => {
+    let value = e.target.value;
+    if (fieldName === "shipment_type" && value === "Reverse") {
+      setFormData((prevData) => ({
+        ...prevData,
+        [fieldName]: value,
+        is_cod: "No",
+      }));
+    } else {
+      setFormData((prevData) => ({
+        ...prevData,
+        [fieldName]: value,
+      }));
+    }
+  };
 
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
@@ -150,7 +158,7 @@ const RateCalculatorPage = () => {
   //   }
   // }, [length, breadth, height, formData.is_cod])
 
-  
+
   // useEffect(() => {
   //   const { weight, volmetric_weight } = formData;
   //   if (weight > volmetric_weight) {
@@ -159,7 +167,7 @@ const RateCalculatorPage = () => {
   //     setChargedWeight(volmetric_weight)
   //   }
   // }, [formData.weight, formData.volmetric_weight])
-  
+
   const handleChange = (e) => {
     const scaleDataName = e.target.name;
     if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
@@ -190,7 +198,7 @@ const RateCalculatorPage = () => {
       }
     }
   };
-  
+
   useEffect(() => {
     const volmetricWeight = length * breadth * height / 5000;
     setVolWeight(volmetricWeight);
@@ -204,7 +212,7 @@ const RateCalculatorPage = () => {
       setInvoiceField(false);
     }
   }, [length, breadth, height, formData.is_cod]);
-  
+
   useEffect(() => {
     const { weight, volmetric_weight } = formData;
     if (volmetric_weight !== null) {
@@ -212,7 +220,7 @@ const RateCalculatorPage = () => {
       setChargedWeight(newChargedWeight);
     }
   }, [formData.weight, formData.volmetric_weight]);
-  
+
   const containerStyle = {
     opacity: orderField ? 0.5 : 1,
     pointerEvents: orderField ? 'none' : 'auto',
@@ -273,11 +281,11 @@ const RateCalculatorPage = () => {
                     maxLength={6}
                     onKeyPress={(e) => {
                       if (!/\d/.test(e.key)) {
-                          e.preventDefault();
+                        e.preventDefault();
                       }
-                  }}                  
+                    }}
                   />
-                   {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
+                  {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
                 </label>
                 <label className='col'>
                   Delivery Pincode
@@ -291,9 +299,9 @@ const RateCalculatorPage = () => {
                     maxLength={6}
                     onKeyPress={(e) => {
                       if (!/\d/.test(e.key)) {
-                          e.preventDefault();
+                        e.preventDefault();
                       }
-                  }}
+                    }}
                   />
                   {errors.destination_pincode && <span className="error-text">{errors.destination_pincode}</span>}
                 </label>
@@ -331,9 +339,9 @@ const RateCalculatorPage = () => {
                     placeholder='Enter Length in cm'
                     onKeyPress={(e) => {
                       if (!/\d/.test(e.key)) {
-                          e.preventDefault();
+                        e.preventDefault();
                       }
-                  }}
+                    }}
                   />
                 </label>
 
@@ -348,9 +356,9 @@ const RateCalculatorPage = () => {
                     placeholder='Enter Breadth in cm'
                     onKeyPress={(e) => {
                       if (!/\d/.test(e.key)) {
-                          e.preventDefault();
+                        e.preventDefault();
                       }
-                  }}
+                    }}
                   />
                 </label>
 
@@ -365,41 +373,41 @@ const RateCalculatorPage = () => {
                     placeholder='Enter Height in cm'
                     onKeyPress={(e) => {
                       if (!/\d/.test(e.key)) {
-                          e.preventDefault();
+                        e.preventDefault();
                       }
-                  }}
+                    }}
                   />
                 </label>
               </div>
               <div className="mt-3">
                 <p><strong>Charged Weight:</strong><span>{chargedWeight} Kg</span></p>
-              </div>
-              <div className='mt-3 row'>
-                <label className='col-md-6' >Payment Type
-                  <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")}>
-                    <option value="No">Prepaid</option>
-                    <option value="Yes">COD</option>
-                  </select>
-                </label>
-                {invoiceField && <label className='col-md-6'>
-                  Invoice Amount
-                  <input
-                    className='input-field'
-                    type="number"
-                    name="invoice_amount"
-                    value={formData.invoice_amount}
-                    onChange={(e) => handleChange(e)}
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
+              </div>             
+                <div className='mt-3 row'>
+                  <label className='col-md-6'>Payment Type
+                    <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")} value={formData.is_cod}>
+                      <option value="No">Prepaid</option>
+                      {formData.shipment_type !== "Reverse" && <option value="Yes">COD</option>}
+                    </select>
+                  </label>
+                  {invoiceField && <label className='col-md-6'>
+                    Invoice Amount
+                    <input
+                      className='input-field'
+                      type="number"
+                      name="invoice_amount"
+                      value={formData.invoice_amount}
+                      onChange={(e) => handleChange(e)}
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
                           e.preventDefault();
-                      }
-                  }}
-                  />
-                </label>}
-              </div>
-            </div>
+                        }
+                      }}
+                    />
+                  </label>}
+                </div>
+             </div>
             <div className='d-flex w-100 justify-content-end mt-4'>
-            <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
+              <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
               <button onClick={() => handleSubmit()} type='button' className="ms-2 btn main-button">Calculate</button>
             </div>
           </section>

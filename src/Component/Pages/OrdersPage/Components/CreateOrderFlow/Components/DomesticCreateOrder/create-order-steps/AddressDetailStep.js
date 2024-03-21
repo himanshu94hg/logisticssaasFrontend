@@ -1,15 +1,22 @@
 import axios from 'axios';
 import 'react-toggle/style.css';
 import { toast } from 'react-toastify';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect  } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
 export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const [isChecked, setIsChecked] = useState(true);
+    const [isChecked, setIsChecked] = useState(() => {
+        const savedCheckboxState = localStorage.getItem('isChecked');
+        return savedCheckboxState ? JSON.parse(savedCheckboxState) : true;
+    });
     const [BillingDetails, setBillingDetails] = useState(true);
 
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        localStorage.setItem('isChecked', JSON.stringify(isChecked));
+    }, [isChecked]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -142,7 +149,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }));
     };
 
-    const handleCheckboxChange = () => {
+    /*const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
         if (updatedIsChecked) {
@@ -170,7 +177,30 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 }
             }));
         }
+    };*/
+    const handleCheckboxChange = () => {
+        const updatedIsChecked = !isChecked;
+        setIsChecked(updatedIsChecked);
+        if (!updatedIsChecked) {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    customer_name: '',
+                    contact_code: '',
+                    mobile_number: '',
+                    email: '',
+                    company_name: '',
+                    address: '',
+                    landmark: '',
+                    pincode: '',
+                    city: '',
+                    state: '',
+                    country: ''
+                }
+            }));
+        }
     };
+
 
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
@@ -422,6 +452,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             type="checkbox"
                             checked={isChecked}
                             onChange={handleCheckboxChange}
+                            bydefaultChecked = {true}
                         />
                         <label>Billing Address is the same as Shipping address</label>
                     </div>
