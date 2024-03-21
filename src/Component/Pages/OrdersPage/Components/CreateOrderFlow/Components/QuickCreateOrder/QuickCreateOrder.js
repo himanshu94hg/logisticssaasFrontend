@@ -168,12 +168,8 @@ const QuickOrderForm = ({ onNext, formData, setFormData }) => {
                             </select>
                         </label>
                     </div>
-
-
-
                     <div className='row gap-2'>
                         {/* Payment Type */}
-
                         <div className='col d-flex gap-4'>
                             <label style={{ height: '54px' }}>
                                 MPS
