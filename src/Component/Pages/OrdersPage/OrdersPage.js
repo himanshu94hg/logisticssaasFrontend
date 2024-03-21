@@ -9,26 +9,21 @@ import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
 import AllOrders from './Components/AllOrders/AllOrders';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation } from 'react-router';
 import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
 
 
 const OrdersPage = () => {
     const [activeTab, setActiveTab] = useState("Processing");
-
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
-
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
     const [EditOrderSection, setEditOrderSection] = useState(false)
-
-
-    const location = useLocation()
-
-    // console.log(location,"locationlocationlocation")
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -42,13 +37,12 @@ const OrdersPage = () => {
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}`
-    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
-    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
-    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns`
-    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
-
+    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
+    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
 
     useEffect(() => {
         let apiUrl = '';
@@ -76,7 +70,6 @@ const OrdersPage = () => {
         }
 
         if (apiUrl) {
-            // Add search parameter if searchValue is not empty
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
@@ -87,7 +80,8 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
-                    console.log('Data is data:', response.data.results);
+                    console.log('This is a dummy data api', response.data.count);
+                    setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
@@ -100,7 +94,6 @@ const OrdersPage = () => {
         setSearchValue(value)
     }
 
-    let totalItems = 500;
 
     return (
         <>
@@ -141,7 +134,13 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
                     <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
-                <Pagination totalItems={totalItems} />
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
