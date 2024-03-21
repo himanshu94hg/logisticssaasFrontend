@@ -31,7 +31,6 @@ const ReadyToShip = ({ orders, handleSearch }) => {
     const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    let authToken = Cookies.get("access_token")
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const handleExport = () => {
