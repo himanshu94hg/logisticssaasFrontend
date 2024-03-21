@@ -5,16 +5,7 @@ import { useSelector } from 'react-redux';
 const WeightOrdersChart = () => {
     const [chartWidth, setChartWidth] = useState(380);
     const [resOffsetX, setresOffsetX] = useState(180)
-
     const {weightProfile}=useSelector(state=>state?.dashboardShipmentReducer)
-
-    console.log(weightProfile,"weightProfileweightProfile")
-
-    // useEffect(()=>{
-
-    //     const data = Object.entries(weightProfile)?.map(([key, value], index) => ({ id: index, key, value }));
-           
-    // },[weightProfile])
 
 
     useEffect(() => {
