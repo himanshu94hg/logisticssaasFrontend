@@ -22,8 +22,8 @@ import { getDashboardCouriersWatcher } from "./action/dashboard/courier";
 import { getDashboardRtoWatcher } from "./action/dashboard/rto";
 import { getDashboardNdrWatcher } from "./action/dashboard/ndr";
 import { getWeightRecoWatcher } from "./action/weightReco";
+import { getmoreorderWatcher } from "./action/moreorder";
 import { ordersTabWatcher } from "./action/orders/editOrder";
-
 
 export default function* rootSaga() {
   yield all([
@@ -50,6 +50,7 @@ export default function* rootSaga() {
    getDashboardRtoWatcher(),
    getDashboardCouriersWatcher(),
    getWeightRecoWatcher(),
+   getmoreorderWatcher(),
    ordersTabWatcher()
   ]);
 }

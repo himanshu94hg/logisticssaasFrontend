@@ -71,6 +71,7 @@ const OrdersChart = () => {
     );
 };
 
+
 function OrderDetails() {
     return (
         <div className="box-shadow shadow-sm p10">
