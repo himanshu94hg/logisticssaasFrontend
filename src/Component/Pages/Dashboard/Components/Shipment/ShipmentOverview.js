@@ -1,42 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import Table from "react-bootstrap/Table";
 
 const ShipmentOverview = () => {
-    const [courierPartner] = useState([
-        {
-            courier_partner: "Courier Partner 1",
-            total_awb_count: 100,
-            average_tat: 12,
-            average_shipment: 25,
-            total_rto: 5,
-            total_ndr: 5,
-        },
-        {
-            courier_partner: "Courier Partner 1",
-            total_awb_count: 100,
-            average_tat: 12,
-            average_shipment: 25,
-            total_rto: 5,
-            total_ndr: 5,
-        },
-        {
-            courier_partner: "Courier Partner 1",
-            total_awb_count: 100,
-            average_tat: 12,
-            average_shipment: 25,
-            total_rto: 5,
-            total_ndr: 5,
-        },
-        {
-            courier_partner: "Courier Partner 1",
-            total_awb_count: 100,
-            average_tat: 12,
-            average_shipment: 25,
-            total_rto: 5,
-            total_ndr: 5,
-        },
+   const { overviewCourier  } = useSelector(state => state?.dashboardShipmentReducer)
+   const [courierPartner, setCourierPartner] = useState([]);
+    
 
-    ]);
+   useEffect(() => {
+    if (overviewCourier) {
+        setCourierPartner(overviewCourier);
+    }
+}, [overviewCourier]);
+
 
     return (
         <>
@@ -57,14 +33,14 @@ const ShipmentOverview = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {courierPartner.map((partner, index) => (
+                            { courierPartner.map((Partner ,index) => (
                                 <tr key={index}>
-                                    <td style={{ maxWidth: '2rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{partner.courier_partner}</td>
-                                    <td>{partner.total_awb_count}</td>
-                                    <td>{partner.average_tat}</td>
-                                    <td>{partner.average_shipment}</td>
-                                    <td>{partner.total_rto}</td>
-                                    <td>{partner.total_ndr}</td>
+                                    <td style={{ maxWidth: '2rem', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{Partner.courier_partner}</td>
+                                    <td>{Partner.allocation_number}</td>
+                                    <td>{Partner.average_tat}</td>
+                                    <td>{Partner.average_shipment}</td>
+                                    <td>{Partner.total_rto}</td>
+                                    <td>{Partner.total_ndr}</td>
 
                                 </tr>
                             ))}
