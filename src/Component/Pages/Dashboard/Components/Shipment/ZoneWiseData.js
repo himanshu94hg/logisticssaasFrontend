@@ -41,7 +41,9 @@ const ZoneOrdersChart = () => {
 
     const seriesData = seriesArrayData
     const total = seriesData.reduce((acc, curr) => acc + curr, 0);
-    const percentages = seriesData.map(val => ((val / total) * 100).toFixed(2) + '%');
+    const percentages = total !== 0
+        ? seriesData.map(val => ((val / total) * 100).toFixed(2) + '%')
+        : seriesData.map(() => '0%');
 
     const chartData = {
         series: seriesData,
