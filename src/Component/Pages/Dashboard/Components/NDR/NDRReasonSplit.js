@@ -1,7 +1,13 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
 const NDRPieChart = () => {
+
+    const ndrSplit =useSelector(state=>state?.dashboardNdrReducer?.splitStatus)
+    console.log("NDR RESPONSE Data",ndrSplit)
+    // const seriesData = ndrSplit?.map(item => item?.total); 
+    // const reasonsLabels = ndrSplit?.map(item => `Reason ${item?.ndr_attempt}`);
     const seriesData = [25, 15, 44, 55, 41, 17]; // Example data for NDR reasons percentage
     const reasonsLabels = ["Reason 1", "Reason 2", "Reason 3", "Reason 4", "Reason 5", "Reason 6"]; // Example NDR reasons labels
 

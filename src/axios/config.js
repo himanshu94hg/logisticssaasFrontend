@@ -92,6 +92,10 @@ export const API_URL = {
   GET_DASHBOARD_NDR_NDR_STATUS: "/orders-api/dashboard/ndr/ndr-status/",
   GET_DASHBOARD_NDR_SUCCESS_BY_COURIER: "/orders-api/dashboard/ndr/success-by-courier/",
   GET_DASHBOARD_NDR_SUCCESS_BY_ZONE: "/orders-api/dashboard/ndr/success-by-zone/",
+  GET_DASHBOARD_NDR_DELIVERY_ATTEMPT: "/orders-api/dashboard/ndr/ndr-to-delivery-attempt/",
+  GET_DASHBOARD_NDR_FUNNEL_ATTEMPT: "/orders-api/dashboard/ndr/ndr-funnel/",
+  GET_DASHBOARD_NDR_RESPONSE_ATTEMPT: "/orders-api/dashboard/ndr/ndr-response/",
+  GET_DASHBOARD_NDR_SPLIT_ATTEMPT: "/orders-api/dashboard/ndr/ndr-reason-split/",
 
   //DASHBOARD RTO API'S
   GET_DASHBOARD_RTO_TOP_RTO: "/orders-api/dashboard/rto/top-rto/",

@@ -1,20 +1,26 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
 
 const ResponseComparisonChart = () => {
+  const ndrResponse =useSelector(state=>state?.dashboardNdrReducer?.responseStatus)
+  const ivrData = ndrResponse?.map(data => data?.ivr);
+  const whatsappData = ndrResponse?.map(data => data?.whatsapp);
+  const manualData = ndrResponse?.map(data => data?.manual);
+
   const series = [
     {
       name: 'IVR',
-      data: [45, 50, 55, 60, 65] // Weekly B2C orders data
+      data: ivrData ?? []
     },
     {
       name: 'WhatsApp',
-      data: [20, 25, 30, 35, 40] // Weekly Hyperlocal orders data
+      data: whatsappData ?? []
     },
     {
       name: 'Manual',
-      data: [10, 15, 20, 25, 30] // Weekly International orders data
+      data: manualData ?? []
     }
   ];
 
