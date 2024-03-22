@@ -8,13 +8,16 @@ import InvoicesTab from './Components/InvoicesTab/InvoicesTab';
 import PassbookTab from './Components/PassbookTab/PassbookTab';
 import { useDispatch, useSelector } from 'react-redux';
 import './BillingPage.css';
+import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("Shipping Charges");
     const [selectedOption, setSelectedOption] = useState("Domestic");
-
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
     useEffect(() => {
         const fetchData = async () => {
             switch (activeTab) {
@@ -77,6 +80,14 @@ const BillingPage = () => {
 
             {/* Credit Receipt */}
             {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} />}
+
+            <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
         </>
     );
 }

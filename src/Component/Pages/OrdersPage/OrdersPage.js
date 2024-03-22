@@ -14,6 +14,7 @@ import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
 
 
+
 const OrdersPage = () => {
     const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState("Processing");
@@ -39,16 +40,18 @@ const OrdersPage = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
-
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}`
-    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
-    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
-    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns`
-    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
+    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+
+
+    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
+    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
 
     useEffect(() => {
         let apiUrl = '';
@@ -79,6 +82,8 @@ const OrdersPage = () => {
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
+            // dispatch({type:"ORDERS_GET_ACTION"})
+            console.log(apiUrl, "object I JHJHK")
 
             axios.get(apiUrl, {
                 headers: {
@@ -86,13 +91,15 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
+                    console.log('This is a dummy data api', response.data.count);
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
+                    console.error('Error:', error);
                 });
         }
-    }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken,orderCancelled,orderdelete,orderClone, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)

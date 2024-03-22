@@ -84,6 +84,18 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
     const chargedWeight = formData?.dimension_details.weight;
 
+    console.log(vol_data,"vol_datavol_data")
+
+    useEffect(()=>{
+        setFormData(prevData => ({
+            ...prevData,
+            dimension_details: {
+                ...prevData.dimension_details,
+                vol_weight: vol_data.toFixed(2)
+            }
+        }));
+    },[vol_data])
+
     useEffect(() => {
         if (vol_data && chargedWeight) {
             if (vol_data >= chargedWeight) {

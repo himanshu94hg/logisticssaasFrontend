@@ -5,6 +5,7 @@ import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import SettledReco from './Components/SettledReco/SettledReco';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
 import { useDispatch } from 'react-redux';
+import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 
 
 const WeightRecoPage = () => {
@@ -12,7 +13,9 @@ const WeightRecoPage = () => {
     const [activeTab, setActiveTab] = useState("Weight Reconciliation");
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
-
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
         setIsOpen(false);
@@ -46,6 +49,13 @@ const WeightRecoPage = () => {
                 <OnHoldReco />
             </div>
 
+            <Pagination
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
 
 
         </>

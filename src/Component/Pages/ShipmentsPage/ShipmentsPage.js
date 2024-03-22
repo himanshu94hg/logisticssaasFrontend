@@ -5,6 +5,8 @@ import RTOShipment from './Components/RTOShipment/RTOShipment';
 import ActionRequired from './Components/ActionRequired/ActionRequired';
 import ActionRequested from './Components/ActionRequested/ActionRequested';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
+import axios from "axios";
+import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 
 
 const ShipmentsPage = () => {
@@ -12,6 +14,9 @@ const ShipmentsPage = () => {
     const dispatch = useDispatch()
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -47,7 +52,7 @@ const ShipmentsPage = () => {
 
     const { shipmentCard } = useSelector(state => state?.shipmentSectionReducer)
 
-    console.log(activeTab,"Active Tab")
+    console.log(activeTab, "Active Tab")
 
     return (
         <>
@@ -68,6 +73,14 @@ const ShipmentsPage = () => {
             <div className={`${activeTab === "Delivered" ? "d-block" : "d-none"}`}>
                 <DeliveredShipment shipmentCard={shipmentCard} />
             </div>
+
+            <Pagination
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
 
         </>
     )

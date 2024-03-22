@@ -15,9 +15,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
 
+    console.log(location, "this is location?.state?.orderType")
 
     useEffect(() => {
-        if (location?.state?.orderType != "normalOrder" && location.pathname==="/create-order" || editStatus!="editStatus" && location.pathname==="/Orders" ) {
+        if (location?.state?.orderType != "normalOrder" && location.pathname === "/create-order" || editStatus != "editStatus" && location.pathname === "/Orders") {
             setOrderStatus(true)
             setFormData({
                 ...formData,
@@ -28,7 +29,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                 }
             });
         }
-        
+
     }, [location, editStatus])
 
     const validateFormData = () => {

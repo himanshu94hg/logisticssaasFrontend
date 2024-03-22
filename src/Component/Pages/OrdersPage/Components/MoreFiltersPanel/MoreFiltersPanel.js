@@ -14,10 +14,16 @@ const SourceOptions = [
 ];
 
 const OrderStatus = [
-    { label: "Pending", value: "" },
-    { label: "Shipped", value: "" },
-    { label: "Ready to Ship", value: "" },
-    // Add more options as needed
+    { label: "Shipped", value: "shipped" },
+    { label: "cancelled", value: "cancelled" },
+    { label: "Delivered", value: "delivered" },
+    { label: "In Transit", value: "in_transit" },
+    { label: "Out of Delivery", value: "out_for_delivery" },
+    { label: "Pending", value: "pending" },
+    { label: "Lost", value: "lost" },
+    { label: "Manifested", value: "manifested" },
+    { label: "Pickup Scheduled", value: "pickup_scheduled" },
+    { label: "RTO Initiated", value: "rto_initiated" },
 ];
 
 const paymentOptions = [
@@ -57,9 +63,38 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         e.preventDefault();
     };
 
-    const handleChange = (e) => {
-        console.log(e, "this is a dummay data")
-    }
+    const handleChange = (name, value) => {
+        if (name === "start_date" || name === "end_date") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+        if (name === "status") {
+            let temp_data = ''
+            let temp = value.map((item) => {
+                temp_data += item.value + ","
+            })
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        }
+        if (name === "order_source") {
+            let temp_data = ''
+            let temp = value.map((item) => {
+                temp_data += item.value + ","
+            })
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        }
+
+    };
+    // console.log(temp_data, "fieldNamefieldNamefieldName")
+
+
 
     const handleReset = () => {
         setStartDate(null);
@@ -69,10 +104,23 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     };
 
     const [filterParams, setFilterParams] = useState({
-        start_date:"",
-        end_date:"",
-        
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: ""
     })
+
+    console.log(filterParams, "fieldNamefieldNamefieldName")
+
+
+    //     channel =
+    //     product =
+    //     store_name =
+    //     save_filter = True / False
+    //     filter_name =
 
     return (
         <>
@@ -95,7 +143,8 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
-                                            onChange={(e) => handleChange(e, "start_date")}
+                                            selected={filterParams.start_date}
+                                            onChange={(e) => handleChange("start_date", e)}
                                         />
                                     </div>
                                 </label>
@@ -106,8 +155,8 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
-                                            onChange={(e) => handleChange(e, "end_date")}
-
+                                            selected={filterParams.end_date}
+                                            onChange={(e) => handleChange("end_date", e)}
                                         />
                                     </div>
                                 </label>
@@ -118,7 +167,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         options={OrderStatus}
                                         isMulti
                                         isSearchable
-                                        onChange={(e) => handleChange(e, "status")}
+                                        onChange={(e) => handleChange("status", e)}
 
                                     />
                                 </label>
@@ -128,7 +177,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                     <Select
                                         options={SourceOptions}
                                         // defaultValue={SourceOptions}
-                                        onChange={(e) => handleChange(e, "order_source")}
+                                        onChange={(e) => handleChange("order_source",e)}
                                         isMulti
                                         isSearchable
 
@@ -164,7 +213,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Order Tag
                                     <Select
                                         options={Ordertags}
-                                        onChange={(e) => handleChange(e, "courier_partner")}
+                                        // onChange={(e) => handleChange(e, "courier_partner")}
                                         isMulti
                                         isSearchable
                                     />
@@ -186,7 +235,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         className='input-field'
                                         type="text"
                                         placeholder='Enter SKU'
-                                        // onChange={(e) => handleChange(e, "order_id")}
+                                    // onChange={(e) => handleChange(e, "order_id")}
                                     />
                                 </label>
                             </div>

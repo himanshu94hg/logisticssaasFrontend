@@ -97,8 +97,8 @@ function App() {
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
             <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />
-            <Route path={mergeOrdersPattern} element={<MoreOnOrders />} />
-            <Route path={splitOrdersPattern} element={<MoreOnOrders />} />
+            {/* <Route path={mergeOrdersPattern} element={<MoreOnOrders />} />
+            <Route path={splitOrdersPattern} element={<MoreOnOrders />} /> */}
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />
             <Route path={dailyPrefrencesPattern} element={<DailyPrefrences />} />
