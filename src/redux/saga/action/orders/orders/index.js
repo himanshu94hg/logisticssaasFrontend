@@ -8,48 +8,48 @@ import Cookies from "js-cookie";
 
 
 const sellerData = Cookies.get("user_id")
-async function orderListDataApi(data) {
+// async function orderListDataApi(data) {
 
-    console.log(data,"this is my unique data")
+//     console.log(data,"this is my unique data")
 
-    let listData = axios.request({
-        method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_ORDERS_API}?seller_id=${sellerData}${data}`,
-        data: data
-    });
-    return listData
-}
-function* orderListDataAction(action) {
-    let { payload } = action;
-    try {
-        let response = yield call(orderListDataApi, payload);
-        if (response.status === 200) {
-            yield put({ type: ORDERS_GET_ACTION, payload: response?.data })
-        }
-
-    } catch (error) {
-    }
-}
-
-// async function fetchOrderListDataApi(data) {
 //     let listData = axios.request({
 //         method: "GET",
-//         url: `${BASE_URL_ORDER}${API_URL.ORDER_DETAILS_API}${data}/`,
+//         url: `${BASE_URL_ORDER}${API_URL.GET_ORDERS_API}?seller_id=${sellerData}${data}`,
 //         data: data
 //     });
 //     return listData
 // }
-// function* fetchOrderListDataAction(action) {
+// function* orderListDataAction(action) {
 //     let { payload } = action;
 //     try {
-//         let response = yield call(fetchOrderListDataApi, payload);
+//         let response = yield call(orderListDataApi, payload);
 //         if (response.status === 200) {
-//             yield put({ type: GET_ORDERS_DETAILS_DATA, payload: response?.data })
+//             yield put({ type: ORDERS_GET_ACTION, payload: response?.data })
 //         }
 
 //     } catch (error) {
 //     }
 // }
+
+async function fetchOrderListDataApi(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.ORDER_DETAILS_API}${data}/`,
+        data: data
+    });
+    return listData
+}
+function* fetchOrderListDataAction(action) {
+    let { payload } = action;
+    try {
+        let response = yield call(fetchOrderListDataApi, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_ORDERS_DETAILS_DATA, payload: response?.data })
+        }
+
+    } catch (error) {
+    }
+}
 
 async function getOrderDataAPI(data) {
     let listData = axios.request({
@@ -60,6 +60,7 @@ async function getOrderDataAPI(data) {
     return listData
 }
 function* fetchOrderDataAction(action) {
+    console.log(action,"this is a order page data")
     let { payload } = action;
     try {
         let response = yield call(getOrderDataAPI, payload);
@@ -91,13 +92,13 @@ function* updateOrderAction(action) {
         }
 
     } catch (error) {
-        console.log(error?.response?.data?.detail, "this is oder id data")
+        console.log(error, "this is oder id data")
         toast.error(`Please enter valid order id!`)
     }
 }
 
 export function* ordersTabWatcher() {
-    yield takeLatest(ORDERS_GET_ACTION, orderListDataAction);
+    // yield takeLatest(ORDERS_GET_ACTION, orderListDataAction);
     // yield takeLatest(ORDERS_DETAILS_GET_ACTION, fetchOrderListDataAction);
     yield takeLatest(ORDERS_DETAILS_GET_ACTION, fetchOrderDataAction);
     yield takeLatest(ORDERS_DETAILS_UPDATE_ACTION, updateOrderAction);
