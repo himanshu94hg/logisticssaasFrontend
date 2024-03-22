@@ -8,12 +8,21 @@ import { toast } from 'react-toastify';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, myData }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
+
+    useEffect(() => {
+        if (myData) {
+            setWarehouses(myData)
+        }
+
+    }, [myData])
+
+    console.log(myData,"myDatamyData")
 
     useEffect(() => {
         const fetchWarehouses = async () => {

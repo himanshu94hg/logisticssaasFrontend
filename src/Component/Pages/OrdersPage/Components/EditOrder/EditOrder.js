@@ -10,12 +10,20 @@ import { WareHouseDetailStep } from '../CreateOrderFlow/Components/DomesticCreat
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
     const [activeSection, setActiveSection] = useState("Order Details");
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
+    const [data, setData] = useState([])
+    const authToken = Cookies.get("access_token");
+    const sellerData = Cookies.get("user_id");
+
+
     const [formData, setFormData] = useState({
         order_details: {
             customer_order_number: '',
@@ -106,6 +114,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         })
     };
 
+
+    console.log(orderId, "this is a action data")
     useEffect(() => {
         if (orderId) {
             dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
@@ -188,10 +198,24 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     }, [orderDetailsData])
 
 
-    const dateString = 'Wed Mar 20 2024 16:59:06 GMT+0530 (India Standard Time)';
-    const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ') + " (India Standard Time)";
+    useEffect(() => {
+        const fetchWarehouses = async () => {
+            // setLoading(true);
+            try {
+                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+                setData(response.data);
+            } catch (error) {
+                // setLoading(false);
+                toast.error("Failed to fetch warehouses. Please try again later")
+            }
+        };
 
-
+        fetchWarehouses();
+    }, [orderId])
 
 
     return (
@@ -266,6 +290,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         wareHouseName={wareHouseName}
                                         formData={formData}
                                         setFormData={setFormData}
+                                        myData={data}
                                     />
                                 </div>
                             )}
