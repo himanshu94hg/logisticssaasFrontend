@@ -48,13 +48,21 @@ const OrdersChart = () => {
                 shadeTo: 'light',
                 shadeIntensity: 0.6
             }
-        }
+        },
+        responsive: [{
+            breakpoint: 1800,
+            options: {
+                chart: {
+                    width: 300 // Adjust the width for smaller screens
+                }
+            }
+        }]
     };
 
     return (
         <div>
             <div id="chart">
-                <ReactApexChart options={options} series={seriesData} type="polarArea" width={380} />
+                <ReactApexChart options={options} series={seriesData} type="polarArea" />
             </div>
         </div>
     );
