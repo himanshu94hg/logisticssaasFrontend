@@ -13,6 +13,7 @@ const NDRFunnel = () => {
     setActiveTab(tabId);
   };
 
+  
   return (
     <div className="box-shadow shadow-sm p10 ndr-funnel">
       <h4 className='title'>NDR Funnel</h4>
