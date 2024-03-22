@@ -19,10 +19,11 @@ import customImg from "../../../../../assets/image/integration/Manual.png"
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import { useDispatch } from 'react-redux';
 
 
 const ReadyToShip = ({ orders, handleSearch }) => {
-
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -350,7 +351,7 @@ const ReadyToShip = ({ orders, handleSearch }) => {
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             <li>Reassign</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>

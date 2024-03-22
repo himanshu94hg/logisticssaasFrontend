@@ -1,4 +1,4 @@
-import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl,billingDummyBaseUrl } from "../config";
+import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl, billingDummyBaseUrl } from "../config";
 
 
 export const BASE_URL_CORE = coreBaseUrl;
@@ -33,15 +33,21 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_PARTNER: "/core-api/features/courier-category/",
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
-  ORDER_DETAILS_API:"/orders-api/orders/order-complete-detail/",
+  ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
+
+  //ORDERS API
+  GET_ORDERS_API: "/orders-api/orders/",
+  CANCEL_ORDERS_API: "/orders-api/orders/cancel-order/",
+  DELETE_ORDERS_API: "/orders-api/orders/order-complete-detail/",
+  CLONE_ORDERS_API: "/orders-api/orders/clone-order/",
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
-  GET_CONFIGURATION_URL:"/core-api/seller/general-configuration/",
+  GET_CONFIGURATION_URL: "/core-api/seller/general-configuration/",
 
   //MOREONORDER REASSIGN
-  GET_REASSIGN_URL:"/core-api/shipping/ship-rate-card-reassign/",
-  GET_REASSIGN_SHIP_URL:"/core-api/shipping/reassign-order/",
+  GET_REASSIGN_URL: "/core-api/shipping/ship-rate-card-reassign/",
+  GET_REASSIGN_SHIP_URL: "/core-api/shipping/reassign-order/",
 
 
   //DASHBOARD OVERVIEW API'S 

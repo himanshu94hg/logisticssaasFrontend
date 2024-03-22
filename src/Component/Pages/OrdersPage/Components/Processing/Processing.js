@@ -18,9 +18,10 @@ import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import { useDispatch } from 'react-redux';
 
-const Processing = ({ orders, handleSearch, setEditOrderSection ,setOrderId}) => {
-
+const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -251,15 +252,16 @@ const Processing = ({ orders, handleSearch, setEditOrderSection ,setOrderId}) =>
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={()=>openEditingSection(row?.id)}>Edit Order</li>
+                                                            <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
                                                             <li>Mark As Verified</li>
-                                                            <li>Clone Order</li>
+                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION",payload:row?.id })}>Delete Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>

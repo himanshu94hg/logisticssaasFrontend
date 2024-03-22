@@ -11,6 +11,8 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const OrdersPage = () => {
@@ -33,9 +35,12 @@ const OrdersPage = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
-
+    const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
+
+    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -73,6 +78,8 @@ const OrdersPage = () => {
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
+            // dispatch({type:"ORDERS_GET_ACTION"})
+            console.log(apiUrl, "object I JHJHK")
 
             axios.get(apiUrl, {
                 headers: {
@@ -80,13 +87,15 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
+                    console.log('This is a dummy data api', response.data.count);
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
+                    console.error('Error:', error);
                 });
         }
-    }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken,orderCancelled,orderdelete,orderClone, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)

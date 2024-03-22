@@ -5,6 +5,7 @@ import ScheduledReportsMIS from './Components/ScheduledReportsMIS/ScheduledRepor
 import ActivityLogsMIS from './Components/ActivityLogsMIS/ActivityLogsMIS';
 import DownloadMIS from './Components/DownloadMIS/DownloadMIS';
 import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
+import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 
 
 const MISPage = () => {
@@ -12,6 +13,9 @@ const MISPage = () => {
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -44,6 +48,14 @@ const MISPage = () => {
             <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
                 <DownloadMIS />
             </div>
+
+            <Pagination
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </>
     )
 }
