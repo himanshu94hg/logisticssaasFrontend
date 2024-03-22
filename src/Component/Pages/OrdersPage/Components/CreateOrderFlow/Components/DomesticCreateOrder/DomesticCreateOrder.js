@@ -93,6 +93,7 @@ const DomesticCreateOrder = () => {
             }
         ],
     })
+    console.log(formData,"vol_datavol_data")
 
     useEffect(() => {
         const updateProgressBarWidth = () => {
