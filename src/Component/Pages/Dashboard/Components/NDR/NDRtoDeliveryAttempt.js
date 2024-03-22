@@ -9,10 +9,10 @@ const ApexChart = () => {
                 type: 'donut',
             },
             responsive: [{
-                breakpoint: 480,
+                breakpoint: 1800,
                 options: {
                     chart: {
-                        width: 200
+                        width: 300
                     },
                     legend: {
                         position: 'bottom'
