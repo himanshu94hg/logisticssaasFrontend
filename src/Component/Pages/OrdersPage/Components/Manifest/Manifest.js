@@ -47,7 +47,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const Manifest = ({ orders, handleSearch }) => {
+const Manifest = ({ orders, handleSearch, setBulkActionShow }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);

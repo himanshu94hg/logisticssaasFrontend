@@ -27,7 +27,7 @@ const InfoMissing = () => {
     );
 }
 
-const Unprocessable = ({ orders, handleSearch }) => {
+const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -41,8 +41,8 @@ const Unprocessable = ({ orders, handleSearch }) => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-              "type": "Unprocessable",
-              "subtype": ""
+                "type": "Unprocessable",
+                "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
             "courier": "",
@@ -65,7 +65,7 @@ const Unprocessable = ({ orders, handleSearch }) => {
             "rto_status": false,
             "global_type": "",
             "payment_type": ""
-          };
+        };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -84,8 +84,10 @@ const Unprocessable = ({ orders, handleSearch }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -95,8 +97,10 @@ const Unprocessable = ({ orders, handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+            setBulkActionShow(false)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"

@@ -12,6 +12,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 
 
@@ -27,7 +28,8 @@ const OrdersPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
     const [EditOrderSection, setEditOrderSection] = useState(false)
-    
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+
     // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
     //const location = useLocation()
@@ -43,7 +45,7 @@ const OrdersPage = () => {
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
 
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -99,7 +101,7 @@ const OrdersPage = () => {
                     console.error('Error:', error);
                 });
         }
-    }, [activeTab, authToken,orderCancelled,orderdelete,orderClone, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken, orderCancelled, orderdelete, orderClone, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
@@ -118,17 +120,18 @@ const OrdersPage = () => {
             <div className='orders-section-tabs'>
                 {/* All Orders */}
                 <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                    <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <AllOrders setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
 
                 {/* Unprocessable */}
                 <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                    <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <Unprocessable setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
 
                 {/* Processing */}
                 <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
                     <Processing
+                        setBulkActionShow={setBulkActionShow}
                         activeTab={activeTab} orders={orders}
                         handleSearch={handleSearch}
                         setEditOrderSection={setEditOrderSection}
@@ -138,17 +141,17 @@ const OrdersPage = () => {
 
                 {/* ReadyToShip */}
                 <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                    <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <ReadyToShip setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
 
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                    <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <Manifest setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
 
                 {/* Returns */}
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                    <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <ReturnOrders setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
                 <Pagination
                     totalItems={totalItems}
@@ -157,8 +160,11 @@ const OrdersPage = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
+                {BulkActionShow && (
+                    <BulkActionsComponent />
+                )
+                }
             </div>
-
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
 
         </>

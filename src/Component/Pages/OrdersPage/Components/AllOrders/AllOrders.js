@@ -18,7 +18,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
-const AllOrders = ({ orders, handleSearch }) => {
+const AllOrders = ({ orders, handleSearch, setBulkActionShow }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -32,8 +32,8 @@ const AllOrders = ({ orders, handleSearch }) => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-              "type": "",
-              "subtype": ""
+                "type": "",
+                "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
             "courier": "",
@@ -56,7 +56,7 @@ const AllOrders = ({ orders, handleSearch }) => {
             "rto_status": "",
             "global_type": "",
             "payment_type": ""
-          };
+        };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -75,8 +75,10 @@ const AllOrders = ({ orders, handleSearch }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -86,8 +88,10 @@ const AllOrders = ({ orders, handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+            setBulkActionShow(false)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -379,7 +383,7 @@ const AllOrders = ({ orders, handleSearch }) => {
 
                 </div>
             </section>
-            
+
         </>
     );
 };

@@ -20,7 +20,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
-const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) => {
+const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -36,8 +36,8 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-              "type": "Processing",
-              "subtype": ""
+                "type": "Processing",
+                "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
             "courier": "",
@@ -60,7 +60,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
             "rto_status": false,
             "global_type": "",
             "payment_type": ""
-          };
+        };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -78,8 +78,10 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -95,6 +97,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
@@ -303,10 +306,10 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
                                                             <li>Mark As Verified</li>
-                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
+                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
                                                             <li><hr /></li>
-                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
-                                                            <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION",payload:row?.id })}>Delete Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
