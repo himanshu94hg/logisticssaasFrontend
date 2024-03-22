@@ -396,7 +396,7 @@ const ReadyToShip = ({ orders, handleSearch }) => {
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             <li>Reassign</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
