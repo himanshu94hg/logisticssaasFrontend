@@ -27,8 +27,8 @@ const ApexChart = () => {
 
     useEffect(() => {
         if (ndrDelivery) {
-            const seriesData = ndrDelivery.map(item => item.total);
-            const labelsData = ndrDelivery.map(item => `Attempt ${item.ndr_attempt}`);
+            const seriesData = ndrDelivery.map(item => item.total) || [];
+            const labelsData = ndrDelivery.map(item => `Attempt ${item.ndr_attempt}`) || [];
             setChartData(prevState => ({
                 ...prevState,
                 series: seriesData,

@@ -5,7 +5,6 @@ import './NDRFunnel.css'; // Import CSS file for styling
 const NDRFunnel = () => {
   const ndrFunnel = useSelector(state => state?.dashboardNdrReducer?.funnelStatus);
 
-  // Get the keys of ndrFunnel object
   const funnelKeys = Object.keys(ndrFunnel || {});
   console.log("Funnel Data", funnelKeys);
   const [activeTab, setActiveTab] = useState(funnelKeys.length > 0 ? funnelKeys[0] : null);
@@ -18,10 +17,10 @@ const NDRFunnel = () => {
     <div className="box-shadow shadow-sm p10 ndr-funnel">
       <h4 className='title'>NDR Funnel</h4>
       <ul className="nav nav-tabs mb-5">
-        {funnelKeys.map(tabId => (
+        {funnelKeys.map((tabId, index) => (
           <li className="nav-item" key={tabId}>
             <button
-              className={`nav-link ${activeTab === tabId ? 'active' : ''}`}
+              className={`nav-link ${activeTab === tabId || (index === 0 && activeTab === null) ? 'active' : ''}`}
               onClick={() => handleTabClick(tabId)}
             >
               {`${tabId} NDR`}
@@ -32,7 +31,7 @@ const NDRFunnel = () => {
       <div className="tab-content">
         <div className="tab-pane fade show active">
           <div className="funnel-chart">
-            {activeTab && (
+            {activeTab && ndrFunnel[activeTab] && (
               <>
                 <div
                   className="stage"

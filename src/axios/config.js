@@ -96,6 +96,7 @@ export const API_URL = {
   GET_DASHBOARD_NDR_FUNNEL_ATTEMPT: "/orders-api/dashboard/ndr/ndr-funnel/",
   GET_DASHBOARD_NDR_RESPONSE_ATTEMPT: "/orders-api/dashboard/ndr/ndr-response/",
   GET_DASHBOARD_NDR_SPLIT_ATTEMPT: "/orders-api/dashboard/ndr/ndr-reason-split/",
+  GET_DASHBOARD_NDR_BUYER_ATTEMPT: "/orders-api/dashboard/ndr/ndr-seller-buyer-response/",
 
   //DASHBOARD RTO API'S
   GET_DASHBOARD_RTO_TOP_RTO: "/orders-api/dashboard/rto/top-rto/",

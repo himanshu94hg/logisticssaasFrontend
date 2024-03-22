@@ -24,7 +24,9 @@ const NDRDashboard = ({activeTab}) => {
       dispatch({ type: "DASHBOARD_NDR_DELIVERY_ATTEMPT_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_NDR_FUNNEL_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_NDR_RESPONSE_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_NDR_SPLIT_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_NDR_REASON_SPLIT_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_NDR_BUYER_ACTION", payload: dateRangeDashboard })
+      //DASHBOARD_NDR_REASON_SPLIT_ACTION
     }
   }, [activeTab])
 

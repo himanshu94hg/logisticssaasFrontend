@@ -1,4 +1,4 @@
-import { GET_DASHBOARD_NDR_COUNTER_CARDS_DATA, GET_DASHBOARD_NDR_STATUS_DATA, GET_DASHBOARD_NDR_SUCCESS_BY_COURIER_DATA, GET_DASHBOARD_NDR_SUCCESS_BY_ZONE_DATA,GET_DASHBOARD_NDR_DELIVERY_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_FUNNEL_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_RESPONSE_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_SPLIT_COUNTER_CARDS_DATA } from "../../../constants/dashboard/ndr";
+import { GET_DASHBOARD_NDR_COUNTER_CARDS_DATA, GET_DASHBOARD_NDR_STATUS_DATA, GET_DASHBOARD_NDR_SUCCESS_BY_COURIER_DATA, GET_DASHBOARD_NDR_SUCCESS_BY_ZONE_DATA,GET_DASHBOARD_NDR_DELIVERY_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_FUNNEL_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_RESPONSE_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_SPLIT_COUNTER_CARDS_DATA,GET_DASHBOARD_NDR_BUYER_COUNTER_CARDS_DATA } from "../../../constants/dashboard/ndr";
 
 
 const initialState = {
@@ -9,7 +9,8 @@ const initialState = {
     deliveryStatus:null,
     funnelStatus:null,
     responseStatus:null,
-    splitStatus:null
+    splitStatus:null,
+    buyerStatus:null
 };
 
 export const dashboardNdrReducer = (state = initialState, action) => {
@@ -53,6 +54,11 @@ export const dashboardNdrReducer = (state = initialState, action) => {
             return {
                 ...state,
                 splitStatus: action?.payload
+            };
+        case GET_DASHBOARD_NDR_BUYER_COUNTER_CARDS_DATA:
+            return {
+                ...state,
+                buyerStatus: action?.payload
             };
         default:
             return state
