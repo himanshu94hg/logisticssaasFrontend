@@ -12,7 +12,7 @@ const TopStatusChart = () => {
             if (screenWidth >= 1694) {
                 setChartHeight(220); // for larger screens
             } else if (screenWidth >= 768) {
-                setChartHeight(265); // for medium screens
+                setChartHeight(240); // for medium screens
             } else {
                 setChartHeight(200); // default width for smaller screens
             }

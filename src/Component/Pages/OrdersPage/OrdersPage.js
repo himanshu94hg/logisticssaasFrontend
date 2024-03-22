@@ -7,13 +7,16 @@ import ReadyToShip from './Components/ReadyToShip/ReadyToShip';
 import Manifest from './Components/Manifest/Manifest';
 import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
 import AllOrders from './Components/AllOrders/AllOrders';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
 
 
+
 const OrdersPage = () => {
+    const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState("Processing");
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +27,10 @@ const OrdersPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
     const [EditOrderSection, setEditOrderSection] = useState(false)
+    
+    // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+
+    //const location = useLocation()
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -33,9 +40,11 @@ const OrdersPage = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
-
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
+
+    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -73,6 +82,8 @@ const OrdersPage = () => {
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
+            // dispatch({type:"ORDERS_GET_ACTION"})
+            console.log(apiUrl, "object I JHJHK")
 
             axios.get(apiUrl, {
                 headers: {
@@ -80,13 +91,15 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
+                    console.log('This is a dummy data api', response.data.count);
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
+                    console.error('Error:', error);
                 });
         }
-    }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken,orderCancelled,orderdelete,orderClone, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
@@ -152,4 +165,4 @@ const OrdersPage = () => {
     )
 }
 
-export default OrdersPage
+export default OrdersPage;

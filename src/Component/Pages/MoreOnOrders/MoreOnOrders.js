@@ -26,6 +26,9 @@ const MoreOnOrders = () => {
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
+    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+
+
     let reassign = `https://dev.shipease.in/core-api/shipping/reassign/`
     let merge = `https://dev.shipease.in/orders-api/orders/merge-order/`
     let split = `https://dev.shipease.in/orders-api/orders/split-order/`
@@ -69,7 +72,7 @@ const MoreOnOrders = () => {
                     console.error('Error:', error);
                 });
         }
-    }, [activeTab, sellerData, searchValue,itemsPerPage,currentPage]);
+    }, [activeTab,orderCancelled,orderdelete,orderClone, sellerData, searchValue,itemsPerPage,currentPage]);
 
 
     const handleSearch = (value) => {

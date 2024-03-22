@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
 import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
+import { useDispatch, useSelector } from 'react-redux';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import InfoIcon from '../../../../common/Icons/InfoIcon';
@@ -23,11 +24,56 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 const ReadyToShip = ({ orders, handleSearch }) => {
 
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const handleExport = () => {
+        setExportButtonClick(true);
+        const requestData = {
+            "order_tab": {
+              "type": "Ready_to_ship",
+              "subtype": ""
+            },
+            "order_id": `${selectedRows.join(',')}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "Forward",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": false,
+            "global_type": "",
+            "payment_type": "Prepaid"
+          };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Ready_to_ship"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);    
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -179,7 +225,7 @@ const ReadyToShip = ({ orders, handleSearch }) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button'>Export</button>
+                        <button className='btn main-button' onClick={() => handleExport()}>Export</button>
                         <div className='action-options bulk-actions ms-2'>
                             <div className='btn main-button'>
                                 <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
@@ -350,7 +396,7 @@ const ReadyToShip = ({ orders, handleSearch }) => {
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             <li>Reassign</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>

@@ -8,17 +8,30 @@ const OverallPerformanceChart = () => {
             chart: {
                 type: 'donut',
             },
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
+            responsive: [
+                {
+                    breakpoint: 1800,
+                    options: {
+                        chart: {
+                            width: 400
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                },
+                {
+                    breakpoint: 1600,
+                    options: {
+                        chart: {
+                            width: 300
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
                     }
                 }
-            }],
+            ],
             labels: ["Alice", "Bob", "Charlie", "", ""], // Change the legend text here
             colors: ['#1975C9', '#60a9eb', '#C5DCF1'] // Set custom colors here
         }
