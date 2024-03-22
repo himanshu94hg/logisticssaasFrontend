@@ -67,7 +67,7 @@ const ActionRequested = ({shipmentCard}) => {
             "max_weight": "",
             "min_product_qty": "",
             "max_product_qty": "",
-            "rto_status": true,
+            "rto_status": false,
             "global_type": "",
             "payment_type": ""
           };
