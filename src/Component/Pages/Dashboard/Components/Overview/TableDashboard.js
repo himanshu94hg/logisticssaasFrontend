@@ -26,7 +26,7 @@ function CustomTable({ data }) {
             <td>{order.courier_partner || "N/A"}</td>
             <td>{order.charge_detail__shipping_charges || 0}</td>
             <td>{order.charge_detail__total_charges || 0}</td>
-            <td>{order.dimension_detail__weight || "N/A"}</td>
+            <td>{order.dimension_detail__weight+"Kg" || "N/A"}</td>
             <td>{order.status}</td>
           </tr>
         ))}

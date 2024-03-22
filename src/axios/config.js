@@ -43,6 +43,9 @@ export const API_URL = {
   GET_REASSIGN_URL:"/core-api/shipping/ship-rate-card-reassign/",
   GET_REASSIGN_SHIP_URL:"/core-api/shipping/reassign-order/",
 
+  //EXPORTS
+  GET_EXPORT_URL: "/orders-api/orders/export-order/",
+
 
   //DASHBOARD OVERVIEW API'S 
   GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD: "/orders-api/dashboard/overview/shipment-card/",

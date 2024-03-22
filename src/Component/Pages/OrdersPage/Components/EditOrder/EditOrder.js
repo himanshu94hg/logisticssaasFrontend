@@ -191,7 +191,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dateString = 'Wed Mar 20 2024 16:59:06 GMT+0530 (India Standard Time)';
     const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ') + " (India Standard Time)";
 
-    console.log(formData, "this is current data")
 
 
 

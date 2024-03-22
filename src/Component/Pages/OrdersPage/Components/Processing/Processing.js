@@ -9,6 +9,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
 import moment from 'moment/moment';
+import { useDispatch, useSelector } from 'react-redux';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
@@ -21,12 +22,58 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 const Processing = ({ orders, handleSearch, setEditOrderSection ,setOrderId}) => {
 
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const handleExport = () => {
+        setExportButtonClick(true);
+        const requestData = {
+            "order_tab": {
+              "type": "Processing",
+              "subtype": ""
+            },
+            "order_id": `${selectedRows.join(',')}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": false,
+            "global_type": "",
+            "payment_type": ""
+          };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Processing"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
+
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -103,7 +150,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection ,setOrderId}) =>
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        <button className='btn main-button'>Export</button>
+                        <button className='btn main-button' onClick={() => handleExport()}>Export</button>
                         <div className='action-options bulk-actions ms-2'>
                             <div className='btn main-button'>
                                 <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
