@@ -10,6 +10,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -63,8 +64,6 @@ const ReassignOrder = ({ orders,handleSearch }) => {
 
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
-    console.log("Reassign Sample",reassignCard)
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -105,7 +104,13 @@ const ReassignOrder = ({ orders,handleSearch }) => {
     }
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        setSingleShip(true);
+        if(reassignCard.length > 0)
+        {
+            setSingleShip(true);
+        }
+        else{
+            toast.error("Something went wrong!!")
+        }
     };
 
     return (

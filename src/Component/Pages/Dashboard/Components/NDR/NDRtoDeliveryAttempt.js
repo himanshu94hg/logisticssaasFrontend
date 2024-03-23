@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
 const ApexChart = () => {
+    const ndrDelivery =useSelector(state=>state?.dashboardNdrReducer?.deliveryStatus)
     const [chartData, setChartData] = useState({
-        series: [44, 55, 40],
+        series: [],
         options: {
             chart: {
                 type: 'donut',
@@ -19,10 +21,24 @@ const ApexChart = () => {
                     }
                 }
             }],
-            labels: ['1st Attempt', '2nd Attempt', '3rd Attempt'], // Change the legend text here
-            colors: ['#1975C9', '#60a9eb', '#C5DCF1'] // Set custom colors here
+            labels: [],
         }
     });
+
+    useEffect(() => {
+        if (ndrDelivery) {
+            const seriesData = ndrDelivery.map(item => item.total) || [];
+            const labelsData = ndrDelivery.map(item => `Attempt ${item.ndr_attempt}`) || [];
+            setChartData(prevState => ({
+                ...prevState,
+                series: seriesData,
+                options: {
+                    ...prevState.options,
+                    labels: labelsData,
+                }
+            }));
+        }
+    }, [ndrDelivery]);
 
     return (
         <div>
@@ -35,18 +51,18 @@ const ApexChart = () => {
 };
 
 const NDRtoDeliveryAttempt = () => {
+    const ndrDelivery = useSelector(state => state?.dashboardNdrReducer?.deliveryStatus);
+
     return (
-        <>
-            <div className="box-shadow shadow-sm p10">
-                <div className="row">
-                    <div className="col">
-                        <h4 className="title">NDR to Delivery Attempt</h4>
-                        <ApexChart />
-                    </div>
+        <div className="box-shadow shadow-sm p10">
+            <div className="row">
+                <div className="col">
+                    <h4 className="title">NDR to Delivery Attempt</h4>
+                    <ApexChart ndrDelivery={ndrDelivery} />
                 </div>
             </div>
-        </>
+        </div>
     )
 }
 
-export default NDRtoDeliveryAttempt
+export default NDRtoDeliveryAttempt;

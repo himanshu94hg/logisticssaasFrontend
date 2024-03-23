@@ -25,6 +25,8 @@ const CreateOrderFlow = () => {
         setIsOpen(!isOpen);
     };
 
+
+    console.log(location?.state?.tabs,"location.state.tabslocation.state.tabs")
     useEffect(() => {
         if (location.pathname === "/create-order" && location.state && location.state.tabs === "BulkCreateOrder") {
             setActiveTab("BulkCreateOrder");

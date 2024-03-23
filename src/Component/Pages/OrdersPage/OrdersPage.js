@@ -44,6 +44,11 @@ const OrdersPage = () => {
     let authToken = Cookies.get("access_token")
 
     const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+    let orderCancelledRes=orderCancelled+new Date();
+    let orderdeleteRes=orderdelete+new Date();
+    let orderClonRes=orderClone+new Date();
+
+    console.log(orderCancelled,orderdelete,orderClone,"orderCancelled,orderdelete,orderClone")
 
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -99,7 +104,7 @@ const OrdersPage = () => {
                     console.error('Error:', error);
                 });
         }
-    }, [activeTab, authToken,orderCancelled,orderdelete,orderClone, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken,orderCancelledRes,orderdeleteRes,orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
