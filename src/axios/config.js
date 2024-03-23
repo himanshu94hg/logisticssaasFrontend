@@ -35,6 +35,10 @@ export const API_URL = {
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
 
+  //SHIPMENT REATTEMPT
+  GET_SHIPMENT_REATTEMPT_URL:"/core-api/shipping/reattemt-order/",
+  GET_SHIPMENT_RTO_URL:"/core-api/shipping/mark-order-rto/",
+
   //ORDERS API
   GET_ORDERS_API: "/orders-api/orders/",
   CANCEL_ORDERS_API: "/orders-api/orders/cancel-order/",
