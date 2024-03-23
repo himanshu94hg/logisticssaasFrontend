@@ -28,7 +28,6 @@ const MoreOnOrders = () => {
 
     const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
 
-
     let reassign = `https://dev.shipease.in/core-api/shipping/reassign/`
     let merge = `https://dev.shipease.in/orders-api/orders/merge-order/`
     let split = `https://dev.shipease.in/orders-api/orders/split-order/`

@@ -7,7 +7,7 @@ import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop';
 import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const navigation = useNavigate();
@@ -37,13 +37,19 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
 
     const handleSubmit = (option) => {
         setShipingData(option);
-        if (moreorderCard !== null) {
+        if(moreorderCard !== null)
+        {
             if (moreorderCard?.status === true) {
                 toast.success(moreorderCard?.message);
                 setSingleShip(false);
-            } else {
+            }
+            else
+            {
                 toast.error(moreorderCard?.message);
             }
+        }
+        else{
+            toast.error("Something went wrong please try again!");
         }
     };
     

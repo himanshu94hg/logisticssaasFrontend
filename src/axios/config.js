@@ -35,6 +35,10 @@ export const API_URL = {
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
 
+  //SHIPMENT REATTEMPT
+  GET_SHIPMENT_REATTEMPT_URL:"/core-api/shipping/reattemt-order/",
+  GET_SHIPMENT_RTO_URL:"/core-api/shipping/mark-order-rto/",
+
   //ORDERS API
   GET_ORDERS_API: "/orders-api/orders/",
   CANCEL_ORDERS_API: "/orders-api/orders/cancel-order/",
@@ -93,6 +97,11 @@ export const API_URL = {
   GET_DASHBOARD_NDR_NDR_STATUS: "/orders-api/dashboard/ndr/ndr-status/",
   GET_DASHBOARD_NDR_SUCCESS_BY_COURIER: "/orders-api/dashboard/ndr/success-by-courier/",
   GET_DASHBOARD_NDR_SUCCESS_BY_ZONE: "/orders-api/dashboard/ndr/success-by-zone/",
+  GET_DASHBOARD_NDR_DELIVERY_ATTEMPT: "/orders-api/dashboard/ndr/ndr-to-delivery-attempt/",
+  GET_DASHBOARD_NDR_FUNNEL_ATTEMPT: "/orders-api/dashboard/ndr/ndr-funnel/",
+  GET_DASHBOARD_NDR_RESPONSE_ATTEMPT: "/orders-api/dashboard/ndr/ndr-response/",
+  GET_DASHBOARD_NDR_SPLIT_ATTEMPT: "/orders-api/dashboard/ndr/ndr-reason-split/",
+  GET_DASHBOARD_NDR_BUYER_ATTEMPT: "/orders-api/dashboard/ndr/ndr-seller-buyer-response/",
 
   //DASHBOARD RTO API'S
   GET_DASHBOARD_RTO_TOP_RTO: "/orders-api/dashboard/rto/top-rto/",
