@@ -7,7 +7,7 @@ import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop';
 import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css'; 
 
 const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const navigation = useNavigate();
