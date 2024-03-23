@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import './NDRFunnel.css'; // Import CSS file for styling
+import './NDRFunnel.css';
 
 const NDRFunnel = () => {
   const ndrFunnel = useSelector(state => state?.dashboardNdrReducer?.funnelStatus);
