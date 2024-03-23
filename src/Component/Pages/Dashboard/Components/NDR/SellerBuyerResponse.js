@@ -4,7 +4,7 @@ import ReactApexChart from 'react-apexcharts';
 
 const SellerVsBuyerResponseChart = () => {
     const ndrBuyer =useSelector(state=>state?.dashboardNdrReducer?.buyerStatus)
-    const seriesData = [ndrBuyer?.seller_response, ndrBuyer?.buyer_response];
+    const seriesData = [ndrBuyer?.seller_response ?? [], ndrBuyer?.buyer_response ?? []];
     const options = {
         chart: {
             height: 390,

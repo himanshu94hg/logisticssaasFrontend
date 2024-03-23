@@ -14,7 +14,7 @@ const NDRPieChart = () => {
             width: '100%',
             type: 'pie',
         },
-        labels: reasonsLabels,
+        labels: reasonsLabels ?? [],
         theme: {
             monochrome: {
                 enabled: true
@@ -44,7 +44,7 @@ const NDRPieChart = () => {
     return (
         <div>
             <div id="ndr-chart">
-                <ReactApexChart options={chartOptions} series={seriesData} type="pie" />
+                <ReactApexChart options={chartOptions} series={seriesData ?? []} type="pie" />
             </div>
         </div>
     );
