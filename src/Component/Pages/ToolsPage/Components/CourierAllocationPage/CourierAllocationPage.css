@@ -64,15 +64,16 @@ ul [data-rbd-droppable-context-id] {
     counter-reset: section;
 }
 
-.major-rule-row {
-    padding: 15px;
-    border: 1px solid;
-    border-radius: 0.5rem;
-}
-
-.major-rule-row::before {
+.minor-rule-row::before {
     counter-increment: section;
-    content: "Rule " counter(section) ": ";
+    content: counter(section);
+    height: 36px;
+    padding-inline: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--sh-primary-middle);
+    border-radius: 0.5rem;
 }
 
 .major-rule-row label {
@@ -92,6 +93,7 @@ ul [data-rbd-droppable-context-id] {
 .minor-rule-row input,
 .minor-rule-row select {
     min-width: unset;
+    width: 100%;
 }
 
 .priority-container {
@@ -99,14 +101,15 @@ ul [data-rbd-droppable-context-id] {
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
     justify-items: end;
+    gap: 20px;
 }
 
 .priority-container label {
     padding: 5px;
-    text-align: center;
     width: 100%;
 }
 
 .priority-container label select {
     width: 100%;
+    margin-top: 5px;
 }
