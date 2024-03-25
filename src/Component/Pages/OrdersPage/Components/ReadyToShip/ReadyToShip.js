@@ -22,7 +22,7 @@ import Cookies from 'js-cookie';
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 
-const ReadyToShip = ({ orders, handleSearch }) => {
+const ReadyToShip = ({ orders, handleSearch, setBulkActionShow }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -80,8 +80,10 @@ const ReadyToShip = ({ orders, handleSearch }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
         setBulkActions(true); // Set BulkActions to true whenever "Select All" checkbox is checked
     };
