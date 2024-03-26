@@ -19,7 +19,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
-const ReturnOrders = ({ orders, handleSearch,setOrderId}) => {
+const ReturnOrders = ({ orders, handleSearch, setOrderId, setBulkActionShow }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -36,8 +36,8 @@ const ReturnOrders = ({ orders, handleSearch,setOrderId}) => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-              "type": "Returns",
-              "subtype": ""
+                "type": "Returns",
+                "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
             "courier": "",
@@ -60,7 +60,7 @@ const ReturnOrders = ({ orders, handleSearch,setOrderId}) => {
             "rto_status": true,
             "global_type": "",
             "payment_type": ""
-          };
+        };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -78,8 +78,10 @@ const ReturnOrders = ({ orders, handleSearch,setOrderId}) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -94,15 +96,19 @@ const ReturnOrders = ({ orders, handleSearch,setOrderId}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+            setBulkActionShow(false)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
+            setBulkActionShow(false)
         } else {
             setSelectAll(false);
+            setBulkActionShow(false)
         }
     };
 

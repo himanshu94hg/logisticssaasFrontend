@@ -34,6 +34,7 @@ const RuleRow = () => {
                     <select
                         className='select-field'
                         value={row.selectValue1}
+                        style={{ width: '100px' }}
                         onChange={(e) => handleSelectChange(index, 'selectValue1', e.target.value)}
                         disabled={index === 0} // Disable condition select field for the first row
                     >
@@ -73,12 +74,15 @@ const RuleRow = () => {
                         onChange={(e) => handleInputChange(index, e.target.value)}
                         placeholder="Enter text"
                     />
-                    {rows.length > 1 && (
-                        <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                    )}
-                    {index === rows.length - 1 && (
-                        <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
-                    )}
+                    <div className='add-rule-btns'>
+                        {rows.length > 1 && (
+                            <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                        )}
+                        {index === rows.length - 1 && (
+                            <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
+                        )}
+                    </div>
+
                 </div>
             ))}
         </>

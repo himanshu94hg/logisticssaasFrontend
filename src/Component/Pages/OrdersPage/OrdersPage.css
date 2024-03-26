@@ -104,6 +104,10 @@
   padding-left: 26px;
 }
 
+.orders-section-tabs {
+  position: relative;
+}
+
 .orders-section-tabs .table-container {
   height: calc(100vh - 317px);
   overflow-y: scroll;

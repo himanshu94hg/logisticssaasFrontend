@@ -17,6 +17,7 @@
     /* border: 1px solid; */
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 }
 
 .sidepanel-body {
