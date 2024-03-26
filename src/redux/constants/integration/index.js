@@ -1,0 +1,1 @@
+export const GET_API_KEY="GET_API_KEY"

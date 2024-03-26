@@ -36,8 +36,8 @@ export const API_URL = {
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
 
   //SHIPMENT REATTEMPT
-  GET_SHIPMENT_REATTEMPT_URL:"/core-api/shipping/reattempt-order/",
-  GET_SHIPMENT_RTO_URL:"/core-api/shipping/mark-order-rto/",
+  GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
+  GET_SHIPMENT_RTO_URL: "/core-api/shipping/mark-order-rto/",
 
   //ORDERS API
   GET_ORDERS_API: "/orders-api/orders/",
@@ -110,5 +110,8 @@ export const API_URL = {
 
   //DASHBOARD COURIER API'S
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
+
+  //INTEGRATION API'S
+  POST_GENERATE_API_KEY:"/core-api/seller/api-key/"
 
 };
