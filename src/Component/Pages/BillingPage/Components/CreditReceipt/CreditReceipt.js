@@ -186,7 +186,7 @@ export default CreditReceipt;
 
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
-    
+     
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingReceiptExportCard);
     const handleViewDetails = (id) => {
