@@ -13,6 +13,7 @@ import Cookies from 'js-cookie';
 import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import Pickups from './Components/Pickups/Pickups';
 
 
 
@@ -50,9 +51,6 @@ const OrdersPage = () => {
     let orderdeleteRes=orderdelete+new Date();
     let orderClonRes=orderClone+new Date();
 
-    console.log(orderCancelled,orderdelete,orderClone,"orderCancelled,orderdelete,orderClone")
-
-
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
     let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -75,7 +73,7 @@ const OrdersPage = () => {
             case "Ready to Ship":
                 apiUrl = readyToShip;
                 break;
-            case "Manifest":
+            case "Pickup":
                 apiUrl = manifest;
                 break;
             case "Returns":
@@ -89,21 +87,16 @@ const OrdersPage = () => {
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
-            // dispatch({type:"ORDERS_GET_ACTION"})
-            console.log(apiUrl, "object I JHJHK")
-
             axios.get(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
             })
                 .then(response => {
-                    console.log('This is a dummy data api', response.data.count);
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
-                    console.error('Error:', error);
                 });
         }
     }, [activeTab, authToken,orderCancelledRes,orderdeleteRes,orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
@@ -149,6 +142,11 @@ const OrdersPage = () => {
                     <ReadyToShip setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
 
+                {/* Pickups */}
+                <div className={`${activeTab === "Pickup" ? "d-block" : "d-none"}`}>
+                    <Pickups setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+                
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
