@@ -75,10 +75,10 @@ function App() {
     }
   }, [tokenChecked, tokenExists, navigate]);
 
-  useEffect(()=>{
-    dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
-    Cookies.set('pathName',window.location.pathname);
-  },[ window.location.pathname])
+  // useEffect(()=>{
+  //   dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
+  //   Cookies.set('pathName',window.location.pathname);
+  // },[ window.location.pathname])
 
 
 

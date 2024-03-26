@@ -113,7 +113,6 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         order_id: ""
     })
 
-    console.log(filterParams, "fieldNamefieldNamefieldName")
 
 
     //     channel =

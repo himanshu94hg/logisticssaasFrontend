@@ -11,6 +11,7 @@ import { AddressDetailStep } from './create-order-steps/AddressDetailStep';
 import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
+import { useSelector } from 'react-redux';
 
 const DomesticCreateOrder = () => {
     const totalSteps = 5;
@@ -93,7 +94,6 @@ const DomesticCreateOrder = () => {
             }
         ],
     })
-    console.log(formData,"vol_datavol_data")
 
     useEffect(() => {
         const updateProgressBarWidth = () => {
@@ -107,9 +107,12 @@ const DomesticCreateOrder = () => {
         setStep(step + 1);
     };
 
-    const handlePrev = () => {
+    const handlePrev = () => {  
         setStep(step - 1);
     };
+
+    
+
 
     const handleFormSubmit = async () => {
         try {
