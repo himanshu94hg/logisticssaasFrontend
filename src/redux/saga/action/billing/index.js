@@ -1,8 +1,8 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,BASE_URL_BILLING } from "../../../../axios/config";
-import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION } from "../../constant/billing";
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA } from "../../../constants/billing";
+import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION } from "../../constant/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA } from "../../../constants/billing";
 
 
 async function billingFileAPI(data) {
@@ -53,7 +53,17 @@ async function billingShippingInvoiceFileAPI(data) {
 async function billingShippingReceiptFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_CREDIT_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+async function billingShippingReceiptExportFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        responseType: 'blob',
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_CREDIT_EXPORT_URL}?receipt_id=${data}`,
         data: data
     });
     return listData;
@@ -143,6 +153,20 @@ function* billingShipingReceiptFilesAction(action) {
     }
 }
 
+function* billingShipingReceiptExportFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingShippingReceiptExportFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 export function* getBillingWatcher() {
     yield takeLatest(BILLING_DATA_ACTION,billingFilesAction);
     yield takeLatest(BILLING_SHIPING_DATA_ACTION,billingShipingFilesAction);
@@ -150,4 +174,5 @@ export function* getBillingWatcher() {
     yield takeLatest(BILLING_SHIPING_RECHARGE_DATA_ACTION,billingShipingRechargeFilesAction);
     yield takeLatest(BILLING_SHIPING_INVOICE_DATA_ACTION,billingShipingInvoiceFilesAction);
     yield takeLatest(BILLING_SHIPING_RECEIPT_DATA_ACTION,billingShipingReceiptFilesAction);
+    yield takeLatest(BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,billingShipingReceiptExportFilesAction);
 }

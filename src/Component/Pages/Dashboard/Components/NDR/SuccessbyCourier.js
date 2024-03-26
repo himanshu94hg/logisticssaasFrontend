@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
+import { capatlize } from '../../../../../customFunction/functionLogic';
 
 const CourierNDRChart = () => {
     const { successByCourier } = useSelector(state => state?.dashboardNdrReducer)
@@ -8,10 +9,10 @@ const CourierNDRChart = () => {
     const [chartData, setChartData] = useState({
         series: [{
             name: 'NDR Raised',
-            data: [10, 15, 8, 12, 18] 
+            data: []
         }, {
             name: 'NDR Delivered',
-            data: [8, 10, 12, 14, 16]
+            data: []
         }],
         options: {
             chart: {
@@ -63,11 +64,11 @@ const CourierNDRChart = () => {
                 name: 'NDR Delivered',
                 data: successByCourier.map(courier => courier.ndr_delivered)
             }];
-            const categories = successByCourier.map(courier => courier.courier_partner);
+            const categories = successByCourier?.map(courier => capatlize(courier.courier_partner));
             setChartData(prevState => ({
                 ...prevState,
                 series: seriesData,
-                options: {  
+                options: {
                     ...prevState.options,
                     xaxis: {
                         ...prevState.options.xaxis,

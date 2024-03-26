@@ -26,12 +26,27 @@ const MoreOnOrders = () => {
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const { pathName } = useSelector(state => state?.authDataReducer)
+
 
     let reassign = `https://dev.shipease.in/core-api/shipping/reassign/`
     let merge = `https://dev.shipease.in/orders-api/orders/merge-order/`
     let split = `https://dev.shipease.in/orders-api/orders/split-order/`
     let reverse = `https://dev.shipease.in/orders-api/orders/reverse-order/`
+
+    useEffect(() => {
+        if (pathName === "Reassign Orders") {
+            setActiveTab("Reassign Order");
+        }
+        else if (pathName === "Merge Orders") {
+            setActiveTab("Merge Order");
+        }
+        else if (pathName === "Split Orders") {
+            setActiveTab("Split Order");
+        }
+
+    }, [pathName]);
 
     useEffect(() => {
         let apiUrl = '';
@@ -71,7 +86,7 @@ const MoreOnOrders = () => {
                     console.error('Error:', error);
                 });
         }
-    }, [activeTab,orderCancelled,orderdelete,orderClone, sellerData, searchValue,itemsPerPage,currentPage]);
+    }, [activeTab, orderCancelled, orderdelete, orderClone, sellerData, searchValue, itemsPerPage, currentPage]);
 
 
     const handleSearch = (value) => {

@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import '../IntegrationsPage.css'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const APIIntegration = () => {
+    const dispatch = useDispatch()
     const data = [
         { title: 'Shopify', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
         { title: 'WooCommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/woocommerce.png' },
@@ -14,6 +17,17 @@ const APIIntegration = () => {
         // Add more data as needed
     ];
 
+    const {apiKey}=useSelector(state=>state?.integrationReducer)
+    const handleSubmit = (e) => {
+        console.log("object")
+        e.preventDefault()
+        dispatch({ type: "GENERATE_API_KEY_ACTION" })
+    }
+
+    useEffect(() => {
+        dispatch({ type: "GET_API_KEY_ACTION" })
+    }, [])
+
     return (
         <>
             <div className="box-shadow shadow-sm p10">
@@ -21,10 +35,11 @@ const APIIntegration = () => {
                 <div className="row mt-3">
                     <div className="col-sm-12">
                         <p><b>Expand and automate your online business with Shipease API.</b></p>
-                        <h6 className="mb-3">Your API Key: <span className="text-muted">wElKnVJcXAHTFeFVOJXK2fClHy211QpDAxOccUaz</span></h6>
-                        <form method="post" action="https://www.shipease.in/generate_api_key" onsubmit="return confirm('Are you sure?');">
+                        <h6 className="mb-3">Your API Key: <span className="text-muted">{apiKey}</span></h6>
+                        {/* <form method="post" action="https://www.shipease.in/generate_api_key" onsubmit="return confirm('Are you sure?');"> */}
+                        <form onSubmit={handleSubmit}>
                             <input type="hidden" name="_token" value="X8xK2HQGv8RIJl0FI2ZlgGAb7uRyAdinLAh33awl" />
-                            <button type="submit" name="generate" value="generate" className="btn main-button">Generate API Key</button>
+                            <button type="submit" name="generate" value="generate" className="btn main-button" >Generate API Key</button>
                         </form>
                     </div>
                     <div className="col-sm-12 mt-3">

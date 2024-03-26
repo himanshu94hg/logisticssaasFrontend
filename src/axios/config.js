@@ -34,10 +34,12 @@ export const API_URL = {
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
+  GET_BILLING_CREDIT_URL: "/core-api/features/billing/credit-receipt/",
+  GET_BILLING_CREDIT_EXPORT_URL: "/core-api/features/billing/credit-receipt-download/",
 
   //SHIPMENT REATTEMPT
-  GET_SHIPMENT_REATTEMPT_URL:"/core-api/shipping/reattempt-order/",
-  GET_SHIPMENT_RTO_URL:"/core-api/shipping/mark-order-rto/",
+  GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
+  GET_SHIPMENT_RTO_URL: "/core-api/shipping/mark-order-rto/",
 
   //ORDERS API
   GET_ORDERS_API: "/orders-api/orders/",
@@ -89,6 +91,7 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE: "/orders-api/dashboard/shipment/weight-profile/",
   GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
+  GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA: "/orders-api/dashboard/shipment/shipment-overview-courier/",
 
 
   //DASHBOARD NDR API'S
@@ -107,8 +110,12 @@ export const API_URL = {
   GET_DASHBOARD_RTO_TOP_CITY: "/orders-api/dashboard/rto/top-rto-city/",
   GET_DASHBOARD_RTO_COUNT_MONTHWISE: "/orders-api/dashboard/rto/month-wise-rto-count/",
   GET_DASHBOARD_RTO_TOP_COURIER: "/orders-api/dashboard/rto/top-rto-courier/",
+  GET_DASHBOARD_RTO_STATUS: "/orders-api/dashboard/rto/rto-status/",
 
   //DASHBOARD COURIER API'S
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
+
+  //INTEGRATION API'S
+  POST_GENERATE_API_KEY:"/core-api/seller/api-key/"
 
 };

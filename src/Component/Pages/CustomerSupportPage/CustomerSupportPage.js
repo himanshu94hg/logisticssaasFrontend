@@ -153,7 +153,7 @@ const CustomerSupportPage = () => {
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
-          <h2 className='mb-0'>More Filters</h2>
+          <h2 className='mb-0'> More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
         <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />

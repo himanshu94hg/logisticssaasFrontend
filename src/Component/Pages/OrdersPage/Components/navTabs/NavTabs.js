@@ -87,14 +87,22 @@ export default function NavTabs(props) {
                 Ready to Ship
               </div>
             </Nav.Link>
+            <Nav.Link className={`${props.activeTab === "Pickup" ? "active" : ""}`}
+              onClick={() => {
+                props.setActiveTab("Pickup");
+              }}
+            >
+              <div className="navItemsContainer">
+                Pickup 
+              </div>
+            </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Manifest");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
-                Pickup and Manifest
+                Manifest 
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
@@ -102,7 +110,6 @@ export default function NavTabs(props) {
                 props.setActiveTab("Returns");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
                 Returns
