@@ -34,6 +34,7 @@ export const API_URL = {
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
+  GET_BILLING_CREDIT_URL: "/core-api/features/billing/credit-receipt/",
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
