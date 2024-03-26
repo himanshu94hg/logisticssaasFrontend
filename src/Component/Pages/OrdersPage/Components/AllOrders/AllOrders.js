@@ -28,7 +28,6 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow }) => {
     const [exportButtonClick, setExportButtonClick] = useState(false)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    console.log("All order Id",selectedRows)
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {

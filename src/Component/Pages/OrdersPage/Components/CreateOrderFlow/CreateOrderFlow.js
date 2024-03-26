@@ -6,6 +6,7 @@ import InternationalCreateOrders from './Components/InternationalCreateOrders/In
 import QuickCreateOrder from './Components/QuickCreateOrder/QuickCreateOrder';
 import BulkCreateOrder from './Components/BulkCreateOrder/BulkCreateOrder';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const CreateOrderFlow = () => {
@@ -15,6 +16,10 @@ const CreateOrderFlow = () => {
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
+    const {pathName}=useSelector(state=>state?.authDataReducer)
+
+    console.log(location,"this is a qucik order action")
+
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -26,17 +31,22 @@ const CreateOrderFlow = () => {
     };
 
 
-    console.log(location?.state?.tabs,"location.state.tabslocation.state.tabs")
     useEffect(() => {
         if (location.pathname === "/create-order" && location.state && location.state.tabs === "BulkCreateOrder") {
             setActiveTab("BulkCreateOrder");
-        } else if (location.pathname === "/create-order") {
+        } 
+        else if(pathName==="Quick Order"){
+            setActiveTab("QuickCreateOrder");
+        }
+        else if(pathName==="Reverse Order"){
             setActiveTab("DomesticCreateOrder");
         }
-    }, [location]);
-
-   
-
+        else if(location.pathname === "/Orders"){
+            setActiveTab("DomesticCreateOrder");
+        }
+    }, [location,pathName]);
+    
+console.log(pathName,"location.pathnamelocation.pathname")
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

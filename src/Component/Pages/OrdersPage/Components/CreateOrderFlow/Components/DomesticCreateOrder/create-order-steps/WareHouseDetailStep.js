@@ -5,24 +5,17 @@ import Cookies from 'js-cookie';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useSelector } from 'react-redux';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, myData }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
 
-    useEffect(() => {
-        if (myData) {
-            setWarehouses(myData)
-        }
-
-    }, [myData])
-
-    console.log(myData,"myDatamyData")
 
     useEffect(() => {
         const fetchWarehouses = async () => {
@@ -55,18 +48,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
         }));
     };
 
-    useEffect(() => {
-        if (wareHouseName && warehouses) {
-            let data = warehouses.filter(item => item?.warehouse_name === wareHouseName)
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                order_details: {
-                    ...prevFormData.order_details,
-                    warehouse_id: data[0]?.id
-                }
-            }));
-        }
-    }, [wareHouseName, warehouses])
+   
 
     return (
         <div>
