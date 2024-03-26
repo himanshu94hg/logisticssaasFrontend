@@ -15,33 +15,33 @@ export const billingSectionReducer = (state = initialState, action) => {
         case GET_BILLING_DATA:
             return {
                 ...state,
-                billingCard: action?.payload
+                billingCard: action?.payload?.results
             };
         case GET_BILLING_SHIPING_DATA:
             return {
                 ...state,
-                billingShipingCard: action?.payload
+                billingShipingCard: action?.payload?.results
             };
 
         case GET_BILLING_SHIPING_REMITANCE_DATA:
             return {
                 ...state,
-                billingShipingRemitanceCard: action?.payload
+                billingShipingRemitanceCard: action?.payload?.results
             };
         case GET_BILLING_SHIPING_RECHARGE_DATA:
             return {
                 ...state,
-                billingShipingRechargeCard: action?.payload
+                billingShipingRechargeCard: action?.payload?.results
             };
         case GET_BILLING_SHIPING_INVOICE_DATA:
             return {
                 ...state,
-                billingShipingInvoiceCard: action?.payload
+                billingShipingInvoiceCard: action?.payload?.results
             };
         case GET_BILLING_SHIPING_RECEIPT_DATA:
             return {
                 ...state,
-                billingShipingReceiptCard: action?.payload
+                billingShipingReceiptCard: action?.payload?.results
             };
         default:
             return state
