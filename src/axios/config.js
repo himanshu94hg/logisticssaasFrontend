@@ -36,7 +36,7 @@ export const API_URL = {
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
 
   //SHIPMENT REATTEMPT
-  GET_SHIPMENT_REATTEMPT_URL:"/core-api/shipping/reattemt-order/",
+  GET_SHIPMENT_REATTEMPT_URL:"/core-api/shipping/reattempt-order/",
   GET_SHIPMENT_RTO_URL:"/core-api/shipping/mark-order-rto/",
 
   //ORDERS API
