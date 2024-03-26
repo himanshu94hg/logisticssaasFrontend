@@ -68,7 +68,7 @@ function CancelOrder() {
         <div className="box-shadow shadow-sm p10">
             <div className="row">
                 <div className="col">
-                    <h4 className="title">Cancel Orders</h4>
+                    <h4 className="title">Cancelled Orders</h4>
                     <CanceledOrdersChart  />
                 </div>
             </div>

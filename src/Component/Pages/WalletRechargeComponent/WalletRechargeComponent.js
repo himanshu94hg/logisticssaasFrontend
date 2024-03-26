@@ -25,7 +25,6 @@ const WalletRechargeComponent = (props) => {
     const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
 
     const razorpayKey = configurationCard?.[0]?.razorpay_key;
-    console.log("Configuration",razorpayKey);
 
 
     useEffect(() => {
@@ -53,7 +52,6 @@ const WalletRechargeComponent = (props) => {
     };
 
     const handleAddCoupon = () => {
-        console.log('Coupon added:', couponCode);
     };
 
     const handleRecharge = useCallback(async () => {
@@ -77,9 +75,7 @@ const WalletRechargeComponent = (props) => {
                     color: "3399cc",
                 },
                 handler: async (response) => {
-                    console.log("Response Data", response);
                     if (response.razorpay_payment_id) {
-                        console.log("Payment successful!");
                         let data = JSON.stringify({
                             razorpay_payment_id: response.razorpay_payment_id,
                             amount: rechargeAmount,
@@ -88,7 +84,6 @@ const WalletRechargeComponent = (props) => {
                         dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
 
                     } else {
-                        console.log("Payment failed!");
                     }
                 }
             };
@@ -96,7 +91,6 @@ const WalletRechargeComponent = (props) => {
             const rzpay = new Razorpay(options);
             rzpay.open();
         } catch (error) {
-            console.error("Error in creating order:", error);
         }
     }, [Razorpay, rechargeAmount, dispatch]);
 

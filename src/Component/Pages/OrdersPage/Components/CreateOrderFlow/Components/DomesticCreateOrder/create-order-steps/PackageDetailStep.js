@@ -84,6 +84,17 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
     const chargedWeight = formData?.dimension_details.weight;
 
+
+    useEffect(()=>{
+        setFormData(prevData => ({
+            ...prevData,
+            dimension_details: {
+                ...prevData.dimension_details,
+                vol_weight: vol_data.toFixed(2)
+            }
+        }));
+    },[vol_data])
+
     useEffect(() => {
         if (vol_data && chargedWeight) {
             if (vol_data >= chargedWeight) {
@@ -166,7 +177,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             </span>
                         </p>
                     </div>
-                    <div className="row">
+                    <div className="row gap-2">
 
                         {/* Length (cm) */}
                         <label className='col'>
@@ -218,7 +229,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 {/* Add more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={handleNext}>Next</button>

@@ -16,14 +16,8 @@ function TotalInfoDashboard() {
   const [dailyShipment, setDailyShipment] = useState(null);
   const [totalCustomer, setTotalCustomer] = useState(null);
   const [avarageSelling, setAverageSelling] = useState(null);
-
-  // useEffect(() => {
-  //   dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION",payload:dateRangeDashboard })
-  // }, [])
-
   const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
 
-  console.log(counterCard,"counterCardcounterCardcounterCard")
 
   return (
     <>
@@ -117,7 +111,7 @@ function TotalInfoDashboard() {
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Average Selling Price</p>
                     <h2 className="font20 title-text p-y bold-600 m0">
-                      {counterCard?.avg_selling_price}
+                      {counterCard?.avg_selling_price || 0 }
                     </h2>
                     <p className="font12 text-blue">Seller </p>
                   </div>

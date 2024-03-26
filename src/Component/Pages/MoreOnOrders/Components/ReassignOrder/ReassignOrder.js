@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
+import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -48,9 +49,20 @@ const InfoMissing = () => {
 }
 
 const ReassignOrder = ({ orders,handleSearch }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
+    const [SingleShip, setSingleShip] = useState(false)
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+    useEffect(() => {
+        if (selectedOrderId !== null) {
+            dispatch({ type: "REASSIGN_DATA_ACTION", payload: selectedOrderId });
+        }
+    }, [dispatch, selectedOrderId]);       
+
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
 
     // Handler for "Select All" checkbox
@@ -90,6 +102,16 @@ const ReassignOrder = ({ orders,handleSearch }) => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
+    const handleShipNow = (orderId) => {
+        setSelectedOrderId(orderId);
+        if(reassignCard.length > 0)
+        {
+            setSingleShip(true);
+        }
+        else{
+            toast.error("Something went wrong!!")
+        }
+    };
 
     return (
         <section className='position-relative'>
@@ -175,13 +197,6 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                 <p className=''>
                                                     {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
                                                     {row?.customer_order_number}
-
-                                                    {/* <span className="product-details ms-2"> */}
-                                                    {/* <FontAwesomeIcon icon={faCircleInfo} /> */}
-                                                    {/* <img src={InfoIcon} alt="InfoIcon" width={18}/> */}
-                                                    {/* <InfoIcon /> */}
-                                                    {/* <span>{row?.product_name}<br />{row.product_sku}<br /> Qt. {row.product_qty}</span> */}
-                                                    {/* </span> */}
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row?.inserted)} */}
@@ -190,15 +205,12 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                     <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
 
                                                 </p>
-                                                {/* <p>{row?.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row?.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.customer_order_number}</p>
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -207,9 +219,6 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row?.s_city}</p>
-                                                <p>{row?.s_pincode}</p>
-                                                <p>{row?.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -259,15 +268,6 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                 </div>
                                             </td>
                                         </td>
-                                        {/* shiping section here */}
-                                        {/* <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""}
-                                                    <span style={{right:'23px', width:'100px'}}>AWB Number</span>
-                                                </p>
-                                            </div>
-                                        </td> */}
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
@@ -275,7 +275,7 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                         <td className='align-middle'>
                                             {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Reassign Order</button>
+                                                <button className='btn main-button' onClick={() => handleShipNow(row?.id)}>Reassign Order</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -286,32 +286,25 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Clone Order</li>
+                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
                                                             <li>Mark As Verified</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
+
                                                         </ul>
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                     </tr>
-                                    {/* Additional information row */}
-                                    {/* <tr>
-                                        <td colSpan="9">
-                                            <div>
-                                                <p><strong>Product Name:</strong> {row?.product_name}</p>
-                                                <p><strong>Product SKU:</strong> {row?.product_sku}</p>
-                                            </div>
-                                        </td>
-                                    </tr> */}
                                 </React.Fragment>
                             ))}
                         </tbody>
                     </table>
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
             </div>
         </section >
     );

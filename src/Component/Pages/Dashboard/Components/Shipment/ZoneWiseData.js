@@ -7,7 +7,6 @@ const ZoneOrdersChart = () => {
     const [seriesArrayData, setSeriesArrayData] = useState([]);
     const [zoneData, setZoneData] = useState([]);
     const { zoneWiseData } = useSelector(state => state?.dashboardShipmentReducer)
-    console.log(zoneData, "zoneWiseDatazoneWiseData")
 
     useEffect(() => {
         if (zoneWiseData) {
@@ -15,7 +14,8 @@ const ZoneOrdersChart = () => {
             const valuesArray = [];
 
             Object.entries(zoneWiseData).forEach(([key, value], index) => {
-                keysArray.push(key.split("_").join(" "));
+                const formattedKey = key.split("_").map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(" ");
+                keysArray.push(`${formattedKey.slice(0, 4)} ${formattedKey.charAt(5).toUpperCase()}`);
                 valuesArray.push(value);
             });
             setSeriesArrayData(valuesArray)
@@ -39,9 +39,11 @@ const ZoneOrdersChart = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    const seriesData =seriesArrayData
+    const seriesData = seriesArrayData
     const total = seriesData.reduce((acc, curr) => acc + curr, 0);
-    const percentages = seriesData.map(val => ((val / total) * 100).toFixed(2) + '%');
+    const percentages = total !== 0
+        ? seriesData.map(val => ((val / total) * 100).toFixed(2) + '%')
+        : seriesData.map(() => '0%');
 
     const chartData = {
         series: seriesData,

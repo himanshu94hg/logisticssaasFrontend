@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
 const SellerVsBuyerResponseChart = () => {
-    const seriesData = [76, 67]; // Seller Response, Buyer Response
+    const ndrBuyer =useSelector(state=>state?.dashboardNdrReducer?.buyerStatus)
+    const seriesData = [ndrBuyer?.seller_response ?? [], ndrBuyer?.buyer_response ?? []];
     const options = {
         chart: {
             height: 390,
@@ -34,9 +36,9 @@ const SellerVsBuyerResponseChart = () => {
         legend: {
             show: true,
             floating: true,
-            fontSize: '14px',
+            fontSize: '12px',
             position: 'left',
-            offsetX: 20,
+            offsetX: 30,
             offsetY: 40,
             labels: {
                 useSeriesColors: true,
@@ -51,14 +53,29 @@ const SellerVsBuyerResponseChart = () => {
                 vertical: 3
             }
         },
-        responsive: [{
-            breakpoint: 480,
-            options: {
-                legend: {
-                    show: false
+        responsive: [
+            {
+                breakpoint: 1800,
+                options: {
+                    legend: {
+                        show: true,
+                        offsetX: -20,
+                        offsetY: 40,
+                    }
+                }
+            },
+            {
+                breakpoint: 1350,
+                options: {
+                    legend: {
+                        show: true,
+                        offsetX: -20,
+                        offsetY: 0,
+                        position: 'bottom',
+                    }
                 }
             }
-        }]
+        ]
     };
 
     return (

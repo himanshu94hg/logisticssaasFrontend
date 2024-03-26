@@ -1,15 +1,22 @@
 import axios from 'axios';
 import 'react-toggle/style.css';
 import { toast } from 'react-toastify';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState,useEffect  } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
 export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const [isChecked, setIsChecked] = useState(true);
+    const [isChecked, setIsChecked] = useState(() => {
+        const savedCheckboxState = localStorage.getItem('isChecked');
+        return savedCheckboxState ? JSON.parse(savedCheckboxState) : true;
+    });
     const [BillingDetails, setBillingDetails] = useState(true);
 
     const [errors, setErrors] = useState({});
+
+    useEffect(() => {
+        localStorage.setItem('isChecked', JSON.stringify(isChecked));
+    }, [isChecked]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -142,7 +149,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         }));
     };
 
-    const handleCheckboxChange = () => {
+    /*const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
         if (updatedIsChecked) {
@@ -170,7 +177,30 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 }
             }));
         }
+    };*/
+    const handleCheckboxChange = () => {
+        const updatedIsChecked = !isChecked;
+        setIsChecked(updatedIsChecked);
+        if (!updatedIsChecked) {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    customer_name: '',
+                    contact_code: '',
+                    mobile_number: '',
+                    email: '',
+                    company_name: '',
+                    address: '',
+                    landmark: '',
+                    pincode: '',
+                    city: '',
+                    state: '',
+                    country: ''
+                }
+            }));
+        }
     };
+
 
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
@@ -264,7 +294,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     <h3 className='mb-4'>Shipping Details</h3>
-                    <div className='row'>
+                    <div className='row gap-2'>
                         {/* Customer Name */}
                         <label className='col'>
                             <span>Recipient Name <span className='mandatory'>*</span></span>
@@ -280,7 +310,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <span>Mobile Number <span className='mandatory'>*</span></span>
                             <div className='d-flex mobile-number-field'>
                                 <select
-                                    className='input-field '
+                                    className='input-field'
                                     value={formData.shipping_details.contact_code}
                                     onChange={(e) => handleSelectShiping(e, 'contact_code')}
                                     disabled
@@ -305,7 +335,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             {errors.mobile_number && <div className="custom-error">{errors.mobile_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-3'>
+                    <div className='row mt-3 gap-2'>
                         <label className='col'>
                             <span>Email <span className='text-gray'>(optional)</span></span>
                             <input
@@ -422,6 +452,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             type="checkbox"
                             checked={isChecked}
                             onChange={handleCheckboxChange}
+                            bydefaultChecked = {true}
                         />
                         <label>Billing Address is the same as Shipping address</label>
                     </div>
@@ -430,7 +461,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     <div className={`inputs-container mx-auto mb-3 ${BillingDetails ? '' : 'd-none'}`}>
                         {/* Step 2 content */}
                         <h3 className='mb-4'>Billing Details</h3>
-                        <div className='row'>
+                        <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
                                 Recipient Name
@@ -582,7 +613,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                     </div>
                 )}
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 {/* Add three more input fields as needed */}
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onNextClicked}>Next</button>

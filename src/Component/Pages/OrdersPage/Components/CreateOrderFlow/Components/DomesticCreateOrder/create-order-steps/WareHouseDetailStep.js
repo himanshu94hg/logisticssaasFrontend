@@ -4,15 +4,25 @@ import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, myData }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
+
+    useEffect(() => {
+        if (myData) {
+            setWarehouses(myData)
+        }
+
+    }, [myData])
+
+    console.log(myData,"myDatamyData")
 
     useEffect(() => {
         const fetchWarehouses = async () => {
@@ -27,12 +37,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                 setLoading(false);
             } catch (error) {
                 setLoading(false);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to fetch warehouses. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
+                toast.error("Failed to fetch warehouses. Please try again later")
             }
         };
 
@@ -50,6 +55,19 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
         }));
     };
 
+    useEffect(() => {
+        if (wareHouseName && warehouses) {
+            let data = warehouses.filter(item => item?.warehouse_name === wareHouseName)
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                order_details: {
+                    ...prevFormData.order_details,
+                    warehouse_id: data[0]?.id
+                }
+            }));
+        }
+    }, [wareHouseName, warehouses])
+
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -61,7 +79,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                                 <p>Loading...</p>
                             ) : (
                                 warehouses.map(warehouse => (
-                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 cursor-pointer">
+                                    <div key={warehouse.id} className="col-lg-4 col-md-6 mb-4 cursor-pointer sm-warehouse-item">
                                         <label>
                                             <input
                                                 type="radio"
@@ -85,7 +103,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData })
                     </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
             </div>

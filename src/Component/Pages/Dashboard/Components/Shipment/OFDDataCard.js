@@ -63,8 +63,6 @@ const OFDChart = () => {
             }))
         }
     }, [ofdData])
-    console.log(chartData, "this is my ofd data")
-
     return (
         <div>
             <div id="ofd-chart">

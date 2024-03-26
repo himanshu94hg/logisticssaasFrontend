@@ -14,10 +14,16 @@ const SourceOptions = [
 ];
 
 const OrderStatus = [
-    { label: "Pending", value: "" },
-    { label: "Shipped", value: "" },
-    { label: "Ready to Ship", value: "" },
-    // Add more options as needed
+    { label: "Shipped", value: "shipped" },
+    { label: "cancelled", value: "cancelled" },
+    { label: "Delivered", value: "delivered" },
+    { label: "In Transit", value: "in_transit" },
+    { label: "Out of Delivery", value: "out_for_delivery" },
+    { label: "Pending", value: "pending" },
+    { label: "Lost", value: "lost" },
+    { label: "Manifested", value: "manifested" },
+    { label: "Pickup Scheduled", value: "pickup_scheduled" },
+    { label: "RTO Initiated", value: "rto_initiated" },
 ];
 
 const paymentOptions = [
@@ -36,25 +42,59 @@ const Ordertags = [
     // Add more options as needed
 ];
 
+const CourierPartner = [
+    { label: "Courier 1", value: "Courier1" },
+    // Add more options as needed
+];
+
+
 const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
+    const [SaveFilter, setSaveFilter] = useState(false)
 
-    const [sourceSelected, setSourceSelected] = useState([]);
-
-
-
-    const handleLocationChange = e => {
-        setLocation(e.target.value);
+    const handleCheckboxChange = () => {
+        setSaveFilter(prevState => !prevState);
     };
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log('Filter submitted:', { startDate, endDate, name, location });
-        // Add your custom form submission logic here
     };
+
+    const handleChange = (name, value) => {
+        if (name === "start_date" || name === "end_date") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+        if (name === "status") {
+            let temp_data = ''
+            let temp = value.map((item) => {
+                temp_data += item.value + ","
+            })
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        }
+        if (name === "order_source") {
+            let temp_data = ''
+            let temp = value.map((item) => {
+                temp_data += item.value + ","
+            })
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        }
+
+    };
+    // console.log(temp_data, "fieldNamefieldNamefieldName")
+
+
 
     const handleReset = () => {
         setStartDate(null);
@@ -62,6 +102,25 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         setName('');
         setLocation('');
     };
+
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: ""
+    })
+
+    console.log(filterParams, "fieldNamefieldNamefieldName")
+
+
+    //     channel =
+    //     product =
+    //     store_name =
+    //     save_filter = True / False
+    //     filter_name =
 
     return (
         <>
@@ -84,6 +143,8 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
+                                            selected={filterParams.start_date}
+                                            onChange={(e) => handleChange("start_date", e)}
                                         />
                                     </div>
                                 </label>
@@ -94,6 +155,8 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
+                                            selected={filterParams.end_date}
+                                            onChange={(e) => handleChange("end_date", e)}
                                         />
                                     </div>
                                 </label>
@@ -104,6 +167,8 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         options={OrderStatus}
                                         isMulti
                                         isSearchable
+                                        onChange={(e) => handleChange("status", e)}
+
                                     />
                                 </label>
                             </div>
@@ -111,8 +176,19 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label >Order Source
                                     <Select
                                         options={SourceOptions}
-                                        defaultValue={sourceSelected}
-                                        onChange={setSourceSelected}
+                                        // defaultValue={SourceOptions}
+                                        onChange={(e) => handleChange("order_source",e)}
+                                        isMulti
+                                        isSearchable
+
+                                    />
+                                </label>
+                            </div>
+                            <div className='filter-row'>
+                                <label>Courier Partner
+                                    <Select
+                                        options={CourierPartner}
+                                        onChange={(e) => handleChange(e, "courier_partner")}
                                         isMulti
                                         isSearchable
                                     />
@@ -122,6 +198,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Payment Option
                                     <Select
                                         options={paymentOptions}
+                                        onChange={(e) => handleChange(e, "payment_type")}
                                     />
                                 </label>
                             </div>
@@ -136,6 +213,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Order Tag
                                     <Select
                                         options={Ordertags}
+                                        // onChange={(e) => handleChange(e, "courier_partner")}
                                         isMulti
                                         isSearchable
                                     />
@@ -143,12 +221,22 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                             </div>
                             <div className='filter-row'>
                                 <label>Search Multiple Order Ids
-                                    <input className='input-field' type="text" placeholder='Enter Order ID comma separated' />
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        placeholder='Enter Order ID comma separated'
+                                        onChange={(e) => handleChange(e, "order_id")}
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>SKU
-                                    <input className='input-field' type="text" placeholder='Enter SKU' />
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        placeholder='Enter SKU'
+                                    // onChange={(e) => handleChange(e, "order_id")}
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row sku-checkbox'>
@@ -166,11 +254,23 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 </label>
                             </div>
                         </div>
-                        <div className='advanced-filter-footer text-end'>
-                            <button className='btn seconadary-button' type="button" onClick={handleReset}>
-                                Reset
-                            </button>
-                            <button className='btn main-button ms-3' type="submit">Submit</button>
+                        <div className='more-filters-footer'>
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    checked={SaveFilter}
+                                    onChange={handleCheckboxChange}
+                                />
+                                {!SaveFilter ? 'Save Filter' : (
+                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                )}
+                            </label>
+                            <div>
+                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                    Reset
+                                </button>
+                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </section>

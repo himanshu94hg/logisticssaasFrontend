@@ -11,7 +11,8 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
 import Cookies from "js-cookie";
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
+import { useDispatch } from 'react-redux';
 
 const InfoMissing = () => {
     return (
@@ -21,8 +22,9 @@ const InfoMissing = () => {
     );
 }
 
-const MergeOrder = ({ orders,handleSearch }) => {
-    console.log(orders,"Headers");
+const MergeOrder = ({ orders, handleSearch }) => {
+    const dispatch = useDispatch()
+    console.log(orders, "Headers");
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
@@ -114,7 +116,7 @@ const MergeOrder = ({ orders,handleSearch }) => {
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>
@@ -222,7 +224,7 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br /></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -283,10 +285,10 @@ const MergeOrder = ({ orders,handleSearch }) => {
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Clone Order</li>
+                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
                                                             <li>Mark As Verified</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>

@@ -7,26 +7,32 @@ import ReadyToShip from './Components/ReadyToShip/ReadyToShip';
 import Manifest from './Components/Manifest/Manifest';
 import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
 import AllOrders from './Components/AllOrders/AllOrders';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useLocation } from 'react-router';
 import EditOrder from './Components/EditOrder/EditOrder';
+import Pagination from './Components/Pagination/Pagination';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+
 
 
 const OrdersPage = () => {
+    const dispatch = useDispatch()
     const [activeTab, setActiveTab] = useState("Processing");
-
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
-
+    const [orderId, setOrderId] = useState(null)
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalItems, setTotalItems] = useState("");
     const [EditOrderSection, setEditOrderSection] = useState(false)
+    const [BulkActionShow, setBulkActionShow] = useState(false)
 
+    // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
-    const location=useLocation()
-
-    // console.log(location,"locationlocationlocation")
+    //const location = useLocation()
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -36,17 +42,23 @@ const OrdersPage = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
-
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}`
-    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable`
-    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing`
-    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship`
-    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=return`
-    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest`
+    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
+    let orderCancelledRes=orderCancelled+new Date();
+    let orderdeleteRes=orderdelete+new Date();
+    let orderClonRes=orderClone+new Date();
 
+    console.log(orderCancelled,orderdelete,orderClone,"orderCancelled,orderdelete,orderClone")
+
+
+    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
+    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
 
     useEffect(() => {
         let apiUrl = '';
@@ -74,10 +86,11 @@ const OrdersPage = () => {
         }
 
         if (apiUrl) {
-            // Add search parameter if searchValue is not empty
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
             }
+            // dispatch({type:"ORDERS_GET_ACTION"})
+            console.log(apiUrl, "object I JHJHK")
 
             axios.get(apiUrl, {
                 headers: {
@@ -85,63 +98,82 @@ const OrdersPage = () => {
                 }
             })
                 .then(response => {
-                    console.log('Data is data:', response.data.results);
+                    console.log('This is a dummy data api', response.data.count);
+                    setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
                 })
                 .catch(error => {
                     console.error('Error:', error);
                 });
         }
-    }, [activeTab, authToken, sellerData, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken,orderCancelledRes,orderdeleteRes,orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
     }
 
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("")
+        }
+    }, [activeTab])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
+            <div className='orders-section-tabs'>
+                {/* All Orders */}
+                <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
+                    <AllOrders setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
 
-            {/* All Orders */}
-            <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                <AllOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
+                {/* Unprocessable */}
+                <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
+                    <Unprocessable setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
 
-            {/* Unprocessable */}
-            <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                <Unprocessable activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
+                {/* Processing */}
+                <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
+                    <Processing
+                        setBulkActionShow={setBulkActionShow}
+                        activeTab={activeTab} orders={orders}
+                        handleSearch={handleSearch}
+                        setEditOrderSection={setEditOrderSection}
+                        setOrderId={setOrderId}
+                    />
+                </div>
 
-            {/* Processing */}
-            <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
-                <Processing
-                    activeTab={activeTab} orders={orders}
-                    handleSearch={handleSearch}
-                    setEditOrderSection={setEditOrderSection}
+                {/* ReadyToShip */}
+                <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
+                    <ReadyToShip setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Manifest */}
+                <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
+                    <Manifest setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+
+                {/* Returns */}
+                <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
+                    <ReturnOrders setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                </div>
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
                 />
+                {BulkActionShow && (
+                    <BulkActionsComponent />
+                )
+                }
             </div>
-
-            {/* ReadyToShip */}
-            <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                <ReadyToShip activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Manifest */}
-            <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                <Manifest activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-            {/* Returns */}
-            <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                <ReturnOrders activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
-            </div>
-
-
-            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} />
+            <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
 
         </>
     )
 }
 
-export default OrdersPage
+export default OrdersPage;

@@ -1,0 +1,192 @@
+.add-rule-panel {
+    position: fixed;
+    height: 100vh;
+    background-color: #fff;
+    top: 0;
+    right: -100vw;
+    z-index: 6;
+    transition: 1s;
+    width: 50vw;
+}
+
+.add-rule-panel.open {
+    right: 0;
+}
+
+.ar-panel-body {
+    padding: 30px;
+}
+
+.ar-items-scroll {
+    height: calc(100vh - 400px);
+    overflow-y: auto;
+    overflow-x: clip;
+    counter-reset: section;
+}
+
+.add-rule-btns {
+    width: 340px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-rules-section {
+    width: fit-content;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    counter-reset: section;
+}
+
+.create-rules-section p {
+    margin-bottom: 0;
+}
+
+.create-rules-section .created-rules {
+    background: var(--sh-primary-light);
+    position: relative;
+    padding: 15px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    border-radius: 0.5rem;
+}
+
+
+.create-rules-section .created-rules::before {
+    counter-increment: section;
+    content: counter(section);
+    padding-inline: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid var(--sh-primary-light);
+    font-size: 1.7rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+
+
+.create-rules-section .rule-row {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+    margin-left: 50px;
+}
+
+.create-rules-section .rule-row .rule-item {
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+.create-rules-section .rule-row .rule-item p {
+    background-color: #fff;
+    padding: 5px 10px;
+    margin-bottom: 0;
+    border-radius: 0.5rem;
+}
+
+.create-rules-section .rule-preference {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    justify-items: end;
+    gap: 10px;
+    position: relative;
+    margin-inline: 200px;
+}
+
+.create-rules-section .rule-preference p {
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 0.5rem;
+}
+
+.create-rules-section .rule-condition {
+    width: 50px;
+    margin-right: 20px;
+}
+
+.create-rules-section .rule-row .rule-item p.rule-condition {
+    width: 50px;
+    margin-right: 20px;
+    background-color: transparent;
+    font-size: 0.8rem;
+    position: relative;
+}
+
+.create-rules-section .rule-row .rule-item p.rule-condition::before {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 9px;
+    border: 1px dashed var(--sh-primary);
+    left: -4px;
+    top: 42%;
+}
+
+.create-rules-section .rule-row .rule-item p.rule-condition::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 22px;
+    border: 1px dashed var(--sh-primary);
+    left: 20px;
+    top: 70%;
+}
+
+.create-rules-section .rule-row .rule-item:last-of-type p:last-of-type::after {
+    display: none;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type .rule-condition {
+    visibility: hidden;
+    position: relative;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type p:nth-of-type(3) {
+    position: relative;
+}
+
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type p:nth-of-type(3)::before {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 19px;
+    border: 1px dashed var(--sh-primary);
+    right: -25px;
+    top: 50%;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type p:nth-of-type(3)::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 26px;
+    border: 1px dashed var(--sh-primary);
+    right: -30px;
+    top: 50%;
+}
+
+.rules-action-btn {
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+}
+
+
+@media screen and (max-width:1252px) {
+    .create-rules-section .rule-preference {
+        margin-inline: 20px 100px;
+    }
+}

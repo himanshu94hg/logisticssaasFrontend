@@ -148,10 +148,10 @@ const SideNav = (props) => {
     { to: "/Orders", label: "Orders" },
     {
       to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
-        { to: "/quick-order", label: "Quick Order" },
-        { to: "/Reassign-orders", label: "Reassign Orders" },
-        { to: "/merge-orders", label: "Merge Orders" },
-        { to: "/split-orders", label: "Split Orders" },
+        { to: "/create-order", label: "Quick Order" },
+        { to: "/more-on-orders", label: "Reassign Orders" },
+        { to: "/more-on-orders", label: "Merge Orders" },
+        { to: "/more-on-orders", label: "Split Orders" },
         { to: "/create-order", label: "Reverse Order" },
       ],
     },

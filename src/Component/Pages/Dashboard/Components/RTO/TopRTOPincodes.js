@@ -9,9 +9,6 @@ const TopRTOPincodes = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState(top15Pincodes);
 
-
-
-
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
@@ -21,10 +18,12 @@ const TopRTOPincodes = () => {
         item.shipping_detail__city.toLowerCase().includes(term) ||
         item.shipping_detail__state.toLowerCase().includes(term) ||
         String(item.rto_count).includes(term)
-    ).slice(0, 15);
+    );
+
+    console.log(filtered,"filteredfiltered")
     setFilteredData(filtered);
   };
-
+  
   return (
     <>
       <div className="box-shadow shadow-sm p10 top-rto-pincodes">
@@ -53,7 +52,7 @@ const TopRTOPincodes = () => {
                 </tr>
               </thead>
               <tbody>
-                {rtoTop?.map((item, index) => (
+                {filteredData?.map((item, index) => (
                   <tr key={index} className={`bg-${index % 2 === 0 ? 'red' : 'green'}-light text-${index % 2 === 0 ? 'red' : 'green'}`}>
                     <td>{item.shipping_detail__pincode}</td>
                     <td className='text-capitalize'>{item.shipping_detail__city}</td>

@@ -1,5 +1,6 @@
 import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
@@ -34,10 +35,73 @@ const DateFormatter = ({ dateTimeString }) => {
 
 const ActionRequired = ({shipmentCard}) => {
 
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    const reattemptOrderIds = selectedRows.join(',');
+
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+    const reattemptCard = useSelector(state => state?.exportSectionReducer?.shipmentSectionReducer?.shipmentReattemptCard)
+    const rtoCard = useSelector(state => state?.exportSectionReducer?.shipmentSectionReducer?.shipmentRtoCard)
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const handleExport = () => {
+        setExportButtonClick(true);
+        const requestData = {
+            "order_tab": {
+              "type": "shipment",
+              "subtype": "action_required"
+            },
+            "order_id": `${selectedRows.join(',')}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": false,
+            "global_type": "",
+            "payment_type": ""
+          };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Shipment_Action_Required"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);    
+
+    const handleReattempt = ((orderIds)=>{
+        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":orderIds} });
+    });
+
+    const handleReattemptOrder = (()=>{
+        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
+    });
+
+    const handleRto = ((orderIds)=>{
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":orderIds} });
+    });
+
+    const handleRtoOrder = (()=>{
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
+    });
 
     const reasons = [
         { count: 1, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
@@ -61,6 +125,7 @@ const ActionRequired = ({shipmentCard}) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -116,6 +181,13 @@ const ActionRequired = ({shipmentCard}) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
+                        {selectedRows.length > 0 && (
+                            <button className='btn main-button me-2' onClick={() => handleReattemptOrder()}>Reattempt</button>
+                        )}
+                        {selectedRows.length > 0 && (
+                            <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
+                        )}
+                        <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
                         <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
                         <button className='btn main-button'>Report</button>
                     </div>
@@ -229,8 +301,8 @@ const ActionRequired = ({shipmentCard}) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
+                                                            <li onClick={() => handleReattempt(row.id)}>Re-attempt</li>
+                                                            <li onClick={() => handleRto(row.id)}>RTO</li>
                                                             <li>Escalate</li>
                                                         </ul>
                                                     </div>

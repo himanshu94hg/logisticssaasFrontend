@@ -104,8 +104,12 @@
   padding-left: 26px;
 }
 
-.table-container {
-  height: calc(100vh - 264px);
+.orders-section-tabs {
+  position: relative;
+}
+
+.orders-section-tabs .table-container {
+  height: calc(100vh - 317px);
   overflow-y: scroll;
 }
 

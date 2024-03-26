@@ -22,7 +22,11 @@ import { getDashboardCouriersWatcher } from "./action/dashboard/courier";
 import { getDashboardRtoWatcher } from "./action/dashboard/rto";
 import { getDashboardNdrWatcher } from "./action/dashboard/ndr";
 import { getWeightRecoWatcher } from "./action/weightReco";
-
+import { getmoreorderWatcher } from "./action/moreorder";
+import { getexportWatcher } from "./action/exports";
+import { orderActionTabWatcher } from "./action/orders/deleteOrder";
+import { ordersTabWatcher } from "./action/orders/orders";
+import { getIntegrationWatcher } from "./action/integration";
 
 export default function* rootSaga() {
   yield all([
@@ -48,6 +52,11 @@ export default function* rootSaga() {
    getDashboardNdrWatcher(),
    getDashboardRtoWatcher(),
    getDashboardCouriersWatcher(),
-   getWeightRecoWatcher()
+   getWeightRecoWatcher(),
+   getmoreorderWatcher(),
+   ordersTabWatcher(),
+   getexportWatcher(),
+   orderActionTabWatcher(),
+   getIntegrationWatcher()
   ]);
 }

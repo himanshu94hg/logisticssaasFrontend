@@ -86,8 +86,6 @@ const ForwardReverseOrder = () => {
     }, [assignPick]);
 
 
-    console.log(chartData,"chartDatachartData")
-
     return (
         <div className="box-shadow shadow-sm p10">
             <div className="row">

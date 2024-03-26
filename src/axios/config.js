@@ -1,4 +1,4 @@
-import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl,billingDummyBaseUrl } from "../config";
+import { coreBaseUrl, courierBaseUrl, dummyBaseUrl, orderBaseUrl, moreonBaseUrl, billingDummyBaseUrl } from "../config";
 
 
 export const BASE_URL_CORE = coreBaseUrl;
@@ -33,10 +33,28 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_PARTNER: "/core-api/features/courier-category/",
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
+  ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
+
+  //SHIPMENT REATTEMPT
+  GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
+  GET_SHIPMENT_RTO_URL: "/core-api/shipping/mark-order-rto/",
+
+  //ORDERS API
+  GET_ORDERS_API: "/orders-api/orders/",
+  CANCEL_ORDERS_API: "/orders-api/orders/cancel-order/",
+  DELETE_ORDERS_API: "/orders-api/orders/order-complete-detail/",
+  CLONE_ORDERS_API: "/orders-api/orders/clone-order/",
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
-  GET_CONFIGURATION_URL:"/core-api/seller/general-configuration/",
+  GET_CONFIGURATION_URL: "/core-api/seller/general-configuration/",
+
+  //MOREONORDER REASSIGN
+  GET_REASSIGN_URL: "/core-api/shipping/ship-rate-card-reassign/",
+  GET_REASSIGN_SHIP_URL: "/core-api/shipping/reassign-order/",
+
+  //EXPORTS
+  GET_EXPORT_URL: "/orders-api/orders/export-order/",
 
 
   //DASHBOARD OVERVIEW API'S 
@@ -71,6 +89,7 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE: "/orders-api/dashboard/shipment/weight-profile/",
   GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
+  GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA: "/orders-api/dashboard/shipment/shipment-overview-courier/",
 
 
   //DASHBOARD NDR API'S
@@ -78,14 +97,23 @@ export const API_URL = {
   GET_DASHBOARD_NDR_NDR_STATUS: "/orders-api/dashboard/ndr/ndr-status/",
   GET_DASHBOARD_NDR_SUCCESS_BY_COURIER: "/orders-api/dashboard/ndr/success-by-courier/",
   GET_DASHBOARD_NDR_SUCCESS_BY_ZONE: "/orders-api/dashboard/ndr/success-by-zone/",
+  GET_DASHBOARD_NDR_DELIVERY_ATTEMPT: "/orders-api/dashboard/ndr/ndr-to-delivery-attempt/",
+  GET_DASHBOARD_NDR_FUNNEL_ATTEMPT: "/orders-api/dashboard/ndr/ndr-funnel/",
+  GET_DASHBOARD_NDR_RESPONSE_ATTEMPT: "/orders-api/dashboard/ndr/ndr-response/",
+  GET_DASHBOARD_NDR_SPLIT_ATTEMPT: "/orders-api/dashboard/ndr/ndr-reason-split/",
+  GET_DASHBOARD_NDR_BUYER_ATTEMPT: "/orders-api/dashboard/ndr/ndr-seller-buyer-response/",
 
   //DASHBOARD RTO API'S
   GET_DASHBOARD_RTO_TOP_RTO: "/orders-api/dashboard/rto/top-rto/",
   GET_DASHBOARD_RTO_TOP_CITY: "/orders-api/dashboard/rto/top-rto-city/",
   GET_DASHBOARD_RTO_COUNT_MONTHWISE: "/orders-api/dashboard/rto/month-wise-rto-count/",
   GET_DASHBOARD_RTO_TOP_COURIER: "/orders-api/dashboard/rto/top-rto-courier/",
+  GET_DASHBOARD_RTO_STATUS: "/orders-api/dashboard/rto/rto-status/",
 
   //DASHBOARD COURIER API'S
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
+
+  //INTEGRATION API'S
+  POST_GENERATE_API_KEY:"/core-api/seller/api-key/"
 
 };

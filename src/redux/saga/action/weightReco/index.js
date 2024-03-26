@@ -6,7 +6,7 @@ import { GET_WEIGHT_RECO_DATA } from "../../../constants/weightReco";
 async function weightRecoApi(data) {
     let getData = axios.request({
         method: "GET",
-        url: `https://jsonplaceholder.typicode.com/users`,
+        url: `https://fakestoreapi.com/products`,
     });
     return getData
 }

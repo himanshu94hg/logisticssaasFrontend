@@ -11,6 +11,7 @@ import InProgressTickets from './Components/InProgressTickets';
 import ViewTicketSlider from './Components/ViewTicketSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -24,6 +25,9 @@ const CustomerSupportPage = () => {
   const [filterClick, setFilterClick] = useState(false);
   const [status, setStatus] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState("");
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
@@ -31,40 +35,41 @@ const CustomerSupportPage = () => {
   useEffect(() => {
     let url = apiUrl;
     switch (activeTab) {
-        case "openTickets":
-            url += "?status=Open";
-            break;
-        case "inProgressTickets":
-            url += "?status=In-progress";
-            break;
-        case "closedTickets":
-            url += "?status=Closed";
-            break;
-        case "allTickets":
-            url += "?";
-            break;
-        default:
-            break;
+      case "openTickets":
+        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}`;
+        break;
+      case "inProgressTickets":
+        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}`;
+        break;
+      case "closedTickets":
+        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}`;
+        break;
+      case "allTickets":
+        url += `?&page=${currentPage}&page_size=${itemsPerPage}`;
+        break;
+      default:
+        break;
     }
 
     if (url) {
-        if (searchValue.trim() !== '') {
-            url += `${activeTab === 'allTickets' ? '' : '&'}q=${encodeURIComponent(searchValue.trim())}`;
-        }
-        axios.get(url, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                },
-            })
-            .then((response) => {
-                setAllTicket(response?.data?.results);
-            })
-            .catch((error) => {
-                console.error("Error:", error);
-            });
+      if (searchValue.trim() !== '') {
+        url += `${activeTab === 'allTickets' ? '' : '&'}q=${encodeURIComponent(searchValue.trim())}`;
+      }
+      axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      })
+        .then((response) => {
+          setAllTicket(response?.data?.results);
+           setTotalItems(response?.data?.count);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+        });
     }
 
-}, [activeTab, status, searchValue]);
+  }, [activeTab, status, searchValue,currentPage,itemsPerPage]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();
@@ -136,12 +141,19 @@ const CustomerSupportPage = () => {
           <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
         </div>
       </div>
+      <Pagination
+        totalItems={totalItems}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        setItemsPerPage={setItemsPerPage}
+        setCurrentPage={setCurrentPage}
+      />
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets); setFilterClick(true) }}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
-          <h2 className='mb-0'>More Filters</h2>
+          <h2 className='mb-0'> More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
         <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />

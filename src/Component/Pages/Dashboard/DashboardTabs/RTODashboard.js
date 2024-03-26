@@ -19,6 +19,7 @@ const RTODashboard = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_RTO_TOP_CITY_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_RTO_COUNT_MONTHWISE_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_RTO_TOP_COURIER_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_RTO_STATUS_ACTION", payload: dateRangeDashboard })
     }
   }, [activeTab, dispatch])
 

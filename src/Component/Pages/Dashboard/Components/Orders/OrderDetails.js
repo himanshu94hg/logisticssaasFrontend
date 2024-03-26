@@ -18,7 +18,10 @@ const OrdersChart = () => {
         options: {
             chart: {
                 type: 'line',
-                height: 350
+                height: 350,
+                toolbar: {
+                    show: false, 
+                }
             },
             title: {
                 text: '',
@@ -70,6 +73,7 @@ const OrdersChart = () => {
         </div>
     );
 };
+
 
 function OrderDetails() {
     return (

@@ -10,6 +10,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -47,6 +48,7 @@ const InfoMissing = () => {
 }
 
 const ReverseOrder = ({ orders,handleSearch }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
@@ -285,10 +287,10 @@ const ReverseOrder = ({ orders,handleSearch }) => {
                                                             <li>Verify Order</li>
                                                             <li><hr /></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Clone Order</li>
+                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
                                                             <li>Mark As Verified</li>
                                                             <li><hr /></li>
-                                                            <li>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
