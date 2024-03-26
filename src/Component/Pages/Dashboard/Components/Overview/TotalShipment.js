@@ -99,7 +99,7 @@ function TotalShipment() {
                   {/* Yet To Pick */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Yet To Pick</p>
+                      <p className="font12 bold-600 mb-2">Pickup Requested</p>
                       <p className="font12 text-gray mb-0">
                         {shimpmetCard?.yet_to_pick_orders} {percentage(shimpmetCard?.yet_to_pick_orders, totalShipment)}
                       </p>
