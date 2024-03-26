@@ -226,7 +226,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 </div>
                 <section className='edit-order-header'>
                     <div>
-                        <h2 className='mb-1'>Order Id : <span className='text-capitalize'>{orderDetailsData?.customer_order_number}</span></h2>
+                        <h2 className='mb-1'>Order Id : <span className='text-capitalize'>{orderDetailsData?.customer_order_number && orderDetailsData.customer_order_number.slice(0, 40)}</span></h2>
                         <h5 className='mb-0'>Edit Your Order Details!</h5>
                     </div>
                 </section>

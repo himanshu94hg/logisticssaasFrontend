@@ -89,6 +89,7 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE: "/orders-api/dashboard/shipment/weight-profile/",
   GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
+  GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA: "/orders-api/dashboard/shipment/shipment-overview-courier/",
 
 
   //DASHBOARD NDR API'S
@@ -107,6 +108,7 @@ export const API_URL = {
   GET_DASHBOARD_RTO_TOP_CITY: "/orders-api/dashboard/rto/top-rto-city/",
   GET_DASHBOARD_RTO_COUNT_MONTHWISE: "/orders-api/dashboard/rto/month-wise-rto-count/",
   GET_DASHBOARD_RTO_TOP_COURIER: "/orders-api/dashboard/rto/top-rto-courier/",
+  GET_DASHBOARD_RTO_STATUS: "/orders-api/dashboard/rto/rto-status/",
 
   //DASHBOARD COURIER API'S
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
