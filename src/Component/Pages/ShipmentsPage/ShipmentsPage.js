@@ -5,7 +5,6 @@ import RTOShipment from './Components/RTOShipment/RTOShipment';
 import ActionRequired from './Components/ActionRequired/ActionRequired';
 import ActionRequested from './Components/ActionRequested/ActionRequested';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
-import axios from "axios";
 import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 
 
