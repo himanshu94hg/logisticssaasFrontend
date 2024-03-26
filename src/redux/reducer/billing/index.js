@@ -1,4 +1,4 @@
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA ,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA } from "../../constants/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA ,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA } from "../../constants/billing";
 
 
 const initialState = {
@@ -7,7 +7,8 @@ const initialState = {
     billingShipingRemitanceCard:[],
     billingShipingRechargeCard:[],
     billingShipingInvoiceCard:[],
-    billingShipingReceiptCard:[]
+    billingShipingReceiptCard:[],
+    billingShipingReceiptExportCard:[]
 };
 
 export const billingSectionReducer = (state = initialState, action) => {
@@ -42,6 +43,11 @@ export const billingSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 billingShipingReceiptCard: action?.payload?.results
+            };
+        case GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA:
+            return {
+                ...state,
+                billingShipingReceiptExportCard: action?.payload
             };
         default:
             return state

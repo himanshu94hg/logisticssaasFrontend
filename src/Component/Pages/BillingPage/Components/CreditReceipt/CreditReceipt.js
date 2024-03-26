@@ -1,5 +1,6 @@
 import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -184,6 +185,21 @@ const CreditReceipt = ({ billingCard}) => {
 export default CreditReceipt;
 
 function Preview({ show, handleClose, selectedRow }) {
+    const dispatch = useDispatch();
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+    const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingReceiptExportCard);
+    const handleViewDetails = (id) => {
+        setExportButtonClick(true);
+        dispatch({ type: "BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION",payload:id });
+    };
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Receipt"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
     return (
         <Modal show={show} onHide={handleClose} size="xl">
             <Modal.Header closeButton>
@@ -247,9 +263,20 @@ function Preview({ show, handleClose, selectedRow }) {
                     </div>
                     <div className="row">
                         <div className="col-xs-12">
-                            <p>CIN number: ABC123456</p>
-                            <a href="#">click to view more details</a>
+                            <p>CIN number: U63030HR2022PTC103527</p>
+                            <span
+                                onClick={() => handleViewDetails(selectedRow?.id)}
+                                style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}
+                            >
+                                Click to view more details
+                            </span>
                             <p>This is a system generated credit note and does not require a signature</p>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <br></br>    
+                            <br></br>    
                         </div>
                     </div>
                 </div>

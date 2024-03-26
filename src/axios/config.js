@@ -35,6 +35,7 @@ export const API_URL = {
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
   GET_BILLING_CREDIT_URL: "/core-api/features/billing/credit-receipt/",
+  GET_BILLING_CREDIT_EXPORT_URL: "/core-api/features/billing/credit-receipt-download/",
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
