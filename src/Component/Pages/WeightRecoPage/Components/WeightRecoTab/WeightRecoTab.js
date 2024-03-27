@@ -18,35 +18,36 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
 
-// const DateFormatter = ({ dateTimeString }) => {
-//     const [formattedDate, setFormattedDate] = useState('');
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
 
 
 
-//     useEffect(() => {
-//         const formattedDateTime = formatDateTime(dateTimeString);
-//         setFormattedDate(formattedDateTime);
-//     }, [dateTimeString]);
+    useEffect(() => {
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
 
-//     const formatDateTime = (dateTimeString) => {
-//         const options = {
-//             year: 'numeric',
-//             month: 'short',
-//             day: '2-digit',
-//             hour: '2-digit',
-//             minute: '2-digit',
-//             hour12: true,
-//         };
+    const formatDateTime = (dateTimeString) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
 
-//         const dateObject = new Date(dateTimeString);
-//         const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
 
-//         return formattedDateTime;
-//     };
+        return formattedDateTime;
+    };
 
-//     return <p>{formattedDate}</p>;
-// };
+    return <p>{formattedDate}</p>;
+};
 
 const WeightRecoTab = ({weightRecoData}) => {
 
@@ -118,6 +119,16 @@ const WeightRecoTab = ({weightRecoData}) => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
+
+    const [show, setShow] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+
+    const handleShow = (row) => {
+        setSelectedRow(row);
+        setShow(true);
+    };
+
+    const handleClose = () => setShow(false);
 
     return (
         <section className='position-relative'>
@@ -245,29 +256,12 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                {/* <button className='btn main-button'>Ship Now</button> */}
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                        <td>
+                                            {/* Applied Weight Charges */}
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    <button className='btn main-button'  onClick={() => handleShow(row)}>View History</button>
+                                                </p>
                                             </div>
                                         </td>
                                     </tr>
@@ -285,6 +279,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                 </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
 
             </div>
         </section >
@@ -292,3 +287,37 @@ const WeightRecoTab = ({weightRecoData}) => {
 };
 
 export default WeightRecoTab;
+
+function Preview({ show, handleClose, selectedRow }) {
+    return (
+        <Modal show={show} onHide={handleClose} size="xl">
+            <Modal.Header closeButton>
+                <Modal.Title>History Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <table className="table">
+                    <tbody>
+                        <tr>
+                            <th>Weight Discrepancy Date</th>
+                            <th>Status</th>
+                            <th>Charged Weight (KG)</th>
+                            <th>Charged Dimension (CM)</th>
+                            <th>Action Taken by</th>
+                            <th>Applied Weight</th>
+                            <th>Remark</th>
+                        </tr>
+                        <tr>
+                            <td>{selectedRow?.created ? <DateFormatter dateTimeString={selectedRow?.created} /> : ''}</td>
+                            <td>{selectedRow?.status}</td>
+                            <td>{selectedRow?.c_weight}</td>
+                            <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
+                            <td>{selectedRow?.action_taken_by}</td>
+                            <td>{selectedRow?.e_weight}</td>
+                            <td>{selectedRow?.remark}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Modal.Body>
+        </Modal>
+    );
+}
