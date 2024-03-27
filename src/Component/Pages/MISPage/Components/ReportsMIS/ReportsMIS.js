@@ -47,7 +47,7 @@ const ReportsMIS = () => {
             { value: 'shipping_charges', label: 'Shipping Charges' },
             { value: 'weight_reconciliation', label: 'Weight Reconciliation' },
             { value: 'remittance_logs', label: 'Remittance Logs' },
-            { value: 'onhold_reconciliation', label: 'Onhold Reconciliatio' },
+            { value: 'onhold_reconciliation', label: 'Onhold Reconciliation' },
             { value: 'invoices', label: 'Invoices' },
         ],
         Returns: [

@@ -1,5 +1,14 @@
 import React, { useState } from 'react'
 import moment from 'moment'
+import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
+import customImg from "../../../../../../assets/image/integration/Manual.png"
+import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 
 const ReturnsTableMIS = () => {
@@ -7,185 +16,161 @@ const ReturnsTableMIS = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [orders, setAllOrders] = useState([
         {
-            "id": 1027,
-            "customer_order_number": "Test100",
-            "courier_partner": "professional",
+            "id": 1239,
+            "customer_order_number": "Test26032024-clone",
+            "courier_partner": "xpressbees",
             "channel": "custom",
             "channel_id": null,
-            "awb_number": "TPC1000010  ",
+            "awb_number": "Xbees10006",
+            "order_tag": "",
             "order_type": "Forward",
-            "order_date": "2024-03-22T11:57:40.080085+05:30",
-            "order_courier_status": null,
-            "awb_assigned_date": "2024-03-22T12:07:17.161328+05:30",
+            "order_date": "2024-03-26T10:52:46.028000+05:30",
+            "order_courier_status": "Ready_to_ship",
+            "awb_assigned_date": "2024-03-26T17:56:15.057946+05:30",
             "is_mps": false,
             "manifest_sent": false,
             "fulfillment_sent": false,
-            "ndr_status": true,
+            "ndr_status": false,
             "rto_status": false,
             "manifest_status": false,
             "payment_type": "Prepaid",
-            "invoice_amount": "5000.00",
-            "status": "in_transit",
-            "created_at": "2024-03-22T11:57:40.080232+05:30",
+            "invoice_amount": "500.00",
+            "status": "shipped",
+            "created_at": "2024-03-26T17:56:14.962924+05:30",
             "shipping_detail": {
-                "recipient_name": "Aman",
-                "address": "MG Road Delhi",
-                "landmark": "Near Sahara Mall",
+                "recipient_name": "Vinit",
+                "address": "P584 Hair om Nagar",
+                "landmark": "AWS",
                 "country": "India",
-                "state": "Haryana",
-                "city": "Gurgaon",
-                "pincode": "122001",
-                "mobile_number": "7894587845",
-                "email": null,
-                "company_name": null,
+                "state": "Gujarat",
+                "city": "Surat",
+                "pincode": "394221",
+                "mobile_number": "9874563215",
+                "email": "",
+                "company_name": "",
                 "contact_code": "91"
             },
             "order_products": [
                 {
-                    "id": 1006,
-                    "sku": "Prod1",
-                    "product_name": "Product 1",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
+                    "id": 1572,
+                    "sku": "DWDED",
+                    "product_name": "AWS",
+                    "quantity": 2,
+                    "product_category": "",
+                    "unit_price": "0.00",
+                    "hsn_code": "",
                     "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1007,
-                    "sku": "Prod2",
-                    "product_name": "Product 2",
-                    "quantity": 40,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1008,
-                    "sku": "Prod3",
-                    "product_name": "Product 3",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
+                    "product_discount": "0.00"
                 }
             ],
             "dimension_detail": {
-                "weight": "100.00",
+                "weight": "0.50",
                 "length": "10.00",
-                "breadth": "12.00",
-                "height": "11.00",
-                "vol_weight": null
+                "breadth": "10.00",
+                "height": "10.00",
+                "vol_weight": "0.20"
             },
             "pickup_details": {
-                "p_customer_name": "contact name",
-                "p_warehouse_name": "first warehouse name test",
-                "p_address_line1": "address line one",
-                "p_address_line2": "address line two",
+                "p_customer_name": "Amit",
+                "p_warehouse_name": "BMU",
+                "p_address_line1": "1234 Main Street, Suite 500 Anytown, CA",
+                "p_address_line2": "Hanuman mandir",
                 "p_country": "India",
-                "p_state": "uttar pradesh",
-                "p_city": "Fatehpur",
-                "p_pincode": "545678",
-                "p_contact": "8790987654",
+                "p_state": "Gujarat",
+                "p_city": "Surat",
+                "p_pincode": "394250",
+                "p_contact": "9874561235",
                 "p_contact_code": "+91"
             },
-            "ndr_details": []
+            "charge_detail": {
+                "cod_charges": "0.00",
+                "shipping_charges": "35.40",
+                "transaction_fee": null,
+                "is_gift_wrap": true
+            },
+            "other_details": {
+                "reseller_name": "",
+                "number_of_packets": 0
+            }
         },
         {
-            "id": 1027,
-            "customer_order_number": "Test100",
-            "courier_partner": "professional",
+            "id": 1238,
+            "customer_order_number": "Test26032024-clone",
+            "courier_partner": "smartr",
             "channel": "custom",
             "channel_id": null,
-            "awb_number": "TPC1000010  ",
+            "awb_number": "SM100016",
+            "order_tag": "",
             "order_type": "Forward",
-            "order_date": "2024-03-22T11:57:40.080085+05:30",
-            "order_courier_status": null,
-            "awb_assigned_date": "2024-03-22T12:07:17.161328+05:30",
+            "order_date": "2024-03-26T10:52:46.028000+05:30",
+            "order_courier_status": "Ready_to_ship",
+            "awb_assigned_date": "2024-03-26T17:56:10.607029+05:30",
             "is_mps": false,
             "manifest_sent": false,
             "fulfillment_sent": false,
-            "ndr_status": true,
+            "ndr_status": false,
             "rto_status": false,
             "manifest_status": false,
             "payment_type": "Prepaid",
-            "invoice_amount": "5000.00",
-            "status": "in_transit",
-            "created_at": "2024-03-22T11:57:40.080232+05:30",
+            "invoice_amount": "500.00",
+            "status": "shipped",
+            "created_at": "2024-03-26T17:56:10.506705+05:30",
             "shipping_detail": {
-                "recipient_name": "Aman",
-                "address": "MG Road Delhi",
-                "landmark": "Near Sahara Mall",
+                "recipient_name": "Vinit",
+                "address": "P584 Hair om Nagar",
+                "landmark": "AWS",
                 "country": "India",
-                "state": "Haryana",
-                "city": "Gurgaon",
-                "pincode": "122001",
-                "mobile_number": "7894587845",
-                "email": null,
-                "company_name": null,
+                "state": "Gujarat",
+                "city": "Surat",
+                "pincode": "394221",
+                "mobile_number": "9874563215",
+                "email": "",
+                "company_name": "",
                 "contact_code": "91"
             },
             "order_products": [
                 {
-                    "id": 1006,
-                    "sku": "Prod1",
-                    "product_name": "Product 1",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
+                    "id": 1571,
+                    "sku": "DWDED",
+                    "product_name": "AWS",
+                    "quantity": 2,
+                    "product_category": "",
+                    "unit_price": "0.00",
+                    "hsn_code": "",
                     "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1007,
-                    "sku": "Prod2",
-                    "product_name": "Product 2",
-                    "quantity": 40,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1008,
-                    "sku": "Prod3",
-                    "product_name": "Product 3",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
+                    "product_discount": "0.00"
                 }
             ],
             "dimension_detail": {
-                "weight": "100.00",
+                "weight": "0.50",
                 "length": "10.00",
-                "breadth": "12.00",
-                "height": "11.00",
-                "vol_weight": null
+                "breadth": "10.00",
+                "height": "10.00",
+                "vol_weight": "0.20"
             },
             "pickup_details": {
-                "p_customer_name": "contact name",
-                "p_warehouse_name": "first warehouse name test",
-                "p_address_line1": "address line one",
-                "p_address_line2": "address line two",
+                "p_customer_name": "Amit",
+                "p_warehouse_name": "BMU",
+                "p_address_line1": "1234 Main Street, Suite 500 Anytown, CA",
+                "p_address_line2": "Hanuman mandir",
                 "p_country": "India",
-                "p_state": "uttar pradesh",
-                "p_city": "Fatehpur",
-                "p_pincode": "545678",
-                "p_contact": "8790987654",
+                "p_state": "Gujarat",
+                "p_city": "Surat",
+                "p_pincode": "394250",
+                "p_contact": "9874561235",
                 "p_contact_code": "+91"
             },
-            "ndr_details": []
-        }
+            "charge_detail": {
+                "cod_charges": "0.00",
+                "shipping_charges": "35.40",
+                "transaction_fee": null,
+                "is_gift_wrap": true
+            },
+            "other_details": {
+                "reseller_name": "",
+                "number_of_packets": 0
+            }
+        },
         // Add more dummy data as needed
     ]);
 
@@ -228,11 +213,12 @@ const ReturnsTableMIS = () => {
                             onChange={handleSelectAll}
                         />
                     </th>
-                    <th>Date</th>
-                    <th>NDR Reason</th>
+                    <th style={{ width: '25%' }}>Order Details</th>
+                    <th>Customer Details</th>
                     <th>Package Details</th>
-                    <th>Customer details</th>
-                    <th>Tracking Detail</th>
+                    <th>Payment</th>
+                    <th>Pickup Address</th>
+                    <th>Shipping Details</th>
                     <th>Status</th>
                 </tr>
                 <tr className="blank-row"><td></td></tr>
@@ -250,24 +236,42 @@ const ReturnsTableMIS = () => {
                                 />
                             </td>
                             <td>
-                                {/* Date */}
+                                {/* User Details */}
                                 <div className='cell-inside-box'>
-                                    <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
+                                    <p className=''>
+                                        {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                            : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                    : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                        : ""}
+                                        &nbsp; <span className=''>{row.customer_order_number}</span>
+                                    </p>
+                                    <p className='ws-nowrap d-flex align-items-center'>
+                                        <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                        <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                    </p>
                                 </div>
                             </td>
                             <td>
-                                {/* NDR Reason*/}
+                                {/* Customer Details */}
                                 <div className='cell-inside-box'>
-                                    <p><strong>Attempts: </strong>{row?.ndr_details.length}</p>
-                                    {row?.ndr_details.length > 0 && (
-                                        row.ndr_details.map((detail, index) => (
-                                            <p key={index}>NDR Reason: {detail.reason}</p>
-                                        ))
-                                    )}
+                                    <p>{row?.shipping_detail?.recipient_name}</p>
+                                    <p>{row?.shipping_detail?.mobile_number ?? null}
+                                        <span className='details-on-hover ms-2'>
+                                            <InfoIcon />
+                                            <span style={{ width: '250px' }}>
+                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                            </span>
+                                        </span>
+                                    </p>
                                 </div>
                             </td>
                             <td>
-                                {/* package  details */}
+                                {/* Package Details */}
                                 <div className='cell-inside-box'>
                                     <p className='width-eclipse'>{row.order_products.product_name}</p>
                                     <p>Wt:  {row?.dimension_detail?.weight} kg <br />
@@ -288,28 +292,44 @@ const ReturnsTableMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* customer detail */}
+                                {/* Payment */}
                                 <div className='cell-inside-box'>
-                                    <p>{row?.shipping_detail?.recipient_name}</p>
-                                    <p>{row?.shipping_detail?.mobile_number ?? null}
-                                        <span className='details-on-hover ms-2'>
-                                            <InfoIcon />
-                                            <span style={{ width: '250px' }}>
-                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
-                                            </span>
-                                        </span>
-                                    </p>
+                                    <p>&#x20B9; {row?.invoice_amount}</p>
+                                    <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                 </div>
                             </td>
                             <td>
+                                {/* Pickup Address */}
+                                <div className='cell-inside-box'>
+                                    {row?.pickup_details ? (
+                                        <p>{row?.pickup_details?.p_warehouse_name}
+                                            <span className='details-on-hover ms-2'>
+                                                <InfoIcon />
+                                                {/* {!row?.pickup_details?.p_warehouse_name && ( */}
+                                                <span style={{ width: '250px' }}>
+                                                    {row?.pickup_details?.p_address_line1},
+                                                    {row?.pickup_details?.p_address_line2},<br />
+                                                    {row?.pickup_details?.p_city},
+                                                    {row?.pickup_details?.p_state},
+                                                    {row?.pickup_details?.p_pincode}
+                                                </span>
+                                                {/* )} */}
+
+                                            </span>
+                                        </p>
+                                    ) : ''}
+                                </div>
+                            </td>
+                            <td>
+                                {/* Shipping Details */}
                                 <div className='cell-inside-box'>
                                     <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
                                     <p className=''>{row?.courier_partner ?? ""} </p>
                                 </div>
                             </td>
                             <td className='align-middle'>
-                                {/*  Status section  */}
-                                <p className='order-Status-box'>{row.status}</p>
+                                {/*  Status  */}
+                                <p className='order-Status-box'>{row?.status || 'New'}</p>
                             </td>
                         </tr>
                     </React.Fragment>

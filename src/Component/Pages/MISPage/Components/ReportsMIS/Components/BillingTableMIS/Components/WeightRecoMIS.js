@@ -95,15 +95,14 @@ const WeightRecoMIS = () => {
                             onChange={handleSelectAll}
                         />
                     </th>
-                    <th>AWB Number</th>
-                    <th>Courier Details</th>
-                    <th>AWB Assigned Date</th>
-                    <th>Shipment Status</th>
-                    <th>Applied Weight Charges</th>
-                    <th>Excess Weight Charges</th>
-                    <th>Entered Weight and dimensions</th>
-                    <th>Charged Weight and Dimensions</th>
-                    <th>Action</th>
+                    <th>Order Details</th>
+                    <th>Product Details</th>
+                    <th>Order Total</th>
+                    <th>Shipping Details</th>
+                    <th>Entered Weight & Dimensions (CM)</th>
+                    <th>Charged Weight & Dimensions (CM)</th>
+                    <th>Settled Weight & Dimensions (CM)</th>
+                    <th>Status</th>
                 </tr>
                 <tr className="blank-row"><td></td></tr>
             </thead>
@@ -186,9 +185,7 @@ const WeightRecoMIS = () => {
                                 </div>
 
                             </td>
-                            <td>
-                                <button className='btn main-button'><FontAwesomeIcon icon={faDownload} /></button>
-                            </td>
+
                         </tr>
                     </React.Fragment>
                 ))}

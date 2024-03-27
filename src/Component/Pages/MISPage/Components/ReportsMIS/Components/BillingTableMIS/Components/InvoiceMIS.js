@@ -95,15 +95,11 @@ const InvoiceMIS = () => {
                             onChange={handleSelectAll}
                         />
                     </th>
-                    <th>AWB Number</th>
-                    <th>Courier Details</th>
-                    <th>AWB Assigned Date</th>
-                    <th>Shipment Status</th>
-                    <th>Applied Weight Charges</th>
-                    <th>Excess Weight Charges</th>
-                    <th>Entered Weight and dimensions</th>
-                    <th>Charged Weight and Dimensions</th>
-                    <th>Action</th>
+                    <th>Invoice Id</th>
+                    <th>Invoice Date</th>
+                    <th>Due Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
                 </tr>
                 <tr className="blank-row"><td></td></tr>
             </thead>
@@ -158,36 +154,6 @@ const InvoiceMIS = () => {
                                         -
                                     </p>
                                 </div>
-                            </td>
-                            <td>
-                                {/* Excess Weight Charges */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                {/* Entered Weight and dimensions */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
-
-                                </div>
-                            </td>
-                            <td>
-                                {/* Charged Weight and Dimensions */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
-
-                                </div>
-
-                            </td>
-                            <td>
-                                <button className='btn main-button'><FontAwesomeIcon icon={faDownload} /></button>
                             </td>
                         </tr>
                     </React.Fragment>

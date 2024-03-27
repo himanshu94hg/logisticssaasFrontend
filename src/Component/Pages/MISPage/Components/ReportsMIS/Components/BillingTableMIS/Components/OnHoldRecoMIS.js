@@ -1,9 +1,7 @@
 import React, { useState } from 'react'
 import moment from 'moment'
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const RemittanceLogsMIS = () => {
+const OnHoldRecoMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [orders, setAllOrders] = useState([
@@ -95,15 +93,12 @@ const RemittanceLogsMIS = () => {
                             onChange={handleSelectAll}
                         />
                     </th>
-                    <th>Date</th>
-                    <th>CRF ID</th>
-                    <th>UTR</th>
-                    <th>Remit Mode</th>
-                    <th>Freight Charges from COD</th>
-                    <th>Early COD Charges</th>
-                    <th>RTO Reversal Amount</th>
-                    <th>Remmitance Amount</th>
-                    <th>Description</th>
+                    <th>AWB Assigned Date</th>
+                    <th>Order Id</th>
+                    <th>AWB Number</th>
+                    <th>Courier Partner</th>
+                    <th>Extra Amount Charged</th>
+                    <th>On Hold Amount</th>
                 </tr>
                 <tr className="blank-row"><td></td></tr>
             </thead>
@@ -167,25 +162,7 @@ const RemittanceLogsMIS = () => {
                                     </p>
                                 </div>
                             </td>
-                            <td>
-                                {/* Entered Weight and dimensions */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
 
-                                </div>
-                            </td>
-                            <td>
-                                {/* Charged Weight and Dimensions */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        -
-                                    </p>
-
-                                </div>
-
-                            </td>
                         </tr>
                     </React.Fragment>
                 ))}
@@ -194,4 +171,4 @@ const RemittanceLogsMIS = () => {
     )
 }
 
-export default RemittanceLogsMIS
+export default OnHoldRecoMIS

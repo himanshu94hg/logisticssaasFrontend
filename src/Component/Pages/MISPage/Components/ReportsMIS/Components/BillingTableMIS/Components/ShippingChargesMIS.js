@@ -103,7 +103,6 @@ const ShippingChargesMIS = () => {
                     <th>Excess Weight Charges</th>
                     <th>Entered Weight and dimensions</th>
                     <th>Charged Weight and Dimensions</th>
-                    <th>Action</th>
                 </tr>
                 <tr className="blank-row"><td></td></tr>
             </thead>
@@ -186,9 +185,7 @@ const ShippingChargesMIS = () => {
                                 </div>
 
                             </td>
-                            <td>
-                                <button className='btn main-button'><FontAwesomeIcon icon={faDownload} /></button>
-                            </td>
+
                         </tr>
                     </React.Fragment>
                 ))}
