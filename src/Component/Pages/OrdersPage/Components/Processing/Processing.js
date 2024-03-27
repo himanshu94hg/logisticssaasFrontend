@@ -20,7 +20,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
-const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId, setBulkActionShow }) => {
+const Processing = ({ orders, handleSearch,handleMoreFilter, setEditOrderSection, setOrderId, setBulkActionShow ,filterParams,setFilterParams}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -321,7 +321,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId, set
                         </tbody>
                     </table>
                 </div>
-                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
+                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} handleMoreFilter={handleMoreFilter} filterParams={filterParams} setFilterParams={setFilterParams} />
 
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
 
