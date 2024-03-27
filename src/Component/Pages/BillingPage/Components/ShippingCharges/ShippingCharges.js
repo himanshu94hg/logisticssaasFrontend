@@ -116,7 +116,7 @@ const ShippingCharges = ({ billingCard }) => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Order ID</th>
+                                <th>AWB Number</th>
                                 <th>Courier Details</th>
                                 <th>AWB Assigned Date</th>
                                 <th>Shipment Status</th>
@@ -144,7 +144,7 @@ const ShippingCharges = ({ billingCard }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.order_id}
+                                                    {row?.order_detail?.awb_number}
                                                 </p>
                                             </div>
                                         </td>

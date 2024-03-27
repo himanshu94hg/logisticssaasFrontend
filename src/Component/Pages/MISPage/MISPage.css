@@ -6,6 +6,13 @@
 .reports-mis .table-container {
     z-index: 1;
     position: relative;
+    height: calc(100vh - 329px);
+    overflow-y: auto;
+}
+
+.reports-mis .filter-container {
+    align-items: end;
+    gap: 3rem;
 }
 
 .reports-mis .search-container {
@@ -13,6 +20,16 @@
     gap: 20px;
     align-items: flex-end;
     width: 100%;
+}
+
+.reports-mis .search-container label input {
+    border-color: var(--sh-primary-middle);
+    border-radius: 0.5rem;
+}
+
+.reports-mis .css-13cymwt-control {
+    height: 36px;
+    min-height: unset;
 }
 
 .reports-mis .css-13cymwt-control,
