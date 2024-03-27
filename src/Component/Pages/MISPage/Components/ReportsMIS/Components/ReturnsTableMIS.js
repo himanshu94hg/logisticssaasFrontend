@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 
-const ShippingTableMIS = () => {
+const ReturnsTableMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [orders, setAllOrders] = useState([
@@ -319,4 +319,4 @@ const ShippingTableMIS = () => {
     )
 }
 
-export default ShippingTableMIS
+export default ReturnsTableMIS
