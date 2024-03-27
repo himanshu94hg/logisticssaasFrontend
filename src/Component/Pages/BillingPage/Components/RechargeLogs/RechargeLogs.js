@@ -1,4 +1,3 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -28,7 +27,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RechargeLogs = ({billingCard}) => {
+const RechargeLogs = ({ billingCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -133,7 +132,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {/* <DateFormatter dateTimeString={row?.datetime} /> */}
+                                                    {/* <DateFormatter dateTimeString={row?.datetime} /> */}
                                                     {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
                                                 </p>
                                             </div>
@@ -142,7 +141,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.payment_gateway_order_id ?? "-"}
+                                                    {row?.payment_gateway_order_id ?? "-"}
                                                 </p>
                                             </div>
                                         </td>
@@ -158,7 +157,7 @@ const RechargeLogs = ({billingCard}) => {
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.description}
+                                                    {row?.description}
                                                 </p>
                                             </div>
                                         </td>
@@ -168,18 +167,8 @@ const RechargeLogs = ({billingCard}) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
             </div>
-        </section >
+        </section>
     );
 };
 
