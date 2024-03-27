@@ -33,7 +33,7 @@ export const weightRecoReducer = (state = initialState, action) => {
         case GET_HISTORY_DATA:
             return {
                 ...state,
-                historyData: action?.payload?.results
+                historyData: action?.payload
             };
         default:
             return state

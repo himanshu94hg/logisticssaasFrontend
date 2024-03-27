@@ -290,8 +290,9 @@ export default WeightRecoTab;
 
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
-    const recoSectionReducer = useSelector(state => state?.weightRecoReducer?.historyData);
+    const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
 
+    console.log(historyRecord,"All data")
     useEffect(() => {
         if (show && selectedRow) {
             dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
@@ -304,28 +305,31 @@ function Preview({ show, handleClose, selectedRow }) {
                 <Modal.Title>History Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <table className="table">
-                    <tbody>
-                        <tr>
-                            <th>Weight Discrepancy Date</th>
-                            <th>Status</th>
-                            <th>Charged Weight (KG)</th>
-                            <th>Charged Dimension (CM)</th>
-                            <th>Action Taken by</th>
-                            <th>Applied Weight</th>
-                            <th>Remark</th>
-                        </tr>
-                        <tr>
-                            <td>{selectedRow?.created ? <DateFormatter dateTimeString={selectedRow?.created} /> : ''}</td>
-                            <td>{selectedRow?.status}</td>
+            <table className="table">
+                <tbody>
+                    <tr>
+                        <th>Weight Discrepancy Date</th>
+                        <th>Status</th>
+                        <th>Charged Weight (KG)</th>
+                        <th>Charged Dimension (CM)</th>
+                        <th>Action Taken by</th>
+                        <th>Applied Weight</th>
+                        <th>Remark</th>
+                    </tr>
+                    {historyRecord?.map((row, index) => (
+                        <tr key={index}>
+                            <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
+                            <td>{row?.status}</td>
                             <td>{selectedRow?.c_weight}</td>
                             <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
-                            <td>{selectedRow?.action_taken_by}</td>
+                            <td>{row?.action_taken_by}</td>
                             <td>{selectedRow?.e_weight}</td>
-                            <td>{selectedRow?.remark}</td>
+                            <td>{row?.remark}</td>
                         </tr>
-                    </tbody>
-                </table>
+                    ))}
+                </tbody>
+            </table>
+
             </Modal.Body>
         </Modal>
     );
