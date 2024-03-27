@@ -116,6 +116,11 @@ export const API_URL = {
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
 
   //INTEGRATION API'S
-  POST_GENERATE_API_KEY:"/core-api/seller/api-key/"
+  POST_GENERATE_API_KEY:"/core-api/seller/api-key/",
+
+  //WEIGHT RECO
+  GET_WEIGHT: "/orders-api/orders/weight-reconciliation/",
+  GET_HOLD: "/orders-api/orders/weight-reconciliation-on-hold/",
+  GET_SETTELED: "/orders-api/orders/setteled-weight-reconciliation/",
 
 };

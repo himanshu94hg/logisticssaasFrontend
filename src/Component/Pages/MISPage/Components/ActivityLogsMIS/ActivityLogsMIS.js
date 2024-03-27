@@ -1,27 +1,68 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import axios from "axios";
+import React, { useState, useRef } from 'react';
+import { faCalendarAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import Select from 'react-select';
 
 const ActivityLogsMIS = () => {
-
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [firstSelectedOption, setFirstSelectedOption] = useState(null);
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
+
+    const TypeOptions = [
+        { value: '', label: 'Select Type' },
+        { value: 'Orders Import', label: 'Orders Import' },
+        { value: 'Channel Fetch Orders', label: 'Channel Fetch Orders' },
+        { value: 'Bulk Assign', label: 'Bulk Assign' },
+        { value: 'Bulk Pickup', label: 'Bulk Pickup' },
+        { value: 'Channel Catalog', label: 'Channel Catalog' },
+        { value: 'Master Catalog', label: 'Master Catalog' },
+        { value: 'Bulk Invoice', label: 'Bulk Invoice' },
+        { value: 'Bulk Label', label: 'Bulk Label' },
+        { value: 'Bulk Manifest', label: 'Bulk Manifest' },
+        { value: 'Refund Import', label: 'Refund Import' },
+        { value: 'Bulk Reassign', label: 'Bulk Reassign' },
+        { value: 'NDR Escalation', label: 'NDR Escalation' },
+        { value: 'Bulk Order', label: 'Bulk Order' },
+        { value: 'Bulk POD', label: 'Bulk POD' },
+        { value: 'ONDC', label: 'ONDC' },
+        { value: 'Bulk Reassign', label: 'Bulk Reassign' },
+    ];
+
+    const handleFirstSelectChange = selectedOption => {
+        setFirstSelectedOption(selectedOption);
+    };
+
+    // Handle date picker change
+    const handleStartDateChange = date => {
+        setStartDate(date);
+    };
+
+    const handleEndDateChange = date => {
+        setEndDate(date);
+    };
+
     const [orders, setAllOrders] = useState([
         {
             id: 1,
-            userDetails: 'John Doe',
-            date: '2024-03-15',
-            time: '10:00 AM',
-            action: 'Logged In',
-            description: 'User logged into the system.'
+            activity: 'Orders Import',
+            start_time: '28 Feb 2024 || 12:44',
+            end_time: '28 Feb 2024 || 12:44',
+            imported: '10',
+            error_count: '4',
+            total_count: '14'
         },
         {
             id: 2,
-            userDetails: 'Jane Smith',
-            date: '2024-03-15',
-            time: '11:30 AM',
-            action: 'Logged Out',
-            description: 'User logged out of the system.'
+            activity: 'Orders Import',
+            start_time: '28 Feb 2024 || 12:44',
+            end_time: '28 Feb 2024 || 12:44',
+            imported: '10',
+            error_count: '4',
+            total_count: '14'
         },
         // Add more dummy data as needed
     ]);
@@ -55,18 +96,48 @@ const ActivityLogsMIS = () => {
     };
 
     return (
-        <section className='position-relative'>
+        <section className='position-relative reports-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label>
-                            <input type="text" placeholder="" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
+                            Type
+                            <Select
+                                value={firstSelectedOption}
+                                onChange={handleFirstSelectChange}
+                                options={TypeOptions}
+                                placeholder="Select an option"
+                            />
+                        </label>
+
+                        <label>
+                            From Date
+                            <div className='date-picker-container'>
+                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+                                <DatePicker
+                                    dateFormat='dd/MM/yyyy'
+                                    className='input-field'
+                                    selected={startDate}
+                                    onChange={handleStartDateChange}
+                                />
+                            </div>
+                        </label>
+                        <label>
+                            To Date
+                            <div className='date-picker-container'>
+                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
+                                <DatePicker
+                                    dateFormat='dd/MM/yyyy'
+                                    className='input-field'
+                                    selected={endDate}
+                                    onChange={handleEndDateChange}
+                                />
+                            </div>
                         </label>
                     </div>
-                    <div className='button-container'></div>
+                    <div className='button-container'>
+                        <button className='btn main-button'>Export Report</button>
+                    </div>
                 </div>
                 <div className='table-container'>
                     <table className=" w-100">
@@ -79,11 +150,13 @@ const ActivityLogsMIS = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>User Details</th>
-                                <th>Date</th>
-                                <th>Time</th>
-                                <th>Action</th>
-                                <th>Description</th>
+                                <th style={{ width: '25%' }}>Activity</th>
+                                <th>Start Time</th>
+                                <th>End Time</th>
+                                <th>Imported</th>
+                                <th>Error Count</th>
+                                <th>Total Count</th>
+                                <th>Error Report</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -100,34 +173,44 @@ const ActivityLogsMIS = () => {
                                             />
                                         </td>
                                         <td>
-                                            {/* User Details */}
+                                            {/* Activity */}
                                             <div className='cell-inside-box'>
-                                                {row.userDetails}
+                                                {row.activity}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Date */}
+                                            {/* Start Time */}
                                             <div className='cell-inside-box'>
-                                                {row.date}
+                                                {row.start_time}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Time */}
+                                            {/* End Time */}
                                             <div className='cell-inside-box'>
-                                                {row.time}
+                                                {row.end_time}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Action */}
+                                            {/* Imported */}
                                             <div className='cell-inside-box'>
-                                                {row.action}
+                                                {row.imported}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Description */}
+                                            {/* Error Count */}
                                             <div className='cell-inside-box'>
-                                                {row.description}
+                                                {row.error_count}
                                             </div>
+                                        </td>
+                                        <td>
+                                            {/* Total Count */}
+                                            <div className='cell-inside-box'>
+                                                {row.total_count}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Error Report */}
+                                            <button className='btn main-button'><FontAwesomeIcon icon={faDownload} /></button>
                                         </td>
                                     </tr>
                                 </React.Fragment>

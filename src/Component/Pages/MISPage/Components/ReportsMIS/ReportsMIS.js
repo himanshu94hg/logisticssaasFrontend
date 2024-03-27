@@ -7,6 +7,8 @@ import Select from 'react-select';
 import OrdersTableMIS from './Components/OrdersTableMIS';
 import ShippingTableMIS from './Components/ShippingTableMIS';
 import Swal from 'sweetalert2';
+import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
+import ReturnsTableMIS from './Components/ReturnsTableMIS';
 
 const ReportsMIS = () => {
     const [showComponent, setShowComponent] = useState(null);
@@ -43,9 +45,9 @@ const ReportsMIS = () => {
         Billing: [
             { value: '', label: 'Select Option' },
             { value: 'shipping_charges', label: 'Shipping Charges' },
-            { value: 'weight_reconciliation', label: 'Weight Reconciliatio' },
+            { value: 'weight_reconciliation', label: 'Weight Reconciliation' },
             { value: 'remittance_logs', label: 'Remittance Logs' },
-            { value: 'onhold_reconciliation', label: 'Onhold Reconciliatio' },
+            { value: 'onhold_reconciliation', label: 'Onhold Reconciliation' },
             { value: 'invoices', label: 'Invoices' },
         ],
         Returns: [
@@ -62,7 +64,8 @@ const ReportsMIS = () => {
     // Handle select change
     const handleFirstSelectChange = selectedOption => {
         setFirstSelectedOption(selectedOption);
-        setSecondSelectedOption(null); // Reset second select
+        // Reset second select whenever the first select changes
+        setSecondSelectedOption("");
     };
 
     const handleSecondSelectChange = selectedOption => {
@@ -81,15 +84,18 @@ const ReportsMIS = () => {
     // Handle form submit
     const handleSubmit = e => {
         e.preventDefault();
-        if (firstSelectedOption !== null && secondSelectedOption !== null) {
+        //console.log("THis is second,,,,,,,,,,,," + secondSelectedOption.value)
+        if (firstSelectedOption && secondSelectedOption) {
+            // Reset second select after submit
             setShowComponent(firstSelectedOption.value);
-        } else if (firstSelectedOption === null) {
+
+        } else if (!firstSelectedOption) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Please Select Type to create report',
             });
-        } else if (secondSelectedOption === null) {
+        } else if (!secondSelectedOption) {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -97,7 +103,6 @@ const ReportsMIS = () => {
             });
         }
     };
-
 
 
 
@@ -154,25 +159,41 @@ const ReportsMIS = () => {
                             </div>
                         </label>
                         <button onClick={handleSubmit} className='btn main-button'>Search</button>
-                    </div>
-                    <div className='button-container'></div>
-                </div>
 
-                {showComponent !== null && ( // Conditional rendering only if showComponent is true and selectOption is truthy
-                    showComponent === 'Orders' ? (
-                        <OrdersTableMIS
-                            subtype={secondSelectedOption.value}
-                            startDate={startDate}
-                            endDate={endDate}
-                        />
-                    ) : showComponent === 'Shipment' ? (
-                        <ShippingTableMIS
-                            subtype={secondSelectedOption.value}
-                            startDate={startDate}
-                            endDate={endDate}
-                        />
-                    ) : ''
-                )}
+                    </div>
+                    <div className='button-container'>
+                        <button className='btn main-button'>Export Report</button>
+                    </div>
+                </div>
+                <div className='table-container'>
+                    {showComponent !== null && ( // Conditional rendering only if showComponent is true and selectOption is truthy
+                        showComponent === 'Orders' ? (
+                            <OrdersTableMIS
+                                subType={secondSelectedOption.value}
+                                startDate={startDate}
+                                endDate={endDate}
+                            />
+                        ) : showComponent === 'Shipment' ? (
+                            <ShippingTableMIS
+                                subType={secondSelectedOption.value}
+                                startDate={startDate}
+                                endDate={endDate}
+                            />
+                        ) : showComponent === 'Billing' ? (
+                            <BillingTableMIS
+                                subType={secondSelectedOption.value}
+                                startDate={startDate}
+                                endDate={endDate}
+                            />
+                        ) : showComponent === 'Returns' ? (
+                            <ReturnsTableMIS
+                                subType={secondSelectedOption.value}
+                                startDate={startDate}
+                                endDate={endDate}
+                            />
+                        ) : ''
+                    )}
+                </div>
             </div>
         </section>
     );

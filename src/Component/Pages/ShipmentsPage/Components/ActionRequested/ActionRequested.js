@@ -1,5 +1,6 @@
 import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -281,7 +282,7 @@ const ActionRequested = ({shipmentCard}) => {
                                                         <ul>
                                                             <li onClick={() => handleReattempt(row.id)}>Re-attempt</li>
                                                             <li onClick={() => handleRto(row.id)}>RTO</li>
-                                                            <li>Escalate</li>
+                                                            <li><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>

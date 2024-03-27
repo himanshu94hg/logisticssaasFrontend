@@ -218,6 +218,7 @@
     height: 60%;
     justify-content: space-between;
     gap: 0.8rem;
+    margin-top: 25px;
 }
 
 .overview-details-counters .counter-sets {
