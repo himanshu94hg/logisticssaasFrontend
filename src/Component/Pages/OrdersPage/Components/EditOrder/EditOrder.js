@@ -311,6 +311,10 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                     <WareHouseDetailStep
                                         formData={formData}
                                         setFormData={setFormData}
+                                        wareHouseName={wareHouseName}
+                                        setWareHouseName={setWareHouseName}
+                                        wareHouses={wareHouses}
+                                        setWarehouses={setWarehouses}
                                     />
                                 </div>
                             )}
