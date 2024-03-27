@@ -11,7 +11,7 @@ import customImg from "../../../../../../assets/image/integration/Manual.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 
-const OrdersTableMIS = () => {
+const ReturnsTableMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [orders, setAllOrders] = useState([
@@ -171,6 +171,7 @@ const OrdersTableMIS = () => {
                 "number_of_packets": 0
             }
         },
+        // Add more dummy data as needed
     ]);
 
     // Handler for "Select All" checkbox
@@ -200,6 +201,7 @@ const OrdersTableMIS = () => {
             setSelectAll(false);
         }
     };
+
     return (
         <table className=" w-100">
             <thead className="sticky-header">
@@ -337,4 +339,4 @@ const OrdersTableMIS = () => {
     )
 }
 
-export default OrdersTableMIS
+export default ReturnsTableMIS

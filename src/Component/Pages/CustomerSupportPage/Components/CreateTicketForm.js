@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
+import { useLocation,useNavigate } from 'react-router-dom';
 
 // Reusable FormInput component
 const FormInput = ({ label, mandatory, type, value, onChange, onBlur, options, name, fileInput, customClass, selectFile, clearFile }) => (
@@ -49,12 +50,28 @@ const CreateTicketForm = (props) => {
   const [fileObj, setFileObj] = useState(null)
   const [categoryStatus, setCategoryStatus] = useState(false)
 
-  console.log(categoryStatus,"setCategoryStatussetCategoryStatussetCategoryStatus")
+  const location = useLocation();
+  const navigate = useNavigate();
+  const searchParams = new URLSearchParams(location.search);
+  const escalateAwbNumber = searchParams.get('awb_number');
+
+  useEffect(()=>{
+    if(escalateAwbNumber !== null)
+    {
+      props.setNewTicket(true)
+    }
+    else
+    {
+      props.setNewTicket(false)
+    }
+  },[escalateAwbNumber]);
+
+  console.log(escalateAwbNumber,"Escalate Awb number ...................")
 
   const [ticketData, setTicketData] = useState({
     category: null,
     sub_category: null,
-    awb_number: "",
+    awb_number: escalateAwbNumber || "",
     description: "",
     escalate_image: "",
   })
@@ -145,13 +162,22 @@ const CreateTicketForm = (props) => {
     }
   }, [ticketData.escalate_image, fileObj]);
 
+  // const handleCreateTicket = (e) => {
+  //   const { name, value } = e.target;
+  //   setTicketData(prev => ({
+  //     ...prev,
+  //     [name]: value
+  //   }));
+  // };
+
   const handleCreateTicket = (e) => {
     const { name, value } = e.target;
     setTicketData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'awb_number' && escalateAwbNumber ? escalateAwbNumber : value
     }));
   };
+  
 
   const handleBlurAWB = (e) => {
     const { name, value } = e.target;
@@ -273,6 +299,10 @@ const CreateTicketForm = (props) => {
     }
 
   };
+  const handleEscalateTicket = () =>
+  {
+    navigate('/customer-support');
+  }
   const handleCancel = () => {
     console.log("hit")
     setTicketData({
@@ -294,14 +324,25 @@ const CreateTicketForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className='slider-scroll-body'>
-        <FormInput
-          label="AWB Numbers (Comma Separated)"
-          type="text"
-          name={"awb_number"}
-          value={ticketData.awb_number}
-          onChange={(e) => handleCreateTicket(e)}
-          onBlur={(e) => handleBlurAWB(e)}
-        />
+      {escalateAwbNumber ? (
+          <FormInput
+            label="AWB Numbers (Comma Separated)"
+            type="text"
+            name={"awb_number"}
+            value={escalateAwbNumber}
+            onChange={(e) => handleCreateTicket(e)}
+            onBlur={(e) => handleBlurAWB(e)}
+          />
+        ) : (
+          <FormInput
+            label="AWB Numbers (Comma Separated)"
+            type="text"
+            name={"awb_number"}
+            value={ticketData.awb_number}
+            onChange={(e) => handleCreateTicket(e)}
+            onBlur={(e) => handleBlurAWB(e)}
+          />
+        )}
         <FormInput
           type="select"
           mandatory={"*"}
@@ -348,7 +389,7 @@ const CreateTicketForm = (props) => {
         <button className='btn cancel-button' type="button" onClick={handleCancel}>
           Cancel
         </button>
-        <button className='btn main-button' type="submit" disabled={isLoading} >
+        <button className='btn main-button' type="submit" onClick={handleEscalateTicket} disabled={isLoading} >
           Submit
         </button>
       </div>

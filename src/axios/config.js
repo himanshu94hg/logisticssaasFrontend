@@ -34,6 +34,8 @@ export const API_URL = {
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
+  GET_BILLING_CREDIT_URL: "/core-api/features/billing/credit-receipt/",
+  GET_BILLING_CREDIT_EXPORT_URL: "/core-api/features/billing/credit-receipt-download/",
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
@@ -114,6 +116,11 @@ export const API_URL = {
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
 
   //INTEGRATION API'S
-  POST_GENERATE_API_KEY:"/core-api/seller/api-key/"
+  POST_GENERATE_API_KEY:"/core-api/seller/api-key/",
+
+  //WEIGHT RECO
+  GET_WEIGHT: "/orders-api/orders/weight-reconciliation/",
+  GET_HOLD: "/orders-api/orders/weight-reconciliation-on-hold/",
+  GET_SETTELED: "/orders-api/orders/setteled-weight-reconciliation/",
 
 };
