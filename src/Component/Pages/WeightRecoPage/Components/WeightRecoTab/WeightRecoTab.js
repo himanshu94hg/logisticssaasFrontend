@@ -17,7 +17,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -289,13 +289,22 @@ const WeightRecoTab = ({weightRecoData}) => {
 export default WeightRecoTab;
 
 function Preview({ show, handleClose, selectedRow }) {
+    const dispatch = useDispatch();
+    const recoSectionReducer = useSelector(state => state?.weightRecoReducer?.historyData);
+
+    useEffect(() => {
+        if (show && selectedRow) {
+            dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
+        }
+    }, [show, selectedRow, dispatch]);
+
     return (
         <Modal show={show} onHide={handleClose} size="xl">
             <Modal.Header closeButton>
                 <Modal.Title>History Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <table className="table">
+                <table className="table">
                     <tbody>
                         <tr>
                             <th>Weight Discrepancy Date</th>
