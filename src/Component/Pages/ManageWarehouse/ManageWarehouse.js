@@ -19,6 +19,9 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
     setIsOpen(isOpen === index ? null : index);
   };
 
+
+  console.log(boxData,"boxDataboxDataboxData")
+
   // Inside BoxGrid component
   const handleSetDefault = (index) => {
     // Check if the current warehouse is already marked as default

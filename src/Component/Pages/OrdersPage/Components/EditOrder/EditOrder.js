@@ -105,6 +105,13 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderUpdateRes])
 
+    useEffect(() => {
+        if (EditOrderSection) {
+            setActiveSection("Order Details");
+        }
+    }, [EditOrderSection]);
+
+
     const handleUpdate = () => {
         dispatch({
             type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
@@ -112,6 +119,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 orderId: orderId
             }
         })
+        setEditOrderSection(false)
     };
 
     useEffect(() => {
