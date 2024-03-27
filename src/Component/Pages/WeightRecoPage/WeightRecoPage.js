@@ -46,7 +46,7 @@ const WeightRecoPage = () => {
         };
 
         fetchData();
-    }, [dispatch, activeTab,itemsPerPage,currentPage,weightData, holdData, settledData]);
+    }, [dispatch, activeTab,itemsPerPage,currentPage]);
 
     return (
         <>
