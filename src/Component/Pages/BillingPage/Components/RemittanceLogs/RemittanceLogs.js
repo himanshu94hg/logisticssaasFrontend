@@ -1,6 +1,4 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
-
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -29,7 +27,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RemittanceLogs = ({billingCard}) => {
+const RemittanceLogs = ({ billingCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -169,7 +167,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* crf_id */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.crf_id}
+                                                    {row?.crf_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -177,8 +175,8 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.utr_number}
-                                                </p>  
+                                                    {row?.utr_number}
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -201,7 +199,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                ₹{0.00}
+                                                    ₹{0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -209,7 +207,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                ₹{0.00}
+                                                    ₹{0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -221,12 +219,12 @@ const RemittanceLogs = ({billingCard}) => {
                                                 </p>
                                             </div>
                                         </td>
-                                        
+
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                 {row?.description}
+                                                    {row?.description}
                                                 </p>
                                             </div>
                                         </td>
