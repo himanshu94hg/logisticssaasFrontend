@@ -1,16 +1,17 @@
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import './MoreFiltersPanel.css'
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const SourceOptions = [
-    { label: "Amazon_IN", value: "Amazon_IN" },
+    { label: "Amazon", value: "amazon" },
     { label: "Custom", value: "Custom" },
-    { label: "Shopify", value: "Shopify", disabled: true },
-    // Add more options as needed
+    { label: "Shopify", value: "shopify" },
 ];
 
 const OrderStatus = [
@@ -29,22 +30,17 @@ const OrderStatus = [
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "cod" },
-    // Add more options as needed
-];
-
-const PickupAddresses = [
-    { label: "Adress 1", value: "Adress1" },
-    // Add more options as needed
-];
+]
 
 const Ordertags = [
     { label: "Tag 1", value: "Tag1" },
-    // Add more options as needed
 ];
 
 const CourierPartner = [
-    { label: "Courier 1", value: "Courier1" },
-    // Add more options as needed
+    { label: "Bluedart", value: "bluedart" },
+    { label: "Shadowfax", value: "shadowfax" },
+    { label: "Delhivery", value: "delhivery" },
+    { label: "Xpressbees", value: "xpressbees" },
 ];
 
 
@@ -54,6 +50,14 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [SaveFilter, setSaveFilter] = useState(false)
+    const [pickupAddresses, setPickupAddresses] = useState([
+
+    ]);
+
+    const sellerData = Cookies.get("user_id")
+    const authToken = Cookies.get("access_token")
+
+    console.log(MoreFilters, "MoreFiltersMoreFilters")
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
@@ -95,6 +99,32 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
     // console.log(temp_data, "fieldNamefieldNamefieldName")
 
 
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (MoreFilters) {
+                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    console.log(response?.data, "this is response data ")
+                    const temp = response?.data?.map((item) => ({
+                        label: item.warehouse_name,
+                        value: item.warehouse_name,
+                    }));
+                    setPickupAddresses(temp)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData(); // Call the fetchData function
+
+    }, [MoreFilters, sellerData, authToken]);
+
+
 
     const handleReset = () => {
         setStartDate(null);
@@ -112,14 +142,6 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         payment_type: "",
         order_id: ""
     })
-
-
-
-    //     channel =
-    //     product =
-    //     store_name =
-    //     save_filter = True / False
-    //     filter_name =
 
     return (
         <>
@@ -176,7 +198,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                     <Select
                                         options={SourceOptions}
                                         // defaultValue={SourceOptions}
-                                        onChange={(e) => handleChange("order_source",e)}
+                                        onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
 
@@ -204,7 +226,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
-                                        options={PickupAddresses}
+                                        options={pickupAddresses}
                                     />
                                 </label>
                             </div>

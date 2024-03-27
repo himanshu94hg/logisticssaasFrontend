@@ -46,10 +46,10 @@ const OrdersPage = () => {
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
 
-    const {orderCancelled,orderdelete,orderClone}=useSelector(state=>state?.orderSectionReducer)
-    let orderCancelledRes=orderCancelled+new Date();
-    let orderdeleteRes=orderdelete+new Date();
-    let orderClonRes=orderClone+new Date();
+    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    let orderCancelledRes = orderCancelled + new Date();
+    let orderdeleteRes = orderdelete + new Date();
+    let orderClonRes = orderClone + new Date();
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -99,7 +99,7 @@ const OrdersPage = () => {
                 .catch(error => {
                 });
         }
-    }, [activeTab, authToken,orderCancelledRes,orderdeleteRes,orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [activeTab, authToken, orderCancelledRes, orderdeleteRes, orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
@@ -146,7 +146,7 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Pickup" ? "d-block" : "d-none"}`}>
                     <Pickups setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
                 </div>
-                
+
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
