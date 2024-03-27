@@ -49,7 +49,7 @@ html {
   justify-content: flex-start;
   gap: 15px;
   margin-inline: 72px 10px;
-  height: 95vh;
+  height: 92vh;
   width: calc(100vw - 92px) !important;
 }
 
