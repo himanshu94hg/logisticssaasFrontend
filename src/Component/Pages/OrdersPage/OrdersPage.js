@@ -31,6 +31,23 @@ const OrdersPage = () => {
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
 
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        order_tag:""
+    })
+
+    const handleMoreFilter=()=>{
+        
+    }
+
+    console.log(filterParams,"filterParamsfilterParamsfilterParams")
+
     // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
     //const location = useLocation()
@@ -134,6 +151,9 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         setEditOrderSection={setEditOrderSection}
                         setOrderId={setOrderId}
+                        filterParams={filterParams} 
+                        setFilterParams={setFilterParams}
+                        handleMoreFilter={handleMoreFilter}
                     />
                 </div>
 
