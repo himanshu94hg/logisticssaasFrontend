@@ -5,14 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-
+import QuickIcon from "./QuickIcon";
 
 export default function Header(props) {
 
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
- 
+
 
   const handleLogout = () => {
     Cookies.remove('access_token');
@@ -59,24 +59,28 @@ export default function Header(props) {
               </div>
             </Nav.Link>
           </div>
-          {/* <div className="icons links ">
-            <div className="iconContainer notificationIcon bell">
-              <FontAwesomeIcon icon={faBell} />
-              <span className="bellColor">3</span>
-            </div>
-            <div className="iconContainer settingIcon cart">
-              <FontAwesomeIcon icon={faCog} />
-              <span className="settingColor">5</span>
-            </div>
-          </div> */}
 
-          <div className="d-flex" style={{ gap: "10px" }}>
+          <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+            <div className="quick-actions-container">
+              <div className="quick-action-text">
+                <QuickIcon /> Quick Actions
+              </div>
+              <div className="quick-actions-hover">
+                <div className="qa-hovered-content">
+                  <p>Create Order</p>
+                  <p>Create a Qucick Shipment</p>
+                  <p>Rate Calculator</p>
+                  <p>Create a Ticket</p>
+                  <p>Track Shipments</p>
+                </div>
+              </div>
+            </div>
 
             <Nav.Link>
               <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
-                <span className="iconContainer walletIcon px-2">
-                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
+                <span className="walletIcon px-2">
                   <WalletIcon />
+                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
                   {/* <FontAwesomeIcon icon={faWallet} /> */}
                 </span>
               </div>

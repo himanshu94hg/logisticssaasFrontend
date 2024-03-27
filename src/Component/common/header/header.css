@@ -73,13 +73,23 @@
   background-color: #ffe6e6;
 }
 
-.walletIcon {
-  color: var(--sh-primary);
-  /* background-color: var(--sh-primary-light); */
+.walletContainer .walletIcon {
+  background-color: var(--sh-primary-light);
   border: 1px solid var(--sh-primary);
-  width: 150px;
+  width: auto;
   display: flex;
   justify-content: space-between;
+  color: var(--sh-primary);
+  gap: 20px;
+  border-radius: 0.5rem;
+  font-size: 30px;
+  height: 39px;
+  align-items: center;
+  min-width: 150px;
+}
+
+.walletContainer .walletIcon svg path {
+  fill: var(--sh-primary);
 }
 
 .icons {
@@ -109,7 +119,7 @@
   cursor: pointer;
 }
 
-.bellColor{
+.bellColor {
   position: absolute;
   font-size: 12px;
   width: 20px;
@@ -128,15 +138,14 @@
 }
 
 .user-photo {
-  width: 40px;
-  height: 40px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }
 
 .walletBalance {
   font-size: 18px;
   font-weight: 700;
-  color: var(--sh-primary);
 }
 
 .walletDays {
@@ -167,18 +176,81 @@
   background-color: transparent;
 }
 
-#shipEaseNavbarNav{
+#shipEaseNavbarNav {
   width: calc(100vw - 92px) !important;
 }
 
+.quick-actions-container {
+  position: relative;
+}
+
+.quick-actions-hover {
+  position: absolute;
+  background-color: #eaf2fa;
+  box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 0.5rem;
+  /* width: 0px;
+  height: 0px; */
+  width: auto;
+  height: auto;
+  top: 32px;
+  right: 0;
+  z-index: 3;
+  transition: 0.7s;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.quick-actions-hover .qa-hovered-content {
+  display: flex;
+  gap: 1rem;
+  margin-inline: 2rem;
+}
+
+.quick-actions-hover .qa-hovered-content p {
+  margin-bottom: 0;
+  padding: 0.8rem;
+  border-radius: 0.5rem;
+  background-color: #ffffff;
+  font-size: 1rem;
+}
+
+.quick-actions-container:hover .quick-actions-hover {
+  width: 40vw;
+  height: 500px;
+}
+
+.quick-action-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+/* .quick-action-text::after {
+  display: inline-block;
+  margin-left: .255em;
+  vertical-align: .255em;
+  content: "";
+  border-top: .3em solid;
+  border-right: .3em solid transparent;
+  border-bottom: 0;
+  border-left: .3em solid transparent;
+} */
+
 /* Media query for tablets */
 @media only screen and (min-width: 1601px) {
-  #shipEaseNavbarNav{
+  #shipEaseNavbarNav {
     width: calc(100vw - 92px) !important;
   }
 }
 
 @media only screen and (max-width: 768px) {
+
   /* Adjust styles for tablet screens here */
   /* For example, you might want to change the layout, font sizes, etc. */
   .navItemsContainer {
