@@ -18,9 +18,6 @@ const CreateOrderFlow = () => {
     const [isOpen, setIsOpen] = useState(false);
     const {pathName}=useSelector(state=>state?.authDataReducer)
 
-    console.log(location,"this is a qucik order action")
-
-
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
         setIsOpen(false);
