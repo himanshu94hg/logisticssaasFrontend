@@ -241,18 +241,9 @@ const RemittanceLogs = ({ billingCard }) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 
