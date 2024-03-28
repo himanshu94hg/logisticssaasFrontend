@@ -170,11 +170,6 @@ const InvoiceContent = React.forwardRef((props, ref) => (
                         </table>
                     </center>
                 </div>
-                {/* <center style={{ borderRadius: '10px', padding: '1mm', background: '#fff', textAlign: 'left', wordBreak: 'break-all' }}>
-                    <p style={{ paddingLeft: '50px' }}>Download Itemized Shipment Details: <a href="#" className="link-btn">Download Now</a></p>
-                    <p style={{ paddingLeft: '50px' }}>* Indicates taxable item</p>
-                    <p style={{ paddingLeft: '50px' }}>It's system generated invoice & dont require signature.</p>
-                </center> */}
             </div>
         </div>
     </div>
