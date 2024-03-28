@@ -46,12 +46,32 @@
 
 .create-rules-section .created-rules {
     background: var(--sh-primary-light);
-    position: relative;
     padding: 15px;
     display: flex;
     gap: 20px;
-    align-items: center;
     border-radius: 0.5rem;
+    position: relative;
+    flex-direction: column;
+}
+
+.create-rules-section .created-rules .cr-rule-conditions {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.create-rules-section .created-rules .rule-name {
+    margin-left: 50px;
+}
+
+.create-rules-section .created-rules .cr-rule-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-rules-section .created-rules .rule-name {
+    display: flex;
+    gap: 15px;
 }
 
 
@@ -95,6 +115,19 @@
     border-radius: 0.5rem;
 }
 
+.create-rules-section .rule-row .rule-item p:nth-of-type(1) {
+    width: 150px;
+}
+
+.create-rules-section .rule-row .rule-item p:nth-of-type(2) {
+    width: 188px;
+    text-align: center;
+}
+
+.create-rules-section .rule-row .rule-item p:nth-of-type(3) {
+    width: 150px;
+}
+
 .create-rules-section .rule-preference {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -102,7 +135,7 @@
     justify-items: end;
     gap: 10px;
     position: relative;
-    margin-inline: 200px;
+    margin-inline: 22px 139px;
 }
 
 .create-rules-section .rule-preference p {
@@ -180,13 +213,13 @@
 
 .rules-action-btn {
     position: absolute;
-    right: 15px;
-    /* bottom: 15px; */
+    right: -1px;
+    bottom: -13px;
     height: 100%;
     display: flex;
-    flex-direction: column;
     justify-content: space-between;
     padding-block: 12px;
+    align-items: flex-end;
 }
 
 .rule-name-container {
@@ -202,20 +235,20 @@
 
 
 
-.rules-action-btn .toggle-switch {
+.cr-rule-name .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 60px;
+    width: 44px;
     height: 24px;
 }
 
-.rules-action-btn .toggle-switch input {
+.cr-rule-name .toggle-switch input {
     opacity: 0;
     width: 0;
     height: 0;
 }
 
-.rules-action-btn .toggle-label {
+.cr-rule-name .toggle-label {
     display: block;
     width: 100%;
     height: 100%;
@@ -227,11 +260,11 @@
     border-radius: 34px;
 }
 
-.rules-action-btn .toggle-inner {
+.cr-rule-name .toggle-inner {
     display: block;
-    width: 26px;
-    height: 26px;
-    margin: 4px;
+    width: 17px;
+    height: 17px;
+    margin: 3px;
     background-color: white;
     position: absolute;
     top: 0;
@@ -240,11 +273,11 @@
     transition: transform 0.3s ease;
 }
 
-.rules-action-btn .toggle-switch .toggle-label.checked .toggle-inner {
-    transform: translateX(26px);
+.cr-rule-name .toggle-switch .toggle-label.checked .toggle-inner {
+    transform: translateX(20px);
 }
 
-.rules-action-btn .toggle-label.checked {
+.cr-rule-name .toggle-label.checked {
     background-color: #2196f3;
 }
 
