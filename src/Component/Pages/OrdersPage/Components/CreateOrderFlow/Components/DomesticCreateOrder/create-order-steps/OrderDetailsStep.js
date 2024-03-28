@@ -157,7 +157,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             e.preventDefault();
         }
     }
-
     return (
         <>
             {/* Order Details Section */}
