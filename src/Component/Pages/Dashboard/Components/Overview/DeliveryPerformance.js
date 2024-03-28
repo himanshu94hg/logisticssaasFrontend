@@ -8,14 +8,6 @@ const DeliveryPerformance = () => {
     const dispatch = useDispatch();
     const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
 
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION",
-    //         payload: dateRangeDashboard
-    //     });
-    // }, [dispatch]);
-
-
     useEffect(() => {
         if (deliveryData) {
             renderChart(deliveryData);
