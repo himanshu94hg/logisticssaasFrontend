@@ -18,6 +18,8 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
+import { useDispatch, useSelector } from 'react-redux';
+import { Modal } from 'react-bootstrap';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -46,7 +48,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({weightRecoData}) => {
+const SettledReco = ({weightRecoData}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -115,6 +117,16 @@ const WeightRecoTab = ({weightRecoData}) => {
         setBackDrop(false)
     }
 
+    const [show, setShow] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+
+    const handleShow = (row) => {
+        setSelectedRow(row);
+        setShow(true);
+    };
+
+    const handleClose = () => setShow(false);
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -145,7 +157,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                 <th style={{ width: '12%' }}>Pickup Address</th>
                                 <th style={{ width: '8%' }}>Shipping Details</th>
                                 <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
+                                <th style={{ width: '5%' }}>Action</th> */} 
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -242,28 +254,10 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                {/* <button className='btn main-button'>Ship Now</button> */}
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Download Invoice</li>
-                                                            <li>Edit Order</li>
-                                                            <li>Verify Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Marl As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                            <div className='cell-inside-box'>
+                                                <p className=''>
+                                                    <button className='btn main-button'  onClick={() => handleShow(row)}>View History</button>
+                                                </p>
                                             </div>
                                         </td>
                                     </tr>
@@ -281,10 +275,58 @@ const WeightRecoTab = ({weightRecoData}) => {
                 </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
 
             </div>
         </section >
     );
 };
 
-export default WeightRecoTab;
+export default SettledReco;
+
+function Preview({ show, handleClose, selectedRow }) {
+    const dispatch = useDispatch();
+    const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
+
+    console.log(historyRecord,"All data")
+    useEffect(() => {
+        if (show && selectedRow) {
+            dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
+        }
+    }, [show, selectedRow, dispatch]);
+
+    return (
+        <Modal show={show} onHide={handleClose} size="xl">
+            <Modal.Header closeButton>
+                <Modal.Title>History Details</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <table className="table">
+                <tbody>
+                    <tr>
+                        <th>Weight Discrepancy Date</th>
+                        <th>Status</th>
+                        <th>Charged Weight (KG)</th>
+                        <th>Charged Dimension (CM)</th>
+                        <th>Action Taken by</th>
+                        <th>Applied Weight</th>
+                        <th>Remark</th>
+                    </tr>
+                    {historyRecord?.map((row, index) => (
+                        <tr key={index}>
+                            <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
+                            <td>{row?.status}</td>
+                            <td>{selectedRow?.c_weight}</td>
+                            <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
+                            <td>{row?.action_taken_by}</td>
+                            <td>{selectedRow?.e_weight}</td>
+                            <td>{row?.remark}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            </Modal.Body>
+        </Modal>
+    );
+}

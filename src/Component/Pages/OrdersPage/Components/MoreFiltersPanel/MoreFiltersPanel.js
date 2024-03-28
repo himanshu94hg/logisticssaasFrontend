@@ -1,16 +1,17 @@
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import './MoreFiltersPanel.css'
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
 const SourceOptions = [
-    { label: "Amazon_IN", value: "Amazon_IN" },
+    { label: "Amazon", value: "amazon" },
     { label: "Custom", value: "Custom" },
-    { label: "Shopify", value: "Shopify", disabled: true },
-    // Add more options as needed
+    { label: "Shopify", value: "shopify" },
 ];
 
 const OrderStatus = [
@@ -29,31 +30,34 @@ const OrderStatus = [
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "cod" },
-    // Add more options as needed
-];
-
-const PickupAddresses = [
-    { label: "Adress 1", value: "Adress1" },
-    // Add more options as needed
-];
+]
 
 const Ordertags = [
     { label: "Tag 1", value: "Tag1" },
-    // Add more options as needed
 ];
 
 const CourierPartner = [
-    { label: "Courier 1", value: "Courier1" },
-    // Add more options as needed
+    { label: "Bluedart", value: "bluedart" },
+    { label: "Shadowfax", value: "shadowfax" },
+    { label: "Delhivery", value: "delhivery" },
+    { label: "Xpressbees", value: "xpressbees" },
 ];
 
 
-const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
+const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel,filterParams,setFilterParams,handleMoreFilter }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [SaveFilter, setSaveFilter] = useState(false)
+    const [pickupAddresses, setPickupAddresses] = useState([
+
+    ]);
+
+    const sellerData = Cookies.get("user_id")
+    const authToken = Cookies.get("access_token")
+
+    console.log(MoreFilters, "MoreFiltersMoreFilters")
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
@@ -61,7 +65,20 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
 
     const handleSubmit = e => {
         e.preventDefault();
+        handleMoreFilter()
+
     };
+
+    // const [filterParams, setFilterParams] = useState({
+    //     start_date: "",
+    //     end_date: "",
+    //     status: "",
+    //     order_source: "",
+    //     courier_partner: "",
+    //     payment_type: "",
+    //     order_id: "",
+    //     order_tag:""
+    // })
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
@@ -90,9 +107,57 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                 [name]: temp_data
             }));
         }
+        if (name === "courier_partner") {
+            let temp_data = ''
+            let temp = value.map((item) => {
+                temp_data += item.value + ","
+            })
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        }
+        if (name === "payment_type") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value.value
+            }));
+        }
+        if (name === "order_id") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value.target.value
+            }));
+        }
 
     };
-    // console.log(temp_data, "fieldNamefieldNamefieldName")
+    // console.log(filterParams, "fieldNamefieldNamefieldName")
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (MoreFilters) {
+                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    console.log(response?.data, "this is response data ")
+                    const temp = response?.data?.map((item) => ({
+                        label: item.warehouse_name,
+                        value: item.warehouse_name,
+                    }));
+                    setPickupAddresses(temp)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData(); // Call the fetchData function
+
+    }, [MoreFilters, sellerData, authToken]);
 
 
 
@@ -103,24 +168,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         setLocation('');
     };
 
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        order_id: ""
-    })
-
-
-
-    //     channel =
-    //     product =
-    //     store_name =
-    //     save_filter = True / False
-    //     filter_name =
-
+ 
     return (
         <>
             <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
@@ -142,7 +190,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
-                                            selected={filterParams.start_date}
+                                            selected={filterParams?.start_date}
                                             onChange={(e) => handleChange("start_date", e)}
                                         />
                                     </div>
@@ -154,7 +202,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
-                                            selected={filterParams.end_date}
+                                            selected={filterParams?.end_date}
                                             onChange={(e) => handleChange("end_date", e)}
                                         />
                                     </div>
@@ -187,7 +235,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Courier Partner
                                     <Select
                                         options={CourierPartner}
-                                        onChange={(e) => handleChange(e, "courier_partner")}
+                                        onChange={(e) => handleChange("courier_partner",e)}
                                         isMulti
                                         isSearchable
                                     />
@@ -197,14 +245,14 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Payment Option
                                     <Select
                                         options={paymentOptions}
-                                        onChange={(e) => handleChange(e, "payment_type")}
+                                        onChange={(e) => handleChange("payment_type",e )}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
-                                        options={PickupAddresses}
+                                        options={pickupAddresses}
                                     />
                                 </label>
                             </div>
@@ -224,7 +272,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         className='input-field'
                                         type="text"
                                         placeholder='Enter Order ID comma separated'
-                                        onChange={(e) => handleChange(e, "order_id")}
+                                        onChange={(e) => handleChange("order_id",e)}
                                     />
                                 </label>
                             </div>

@@ -17,7 +17,8 @@ const WeightRecoPage = () => {
     const [totalItems, setTotalItems] = useState("");
 
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
-    const { weightData, holdData, settledData } = recoSectionReducer;
+    const { weightData, holdData, setteledData } = recoSectionReducer;
+    console.log(setteledData,"Setteled Data")
 
     useEffect(() => {
         const fetchData = async () => {
@@ -30,8 +31,8 @@ const WeightRecoPage = () => {
                     break;
                 case "Settled Reconciliation":
                     await dispatch({ type: "SETTELED_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
-                    if (settledData && Array.isArray(settledData)) {
-                        setTotalItems(settledData.length);
+                    if (setteledData && Array.isArray(setteledData)) {
+                        setTotalItems(setteledData.length);
                     }
                     break;
                 case "On Hold Reconciliation":
@@ -59,7 +60,7 @@ const WeightRecoPage = () => {
 
             {/* Settled Reco */}
             <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
-                <SettledReco weightRecoData={settledData} />
+                <SettledReco weightRecoData={setteledData} />
             </div>
 
             {/* On-Hold Reco */}
