@@ -286,6 +286,16 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 console.error('Error fetching data:', error);
             });
     };
+    const handleMobileNumberValidation = () => {
+        const { mobile_number } = formData.shipping_details;
+        if (mobile_number.length !== 10) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                mobile_number: "Mobile number must be 10 digits long"
+            }));
+        }
+    };
+    
 
 
     return (
@@ -323,6 +333,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     type="text"
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => handleChangeShiping(e, 'mobile_number')}
+                                    onBlur={handleMobileNumberValidation}
                                     placeholder='X X X X X X X X X X'
                                     maxLength={10}
                                     onKeyPress={(e) => {
@@ -401,7 +412,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>City  <span className='mandatory'>*</span></span>
                             <input
-                                disabled
                                 type="text"
                                 ref={cityRef}
                                 className={`input-field ${errors.city && 'input-field-error'}`}
@@ -417,7 +427,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>State <span className='mandatory'>*</span></span>
                             <input
-                                disabled
                                 type="text"
                                 ref={stateRef}
                                 className={`input-field ${errors.state && 'input-field-error'}`}
@@ -432,7 +441,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>Country  <span className='mandatory'>*</span></span>
                             <input
-                                disabled
                                 type="text"
                                 ref={countryRef}
                                 className={`input-field ${errors.country && 'input-field-error'}`}
@@ -490,6 +498,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         type="text"
                                         value={formData.billing_details.mobile_number}
                                         onChange={(e) => handleChangeBilling(e, 'mobile_number')}
+                                        onBlur={handleMobileNumberValidation}
                                         placeholder='X X X X X X X X X X'
                                         maxLength={10}
                                         onKeyPress={(e) => {
@@ -568,7 +577,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label className='col'>
                                 City
                                 <input
-                                    disabled
                                     type="text"
                                     ref={cityRef1}
                                     className={`input-field ${errors.billing_city && 'input-field-error'}`}
@@ -584,7 +592,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label className='col'>
                                 State
                                 <input
-                                    disabled
                                     type="text"
                                     ref={stateRef1}
                                     className={`input-field ${errors.billing_state && 'input-field-error'}`}
@@ -600,7 +607,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label className='col'>
                                 Country
                                 <input
-                                    disabled
                                     type="text"
                                     className={`input-field ${errors.billing_country && 'input-field-error'}`}
                                     placeholder="Enter Recipient's Country"
