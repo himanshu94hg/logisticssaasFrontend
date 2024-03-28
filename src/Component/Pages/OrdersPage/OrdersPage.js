@@ -18,6 +18,7 @@ import Pickups from './Components/Pickups/Pickups';
 import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import { toast } from 'react-toastify';
+import moment from 'moment';
 
 
 const OrdersPage = () => {
@@ -38,16 +39,7 @@ const OrdersPage = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        order_id: "",
-        order_tag: ""
-    })
+
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
@@ -64,15 +56,20 @@ const OrdersPage = () => {
         setBackDrop(false)
     }
 
-    const handleMoreFilter = () => {
-        // const queryParams = {};
-        // Object.keys(filterParams).forEach(key => {
-        //     if (filterParams[key] !== '') {
-        //         queryParams[key] = filterParams[key];
-        //     }
-        // });
-        // setQueryParamTemp(queryParams);
+    const handleMoreFilter = (data) => {
+        const queryParams = {};
+        Object.keys(data).forEach(key => {
+            if (data[key] !== '' && data[key] !== null) {
+                if (key === 'start_date' || key === 'end_date') {
+                    queryParams[key] = moment(data[key]).format('YYYY-MM-DD');
+                } else {
+                    queryParams[key] = data[key];
+                }
+            }
+        });
+        setQueryParamTemp(queryParams);
     };
+
 
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -108,8 +105,16 @@ const OrdersPage = () => {
         }
 
         if (apiUrl) {
+            const queryString = Object.keys(queryParamTemp)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParamTemp[key]))
+                .join('&');
+
             if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
                 apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
+            }
+
+            if (queryString) {
+                apiUrl += '&' + queryString;
             }
             axios.get(apiUrl, {
                 headers: {
@@ -124,7 +129,7 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelledRes, orderdeleteRes, orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [orderCancelledRes, orderdeleteRes, orderClonRes, searchValue]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
@@ -177,8 +182,8 @@ const OrdersPage = () => {
         }
     }, [exportCard]);
 
-    console.log(filterParams, "queryParamTempqueryParamTemp")
 
+    console.log(activeTab, "activeTabactiveTabactiveTabactiveTab")
 
     return (
         <>
@@ -295,9 +300,8 @@ const OrdersPage = () => {
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
-                filterParams={filterParams}
+                activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
-                setFilterParams={setFilterParams}
                 handleMoreFilter={handleMoreFilter}
             />
 

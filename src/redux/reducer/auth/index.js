@@ -1,4 +1,4 @@
-import { LOGIN_DATA, PATHNAME_ACTION, SIGN_UP_DATA } from "../../constants/auth";
+import { LOGIN_DATA, PATHCLEAR_ACTION, PATHNAME_ACTION, SIGN_UP_DATA } from "../../constants/auth";
 
 const initialState = {
     checkAuth: null,
@@ -19,6 +19,11 @@ export const authDataReducer = (state = initialState, action) => {
                 signUpRes: action?.payload
             };
         case PATHNAME_ACTION:
+            return {
+                ...state,
+                pathName: action?.payload
+            };
+        case PATHCLEAR_ACTION:
             return {
                 ...state,
                 pathName: action?.payload

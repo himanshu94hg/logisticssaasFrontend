@@ -44,12 +44,13 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams,setFilterParams,handleMoreFilter }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [SaveFilter, setSaveFilter] = useState(false)
+    const [clearState, setClearState] = useState(false)
     const [pickupAddresses, setPickupAddresses] = useState([
 
     ]);
@@ -57,7 +58,6 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
 
-    console.log(MoreFilters, "MoreFiltersMoreFilters")
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
@@ -65,21 +65,39 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
 
     const handleSubmit = e => {
         e.preventDefault();
-        handleMoreFilter()
+        handleMoreFilter(filterParams)
         CloseSidePanel()
+        setClearState(true)
 
     };
 
-    // const [filterParams, setFilterParams] = useState({
-    //     start_date: "",
-    //     end_date: "",
-    //     status: "",
-    //     order_source: "",
-    //     courier_partner: "",
-    //     payment_type: "",
-    //     order_id: "",
-    //     order_tag:""
-    // })
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        // order_tag: ""
+    })
+
+    console.log(activeTab,"this is a activeTabactiveTabactiveTabactiveTab",filterParams)
+
+    useEffect(() => {
+        if (activeTab || clearState) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                status: "",
+                order_source: "",
+                courier_partner: "",
+                payment_type: "",
+                order_id: "",
+                order_tag: ""
+            })
+        }
+    }, [activeTab,clearState])
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
@@ -142,7 +160,6 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                             Authorization: `Bearer ${authToken}`
                         }
                     });
-                    console.log(response?.data, "this is response data ")
                     const temp = response?.data?.map((item) => ({
                         label: item.warehouse_name,
                         value: item.warehouse_name,
@@ -159,12 +176,18 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
     }, [MoreFilters, sellerData, authToken]);
 
     const handleReset = () => {
-        setStartDate(null);
-        setEndDate(null);
-        setName('');
-        setLocation('');
+        setFilterParams({
+            start_date: null,
+            end_date: null,
+            status: "",
+            order_source: "",
+            courier_partner: "",
+            payment_type: "",
+            order_id: "",
+            order_tag: ""
+        })
     };
- 
+
     return (
         <>
             <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
@@ -211,7 +234,7 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                                         isMulti
                                         isSearchable
                                         onChange={(e) => handleChange("status", e)}
-
+                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -219,11 +242,10 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                                 <label >Order Source
                                     <Select
                                         options={SourceOptions}
-                                        // defaultValue={SourceOptions}
-                                        onChange={(e) => handleChange("order_source",e)}
+                                        onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
-
+                                        value={filterParams.order_source ? SourceOptions.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -231,9 +253,10 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                                 <label>Courier Partner
                                     <Select
                                         options={CourierPartner}
-                                        onChange={(e) => handleChange("courier_partner",e)}
+                                        onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
+                                        value={filterParams.courier_partner ? CourierPartner.filter(option => filterParams.courier_partner.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -241,7 +264,9 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                                 <label>Payment Option
                                     <Select
                                         options={paymentOptions}
-                                        onChange={(e) => handleChange("payment_type",e )}
+                                        defaultValue={filterParams?.payment_type}
+                                        onChange={(e) => handleChange("payment_type", e)}
+                                        value={paymentOptions.find(option => option.value === filterParams.payment_type)}
                                     />
                                 </label>
                             </div>
@@ -262,16 +287,7 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
-                                <label>Search Multiple Order Ids
-                                    <input
-                                        className='input-field'
-                                        type="text"
-                                        placeholder='Enter Order ID comma separated'
-                                        onChange={(e) => handleChange("order_id",e)}
-                                    />
-                                </label>
-                            </div>
+                           
                             <div className='filter-row'>
                                 <label>SKU
                                     <input
@@ -296,6 +312,18 @@ const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams
                                     <input type="radio" name="skuType" id="" />
                                 </label>
                             </div>
+                            <div className='filter-row mb-2'>
+                                <label>Search Multiple Order Ids
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        value={filterParams.order_id}
+                                        placeholder='Enter Order ID comma separated'
+                                        onChange={(e) => handleChange("order_id", e)}
+                                    />
+                                </label>
+                            </div>
+                           
                         </div>
                         <div className='more-filters-footer'>
                             <label>
