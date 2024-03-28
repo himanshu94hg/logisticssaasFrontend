@@ -16,7 +16,7 @@ const CreateOrderFlow = () => {
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
-    const {pathName}=useSelector(state=>state?.authDataReducer)
+    const { pathName } = useSelector(state => state?.authDataReducer)
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -29,21 +29,24 @@ const CreateOrderFlow = () => {
 
 
     useEffect(() => {
-        if (location.pathname === "/create-order" && location.state && location.state.tabs === "BulkCreateOrder") {
+        if (location.pathname === "/create-order" && location.state && location.state.orderType === "BulkCreateOrder") {
             setActiveTab("BulkCreateOrder");
-        } 
-        else if(pathName==="Quick Order"){
+        }
+        else if (location.pathname === "/create-order" && location.state && location.state.orderType === "normalOrder") {
+            setActiveTab("DomesticCreateOrder");
+        }
+        else if (pathName === "Quick Order") {
             setActiveTab("QuickCreateOrder");
         }
-        else if(pathName==="Reverse Order"){
+        else if (pathName === "Reverse Order") {
             setActiveTab("DomesticCreateOrder");
         }
-        else if(location.pathname === "/Orders"){
-            setActiveTab("DomesticCreateOrder");
-        }
-    }, [location,pathName]);
-    
-console.log(pathName,"location.pathnamelocation.pathname")
+        // else if(location.pathname === "/Orders"){
+        //     setActiveTab("DomesticCreateOrder");
+        // }
+    }, [location, pathName, location?.state?.orderType]);
+
+    console.log(location.pathname, location.state?.orderType,"location.pathnamelocation.pathname")
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
