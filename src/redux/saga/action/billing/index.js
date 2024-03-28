@@ -44,7 +44,7 @@ async function billingShippingRechargeFileAPI(data) {
 async function billingShippingInvoiceFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_INVOICE_URL}`,
         data: data
     });
     return listData;

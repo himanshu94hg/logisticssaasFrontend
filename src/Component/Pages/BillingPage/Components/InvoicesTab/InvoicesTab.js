@@ -71,7 +71,7 @@ const InvoicesTab = ({billingCard}) => {
                     </div>
                 </div>
                 {
-                    InvoiceData ? <FreightInvoice billingCard={billingCard} /> : <AllOtherInvoices billingCard={billingCard}/>
+                    InvoiceData ? <FreightInvoice billingCard={billingCard} /> : <AllOtherInvoices />
                 }
 
                 <SidePanel CloseSidePanel={CloseSidePanel} />
