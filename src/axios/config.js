@@ -36,6 +36,7 @@ export const API_URL = {
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
   GET_BILLING_CREDIT_URL: "/core-api/features/billing/credit-receipt/",
   GET_BILLING_CREDIT_EXPORT_URL: "/core-api/features/billing/credit-receipt-download/",
+  GET_BILLING_SHIPING_INVOICE_URL: "/core-api/features/billing/invoice/",
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
