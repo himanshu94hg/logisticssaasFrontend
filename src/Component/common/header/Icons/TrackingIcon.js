@@ -1,0 +1,92 @@
+import React from 'react'
+
+const TrackingIcon = () => {
+    return (
+        <>
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                width={30}
+                height={30}
+                x={0}
+                y={0}
+                viewBox="0 0 497 497"
+                style={{ enableBackground: "new 0 0 512 512" }}
+                xmlSpace="preserve"
+                className="hovered-paths"
+            >
+                <g>
+                    <path
+                        fill="#1975c9"
+                        d="M248.5 0v497c4.966 0 9.355-2.424 12.085-6.141.021 0 140.047-191.036 140.047-191.036C423.485 268.627 437 230.144 437 188.5 437 84.394 352.606 0 248.5 0z"
+                        opacity={1}
+                        data-original="#e04b3a"
+                        className=""
+                    />
+                    <path
+                        fill="#60a9eb"
+                        d="M248.5 0C144.394 0 60 84.394 60 188.5c0 41.644 13.515 80.127 36.383 111.322-.016 0 140.011 191.036 140.011 191.036 2.751 3.718 7.14 6.141 12.106 6.141 4.176 0 7.866-2.424 10.162-6.141.017 0 117.759-191.036 117.759-191.036C395.636 268.627 407 230.144 407 188.5 407 84.394 336.037 0 248.5 0z"
+                        opacity={1}
+                        data-original="#ff6145"
+                        className=""
+                    />
+                    <circle
+                        cx="248.5"
+                        cy="188.5"
+                        r="158.5"
+                        fill="#e5f9ff"
+                        opacity={1}
+                        data-original="#e5f9ff"
+                        className=""
+                    />
+                    <path
+                        fill="#60a9eb"
+                        d="M138.225 124.833a7.454 7.454 0 0 0-1.005 3.747v119.84a7.5 7.5 0 0 0 3.75 6.495l103.78 59.92a7.493 7.493 0 0 0 3.75 1.005l81.28-191.59z"
+                        opacity={1}
+                        data-original="#ff9457"
+                        className=""
+                    />
+                    <path
+                        fill="#60a9eb"
+                        d="m358.775 124.833-110.28-.583 81.284 145.82 26.25-15.155a7.502 7.502 0 0 0 3.75-6.495V128.58a7.443 7.443 0 0 0-1.004-3.747z"
+                        opacity={1}
+                        data-original="#ff6145"
+                        className=""
+                    />
+                    <path
+                        fill="#1975c9"
+                        d="m329.78 141.57-81.28-17.32v191.59c1.295 0 2.59-.335 3.75-1.005l77.53-44.765v-34.64l-15-17.321 15-17.321z"
+                        opacity={1}
+                        data-original="#ff7e4f"
+                        className=""
+                    />
+                    <path
+                        fill="#ffffff"
+                        d="M329.784 200.789 278.5 230.398v34.641l51.284-29.609z"
+                        opacity={1}
+                        data-original="#ffffff"
+                        className=""
+                    />
+                    <path
+                        fill="#60a9eb"
+                        d="M356.031 122.085 252.25 62.165a7.499 7.499 0 0 0-7.5 0L192.86 92.12l15 64.26h96.28l54.635-31.547a7.502 7.502 0 0 0-2.744-2.748z"
+                        opacity={1}
+                        data-original="#ff9457"
+                        className=""
+                    />
+                    <path
+                        fill="#c5dcf1"
+                        d="m192.86 92.12-51.891 29.965a7.512 7.512 0 0 0-2.745 2.748L248.5 188.5l55.64-32.12z"
+                        opacity={1}
+                        data-original="#ffae6b"
+                        className="hovered-path"
+                    />
+                </g>
+            </svg>
+
+        </>
+    )
+}
+
+export default TrackingIcon
