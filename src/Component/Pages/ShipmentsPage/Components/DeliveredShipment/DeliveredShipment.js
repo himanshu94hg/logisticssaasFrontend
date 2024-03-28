@@ -157,7 +157,7 @@ const DeliveredShipment = ({shipmentCard}) => {
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                            <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
                             <button>
                                 <img src={SearchIcon} alt="Search" />
                             </button>
