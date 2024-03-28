@@ -7,6 +7,7 @@ import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
     const location = useLocation();
@@ -14,9 +15,12 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
+    const {pathName}=useSelector(state=>state?.authDataReducer)
+
+    console.log(location,"location?.state?.orderType")
 
     useEffect(() => {
-        if (location?.state?.orderType != "normalOrder" && location.pathname === "/create-order" || editStatus != "editStatus" && location.pathname === "/Orders") {
+        if (pathName=== "Reverse Order" && location.pathname === "/create-order" ) {
             setOrderStatus(true)
             setFormData({
                 ...formData,
@@ -26,8 +30,17 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                     payment_type: "Prepaid"
                 }
             });
+        }else if(location?.pathname==="/create-order" && location?.state?.orderType==="normalOrder" || location?.pathname==="/create-order" && location?.state?.orderType==="BulkCreateOrder"){
+            setOrderStatus(false)
+            setFormData({
+                ...formData,
+                order_details: {
+                    ...formData.order_details,
+                    order_type: "",
+                    payment_type: ""
+                }
+            }); 
         }
-
     }, [location, editStatus])
 
     const validateFormData = () => {

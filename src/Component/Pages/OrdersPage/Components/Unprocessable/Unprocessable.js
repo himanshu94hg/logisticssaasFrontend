@@ -19,67 +19,11 @@ import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 
-const InfoMissing = () => {
-    return (
-        <>
-            <span className='info-missing-content'><InfoMissingIcon /> Info Missing</span>
-        </>
-    );
-}
-
-const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
+const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
 
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-                "type": "Unprocessable",
-                "subtype": ""
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-        };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${"Unprocessable"}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);
-
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -91,9 +35,8 @@ const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+        const isSelected = selectedRows?.includes(orderId);
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
@@ -103,7 +46,6 @@ const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
             setBulkActionShow(false)
         }
 
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -111,60 +53,10 @@ const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
         }
     };
 
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button' onClick={() => handleExport()}>Export</button>
-                        <div className='action-options bulk-actions ms-2'>
-                            <div className='btn main-button'>
-                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
-                            </div>
-                            <div className='action-list'>
-                                <ul>
-                                    <li>Bulk Ship</li>
-                                    <li>Mark as Verified</li>
-                                    <li>Add Bulk Tag</li>
-                                    <li><hr /></li>
-                                    <li>Bulk Weight/Dimension Update</li>
-                                    <li>Bulk Warehouse Update</li>
-                                    <li><hr /></li>
-                                    <li>Bulk Delete Order</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
@@ -195,7 +87,7 @@ const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row?.id)}
+                                                checked={selectedRows?.includes(row?.id)}
                                                 onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
@@ -339,7 +231,6 @@ const Unprocessable = ({ orders, handleSearch, setBulkActionShow }) => {
                         </tbody>
                     </table>
                 </div>
-                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
             </div>
         </section>

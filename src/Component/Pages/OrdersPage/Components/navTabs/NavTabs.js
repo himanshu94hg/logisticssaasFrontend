@@ -93,7 +93,7 @@ export default function NavTabs(props) {
               }}
             >
               <div className="navItemsContainer">
-                Pickup 
+                Pickups
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
@@ -142,7 +142,7 @@ export default function NavTabs(props) {
 
       </div>
       <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button" onClick={() => navigate(createOrderPattern,{state:{tabs:"BulkCreateOrder"}})}>Import Orders</button>
+        <button className="btn main-button" onClick={() => navigate(createOrderPattern,{state:{orderType:"BulkCreateOrder"}})}>Import Orders</button>
         <button className="btn main-button" onClick={handleSubmit}>Sync Orders</button>
         <button onClick={() => navigate(createOrderPattern,{state:{orderType:"normalOrder"}})} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</button>
       </div>
