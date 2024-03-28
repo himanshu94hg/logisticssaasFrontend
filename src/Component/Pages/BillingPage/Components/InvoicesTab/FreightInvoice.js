@@ -61,7 +61,6 @@ const FreightInvoice = ({ billingCard }) => {
             setSelectedRows([...selectedRows, orderId]);
         }
 
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
