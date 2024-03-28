@@ -37,7 +37,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Activity Logs
+                Activities
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "ScheduledReportsMIS" ? "active" : ""}`}
@@ -47,7 +47,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Scheduled Reports
+                Schedules
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "ReportsMIS" ? "active" : ""}`}

@@ -44,7 +44,7 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel,filterParams,setFilterParams,handleMoreFilter }) => {
+const MoreFiltersPanel = React.memo (({ MoreFilters, CloseSidePanel,filterParams,setFilterParams,handleMoreFilter }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
@@ -66,6 +66,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel,filterParams,setFilterPa
     const handleSubmit = e => {
         e.preventDefault();
         handleMoreFilter()
+        CloseSidePanel()
 
     };
 
@@ -129,9 +130,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel,filterParams,setFilterPa
                 [name]: value.target.value
             }));
         }
-
     };
-    // console.log(filterParams, "fieldNamefieldNamefieldName")
 
 
     useEffect(() => {
@@ -159,15 +158,12 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel,filterParams,setFilterPa
 
     }, [MoreFilters, sellerData, authToken]);
 
-
-
     const handleReset = () => {
         setStartDate(null);
         setEndDate(null);
         setName('');
         setLocation('');
     };
-
  
     return (
         <>
@@ -324,6 +320,6 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel,filterParams,setFilterPa
             </div>
         </>
     )
-}
+})
 
 export default MoreFiltersPanel
