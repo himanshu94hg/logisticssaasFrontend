@@ -206,7 +206,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     maxDate={new Date()}
                                     onKeyDown={(e) => handleKeyDown(e)}
                                     className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
-                                    onKeyDown={(e) => handleKeyDown(e)}
                                 />
                             </div>
                             {errors.order_date && <div className="custom-error">{errors.order_date}</div>}
