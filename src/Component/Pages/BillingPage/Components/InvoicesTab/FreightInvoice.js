@@ -78,7 +78,6 @@ const FreightInvoice = ({ billingCard }) => {
     };
 
     const handleDataAndView = (row) => {
-        console.log(row.id, "All ship Data")
         if (row.id !== null) {
             setAllInvoiceData(row);
             setTimeout(() => {
