@@ -35,19 +35,19 @@ const OverviewDetails = () => {
   };
 
 
-  useEffect(() => {
-    if (activeTab === "ndr") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
-    }
-    if (activeTab === "cod") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION",payload:dateRangeDashboard  })
-    }
-    if (activeTab === "rto") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION",payload:dateRangeDashboard })
-    }
-  }, [activeTab])
+  // useEffect(() => {
+  //   if (activeTab === "ndr") {
+  //     dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
+  //   }
+  //   if (activeTab === "cod") {
+  //     dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION",payload:dateRangeDashboard  })
+  //   }
+  //   if (activeTab === "rto") {
+  //     dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION",payload:dateRangeDashboard })
+  //   }
+  // }, [activeTab])
 
-  const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
+  // const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
   const capitalize = (str) => {
     return str.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   };
