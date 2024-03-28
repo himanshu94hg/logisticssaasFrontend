@@ -135,6 +135,16 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         }));
     };
 
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }      
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <>
             {/* Order Details Section */}
@@ -181,6 +191,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="dd/MM/yyyy"
                                     maxDate={new Date()}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                     className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
                                 />
                             </div>

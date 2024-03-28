@@ -93,7 +93,7 @@ const ShippingRates = () => {
                                 <th style={{ width: '12.5%' }}>ZONE C</th>
                                 <th style={{ width: '12.5%' }}>ZONE D</th>
                                 <th style={{ width: '12.5%' }}>ZONE E</th>
-                                <th style={{ width: '10%' }}>COD Charges</th>
+                                <th style={{ width: '10%' }}>COD Charges(₹) </th>
                                 <th style={{ width: '10%' }}>COD <br /> Maintenance(%)</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
