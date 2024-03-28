@@ -94,7 +94,6 @@ const RateCalculatorPage = () => {
   };
   
   
-  
   const handleSelect = (e, fieldName) => {
     let value = e.target.value;
     if (fieldName === "shipment_type" && value === "Reverse") {
