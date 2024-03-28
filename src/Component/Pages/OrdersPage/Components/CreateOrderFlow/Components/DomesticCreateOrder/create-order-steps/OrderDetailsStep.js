@@ -157,7 +157,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             e.preventDefault();
         }
     }
-    return (
+    return (    
         <>
             {/* Order Details Section */}
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
