@@ -72,7 +72,7 @@ const AllOtherInvoices = ({billingCard}) => {
                                     {/* order detail */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.inv_id ?? 1}
+                                            {row?.id ?? 0}
                                         </p>
                                     </div>
                                 </td>

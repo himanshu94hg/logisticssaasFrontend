@@ -157,8 +157,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             e.preventDefault();
         }
     }
-
-    return (
+    return (    
         <>
             {/* Order Details Section */}
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -291,7 +290,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                 <input
                                     type="text"
                                     className='input-field'
-                                    value={formData.other_details.number_of_packets || 0}
+                                    value={formData.other_details.number_of_packets}
                                     onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
                                     placeholder='Enter Number of Packets'
                                     onKeyPress={(e) => {
