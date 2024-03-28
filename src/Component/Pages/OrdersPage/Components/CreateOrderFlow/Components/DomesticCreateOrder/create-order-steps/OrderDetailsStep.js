@@ -135,6 +135,16 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         }));
     };
 
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }      
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
+
     return (
         <>
             {/* Order Details Section */}
@@ -182,6 +192,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     dateFormat="dd/MM/yyyy"
                                     maxDate={new Date()}
                                     className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                 />
                             </div>
                             {errors.order_date && <div className="custom-error">{errors.order_date}</div>}
@@ -267,7 +278,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                 <input
                                     type="text"
                                     className='input-field'
-                                    value={formData.other_details.number_of_packets || 0}
+                                    value={formData.other_details.number_of_packets}
                                     onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
                                     placeholder='Enter Number of Packets'
                                     onKeyPress={(e) => {
