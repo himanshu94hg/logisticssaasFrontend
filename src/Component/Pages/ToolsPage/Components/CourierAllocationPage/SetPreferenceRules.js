@@ -8,6 +8,12 @@ import { faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 const SetPreferenceRules = () => {
     const [rules, setRules] = useState([]);
     const [rulePanel, setRulePanel] = useState(false)
+    const [isActive, setIsActive] = useState(false);
+
+    const handleToggle = () => {
+        setIsActive(!isActive);
+        console.log(isActive)
+    };
 
     useEffect(() => {
         const savedRules = JSON.parse(localStorage.getItem('rules'));
@@ -73,8 +79,22 @@ const SetPreferenceRules = () => {
                             <p>Preference 4: Courier 4</p>
                         </div>
                         <div className='rules-action-btn'>
-                            <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                            <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
+                            <div className="toggle-switch">
+                                <input
+                                    type="checkbox"
+                                    id="toggle"
+                                    checked={isActive}
+                                    onChange={handleToggle}
+                                />
+                                <label htmlFor="toggle" className={`toggle-label ${isActive ? 'checked' : ''}`}>
+                                    <span className="toggle-inner" />
+                                    <span className="toggle-switch" />
+                                </label>
+                            </div>
+                            <div>
+                                <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
+                            </div>
                         </div>
                     </div>
                     <div className='created-rules'>
@@ -151,6 +171,24 @@ const SetPreferenceRules = () => {
                     </div>
                 </section>
                 <section className='ar-panel-body'>
+                    <div className='rule-name-container'>
+                        <label>
+                            Rule Name
+                            <input className='input-field' type="text" />
+                        </label>
+
+                        <label>
+                            Set Priority for this rule
+                            <select className='select-field' name="" id="">
+                                <option value="">1</option>
+                                <option value="">2</option>
+                                <option value="">3</option>
+                                <option value="">4</option>
+                            </select>
+                        </label>
+                    </div>
+
+
                     <div style={{ width: '100%' }} className='mb-5'>
                         <div className='priority-container'>
                             {[1, 2, 3, 4].map(priority => (

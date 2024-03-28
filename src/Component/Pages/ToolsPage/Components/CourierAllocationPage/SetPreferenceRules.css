@@ -18,14 +18,14 @@
 }
 
 .ar-items-scroll {
-    height: calc(100vh - 400px);
+    height: calc(100vh - 474px);
     overflow-y: auto;
     overflow-x: clip;
     counter-reset: section;
 }
 
 .add-rule-btns {
-    width: 340px;
+    min-width: 78px;
     display: flex;
     align-items: center;
     gap: 10px;
@@ -181,7 +181,71 @@
 .rules-action-btn {
     position: absolute;
     right: 15px;
-    bottom: 15px;
+    /* bottom: 15px; */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: 12px;
+}
+
+.rule-name-container {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.rule-name-container label {
+    width: 100%;
+}
+
+
+
+.rules-action-btn .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 24px;
+}
+
+.rules-action-btn .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.rules-action-btn .toggle-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+}
+
+.rules-action-btn .toggle-inner {
+    display: block;
+    width: 26px;
+    height: 26px;
+    margin: 4px;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.rules-action-btn .toggle-switch .toggle-label.checked .toggle-inner {
+    transform: translateX(26px);
+}
+
+.rules-action-btn .toggle-label.checked {
+    background-color: #2196f3;
 }
 
 
