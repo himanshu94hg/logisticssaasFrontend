@@ -44,41 +44,16 @@ const SetPreferenceRules = () => {
     return (
         <>
             <div className='set-of-rules'>
-                <h4>Click on add button to add set of rules for courier preferences</h4>
-            </div>
-            <div className={`d-flex mt-2 ${rules.length === 0 ? '' : 'justify-content-end w-100'}`}>
-                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
+                <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
             {rules.length !== 0 &&
                 <div className='create-rules-section'>
                     <div className='created-rules'>
-                        <div className='rule-row'>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>AND</p>
+                        <div className='cr-rule-name'>
+                            <div className='rule-name'>
+                                <p>Rule Name: Rule1</p>
+                                <p>Priority: #1</p>
                             </div>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>OR</p>
-                            </div>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>AND</p>
-                            </div>
-                        </div>
-                        <div className='rule-preference'>
-                            <p>Preference 1: Courier 1</p>
-                            <p>Preference 2: Courier 2</p>
-                            <p>Preference 3: Courier 3</p>
-                            <p>Preference 4: Courier 4</p>
-                        </div>
-                        <div className='rules-action-btn'>
                             <div className="toggle-switch">
                                 <input
                                     type="checkbox"
@@ -91,73 +66,45 @@ const SetPreferenceRules = () => {
                                     <span className="toggle-switch" />
                                 </label>
                             </div>
-                            <div>
+                        </div>
+                        <div className='cr-rule-conditions'>
+                            <div className='rule-row'>
+                                <div className='rule-item'>
+                                    <p>Order Amount</p>
+                                    <p>Is</p>
+                                    <p>₹ 100</p>
+                                    <p className='rule-condition'>AND</p>
+                                </div>
+                                <div className='rule-item'>
+                                    <p>Order Amount</p>
+                                    <p>Is</p>
+                                    <p>₹ 100</p>
+                                    <p className='rule-condition'>OR</p>
+                                </div>
+                                <div className='rule-item'>
+                                    <p>Order Amount</p>
+                                    <p>Is</p>
+                                    <p>₹ 100</p>
+                                    <p className='rule-condition'>AND</p>
+                                </div>
+                            </div>
+                            <div className='rule-preference'>
+                                <p>Preference 1: Courier 1</p>
+                                <p>Preference 2: Courier 2</p>
+                                <p>Preference 3: Courier 3</p>
+                                <p>Preference 4: Courier 4</p>
+                            </div>
+                            <div className='rules-action-btn'>
                                 <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
                                 <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
                             </div>
                         </div>
                     </div>
-                    <div className='created-rules'>
-                        <div className='rule-row'>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>AND</p>
-                            </div>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>OR</p>
-                            </div>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>OR</p>
-                            </div>
-                        </div>
-                        <div className='rule-preference'>
-                            <p>Preference 1: Courier 1</p>
-                            <p>Preference 2: Courier 2</p>
-                            <p>Preference 3: Courier 3</p>
-                            <p>Preference 4: Courier 4</p>
-                        </div>
-                        <div className='rules-action-btn'>
-                            <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                            <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
-                        </div>
-                    </div>
-                    <div className='created-rules'>
-                        <div className='rule-row'>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>AND</p>
-                            </div>
-                            <div className='rule-item'>
-                                <p>Order Amount</p>
-                                <p>Is</p>
-                                <p>₹ 100</p>
-                                <p className='rule-condition'>OR</p>
-                            </div>
-                        </div>
-                        <div className='rule-preference'>
-                            <p>Preference 1: Courier 1</p>
-                            <p>Preference 2: Courier 2</p>
-                            <p>Preference 3: Courier 3</p>
-                            <p>Preference 4: Courier 4</p>
-                        </div>
-                        <div className='rules-action-btn'>
-                            <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                            <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
-                        </div>
-                    </div>
                 </div>
             }
-
+            <div className={`d-flex mt-2 ${rules.length === 0 ? '' : 'justify-content-end w-100'}`}>
+                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
+            </div>
 
 
             {/* Add Rule Side Panel */}

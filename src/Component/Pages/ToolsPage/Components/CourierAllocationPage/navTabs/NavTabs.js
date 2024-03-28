@@ -49,7 +49,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Courier Preferences
+                Preferences
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Set preference Rules" ? "active" : ""}`}
