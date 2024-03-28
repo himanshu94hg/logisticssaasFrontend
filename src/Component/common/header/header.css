@@ -269,6 +269,7 @@
 .header-search-input input {
   padding-left: 31px;
   border-color: var(--sh-primary-light);
+  padding-right: 10px;
 }
 
 .header-search-input input::placeholder {
@@ -280,6 +281,19 @@
   left: 9px;
   top: 10px;
   color: var(--sh-primary);
+}
+
+.header-left-container p {
+  border-radius: 0.5rem;
+  border: 1px solid var(--sh-primary-light);
+  height: 36px;
+  font-size: 0.8rem;
+  display: flex;
+  padding-inline: 10px;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  margin-bottom: 0;
 }
 
 /* Media query for tablets */

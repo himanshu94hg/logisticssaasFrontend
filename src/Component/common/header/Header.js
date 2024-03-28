@@ -13,6 +13,7 @@ import QuickShipIcon from "./Icons/QuickShipIcon";
 import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
 import TicketIcon from "./Icons/TicketIcon";
 import TrackingIcon from "./Icons/TrackingIcon";
+import EarnAndGrow from "./Icons/EarnAndGrow";
 
 export default function Header(props) {
 
@@ -40,12 +41,7 @@ export default function Header(props) {
         <Nav className="ml-auto w-100 alignContent">
           <div className="d-flex justify-content-between w-100 align-items-center">
             <div className="header-left-container">
-              <div className="navItemsContainer buisnessItem">
-                Business Plan
-                {/* <span className="iconContainer">
-                  <FontAwesomeIcon icon={faIndianRupeeSign} />
-                </span> */}
-              </div>
+              <p><EarnAndGrow />Earn & Grow</p>
             </div>
 
             <div className="d-flex align-items-center" style={{ gap: "10px" }}>
