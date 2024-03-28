@@ -14,6 +14,7 @@ import WeightDiscrepancies from '../Components/Overview/WeightDiscrepancies';
 import { useDispatch } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import Cookies from 'js-cookie';
+import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
@@ -43,9 +44,10 @@ const Overview = ({ activeTab }) => {
       </Col>
       <Col className="col-6 cardsSpace">
         <TotalInfoDashboard />
-        <TableDashboard />
+        {/* <OverviewDetails /> */}
+        <OverviewStatusCard />
         <TopSellingDashboard />
-        <OverviewDetails />
+        <TableDashboard />
       </Col>
       <Col className="col-3 cardsSpace">
         <RevenueDashboard />
