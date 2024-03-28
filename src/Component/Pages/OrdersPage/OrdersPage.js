@@ -14,23 +14,30 @@ import EditOrder from './Components/EditOrder/EditOrder';
 import Pagination from './Components/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import Pickups from './Components/Pickups/Pickups';
-
+// import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
+import SearchIcon from '../../../assets/image/icons/search-icon.png'
+import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import { toast } from 'react-toastify';
 
 
 const OrdersPage = () => {
     const dispatch = useDispatch()
-    const [activeTab, setActiveTab] = useState("Processing");
-    const [selectedOption, setSelectedOption] = useState("Domestic");
-    const [isOpen, setIsOpen] = useState(false);
+    const sellerData = Cookies.get("user_id")
+    let authToken = Cookies.get("access_token")
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
-    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [activeTab, setActiveTab] = useState("Processing");
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
-
+    const [MoreFilters, setMoreFilters] = useState(false);
+    const [backDrop, setBackDrop] = useState(false);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [exportButtonClick, setExportButtonClick] = useState(false)
     const [filterParams, setFilterParams] = useState({
         start_date: "",
         end_date: "",
@@ -39,34 +46,34 @@ const OrdersPage = () => {
         courier_partner: "",
         payment_type: "",
         order_id: "",
-        order_tag:""
+        order_tag: ""
     })
 
-    const handleMoreFilter=()=>{
-        
-    }
-
-    console.log(filterParams,"filterParamsfilterParamsfilterParams")
-
-    // const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-
-    //const location = useLocation()
-
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
-    const toggleOptions = () => {
-        setIsOpen(!isOpen);
-    };
-    const sellerData = Cookies.get("user_id")
-    let authToken = Cookies.get("access_token")
-
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
     let orderCancelledRes = orderCancelled + new Date();
     let orderdeleteRes = orderdelete + new Date();
     let orderClonRes = orderClone + new Date();
+
+    const handleSidePanel = () => {
+        setMoreFilters(true);
+        setBackDrop(true)
+    }
+    const CloseSidePanel = () => {
+        setMoreFilters(false);
+        setBackDrop(false)
+    }
+
+    const handleMoreFilter = () => {
+        // const queryParams = {};
+        // Object.keys(filterParams).forEach(key => {
+        //     if (filterParams[key] !== '') {
+        //         queryParams[key] = filterParams[key];
+        //     }
+        // });
+        // setQueryParamTemp(queryParams);
+    };
+
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -114,9 +121,10 @@ const OrdersPage = () => {
                     setOrders(response.data.results);
                 })
                 .catch(error => {
+                    toast.error("Something went wrong!")
                 });
         }
-    }, [activeTab, authToken, orderCancelledRes, orderdeleteRes, orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
+    }, [orderCancelledRes, orderdeleteRes, orderClonRes, searchValue, allOrders, unprocessable, processing, readyToShip, manifest, returnOrders]);
 
     const handleSearch = (value) => {
         setSearchValue(value)
@@ -128,43 +136,134 @@ const OrdersPage = () => {
         }
     }, [activeTab])
 
+    const handleExport = () => {
+        setExportButtonClick(true);
+        const requestData = {
+            "order_tab": {
+                "type": activeTab,
+                "subtype": ""
+            },
+            "order_id": `${selectedRows.join(',')}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": false,
+            "global_type": "",
+            "payment_type": ""
+        };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
+
+    console.log(filterParams, "queryParamTempqueryParamTemp")
+
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                <div className="search-container">
+                    <div className='d-flex'>
+                        <label>
+                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
+                            <button>
+                                <img src={SearchIcon} alt="Search" />
+                            </button>
+                        </label>
+                        <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                    </div>
+                    <p className='font10'>Most Popular Search by
+                        <span>COD</span> |
+                        <span>Prepaid</span> |
+                        <span>Yesterday</span> |
+                        <span>One Week</span> |
+                        <span>Last Month</span> |
+                        <span>Delivered</span> |
+                        <span>Cancel order</span> </p>
+                </div>
+                <div className='button-container'>
+                    <button className='btn main-button' onClick={handleExport}>Export</button>
+                </div>
+            </div>}
 
             <div className='orders-section-tabs'>
                 {/* All Orders */}
                 <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
-                    <AllOrders setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <AllOrders
+                        orders={orders}
+                        activeTab={activeTab}
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
 
                 {/* Unprocessable */}
                 <div className={`${activeTab === "Unprocessable" ? "d-block" : "d-none"}`}>
-                    <Unprocessable setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <Unprocessable
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                        activeTab={activeTab} orders={orders}
+                    />
                 </div>
 
                 {/* Processing */}
                 <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
                     <Processing
-                        setBulkActionShow={setBulkActionShow}
-                        activeTab={activeTab} orders={orders}
-                        handleSearch={handleSearch}
-                        setEditOrderSection={setEditOrderSection}
+                        orders={orders}
+                        activeTab={activeTab}
                         setOrderId={setOrderId}
-                        filterParams={filterParams} 
-                        setFilterParams={setFilterParams}
-                        handleMoreFilter={handleMoreFilter}
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                        setEditOrderSection={setEditOrderSection}
                     />
                 </div>
 
                 {/* ReadyToShip */}
                 <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
-                    <ReadyToShip setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <ReadyToShip
+                        orders={orders}
+                        activeTab={activeTab}
+                        handleSearch={handleSearch}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
 
                 {/* Pickups */}
                 <div className={`${activeTab === "Pickup" ? "d-block" : "d-none"}`}>
-                    <Pickups setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <Pickups
+                        orders={orders}
+                        activeTab={activeTab}
+                        handleSearch={handleSearch}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
 
                 {/* Manifest */}
@@ -174,7 +273,12 @@ const OrdersPage = () => {
 
                 {/* Returns */}
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
-                    <ReturnOrders setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <ReturnOrders
+                        orders={orders}
+                        activeTab={activeTab}
+                        handleSearch={handleSearch}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
                 <Pagination
                     totalItems={totalItems}
@@ -189,6 +293,13 @@ const OrdersPage = () => {
                 }
             </div>
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
+            <MoreFiltersPanel
+                MoreFilters={MoreFilters}
+                filterParams={filterParams}
+                CloseSidePanel={CloseSidePanel}
+                setFilterParams={setFilterParams}
+                handleMoreFilter={handleMoreFilter}
+            />
 
         </>
     )
