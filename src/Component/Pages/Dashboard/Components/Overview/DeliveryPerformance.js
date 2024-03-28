@@ -19,6 +19,11 @@ const DeliveryPerformance = () => {
     useEffect(() => {
         if (deliveryData) {
             renderChart(deliveryData);
+            return () => {
+                if (chartRef.current) {
+                    chartRef.current.destroy();
+                }
+            };
         }
     }, [deliveryData]);
 
