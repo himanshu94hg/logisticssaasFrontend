@@ -124,5 +124,6 @@ export const API_URL = {
   GET_HOLD: "/orders-api/orders/weight-reconciliation-on-hold/",
   GET_SETTELED: "/orders-api/orders/setteled-weight-reconciliation/",
   GET_HISTORY: "/orders-api/orders/weight-reconciliation-history/",
+  GET_ACCEPT: "/orders-api/orders/weight-reconciliation-accept/",
 
 };

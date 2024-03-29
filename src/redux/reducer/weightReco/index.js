@@ -1,11 +1,12 @@
-import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA } from "../../constants/weightReco";
+import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA,GET_ACCEPT_DATA } from "../../constants/weightReco";
 
 const initialState = {
     weightRecoData: [],
     weightData:[],
     holdData:[],
     setteledData:[],
-    historyData:[]
+    historyData:[],
+    acceptData:[]
 };
 
 export const weightRecoReducer = (state = initialState, action) => {
@@ -34,6 +35,11 @@ export const weightRecoReducer = (state = initialState, action) => {
             return {
                 ...state,
                 historyData: action?.payload
+            };
+        case GET_ACCEPT_DATA:
+            return {
+                ...state,
+                acceptData: action?.payload
             };
         default:
             return state
