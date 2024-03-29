@@ -19,6 +19,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import {toast} from "react-toastify";
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -56,9 +57,11 @@ const WeightRecoTab = ({weightRecoData}) => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+    const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
+    
 
     //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
-    console.log(weightRecoData, "weightRecoDataweightRecoDataweightRecoData")
+    console.log(acceptRecord, "weightRecoDataweightRecoDataweightRecoData")
 
 
     const reasons = [
@@ -134,6 +137,10 @@ const WeightRecoTab = ({weightRecoData}) => {
     const handleAccept = (row) => {
         const rowString = JSON.stringify(row);
         dispatch({ type: "ACCEPT_ACTION", payload: {"ids":rowString} });
+        if(acceptRecord.status === 200)
+        {
+            toast.success("Thank you for accepting.")
+        }
     };
 
     return (

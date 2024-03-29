@@ -203,10 +203,13 @@ const RTOShipment = ({shipmentCard}) => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
-                                                <div className='d-flex align-items-center'>
+                                                <p>
+                                                    <span className=''>{row.customer_order_number}</span>
+                                                </p>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
