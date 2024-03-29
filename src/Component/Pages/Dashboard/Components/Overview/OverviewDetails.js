@@ -47,7 +47,7 @@ const OverviewDetails = () => {
   //   }
   // }, [activeTab])
 
-  // const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
+  const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
   const capitalize = (str) => {
     return str.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   };
