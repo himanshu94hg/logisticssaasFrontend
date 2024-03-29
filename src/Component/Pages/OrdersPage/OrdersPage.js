@@ -170,6 +170,7 @@ const OrdersPage = () => {
             "global_type": "",
             "payment_type": ""
         };
+        console.log("All Request data",requestData);
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -258,6 +259,8 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
                     />
                 </div>
 
@@ -268,6 +271,8 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
                     />
                 </div>
 
@@ -283,6 +288,8 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
                     />
                 </div>
                 <Pagination
