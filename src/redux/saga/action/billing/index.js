@@ -3,6 +3,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,BASE_URL_BILLING } from "../../../../axios/config";
 import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION } from "../../constant/billing";
 import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA } from "../../../constants/billing";
+import {toast} from "react-toastify";
 
 
 async function billingFileAPI(data) {
@@ -36,7 +37,7 @@ async function billingShippingRemitanceDownloadFileAPI(data) {
     let listData = axios.request({
         method: "GET",
         responseType: 'blob',
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL}?transaction_id=${data}`,
         data: data
     });
     return listData;
@@ -183,8 +184,10 @@ function* billingShipingRemitanceDownloadFilesAction(action) {
         let response = yield call(billingShippingRemitanceDownloadFileAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA, payload: response?.data })
+            toast.success("Logs Export Successfully!");
         }
         else {
+            toast.error("Failed to Export Sheet!");
         }
     } catch (error) {
         if (reject) reject(error);

@@ -9,7 +9,7 @@ const initialState = {
     billingShipingInvoiceCard:[],
     billingShipingReceiptCard:[],
     billingShipingReceiptExportCard:[],
-    billingShipingRemitanceDOWNLOADCard:[]
+    billingShipingRemitanceDOWNLOADCard:null
 };
 
 export const billingSectionReducer = (state = initialState, action) => {
@@ -54,7 +54,7 @@ export const billingSectionReducer = (state = initialState, action) => {
         case GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA:
             return {
                 ...state,
-                billingShipingRemitanceDOWNLOADCard: action?.payload?.results
+                billingShipingRemitanceDOWNLOADCard: action?.payload
             };
         default:
             return state

@@ -86,7 +86,7 @@ const ActionRequired = ({shipmentCard}) => {
             FileSaver.saveAs(blob, `${"Shipment_Action_Required"}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportCard]);    
+    }, [exportCard]);
 
     const handleReattempt = ((orderIds)=>{
         const stringifiedOrderIds = JSON.stringify(orderIds);

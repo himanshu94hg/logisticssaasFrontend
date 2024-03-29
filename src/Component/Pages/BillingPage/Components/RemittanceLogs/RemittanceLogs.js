@@ -30,10 +30,13 @@ const DateFormatter = ({ dateTimeString }) => {
 
 const RemittanceLogs = ({ billingCard }) => {
 
+    const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+    const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingRemitanceDOWNLOADCard)
 
     const reasons = [
         { count: 300, data: 207 },
@@ -91,8 +94,18 @@ const RemittanceLogs = ({ billingCard }) => {
     }
 
     const handelExportData = (row) => {
-        
+        setExportButtonClick(true);
+        dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION",payload:row });
     };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Remitance Logs"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
 
 
     // useEffect(() => {
@@ -235,7 +248,7 @@ const RemittanceLogs = ({ billingCard }) => {
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
-                                                <button className='btn main-button' onClick={() => handelExportData(row)}>Export</button>
+                                                <button className='btn main-button' onClick={() => handelExportData(row.id)}>Export</button>
                                             </div>
                                         </td>
 
