@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const TopRTOPincodes = () => {
   const { rtoTop } = useSelector(state => state?.dashboardRtoReducer)
@@ -9,19 +10,21 @@ const TopRTOPincodes = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredData, setFilteredData] = useState(top15Pincodes);
 
+
+  useEffect(() => {
+    const filtered = rtoTop?.filter(
+      (item) =>
+        item.shipping_detail__pincode.includes(searchTerm) ||
+        item.shipping_detail__city.toLowerCase().includes(searchTerm) ||
+        item.shipping_detail__state.toLowerCase().includes(searchTerm) ||
+        String(item.rto_count).includes(searchTerm)
+    );
+    setFilteredData(filtered);
+  }, [rtoTop, searchTerm]);
+
   const handleSearch = (e) => {
     const term = e.target.value.toLowerCase();
     setSearchTerm(term);
-    const filtered = rtoTop?.filter(
-      (item) =>
-        item.shipping_detail__pincode.includes(term) ||
-        item.shipping_detail__city.toLowerCase().includes(term) ||
-        item.shipping_detail__state.toLowerCase().includes(term) ||
-        String(item.rto_count).includes(term)
-    );
-
-    console.log(filtered,"filteredfiltered")
-    setFilteredData(filtered);
   };
   
   return (
