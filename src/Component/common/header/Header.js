@@ -1,7 +1,7 @@
 import "./header.css";
 import Cookies from "js-cookie";
 import WalletIcon from "./Icons/WalletIcon";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
@@ -16,8 +16,10 @@ import TrackingIcon from "./Icons/TrackingIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
+import { RateCalculatorPattern, createOrderPattern, customerSupportPattern } from "../../../Routes";
 
 export default function Header(props) {
+  const navigate = useNavigate()
 
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
 
@@ -66,11 +68,11 @@ export default function Header(props) {
                 </div>
                 <div className="quick-actions-hover right-header">
                   <div className="qa-hovered-content">
-                    <p><CreateOrderIcon />Create Order</p>
-                    <p><QuickShipIcon />Quick Ship</p>
-                    <p><RateCalculatorIcon />Rate Calculator</p>
-                    <p><TicketIcon />Create a Ticket</p>
-                    <p><TrackingIcon />Track Shipments</p>
+                    <p onClick={() => navigate(createOrderPattern)}><CreateOrderIcon />Create Order</p>
+                    <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
+                    <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
+                    <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
+                    <p><Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link></p>
                   </div>
                 </div>
               </div>
