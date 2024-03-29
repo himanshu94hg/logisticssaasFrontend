@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -89,6 +90,9 @@ const RemittanceLogs = ({ billingCard }) => {
         setBackDrop(false)
     }
 
+    const handelExportData = (row) => {
+        
+    };
 
 
     // useEffect(() => {
@@ -159,7 +163,7 @@ const RemittanceLogs = ({ billingCard }) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {/* <DateFormatter dateTimeString={row?.datetime} /> */}
-                                                    {row?.datetime}
+                                                    {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''}
                                                 </p>
                                             </div>
                                         </td>
@@ -199,7 +203,7 @@ const RemittanceLogs = ({ billingCard }) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹{0.00}
+                                                    ₹{row?.early_cod_charge}
                                                 </p>
                                             </div>
                                         </td>
@@ -231,7 +235,7 @@ const RemittanceLogs = ({ billingCard }) => {
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
-                                                <button className='btn main-button'>Export</button>
+                                                <button className='btn main-button' onClick={() => handelExportData(row)}>Export</button>
                                             </div>
                                         </td>
 
