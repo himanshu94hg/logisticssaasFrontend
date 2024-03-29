@@ -24,7 +24,6 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSe
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -70,15 +69,7 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSe
         }
     };
 
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
+  
 
 
     const openEditingSection = (id) => {
@@ -241,7 +232,6 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSe
                         </tbody>
                     </table>
                 </div>
-                <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
 
 
             </div>
