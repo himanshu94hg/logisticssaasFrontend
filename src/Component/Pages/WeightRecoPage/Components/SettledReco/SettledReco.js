@@ -263,6 +263,7 @@ const SettledReco = ({weightRecoData}) => {
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li onClick={() => handleShow(row)}>View History</li>
+                                                            <li>Dispute</li>
                                                             <li>Add Comment</li>
                                                         </ul>
                                                     </div>
