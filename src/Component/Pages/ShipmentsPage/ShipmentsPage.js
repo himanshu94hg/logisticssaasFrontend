@@ -51,6 +51,15 @@ const ShipmentsPage = () => {
 
     const { shipmentCard } = useSelector(state => state?.shipmentSectionReducer)
 
+    console.log(shipmentCard.length, "Active Tab DADA")
+
+    useEffect(() => {
+        if (shipmentCard && shipmentCard.length) {
+            setTotalItems(shipmentCard.length);
+        }
+    }, [shipmentCard]);
+    
+
     console.log(activeTab, "Active Tab")
 
     return (
@@ -85,4 +94,4 @@ const ShipmentsPage = () => {
     )
 }
 
-export default ShipmentsPage
+export default ShipmentsPage;

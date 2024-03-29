@@ -105,7 +105,7 @@ const RTOShipment = ({shipmentCard}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -145,12 +145,15 @@ const RTOShipment = ({shipmentCard}) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2'>More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -162,8 +165,6 @@ const RTOShipment = ({shipmentCard}) => {
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -183,7 +184,7 @@ const RTOShipment = ({shipmentCard}) => {
                                 <th>Customer details</th>
                                 <th>Tracking Detail</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                {/* <th>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -263,25 +264,6 @@ const RTOShipment = ({shipmentCard}) => {
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row.status}</p>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                                 {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
-                                                            <li>Escalate</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </td>
                                     </tr>
                                 </React.Fragment>

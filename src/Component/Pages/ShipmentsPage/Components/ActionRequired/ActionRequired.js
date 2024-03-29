@@ -1,6 +1,7 @@
 import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
@@ -76,7 +77,7 @@ const ActionRequired = ({shipmentCard}) => {
             "payment_type": ""
           };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
+    };  
 
     useEffect(() => {
         if (exportButtonClick) {
@@ -88,7 +89,8 @@ const ActionRequired = ({shipmentCard}) => {
     }, [exportCard]);    
 
     const handleReattempt = ((orderIds)=>{
-        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":orderIds} });
+        const stringifiedOrderIds = JSON.stringify(orderIds);
+        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":stringifiedOrderIds} });
     });
 
     const handleReattemptOrder = (()=>{
@@ -96,7 +98,8 @@ const ActionRequired = ({shipmentCard}) => {
     });
 
     const handleRto = ((orderIds)=>{
-        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":orderIds} });
+        const stringifiedReattempt = JSON.stringify(orderIds);
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
     });
 
     const handleRtoOrder = (()=>{
@@ -165,12 +168,15 @@ const ActionRequired = ({shipmentCard}) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -188,8 +194,8 @@ const ActionRequired = ({shipmentCard}) => {
                             <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
                         )}
                         <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        {/* <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
+                        <button className='btn main-button'>Report</button> */}
                     </div>
                 </div>
                 <div className='table-container'>
@@ -294,16 +300,15 @@ const ActionRequired = ({shipmentCard}) => {
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
+                                                <button className='btn main-button' onClick={() => handleReattempt(row.id)}>Re-Attempt</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleReattempt(row.id)}>Re-attempt</li>
                                                             <li onClick={() => handleRto(row.id)}>RTO</li>
-                                                            <li>Escalate</li>
+                                                            <li><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -316,12 +321,6 @@ const ActionRequired = ({shipmentCard}) => {
                     </table>
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
