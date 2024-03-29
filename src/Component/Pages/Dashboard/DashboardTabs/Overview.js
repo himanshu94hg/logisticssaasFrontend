@@ -14,6 +14,7 @@ import WeightDiscrepancies from '../Components/Overview/WeightDiscrepancies';
 import { useDispatch } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import Cookies from 'js-cookie';
+import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
@@ -26,13 +27,27 @@ const Overview = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard })
-      // dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION",payload:dateRangeDashboard  })
+      dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION",payload:dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_COURIERWISE_ALLOCATION_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION", payload: dateRangeDashboard })
     }
   }, [activeTab, dispatch])
+
+
+  // useEffect(() => {
+  //   if (activeTab === "ndr") {
+  //     dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
+  //   }
+  //   if (activeTab === "cod") {
+  //   }
+  //   if (activeTab === "rto") {
+  //   }
+  // }, [activeTab])
+
 
   return (
     <Row className='mb-3'>
@@ -43,9 +58,10 @@ const Overview = ({ activeTab }) => {
       </Col>
       <Col className="col-6 cardsSpace">
         <TotalInfoDashboard />
-        <TableDashboard />
+        {/* <OverviewDetails /> */}
+        <OverviewStatusCard />
         <TopSellingDashboard />
-        <OverviewDetails />
+        <TableDashboard />
       </Col>
       <Col className="col-3 cardsSpace">
         <RevenueDashboard />

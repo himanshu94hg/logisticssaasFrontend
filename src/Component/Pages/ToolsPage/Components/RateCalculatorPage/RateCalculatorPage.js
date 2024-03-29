@@ -72,27 +72,28 @@ const RateCalculatorPage = () => {
       payload: formData
     })
   }
+  
   const handleReset = () => {
-    console.log("Resetting form...");
-
-    /*  setLength('');
-      setHeight('');
-      setBreadth('');
-      setVolWeight(0);
-      setInvoiceField(false);
-      setOrderField('false');
-      setOrderId("");
-      setChargedWeight(0);
-      setFormData({
-        shipment_type: "Forward",
-        source_pincode: null,
-        destination_pincode: null,
-        weight: null,
-        volmetric_weight: 0, // assuming you want to reset it to 0 here
-        is_cod: "No",
-      });
-      console.log("Form reset completed.");*/
-  }
+    setFormData({
+      shipment_type: "Forward",
+      source_pincode: null,
+      destination_pincode: null,
+      weight: null,
+      volmetric_weight: 0,
+      is_cod: "No",
+    });
+    setLength(null);
+    setHeight(null);
+    setBreadth(null);
+    setRateTable(false);
+    setInvoiceField(false);
+    setOrderField(false);
+    setOrderId("");
+    setChargedWeight(0);
+    setErrors([]);
+  };
+  
+  
   const handleSelect = (e, fieldName) => {
     let value = e.target.value;
     if (fieldName === "shipment_type" && value === "Reverse") {
@@ -117,56 +118,6 @@ const RateCalculatorPage = () => {
       setOrderField(false);
     }
   }
-
-  // const handleChange = (e) => {
-  //   const scaleDataName = e.target.name;
-  //   if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
-  //     setLength(e.target.value);
-  //     setHeight(e.target.value);
-  //     setBreadth(e.target.value);
-  //   } else {
-  //     const { name, value } = e.target;
-  //     setFormData(prevData => ({
-  //       ...prevData,
-  //       [name]: value
-  //     }));
-  //     if (name === "is_cod" && value === "Yes") {
-  //       setFormData(prevData => ({
-  //         ...prevData,
-  //         invoice_amount: parseInt(e.target.value)
-  //       }));
-  //     } else if (name === "is_cod" && value === "No") {
-  //       setFormData(prevData => {
-  //         const { invoice_amount, ...rest } = prevData;
-  //         return rest;
-  //       });
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   const volmetricWeight = length * breadth * height / 5000
-  //   setVolWeight(volmetricWeight)
-  //   setFormData(prevData => ({
-  //     ...prevData,
-  //     volmetric_weight: volmetricWeight
-  //   }));
-  //   if (formData?.is_cod === "Yes") {
-  //     setInvoiceField(true)
-  //   } else {
-  //     setInvoiceField(false)
-  //   }
-  // }, [length, breadth, height, formData.is_cod])
-
-
-  // useEffect(() => {
-  //   const { weight, volmetric_weight } = formData;
-  //   if (weight > volmetric_weight) {
-  //     setChargedWeight(weight)
-  //   } else if (weight < volmetric_weight) {
-  //     setChargedWeight(volmetric_weight)
-  //   }
-  // }, [formData.weight, formData.volmetric_weight])
 
   const handleChange = (e) => {
     const scaleDataName = e.target.name;
@@ -235,7 +186,8 @@ const RateCalculatorPage = () => {
 
   return (
     <>
-      <div ref={sellerDataRef} style={{ overflowY: 'auto', overflowX: "hidden", }}>
+     <form>
+     <div ref={sellerDataRef} style={{ overflowY: 'auto', overflowX: "hidden", }}>
         <div className='row mb-3'>
           <section className='box-shadow shadow-sm col rate-calculator me-4 p-4'>
             <div className='d-flex justify-content-between align-items-center'>
@@ -473,6 +425,7 @@ const RateCalculatorPage = () => {
           )
         })}</>}
       </div>
+     </form>
     </>
   );
 };
