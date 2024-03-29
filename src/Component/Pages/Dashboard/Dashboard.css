@@ -299,6 +299,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .courier-dashboard .counters-container {
@@ -307,6 +308,10 @@
     grid-template-rows: repeat(2, auto);
     gap: 20px;
 }
+.courier-dashboard .accordion-header > *:not(span) {
+    flex: 1; 
+}
+
 
 .subaccount-perf select {
     min-width: unset;
