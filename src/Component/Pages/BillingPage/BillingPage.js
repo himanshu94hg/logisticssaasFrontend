@@ -18,6 +18,7 @@ const BillingPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
+    
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
 
