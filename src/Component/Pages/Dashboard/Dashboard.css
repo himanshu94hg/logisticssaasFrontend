@@ -377,6 +377,8 @@
 .status-container-item .status-header p {
     margin: auto;
     text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 .status-container-item .status-item {
