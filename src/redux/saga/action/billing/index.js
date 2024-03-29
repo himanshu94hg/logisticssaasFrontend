@@ -18,7 +18,7 @@ async function billingFileAPI(data) {
 async function billingShippingFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIP_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIP_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -27,7 +27,7 @@ async function billingShippingFileAPI(data) {
 async function billingShippingRemitanceFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_REMITANCE_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_REMITANCE_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -46,7 +46,7 @@ async function billingShippingRemitanceDownloadFileAPI(data) {
 async function billingShippingRechargeFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_RECHARGE_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_RECHARGE_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -55,7 +55,7 @@ async function billingShippingRechargeFileAPI(data) {
 async function billingShippingInvoiceFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_INVOICE_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_INVOICE_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -64,7 +64,7 @@ async function billingShippingInvoiceFileAPI(data) {
 async function billingShippingReceiptFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_CREDIT_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_CREDIT_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;

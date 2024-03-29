@@ -18,26 +18,35 @@ const BillingPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
+    const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
+    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
+
     useEffect(() => {
         const fetchData = async () => {
             switch (activeTab) {
                 case "Shipping Charges":
-                    await dispatch({ type: "BILLING_SHIPING_DATA_ACTION" });
+                    await dispatch({ type: "BILLING_SHIPING_DATA_ACTION" ,payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    setTotalItems(billingShipingCard.length);
                     break;
                 case "Remittance Logs":
-                    await dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION" });
+                    await dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    setTotalItems(billingShipingRemitanceCard.length);
                     break;
                 case "Recharge Logs":
-                    await dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION" });
+                    await dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    setTotalItems(billingShipingRechargeCard.length);
                     break;
                 case "Invoices":
-                    await dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION" });
+                    await dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    setTotalItems(billingShipingInvoiceCard.length);
                     break;
                 case "Passbook":
-                    await dispatch({ type: "BILLING_DATA_ACTION" });
+                    await dispatch({ type: "BILLING_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    setTotalItems(billingCard.length);
                     break;
                 case "Credit Receipt":
-                    await dispatch({ type: "BILLING_SHIPING_RECEIPT_DATA_ACTION" });
+                    await dispatch({ type: "BILLING_SHIPING_RECEIPT_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    setTotalItems(billingShipingReceiptCard.length);
                     break;
                 default:
                     break;
@@ -45,10 +54,7 @@ const BillingPage = () => {
         };
 
         fetchData();
-    }, [dispatch, activeTab]);
-
-    const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
-    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
+    }, [dispatch, activeTab, currentPage, itemsPerPage]);
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);

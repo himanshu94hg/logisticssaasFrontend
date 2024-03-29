@@ -55,11 +55,10 @@ const RemittanceLogs = ({ billingCard }) => {
     };
 
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(billingCard.map(row => row.id));
         } else {
             setSelectedRows([]);
         }

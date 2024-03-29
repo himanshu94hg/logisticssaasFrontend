@@ -45,7 +45,7 @@ const FreightInvoice = ({ billingCard }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(billingCard.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
