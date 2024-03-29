@@ -420,6 +420,16 @@
     font-weight: 700;
 }
 
+.last-thirty-table {
+    max-height: 400px;
+}
+
+.last-thirty-table thead tr {
+    position: sticky;
+    top: 0;
+    background: #fff;
+}
+
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
         width: 100%;
