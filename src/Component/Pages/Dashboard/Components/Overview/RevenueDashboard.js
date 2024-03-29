@@ -52,7 +52,7 @@ function RevenueDashboard() {
         <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>Prepaid Revenue</p>
           <p className="">
-            <AiOutlineArrowUp className=" font15" />
+            <AiOutlineArrowUp className=" icon1" />
             {/* {revenueData.prepade_revenue_data}% */}
           </p>
           <p className="">{revenueCard?.prepaid_revenue || "NA"}</p>
@@ -71,8 +71,8 @@ function RevenueDashboard() {
 
         <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>Total Delivered Orders</p>
-          <AiOutlineArrowUp className=" font15" />
-          <p className="">{revenueCard?.total_delivered_orders}</p>
+          <AiOutlineArrowUp className=" icon" />
+          <p className="">{revenueCard?.total_delivered_orders || "NA"}</p>
         </li>
       </ul>
     </div>
