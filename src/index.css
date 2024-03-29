@@ -729,3 +729,22 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
 .shadow-sm {
   box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
 }
+
+.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track,
+.react-toggle-track {
+  background-color: #ddd;
+}
+
+.react-toggle--checked .react-toggle-track,
+.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: var(--sh-primary);
+}
+
+.react-toggle--checked .react-toggle-track-check,
+.react-toggle-track-x {
+  opacity: 0;
+}
+
+.react-toggle-thumb {
+  border: none;
+}

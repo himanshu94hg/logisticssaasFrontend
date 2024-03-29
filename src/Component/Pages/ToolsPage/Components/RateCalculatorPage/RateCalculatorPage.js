@@ -110,6 +110,7 @@ const RateCalculatorPage = () => {
     }
   };
 
+  
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
       setOrderField(true)

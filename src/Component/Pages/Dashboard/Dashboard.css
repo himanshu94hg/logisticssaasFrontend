@@ -337,6 +337,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    justify-content: space-around;
 }
 
 .status-container-item {
@@ -381,6 +382,8 @@
 .status-container-item .status-header p {
     margin: auto;
     text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 .status-container-item .status-item {
@@ -394,6 +397,9 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
+    height: 65%;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
 }
 
 .status-container-item .status-item .status-counter p {
@@ -412,6 +418,16 @@
     font-size: 1.4rem;
     color: var(--sh-primary);
     font-weight: 700;
+}
+
+.last-thirty-table {
+    max-height: 400px;
+}
+
+.last-thirty-table thead tr {
+    position: sticky;
+    top: 0;
+    background: #fff;
 }
 
 @media screen and (max-width: 1800px) {

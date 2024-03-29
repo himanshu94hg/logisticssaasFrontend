@@ -86,7 +86,7 @@ const WeightRecoTab = ({weightRecoData}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(weightRecoData.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -129,6 +129,7 @@ const WeightRecoTab = ({weightRecoData}) => {
     };
 
     const handleClose = () => setShow(false);
+    
 
     return (
         <section className='position-relative'>
@@ -161,6 +162,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                 <th style={{ width: '8%' }}>Shipping Details</th>
                                 <th style={{ width: '5%' }}>Status</th>
                                 <th style={{ width: '5%' }}>Action</th> */}
+
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>

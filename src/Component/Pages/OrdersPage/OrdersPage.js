@@ -40,7 +40,6 @@ const OrdersPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
 
-
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
     let orderCancelledRes = orderCancelled + new Date();
@@ -170,6 +169,7 @@ const OrdersPage = () => {
             "global_type": "",
             "payment_type": ""
         };
+        console.log("All Request data", requestData);
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -258,6 +258,8 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
                     />
                 </div>
 
@@ -268,6 +270,8 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
                     />
                 </div>
 
@@ -283,6 +287,8 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
                     />
                 </div>
                 <Pagination
@@ -304,6 +310,8 @@ const OrdersPage = () => {
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
             />
+            <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+
 
         </>
     )
