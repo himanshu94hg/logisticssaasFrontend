@@ -311,7 +311,7 @@ const FreightInvoice = ({ billingCard }) => {
                                         <th style={{ paddingLeft: '50px' }}>Transaction Date</th>
                                         <th style={{ paddingLeft: '50px' }}>Gateway</th>
                                         <th style={{ paddingLeft: '50px' }}>Transaction ID</th>
-                                        <th style={{ paddingLeft: '50px' }}>Amount</th>
+                                        <th style={{ paddingLeft: '80px' }}>Amount</th>
                                     </tr>
                                     <tr>
                                         <td colSpan="2">
