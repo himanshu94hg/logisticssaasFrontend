@@ -20,28 +20,31 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     console.log(location,"location?.state?.orderType")
 
     useEffect(() => {
-        if (pathName=== "Reverse Order" && location.pathname === "/create-order" ) {
-            setOrderStatus(true)
-            setFormData({
-                ...formData,
-                order_details: {
-                    ...formData.order_details,
-                    order_type: "Reverse",
-                    payment_type: "Prepaid"
-                }
-            });
-        }else if(location?.pathname==="/create-order" && location?.state?.orderType==="normalOrder" || location?.pathname==="/create-order" && location?.state?.orderType==="BulkCreateOrder"){
-            setOrderStatus(false)
-            setFormData({
-                ...formData,
-                order_details: {
-                    ...formData.order_details,
-                    order_type: "",
-                    payment_type: ""
-                }
-            }); 
+        if (location.pathname === "/create-order") {
+            if (pathName === "Reverse Order") {
+                setOrderStatus(true);
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    order_details: {
+                        ...prevFormData.order_details,
+                        order_type: "Reverse",
+                        payment_type: "Prepaid"
+                    }
+                }));
+            } else if (location.state && (location.state.orderType === "normalOrder" || location.state.orderType === "BulkCreateOrder")) {
+                setOrderStatus(false);
+                setFormData({
+                    ...formData,
+                    order_details: {
+                        ...formData.order_details,
+                        order_type: "",
+                        payment_type: ""
+                    }
+                }); 
+            }
         }
-    }, [location, editStatus])
+    }, [location, pathName,editStatus]);
+    
 
     const validateFormData = () => {
         const newErrors = {};
