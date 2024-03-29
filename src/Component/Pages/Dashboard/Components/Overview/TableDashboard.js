@@ -19,14 +19,14 @@ function CustomTable({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data?.map((order,index) => (
+        {data?.map((order, index) => (
           <tr key={index}>
-            <td>{order.customer_order_number}</td>
+            <td style={{ maxWidth: '100px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{order.customer_order_number}</td>
             <td>{order.awb_number || "N/A"}</td>
             <td>{order.courier_partner || "N/A"}</td>
             <td>{order.charge_detail__shipping_charges || 0}</td>
             <td>{order.charge_detail__total_charges || 0}</td>
-            <td>{order.dimension_detail__weight+"Kg" || "N/A"}</td>
+            <td>{order.dimension_detail__weight + "Kg" || "N/A"}</td>
             <td>{order.status}</td>
           </tr>
         ))}
@@ -37,9 +37,9 @@ function CustomTable({ data }) {
 
 // TableDashboard component
 function TableDashboard() {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
-  const {lastOrders}=useSelector(state=>state?.dashboardOverviewReducer)
+  const { lastOrders } = useSelector(state => state?.dashboardOverviewReducer)
 
   // useEffect(()=>{
   //   dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION",payload:dateRangeDashboard})
@@ -51,7 +51,7 @@ function TableDashboard() {
       <div className="d-flex justify-content-between align-items-center">
         <h4 className="title">Last 30 Days Order</h4>
       </div>
-      <div className="table-responsive">
+      <div className="table-responsive last-thirty-table">
         {!isLoading ? (
           <CustomTable data={lastOrders} />
         ) : (
