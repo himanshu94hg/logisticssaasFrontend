@@ -40,29 +40,29 @@ const ShippingRates = () => {
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3}>{item.partner}</td>
                     <td>Forward</td>
-                    <td>₹ {item.zone_a}</td>
-                    <td>₹ {item.zone_b}</td>
-                    <td>₹ {item.zone_c}</td>
-                    <td>₹ {item.zone_d}</td>
-                    <td>₹ {item.zone_e}</td>
-                    <td className='rowfull3' rowSpan={3}>₹ {item.cod_charge}</td>
+                    <td>₹ {(isChecked ? (item.zone_a * 1.18).toFixed(2) : item.zone_a)}</td>
+                    <td>₹ {(isChecked ? (item.zone_b * 1.18).toFixed(2) : item.zone_b)}</td>
+                    <td>₹ {(isChecked ? (item.zone_c * 1.18).toFixed(2) : item.zone_c)}</td>
+                    <td>₹ {(isChecked ? (item.zone_d * 1.18).toFixed(2) : item.zone_d)}</td>
+                    <td>₹ {(isChecked ? (item.zone_e * 1.18).toFixed(2) : item.zone_e)}</td>
+                    <td className='rowfull3' rowSpan={3}>₹ {(isChecked ? item.cod_charge * 1.8 : item.cod_charge)}</td>
                     <td className='rowfull3' rowSpan={3}>{item.cod_maintenance} %</td>
                 </tr>
                 <tr className='nested-tr box-shadow'>
                     <td>Additional Weight</td>
-                    <td>₹ {item?.extra_charge_a}</td>
-                    <td>₹ {item?.extra_charge_b}</td>
-                    <td>₹ {item?.extra_charge_c}</td>
-                    <td>₹ {item?.extra_charge_d}</td>
-                    <td>₹ {item?.extra_charge_e}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_a * 11.8).toFixed(2) : item?.extra_charge_a)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_b * 11.8).toFixed(2) : item?.extra_charge_b)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_c * 11.8).toFixed(2) : item?.extra_charge_c)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_d * 11.8).toFixed(2) : item?.extra_charge_d)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_e * 11.8).toFixed(2) : item?.extra_charge_e)}</td>
                 </tr>
                 <tr className='nested-tr box-shadow'>
                     <td>RTO</td>
-                    <td>₹ {item.rto_charge_a}</td>
-                    <td>₹ {item.rto_charge_b}</td>
-                    <td>₹ {item.rto_charge_c}</td>
-                    <td>₹ {item.rto_charge_d}</td>
-                    <td>₹ {item.rto_charge_e}</td>
+                    <td>₹ {(isChecked ? (item.rto_charge_a * 1.18).toFixed(2) : item.rto_charge_a)}</td>
+                    <td>₹ {(isChecked ? (item.rto_charge_b * 1.18).toFixed(2) : item.rto_charge_b)}</td>
+                    <td>₹ {(isChecked ? (item.rto_charge_c * 1.18).toFixed(2) : item.rto_charge_c)}</td>
+                    <td>₹ {(isChecked ? (item.rto_charge_d * 1.18).toFixed(2) : item.rto_charge_d)}</td>
+                    <td>₹ {(isChecked ? (item.rto_charge_e * 1.18).toFixed(2) : item.rto_charge_e)}</td>
                 </tr>
                 <tr className='blank-row' key={`empty-${item.partner}-${index}`}><td></td></tr>
             </React.Fragment>
@@ -88,7 +88,7 @@ const ShippingRates = () => {
                         </label>
                     </div>
                     <div className='button-container d-flex align-items-center gap-2'>
-                        Include GST
+                        {!isChecked ? 'Include GST' : 'Exclude GST'}
                         <Toggle
                             checked={isChecked}
                             onChange={handleToggle}
@@ -115,6 +115,9 @@ const ShippingRates = () => {
                             {renderRows(ratingCardData)}
                         </tbody>
                     </table>
+                </div>
+                <div className='box-shadow shadow-sm p10 my-3'>
+                    <p className='mb-0 font12 text-red'>** Gati Rates include INR 100 docket charges and INR 100 ROV charges</p>
                 </div>
             </div>
         </section>
