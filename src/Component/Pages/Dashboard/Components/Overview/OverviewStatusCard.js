@@ -50,6 +50,10 @@ const OverviewStatusCard = () => {
                             <p>{codDetails?.total_cod || 0}</p>
                         </div>
                         <div className='status-counter'>
+                            <p>Today's Remittance</p>
+                            <p>{codDetails?.total_cod || 0}</p>
+                        </div>
+                        <div className='status-counter'>
                             <p>Remitted COD</p>
                             <p>{codDetails?.remitted_cod || 0}</p>
                         </div>

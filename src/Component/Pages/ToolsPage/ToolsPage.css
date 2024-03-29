@@ -41,6 +41,7 @@
 .nested-tr td {
     border: 1px solid #ddd;
     text-align: center;
+    font-size: 14px;
 }
 
 .nested-tr .rowfull3 {

@@ -308,8 +308,9 @@
     grid-template-rows: repeat(2, auto);
     gap: 20px;
 }
-.courier-dashboard .accordion-header > *:not(span) {
-    flex: 1; 
+
+.courier-dashboard .accordion-header>*:not(span) {
+    flex: 1;
 }
 
 
@@ -429,6 +430,12 @@
     top: 0;
     background: #fff;
 }
+
+/* .india-map-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+} */
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {

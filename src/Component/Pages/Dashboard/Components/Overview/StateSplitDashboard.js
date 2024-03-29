@@ -40,7 +40,9 @@ function StateSplitDashboard() {
         <h5 className="total-count">{totalSales}<span className="font12 text-gray">Sales</span></h5>
         <p className="font12 text-gray">Compared To Last Month</p>
       </div>
-      <IndiaMapp stateMapData={stateMapData} />
+      <div className="india-map-container">
+        <IndiaMapp stateMapData={stateMapData} />
+      </div>
     </div>
   );
 }
