@@ -183,7 +183,6 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.order?.channel && row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
