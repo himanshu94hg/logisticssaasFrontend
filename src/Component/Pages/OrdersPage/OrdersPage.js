@@ -40,7 +40,6 @@ const OrdersPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
 
-
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
     let orderCancelledRes = orderCancelled + new Date();
