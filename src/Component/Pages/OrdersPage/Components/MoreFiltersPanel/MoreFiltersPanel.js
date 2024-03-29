@@ -16,15 +16,19 @@ const SourceOptions = [
 
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
+    { label: "Pending", value: "pending" },
     { label: "cancelled", value: "cancelled" },
     { label: "Delivered", value: "delivered" },
+    { label: "Picked Up", value: "picked_up" },
     { label: "In Transit", value: "in_transit" },
     { label: "Out of Delivery", value: "out_for_delivery" },
-    { label: "Pending", value: "pending" },
-    { label: "Lost", value: "lost" },
-    { label: "Manifested", value: "manifested" },
+    { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
+    { label: "Manifested", value: "manifested" },
     { label: "RTO Initiated", value: "rto_initiated" },
+    { label: "NDR", value: "ndr" },
+    { label: "Lost", value: "lost" },
+    { label: "Damaged", value: "damaged" },
 ];
 
 const paymentOptions = [
@@ -33,14 +37,22 @@ const paymentOptions = [
 ]
 
 const Ordertags = [
-    { label: "Tag 1", value: "Tag1" },
+    { label: "Tag 1", value: "tag1" },
+    { label: "Tag 2", value: "tag2" },
+    { label: "Tag 3", value: "tag3" },
 ];
 
 const CourierPartner = [
+    { label: "Smartr", value: "smartr" },
+    { label: "Ekart", value: "ekart" },
+    { label: "Ekart 5kg", value: "ekart_5kg" },
     { label: "Bluedart", value: "bluedart" },
     { label: "Shadowfax", value: "shadowfax" },
     { label: "Delhivery", value: "delhivery" },
+    { label: "Amazon Swa", value: "amazon_swa" },
     { label: "Xpressbees", value: "xpressbees" },
+    { label: "Professional", value: "professional" },
+    { label: "Ecom Express", value: "ecom_express" },
 ];
 
 
@@ -68,6 +80,19 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         handleMoreFilter(filterParams)
         CloseSidePanel()
         setClearState(true)
+        setFilterParams({
+            start_date: null,
+            end_date: null,
+            status: "",
+            order_source: "",
+            courier_partner: "",
+            payment_type: "",
+            order_id: "",
+            order_tag: "",
+            sku: "",
+            sku_match_type: "",
+            pickup_address: ""
+        })
 
     };
 
@@ -79,13 +104,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         courier_partner: "",
         payment_type: "",
         order_id: "",
-        // order_tag: ""
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: ""
     })
 
-    console.log(activeTab,"this is a activeTabactiveTabactiveTabactiveTab",filterParams)
+    console.log(pickupAddresses, "this is a activeTabactiveTabactiveTabactiveTab", filterParams)
 
     useEffect(() => {
-        if (activeTab || clearState) {
+        if (activeTab ) {
             setFilterParams({
                 start_date: null,
                 end_date: null,
@@ -94,10 +122,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 courier_partner: "",
                 payment_type: "",
                 order_id: "",
-                order_tag: ""
+                order_tag: "",
+                sku: "",
+                sku_match_type: "",
+                pickup_address: ""
             })
         }
-    }, [activeTab,clearState])
+    }, [activeTab, clearState])
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
@@ -106,27 +137,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         }
-        if (name === "status") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-        if (name === "order_source") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-        if (name === "courier_partner") {
+        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
             let temp_data = ''
             let temp = value.map((item) => {
                 temp_data += item.value + ","
@@ -142,11 +153,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value.value
             }));
         }
-        if (name === "order_id") {
+        if (name === "order_id" || name === "sku") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
             }));
+        }
+        if (name === "sku_match_type") {
+            setFilterParams(prev => ({
+                ...prev,
+                skuType: value
+            }))
         }
     };
 
@@ -184,7 +201,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             courier_partner: "",
             payment_type: "",
             order_id: "",
-            order_tag: ""
+            order_tag: "",
+            sku: "",
+            sku_match_type: "",
+            pickup_address: ""
         })
     };
 
@@ -273,43 +293,69 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
+                                        isMulti
+                                        isSearchable
                                         options={pickupAddresses}
+                                        onChange={(e) => handleChange("pickup_address", e)}
+                                        value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Order Tag
                                     <Select
-                                        options={Ordertags}
-                                        // onChange={(e) => handleChange(e, "courier_partner")}
                                         isMulti
                                         isSearchable
+                                        options={Ordertags}
+                                        onChange={(e) => handleChange("order_tag", e)}
+                                        value={filterParams.order_tag ? Ordertags?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
-                           
                             <div className='filter-row'>
                                 <label>SKU
                                     <input
                                         className='input-field'
                                         type="text"
+                                        value={filterParams.sku}
                                         placeholder='Enter SKU'
-                                    // onChange={(e) => handleChange(e, "order_id")}
+                                        onChange={(e) => handleChange("sku", e)}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row sku-checkbox'>
-                                <label>
+                                <label htmlFor="singleSku">
                                     Single SKU
-                                    <input type="radio" name="skuType" id="" />
+                                    <input
+                                        type="radio"
+                                        name="skuType"
+                                        id="singleSku"
+                                        value="single"
+                                        // checked={filterParams.skuType === "single"}
+                                        onChange={() => handleChange("sku_match_type", "single")}
+                                    />
                                 </label>
-                                <label>
+                                <label htmlFor="multiSku">
                                     Multi SKU
-                                    <input type="radio" name="skuType" id="" />
+                                    <input
+                                        type="radio"
+                                        name="skuType"
+                                        id="multiSku"
+                                        value="multi"
+                                        // checked={filterParams.skuType === "multi"}
+                                        onChange={() => handleChange("sku_match_type", "multi")}
+                                    />
                                 </label>
-                                <label>
+                                <label htmlFor="matchExact">
                                     Match Exact
-                                    <input type="radio" name="skuType" id="" />
+                                    <input
+                                        type="radio"
+                                        name="skuType"
+                                        id="matchExact"
+                                        value="exact"
+                                        // checked={filterParams.skuType === "exact"}
+                                        onChange={() => handleChange("sku_match_type", "exact")}
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row mb-2'>
@@ -323,7 +369,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                           
+
                         </div>
                         <div className='more-filters-footer'>
                             <label>
