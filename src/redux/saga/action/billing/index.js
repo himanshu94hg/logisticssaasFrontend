@@ -9,7 +9,7 @@ import {toast} from "react-toastify";
 async function billingFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URLW}`,
+        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URLW}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
