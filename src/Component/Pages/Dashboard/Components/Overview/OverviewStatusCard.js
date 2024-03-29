@@ -13,7 +13,7 @@ const OverviewStatusCard = () => {
             <div className="box-shadow shadow-sm p10 status-card-container">
                 <div className='status-container-item'>
                     <div className='status-header'>
-                        <p>NDR Status</p>
+                        <p>NDR</p>
                         <p className='header-polygon'></p>
                     </div>
                     <div className='status-item'>
@@ -34,14 +34,14 @@ const OverviewStatusCard = () => {
                             <p>{ndrDetails?.ndr_delivered || 0}</p>
                         </div>
                         <div className='status-counter'>
-                            <p>NDR RTO</p>
+                            <p>RTO</p>
                             <p>{ndrDetails?.ndr_rto || 0}</p>
                         </div>
                     </div>
                 </div>
                 <div className='status-container-item'>
                     <div className='status-header'>
-                        <p>COD Status</p>
+                        <p>COD</p>
                         <p className='header-polygon'></p>
                     </div>
                     <div className='status-item'>
@@ -69,7 +69,7 @@ const OverviewStatusCard = () => {
                 </div>
                 <div className='status-container-item'>
                     <div className='status-header'>
-                        <p>RTO Status</p>
+                        <p>RTO</p>
                         <p className='header-polygon'></p>
                     </div>
                     <div className='status-item'>

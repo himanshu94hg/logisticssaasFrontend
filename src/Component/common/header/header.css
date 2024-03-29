@@ -193,8 +193,7 @@
   height: 0px;
   /* width: 252px; */
   /* height: 320px; */
-  top: 46px;
-  right: 0;
+  top: 38px;
   z-index: 3;
   transition: 0.5s;
   overflow: hidden;
@@ -202,6 +201,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.quick-actions-hover.right-header {
+  right: 0;
 }
 
 
@@ -283,17 +286,8 @@
   color: var(--sh-primary);
 }
 
-.header-left-container p {
-  border-radius: 0.5rem;
-  border: 1px solid var(--sh-primary-light);
-  height: 36px;
-  font-size: 0.8rem;
-  display: flex;
-  padding-inline: 10px;
-  align-items: center;
-  gap: 10px;
-  cursor: pointer;
-  margin-bottom: 0;
+.quick-actions-container:hover .quick-actions-hover.hl {
+  height: 136px;
 }
 
 /* Media query for tablets */
