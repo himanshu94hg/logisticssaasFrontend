@@ -161,6 +161,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                 <th style={{ width: '8%' }}>Shipping Details</th>
                                 <th style={{ width: '5%' }}>Status</th>
                                 <th style={{ width: '5%' }}>Action</th> */}
+                                
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
