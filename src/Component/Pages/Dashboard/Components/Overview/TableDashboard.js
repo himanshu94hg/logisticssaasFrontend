@@ -19,7 +19,7 @@ function CustomTable({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data?.slice(0,7)?.map((order,index) => (
+        {data?.map((order,index) => (
           <tr key={index}>
             <td>{order.customer_order_number}</td>
             <td>{order.awb_number || "N/A"}</td>
