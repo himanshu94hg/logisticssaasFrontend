@@ -14,6 +14,8 @@ import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
 import TicketIcon from "./Icons/TicketIcon";
 import TrackingIcon from "./Icons/TrackingIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
+import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
+import ReferEarnIcon from "./Icons/ReferEarnIcon";
 
 export default function Header(props) {
 
@@ -40,8 +42,17 @@ export default function Header(props) {
       <Navbar.Collapse id="navbarNav">
         <Nav className="ml-auto w-100 alignContent">
           <div className="d-flex justify-content-between w-100 align-items-center">
-            <div className="header-left-container">
-              <p><EarnAndGrow />Earn & Grow</p>
+            <div className="quick-actions-container">
+              <div className="quick-action-text">
+                <EarnAndGrow />Earn & Grow
+              </div>
+              <div className="quick-actions-hover hl">
+                <div className="qa-hovered-content">
+                  <p><BusinessPlanIcon />Business Plan</p>
+                  <p><ReferEarnIcon />Refer to Earn Coins</p>
+
+                </div>
+              </div>
             </div>
 
             <div className="d-flex align-items-center" style={{ gap: "10px" }}>
@@ -53,7 +64,7 @@ export default function Header(props) {
                 <div className="quick-action-text">
                   <QuickIcon /> Quick Actions
                 </div>
-                <div className="quick-actions-hover">
+                <div className="quick-actions-hover right-header">
                   <div className="qa-hovered-content">
                     <p><CreateOrderIcon />Create Order</p>
                     <p><QuickShipIcon />Quick Ship</p>
