@@ -32,6 +32,7 @@ const OrdersPage = () => {
     const [totalItems, setTotalItems] = useState("");
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [queryParamSearch, setQueryParamSearch] = useState(null)
     const [activeTab, setActiveTab] = useState("Processing");
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
@@ -50,10 +51,23 @@ const OrdersPage = () => {
         setMoreFilters(true);
         setBackDrop(true)
     }
+
     const CloseSidePanel = () => {
         setMoreFilters(false);
         setBackDrop(false)
     }
+
+    const handleSearch = () => {
+        setQueryParamSearch(searchValue)
+        setSearchValue('')
+    }
+
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+            setQueryParamTemp({}); 
+        }
+    }, [activeTab])
 
     const handleMoreFilter = (data) => {
         const queryParams = {};
@@ -68,8 +82,6 @@ const OrdersPage = () => {
         });
         setQueryParamTemp(queryParams);
     };
-
-
 
     let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
     let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -104,13 +116,13 @@ const OrdersPage = () => {
         }
 
         if (apiUrl) {
-            const queryString = Object.keys(queryParamTemp)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParamTemp[key]))
-                .join('&');
-
-            if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
-                apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
+            const queryParams = { ...queryParamTemp };
+            if (queryParamSearch) {
+                queryParams['q'] = queryParamSearch;
             }
+            const queryString = Object.keys(queryParams)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .join('&');
 
             if (queryString) {
                 apiUrl += '&' + queryString;
@@ -128,17 +140,7 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelledRes, orderdeleteRes, orderClonRes, searchValue]);
-
-    const handleSearch = (value) => {
-        setSearchValue(value)
-    }
-
-    useEffect(() => {
-        if (activeTab) {
-            setSearchValue("")
-        }
-    }, [activeTab])
+    }, [orderCancelledRes, orderdeleteRes, orderClonRes, activeTab, queryParamSearch, queryParamTemp]);
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -183,8 +185,6 @@ const OrdersPage = () => {
     }, [exportCard]);
 
 
-    console.log(activeTab, "activeTabactiveTabactiveTabactiveTab")
-
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -192,11 +192,12 @@ const OrdersPage = () => {
                 <div className="search-container">
                     <div className='d-flex'>
                         <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
+                            <input type="text" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
                             <button>
                                 <img src={SearchIcon} alt="Search" />
                             </button>
                         </label>
+                        <button className='btn main-button ms-2' onClick={() => handleSearch()}>search</button>
                         <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
                     </div>
                     <p className='font10'>Most Popular Search by
