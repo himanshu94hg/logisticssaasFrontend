@@ -356,20 +356,21 @@
     width: 80px;
     display: flex;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 0.5rem;
 }
 
-.status-container-item .status-header::after {
-    border-left: 22px solid #fff;
-    border-top: 41px solid transparent;
-    border-bottom: 40px solid transparent;
-    content: "";
-    height: 0;
-    right: -20px;
+.status-container-item .status-header .header-polygon {
+    display: block;
+    height: 55px;
+    width: 55px;
+    background-color: inherit;
+    border: inherit;
     position: absolute;
-    top: 0px;
-    width: 0;
-    border-radius: 7px;
+    top: 13px;
+    right: -25px;
+    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+    transform: rotate(-135deg);
+    border-radius: 0 0 0 0.5rem;
 }
 
 .status-container-item .status-header p {

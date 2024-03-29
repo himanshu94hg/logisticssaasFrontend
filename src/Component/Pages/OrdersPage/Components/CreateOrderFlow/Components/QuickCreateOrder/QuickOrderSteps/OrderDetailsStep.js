@@ -1,32 +1,58 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import pathClearAction from '../../../../../../../../redux/action/pathname/pathClear';
 
 const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
     const location = useLocation();
+    const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const [orderStaus, setOrderStatus] = useState(false)
 
-    console.log(location, "this is location?.state?.orderType")
+    const { pathName } = useSelector(state => state?.authDataReducer)
+
 
     useEffect(() => {
-        if (location?.state?.orderType != "normalOrder" && location.pathname === "/create-order" || editStatus != "editStatus" && location.pathname === "/Orders") {
+        if (location.pathname === "/create-order" && location?.state?.orderType === "normalOrder") {
+            dispatch(pathClearAction('ddd'))
+        }
+    }, [location.pathname])
+
+
+
+    useEffect(() => {
+        if (pathName === "Reverse Order" && location?.state?.orderType != "normalOrder") {
+            console.log(location?.state?.orderType, "this is a state daya")
+
             setOrderStatus(true)
-            setFormData({
-                ...formData,
+            setFormData(prevFormData => ({
+                ...prevFormData,
                 order_details: {
-                    ...formData.order_details,
+                    ...prevFormData.order_details,
                     order_type: "Reverse",
                     payment_type: "Prepaid"
                 }
-            });
+            }));
         }
-
-    }, [location, editStatus])
+        else {
+            setOrderStatus(false)
+            console.log('This is else xond')
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                order_details: {
+                    ...prevFormData.order_details,
+                    order_type: "",
+                    payment_type: ""
+                }
+            }));
+        }
+    }, [location, editStatus, pathName, location?.pathname, location?.state?.orderType])
 
     const validateFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
-            newErrors.customer_order_number = ' Order Number is required!';
+            newErrors.customer_order_number = 'Order Number is required!';
         }
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
@@ -134,7 +160,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
             <div className='box-shadow p10 w-100'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-5'>Create a quick order!</h3>
-                    {/* <h3 className='mb-4'>Order Details</h3> */} 
+                    {/* <h3 className='mb-4'>Order Details</h3> */}
                     <div className='row'>
                         {/* Customer Order Number */}
                         <label className='col'>

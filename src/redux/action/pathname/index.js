@@ -1,9 +1,8 @@
-import {  PATHNAME_ACTION } from "../../constants/auth";
+import { PATHNAME_ACTION } from "../../constants/auth";
 
-export default function pathAction(data){
-    console.log(data,"this is a action data ")
-    return{
-        type:PATHNAME_ACTION,
-        payload:data
+export default function pathAction(data) {
+    return {
+        type: PATHNAME_ACTION,
+        payload: data
     }
 }
