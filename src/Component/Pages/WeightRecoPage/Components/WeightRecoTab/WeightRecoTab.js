@@ -86,7 +86,7 @@ const WeightRecoTab = ({weightRecoData}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(weightRecoData.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
