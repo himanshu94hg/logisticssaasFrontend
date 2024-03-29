@@ -25,7 +25,7 @@ const ShipmentPerformance = () => {
             <table className="custom-table w-100">
               <thead>
                 <tr>
-                  <th style={{ width: '150px' }}>Counter</th>
+                  <th>Counter</th>
                   {data.map((weekData) => (
                     <th key={weekData.week}>Zone {weekData.week}</th>
                   ))}
