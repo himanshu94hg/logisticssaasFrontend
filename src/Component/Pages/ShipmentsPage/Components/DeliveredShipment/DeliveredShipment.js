@@ -108,7 +108,7 @@ const DeliveredShipment = ({shipmentCard}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -156,12 +156,15 @@ const DeliveredShipment = ({shipmentCard}) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' >More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -173,8 +176,8 @@ const DeliveredShipment = ({shipmentCard}) => {
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        {/* <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
+                        <button className='btn main-button'>Report</button> */}
                     </div>
                 </div>
                 <div className='table-container'>
@@ -194,7 +197,7 @@ const DeliveredShipment = ({shipmentCard}) => {
                                 <th>Customer details</th>
                                 <th>Tracking Detail</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                {/* <th>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -213,10 +216,13 @@ const DeliveredShipment = ({shipmentCard}) => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
-                                                <div className='d-flex align-items-center'>
+                                                <p>
+                                                    <span className=''>{row.customer_order_number}</span>
+                                                </p>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -274,25 +280,6 @@ const DeliveredShipment = ({shipmentCard}) => {
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row.status}</p>
-                                        </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                                 {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
-                                                            <li>Escalate</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
                                         </td>
                                     </tr>
                                 </React.Fragment>

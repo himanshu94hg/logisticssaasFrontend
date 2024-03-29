@@ -65,34 +65,6 @@ export default function NavTabs(props) {
           </div>
         </Nav>
       </Navbar.Collapse>
-      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
-        <div className="selected-option">
-          {selectedOption || "Select an option"}
-          <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
-
-        </div>
-
-        <div className={`options-container ${isOpen ? "open" : ""}`}>
-          <div
-            className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Domestic")}
-          >
-            Domestic
-          </div>
-          <div
-            className={`option ${selectedOption === "International" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("International")}
-          >
-            International
-          </div>
-        </div>
-
-      </div>
-      <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button">Sync Orders</button>
-        <button className="btn main-button">Import CSV</button>
-        <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
-      </div>
     </Navbar>
   );
 }

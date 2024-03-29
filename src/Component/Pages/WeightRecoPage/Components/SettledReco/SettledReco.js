@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo,faFilter } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import moment from 'moment';
@@ -83,7 +83,7 @@ const SettledReco = ({weightRecoData}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(weightRecoData.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -148,7 +148,7 @@ const SettledReco = ({weightRecoData}) => {
                                 <th style={{ width: '12%' }}>Entered Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Settled Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Status</th>
+                                <th style={{ width: '12%' }}>Status <FontAwesomeIcon icon={faFilter} className="filter-icon" onClick={handleSidePanel} /></th>
                                 <th style={{ width: '12%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Customer details</th>
@@ -254,10 +254,20 @@ const SettledReco = ({weightRecoData}) => {
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    <button className='btn main-button'  onClick={() => handleShow(row)}>View History</button>
-                                                </p>
+                                            <div className='d-flex align-items-center gap-3'>
+                                                <button className='btn main-button'>Accept</button>
+                                                <div className='action-options'>
+                                                    <div className='threedots-img'>
+                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                    </div>
+                                                    <div className='action-list'>
+                                                        <ul>
+                                                            <li onClick={() => handleShow(row)}>View History</li>
+                                                            <li>Dispute</li>
+                                                            <li>Add Comment</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

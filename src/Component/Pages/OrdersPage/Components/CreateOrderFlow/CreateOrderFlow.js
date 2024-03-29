@@ -35,7 +35,7 @@ const CreateOrderFlow = () => {
         else if (location.pathname === "/create-order" && location.state && location.state.orderType === "normalOrder") {
             setActiveTab("DomesticCreateOrder");
         }
-        else if (pathName === "Quick Order") {
+        else if (pathName === "Quick Order" || location.pathname === "/create-order" && location.state && location.state.orderType === "quickOrder") {
             setActiveTab("QuickCreateOrder");
         }
         else if (pathName === "Reverse Order") {
@@ -46,7 +46,7 @@ const CreateOrderFlow = () => {
         // }
     }, [location, pathName, location?.state?.orderType]);
 
-    console.log(location.pathname, location.state?.orderType,"location.pathnamelocation.pathname")
+    console.log(location.pathname, location.state?.orderType, "location.pathnamelocation.pathname")
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

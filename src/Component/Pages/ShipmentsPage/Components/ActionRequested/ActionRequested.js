@@ -1,4 +1,4 @@
-import SidePanel from './SidePanel/SidePanel';
+import SidePanel from '../ActionRequired/SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -88,7 +88,8 @@ const ActionRequested = ({shipmentCard}) => {
     }, [exportCard]);   
     
     const handleReattempt = ((orderIds)=>{
-        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":orderIds} });
+        const stringifiedOrderIds = JSON.stringify(orderIds);
+        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":stringifiedOrderIds} });
     });
 
     const handleReattemptOrder = (()=>{
@@ -96,7 +97,8 @@ const ActionRequested = ({shipmentCard}) => {
     });
 
     const handleRto = ((orderIds)=>{
-        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":orderIds} });
+        const stringifiedReattempt = JSON.stringify(orderIds);
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
     });
 
     const handleRtoOrder = (()=>{
@@ -107,7 +109,8 @@ const ActionRequested = ({shipmentCard}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(shipmentCard.map(row => row?.order_details?.id));
+            // setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -144,12 +147,15 @@ const ActionRequested = ({shipmentCard}) => {
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
+                        <div className='d-flex'>
+                            <label>
+                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
+                                <button>
+                                    <img src={SearchIcon} alt="Search" />
+                                </button>
+                            </label>
+                            <button className='btn main-button ms-2' >More Filters</button>
+                        </div>
                         <p className='font10'>Most Popular Search by
                             <span>COD</span> |
                             <span>Prepaid</span> |
@@ -160,15 +166,15 @@ const ActionRequested = ({shipmentCard}) => {
                             <span>Cancel order</span> </p>
                     </div>
                     <div className='button-container'>
-                        {selectedRows.length > 0 && (
+                        {/* {selectedRows.length > 0 && (
                             <button className='btn main-button me-2' onClick={() => handleReattemptOrder()}>Reattempt</button>
-                        )}
+                        )} */}
                         {selectedRows.length > 0 && (
                             <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
                         )}
                         <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
+                        {/* <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
+                        <button className='btn main-button'>Report</button> */}
                     </div>
                 </div>
                 <div className='table-container'>
@@ -207,10 +213,13 @@ const ActionRequested = ({shipmentCard}) => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
-                                                <div className='d-flex align-items-center'>
+                                                <p>
+                                                    <span className=''>{row.customer_order_number}</span>
+                                                </p>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -273,16 +282,16 @@ const ActionRequested = ({shipmentCard}) => {
                                             {/* {row.ndr_action}
                                                  {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
+                                                <button className='btn main-button'><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleReattempt(row.id)}>Re-attempt</li>
+                                                            {/* <li onClick={() => handleReattempt(row.id)}>Re-attempt</li> */}
                                                             <li onClick={() => handleRto(row.id)}>RTO</li>
-                                                            <li><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></li>
+                                                            {/* <li><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></li> */}
                                                         </ul>
                                                     </div>
                                                 </div>

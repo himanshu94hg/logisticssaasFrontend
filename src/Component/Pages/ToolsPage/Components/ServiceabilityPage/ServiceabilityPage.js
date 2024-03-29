@@ -258,7 +258,7 @@ const ServiceabilityPage = () => {
           </div>
         </div>
 
-        <div className='box-shadow shadow-sm mt-3 p10 mb-3'>
+       {/* <div className='box-shadow shadow-sm mt-3 p10 mb-3'>
           <h4>Instructions:</h4>
           <ul>
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
@@ -267,7 +267,7 @@ const ServiceabilityPage = () => {
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
             <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
           </ul>
-        </div>
+           </div>*/}
       </section>
     </>
   )

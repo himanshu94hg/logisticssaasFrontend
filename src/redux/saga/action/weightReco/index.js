@@ -1,8 +1,8 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,GET_WEIGHT } from "../../../../axios/config";
-import { COURIER_WEIGHT_RECO_ACTION,WEIGHT_ACTION,HOLD_ACTION,SETTELED_ACTION,HISTORY_ACTION } from "../../constant/weightReco";
-import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA } from "../../../constants/weightReco";
+import { COURIER_WEIGHT_RECO_ACTION,WEIGHT_ACTION,HOLD_ACTION,SETTELED_ACTION,HISTORY_ACTION,ACCEPT_ACTION } from "../../constant/weightReco";
+import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA,GET_ACCEPT_DATA } from "../../../constants/weightReco";
 
 async function weightRecoApi(data) {
     let getData = axios.request({
@@ -115,10 +115,34 @@ function* historyAction(action) {
     }
 }
 
+async function acceptApi(data) {
+    let getData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_DUMMY}${API_URL.GET_ACCEPT}`,
+        data
+    });
+    return getData
+}
+
+function* acceptAction(action) {
+    let { payload, } = action;
+    try {
+        let response = yield call(acceptApi, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_ACCEPT_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+
+    }
+}
+
 export function* getWeightRecoWatcher() {
     yield takeLatest(COURIER_WEIGHT_RECO_ACTION, weightRecoAction);
     yield takeLatest(WEIGHT_ACTION, weightAction);
     yield takeLatest(HOLD_ACTION, holdAction);
     yield takeLatest(SETTELED_ACTION, setteledAction);
     yield takeLatest(HISTORY_ACTION, historyAction);
+    yield takeLatest(ACCEPT_ACTION, acceptAction);
 }

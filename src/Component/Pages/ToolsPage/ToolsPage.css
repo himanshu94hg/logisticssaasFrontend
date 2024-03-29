@@ -41,11 +41,14 @@
 .nested-tr td {
     border: 1px solid #ddd;
     text-align: center;
+    font-size: 14px;
 }
 
 .nested-tr .rowfull3 {
     border-left: none;
-    border-right: none;
+    /* border-right: none; */
+    border-top: none;
+    border-bottom: none;
 }
 
 .rate-calculator label {
@@ -112,4 +115,17 @@
     display: inline-flex;
     justify-content: center;
     align-items: center;
+}
+
+.rate-calculator .table-container {
+    height: calc(100vh - 209px);
+}
+
+.rate-calculator .css-b62m3t-container {
+    width: 100%;
+}
+
+td[rowspan]:first-of-type,
+td[rowspan]:last-of-type {
+    border: none;
 }

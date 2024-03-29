@@ -299,6 +299,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .courier-dashboard .counters-container {
@@ -307,6 +308,11 @@
     grid-template-rows: repeat(2, auto);
     gap: 20px;
 }
+
+.courier-dashboard .accordion-header>*:not(span) {
+    flex: 1;
+}
+
 
 .subaccount-perf select {
     min-width: unset;
@@ -332,6 +338,7 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    justify-content: space-around;
 }
 
 .status-container-item {
@@ -356,25 +363,28 @@
     width: 80px;
     display: flex;
     align-items: center;
-    border-radius: 4px;
+    border-radius: 0.5rem;
 }
 
-.status-container-item .status-header::after {
-    border-left: 22px solid #fff;
-    border-top: 41px solid transparent;
-    border-bottom: 40px solid transparent;
-    content: "";
-    height: 0;
-    right: -20px;
+.status-container-item .status-header .header-polygon {
+    display: block;
+    height: 55px;
+    width: 55px;
+    background-color: inherit;
+    border: inherit;
     position: absolute;
-    top: 0px;
-    width: 0;
-    border-radius: 7px;
+    top: 13px;
+    right: -25px;
+    clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
+    transform: rotate(-135deg);
+    border-radius: 0 0 0 0.5rem;
 }
 
 .status-container-item .status-header p {
     margin: auto;
     text-align: center;
+    font-size: 1.2rem;
+    font-weight: 700;
 }
 
 .status-container-item .status-item {
@@ -388,6 +398,9 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
+    height: 65%;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
 }
 
 .status-container-item .status-item .status-counter p {
@@ -407,6 +420,22 @@
     color: var(--sh-primary);
     font-weight: 700;
 }
+
+.last-thirty-table {
+    max-height: 400px;
+}
+
+.last-thirty-table thead tr {
+    position: sticky;
+    top: 0;
+    background: #fff;
+}
+
+/* .india-map-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
+} */
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {

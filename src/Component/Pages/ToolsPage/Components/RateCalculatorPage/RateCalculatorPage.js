@@ -110,6 +110,7 @@ const RateCalculatorPage = () => {
     }
   };
 
+  
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
       setOrderField(true)
@@ -268,6 +269,11 @@ const RateCalculatorPage = () => {
                     className='input-field'
                     onChange={(e) => handleChange(e)}
                     placeholder='e.g 0.9 for 900 gm'
+                    onKeyPress={(e) => {
+                      if (!/\d|\./.test(e.key)) {
+                          e.preventDefault();
+                      }
+                  }}
                   />
                 </label>
                 <label className='col'>

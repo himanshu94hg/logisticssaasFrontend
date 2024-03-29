@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleInfo } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo,faFilter } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import moment from 'moment';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
@@ -19,6 +19,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import {toast} from "react-toastify";
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -51,13 +52,16 @@ const DateFormatter = ({ dateTimeString }) => {
 
 const WeightRecoTab = ({weightRecoData}) => {
 
+    const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+    const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
+    
 
     //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
-    console.log(weightRecoData, "weightRecoDataweightRecoDataweightRecoData")
+    console.log(acceptRecord, "weightRecoDataweightRecoDataweightRecoData")
 
 
     const reasons = [
@@ -86,7 +90,7 @@ const WeightRecoTab = ({weightRecoData}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(weightRecoData.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -130,6 +134,15 @@ const WeightRecoTab = ({weightRecoData}) => {
 
     const handleClose = () => setShow(false);
 
+    const handleAccept = (row) => {
+        const rowString = JSON.stringify(row);
+        dispatch({ type: "ACCEPT_ACTION", payload: {"ids":rowString} });
+        if(acceptRecord.status === 200)
+        {
+            toast.success("Thank you for accepting.")
+        }
+    };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -151,7 +164,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                 <th style={{ width: '12%' }}>Entered Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Settled Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Status</th>
+                                <th style={{ width: '12%' }}>Status <FontAwesomeIcon icon={faFilter} className="filter-icon" onClick={handleSidePanel} /></th>
                                 <th style={{ width: '12%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
                                 <th style={{ width: '10%' }}>Customer details</th>
@@ -177,7 +190,6 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row?.order?.channel && row?.order?.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -256,12 +268,21 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
-                                        <td>
-                                            {/* Applied Weight Charges */}
-                                            <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    <button className='btn main-button'  onClick={() => handleShow(row)}>View History</button>
-                                                </p>
+                                        <td className='align-middle'>
+                                            <div className='d-flex align-items-center gap-3'>
+                                                <button className='btn main-button' onClick={() => handleAccept(row.id)}>Accept</button>
+                                                <div className='action-options'>
+                                                    <div className='threedots-img'>
+                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                    </div>
+                                                    <div className='action-list'>
+                                                        <ul>
+                                                            <li onClick={() => handleShow(row)}>View History</li>
+                                                            <li>Dispute</li>
+                                                            <li>Add Comment</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </td>
                                     </tr>

@@ -34,8 +34,10 @@ function NDRTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={NDRicon} alt="iconOrders" width={24} />
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
+                  <div>
+                  <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{counterData?.total_ndr}</h3>
+                  </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -60,8 +62,10 @@ function NDRTotalInfo() {
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
 
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
+                   <div>
+                   <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_required}</h3>
+                   </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -85,8 +89,10 @@ function NDRTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
+                   <div>
+                   <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_requested}</h3>
+                   </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
@@ -110,8 +116,10 @@ function NDRTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={NDRdelivered} alt="iconRTO" width={24} />
                     </div>
-                    <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
+                     <div>
+                     <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{counterData?.ndr_delivered}</h3>
+                     </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingDown className="trending-icon" />

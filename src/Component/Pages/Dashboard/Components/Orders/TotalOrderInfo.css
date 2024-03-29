@@ -12,6 +12,13 @@
     gap: 8px;
 }
 
+.card-footer1{
+    position: absolute;
+    bottom: 10px;
+    padding-bottom: 0%;
+    padding-right: 2%;
+}
+
 .wave-bg{
     background-size: cover;
     background-repeat: no-repeat;

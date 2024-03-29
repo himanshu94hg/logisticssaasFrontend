@@ -21,7 +21,7 @@ import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 
 
-const Pickups = ({ orders,selectedRows,setSelectedRows  }) => {
+const Pickups = ({ orders,setBulkActionShow,selectedRows,setSelectedRows  }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
