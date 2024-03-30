@@ -50,11 +50,11 @@ const ShippingRates = () => {
                 </tr>
                 <tr className='nested-tr box-shadow'>
                     <td>Additional Weight</td>
-                    <td>₹ {(isChecked ? (item?.extra_charge_a * 11.8).toFixed(2) : item?.extra_charge_a)}</td>
-                    <td>₹ {(isChecked ? (item?.extra_charge_b * 11.8).toFixed(2) : item?.extra_charge_b)}</td>
-                    <td>₹ {(isChecked ? (item?.extra_charge_c * 11.8).toFixed(2) : item?.extra_charge_c)}</td>
-                    <td>₹ {(isChecked ? (item?.extra_charge_d * 11.8).toFixed(2) : item?.extra_charge_d)}</td>
-                    <td>₹ {(isChecked ? (item?.extra_charge_e * 11.8).toFixed(2) : item?.extra_charge_e)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_a * 1.18).toFixed(2) : item?.extra_charge_a)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_b * 1.18).toFixed(2) : item?.extra_charge_b)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_c * 1.18).toFixed(2) : item?.extra_charge_c)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_d * 1.18).toFixed(2) : item?.extra_charge_d)}</td>
+                    <td>₹ {(isChecked ? (item?.extra_charge_e * 1.18).toFixed(2) : item?.extra_charge_e)}</td>
                 </tr>
                 <tr className='nested-tr box-shadow'>
                     <td>RTO</td>
@@ -70,7 +70,7 @@ const ShippingRates = () => {
     };
 
     return (
-        <section className='position-relative rate-calculator'>
+        <section className='position-relative rate-card-page'>
             <div className="position-relative">
                 <h3>Shipping Rates</h3>
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
