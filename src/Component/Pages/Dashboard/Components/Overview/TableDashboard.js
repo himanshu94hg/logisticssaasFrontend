@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 // Custom Table component
 function CustomTable({ data }) {
@@ -40,11 +39,6 @@ function TableDashboard() {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false);
   const { lastOrders } = useSelector(state => state?.dashboardOverviewReducer)
-
-  // useEffect(()=>{
-  //   dispatch({type:"DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION",payload:dateRangeDashboard})
-  // },[])
-
 
   return (
     <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">

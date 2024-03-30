@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
 import { AiOutlineArrowUp } from "react-icons/ai";
-import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function RevenueDashboard() {
   const dispatch = useDispatch()
@@ -27,10 +26,6 @@ function RevenueDashboard() {
   useEffect(() => {
     fetchRevenueData(selectedInterval);
   }, [selectedInterval]);
-
-  // useEffect(() => {
-  //   dispatch({type:"DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION",payload:dateRangeDashboard})
-  // }, []);
 
 
   return (
@@ -66,9 +61,7 @@ function RevenueDashboard() {
           </p>
           <p className="cardvalue">{revenueCard?.cod_revenue || "NA"}</p>
         </li>
-
         {/* Add other items based on your API response structure */}
-
         <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>Total Delivered Orders</p>
           <AiOutlineArrowUp className=" font15" />
