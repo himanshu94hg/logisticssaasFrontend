@@ -138,7 +138,7 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp,currentPage,itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
