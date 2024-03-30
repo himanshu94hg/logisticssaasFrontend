@@ -59,10 +59,17 @@
     position: relative;
 }
 
-.rate-calc-page label span {
+.rate-calc-page label span.unit {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 1px;
+    bottom: 1px;
+    height: 34px;
+    width: 36px;
+    background: var(--sh-primary-light);
+    border-radius: 0 0.5rem 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
@@ -107,6 +114,7 @@
     background-color: #fff;
     border: 1px solid var(--sh-primary);
     border-radius: 0.5rem;
+    z-index: 1;
 }
 
 .rate-calc-page .info-container:hover .info-hover-show {
