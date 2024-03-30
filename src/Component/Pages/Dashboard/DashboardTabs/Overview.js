@@ -21,13 +21,13 @@ const Overview = ({ activeTab }) => {
 
   useEffect(() => {
     if (activeTab === "Overview") {
-      dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard })
-      dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_COUNTER_CARD_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_LAST_ORDERS_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard })
+      // dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION",payload:dateRangeDashboard  })
       dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION",payload:dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_REVENUE_CARD_ACTION", payload: dateRangeDashboard })
@@ -36,17 +36,6 @@ const Overview = ({ activeTab }) => {
       dispatch({ type: "DASHBOARD_OVERVIEW_WEIGHT_DISCREPANCIES_ACTION", payload: dateRangeDashboard })
     }
   }, [activeTab, dispatch])
-
-
-  // useEffect(() => {
-  //   if (activeTab === "ndr") {
-  //     dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
-  //   }
-  //   if (activeTab === "cod") {
-  //   }
-  //   if (activeTab === "rto") {
-  //   }
-  // }, [activeTab])
 
 
   return (

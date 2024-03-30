@@ -43,9 +43,6 @@ const OrdersPage = () => {
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
-    let orderCancelledRes = orderCancelled + new Date();
-    let orderdeleteRes = orderdelete + new Date();
-    let orderClonRes = orderClone + new Date();
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -66,6 +63,7 @@ const OrdersPage = () => {
         if (activeTab) {
             setSearchValue("");
             setQueryParamTemp({}); 
+            setQueryParamSearch(null);
         }
     }, [activeTab])
 
@@ -140,13 +138,13 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelledRes, orderdeleteRes, orderClonRes, activeTab, queryParamSearch, queryParamTemp]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp,currentPage,itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab,
+                "type": activeTab === "All Orders" ? "":activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -183,6 +181,8 @@ const OrdersPage = () => {
             setExportButtonClick(false);
         }
     }, [exportCard]);
+
+    console.log(activeTab,searchValue,"this is a circle data")
 
 
     return (

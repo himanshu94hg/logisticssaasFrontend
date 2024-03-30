@@ -1,4 +1,3 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -34,76 +33,22 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequired = ({shipmentCard}) => {
+const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows}) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
-    const reattemptOrderIds = selectedRows.join(',');
 
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-    const reattemptCard = useSelector(state => state?.exportSectionReducer?.shipmentSectionReducer?.shipmentReattemptCard)
-    const rtoCard = useSelector(state => state?.exportSectionReducer?.shipmentSectionReducer?.shipmentRtoCard)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-              "type": "shipment",
-              "subtype": "action_required"
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-          };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };  
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${"Shipment_Action_Required"}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);
 
     const handleReattempt = ((orderIds)=>{
         const stringifiedOrderIds = JSON.stringify(orderIds);
         dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":stringifiedOrderIds} });
     });
 
-    const handleReattemptOrder = (()=>{
-        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
-    });
-
     const handleRto = ((orderIds)=>{
         const stringifiedReattempt = JSON.stringify(orderIds);
         dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
-    });
-
-    const handleRtoOrder = (()=>{
-        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
     });
 
     const reasons = [
@@ -166,38 +111,6 @@ const ActionRequired = ({shipmentCard}) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        {selectedRows.length > 0 && (
-                            <button className='btn main-button me-2' onClick={() => handleReattemptOrder()}>Reattempt</button>
-                        )}
-                        {selectedRows.length > 0 && (
-                            <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
-                        )}
-                        <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        {/* <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button> */}
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
@@ -323,7 +236,6 @@ const ActionRequired = ({shipmentCard}) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 

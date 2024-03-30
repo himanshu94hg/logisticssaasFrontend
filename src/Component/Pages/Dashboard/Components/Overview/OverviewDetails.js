@@ -1,10 +1,8 @@
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import React, { useEffect, useState } from 'react';
-import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const OverviewDetails = () => {
-  const dispatch = useDispatch()
   const [activeTab, setActiveTab] = useState('ndr');
 
   const handleTabChange = (tab) => {
@@ -34,24 +32,10 @@ const OverviewDetails = () => {
     ]
   };
 
-
-  // useEffect(() => {
-  //   if (activeTab === "ndr") {
-  //     dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
-  //   }
-  //   if (activeTab === "cod") {
-  //     dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION",payload:dateRangeDashboard  })
-  //   }
-  //   if (activeTab === "rto") {
-  //     dispatch({ type: "DASHBOARD_OVERVIEW_RTO_DETAILS_ACTION",payload:dateRangeDashboard })
-  //   }
-  // }, [activeTab])
-
   const { codDetails, ndrDetails, rtoDetails } = useSelector(state => state?.dashboardOverviewReducer)
   const capitalize = (str) => {
     return str.replace(/_/g, ' ').replace(/\b\w/g, (char) => char.toUpperCase());
   };
-
 
   return (
     <>
@@ -69,14 +53,6 @@ const OverviewDetails = () => {
         </div>
 
         <div className="tab-content">
-          {/* {tabDetails[activeTab].map((item, index) => (
-            <div className='d-flex justify-content-between align-items-center' key={index}>
-              <div className='counter-sets'>
-                <p>{item.value}</p>
-                <p>{item.label}</p>
-              </div>
-            </div>
-          ))} */}
           {ndrDetails && activeTab === "ndr" && <>
             {Object.entries(ndrDetails).map(([key, value]) => (
               <div className='d-flex justify-content-between align-items-center w-100' key={key}>
