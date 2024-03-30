@@ -1,4 +1,3 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -237,7 +236,6 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows}) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
