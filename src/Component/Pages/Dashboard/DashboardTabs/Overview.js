@@ -38,17 +38,6 @@ const Overview = ({ activeTab }) => {
   }, [activeTab, dispatch])
 
 
-  // useEffect(() => {
-  //   if (activeTab === "ndr") {
-  //     dispatch({ type: "DASHBOARD_OVERVIEW_NDR_DETAILS_ACTION",payload:dateRangeDashboard })
-  //   }
-  //   if (activeTab === "cod") {
-  //   }
-  //   if (activeTab === "rto") {
-  //   }
-  // }, [activeTab])
-
-
   return (
     <Row className='mb-3'>
       <Col className="col-3 cardsSpace">
