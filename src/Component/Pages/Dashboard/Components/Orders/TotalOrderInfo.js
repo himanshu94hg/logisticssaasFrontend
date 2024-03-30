@@ -33,14 +33,14 @@ function TotalOrderInfo() {
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
-                  {/* <div className="card-footer1">
+                  <div className="card-footer1">
                     <span className="text-red font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
                       this month
                     </p>
-                  </div> */}
+                  </div> 
                 </div>
               </div>
               <div className="col-12">
@@ -70,14 +70,14 @@ function TotalOrderInfo() {
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
-                  {/* <div className="card-footer1">
+                   <div className="card-footer1">
                     <span className="text-red font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end ">
                       this month
                     </p>
-                  </div> */}
+                  </div> 
                 </div>
               </div>
               <div className="col-12">
@@ -104,14 +104,14 @@ function TotalOrderInfo() {
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
-                  {/* <div className="card-footer1">
+                   <div className="card-footer1">
                     <span className="text-red font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
                       this month
                     </p>
-                  </div> */}
+                  </div>
                 </div>
               </div>
               <div className="col-12">
@@ -140,14 +140,14 @@ function TotalOrderInfo() {
                   <div className="col-2">
                     <HiTrendingDown className="trending-icon" />
                   </div>
-                  {/* <div className="card-footer1">
+                  <div className="card-footer1">
                     <span className="text-red font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
                       this month
                     </p>
-                  </div> */}
+                  </div> 
                 </div>
               </div>
               <div className="col-12">
