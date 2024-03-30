@@ -34,58 +34,12 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const DeliveredShipment = ({shipmentCard}) => {
+const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows}) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
-
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-              "type": "shipment",
-              "subtype": "delivered"
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-          };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${"Shipment_Delivered"}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);    
-
-
 
     const reasons = [
         { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
@@ -154,32 +108,6 @@ const DeliveredShipment = ({shipmentCard}) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' >More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        {/* <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button> */}
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
