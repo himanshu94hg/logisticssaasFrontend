@@ -138,6 +138,7 @@ const WeightRecoPage = () => {
                                 <img src={SearchIcon} alt="Search" />
                             </button>
                         </label>
+                        <button className='btn main-button ms-2'>search</button>
                         <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
                     </div>
                     <p className='font10'>Most Popular Search by
