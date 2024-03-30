@@ -31,7 +31,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                         payment_type: "Prepaid"
                     }
                 }));
-            } else if (location.state && (location.state.orderType === "normalOrder" || location.state.orderType === "BulkCreateOrder")) {
+            } else if (pathName === "Quick Order" || location.state && (location.state.orderType === "normalOrder" || location.state.orderType === "BulkCreateOrder")) {
                 setOrderStatus(false);
                 setFormData({
                     ...formData,
