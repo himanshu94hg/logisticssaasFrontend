@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
 import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
 import { debounce } from 'lodash';
+import Toggle from 'react-toggle';
+
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
   const dispatch = useDispatch();
@@ -18,6 +20,11 @@ const RateCalculatorPage = () => {
   const [orderId, setOrderId] = useState("");
   const [chargedWeight, setChargedWeight] = useState(0);
   const [errors, setErrors] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+  };
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -189,19 +196,25 @@ const RateCalculatorPage = () => {
     <>
       <div className='rate-calc-page'>
         <div ref={sellerDataRef}>
-          <section className='box-shadow shadow-sm p10'>
+          <section className='box-shadow shadow-sm p10 rate-des'>
             <h4>Rate Calculator</h4>
-            <div className='gap-2 d-flex align-items-end'>
-              <label className=''>
-                Calculate by giving Order ID
+            <div className='gap-4 d-flex align-items-center'>
+              <div className='d-flex align-items-center gap-1'>
+                <p>Calculate by giving Order ID</p>
+                <Toggle
+                  checked={isChecked}
+                  onChange={handleToggle}
+                />
+              </div>
+              <label className={`${!isChecked ? 'invisible' : ''}`}>
                 <input
-                  type="text"
+                  type="search"
                   className="input-field"
                   placeholder="Enter Order ID"
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
               </label>
-              <button className='btn main-button' onClick={orderIdApiCAll}>Search</button>
+              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={orderIdApiCAll}>Search</button>
             </div>
             <form>
               <div style={containerStyle}>
@@ -306,7 +319,7 @@ const RateCalculatorPage = () => {
                       type="text"
                       name="length"
                       onChange={(e) => handleChange(e)}
-                      placeholder='Enter Length in cm'
+                      placeholder='Enter Length'
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
@@ -323,7 +336,7 @@ const RateCalculatorPage = () => {
                       type="text"
                       name="breadth"
                       onChange={(e) => handleChange(e)}
-                      placeholder='Enter Breadth in cm'
+                      placeholder='Enter Breadth'
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
@@ -340,7 +353,7 @@ const RateCalculatorPage = () => {
                       type="text"
                       name="height"
                       onChange={(e) => handleChange(e)}
-                      placeholder='Enter Height in cm'
+                      placeholder='Enter Height'
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
