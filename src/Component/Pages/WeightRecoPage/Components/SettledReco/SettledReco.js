@@ -195,17 +195,24 @@ const SettledReco = ({weightRecoData}) => {
                                             </div>
                                         </td>
                                         <td>
-                                        <div className='cell-inside-box'>
-                                            <p>
-                                                {row?.order?.order_products?.map((product, index) => (
-                                                    <React.Fragment key={index}>
-                                                        <strong>Product:</strong> {product?.product_name}<br />
-                                                        <strong>SKU:</strong> {product?.sku}<br />
-                                                    </React.Fragment>
-                                                ))}
-                                            </p>
-                                        </div>
-
+                                            {/* package details */}
+                                            <div className='cell-inside-box'>
+                                                {/* <p className='width-eclipse'>{row?.order?.order_products[0]?.product_name}</p> */}
+                                                <p>{row?.order?.order_products[0]?.product_name}
+                                                    <span className='details-on-hover ms-2 align-middle'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.order?.order_products?.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
+                                                                </React.Fragment>
+                                                            ))}
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
@@ -255,19 +262,7 @@ const SettledReco = ({weightRecoData}) => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Accept</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={() => handleShow(row)}>View History</li>
-                                                            <li>Dispute</li>
-                                                            <li>Add Comment</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <button className='btn main-button' onClick={() => handleShow(row)}>View History</button>
                                             </div>
                                         </td>
                                     </tr>

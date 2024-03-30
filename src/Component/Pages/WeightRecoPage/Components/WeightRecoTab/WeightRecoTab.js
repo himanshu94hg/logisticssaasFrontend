@@ -163,7 +163,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                 <th style={{ width: '12%' }}>Shipping Details</th>
                                 <th style={{ width: '12%' }}>Entered Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Settled Weight & Dimensions (CM)</th>
+                                {/* <th style={{ width: '12%' }}>Settled Weight & Dimensions (CM)</th> */}
                                 <th style={{ width: '12%' }}>Status <FontAwesomeIcon icon={faFilter} className="filter-icon" onClick={handleSidePanel} /></th>
                                 <th style={{ width: '12%' }}>Action</th>
                                 {/* <th style={{ width: '25%' }}>Order Details</th>
@@ -210,18 +210,27 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             </div>
                                         </td>
                                         <td>
-                                        <div className='cell-inside-box'>
-                                            <p>
-                                                {row?.order?.order_products?.map((product, index) => (
-                                                    <React.Fragment key={index}>
-                                                        <strong>Product:</strong> {product?.product_name}<br />
-                                                        <strong>SKU:</strong> {product?.sku}<br />
-                                                    </React.Fragment>
-                                                ))}
-                                            </p>
-                                        </div>
-
+                                            {/* package details */}
+                                            <div className='cell-inside-box'>
+                                                {/* <p className='width-eclipse'>{row?.order?.order_products[0]?.product_name}</p> */}
+                                                <p>{row?.order?.order_products[0]?.product_name}
+                                                    <span className='details-on-hover ms-2 align-middle'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.order?.order_products?.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
+                                                                </React.Fragment>
+                                                            ))}
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            </div>
                                         </td>
+
+
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
@@ -245,7 +254,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.e_weight} kg</p>
                                                 <p>LBH: {row?.e_length}cm x {row?.e_breadth}cm x {row?.e_height}</p>
-                                                <p className=''>Applied Amount : {row?.applied_amount}</p>
+                                                {/* <p className=''>Applied Amount : {row?.applied_amount}</p> */}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -253,31 +262,27 @@ const WeightRecoTab = ({weightRecoData}) => {
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.c_weight} kg</p>
                                                 <p>LBH: {row?.c_length}cm x {row?.c_breadth}cm x {row?.c_height}</p>
-                                                <p className=''>Charged Amount : {row?.charged_amount}</p>
+                                                {/* <p className=''>Charged Amount : {row?.charged_amount}</p> */}
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/* Entered Weight & Dimensions (CM) */}
-                                            <div className='cell-inside-box'>
-                                                <p>Wt:  {row?.s_weight} kg</p>
-                                                <p>LBH: {row?.s_length}cm x {row?.s_breadth}cm x {row?.s_height}</p>
-                                                <p className=''>Settled Amount : {row?.settled_amount}</p>
-                                            </div>
-                                        </td>
+                                        
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button' onClick={() => handleAccept(row.id)}>Accept</button>
+                                                {row?.status !== "accepted" && row?.status !== "auto_accepted" ? (
+                                                    <button className='btn main-button' onClick={() => handleAccept(row.id)}>Accept</button>
+                                                ) : (
+                                                    <button className='btn main-button' onClick={() => handleShow(row)} >View History</button>
+                                                )}
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleShow(row)}>View History</li>
                                                             <li>Dispute</li>
                                                             <li>Add Comment</li>
                                                         </ul>
