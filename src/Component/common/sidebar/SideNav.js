@@ -1,7 +1,7 @@
 import './SideNav.css';
 import OMSIcon from "./Icons/OMSIcon";
 import MISIcon from "./Icons/MISIcon";
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import ToolsIcons from "./Icons/ToolsIcons";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
@@ -19,16 +19,17 @@ import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 import { useDispatch } from 'react-redux';
 import pathAction from '../../../redux/action/pathname';
+import { indexPattern } from '../../../Routes';
 
 
 
 const Dropdown = ({ links, isOpen }) => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
-        <NavLink key={index} to={link.to}  onClick={(e)=> dispatch(pathAction(link.label))}>
+        <NavLink key={index} to={link.to} onClick={(e) => dispatch(pathAction(link.label))}>
           {link.label}
         </NavLink>
       ))}
@@ -111,6 +112,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 };
 
 const SideNav = (props) => {
+  const navigate = useNavigate()
   const [isExpanded, setExpanded] = useState(false);
   // const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
@@ -206,7 +208,8 @@ const SideNav = (props) => {
         <img
           src={Logo}
           alt="Logo"
-        // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
+          onClick={() => navigate(indexPattern)}
+          // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
         />
       </div>
       <div className="menu-container">
