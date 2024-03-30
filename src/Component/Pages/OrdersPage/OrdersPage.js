@@ -146,7 +146,7 @@ const OrdersPage = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab,
+                "type": activeTab === "All Orders" ? "":activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
