@@ -187,7 +187,6 @@ const RateCalculatorPage = () => {
 
   return (
     <>
-     <form>
      <div ref={sellerDataRef} style={{ overflowY: 'auto', overflowX: "hidden", }}>
         <div className='row mb-3'>
           <section className='box-shadow shadow-sm col rate-calculator me-4 p-4'>
@@ -206,168 +205,170 @@ const RateCalculatorPage = () => {
                 <button className='btn main-button' onClick={orderIdApiCAll}>Search</button>
               </div>
             </div>
-            <div style={containerStyle}>
-              <div className='row mt-4'>
-                <label className='col'>
-                  Shipment Type
-                  <select
-                    name="shipment_type"
-                    required
-                    value={formData.shipment_type}
-                    className="select-field"
-                    id="shipment_type"
-                    onChange={(e) => handleSelect(e, "shipment_type")}
-                  >
-                    <option value="Forward">Forward</option>
-                    <option value="Reverse">Reverse</option>
-                  </select>
-                </label>
-                <label className='col'>
-                  Pickup Pincode
-                  <input
-                    type="text"
-                    className={`input-field ${errors.source_pincode && "input-field-error"}`}
-                    name={"source_pincode"}
-                    value={formData.source_pincode}
-                    placeholder="Enter Pickup Pincode"
-                    onChange={(e) => handleChange(e)}
-                    maxLength={6}
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
-                  {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
-                </label>
-                <label className='col'>
-                  Delivery Pincode
-                  <input
-                    type="text"
-                    className={`input-field ${errors.destination_pincode && "input-field-error"}`}
-                    value={formData.destination_pincode}
-                    name={"destination_pincode"}
-                    placeholder="Enter Delivery Pincode"
-                    onChange={(e) => handleChange(e)}
-                    maxLength={6}
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
-                  {errors.destination_pincode && <span className="error-text">{errors.destination_pincode}</span>}
-                </label>
-              </div>
-              <div className='mt-5 row flex-row align-items-end'>
-                <label className='col-4'>
-                  <span className='fw-bold'>Actual Weight</span>
-                  <input
-                    type="number"
-                    name={"weight"}
-                    value={formData.weight}
-                    className='input-field'
-                    onChange={(e) => handleChange(e)}
-                    placeholder='e.g 0.9 for 900 gm'
-                    onKeyPress={(e) => {
-                      if (!/\d|\./.test(e.key)) {
-                          e.preventDefault();
-                      }
-                  }}
-                  />
-                </label>
-                <label className='col'>
-                  <p><strong>Note:</strong> Minimum chargeable weight is 0.5kg</p>
-                </label>
-              </div>
-              <div className='mt-4'>
-                <p className='fw-bold lh-base'>Volumetric Weight <span className='info-container'><span className='question-icon'><FontAwesomeIcon icon={faQuestion} /></span>
-                  <span className='info-hover-show'>It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000.</span></span>
-                </p>
-              </div>
-              <div className="row">
-                {/* Length (cm) */}
-                <label className='col'>
-                  Length (cm)
-                  <input
-                    className='input-field'
-                    type="number"
-                    name="length"
-                    onChange={(e) => handleChange(e)}
-                    placeholder='Enter Length in cm'
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
-                </label>
-
-                {/* Breadth (cm) */}
-                <label className='col'>
-                  Breadth (cm)
-                  <input
-                    className='input-field'
-                    type="number"
-                    name="breadth"
-                    onChange={(e) => handleChange(e)}
-                    placeholder='Enter Breadth in cm'
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
-                </label>
-
-                {/* Height (cm) */}
-                <label className='col'>
-                  Height (cm)
-                  <input
-                    className='input-field'
-                    type="number"
-                    name="height"
-                    onChange={(e) => handleChange(e)}
-                    placeholder='Enter Height in cm'
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
-                        e.preventDefault();
-                      }
-                    }}
-                  />
-                </label>
-              </div>
-              <div className="mt-3">
-                <p><strong>Charged Weight:</strong><span>{chargedWeight} Kg</span></p>
-              </div>             
-                <div className='mt-3 row'>
-                  <label className='col-md-6'>Payment Type
-                    <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")} value={formData.is_cod}>
-                      <option value="No">Prepaid</option>
-                      {formData.shipment_type !== "Reverse" && <option value="Yes">COD</option>}
+            <form>
+              <div style={containerStyle}>
+                <div className='row mt-4'>
+                  <label className='col'>
+                    Shipment Type
+                    <select
+                      name="shipment_type"
+                      required
+                      value={formData.shipment_type}
+                      className="select-field"
+                      id="shipment_type"
+                      onChange={(e) => handleSelect(e, "shipment_type")}
+                    >
+                      <option value="Forward">Forward</option>
+                      <option value="Reverse">Reverse</option>
                     </select>
                   </label>
-                  {invoiceField && <label className='col-md-6'>
-                    Invoice Amount
+                  <label className='col'>
+                    Pickup Pincode
                     <input
-                      className='input-field'
-                      type="number"
-                      name="invoice_amount"
-                      value={formData.invoice_amount}
+                      type="text"
+                      className={`input-field ${errors.source_pincode && "input-field-error"}`}
+                      name={"source_pincode"}
+                      value={formData.source_pincode}
+                      placeholder="Enter Pickup Pincode"
                       onChange={(e) => handleChange(e)}
+                      maxLength={6}
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
                     />
-                  </label>}
+                    {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
+                  </label>
+                  <label className='col'>
+                    Delivery Pincode
+                    <input
+                      type="text"
+                      className={`input-field ${errors.destination_pincode && "input-field-error"}`}
+                      value={formData.destination_pincode}
+                      name={"destination_pincode"}
+                      placeholder="Enter Delivery Pincode"
+                      onChange={(e) => handleChange(e)}
+                      maxLength={6}
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                    {errors.destination_pincode && <span className="error-text">{errors.destination_pincode}</span>}
+                  </label>
                 </div>
-             </div>
-            <div className='d-flex w-100 justify-content-end mt-4'>
-              <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
-              <button onClick={() => handleSubmit()} type='button' className="ms-2 btn main-button">Calculate</button>
-            </div>
+                <div className='mt-5 row flex-row align-items-end'>
+                  <label className='col-4'>
+                    <span className='fw-bold'>Actual Weight</span>
+                    <input
+                      type="number"
+                      name={"weight"}
+                      value={formData.weight}
+                      className='input-field'
+                      onChange={(e) => handleChange(e)}
+                      placeholder='e.g 0.9 for 900 gm'
+                      onKeyPress={(e) => {
+                        if (!/\d|\./.test(e.key)) {
+                            e.preventDefault();
+                        }
+                    }}
+                    />
+                  </label>
+                  <label className='col'>
+                    <p><strong>Note:</strong> Minimum chargeable weight is 0.5kg</p>
+                  </label>
+                </div>
+                <div className='mt-4'>
+                  <p className='fw-bold lh-base'>Volumetric Weight <span className='info-container'><span className='question-icon'><FontAwesomeIcon icon={faQuestion} /></span>
+                    <span className='info-hover-show'>It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000.</span></span>
+                  </p>
+                </div>
+                <div className="row">
+                  {/* Length (cm) */}
+                  <label className='col'>
+                    Length (cm)
+                    <input
+                      className='input-field'
+                      type="number"
+                      name="length"
+                      onChange={(e) => handleChange(e)}
+                      placeholder='Enter Length in cm'
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </label>
+
+                  {/* Breadth (cm) */}
+                  <label className='col'>
+                    Breadth (cm)
+                    <input
+                      className='input-field'
+                      type="number"
+                      name="breadth"
+                      onChange={(e) => handleChange(e)}
+                      placeholder='Enter Breadth in cm'
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </label>
+
+                  {/* Height (cm) */}
+                  <label className='col'>
+                    Height (cm)
+                    <input
+                      className='input-field'
+                      type="number"
+                      name="height"
+                      onChange={(e) => handleChange(e)}
+                      placeholder='Enter Height in cm'
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className="mt-3">
+                  <p><strong>Charged Weight:</strong><span>{chargedWeight} Kg</span></p>
+                </div>             
+                  <div className='mt-3 row'>
+                    <label className='col-md-6'>Payment Type
+                      <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")} value={formData.is_cod}>
+                        <option value="No">Prepaid</option>
+                        {formData.shipment_type !== "Reverse" && <option value="Yes">COD</option>}
+                      </select>
+                    </label>
+                    {invoiceField && <label className='col-md-6'>
+                      Invoice Amount
+                      <input
+                        className='input-field'
+                        type="number"
+                        name="invoice_amount"
+                        value={formData.invoice_amount}
+                        onChange={(e) => handleChange(e)}
+                        onKeyPress={(e) => {
+                          if (!/\d/.test(e.key)) {
+                            e.preventDefault();
+                          }
+                        }}
+                      />
+                    </label>}
+                  </div>
+              </div>
+              <div className='d-flex w-100 justify-content-end mt-4'>
+                <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
+                <button onClick={() => handleSubmit()} type='button' className="ms-2 btn main-button">Calculate</button>
+              </div>
+            </form>
           </section>
           <section className='box-shadow shadow-sm p10 col-5'></section>
         </div>
@@ -431,7 +432,6 @@ const RateCalculatorPage = () => {
           )
         })}</>}
       </div>
-     </form>
     </>
   );
 };
