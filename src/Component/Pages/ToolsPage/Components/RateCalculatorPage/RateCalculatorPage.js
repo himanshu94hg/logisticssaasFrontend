@@ -189,7 +189,7 @@ const RateCalculatorPage = () => {
     <>
       <div className='rate-calc-page'>
         <div ref={sellerDataRef}>
-          <section className='box-shadow shadow-sm p10 mb-5'>
+          <section className='box-shadow shadow-sm p10'>
             <h4>Rate Calculator</h4>
             <div className='gap-2 d-flex align-items-end'>
               <label className=''>
@@ -282,7 +282,7 @@ const RateCalculatorPage = () => {
                 </div>
                 <div className='d-flex gap-3 mt-4'>
                   <label className=''>
-                    <span className='fw-bold'>Actual Weight</span>
+                    <strong>Actual Weight</strong>
                     <input
                       type="text"
                       name={"weight"}
@@ -296,7 +296,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    <span className='font13'><span className='text-red'>*</span> Minimum chargeable weight is 0.5kg</span>
+                    <span className='unit'>KG</span>
                   </label>
                   {/* Length (cm) */}
                   <label className=''>
@@ -313,6 +313,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    <span className='unit'>CM</span>
                   </label>
                   {/* Breadth (cm) */}
                   <label className=''>
@@ -329,6 +330,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    <span className='unit'>CM</span>
                   </label>
                   {/* Height (cm) */}
                   <label className=''>
@@ -345,9 +347,11 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    <span className='unit'>CM</span>
                   </label>
                 </div>
                 <div className='mt-4'>
+                  <p className='font12'><span className='text-red'>*</span> Minimum chargeable weight is 0.5kg</p>
                   <p className='font12 fw-bold'><span className='text-red'>*</span> Volumetric Weight<span className='info-container'><span className='question-icon font12'><FontAwesomeIcon icon={faQuestion} /></span>
                     <span className='info-hover-show'> It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000.</span></span>
                   </p>
@@ -356,7 +360,7 @@ const RateCalculatorPage = () => {
                   <label>
                     <strong>Charged Weight:</strong>
                     <input type="text" className='input-field' value={chargedWeight} />
-                    <span>KG</span>
+                    <span className='unit'>KG</span>
                   </label>
                   {/* <span>{chargedWeight}</span> */}
                 </div>
@@ -368,7 +372,7 @@ const RateCalculatorPage = () => {
               </div>
             </form>
           </section>
-          {sellerData && <>  {sellerData?.map((item) => {
+          {sellerData && <section className='mt-5'>  {sellerData?.map((item) => {
             return (
               <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
                 <section className=''>
@@ -425,7 +429,7 @@ const RateCalculatorPage = () => {
                 </section>
               </div>
             )
-          })}</>}
+          })}</section>}
         </div>
       </div>
     </>
