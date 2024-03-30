@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React from 'react'
 import { useSelector } from 'react-redux'
 
@@ -63,7 +64,7 @@ const OverviewStatusCard = () => {
                         </div>
                         <div className='status-counter'>
                             <p>Next Remit Date</p>
-                            <p>{codDetails?.next_remit_date || 0}</p>
+                            <p>{moment(codDetails?.next_remit_date).format("DD-MM-YYYY") || 0}</p>
                         </div>
                         <div className='status-counter'>
                             <p>Next Remit Amount</p>

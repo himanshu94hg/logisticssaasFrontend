@@ -6,17 +6,10 @@ import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 import { percentage } from "../../../../../customFunction/functionLogic";
 
 function TotalShipment() {
-  const dispatch = useDispatch()
   const [data, setData] = useState(null);
   const [totalShipment, setTotalShipment] = useState(null);
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
-
-  
-  // useEffect(() => {
-  //   dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-  // }, [])
-  
   useEffect(() => {
     if (shimpmetCard) {
       const total_shipment = Object.values(shimpmetCard).reduce((acc, value) => acc + value, 0)
