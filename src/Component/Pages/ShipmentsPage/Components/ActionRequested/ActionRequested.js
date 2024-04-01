@@ -95,7 +95,7 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows}) => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Date requested</th>
+                                <th>Order Details</th>
                                 <th>NDR Reason</th>
                                 <th>Package Details</th>
                                 <th>Customer details</th>
