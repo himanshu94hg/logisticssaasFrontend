@@ -16,12 +16,42 @@ import TrackingIcon from "./Icons/TrackingIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
-import { RateCalculatorPattern, createOrderPattern, customerSupportPattern } from "../../../Routes";
+import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, ordersPattern,  } from "../../../Routes";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Header(props) {
   const navigate = useNavigate()
-
+  const [inputValue, setInputValue] = useState('');
+  const sellerData = Cookies.get("user_id")
+  let authToken = Cookies.get("access_token")
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+
+  function handleKeyPress(event) {
+    console.log(event.target.value,"eventeventevent")
+    if (event.key === 'Enter') {
+        event.preventDefault();
+        setInputValue('')
+
+        axios.get(`https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${20}&page=${1}&q=${inputValue}`, {
+          headers: {
+              Authorization: `Bearer ${authToken}`
+          }
+      })
+          .then(response => {
+              navigate(ordersPattern, { state: {
+                orders:response.data.results,
+                totalItems:response?.data?.count,
+                headerPath:"searchPath"
+              } })
+          })
+          .catch(error => {
+              toast.error("Something went wrong!")
+          });
+     
+    }
+}
 
 
   const handleLogout = () => {
@@ -59,7 +89,11 @@ export default function Header(props) {
 
             <div className="d-flex align-items-center" style={{ gap: "10px" }}>
               <div className="header-search-input">
-                <input className="input-field" type="search" placeholder="Search AWB || Order ID" />
+                <input className="input-field"
+                  type="search" placeholder="Search AWB || Order ID"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress} />
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </div>
               <div className="quick-actions-container">
