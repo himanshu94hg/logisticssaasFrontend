@@ -5,9 +5,9 @@ import RTOShipment from './Components/RTOShipment/RTOShipment';
 import ActionRequired from './Components/ActionRequired/ActionRequired';
 import ActionRequested from './Components/ActionRequested/ActionRequested';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import Pagination from '../../common/Pagination/Pagination';
 
 
 const ShipmentsPage = () => {
@@ -26,7 +26,7 @@ const ShipmentsPage = () => {
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    console.log(exportCard,"Export")
+    console.log(exportCard, "Export")
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -79,7 +79,7 @@ const ShipmentsPage = () => {
             setTotalItems(shipmentCard.length);
         }
     }, [shipmentCard]);
-    
+
 
     console.log(activeTab, "Active Tab")
 
@@ -87,8 +87,8 @@ const ShipmentsPage = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-              "type": "shipment",
-              "subtype": activeTab === "Action Required" ? "action_required": activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto": ""
+                "type": "shipment",
+                "subtype": activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""
             },
             "order_id": `${selectedRows.join(',')}`,
             "courier": "",
@@ -111,25 +111,25 @@ const ShipmentsPage = () => {
             "rto_status": false,
             "global_type": "",
             "payment_type": ""
-          };
+        };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };  
+    };
 
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
             var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required": activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto": ""}.xlsx`);
+            FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""}.xlsx`);
             setExportButtonClick(false);
         }
     }, [exportCard]);
 
-    const handleReattemptOrder = (()=>{
-        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
+    const handleReattemptOrder = (() => {
+        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
     });
 
-    const handleRtoOrder = (()=>{
-        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
+    const handleRtoOrder = (() => {
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
     });
 
     return (
@@ -161,19 +161,19 @@ const ShipmentsPage = () => {
                         <>
                             {activeTab === "Action Requested" && (
                                 <>
-                                {selectedRows.length > 0 && (
-                                    <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
-                                )}
+                                    {selectedRows.length > 0 && (
+                                        <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
+                                    )}
                                 </>
                             )}
                             {activeTab === "Action Required" && (
                                 <>
-                                {selectedRows.length > 0 && (
-                                    <button className='btn main-button me-2' onClick={() => handleReattemptOrder()}>Reattempt</button>
-                                )}
-                                {selectedRows.length > 0 && (
-                                    <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
-                                )}
+                                    {selectedRows.length > 0 && (
+                                        <button className='btn main-button me-2' onClick={() => handleReattemptOrder()}>Reattempt</button>
+                                    )}
+                                    {selectedRows.length > 0 && (
+                                        <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
+                                    )}
                                 </>
                             )}
                         </>
@@ -183,30 +183,30 @@ const ShipmentsPage = () => {
             </div>}
 
             <div className={`${activeTab === "Action Required" ? "d-block" : "d-none"}`}>
-                <ActionRequired shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
+                <ActionRequired shipmentCard={shipmentCard}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
 
             <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
-                <ActionRequested shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
+                <ActionRequested shipmentCard={shipmentCard}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
 
             <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-                <RTOShipment shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
+                <RTOShipment shipmentCard={shipmentCard}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
 
             <div className={`${activeTab === "Delivered" ? "d-block" : "d-none"}`}>
-                <DeliveredShipment shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
+                <DeliveredShipment shipmentCard={shipmentCard}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
                 />
             </div>
 
@@ -222,7 +222,7 @@ const ShipmentsPage = () => {
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
-                //handleMoreFilter={handleMoreFilter}
+            //handleMoreFilter={handleMoreFilter}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 

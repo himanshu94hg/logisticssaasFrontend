@@ -216,11 +216,11 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                                                             <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li>Mark As Verified</li>
                                                             <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
                                                             <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
                                                         </ul>

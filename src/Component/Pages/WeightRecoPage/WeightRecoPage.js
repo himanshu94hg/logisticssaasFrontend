@@ -6,9 +6,9 @@ import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import SettledReco from './Components/SettledReco/SettledReco';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
 import { useDispatch, useSelector } from 'react-redux';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
 import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import Pagination from '../../common/Pagination/Pagination';
 
 const WeightRecoPage = () => {
     const dispatch = useDispatch();
@@ -24,13 +24,13 @@ const WeightRecoPage = () => {
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
 
-    
+
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
 
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
     const { weightData, holdData, setteledData } = recoSectionReducer;
-    console.log(setteledData,"Setteled Data")
+    console.log(setteledData, "Setteled Data")
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -59,19 +59,19 @@ const WeightRecoPage = () => {
         const fetchData = async () => { 
             switch (activeTab) {
                 case "Weight Reconciliation":
-                    await dispatch({ type: "WEIGHT_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     if (weightData && Array.isArray(weightData)) {
                         setTotalItems(weightData.length);
                     }
                     break;
                 case "Settled Reconciliation":
-                    await dispatch({ type: "SETTELED_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     if (setteledData && Array.isArray(setteledData)) {
                         setTotalItems(setteledData.length);
                     }
                     break;
                 case "On Hold Reconciliation":
-                    await dispatch({ type: "HOLD_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     if (holdData && Array.isArray(holdData)) {
                         setTotalItems(holdData.length);
                     }
@@ -82,7 +82,7 @@ const WeightRecoPage = () => {
         };
 
         fetchData();
-    }, [dispatch, activeTab,itemsPerPage,currentPage]);
+    }, [dispatch, activeTab, itemsPerPage, currentPage]);
 
     const handleExport = () => {
         // setExportButtonClick(true);
@@ -133,7 +133,7 @@ const WeightRecoPage = () => {
                 <div className="search-container">
                     <div className='d-flex'>
                         <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"  />
+                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
                             <button>
                                 <img src={SearchIcon} alt="Search" />
                             </button>

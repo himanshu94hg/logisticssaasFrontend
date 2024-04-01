@@ -307,6 +307,7 @@
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(2, auto);
     gap: 20px;
+    padding-right: 33px;
 }
 
 .courier-dashboard .accordion-header>*:not(span) {

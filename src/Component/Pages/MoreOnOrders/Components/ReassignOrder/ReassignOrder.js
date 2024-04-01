@@ -116,7 +116,7 @@ const ReassignOrder = ({ orders,handleSearch }) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                {/* <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
@@ -147,16 +147,16 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                     <li>Bulk Ship</li>
                                     <li>Mark as Verified</li>
                                     <li>Add Bulk Tag</li>
-                                    <li><hr /></li>
+                                    <li className='action-hr'></li>
                                     <li>Bulk Weight/Dimension Update</li>
                                     <li>Bulk Warehouse Update</li>
-                                    <li><hr /></li>
+                                    <li className='action-hr'></li>
                                     <li>Bulk Delete Order</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
@@ -284,11 +284,11 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                         <ul>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
                                                             <li>Mark As Verified</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
 
                                                         </ul>
