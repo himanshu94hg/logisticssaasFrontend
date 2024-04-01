@@ -168,33 +168,8 @@
   width: 100%;
 }
 
-.search-container label input {
-  padding-block: 5px;
-  padding-inline: 29px 7px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  border-color: #E4E4E4;
-  width: 100%;
-}
-
 .search-container input:focus-visible {
   outline: none;
-}
-
-.search-container label button {
-  position: absolute;
-  top: 50%;
-  left: -2px;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.search-container label button img {
-  width: 20px;
-  height: 20px;
 }
 
 .search-container p {
@@ -378,10 +353,6 @@
   z-index: 2;
 }
 
-.action-list ul {
-  list-style: none;
-  padding-left: 20px;
-}
 
 .action-list ul li {
   padding-block: 4px;

@@ -109,7 +109,7 @@
 }
 
 .orders-section-tabs .table-container {
-  height: calc(100vh - 317px);
+  height: calc(100vh - 302px);
   overflow-y: scroll;
 }
 
@@ -173,13 +173,8 @@
 }
 
 .search-container label input {
-  padding-block: 5px;
-  padding-inline: 29px 7px;
-  width: 100%;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  border-color: #E4E4E4;
-  width: 100%;
+  padding-right: 40px;
+  padding-left: 110px;
 }
 
 .search-container input:focus-visible {
@@ -188,17 +183,49 @@
 
 .search-container label button {
   position: absolute;
-  top: 50%;
-  left: -2px;
-  transform: translateY(-50%);
+  top: 0px;
+  right: 0px;
   background: none;
   border: none;
   cursor: pointer;
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
-.search-container label button img {
-  width: 20px;
-  height: 20px;
+.search-container button.btn.main-button.dropdown-toggle.dropdown-toggle-split.show {
+  border-color: var(--sh-primary);
+  color: #fff;
+}
+
+.search-container .css-b62m3t-container {
+  position: absolute;
+  border: none;
+  top: 1px;
+  left: 1px;
+  border-radius: 0.5rem;
+  font-size: 0.8rem;
+  /* color: var(--sh-primary); */
+  background: transparent;
+  width: 110px;
+
+}
+
+.search-container .css-13cymwt-control {
+  border: none;
+  border-radius: 0.5rem;
+  min-height: unset;
+  background: transparent;
+}
+
+.search-container .css-t3ipsp-control,
+.search-container .css-t3ipsp-control:hover {
+  border: none;
+  box-shadow: unset;
+  background: transparent;
+  min-height: unset;
 }
 
 .search-container p {
@@ -382,18 +409,23 @@
   padding: 0px;
 }
 
+.action-options .action-list ul li:hover {
+  background-color: var(--sh-primary-light);
+}
+
 .action-options.bulk-actions {
   z-index: 2;
 }
 
 .action-list ul {
   list-style: none;
-  padding-left: 20px;
+  padding-left: 0px;
 }
 
 .action-list ul li {
   padding-block: 4px;
   cursor: pointer;
+  padding-left: 10px;
 }
 
 .action-list ul li hr {

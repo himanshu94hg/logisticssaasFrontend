@@ -312,7 +312,7 @@ p {
   grid-template-columns: 55% 10% 35%;
 }
 
-.cardvalue{
+.cardvalue {
   display: flex;
   justify-content: end;
 }
@@ -746,4 +746,11 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
 
 .react-toggle-thumb {
   border: none;
+}
+
+.reset-btn {
+  color: var(--sh-primary);
+  border-radius: 0;
+  padding: 0;
+  text-decoration: underline;
 }
