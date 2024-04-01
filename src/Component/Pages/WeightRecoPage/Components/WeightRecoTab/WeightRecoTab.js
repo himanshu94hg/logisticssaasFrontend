@@ -21,6 +21,7 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import {toast} from "react-toastify";
+import { FaCheckSquare, FaTimes } from 'react-icons/fa';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -59,6 +60,7 @@ const WeightRecoTab = ({weightRecoData}) => {
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
+    const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
     
 
     //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
@@ -147,9 +149,18 @@ const WeightRecoTab = ({weightRecoData}) => {
     const handleAccept = (row) => {
         const rowString = JSON.stringify(row);
         dispatch({ type: "ACCEPT_ACTION", payload: {"ids":rowString} });
-        if(acceptRecord.status === 200)
+        if(acceptRecord.status === true)
         {
             toast.success("Thank you for accepting.")
+        }
+    };
+
+    const handleDispute = (row) => {
+        const rowString = JSON.stringify(row);
+        dispatch({ type: "DISPUTE_ACTION", payload: {"ids":rowString} });
+        if(disputeRecord.status === true)
+        {
+            toast.success("Thank you for disputing.")
         }
     };
 
@@ -291,19 +302,31 @@ const WeightRecoTab = ({weightRecoData}) => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                {row?.status !== "accepted" && row?.status !== "auto_accepted" ? (
-                                                    <button className='btn main-button' onClick={() => handleAccept(row.id)}>Accept</button>
+                                                {row?.status === "pending" ? (
+                                                    <React.Fragment>
+                                                        <button className='btn main-button' title='Accept' onClick={() => handleAccept(row.id)}>
+                                                            <FaCheckSquare />
+                                                        </button>
+                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row.id)} >
+                                                            <FaTimes />
+                                                        </button>
+                                                    </React.Fragment>
                                                 ) : (
-                                                    <button className='btn main-button' onClick={() => handleShow(row)} >View History</button>
+                                                    <button className='btn main-button' onClick={() => handleShow(row)}>
+                                                        View History
+                                                    </button>
                                                 )}
-                                                <div className='action-options'>    
+                                                <div className='action-options'>
                                                     <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                        <img src={ThreeDots} alt='ThreeDots' width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Dispute</li>
-                                                            <li onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                            {row?.status === "pending" ? (
+                                                                <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                            ) : (
+                                                                <li >....</li>
+                                                            )}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -390,6 +413,8 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     });
     const commentRecord = useSelector(state => state?.weightRecoReducer?.commentData);
 
+    console.log("All Comment Data",commentRecord)
+
     const handleRemarkChange = (event) => {
         setRemark(event.target.value);
     };
@@ -454,16 +479,10 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
                 image: formData.company_logo
             }
         });
-        if(commentRecord.status === 201)
-        {
-            setRemark('');
-            setFormData({ company_logo: '' });
-            toast.success("Comment added successfully!");
-            handleCloseComment();
-        }
-        else{
-            toast.error("Something went wrong!");
-        }
+        setRemark('');
+        setFormData({ company_logo: '' });
+        toast.success("Comment added successfully!");
+        handleCloseComment();
     };
 
     return (
