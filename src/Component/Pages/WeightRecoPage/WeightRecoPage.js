@@ -56,7 +56,7 @@ const WeightRecoPage = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = async () => { 
             switch (activeTab) {
                 case "Weight Reconciliation":
                     await dispatch({ type: "WEIGHT_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
