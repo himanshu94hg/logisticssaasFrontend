@@ -97,7 +97,7 @@ const CourierDashboard = ({activeTab}) => {
               </div>
 
               {openIndex === index && (
-                <div className="accordion-content p10">
+                <div className="accordion-content">
                   <hr className='my-3' />
                   <div className='counters-container'>
                     <div className='counter-item'>Prepaid: {item?.prepaid}</div>
