@@ -59,11 +59,13 @@ const CourierPartner = [
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
     const dispatch = useDispatch()
+    const sellerData = Cookies.get("user_id")
+    const authToken = Cookies.get("access_token")
+    const [favName, setFavName] = useState("");
     const [saveFav, setSaveFav] = useState(false);
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
-    const [favName, setFavName] = useState("");
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -79,8 +81,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address: ""
     })
 
-    const sellerData = Cookies.get("user_id")
-    const authToken = Cookies.get("access_token")
+
 
     const handleCheckboxChange = (select) => {
         setSaveFilter(prevState => !prevState);
