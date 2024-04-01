@@ -47,7 +47,7 @@ const InfoMissing = () => {
     );
 }
 
-const ReverseOrder = ({ orders,handleSearch }) => {
+const ReverseOrder = ({ orders, handleSearch }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -95,7 +95,7 @@ const ReverseOrder = ({ orders,handleSearch }) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                {/* <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
@@ -126,16 +126,16 @@ const ReverseOrder = ({ orders,handleSearch }) => {
                                     <li>Bulk Ship</li>
                                     <li>Mark as Verified</li>
                                     <li>Add Bulk Tag</li>
-                                    <li><hr /></li>
+                                    <li className='action-hr'></li>
                                     <li>Bulk Weight/Dimension Update</li>
                                     <li>Bulk Warehouse Update</li>
-                                    <li><hr /></li>
+                                    <li className='action-hr'></li>
                                     <li>Bulk Delete Order</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
@@ -217,7 +217,7 @@ const ReverseOrder = ({ orders,handleSearch }) => {
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br /></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -285,11 +285,11 @@ const ReverseOrder = ({ orders,handleSearch }) => {
                                                         <ul>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
                                                             <li>Mark As Verified</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>

@@ -11,15 +11,27 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import EditOrder from './Components/EditOrder/EditOrder';
-import Pagination from './Components/Pagination/Pagination';
+import Pagination from '../../common/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import Pickups from './Components/Pickups/Pickups';
-// import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import Select from 'react-select';
+import { HiOutlineFilter } from "react-icons/hi";
+import { RxReset } from "react-icons/rx";
 
+const SearchOptions = [
+    { value: 'awb', label: 'AWB' },
+    { value: 'order_id', label: 'Order ID' },
+    { value: 'mobile', label: 'Mobile' },
+    { value: 'email', label: 'Email' },
+    { value: 'name', label: 'Name' },
+    { value: 'sku', label: 'SKU' },
+    { value: 'picup_address', label: 'Pickup Address' },
+];
 
 const OrdersPage = () => {
     const dispatch = useDispatch()
@@ -40,7 +52,7 @@ const OrdersPage = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
-
+    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
 
@@ -58,10 +70,11 @@ const OrdersPage = () => {
         setQueryParamSearch(searchValue)
         setSearchValue('')
     }
+
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
-            setQueryParamTemp({}); 
+            setQueryParamTemp({});
             setQueryParamSearch(null);
         }
     }, [activeTab])
@@ -137,13 +150,13 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp,currentPage,itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab === "All Orders" ? "":activeTab,
+                "type": activeTab === "All Orders" ? "" : activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -180,23 +193,50 @@ const OrdersPage = () => {
             setExportButtonClick(false);
         }
     }, [exportCard]);
-    
-    console.log("asjkdhkasjdhlaksjd")
+
+    console.log(activeTab, searchValue, "this is a circle data")
+
+
+    const handleChange = (SearchOption) => {
+        setSearchOption(SearchOption);
+    };
 
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                <div className="search-container">
+            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
+                <div className="search-container ot-filters">
                     <div className='d-flex'>
                         <label>
-                            <input type="text" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
+                            <Select
+                                value={SearchOption}
+                                onChange={handleChange}
+                                options={SearchOptions}
+                            />
+                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <button onClick={() => handleSearch()}>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <button className='btn main-button ms-2' onClick={() => handleSearch()}>search</button>
-                        <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        <div className="btn-group">
+                            <button
+                                onClick={handleSidePanel}
+                                type="button"
+                                className="btn main-button-outline ms-2"
+                            >
+                                <HiOutlineFilter className='align-text-bottom' /> More Filters
+                            </button>
+                            <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span className="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
+                                <li>Filter 1</li>
+                                <li>Filter 2</li>
+                                <li>Filter 3</li>
+                                <li>Filter 4</li>
+                            </ul>
+                        </div>
+                        <button className='btn main-button-outline ms-2'><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
@@ -302,6 +342,7 @@ const OrdersPage = () => {
                 )
                 }
             </div>
+            
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}

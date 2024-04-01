@@ -272,7 +272,7 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow,selectedRows,setSel
                                                                 <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                 <li>Reassign</li>
                                                                 <li>Clone Order</li>
-                                                                <li><hr /></li>
+                                                                <li className='action-hr'></li>
                                                                 <li>Cancel Order</li>
                                                             </ul>
                                                         </div>

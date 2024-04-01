@@ -5,9 +5,23 @@ import RTOShipment from './Components/RTOShipment/RTOShipment';
 import ActionRequired from './Components/ActionRequired/ActionRequired';
 import ActionRequested from './Components/ActionRequested/ActionRequested';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
-import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import Pagination from '../../common/Pagination/Pagination';
+import Select from 'react-select';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { HiOutlineFilter } from "react-icons/hi";
+import { RxReset } from "react-icons/rx";
+
+const SearchOptions = [
+    { value: 'awb', label: 'AWB' },
+    { value: 'order_id', label: 'Order ID' },
+    { value: 'mobile', label: 'Mobile' },
+    { value: 'email', label: 'Email' },
+    { value: 'name', label: 'Name' },
+    { value: 'sku', label: 'SKU' },
+    { value: 'picup_address', label: 'Pickup Address' },
+];
 
 
 const ShipmentsPage = () => {
@@ -23,10 +37,12 @@ const ShipmentsPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [searchValue, setSearchValue] = useState("")
     const reattemptOrderIds = selectedRows.join(',');
+    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    console.log(exportCard,"Export")
+    console.log(exportCard, "Export")
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -79,7 +95,7 @@ const ShipmentsPage = () => {
             setTotalItems(shipmentCard.length);
         }
     }, [shipmentCard]);
-    
+
 
     console.log(activeTab, "Active Tab")
 
@@ -87,8 +103,8 @@ const ShipmentsPage = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-              "type": "shipment",
-              "subtype": activeTab === "Action Required" ? "action_required": activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto": ""
+                "type": "shipment",
+                "subtype": activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""
             },
             "order_id": `${selectedRows.join(',')}`,
             "courier": "",
@@ -111,41 +127,69 @@ const ShipmentsPage = () => {
             "rto_status": false,
             "global_type": "",
             "payment_type": ""
-          };
+        };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };  
+    };
 
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
             var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required": activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto": ""}.xlsx`);
+            FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""}.xlsx`);
             setExportButtonClick(false);
         }
     }, [exportCard]);
 
-    const handleReattemptOrder = (()=>{
-        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
+    const handleReattemptOrder = (() => {
+        dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
     });
 
-    const handleRtoOrder = (()=>{
-        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":reattemptOrderIds} });
+    const handleRtoOrder = (() => {
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
     });
+
+    const handleChange = (SearchOption) => {
+        setSearchOption(SearchOption);
+    };
+
+    const handleSearch = () => { }
 
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                <div className="search-container">
+            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
+                <div className="search-container ot-filters">
                     <div className='d-flex'>
                         <label>
-                            <input type="text" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
+                            <Select
+                                value={SearchOption}
+                                onChange={handleChange}
+                                options={SearchOptions}
+                            />
+                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <button onClick={() => handleSearch()}>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <button className='btn main-button ms-2'>search</button>
-                        <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        <div className="btn-group">
+                            <button
+                                onClick={handleSidePanel}
+                                type="button"
+                                className="btn main-button-outline ms-2"
+                            >
+                                <HiOutlineFilter className='align-text-bottom' /> More Filters
+                            </button>
+                            <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span className="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
+                                <li>Filter 1</li>
+                                <li>Filter 2</li>
+                                <li>Filter 3</li>
+                                <li>Filter 4</li>
+                            </ul>
+                        </div>
+                        <button className='btn main-button-outline ms-2'><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
@@ -157,72 +201,52 @@ const ShipmentsPage = () => {
                         <span>Cancel order</span> </p>
                 </div>
                 <div className='button-container'>
-                    {(activeTab === "Action Required" || activeTab === "Action Requested") && (
-                        <>
-                            {activeTab === "Action Requested" && (
-                                <>
-                                {selectedRows.length > 0 && (
-                                    <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
-                                )}
-                                </>
-                            )}
-                            {activeTab === "Action Required" && (
-                                <>
-                                {selectedRows.length > 0 && (
-                                    <button className='btn main-button me-2' onClick={() => handleReattemptOrder()}>Reattempt</button>
-                                )}
-                                {selectedRows.length > 0 && (
-                                    <button className='btn main-button me-2' onClick={() => handleRtoOrder()}>RTO</button>
-                                )}
-                                </>
-                            )}
-                        </>
-                    )}
-                    <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
+                    <button className='btn main-button' onClick={handleExport}>Export</button>
                 </div>
             </div>}
+            <div className='orders-section-tabs'>
+                <div className={`${activeTab === "Action Required" ? "d-block" : "d-none"}`}>
+                    <ActionRequired shipmentCard={shipmentCard}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                    />
+                </div>
 
-            <div className={`${activeTab === "Action Required" ? "d-block" : "d-none"}`}>
-                <ActionRequired shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
+                <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
+                    <ActionRequested shipmentCard={shipmentCard}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                    />
+                </div>
+
+                <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
+                    <RTOShipment shipmentCard={shipmentCard}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                    />
+                </div>
+
+                <div className={`${activeTab === "Delivered" ? "d-block" : "d-none"}`}>
+                    <DeliveredShipment shipmentCard={shipmentCard}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                    />
+                </div>
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
                 />
             </div>
 
-            <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
-                <ActionRequested shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                />
-            </div>
-
-            <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-                <RTOShipment shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                />
-            </div>
-
-            <div className={`${activeTab === "Delivered" ? "d-block" : "d-none"}`}>
-                <DeliveredShipment shipmentCard={shipmentCard} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                />
-            </div>
-
-            <Pagination
-                totalItems={totalItems}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemsPerPage={setItemsPerPage}
-                setCurrentPage={setCurrentPage}
-            />
 
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
-                //handleMoreFilter={handleMoreFilter}
+            //handleMoreFilter={handleMoreFilter}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
