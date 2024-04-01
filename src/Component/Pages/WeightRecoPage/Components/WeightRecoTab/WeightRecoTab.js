@@ -21,6 +21,7 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import {toast} from "react-toastify";
+import { FaCheckSquare, FaTimes } from 'react-icons/fa';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -291,19 +292,27 @@ const WeightRecoTab = ({weightRecoData}) => {
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                {row?.status !== "accepted" && row?.status !== "auto_accepted" ? (
-                                                    <button className='btn main-button' onClick={() => handleAccept(row.id)}>Accept</button>
+                                                {row?.status === "pending" ? (
+                                                    <React.Fragment>
+                                                        <button className='btn main-button' title='Accept' onClick={() => handleAccept(row.id)}>
+                                                            <FaCheckSquare />
+                                                        </button>
+                                                        <button className='btn main-button' title='Dispute' >
+                                                            <FaTimes />
+                                                        </button>
+                                                    </React.Fragment>
                                                 ) : (
-                                                    <button className='btn main-button' onClick={() => handleShow(row)} >View History</button>
+                                                    <button className='btn main-button' onClick={() => handleShow(row)}>
+                                                        View History
+                                                    </button>
                                                 )}
-                                                <div className='action-options'>    
+                                                <div className='action-options'>
                                                     <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
+                                                        <img src={ThreeDots} alt='ThreeDots' width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Dispute</li>
-                                                            <li onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                            <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
                                                         </ul>
                                                     </div>
                                                 </div>
