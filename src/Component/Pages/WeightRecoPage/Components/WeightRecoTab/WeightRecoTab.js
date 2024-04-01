@@ -60,6 +60,7 @@ const WeightRecoTab = ({weightRecoData}) => {
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
+    const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
     
 
     //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
@@ -148,9 +149,18 @@ const WeightRecoTab = ({weightRecoData}) => {
     const handleAccept = (row) => {
         const rowString = JSON.stringify(row);
         dispatch({ type: "ACCEPT_ACTION", payload: {"ids":rowString} });
-        if(acceptRecord.status === 200)
+        if(acceptRecord.status === true)
         {
             toast.success("Thank you for accepting.")
+        }
+    };
+
+    const handleDispute = (row) => {
+        const rowString = JSON.stringify(row);
+        dispatch({ type: "DISPUTE_ACTION", payload: {"ids":rowString} });
+        if(disputeRecord.status === true)
+        {
+            toast.success("Thank you for disputing.")
         }
     };
 
@@ -297,7 +307,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                                         <button className='btn main-button' title='Accept' onClick={() => handleAccept(row.id)}>
                                                             <FaCheckSquare />
                                                         </button>
-                                                        <button className='btn main-button' title='Dispute' >
+                                                        <button className='btn main-button' title='Dispute' onClick={() => handleDispute(row.id)} >
                                                             <FaTimes />
                                                         </button>
                                                     </React.Fragment>
@@ -312,7 +322,11 @@ const WeightRecoTab = ({weightRecoData}) => {
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                            {row?.status === "pending" ? (
+                                                                <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                            ) : (
+                                                                <li >...</li>
+                                                            )}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -399,6 +413,8 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     });
     const commentRecord = useSelector(state => state?.weightRecoReducer?.commentData);
 
+    console.log("All Comment Data",commentRecord)
+
     const handleRemarkChange = (event) => {
         setRemark(event.target.value);
     };
@@ -463,16 +479,10 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
                 image: formData.company_logo
             }
         });
-        if(commentRecord.status === 201)
-        {
-            setRemark('');
-            setFormData({ company_logo: '' });
-            toast.success("Comment added successfully!");
-            handleCloseComment();
-        }
-        else{
-            toast.error("Something went wrong!");
-        }
+        setRemark('');
+        setFormData({ company_logo: '' });
+        toast.success("Comment added successfully!");
+        handleCloseComment();
     };
 
     return (

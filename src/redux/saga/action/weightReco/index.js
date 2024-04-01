@@ -1,8 +1,8 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,GET_WEIGHT } from "../../../../axios/config";
-import { COURIER_WEIGHT_RECO_ACTION,WEIGHT_ACTION,HOLD_ACTION,SETTELED_ACTION,HISTORY_ACTION,ACCEPT_ACTION,COMMENT_ACTION } from "../../constant/weightReco";
-import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA,GET_ACCEPT_DATA,GET_COMMENT_DATA } from "../../../constants/weightReco";
+import { COURIER_WEIGHT_RECO_ACTION,WEIGHT_ACTION,HOLD_ACTION,SETTELED_ACTION,HISTORY_ACTION,ACCEPT_ACTION,COMMENT_ACTION,DISPUTE_ACTION } from "../../constant/weightReco";
+import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA,GET_ACCEPT_DATA,GET_COMMENT_DATA,GET_DISPUTE_DATA } from "../../../constants/weightReco";
 
 async function weightRecoApi(data) {
     let getData = axios.request({
@@ -161,6 +161,29 @@ function* commentAction(action) {
     }
 }
 
+async function disputeApi(data) {
+    let getData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_DUMMY}${API_URL.GET_DISPUTE}`,
+        data
+    });
+    return getData
+}
+
+function* disputeAction(action) {
+    let { payload, } = action;
+    try {
+        let response = yield call(disputeApi, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_DISPUTE_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+
+    }
+}
+
 export function* getWeightRecoWatcher() {
     yield takeLatest(COURIER_WEIGHT_RECO_ACTION, weightRecoAction);
     yield takeLatest(WEIGHT_ACTION, weightAction);
@@ -169,4 +192,5 @@ export function* getWeightRecoWatcher() {
     yield takeLatest(HISTORY_ACTION, historyAction);
     yield takeLatest(ACCEPT_ACTION, acceptAction);
     yield takeLatest(COMMENT_ACTION, commentAction);
+    yield takeLatest(DISPUTE_ACTION, disputeAction);
 }
