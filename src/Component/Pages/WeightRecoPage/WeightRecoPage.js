@@ -6,9 +6,23 @@ import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import SettledReco from './Components/SettledReco/SettledReco';
 import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
 import { useDispatch, useSelector } from 'react-redux';
-import SearchIcon from '../../../assets/image/icons/search-icon.png'
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import Pagination from '../../common/Pagination/Pagination';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import Select from 'react-select';
+import { HiOutlineFilter } from "react-icons/hi";
+import { RxReset } from "react-icons/rx";
+
+const SearchOptions = [
+    { value: 'awb', label: 'AWB' },
+    { value: 'order_id', label: 'Order ID' },
+    { value: 'mobile', label: 'Mobile' },
+    { value: 'email', label: 'Email' },
+    { value: 'name', label: 'Name' },
+    { value: 'sku', label: 'SKU' },
+    { value: 'picup_address', label: 'Pickup Address' },
+];
 
 const WeightRecoPage = () => {
     const dispatch = useDispatch();
@@ -23,7 +37,8 @@ const WeightRecoPage = () => {
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
-
+    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [searchValue, setSearchValue] = useState("")
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
@@ -41,6 +56,9 @@ const WeightRecoPage = () => {
         setBackDrop(false)
     }
 
+    const handleSearch = () => {
+    }
+
     const handleMoreFilter = (data) => {
         const queryParams = {};
         Object.keys(data).forEach(key => {
@@ -56,7 +74,7 @@ const WeightRecoPage = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => { 
+        const fetchData = async () => {
             switch (activeTab) {
                 case "Weight Reconciliation":
                     await dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
@@ -126,20 +144,46 @@ const WeightRecoPage = () => {
     //     }
     // }, [exportCard]);
 
+    const handleChange = (SearchOption) => {
+        setSearchOption(SearchOption);
+    };
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                <div className="search-container">
+            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
+                <div className="search-container ot-filters">
                     <div className='d-flex'>
                         <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
+                            <Select
+                                value={SearchOption}
+                                onChange={handleChange}
+                                options={SearchOptions}
+                            />
+                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <button onClick={() => handleSearch()}>
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <button className='btn main-button ms-2'>search</button>
-                        <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
+                        <div className="btn-group">
+                            <button
+                                onClick={handleSidePanel}
+                                type="button"
+                                className="btn main-button-outline ms-2"
+                            >
+                                <HiOutlineFilter className='align-text-bottom' /> More Filters
+                            </button>
+                            <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span className="visually-hidden">Toggle Dropdown</span>
+                            </button>
+                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
+                                <li>Filter 1</li>
+                                <li>Filter 2</li>
+                                <li>Filter 3</li>
+                                <li>Filter 4</li>
+                            </ul>
+                        </div>
+                        <button className='btn main-button-outline ms-2'><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |

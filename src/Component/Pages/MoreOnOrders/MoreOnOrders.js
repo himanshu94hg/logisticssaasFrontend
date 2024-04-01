@@ -181,7 +181,7 @@ const MoreOnOrders = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
-                <div className="search-container">
+                <div className="search-container ot-filters">
                     <div className='d-flex'>
                         <label>
                             <Select
