@@ -47,7 +47,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     
     useEffect(() => {
         if (location.state) {
-            if (location.state.orderType === "BulkCreateOrder") {
+            if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder"|| location.state.orderType === "normalOrder") {
                 setOrderStatus(false);
                 setFormData(prevFormData => ({
                     ...prevFormData,
