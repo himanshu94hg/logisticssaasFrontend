@@ -72,12 +72,9 @@ function* updateOrderAction(action) {
 
 //SAVE_FAVOURITE_ORDERS_API
 async function saveFavouriteOrderAPI(data) {
-    console.log(data, "MoreOnOrder")
-    // const temp=Object.entries()
-
     return axios.request({
         method: "POST",
-        url: `${BASE_URL_ORDER}${API_URL.SAVE_FAVOURITE_ORDERS_API}${data}`,
+        url: `${BASE_URL_ORDER}${API_URL.SAVE_FAVOURITE_ORDERS_API}`,
         data: data
     });
 }
@@ -85,7 +82,8 @@ function* saveFavouriteOrdersAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(saveFavouriteOrderAPI, payload);
-        if (response.status === 200) {
+        if (response.status === 201) {
+            toast.success("Filter added successfully!")
         }
 
     } catch (error) {

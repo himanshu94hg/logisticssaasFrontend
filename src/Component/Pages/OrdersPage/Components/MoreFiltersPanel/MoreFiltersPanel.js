@@ -34,7 +34,7 @@ const OrderStatus = [
 
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
-    { label: "COD", value: "cod" },
+    { label: "COD", value: "COD" },
 ]
 
 const Ordertags = [
@@ -63,6 +63,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
+    const [favName, setFavName] = useState("");
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -88,6 +89,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleSubmit = e => {
         e.preventDefault();
+        const encodedParams = Object.entries(filterParams)
+        .filter(([key, value]) => value !== null && value !== '')
+        .map(([key, value]) => `${(key)}=${(value)}`)
+        .join('&');
+
         handleMoreFilter(filterParams)
         CloseSidePanel()
         setClearState(true)
@@ -105,8 +111,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             pickup_address: ""
         })
         if (saveFav) {
-            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: filterParams })
+            dispatch({ type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                filter_query:encodedParams,
+                filter_name:favName
+            } })
         }
+        setSaveFilter(false)
+        setFavName("")
     };
 
     useEffect(() => {
@@ -163,7 +174,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }))
         }
     };
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -373,10 +383,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 <input
                                     type="checkbox"
                                     checked={SaveFilter}
+                                    value={SaveFilter}
                                     onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
                                 {!SaveFilter ? 'Save Filter' : (
-                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e)=>setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>
