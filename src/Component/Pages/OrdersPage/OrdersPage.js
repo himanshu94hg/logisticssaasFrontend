@@ -62,7 +62,7 @@ const OrdersPage = () => {
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
-            setQueryParamTemp({}); 
+            setQueryParamTemp({});
             setQueryParamSearch(null);
         }
     }, [activeTab])
@@ -138,13 +138,13 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp,currentPage,itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab === "All Orders" ? "":activeTab,
+                "type": activeTab === "All Orders" ? "" : activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -182,7 +182,7 @@ const OrdersPage = () => {
         }
     }, [exportCard]);
 
-    console.log(activeTab,searchValue,"this is a circle data")
+    console.log(activeTab, searchValue, "this is a circle data")
 
 
     return (
@@ -197,7 +197,7 @@ const OrdersPage = () => {
                                 <img src={SearchIcon} alt="Search" />
                             </button>
                         </label>
-                        <button className='btn main-button ms-2' onClick={() => handleSearch()}>search</button>
+                        <button className='btn main-button ms-2' onClick={() => handleSearch()}>Search</button>
                         <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
                     </div>
                     <p className='font10'>Most Popular Search by

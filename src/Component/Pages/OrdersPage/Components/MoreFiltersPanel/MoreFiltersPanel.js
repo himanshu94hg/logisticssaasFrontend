@@ -7,6 +7,7 @@ import Select from 'react-select';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -57,22 +58,32 @@ const CourierPartner = [
 
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [SaveFilter, setSaveFilter] = useState(false)
-    const [clearState, setClearState] = useState(false)
-    const [pickupAddresses, setPickupAddresses] = useState([
+    const dispatch = useDispatch()
+    const [saveFav, setSaveFav] = useState(false);
+    const [SaveFilter, setSaveFilter] = useState(false);
+    const [clearState, setClearState] = useState(false);
+    const [pickupAddresses, setPickupAddresses] = useState([]);
 
-    ]);
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: ""
+    })
 
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
 
-
-    const handleCheckboxChange = () => {
+    const handleCheckboxChange = (select) => {
         setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
     };
 
     const handleSubmit = e => {
@@ -93,27 +104,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku_match_type: "",
             pickup_address: ""
         })
-
+        if (saveFav) {
+            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: filterParams })
+        }
     };
 
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        order_id: "",
-        order_tag: "",
-        sku: "",
-        sku_match_type: "",
-        pickup_address: ""
-    })
-
-    console.log(pickupAddresses, "this is a activeTabactiveTabactiveTabactiveTab", filterParams)
-
     useEffect(() => {
-        if (activeTab ) {
+        if (activeTab) {
             setFilterParams({
                 start_date: null,
                 end_date: null,
@@ -376,7 +373,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 <input
                                     type="checkbox"
                                     checked={SaveFilter}
-                                    onChange={handleCheckboxChange}
+                                    onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
                                 {!SaveFilter ? 'Save Filter' : (
                                     <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
