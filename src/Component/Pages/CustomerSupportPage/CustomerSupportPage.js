@@ -11,7 +11,7 @@ import InProgressTickets from './Components/InProgressTickets';
 import ViewTicketSlider from './Components/ViewTicketSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
+import Pagination from '../../common/Pagination/Pagination';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -62,14 +62,14 @@ const CustomerSupportPage = () => {
       })
         .then((response) => {
           setAllTicket(response?.data?.results);
-           setTotalItems(response?.data?.count);
+          setTotalItems(response?.data?.count);
         })
         .catch((error) => {
           console.error("Error:", error);
         });
     }
 
-  }, [activeTab, status, searchValue,currentPage,itemsPerPage]);
+  }, [activeTab, status, searchValue, currentPage, itemsPerPage]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();

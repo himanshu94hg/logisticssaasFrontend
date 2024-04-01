@@ -5,8 +5,7 @@ import ScheduledReportsMIS from './Components/ScheduledReportsMIS/ScheduledRepor
 import ActivityLogsMIS from './Components/ActivityLogsMIS/ActivityLogsMIS';
 import DownloadMIS from './Components/DownloadMIS/DownloadMIS';
 import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
-
+import Pagination from '../../common/Pagination/Pagination';
 
 const MISPage = () => {
     const [activeTab, setActiveTab] = useState("ActivityLogsMIS");

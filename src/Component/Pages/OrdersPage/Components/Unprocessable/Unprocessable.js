@@ -205,11 +205,11 @@ const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRow
                                                         <ul>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li>Clone Order</li>
                                                             <li>Mark As Verified</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Cancel Order</li>
                                                         </ul>
                                                     </div>

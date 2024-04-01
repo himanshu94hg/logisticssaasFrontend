@@ -218,7 +218,7 @@ const RateCalculatorPage = () => {
             </div>
             <form>
               <div style={containerStyle}>
-                <div className='mt-4 d-flex gap-3'>
+                <div className='mt-5 d-flex gap-3'>
                   <label className=''>
                     Shipment Type
                     <select
@@ -293,7 +293,7 @@ const RateCalculatorPage = () => {
                     />
                   </label>
                 </div>
-                <div className='d-flex gap-3 mt-4'>
+                <div className='d-flex gap-3 mt-5'>
                   <label className=''>
                     <strong>Actual Weight</strong>
                     <input

@@ -8,7 +8,7 @@ import InvoicesTab from './Components/InvoicesTab/InvoicesTab';
 import PassbookTab from './Components/PassbookTab/PassbookTab';
 import { useDispatch, useSelector } from 'react-redux';
 import './BillingPage.css';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
+import Pagination from '../../common/Pagination/Pagination';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -25,27 +25,27 @@ const BillingPage = () => {
         const fetchData = async () => {
             switch (activeTab) {
                 case "Shipping Charges":
-                    await dispatch({ type: "BILLING_SHIPING_DATA_ACTION" ,payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "BILLING_SHIPING_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     setTotalItems(billingShipingCard.length);
                     break;
                 case "Remittance Logs":
-                    await dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     setTotalItems(billingShipingRemitanceCard.length);
                     break;
                 case "Recharge Logs":
-                    await dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     setTotalItems(billingShipingRechargeCard.length);
                     break;
                 case "Invoices":
-                    await dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     setTotalItems(billingShipingInvoiceCard.length);
                     break;
                 case "Passbook":
-                    await dispatch({ type: "BILLING_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "BILLING_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     setTotalItems(billingCard.length);
                     break;
                 case "Credit Receipt":
-                    await dispatch({ type: "BILLING_SHIPING_RECEIPT_DATA_ACTION",payload:{"itemsPerPage":itemsPerPage,"currentPage":currentPage} });
+                    await dispatch({ type: "BILLING_SHIPING_RECEIPT_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     setTotalItems(billingShipingReceiptCard.length);
                     break;
                 default:
@@ -88,12 +88,12 @@ const BillingPage = () => {
             {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} />}
 
             <Pagination
-                    totalItems={totalItems}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    setCurrentPage={setCurrentPage}
-                />
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </>
     );
 }

@@ -309,7 +309,7 @@ const ReadyToShip = ({ orders, setBulkActionShow ,selectedRows,setSelectedRows})
                                                             <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             <li>Reassign</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
                                                         </ul>
                                                     </div>

@@ -215,11 +215,11 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSe
                                                             <li onClick={()=>openEditingSection(row?.id)}>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li>Mark As Verified</li>
                                                             <li>Clone Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Cancel Order</li>
                                                         </ul>
                                                     </div>
