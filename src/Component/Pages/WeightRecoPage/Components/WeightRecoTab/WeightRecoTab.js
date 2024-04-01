@@ -322,7 +322,6 @@ const WeightRecoTab = ({weightRecoData}) => {
                         <FontAwesomeIcon icon={faChevronRight} />
                     </div>
                 </div> */}
-
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
                 <PreviewComment showComment={showComment} handleCloseComment={handleCloseComment} selectedRow={selectedRow} />
