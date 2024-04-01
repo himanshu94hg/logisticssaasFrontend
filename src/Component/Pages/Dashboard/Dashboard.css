@@ -358,7 +358,7 @@
     background: #fff;
     display: inline-block;
     height: 80px;
-    margin-right: 70px;
+    margin-right: 22px;
     position: relative;
     width: 80px;
     display: flex;
@@ -416,7 +416,7 @@
 
 
 .status-container-item .status-item .status-counter p:last-of-type {
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: var(--sh-primary);
     font-weight: 700;
 }
