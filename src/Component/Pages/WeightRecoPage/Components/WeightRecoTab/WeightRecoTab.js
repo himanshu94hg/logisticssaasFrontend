@@ -325,7 +325,7 @@ const WeightRecoTab = ({weightRecoData}) => {
                                                             {row?.status === "pending" ? (
                                                                 <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
                                                             ) : (
-                                                                <li >...</li>
+                                                                <li >....</li>
                                                             )}
                                                         </ul>
                                                     </div>
