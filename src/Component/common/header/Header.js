@@ -16,12 +16,25 @@ import TrackingIcon from "./Icons/TrackingIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
-import { RateCalculatorPattern, createOrderPattern, customerSupportPattern } from "../../../Routes";
+import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, ordersPattern, } from "../../../Routes";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Header(props) {
   const navigate = useNavigate()
-
+  const [inputValue, setInputValue] = useState('');
+  const sellerData = Cookies.get("user_id")
+  let authToken = Cookies.get("access_token")
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      navigate(ordersPattern)
+      setInputValue('')
+    }
+  }
 
 
   const handleLogout = () => {
@@ -30,7 +43,6 @@ export default function Header(props) {
   };
 
   const gettoken = Cookies.get('access_token');
-
   const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
   const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
 
@@ -59,7 +71,11 @@ export default function Header(props) {
 
             <div className="d-flex align-items-center" style={{ gap: "10px" }}>
               <div className="header-search-input">
-                <input className="input-field" type="search" placeholder="Search AWB || Order ID" />
+                <input className="input-field"
+                  type="search" placeholder="Search AWB || Order ID"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress} />
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </div>
               <div className="quick-actions-container">

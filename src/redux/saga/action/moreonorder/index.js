@@ -16,7 +16,6 @@ async function moreonorderFileAPI(data) {
 
 function* moreonorderFilesAction(action) {
     let { payload, reject } = action;
-    console.log(action,"MoreOnOrder")
     try {
         let response = yield call(moreonorderFileAPI, payload);
         if (response.status === 200) {
@@ -30,6 +29,5 @@ function* moreonorderFilesAction(action) {
 }
 
 export function* getmoreonorderWatcher() {
-    console.log("MoreOnOrder");
     yield takeLatest(MOREONORDER_DATA_ACTION,moreonorderFilesAction);
 }

@@ -39,6 +39,8 @@ export const API_URL = {
   GET_BILLING_SHIPING_INVOICE_URL: "/core-api/features/billing/invoice/",
   GET_BILLING_SHIPING_REMITANCE_URL: "/core-api/features/billing/remittance-log/",
   GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL: "/core-api/features/billing/remittance-log-download/",
+  SAVE_FAVOURITE_ORDERS_API:"/orders-api/orders/seller-filter/",
+
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",

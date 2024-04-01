@@ -7,6 +7,7 @@ import Select from 'react-select';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -33,7 +34,7 @@ const OrderStatus = [
 
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
-    { label: "COD", value: "cod" },
+    { label: "COD", value: "COD" },
 ]
 
 const Ordertags = [
@@ -57,26 +58,43 @@ const CourierPartner = [
 
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [SaveFilter, setSaveFilter] = useState(false)
-    const [clearState, setClearState] = useState(false)
-    const [pickupAddresses, setPickupAddresses] = useState([
-
-    ]);
-
+    const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
+    const [favName, setFavName] = useState("");
+    const [saveFav, setSaveFav] = useState(false);
+    const [SaveFilter, setSaveFilter] = useState(false);
+    const [clearState, setClearState] = useState(false);
+    const [pickupAddresses, setPickupAddresses] = useState([]);
+
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: ""
+    })
 
 
-    const handleCheckboxChange = () => {
+
+    const handleCheckboxChange = (select) => {
         setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
     };
 
     const handleSubmit = e => {
         e.preventDefault();
+        const encodedParams = Object.entries(filterParams)
+        .filter(([key, value]) => value !== null && value !== '')
+        .map(([key, value]) => `${(key)}=${(value)}`)
+        .join('&');
+
         handleMoreFilter(filterParams)
         CloseSidePanel()
         setClearState(true)
@@ -93,27 +111,18 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku_match_type: "",
             pickup_address: ""
         })
-
+        if (saveFav) {
+            dispatch({ type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                filter_query:encodedParams,
+                filter_name:favName
+            } })
+        }
+        setSaveFilter(false)
+        setFavName("")
     };
 
-    const [filterParams, setFilterParams] = useState({
-        start_date: "",
-        end_date: "",
-        status: "",
-        order_source: "",
-        courier_partner: "",
-        payment_type: "",
-        order_id: "",
-        order_tag: "",
-        sku: "",
-        sku_match_type: "",
-        pickup_address: ""
-    })
-
-    console.log(pickupAddresses, "this is a activeTabactiveTabactiveTabactiveTab", filterParams)
-
     useEffect(() => {
-        if (activeTab ) {
+        if (activeTab) {
             setFilterParams({
                 start_date: null,
                 end_date: null,
@@ -166,7 +175,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }))
         }
     };
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -376,10 +384,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 <input
                                     type="checkbox"
                                     checked={SaveFilter}
-                                    onChange={handleCheckboxChange}
+                                    value={SaveFilter}
+                                    onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
                                 {!SaveFilter ? 'Save Filter' : (
-                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e)=>setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>

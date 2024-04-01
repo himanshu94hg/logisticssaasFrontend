@@ -70,6 +70,7 @@ const OrdersPage = () => {
         setQueryParamSearch(searchValue)
         setSearchValue('')
     }
+
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
@@ -192,8 +193,9 @@ const OrdersPage = () => {
             setExportButtonClick(false);
         }
     }, [exportCard]);
-    
-    console.log("asjkdhkasjdhlaksjd")
+
+    console.log(activeTab, searchValue, "this is a circle data")
+
 
     const handleChange = (SearchOption) => {
         setSearchOption(SearchOption);
