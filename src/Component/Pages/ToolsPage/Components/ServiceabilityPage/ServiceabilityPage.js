@@ -93,8 +93,8 @@ const ServiceabilityPage = () => {
       setPincodeError('')
     }
   };
-  const getCourierServiceAvability = () => {
-    dispatch({ type: "GET_COURIER_SERVICE_ABILITY_FILTER_ACTION", payload: courierId })
+  const getCourierServiceAvability = () => { 
+      dispatch({ type: "GET_COURIER_SERVICE_ABILITY_FILTER_ACTION", payload: courierId })   
   }
 
   const exportShipeaseServiceability = () => {
@@ -236,7 +236,7 @@ const ServiceabilityPage = () => {
 
                 />
                 <div className='d-flex justify-content-start'>
-                  <button className='btn main-button' disabled={selectedOptions.length === 0} onClick={() => getCourierServiceAvability()}>Export Courier Serviceability</button>
+                  <button className='btn main-button'  onClick={() => getCourierServiceAvability()}>Export Courier Serviceability</button>
                 </div>
               </div>
             </div>

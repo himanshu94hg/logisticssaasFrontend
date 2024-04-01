@@ -1,4 +1,3 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
@@ -205,7 +204,6 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows}) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
 
                 {/* <div id='sidePanel' className="side-panel">
                     <div className='sidepanel-closer'>

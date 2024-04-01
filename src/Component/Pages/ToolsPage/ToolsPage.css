@@ -51,31 +51,50 @@
     border-bottom: none;
 }
 
-.rate-calculator label {
+.rate-calc-page section.rate-des label {
     align-items: flex-start;
     display: flex;
     flex-direction: column;
     gap: 0.3rem;
+    position: relative;
+}
+
+.rate-calc-page p {
+    margin-bottom: 0;
+}
+
+.rate-calc-page label span.unit {
+    position: absolute;
+    right: 1px;
+    bottom: 1px;
+    height: 34px;
+    width: 36px;
+    background: var(--sh-primary-light);
+    border-radius: 0 0.5rem 0.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
-.rate-calculator .css-1v5z18m {
+
+.rate-calc-page .css-1v5z18m {
     width: 100%;
 }
 
-.rate-calculator .css-7d61z1-MuiSlider-valueLabel.MuiSlider-valueLabelOpen {
+.rate-calc-page .css-7d61z1-MuiSlider-valueLabel.MuiSlider-valueLabelOpen {
     border: 1px solid var(--sh-primary);
     font-weight: 600;
     background-color: #fff;
     color: var(--sh-primary);
 }
 
-.rate-calculator .css-7d61z1-MuiSlider-valueLabel {
+.rate-calc-page .css-7d61z1-MuiSlider-valueLabel {
     top: -15px;
 }
 
 
-.rate-calculator .css-7d61z1-MuiSlider-valueLabel::before {
+.rate-calc-page .css-7d61z1-MuiSlider-valueLabel::before {
     width: 13px;
     height: 13px;
     border-right: 1px solid;
@@ -83,12 +102,13 @@
     bottom: -1px;
 }
 
-.rate-calculator .info-container {
+.rate-calc-page .info-container {
     margin-left: 0.3rem;
     position: relative;
+    vertical-align: -3px;
 }
 
-.rate-calculator .info-container .info-hover-show {
+.rate-calc-page .info-container .info-hover-show {
     display: none;
     position: absolute;
     font-weight: 400;
@@ -99,17 +119,19 @@
     background-color: #fff;
     border: 1px solid var(--sh-primary);
     border-radius: 0.5rem;
+    z-index: 1;
+    top: -30px;
 }
 
-.rate-calculator .info-container:hover .info-hover-show {
+.rate-calc-page .info-container:hover .info-hover-show {
     display: inline-block;
 }
 
-.rate-calculator .question-icon {
+.rate-calc-page .question-icon {
     color: var(--sh-primary);
-    width: 24px;
-    height: 24px;
-    font-size: 14px;
+    width: 22px;
+    height: 22px;
+    font-size: 13px;
     border: 2px solid var(--sh-primary);
     border-radius: 50%;
     display: inline-flex;
@@ -117,15 +139,19 @@
     align-items: center;
 }
 
-.rate-calculator .table-container {
+.rate-card-page.table-container {
     height: calc(100vh - 209px);
 }
 
-.rate-calculator .css-b62m3t-container {
+.rate-calc-page .css-b62m3t-container {
     width: 100%;
 }
 
 td[rowspan]:first-of-type,
 td[rowspan]:last-of-type {
     border: none;
+}
+
+.rate-calc-page .ship-container-row {
+    margin-inline: 10px 0;
 }

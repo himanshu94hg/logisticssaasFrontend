@@ -126,14 +126,7 @@ p {
 .font15 {
   font-size: 15px;
 }
-.icon{
-  font-size: 15px;
-  margin-right: 52px;
-}
-.icon1{
-  font-size: 15px;
-  margin-right: 20px;
-}
+
 .font30 {
   font-size: 30px;
 }
@@ -308,7 +301,7 @@ p {
 }
 
 .list-ui li {
-  display: flex;
+  display: grid;
   justify-content: space-between;
   align-items: center;
   padding: 7px;
@@ -316,6 +309,12 @@ p {
   margin-bottom: 15px;
   font-size: 13px;
   font-weight: 600;
+  grid-template-columns: 55% 10% 35%;
+}
+
+.cardvalue{
+  display: flex;
+  justify-content: end;
 }
 
 .list-ui li:last-of-type {

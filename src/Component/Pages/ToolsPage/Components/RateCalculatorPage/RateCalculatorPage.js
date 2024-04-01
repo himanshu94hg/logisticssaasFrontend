@@ -5,6 +5,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
 import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
 import { debounce } from 'lodash';
+import Toggle from 'react-toggle';
+
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
   const dispatch = useDispatch();
@@ -18,6 +20,11 @@ const RateCalculatorPage = () => {
   const [orderId, setOrderId] = useState("");
   const [chargedWeight, setChargedWeight] = useState(0);
   const [errors, setErrors] = useState([]);
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+  };
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -72,7 +79,7 @@ const RateCalculatorPage = () => {
       payload: formData
     })
   }
-  
+
   const handleReset = () => {
     setFormData({
       shipment_type: "Forward",
@@ -92,8 +99,8 @@ const RateCalculatorPage = () => {
     setChargedWeight(0);
     setErrors([]);
   };
-  
-  
+
+
   const handleSelect = (e, fieldName) => {
     let value = e.target.value;
     if (fieldName === "shipment_type" && value === "Reverse") {
@@ -110,7 +117,7 @@ const RateCalculatorPage = () => {
     }
   };
 
-  
+
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
       setOrderField(true)
@@ -187,28 +194,32 @@ const RateCalculatorPage = () => {
 
   return (
     <>
-     <div ref={sellerDataRef} style={{ overflowY: 'auto', overflowX: "hidden", }}>
-        <div className='row mb-3'>
-          <section className='box-shadow shadow-sm col rate-calculator me-4 p-4'>
-            <div className='d-flex justify-content-between align-items-center'>
-              <h4>Rate Calculator</h4>
-              <label style={{ width: '400px' }} className=''>
-                Order ID (Optional)
+      <div className='rate-calc-page'>
+        <div ref={sellerDataRef}>
+          <section className='box-shadow shadow-sm p10 rate-des'>
+            <h4>Rate Calculator</h4>
+            <div className='gap-4 d-flex align-items-center'>
+              <div className='d-flex align-items-center gap-1'>
+                <p>Calculate by giving Order ID</p>
+                <Toggle
+                  checked={isChecked}
+                  onChange={handleToggle}
+                />
+              </div>
+              <label className={`${!isChecked ? 'invisible' : ''}`}>
                 <input
-                  type="text"
+                  type="search"
                   className="input-field"
                   placeholder="Enter Order ID"
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
               </label>
-              <div className='d-flex justify-content-end mt-4'>
-                <button className='btn main-button' onClick={orderIdApiCAll}>Search</button>
-              </div>
+              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={orderIdApiCAll}>Search</button>
             </div>
             <form>
               <div style={containerStyle}>
-                <div className='row mt-4'>
-                  <label className='col'>
+                <div className='mt-4 d-flex gap-3'>
+                  <label className=''>
                     Shipment Type
                     <select
                       name="shipment_type"
@@ -222,7 +233,7 @@ const RateCalculatorPage = () => {
                       <option value="Reverse">Reverse</option>
                     </select>
                   </label>
-                  <label className='col'>
+                  <label className=''>
                     Pickup Pincode
                     <input
                       type="text"
@@ -240,7 +251,7 @@ const RateCalculatorPage = () => {
                     />
                     {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
                   </label>
-                  <label className='col'>
+                  <label className=''>
                     Delivery Pincode
                     <input
                       type="text"
@@ -258,12 +269,35 @@ const RateCalculatorPage = () => {
                     />
                     {errors.destination_pincode && <span className="error-text">{errors.destination_pincode}</span>}
                   </label>
-                </div>
-                <div className='mt-5 row flex-row align-items-end'>
-                  <label className='col-4'>
-                    <span className='fw-bold'>Actual Weight</span>
+                  <label className=''>
+                    Payment Type
+                    <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")} value={formData.is_cod}>
+                      <option value="No">Prepaid</option>
+                      {formData.shipment_type !== "Reverse" && <option value="Yes">COD</option>}
+                    </select>
+                  </label>
+                  <label className={`${!invoiceField ? 'invisible' : ''}`}>
+                    Invoice Amount
                     <input
+                      className="input-field"
                       type="number"
+                      name="invoice_amount"
+                      value={formData.invoice_amount}
+                      onChange={(e) => handleChange(e)}
+                      maxLength={6}
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                  </label>
+                </div>
+                <div className='d-flex gap-3 mt-4'>
+                  <label className=''>
+                    <strong>Actual Weight</strong>
+                    <input
+                      type="text"
                       name={"weight"}
                       value={formData.weight}
                       className='input-field'
@@ -271,98 +305,79 @@ const RateCalculatorPage = () => {
                       placeholder='e.g 0.9 for 900 gm'
                       onKeyPress={(e) => {
                         if (!/\d|\./.test(e.key)) {
-                            e.preventDefault();
+                          e.preventDefault();
                         }
-                    }}
+                      }}
                     />
+                    <span className='unit'>KG</span>
                   </label>
-                  <label className='col'>
-                    <p><strong>Note:</strong> Minimum chargeable weight is 0.5kg</p>
-                  </label>
-                </div>
-                <div className='mt-4'>
-                  <p className='fw-bold lh-base'>Volumetric Weight <span className='info-container'><span className='question-icon'><FontAwesomeIcon icon={faQuestion} /></span>
-                    <span className='info-hover-show'>It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000.</span></span>
-                  </p>
-                </div>
-                <div className="row">
                   {/* Length (cm) */}
-                  <label className='col'>
+                  <label className=''>
                     Length (cm)
                     <input
                       className='input-field'
-                      type="number"
+                      type="text"
                       name="length"
                       onChange={(e) => handleChange(e)}
-                      placeholder='Enter Length in cm'
+                      placeholder='Enter Length'
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
                     />
+                    <span className='unit'>CM</span>
                   </label>
-
                   {/* Breadth (cm) */}
-                  <label className='col'>
+                  <label className=''>
                     Breadth (cm)
                     <input
                       className='input-field'
-                      type="number"
+                      type="text"
                       name="breadth"
                       onChange={(e) => handleChange(e)}
-                      placeholder='Enter Breadth in cm'
+                      placeholder='Enter Breadth'
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
                     />
+                    <span className='unit'>CM</span>
                   </label>
-
                   {/* Height (cm) */}
-                  <label className='col'>
+                  <label className=''>
                     Height (cm)
                     <input
                       className='input-field'
-                      type="number"
+                      type="text"
                       name="height"
                       onChange={(e) => handleChange(e)}
-                      placeholder='Enter Height in cm'
+                      placeholder='Enter Height'
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
                           e.preventDefault();
                         }
                       }}
                     />
+                    <span className='unit'>CM</span>
                   </label>
                 </div>
-                <div className="mt-3">
-                  <p><strong>Charged Weight:</strong><span>{chargedWeight} Kg</span></p>
-                </div>             
-                  <div className='mt-3 row'>
-                    <label className='col-md-6'>Payment Type
-                      <select className="select-field" onChange={(e) => handleSelect(e, "is_cod")} value={formData.is_cod}>
-                        <option value="No">Prepaid</option>
-                        {formData.shipment_type !== "Reverse" && <option value="Yes">COD</option>}
-                      </select>
-                    </label>
-                    {invoiceField && <label className='col-md-6'>
-                      Invoice Amount
-                      <input
-                        className='input-field'
-                        type="number"
-                        name="invoice_amount"
-                        value={formData.invoice_amount}
-                        onChange={(e) => handleChange(e)}
-                        onKeyPress={(e) => {
-                          if (!/\d/.test(e.key)) {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    </label>}
-                  </div>
+                <div className='mt-4'>
+                  <p className='font12'><span className='text-red'>*</span> Minimum chargeable weight is 0.5kg</p>
+                  <p className='font12 fw-bold'><span className='text-red'>*</span> Volumetric Weight<span className='info-container'><span className='question-icon font12'><FontAwesomeIcon icon={faQuestion} /></span>
+                    <span className='info-hover-show'> It is the overall size of shipment and is calculated by multiplying the shipments length, width and height by 5000.</span></span>
+                  </p>
+                </div>
+                <div className=" d-flex gap-2 mt-3 charged-weight-sec">
+                  <label>
+                    <strong>Charged Weight:</strong>
+                    <input type="text" className='input-field' value={chargedWeight} />
+                    <span className='unit'>KG</span>
+                  </label>
+                  {/* <span>{chargedWeight}</span> */}
+                </div>
+
               </div>
               <div className='d-flex w-100 justify-content-end mt-4'>
                 <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
@@ -370,67 +385,65 @@ const RateCalculatorPage = () => {
               </div>
             </form>
           </section>
-          <section className='box-shadow shadow-sm p10 col-5'></section>
+          {sellerData && <section className='mt-5'>  {sellerData?.map((item) => {
+            return (
+              <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
+                <section className=''>
+                  <div className='ship-container-row box-shadow shadow-sm' >
+                    <div className='d-flex gap-2'>
+                      <div className='img-container'>
+                        <img src="" alt="" />
+                      </div>
+                      <div className='d-flex flex-column justify-content-center'>
+                        <p>{item?.courier_partner}</p>
+                        {/* <p>partner_title</p> */}
+                        <p>RTO Charges: ₹{item?.rate}</p>
+                      </div>
+                    </div>
+                    <div className='d-flex align-items-center gap-2'>
+                      <table className='performance-rating'>
+                        <tbody>
+                          <tr>
+                            <td>Pickup Performance</td>
+                            <td><StarRating rating={4.5} /></td>
+                          </tr>
+                          <tr>
+                            <td>Delivery Performance</td>
+                            <td><StarRating rating={4.5} /></td>
+                          </tr>
+                          <tr>
+                            <td>NDR Performance</td>
+                            <td><StarRating rating={4.5} /></td>
+                          </tr>
+                          <tr>
+                            <td>RTO Performance</td>
+                            <td><StarRating rating={4.5} /></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div className="chart-container">
+                        <PieChart rating={4.5} />
+                        <p>Overall Rating</p>
+                      </div>
+                    </div>
+                    <div className='ss-shipment-charges'>
+                      <p><strong>₹{item?.total_charge} </strong> <span>(Inclusive of all taxes )</span><br />
+                        <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
+                        <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
+                        <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
+                      </p>
+                    </div>
+                    <div className='d-flex flex-column gap-2 align-items-end'>
+                      <button className='btn main-button'>Ship Now</button>
+                      <p><span>EDD: <strong></strong></span></p>
+                    </div>
+                    <span className={`recommended ${true ? '' : 'd-none'}`}></span>
+                  </div>
+                </section>
+              </div>
+            )
+          })}</section>}
         </div>
-
-        {sellerData && <>  {sellerData?.map((item) => {
-          return (
-            <div className={`${sellerData ? '' : 'd-none'}`}>
-              <section className='box-shadow shadow-sm p10'>
-                <div className='ship-container-row box-shadow shadow-sm' >
-                  <div className='d-flex gap-2'>
-                    <div className='img-container'>
-                      <img src="" alt="" />
-                    </div>
-                    <div className='d-flex flex-column justify-content-center'>
-                      <p>{item?.courier_partner}</p>
-                      {/* <p>partner_title</p> */}
-                      <p>RTO Charges: ₹{item?.rate}</p>
-                    </div>
-                  </div>
-                  <div className='d-flex align-items-center gap-2'>
-                    <table className='performance-rating'>
-                      <tbody>
-                        <tr>
-                          <td>Pickup Performance</td>
-                          <td><StarRating rating={4.5} /></td>
-                        </tr>
-                        <tr>
-                          <td>Delivery Performance</td>
-                          <td><StarRating rating={4.5} /></td>
-                        </tr>
-                        <tr>
-                          <td>NDR Performance</td>
-                          <td><StarRating rating={4.5} /></td>
-                        </tr>
-                        <tr>
-                          <td>RTO Performance</td>
-                          <td><StarRating rating={4.5} /></td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <div className="chart-container">
-                      <PieChart rating={4.5} />
-                      <p>Overall Rating</p>
-                    </div>
-                  </div>
-                  <div className='ss-shipment-charges'>
-                    <p><strong>₹{item?.total_charge} </strong> <span>(Inclusive of all taxes )</span><br />
-                      <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
-                      <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
-                      <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
-                    </p>
-                  </div>
-                  <div className='d-flex flex-column gap-2 align-items-end'>
-                    <button className='btn main-button'>Ship Now</button>
-                    <p><span>EDD: <strong></strong></span></p>
-                  </div>
-                  <span className={`recommended ${true ? '' : 'd-none'}`}></span>
-                </div>
-              </section>
-            </div>
-          )
-        })}</>}
       </div>
     </>
   );
