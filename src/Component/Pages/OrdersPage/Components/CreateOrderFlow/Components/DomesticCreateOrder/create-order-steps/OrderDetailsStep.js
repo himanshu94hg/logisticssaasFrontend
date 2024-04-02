@@ -153,7 +153,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             },
             other_details: {
                 ...prevData.other_details,
-                number_of_packets: isChecked ? 1 : 0, 
+                number_of_packets: isChecked ? 1 : 0,
             },
         }));
     };
@@ -310,7 +310,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                             type="checkbox"
                                             disabled={orderStaus}
                                             checked={formData.order_details.is_mps}
-                                            onChange={(e) => handleToggleChange(e,'is_mps')}
+                                            onChange={(e) => handleToggleChange(e, 'is_mps')}
                                         />
                                         <span className="slider"></span>
                                     </label>
