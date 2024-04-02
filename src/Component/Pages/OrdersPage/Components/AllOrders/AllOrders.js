@@ -17,8 +17,9 @@ import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 
-const AllOrders = ({ orders, handleSearch, setBulkActionShow,selectedRows,setSelectedRows}) => {
+const AllOrders = ({ orders, handleSearch, setBulkActionShow, selectedRows, setSelectedRows }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -124,17 +125,20 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow,selectedRows,setSel
 
             <section className='position-relative'>
                 <div className="position-relative">
-                    
+
                     <div className='table-container'>
                         <table className=" w-100">
                             <thead className="sticky-header">
                                 <tr className="table-row box-shadow">
                                     <th style={{ width: '1%' }}>
-                                        <input
-                                            type="checkbox"
-                                            checked={selectAll}
-                                            onChange={handleSelectAll}
-                                        />
+                                        <div className='d-flex gap-1 align-items-center'>
+                                            <input
+                                                type="checkbox"
+                                                checked={selectAll}
+                                                onChange={handleSelectAll}
+                                            />
+                                            <SelectAllDrop />
+                                        </div>
                                     </th>
                                     <th style={{ width: '24%' }}>Order Details</th>
                                     <th style={{ width: '12.5%' }}>Customer details</th>

@@ -18,16 +18,16 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 
-const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow ,selectedRows,setSelectedRows}) => {
+const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-  
+
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -56,12 +56,17 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
             setSelectedRows([...selectedRows, orderId]);
         }
 
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
+        }
+
         // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
+
     };
 
     const handleSidePanel = () => {
@@ -80,8 +85,6 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
         setOrderId(id)
     }
 
-
-
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -90,11 +93,15 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
+                                    <div className='d-flex gap-1 align-items-center'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectAll}
+                                            onChange={handleSelectAll}
+                                        />
+                                        <SelectAllDrop />
+                                    </div>
+
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
