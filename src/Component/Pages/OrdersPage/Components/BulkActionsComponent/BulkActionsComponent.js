@@ -15,6 +15,7 @@ const BulkActionsComponent = () => {
                     <button className='btn'>Mark As Verified</button>
                     <button className='btn'>Bulk Delete</button>
                 </div>
+                <div className='ba-close'></div>
             </section>
         </>
     )
