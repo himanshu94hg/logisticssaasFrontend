@@ -1,47 +1,15 @@
 import React, { useEffect, useState } from 'react'
 
-const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const [errors, setErrors] = useState({});
+const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors }) => {
+       
 
-    const handleValidation = () => {
-        const { cod_charges } = formData?.charge_details;
-        const { invoice_amount, } = formData?.order_details;
-        const { weight, length, breadth, height } = formData?.dimension_details;
-
-        const errorsObj = {};
-
-        if (!invoice_amount) {
-            errorsObj.invoice_amount = "Invoice Amount is required!";
-        }
-        if (formData.order_details.payment_type === "COD") {
-            if (!cod_charges) {
-                errorsObj.cod_charges = "COD Charges is required!";
-            }
-        }
-        if (!weight) {
-            errorsObj.weight = "Dead Weight is required!";
-        }
-        if (!length) {
-            errorsObj.length = "Length is required!";
-        }
-        if (!breadth) {
-            errorsObj.breadth = "Breadth is required!";
-        }
-        if (!height) {
-            errorsObj.height = "Height is required!";
-        }
-        setErrors(errorsObj);
-        console.log("Package Details Data", Object.keys(errorsObj));
-        return Object.keys(errorsObj).length === 0;
-    };
-
-    const handleNext = () => {
+    /*const handleNext = () => {
         const isValid = handleValidation();
         console.log("Package Details", isValid)
         if (isValid) {
             onNext();
         }
-    };
+    };*/
 
     const handleChangeOrder = (e, field) => {
         const value = e.target.value.trim();

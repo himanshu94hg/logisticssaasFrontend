@@ -4,10 +4,9 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import pathClearAction from '../../../../../../../../redux/action/pathname/pathClear';
 
-const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
+const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,setErrors }) => {
     const location = useLocation();
     const dispatch = useDispatch();
-    const [errors, setErrors] = useState({});
     const [orderStaus, setOrderStatus] = useState(false)
 
     const { pathName } = useSelector(state => state?.authDataReducer)
@@ -20,32 +19,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
     }, [location.pathname])
 
 
-   /* useEffect(() => {
-        if (pathName === "Reverse Order" && location?.state?.orderType != "normalOrder") {
-            console.log(location?.state?.orderType, "this is a state daya")
-            setOrderStatus(true)
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                order_details: {
-                    ...prevFormData.order_details,
-                    order_type: "Reverse",
-                    payment_type: "Prepaid"
-                }
-            }));
-        }
-        else {
-            setOrderStatus(false)
-            console.log('This is else xond')
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                order_details: {
-                    ...prevFormData.order_details,
-                    order_type: "",
-                    payment_type: ""
-                }
-            }));
-        }
-    }, [location, editStatus, pathName, location?.pathname, location?.state?.orderType])*/
+
 
     const validateFormData = () => {
         const newErrors = {};
@@ -177,7 +151,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                         <label className='col'>
                             Order Type
                             <select
-                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`select-field ${errors.order_type && 'input-field-error'}`}
                                 value={formData.order_details.order_type}
                                 onChange={(e) => handleSelectChange(e, 'order_type')}
                                 disabled={orderStaus}
@@ -186,14 +160,14 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                                 <option value="Forward">Forward</option>
                                 <option value="Reverse">Reverse</option>
                             </select>
-                            {errors.order_type && <div className="custom-error">{errors.order_type}</div>}
+                            {errors.order_type && <div className="custom-error">{errors.order_type }</div>}
                         </label>
                         {/* Order Date with react-datepicker */}
 
                         <label className='col'>
                             Payment Type
                             <select
-                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`select-field ${errors.payment_type && 'input-field-error'}`}
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
                                 disabled={orderStaus}
@@ -202,7 +176,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                                 <option value="Prepaid">Prepaid</option>
                                 <option value="COD">COD</option>
                             </select>
-                            {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
+                            {errors.payment_type && <div className="custom-error">{errors.payment_type }</div>}
                         </label>
                     </div>
                 </div>
