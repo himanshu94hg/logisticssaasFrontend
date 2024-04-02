@@ -9,16 +9,21 @@ import { faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 const SetPreferenceRules = () => {
     const dispatch = useDispatch();
     const [rules, setRules] = useState([]);
-    const [rulePanel, setRulePanel] = useState(false)
+    const [rulePanel, setRulePanel] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [ruleName, setRuleName] = useState('');
+    const [priority, setPriority] = useState('');
+    const [selectedPartners, setSelectedPartners] = useState(Array(4).fill(''));
+    const [conditions, setConditions] = useState([]);
 
-    const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData)
 
-    console.log("Courier Rules ",courierRules);
+    const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
 
-    const handleToggle = () => {
-        setIsActive(!isActive);
-        console.log(isActive)
+    const handleToggle = (index) => {
+        setIsActive(prevState => ({
+            ...prevState,
+            [index]: !prevState[index]
+        }));
     };
 
     useEffect(() => {
@@ -29,11 +34,7 @@ const SetPreferenceRules = () => {
     }, []);
 
     const addRuleRow = () => {
-        // const newRule = { id: Date.now() };
-        // const updatedRules = [...rules, newRule];
-        // setRules(updatedRules);
-        // localStorage.setItem('rules', JSON.stringify(updatedRules));
-        setRulePanel(true)
+        setRulePanel(true);
     };
 
     const deleteRuleRow = (id) => {
@@ -42,14 +43,50 @@ const SetPreferenceRules = () => {
         localStorage.setItem('rules', JSON.stringify(updatedRules));
     };
 
+    const handleRuleDelete = (id) => {
+        if(id !== null)
+        {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION",payload:id });
+        }
+    };
+
     const handleSubmit = () => {
-        setRules(1)
-        setRulePanel(false)
-    }
+        const requestData = {
+            rule_name: ruleName,
+            priority: priority,
+            priority_1: selectedPartners[0],
+            priority_2: selectedPartners[1],
+            priority_3: selectedPartners[2],
+            priority_4: selectedPartners[3],
+            rules: conditions.map(condition => ({
+                condition: condition.condition,
+                condition_type: condition.condition_type,
+                match_type: condition.match_type,
+                match_value: condition.match_value
+            }))
+        };
+
+        dispatch({ type: "COURIER_ALLOCATION_RULE_POST_ACTION", payload: requestData });
+        setRulePanel(false);
+    };
 
     useEffect(() => {
         dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
     }, [dispatch]);
+
+    const handleConditionChange = (index, field, value) => {
+        const updatedConditions = [...conditions];
+        updatedConditions[index][field] = value;
+        setConditions(updatedConditions);
+    };
+
+    const handlePartnerChange = (index, value) => {
+        const updatedPartners = [...selectedPartners];
+        updatedPartners[index] = value;
+        setSelectedPartners(updatedPartners);
+    };
+    console.log("All Condictions",conditions);
+    
 
     return (
         <>
@@ -67,11 +104,11 @@ const SetPreferenceRules = () => {
                                 <div className="toggle-switch">
                                     <input
                                         type="checkbox"
-                                        id="toggle"
-                                        checked={isActive}
-                                        onChange={handleToggle}
+                                        id={`toggle-${index}`}
+                                        checked={isActive[index]}
+                                        onChange={() => handleToggle(index)}
                                     />
-                                    <label htmlFor="toggle" className={`toggle-label ${isActive ? 'checked' : ''}`}>
+                                    <label htmlFor={`toggle-${index}`} className={`toggle-label ${rule.status === true ? 'checked' : ''}`}>
                                         <span className="toggle-inner" />
                                         <span className="toggle-switch" />
                                     </label>
@@ -83,7 +120,7 @@ const SetPreferenceRules = () => {
                                         <div key={index} className='rule-item'>
                                             <p>{condition.criteria}</p>
                                             <p>{condition.match_type}</p>
-                                            <p>{condition.match_value}</p>
+                                            <p>{condition.match_value}</p>  
                                             <p className='rule-condition'>{condition.condition_type}</p>
                                         </div>
                                     ))}
@@ -96,7 +133,9 @@ const SetPreferenceRules = () => {
                                 </div>
                                 <div className='rules-action-btn'>
                                     <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                                    <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                    <button className='btn main-button ms-2'>
+                                        <FontAwesomeIcon icon={faTrashCan} onClick={() => handleRuleDelete(rule?.id)} />
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -121,30 +160,28 @@ const SetPreferenceRules = () => {
                     <div className='rule-name-container'>
                         <label>
                             Rule Name
-                            <input className='input-field' type="text" />
+                            <input className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
                         </label>
 
                         <label>
                             Set Priority for this rule
-                            <select className='select-field' name="" id="">
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
+                            <select className='select-field' value={priority} onChange={(e) => setPriority(e.target.value)}>
+                                {[1, 2, 3, 4].map(priority => (
+                                    <option key={priority} value={priority}>{priority}</option>
+                                ))}
                             </select>
                         </label>
                     </div>
 
-
                     <div style={{ width: '100%' }} className='mb-5'>
                         <div className='priority-container'>
-                            {[1, 2, 3, 4].map(priority => (
+                            {[1, 2, 3, 4].map((priority, index) => (
                                 <label key={priority}>
                                     Priority {priority}
                                     <select
                                         className='select-field'
-                                        name=""
-                                        id=""
+                                        value={selectedPartners[index]}
+                                        onChange={(e) => handlePartnerChange(index, e.target.value)}
                                     >
                                         <option value="">Select Partner</option>
                                         <option value="shadow_fax">Shadowfax</option>
@@ -194,13 +231,13 @@ const SetPreferenceRules = () => {
                         </div>
                     </div>
                     <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
-                        <RuleRow />
+                        {/* <RuleRow /> */}
+                        <RuleRow setConditions={setConditions} />
                     </div>
                     <div className='d-flex justify-content-end'>
                         <button onClick={handleSubmit} className='btn main-button'>Submit</button>
                     </div>
                 </section>
-
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
 
