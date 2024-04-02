@@ -21,7 +21,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     console.log(location, "location?.state?.orderType")
 
     useEffect(() => {
-        if (location.pathname === "/create-order") {
+        if (location.pathname === "/create-order1") {
             if (pathName === "Reverse Order") {
                 setOrderStatus(true);
                 setFormData(prevFormData => ({
