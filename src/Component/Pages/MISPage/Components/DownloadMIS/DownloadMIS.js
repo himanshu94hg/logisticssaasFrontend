@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload } from '@fortawesome/free-solid-svg-icons';
+import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const DownloadMIS = () => {
 
@@ -58,14 +58,14 @@ const DownloadMIS = () => {
     };
 
     return (
-        <section className='position-relative'>
+        <section className='position-relative downloads-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="" />
+                        <label style={{ width: '500px' }}>
+                            <input className='input-field' type="text" placeholder="Search your downloads" />
                             <button>
-                                <img src={SearchIcon} alt="Search" />
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
                     </div>
