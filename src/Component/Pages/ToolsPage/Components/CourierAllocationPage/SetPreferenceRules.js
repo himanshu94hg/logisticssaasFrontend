@@ -56,40 +56,52 @@ const SetPreferenceRules = () => {
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
-            <div className='create-rules-section'>
-            {courierRules?.data?.map((rule, index) => (
-                <div key={index} className='created-rules'>
-                    <div className='cr-rule-name'>
-                        <div className='rule-name'>
-                            <p>Rule Name: {rule.rule_name}</p>
-                            <p>Priority: #{rule.priority}</p>
-                        </div>
-                        {/* Your toggle switch code */}
-                    </div>
-                    <div className='cr-rule-conditions'>
-                        <div className='rule-row'>
-                            {rule.conditions.map((condition, index) => (
-                                <div key={index} className='rule-item'>
-                                    <p>{condition.criteria}</p>
-                                    <p>{condition.match_type}</p>
-                                    <p>{condition.match_value}</p>
-                                    <p className='rule-condition'>{condition.condition_type}</p>
+                {courierRules?.data?.map((rule, index) => (
+                    <div key={index} className='create-rules-section'>
+                        <div className='created-rules'>
+                            <div className='cr-rule-name'>
+                                <div className='rule-name'>
+                                    <p>Rule Name: {rule?.rule_name}</p>
+                                    <p>Priority: #{rule?.priority}</p>
                                 </div>
-                            ))}
-                        </div>
-                        <div className='rule-preference'>
-                            {rule.preferences.map((preference, index) => (
-                                <p key={index}>Preference {index + 1}: {preference}</p>
-                            ))}
-                        </div>
-                        <div className='rules-action-btn'>
-                            <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                            <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                <div className="toggle-switch">
+                                    <input
+                                        type="checkbox"
+                                        id="toggle"
+                                        checked={isActive}
+                                        onChange={handleToggle}
+                                    />
+                                    <label htmlFor="toggle" className={`toggle-label ${isActive ? 'checked' : ''}`}>
+                                        <span className="toggle-inner" />
+                                        <span className="toggle-switch" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div className='cr-rule-conditions'>
+                                <div className='rule-row'>
+                                    {rule?.preference_choices?.map((condition, index) => (
+                                        <div key={index} className='rule-item'>
+                                            <p>{condition.criteria}</p>
+                                            <p>{condition.match_type}</p>
+                                            <p>{condition.match_value}</p>
+                                            <p className='rule-condition'>{condition.condition_type}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className='rule-preference'>
+                                    <p>Preference 1: {rule?.priority_1}</p>
+                                    <p>Preference 2: {rule?.priority_2}</p>
+                                    <p>Preference 3: {rule?.priority_3}</p>
+                                    <p>Preference 4: {rule?.priority_4}</p>
+                                </div>
+                                <div className='rules-action-btn'>
+                                    <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                    <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            ))}
-        </div>
+                ))}
             <div className={`d-flex mt-2 ${rules.length === 0 ? '' : 'justify-content-end w-100'}`}>
                 <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
