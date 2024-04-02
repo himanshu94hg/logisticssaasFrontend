@@ -7,6 +7,9 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import "./AddWarehouse.css";
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom/dist';
+import { manageWarehousesPattern } from '../../../../Routes';
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
@@ -22,6 +25,7 @@ const AddWarehouse = () => {
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
+    const navigate=useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -68,6 +72,9 @@ const AddWarehouse = () => {
             }
             if (!addressLine1) {
                 newErrors.addressLine1 = "Address Line 1 is required";
+            }
+            if (!address_line2) {
+                newErrors.address_line2 = "Address Line 2 is required";
             }
             if (!pincode) {
                 newErrors.pincode = "Pincode is required";
@@ -146,12 +153,9 @@ const AddWarehouse = () => {
             if (response.status === 201) {
                 const responseData = response.data;
                 console.log('API Response:', responseData);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Warehouse added successfully!',
-                    confirmButtonText: 'OK'
-                }).then(() => {
+                if(responseData){
+                    toast.success("Warehouse added successfully!")
+                    navigate(manageWarehousesPattern)
                     const form = document.getElementById('formSubmit');
                     const formInputs = form.querySelectorAll('input');
                     formInputs.forEach(input => {
@@ -159,25 +163,22 @@ const AddWarehouse = () => {
                     });
                     SetAddFields(false);
                     setSameRTO(false);
-                });
+                }
+                // Swal.fire({
+                //     icon: 'success',
+                //     title: 'Success',
+                //     text: '',
+                //     confirmButtonText: 'OK'
+                // }).then(() => {
+                   
+                // });
             } else {
                 const errorData = response.data;
                 console.error('API Error:', errorData);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to add warehouse. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
             }
         } catch (error) {
-            console.error('Fetch Error:', error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to add warehouse. Please try again later.',
-                confirmButtonText: 'OK'
-            });
+            console.error('Fetch Error:', error);
+          toast.error(error?.response?.data?.detail)
         }
     };
 
@@ -340,10 +341,11 @@ const AddWarehouse = () => {
                                 Warehouse Address 2
                                 <input
                                     type="text"
-                                    className={`input-field`}
+                                    className={`input-field ${errors.address_line2 && 'input-field-error'}`}
                                     name="address_line2"
                                     placeholder='Enter Warehouse Address 2'
                                 />
+                                 {errors.address_line2 && <div className="error">{errors.address_line2}</div>}
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
