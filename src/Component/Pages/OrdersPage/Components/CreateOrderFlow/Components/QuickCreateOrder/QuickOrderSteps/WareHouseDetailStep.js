@@ -138,7 +138,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
                 </div>
             </div>
             <div className='d-flex justify-content-end my-3 cof-btn-container'>
-                <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
+                <button className='btn main-button ms-3' onClick={onSubmit}>Quick Ship</button>
             </div>
         </div>
     );

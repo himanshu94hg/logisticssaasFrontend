@@ -3,6 +3,7 @@ import { COURIER_ALLOCATION_ACTION,COURIER_ALLOCATION_PARTNER_ACTION,COURIER_ALL
 import { call,put,takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import {GET_COURIER_ALLOCATION_DATA,GET_COURIER_ALLOCATION_POST_DATA} from "../../../constants/tools";
+import { toast } from "react-toastify";
 
 async function courierAllocationAPI(data) {
     let listData = axios.request({
@@ -22,12 +23,13 @@ async function courierAllocationGetAPI(data) {
 
 async function courierAllocationPostAPI(data) {
     console.log("GET_COURIER_POST_ALLOCATION ",data);
-    try {
-        const response = await axios.post(`${BASE_URL_CORE}${API_URL.GET_COURIER_POST_ALLOCATION}`, data);
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
+
+    let listData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_POST_ALLOCATION}`,
+        data:data
+    });
+    return listData
 }
 
 function* courierAllocationAction(action) {
@@ -35,6 +37,7 @@ function* courierAllocationAction(action) {
     try {
         let response = yield call(courierAllocationAPI, payload);
         if (response.status === 200) {
+            
             // yield put({ type: GET_RATE_CARD_DATA, payload: response })
         }
     } catch (error) {
@@ -58,7 +61,9 @@ function* courierAllocationPostAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationPostAPI, payload);
+        console.log(response,"this is api call")
         if (response) {
+             toast.success("Set courier preference successfully!")
             yield put({ type: GET_COURIER_ALLOCATION_POST_DATA, payload: response });
         }
     } catch (error) {

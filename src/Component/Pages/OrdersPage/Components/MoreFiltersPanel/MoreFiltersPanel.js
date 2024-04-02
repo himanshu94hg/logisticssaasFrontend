@@ -185,7 +185,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             Authorization: `Bearer ${authToken}`
                         }
                     });
-                    const temp = response?.data?.map((item) => ({
+                    const temp = response?.data?.map((item,index) => ({
                         label: item.warehouse_name,
                         value: item.warehouse_name,
                     }));

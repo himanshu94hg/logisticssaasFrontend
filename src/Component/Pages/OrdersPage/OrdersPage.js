@@ -67,8 +67,9 @@ const OrdersPage = () => {
     }
 
     const handleSearch = () => {
-        setQueryParamSearch(searchValue)
-        setSearchValue('')
+        setQueryParamSearch(searchValue);
+        setSearchValue('');
+      
     }
 
     useEffect(() => {
@@ -150,7 +151,7 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -342,7 +343,7 @@ const OrdersPage = () => {
                 )
                 }
             </div>
-            
+
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}

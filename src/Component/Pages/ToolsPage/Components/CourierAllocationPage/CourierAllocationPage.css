@@ -35,6 +35,7 @@ ul [data-rbd-droppable-context-id] {
     align-items: center;
     width: 100%;
     min-width: unset;
+    justify-content: space-between;
 }
 
 .default-sorting-section label select {
