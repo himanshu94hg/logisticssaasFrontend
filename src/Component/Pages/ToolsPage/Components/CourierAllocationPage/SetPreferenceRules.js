@@ -1,14 +1,20 @@
 import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import RuleRow from './RuleRow';
 import './SetPreferenceRules.css'
 import { faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const SetPreferenceRules = () => {
+    const dispatch = useDispatch();
     const [rules, setRules] = useState([]);
     const [rulePanel, setRulePanel] = useState(false)
     const [isActive, setIsActive] = useState(false);
+
+    const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData)
+
+    console.log("Courier Rules ",courierRules);
 
     const handleToggle = () => {
         setIsActive(!isActive);
@@ -41,67 +47,49 @@ const SetPreferenceRules = () => {
         setRulePanel(false)
     }
 
+    useEffect(() => {
+        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+    }, [dispatch]);
+
     return (
         <>
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
-            {rules.length !== 0 &&
-                <div className='create-rules-section'>
-                    <div className='created-rules'>
-                        <div className='cr-rule-name'>
-                            <div className='rule-name'>
-                                <p>Rule Name: Rule1</p>
-                                <p>Priority: #1</p>
-                            </div>
-                            <div className="toggle-switch">
-                                <input
-                                    type="checkbox"
-                                    id="toggle"
-                                    checked={isActive}
-                                    onChange={handleToggle}
-                                />
-                                <label htmlFor="toggle" className={`toggle-label ${isActive ? 'checked' : ''}`}>
-                                    <span className="toggle-inner" />
-                                    <span className="toggle-switch" />
-                                </label>
-                            </div>
+            <div className='create-rules-section'>
+            {courierRules?.data?.map((rule, index) => (
+                <div key={index} className='created-rules'>
+                    <div className='cr-rule-name'>
+                        <div className='rule-name'>
+                            <p>Rule Name: {rule.rule_name}</p>
+                            <p>Priority: #{rule.priority}</p>
                         </div>
-                        <div className='cr-rule-conditions'>
-                            <div className='rule-row'>
-                                <div className='rule-item'>
-                                    <p>Order Amount</p>
-                                    <p>Is</p>
-                                    <p>₹ 100</p>
-                                    <p className='rule-condition'>AND</p>
+                        {/* Your toggle switch code */}
+                    </div>
+                    <div className='cr-rule-conditions'>
+                        <div className='rule-row'>
+                            {rule.conditions.map((condition, index) => (
+                                <div key={index} className='rule-item'>
+                                    <p>{condition.criteria}</p>
+                                    <p>{condition.match_type}</p>
+                                    <p>{condition.match_value}</p>
+                                    <p className='rule-condition'>{condition.condition_type}</p>
                                 </div>
-                                <div className='rule-item'>
-                                    <p>Order Amount</p>
-                                    <p>Is</p>
-                                    <p>₹ 100</p>
-                                    <p className='rule-condition'>OR</p>
-                                </div>
-                                <div className='rule-item'>
-                                    <p>Order Amount</p>
-                                    <p>Is</p>
-                                    <p>₹ 100</p>
-                                    <p className='rule-condition'>AND</p>
-                                </div>
-                            </div>
-                            <div className='rule-preference'>
-                                <p>Preference 1: Courier 1</p>
-                                <p>Preference 2: Courier 2</p>
-                                <p>Preference 3: Courier 3</p>
-                                <p>Preference 4: Courier 4</p>
-                            </div>
-                            <div className='rules-action-btn'>
-                                <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                                <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
-                            </div>
+                            ))}
+                        </div>
+                        <div className='rule-preference'>
+                            {rule.preferences.map((preference, index) => (
+                                <p key={index}>Preference {index + 1}: {preference}</p>
+                            ))}
+                        </div>
+                        <div className='rules-action-btn'>
+                            <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                            <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
                         </div>
                     </div>
                 </div>
-            }
+            ))}
+        </div>
             <div className={`d-flex mt-2 ${rules.length === 0 ? '' : 'justify-content-end w-100'}`}>
                 <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
