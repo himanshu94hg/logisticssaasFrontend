@@ -84,7 +84,7 @@ export default function Header(props) {
                 </div>
                 <div className="quick-actions-hover right-header">
                   <div className="qa-hovered-content">
-                    <p onClick={() => navigate(createOrderPattern)}><CreateOrderIcon />Create Order</p>
+                    <p onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })}><CreateOrderIcon />Create Order</p>
                     <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
                     <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
                     <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
