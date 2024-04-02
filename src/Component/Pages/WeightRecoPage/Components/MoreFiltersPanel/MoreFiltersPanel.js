@@ -332,7 +332,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     checked={SaveFilter}
                                     onChange={handleCheckboxChange}
                                 />
-                                {!SaveFilter ? 'Save Filter' : (
+                                {!SaveFilter ? 'Save Filter (Optional)' : (
                                     <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
                                 )}
                             </label>
