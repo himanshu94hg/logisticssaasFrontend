@@ -17,9 +17,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     const [orderStaus, setOrderStatus] = useState(false)
     const { pathName } = useSelector(state => state?.authDataReducer)
 
-
-    console.log(location, "location?.state?.orderType")
-
     useEffect(() => {
         if (location.pathname === "/create-order") {
             if (pathName === "Reverse Order") {
@@ -45,23 +42,23 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                 });
             }
         }
-    }, [location, pathName,editStatus]);
-    
+    }, [location, pathName, editStatus]);
+
     useEffect(() => {
         if (location.state) {
-            if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder"|| location.state.orderType === "normalOrder") {
+            if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder" || location.state.orderType === "normalOrder") {
                 setOrderStatus(false);
                 setFormData(prevFormData => ({
                     ...prevFormData,
                     order_details: {
                         ...prevFormData.order_details,
                         order_type: "",
-                        payment_type: ""  
+                        payment_type: ""
                     }
                 }));
-            } 
+            }
         }
-    }, [location, pathName,editStatus]);
+    }, [location, pathName, editStatus]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -83,8 +80,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-
-    console.log(errors, "errorserrorserrors")
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -148,17 +143,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             }
         });
     };
-    const handleToggleChange = (field) => {
-        const charValue = formData[field] ? null : "1";
+    const handleToggleChange = (e,field) => {
+        const isChecked = e.target.checked;
         setFormData(prevData => ({
             ...prevData,
-            [field]: charValue,
+            order_details: {
+                ...prevData.order_details,
+                is_mps: isChecked,
+            },
             other_details: {
                 ...prevData.other_details,
-                number_of_packets: charValue === "1" ? "1" : null // Update number_of_packets to 1 if charValue is "1", otherwise set it to null
-            }
+                number_of_packets: isChecked ? 1 : 0, // Reset number_of_packets if MPS is enabled
+            },
         }));
-
     };
 
     const startOfMonth = new Date();
@@ -312,14 +309,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                         <input
                                             type="checkbox"
                                             disabled={orderStaus}
-                                            checked={formData.shipment_type}
-                                            onChange={() => handleToggleChange('shipment_type')}
+                                            checked={formData.order_details.is_mps}
+                                            onChange={(e) => handleToggleChange(e,'is_mps')}
                                         />
                                         <span className="slider"></span>
                                     </label>
                                 </div>
                             </label>
-                            <label style={{ width: '100%' }} className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
+                            <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
                                 Number of packets
                                 <input
                                     type="text"
