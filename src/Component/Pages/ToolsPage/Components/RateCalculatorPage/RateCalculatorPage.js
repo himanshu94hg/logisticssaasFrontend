@@ -313,7 +313,7 @@ const RateCalculatorPage = () => {
                   </label>
                   {/* Length (cm) */}
                   <label className=''>
-                    Length (cm)
+                    Length
                     <input
                       className='input-field'
                       type="text"
@@ -330,7 +330,7 @@ const RateCalculatorPage = () => {
                   </label>
                   {/* Breadth (cm) */}
                   <label className=''>
-                    Breadth (cm)
+                    Breadth
                     <input
                       className='input-field'
                       type="text"
@@ -347,7 +347,7 @@ const RateCalculatorPage = () => {
                   </label>
                   {/* Height (cm) */}
                   <label className=''>
-                    Height (cm)
+                    Height
                     <input
                       className='input-field'
                       type="text"
