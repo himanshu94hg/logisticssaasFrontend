@@ -68,18 +68,18 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
         }
-        if (!formData.order_details.order_date) {
-            newErrors.order_date = 'Order Date is required!';
-        }
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Payment Type is required!';
         }
-        if (!formData.other_details.number_of_packets) {
+        if (formData.order_details.is_mps && formData.other_details.number_of_packets==null ||"") {
             newErrors.number_of_packets = 'Packets is required!';
         }
         setErrors(newErrors);
+        console.log(newErrors,"this is new errors")
         return Object.keys(newErrors).length === 0;
     };
+
+    console.log(formData.other_details.number_of_packets,"formData.order_details.is_mps")
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -113,7 +113,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             }
         }));
     };
-    const handleChangeCharge = (e, field) => {
+    const handleChangeCharge = (e, field) => {                                          
         const charge = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
             ...prevData,
@@ -234,7 +234,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     dateFormat="dd/MM/yyyy"
                                     maxDate={new Date()}
                                     onKeyDown={(e) => handleKeyDown(e)}
-                                    className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
+                                    className={`input-field`}
                                 />
                             </div>
                             {errors.order_date && <div className="custom-error">{errors.order_date}</div>}

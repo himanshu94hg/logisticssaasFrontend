@@ -101,57 +101,6 @@ const OrdersPage = () => {
     let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
     let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
 
-    // useEffect(() => {
-    //     let apiUrl = '';
-    //     switch (activeTab) {
-    //         case "All Orders":
-    //             apiUrl = allOrders;
-    //             break;
-    //         case "Unprocessable":
-    //             apiUrl = unprocessable;
-    //             break;
-    //         case "Processing":
-    //             apiUrl = processing;
-    //             break;
-    //         case "Ready to Ship":
-    //             apiUrl = readyToShip;
-    //             break;
-    //         case "Pickup":
-    //             apiUrl = manifest;
-    //             break;
-    //         case "Returns":
-    //             apiUrl = returnOrders;
-    //             break;
-    //         default:
-    //             apiUrl = '';
-    //     }
-
-    //     if (apiUrl) {
-    //         const queryParams = { ...queryParamTemp };
-    //         // if (queryParamSearch) {
-    //         //     queryParams['q'] = queryParamSearch;
-    //         // }
-    //         const queryString = Object.keys(queryParams)
-    //             .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-    //             .join('&');
-
-    //         if (queryString) {
-    //             apiUrl += '&' + queryString;
-    //         }
-    //         axios.get(apiUrl, {
-    //             headers: {
-    //                 Authorization: `Bearer ${authToken}`
-    //             }
-    //         })
-    //             .then(response => {
-    //                 setTotalItems(response?.data?.count)
-    //                 setOrders(response.data.results);
-    //             })
-    //             .catch(error => {
-    //                 toast.error("Something went wrong!")
-    //             });
-    //     }
-    // }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage]);
     useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
@@ -178,20 +127,17 @@ const OrdersPage = () => {
         }
 
         if (apiUrl) {
+            const queryParams = { ...queryParamTemp };
             if (queryParamSearch) {
-                // If search is active, construct API URL with search parameters
-                apiUrl += `&q=${queryParamSearch}`;
-            } else {
-                // If search is not active, construct API URL without search parameters
-                const queryParams = { ...queryParamTemp };
-                const queryString = Object.keys(queryParams)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                    .join('&');
-                if (queryString) {
-                    apiUrl += '&' + queryString;
-                }
+                queryParams['q'] = queryParamSearch;
             }
+            const queryString = Object.keys(queryParams)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .join('&');
 
+            if (queryString) {
+                apiUrl += '&' + queryString;
+            }
             axios.get(apiUrl, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
@@ -205,7 +151,7 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
