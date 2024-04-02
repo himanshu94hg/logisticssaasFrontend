@@ -143,7 +143,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             }
         });
     };
-    const handleToggleChange = (e,field) => {
+    const handleToggleChange = (e) => {
         const isChecked = e.target.checked;
         setFormData(prevData => ({
             ...prevData,
@@ -153,7 +153,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             },
             other_details: {
                 ...prevData.other_details,
-                number_of_packets: isChecked ? 1 : 0, // Reset number_of_packets if MPS is enabled
+                number_of_packets: isChecked ? 1 : 0, 
             },
         }));
     };
