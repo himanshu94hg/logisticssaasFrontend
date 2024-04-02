@@ -15,9 +15,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
-    const {pathName}=useSelector(state=>state?.authDataReducer)
+    const { pathName } = useSelector(state => state?.authDataReducer)
 
-    console.log(location,"location?.state?.orderType")
+
+    console.log(location, "location?.state?.orderType")
 
     useEffect(() => {
         if (location.pathname === "/create-order") {
@@ -28,7 +29,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                     order_details: {
                         ...prevFormData.order_details,
                         order_type: "Reverse",
-                        payment_type: "Prepaid"
+                        payment_type: "Prepaid",
+
                     }
                 }));
             } else if (pathName === "Quick Order" || location.state && (location.state.orderType === "normalOrder" || location.state.orderType === "BulkCreateOrder")) {
@@ -40,11 +42,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                         order_type: "",
                         payment_type: ""
                     }
-                }); 
+                });
             }
         }
-    }, [location, pathName,editStatus]);
-    
+    }, [location, pathName, editStatus]);
+
 
     const validateFormData = () => {
         const newErrors = {};
@@ -60,9 +62,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Payment Type is required!';
         }
+        if (!formData.other_details.number_of_packets) {
+            newErrors.number_of_packets = 'Packets is required!';
+        }
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
+
+    console.log(errors, "errorserrorserrors")
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -128,7 +135,15 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     };
     const handleToggleChange = (field) => {
         const charValue = formData[field] ? null : "1";
-        setFormData({ ...formData, [field]: charValue });
+        setFormData(prevData => ({
+            ...prevData,
+            [field]: charValue,
+            other_details: {
+                ...prevData.other_details,
+                number_of_packets: charValue === "1" ? "1" : null // Update number_of_packets to 1 if charValue is "1", otherwise set it to null
+            }
+        }));
+
     };
 
     const startOfMonth = new Date();
@@ -155,12 +170,12 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         const allowedCharacters = /[0-9/]/;
         if (e.key === 'Backspace' || e.key === 'Delete') {
             return;
-        }      
+        }
         if (!allowedCharacters.test(e.key)) {
             e.preventDefault();
         }
     }
-    return (    
+    return (
         <>
             {/* Order Details Section */}
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
@@ -281,6 +296,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     <label className='col'>
                                         <input
                                             type="checkbox"
+                                            disabled={orderStaus}
                                             checked={formData.shipment_type}
                                             onChange={() => handleToggleChange('shipment_type')}
                                         />
@@ -302,6 +318,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                         }
                                     }}
                                 />
+                                {errors.number_of_packets && <div className="custom-error">{errors.number_of_packets}</div>}
                             </label>
 
                         </div>
