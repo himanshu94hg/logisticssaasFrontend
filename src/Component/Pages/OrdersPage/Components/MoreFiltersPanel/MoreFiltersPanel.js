@@ -187,7 +187,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     });
                     const temp = response?.data?.map((item,index) => ({
                         label: item.warehouse_name,
-                        value: `${item.warehouse_name}_${index}`,
+                        value: item.warehouse_name,
                     }));
                     setPickupAddresses(temp)
                 }
