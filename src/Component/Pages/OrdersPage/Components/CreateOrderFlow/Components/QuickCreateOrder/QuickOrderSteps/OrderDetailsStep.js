@@ -20,11 +20,9 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
     }, [location.pathname])
 
 
-
-    useEffect(() => {
+   /* useEffect(() => {
         if (pathName === "Reverse Order" && location?.state?.orderType != "normalOrder") {
             console.log(location?.state?.orderType, "this is a state daya")
-
             setOrderStatus(true)
             setFormData(prevFormData => ({
                 ...prevFormData,
@@ -47,7 +45,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                 }
             }));
         }
-    }, [location, editStatus, pathName, location?.pathname, location?.state?.orderType])
+    }, [location, editStatus, pathName, location?.pathname, location?.state?.orderType])*/
 
     const validateFormData = () => {
         const newErrors = {};
