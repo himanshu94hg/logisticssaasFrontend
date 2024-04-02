@@ -95,6 +95,8 @@ const DomesticCreateOrder = () => {
         ],
     })
 
+
+    console.log(formData,"this is a form data")
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;
