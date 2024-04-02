@@ -33,7 +33,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
 
                     }
                 }));
-            } else if (pathName === "Quick Order" || location.state && (location.state.orderType === "normalOrder" || location.state.orderType === "BulkCreateOrder")) {
+            } else if (pathName === "Quick Order" || location.state && (location.state.orderType === "normalOrder")) {
                 setOrderStatus(false);
                 setFormData({
                     ...formData,
@@ -45,8 +45,23 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                 });
             }
         }
-    }, [location, pathName, editStatus]);
-
+    }, [location, pathName,editStatus]);
+    
+    useEffect(() => {
+        if (location.state) {
+            if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder"|| location.state.orderType === "normalOrder") {
+                setOrderStatus(false);
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    order_details: {
+                        ...prevFormData.order_details,
+                        order_type: "",
+                        payment_type: ""  
+                    }
+                }));
+            } 
+        }
+    }, [location, pathName,editStatus]);
 
     const validateFormData = () => {
         const newErrors = {};
