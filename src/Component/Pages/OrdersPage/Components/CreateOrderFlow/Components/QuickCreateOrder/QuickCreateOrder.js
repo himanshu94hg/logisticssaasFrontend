@@ -107,9 +107,6 @@ const QuickCreateOrder = () => {
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
         }
-        if (!formData.order_details.order_date) {
-            newErrors.order_date = 'Order Date is required!';
-        }
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Payment Type is required!';
         }
@@ -124,25 +121,30 @@ const QuickCreateOrder = () => {
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
-        if (!formData.shipping_details.landmark) {
-            newErrors.landmark = 'Landmark is required!';
-        }
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
             newErrors.pincode = 'Pincode should be 6 digits!';
         }
-        if (!formData.shipping_details.city) {
-            newErrors.city = 'City is required!';
-        }
-        if (!formData.shipping_details.state) {
-            newErrors.state = 'State is required!';
-        }
-        if (!formData.shipping_details.country) {
-            newErrors.country = 'Country is required!';
-        }
         if (!formData.order_details.invoice_amount){
             newErrors.invoice_amount = 'Invoice Amount is required!';
+        }
+        if (formData.order_details.payment_type === "COD") {
+            if (!formData.charge_details.cod_charges) {
+                newErrors.cod_charges = 'COD Charges is required!';
+            }
+        }
+        if(!formData.dimension_details.weight){
+            newErrors.weight = 'Dead Weight is required!';
+        }
+        if(!formData.dimension_details.height){
+            newErrors.height = 'Height is required!';
+        }
+        if(!formData.dimension_details.length){
+            newErrors.length = 'Length is required!';
+        }
+        if(!formData.dimension_details.breadth){
+            newErrors.breadth = 'Breadth is required!';
         }
         if (!isChecked) {
             if (!formData.billing_details.customer_name) {
@@ -156,25 +158,10 @@ const QuickCreateOrder = () => {
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
-            if (!formData.billing_details.landmark) {
-                newErrors.billing_landmark = 'Landmark is required!';
-            }
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
                 newErrors.billing_pincode = 'Pincode should be 6 digits!';
-            }
-            if (!formData.billing_details.city) {
-                newErrors.billing_city = 'City is required!';
-            }
-            if (!formData.billing_details.state) {
-                newErrors.billing_state = 'State is required!';
-            }
-            if (!formData.billing_details.country) {
-                newErrors.billing_country = 'Country is required!';
-            }
-            if (!formData){
-
             }
         }
         formData?.product_details?.forEach((product, index) => {
@@ -192,38 +179,6 @@ const QuickCreateOrder = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleValidation = () => {
-        const { cod_charges } = formData?.charge_details;
-        const { invoice_amount, } = formData?.order_details;
-        const { weight, length, breadth, height } = formData?.dimension_details;
-
-        const errorsObj = {};
-
-        if (!invoice_amount) {
-            errorsObj.invoice_amount = "Invoice Amount is required!";
-        }
-        if (formData.order_details.payment_type === "COD") {
-            if (!cod_charges) {
-                errorsObj.cod_charges = "COD Charges is required!";
-            }
-        }
-        if (!weight) {
-            errorsObj.weight = "Dead Weight is required!";
-        }
-        if (!length) {
-            errorsObj.length = "Length is required!";
-        }
-        if (!breadth) {
-            errorsObj.breadth = "Breadth is required!";
-        }
-        if (!height) {
-            errorsObj.height = "Height is required!";
-        }
-        setErrors(errorsObj);
-        console.log("Package Details Data", Object.keys(errorsObj));
-        return Object.keys(errorsObj).length === 0;
-    };
-
 
     const handleNext = () => {
         setStep(step + 1);
@@ -234,7 +189,7 @@ const QuickCreateOrder = () => {
     };
 
     const handleFormSubmit = async () => {
-        if (validatequickFormData() || handleValidation()) {
+        if (validatequickFormData()) {
             try {
                 const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
                     headers: {
