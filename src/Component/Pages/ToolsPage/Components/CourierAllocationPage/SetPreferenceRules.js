@@ -9,7 +9,6 @@ const SetPreferenceRules = () => {
     const dispatch = useDispatch();
     const [rules, setRules] = useState([]);
     const [rulePanel, setRulePanel] = useState(false);
-    const [isActive, setIsActive] = useState(false);
     const [ruleName, setRuleName] = useState('');
     const [priority, setPriority] = useState('');
     const [selectedPartners, setSelectedPartners] = useState(Array(4).fill(''));
@@ -21,11 +20,24 @@ const SetPreferenceRules = () => {
 
     console.log("All Edit Data", courierEditRules);
 
-    const handleToggle = (index) => {
-        setIsActive(prevState => ({
-            ...prevState,
-            [index]: !prevState[index]
-        }));
+    const [isActive, setIsActive] = useState([]);
+
+    const initializeIsActiveState = (rules) => {
+        const initialActiveState = rules.map(rule => rule.status);
+        setIsActive(initialActiveState);
+    };
+
+    useEffect(() => {
+        if (courierRules?.data) {
+            initializeIsActiveState(courierRules.data);
+        }
+    }, [courierRules]);
+
+    const handleToggle = (index,id) => {
+        const newIsActive = [...isActive];
+        newIsActive[index] = !newIsActive[index];
+        setIsActive(newIsActive);
+        dispatch({ type: "COURIER_ALLOCATION_RULE_STATUS_ACTION", payload: { togglestatus: newIsActive[index], id: id } });
     };
 
     useEffect(() => {
@@ -36,7 +48,6 @@ const SetPreferenceRules = () => {
     }, []);
 
     const addRuleRow = () => {
-        console.log("Hit Add");
         setRulePanel(true);
         setEditingRuleId(null);
         setRuleName('');
@@ -164,13 +175,14 @@ const SetPreferenceRules = () => {
                                     type="checkbox"
                                     id={`toggle-${index}`}
                                     checked={isActive[index]}
-                                    onChange={() => handleToggle(index)}
+                                    onChange={() => handleToggle(index,rule?.id)}
                                 />
-                                <label htmlFor={`toggle-${index}`} className={`toggle-label ${rule.status === true ? 'checked' : ''}`}>
+                                <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
                                     <span className="toggle-inner" />
                                     <span className="toggle-switch" />
                                 </label>
                             </div>
+
                         </div>
                         <div className='cr-rule-conditions'>
                             <div className='rule-row text-capitalize'>

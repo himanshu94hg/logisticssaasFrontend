@@ -185,9 +185,10 @@ function* courierAllocationRuleEditPostAction(action) {
 }
 
 async function courierAllocationRuleStatusAPI(data) {
+    console.log("All Status Rules",data);
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_STATUS_RULE}?preference_id=${data?.preference_id}&status=${data?.status}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_STATUS_RULE}?preference_id=${data?.id}&status=${data?.togglestatus}`,
         data:data
     });
     return listData
@@ -199,6 +200,7 @@ function* courierAllocationRuleStatusAction(action) {
         let response = yield call(courierAllocationRuleStatusAPI, payload);
         if (response) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_STATUS_DATA, payload: response });
+            toast.success("Status Changed successfully");
         }
     } catch (error) {
         if (reject) reject(error);
