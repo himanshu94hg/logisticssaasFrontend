@@ -48,7 +48,6 @@ const SetPreferenceRules = () => {
     }, []);
 
     const addRuleRow = () => {
-        console.log("Hit Add");
         setRulePanel(true);
         setEditingRuleId(null);
         setRuleName('');
