@@ -6,8 +6,12 @@
 .reports-mis .table-container {
     z-index: 1;
     position: relative;
-    height: calc(100vh - 329px);
+    height: calc(100vh - 289px);
     overflow-y: auto;
+}
+
+.downloads-mis .table-container {
+    height: calc(100vh - 265px);
 }
 
 .reports-mis .filter-container {
