@@ -23,6 +23,8 @@ const QuickCreateOrder = () => {
     const [step, setStep] = useState(1);
     const authToken = Cookies.get("access_token")
     const currentDate = new Date();
+    const [errors, setErrors] = useState({});
+    const [isChecked, setIsChecked] = useState(true);
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -97,7 +99,85 @@ const QuickCreateOrder = () => {
         ],
     })
 
-
+    const validatequickFormData = () => {
+        const newErrors = {};
+        if (!formData.order_details.customer_order_number) {
+            newErrors.customer_order_number = 'Order Number is required!';
+        }
+        if (!formData.order_details.order_type) {
+            newErrors.order_type = 'Order Type is required!';
+        }
+        if (!formData.order_details.payment_type) {
+            newErrors.payment_type = 'Payment Type is required!';
+        }
+        if (!formData.shipping_details.recipient_name) {
+            newErrors.recipient_name = 'Recipient Name is required!';
+        }
+        if (!formData.shipping_details.mobile_number) {
+            newErrors.mobile_number = 'Mobile Number is required!';
+        } else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
+            newErrors.mobile_number = 'Mobile Number should be 10 digits!';
+        }
+        if (!formData.shipping_details.address) {
+            newErrors.address = 'Address is required!';
+        }
+        if (!formData.shipping_details.pincode) {
+            newErrors.pincode = 'Pincode is required!';
+        } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
+            newErrors.pincode = 'Pincode should be 6 digits!';
+        }
+        if (!formData.order_details.invoice_amount){
+            newErrors.invoice_amount = 'Invoice Amount is required!';
+        }
+        if (formData.order_details.payment_type === "COD") {
+            if (!formData.charge_details.cod_charges) {
+                newErrors.cod_charges = 'COD Charges is required!';
+            }
+        }
+        if(!formData.dimension_details.weight){
+            newErrors.weight = 'Dead Weight is required!';
+        }
+        if(!formData.dimension_details.height){
+            newErrors.height = 'Height is required!';
+        }
+        if(!formData.dimension_details.length){
+            newErrors.length = 'Length is required!';
+        }
+        if(!formData.dimension_details.breadth){
+            newErrors.breadth = 'Breadth is required!';
+        }
+        if (!isChecked) {
+            if (!formData.billing_details.customer_name) {
+                newErrors.billing_customer_name = 'Customer Name is required!';
+            }
+            if (!formData.billing_details.mobile_number) {
+                newErrors.billing_mobile_number = 'Mobile Number is required!';
+            } else if (!/^[0-9]{10}$/.test(formData.billing_details.mobile_number)) {
+                newErrors.billing_mobile_number = 'Mobile Number should be 10 digits!';
+            }
+            if (!formData.billing_details.address) {
+                newErrors.billing_address = 'Address is required!';
+            }
+            if (!formData.billing_details.pincode) {
+                newErrors.billing_pincode = 'Pincode is required!';
+            } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
+                newErrors.billing_pincode = 'Pincode should be 6 digits!';
+            }
+        }
+        formData?.product_details?.forEach((product, index) => {
+            if (!product?.product_name?.trim()) {
+                newErrors[`product_name_${index}`] = 'Product Name is required!';
+            }
+            if (typeof product?.quantity !== 'string' || !product?.quantity.trim() || isNaN(Number(product?.quantity)) || Number(product?.quantity) <= 0) {
+                newErrors[`quantity_${index}`] = 'Product Quantity is required!';
+            }
+            if (!product?.sku?.trim()) {
+                newErrors[`sku_${index}`] = 'SKU is required!';
+            }
+        });
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
 
     const handleNext = () => {
@@ -109,26 +189,29 @@ const QuickCreateOrder = () => {
     };
 
     const handleFormSubmit = async () => {
-        try {
-            const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
+        if (validatequickFormData()) {
+            try {
+                const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                if (response !== null) {
+                    if (response.status === 201) {
+                        const responseData = response.data;
+                        toast.success("Order Created successfully!")
+                        navigation('/Orders');
+                    } else {
+                        const errorData = response.data;
+                        toast.error("Something went wrong!", errorData)
+                    }
                 }
-            });
-            if (response !== null) {
-                if (response.status === 201) {
-                    const responseData = response.data;
-                    toast.success("Order Created successfully!")
-                    navigation('/Orders');
-                } else {
-                    const errorData = response.data;
-                    toast.error("Something went wrong!", errorData)
-                }
-            }
-        } catch (error) {
-            toast.error('something went wrong!')
+            } catch (error) {
+                toast.error('something went wrong!')
+            }  
         }
+       
     };
 
     return (
@@ -138,6 +221,8 @@ const QuickCreateOrder = () => {
                     {/* Steps */}
                     <OrderDetailsStep
                         onNext={handleNext}
+                        errors = {errors}
+                        setErrors = {setErrors}
                         formData={formData}
                         setFormData={setFormData}
                     />
@@ -146,12 +231,18 @@ const QuickCreateOrder = () => {
                     <AddressDetailStep
                         onPrev={handlePrev}
                         onNext={handleNext}
+                        isChecked = {isChecked}
+                        setIsChecked = {setIsChecked}
+                        errors = {errors}
+                        setErrors = {setErrors}
                         formData={formData}
                         setFormData={setFormData}
                     />
                     {/* <hr /> */}
                     <div className='my-4'></div>
                     <ProductDetailStep
+                        errors = {errors}
+                        setErrors = {setErrors}
                         onPrev={handlePrev}
                         onNext={handleNext}
                         formData={formData}
@@ -160,6 +251,8 @@ const QuickCreateOrder = () => {
                     {/* <hr /> */}
                     <div className='my-4'></div>
                     <PackageDetailStep
+                        errors = {errors}
+                        setErrors = {setErrors}
                         onPrev={handlePrev}
                         onNext={handleNext}
                         formData={formData}
@@ -168,6 +261,8 @@ const QuickCreateOrder = () => {
                     {/* <hr /> */}
                     <div className='my-4'></div>
                     <WareHouseDetailStep
+                        errors = {errors}
+                        setErrors = {setErrors}
                         onPrev={handlePrev}
                         onSubmit={handleFormSubmit}
                         formData={formData}
