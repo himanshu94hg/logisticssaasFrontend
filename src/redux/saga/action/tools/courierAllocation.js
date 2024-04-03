@@ -180,7 +180,7 @@ function* courierAllocationRuleEditPostAction(action) {
 async function courierAllocationRuleStatusAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}?preference_id=${data?.preference_id}&status=${data?.status}`,
         data:data
     });
     return listData
