@@ -37,6 +37,10 @@ const SetPreferenceRules = () => {
         setRulePanel(true);
     };
 
+    const editRuleRow = () => {
+        setRulePanel(true);
+    };
+
     const deleteRuleRow = (id) => {
         const updatedRules = rules.filter(rule => rule.id !== id);
         setRules(updatedRules);
@@ -85,8 +89,20 @@ const SetPreferenceRules = () => {
         updatedPartners[index] = value;
         setSelectedPartners(updatedPartners);
     };
-    console.log("All Condictions",conditions);
-    
+
+    const [priorityOptions, setPriorityOptions] = useState([1,2,3,4]);
+
+    useEffect(() => {
+        if (courierRules?.data) {
+            const maxPriority = Math.max(...courierRules?.data?.map(rule => rule.priority), 0);
+            const newPriorityOptions = Array.from({ length: 4 }, (_, index) => ({
+                value: maxPriority + index + 1
+            }));
+            setPriorityOptions(newPriorityOptions);
+        }
+    }, [courierRules]);
+
+    console.log("Priority Options", priorityOptions);
 
     return (
         <>
@@ -132,7 +148,7 @@ const SetPreferenceRules = () => {
                                     <p>Preference 4: {rule?.priority_4}</p>
                                 </div>
                                 <div className='rules-action-btn'>
-                                    <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                    <button className='btn main-button'onClick={editRuleRow} ><FontAwesomeIcon icon={faPenToSquare} /></button>
                                     <button className='btn main-button ms-2'>
                                         <FontAwesomeIcon icon={faTrashCan} onClick={() => handleRuleDelete(rule?.id)} />
                                     </button>
@@ -166,8 +182,8 @@ const SetPreferenceRules = () => {
                         <label>
                             Set Priority for this rule
                             <select className='select-field' value={priority} onChange={(e) => setPriority(e.target.value)}>
-                                {[1, 2, 3, 4].map(priority => (
-                                    <option key={priority} value={priority}>{priority}</option>
+                                {priorityOptions?.map(option => (
+                                    <option key={option?.value} value={option?.value}>{option?.value}</option>
                                 ))}
                             </select>
                         </label>
@@ -231,7 +247,6 @@ const SetPreferenceRules = () => {
                         </div>
                     </div>
                     <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
-                        {/* <RuleRow /> */}
                         <RuleRow setConditions={setConditions} />
                     </div>
                     <div className='d-flex justify-content-end'>
