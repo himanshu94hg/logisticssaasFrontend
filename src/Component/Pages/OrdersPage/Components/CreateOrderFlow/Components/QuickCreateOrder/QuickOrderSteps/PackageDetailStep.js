@@ -1,48 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
 const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors }) => {
-       
-
-    /*const handleNext = () => {
-        const isValid = handleValidation();
-        console.log("Package Details", isValid)
-        if (isValid) {
-            onNext();
-        }
-    };*/
-
-    const handleChangeOrder = (e, field) => {
-        const value = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            order_details: {
-                ...prevData.order_details,
-                [field]: value
-            }
-        }));
-    };
-    const handleChangeCharge = (e, field) => {
-        const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            charge_details: {
-                ...prevData.charge_details,
-                [field]: charge
-            }
-        }));
-    };
-
-    const handleChangeDimension = (e, field) => {
-        const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            dimension_details: {
-                ...prevData.dimension_details,
-                [field]: charge
-            }
-        }));
-    };
-
     const [finalWeight, setFinalWeight] = useState(0)
 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
@@ -62,6 +20,42 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
         }
     }, [vol_data, chargedWeight]);
 
+
+    const handleChangeOrder = (e, field) => {
+        const value = e.target.value.trim();
+        setFormData(prevData => ({
+            ...prevData,
+            order_details: {
+                ...prevData.order_details,
+                [field]: value
+            }
+        }));
+    };
+
+    const handleChangeCharge = (e, field) => {
+        const charge = e.target.value.trim();
+        setFormData(prevData => ({
+            ...prevData,
+            charge_details: {
+                ...prevData.charge_details,
+                [field]: charge
+            }
+        }));
+    };
+
+    const handleChangeDimension = (e, field) => {
+        const charge = e.target.value.trim();
+        setFormData(prevData => ({
+            ...prevData,
+            dimension_details: {
+                ...prevData.dimension_details,
+                [field]: charge,
+                vol_weight: vol_data.toFixed(2)
+            }
+        }));
+    };
+
+    console.log(vol_data, "this is vol_data")
 
     return (
         <div>

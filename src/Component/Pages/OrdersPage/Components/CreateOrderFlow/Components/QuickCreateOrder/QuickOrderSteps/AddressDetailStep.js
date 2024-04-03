@@ -20,11 +20,13 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
-                    [field]: e.target.value
+                    [field]: e.target.value,
+                    landmark:e.target.value
                 },
                 billing_details: {
                     ...prevData.billing_details,
-                    [field === "recipient_name" ? "customer_name" : field]: e.target.value
+                    [field === "recipient_name" ? "customer_name" : field]: e.target.value,
+                    landmark:e.target.value
                 }
             }));
         } else {
@@ -32,7 +34,8 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
-                    [field]: e.target.value
+                    [field]: e.target.value,
+                    landmark:e.target.value
                 }
             }));
         }
@@ -43,7 +46,8 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
             ...prevData,
             billing_details: {
                 ...prevData.billing_details,
-                [field]: e.target.value
+                [field]: e.target.value,
+                landmark:e.target.value
             }
         }));
     };
@@ -134,7 +138,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                                 ...prevState.billing_details,
                                 city: postOffice.District,
                                 state: postOffice.State,
-                                country: postOffice.Country
+                                country: postOffice.Country,
                             }
                         }));
                     }

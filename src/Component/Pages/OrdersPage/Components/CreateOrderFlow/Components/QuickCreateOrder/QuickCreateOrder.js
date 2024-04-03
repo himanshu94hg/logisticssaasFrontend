@@ -15,6 +15,7 @@ import ProductDetailStep from './QuickOrderSteps/ProductDetailStep';
 import PackageDetailStep from './QuickOrderSteps/PackageDetailStep';
 import WareHouseDetailStep from './QuickOrderSteps/WareHouseDetailStep';
 import './QuickCreateOrder.css'
+import { checkType, errorHandle, errorHandleSecond, errorHandlefirst } from '../../../../../../../customFunction/errorHandling';
 
 
 const QuickCreateOrder = () => {
@@ -99,6 +100,8 @@ const QuickCreateOrder = () => {
         ],
     })
 
+    console.log(formData, "this is quick ship data")
+
     const validatequickFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
@@ -126,7 +129,7 @@ const QuickCreateOrder = () => {
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
             newErrors.pincode = 'Pincode should be 6 digits!';
         }
-        if (!formData.order_details.invoice_amount){
+        if (!formData.order_details.invoice_amount) {
             newErrors.invoice_amount = 'Invoice Amount is required!';
         }
         if (formData.order_details.payment_type === "COD") {
@@ -134,16 +137,16 @@ const QuickCreateOrder = () => {
                 newErrors.cod_charges = 'COD Charges is required!';
             }
         }
-        if(!formData.dimension_details.weight){
+        if (!formData.dimension_details.weight) {
             newErrors.weight = 'Dead Weight is required!';
         }
-        if(!formData.dimension_details.height){
+        if (!formData.dimension_details.height) {
             newErrors.height = 'Height is required!';
         }
-        if(!formData.dimension_details.length){
+        if (!formData.dimension_details.length) {
             newErrors.length = 'Length is required!';
         }
-        if(!formData.dimension_details.breadth){
+        if (!formData.dimension_details.breadth) {
             newErrors.breadth = 'Breadth is required!';
         }
         if (!isChecked) {
@@ -203,15 +206,20 @@ const QuickCreateOrder = () => {
                         toast.success("Order Created successfully!")
                         navigation('/Orders');
                     } else {
-                        const errorData = response.data;
-                        toast.error("Something went wrong!", errorData)
+                        //    console.log(object)
+                        toast.error("Something went wrong!")
                     }
                 }
             } catch (error) {
-                toast.error('something went wrong!')
-            }  
+                let typecheck = checkType(error?.response?.data)
+                if (typecheck === "string") {
+                    errorHandlefirst(error?.response?.data)
+                } else {
+                    errorHandleSecond(error?.response?.data)
+                }
+            }
         }
-       
+
     };
 
     return (
@@ -221,8 +229,8 @@ const QuickCreateOrder = () => {
                     {/* Steps */}
                     <OrderDetailsStep
                         onNext={handleNext}
-                        errors = {errors}
-                        setErrors = {setErrors}
+                        errors={errors}
+                        setErrors={setErrors}
                         formData={formData}
                         setFormData={setFormData}
                     />
@@ -231,18 +239,18 @@ const QuickCreateOrder = () => {
                     <AddressDetailStep
                         onPrev={handlePrev}
                         onNext={handleNext}
-                        isChecked = {isChecked}
-                        setIsChecked = {setIsChecked}
-                        errors = {errors}
-                        setErrors = {setErrors}
+                        isChecked={isChecked}
+                        setIsChecked={setIsChecked}
+                        errors={errors}
+                        setErrors={setErrors}
                         formData={formData}
                         setFormData={setFormData}
                     />
                     {/* <hr /> */}
                     <div className='my-4'></div>
                     <ProductDetailStep
-                        errors = {errors}
-                        setErrors = {setErrors}
+                        errors={errors}
+                        setErrors={setErrors}
                         onPrev={handlePrev}
                         onNext={handleNext}
                         formData={formData}
@@ -251,8 +259,8 @@ const QuickCreateOrder = () => {
                     {/* <hr /> */}
                     <div className='my-4'></div>
                     <PackageDetailStep
-                        errors = {errors}
-                        setErrors = {setErrors}
+                        errors={errors}
+                        setErrors={setErrors}
                         onPrev={handlePrev}
                         onNext={handleNext}
                         formData={formData}
@@ -261,8 +269,8 @@ const QuickCreateOrder = () => {
                     {/* <hr /> */}
                     <div className='my-4'></div>
                     <WareHouseDetailStep
-                        errors = {errors}
-                        setErrors = {setErrors}
+                        errors={errors}
+                        setErrors={setErrors}
                         onPrev={handlePrev}
                         onSubmit={handleFormSubmit}
                         formData={formData}

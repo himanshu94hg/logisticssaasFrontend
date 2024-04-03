@@ -128,13 +128,10 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,set
 
     return (
         <>
-            {/* Order Details Section */}
             <div className='box-shadow p10 w-100'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-5'>Create a quick order!</h3>
-                    {/* <h3 className='mb-4'>Order Details</h3> */}
                     <div className='row'>
-                        {/* Customer Order Number */}
                         <label className='col'>
                             <span>Order Number <span className='mandatory'>*</span></span>
                             <input
@@ -147,7 +144,6 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,set
                             {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>
 
-                        {/* Order Type */}
                         <label className='col'>
                             Order Type
                             <select
@@ -162,8 +158,6 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,set
                             </select>
                             {errors.order_type && <div className="custom-error">{errors.order_type }</div>}
                         </label>
-                        {/* Order Date with react-datepicker */}
-
                         <label className='col'>
                             Payment Type
                             <select
