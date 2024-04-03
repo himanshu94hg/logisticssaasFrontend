@@ -176,7 +176,7 @@ const SetPreferenceRules = () => {
                             </div>
                         </div>
                         <div className='cr-rule-conditions'>
-                            <div className='rule-row'>
+                            <div className='rule-row text-capitalize'>
                                 {rule?.preference_choices?.map((condition, index) => (
                                     <div key={index} className='rule-item'>
                                         <p>{condition.criteria}</p>
@@ -186,7 +186,7 @@ const SetPreferenceRules = () => {
                                     </div>
                                 ))}
                             </div>
-                            <div className='rule-preference'>
+                            <div className='rule-preference text-capitalize'>
                                 <p>Preference 1: {rule?.priority_1}</p>
                                 <p>Preference 2: {rule?.priority_2}</p>
                                 <p>Preference 3: {rule?.priority_3}</p>
