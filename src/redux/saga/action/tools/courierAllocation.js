@@ -157,10 +157,11 @@ function* courierAllocationRuleEditAction(action) {
 }
 
 async function courierAllocationRuleEditPostAPI(data) {
+    console.log("All Log Response Data",data.requestData);
     let listData = axios.request({
         method: "POST",
-        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
-        data:data
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data.id}/`,
+        data:data.requestData
     });
     return listData
 }
@@ -171,8 +172,14 @@ function* courierAllocationRuleEditPostAction(action) {
         let response = yield call(courierAllocationRuleEditPostAPI, payload);
         if (response) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_EDIT_POST_DATA, payload: response });
+            toast.success("Record Updated successfully");
+        }
+        else
+        {
+            toast.error(response.message);
         }
     } catch (error) {
+        toast.error(error.message);
         if (reject) reject(error);
     }
 }

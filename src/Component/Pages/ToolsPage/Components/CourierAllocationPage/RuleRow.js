@@ -1,24 +1,31 @@
+import React, { useState, useEffect } from 'react';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react';
 
-const RuleRow = ({ setConditions }) => {
-    const [rows, setRows] = useState([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
+const RuleRow = ({ initialRows, setConditions }) => {
+    const [rows, setRows] = useState([]);
 
+    useEffect(() => {
+        if (initialRows !== null) {
+            console.log("Initial Rows:", initialRows);
+            setRows(initialRows);
+        }
+    }, [initialRows]);
+    
     const handleSelectChange = (index, field, value) => {
         const newRows = [...rows];
         newRows[index][field] = value;
         setRows(newRows);
-        setConditions(newRows); 
+        setConditions(newRows);
     };
-
+    
     const handleInputChange = (index, value) => {
         const newRows = [...rows];
         newRows[index].match_value = value;
         setRows(newRows);
         setConditions(newRows);
-    };
+    };    
 
     const handleAddRow = () => {
         setRows([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
@@ -37,10 +44,10 @@ const RuleRow = ({ setConditions }) => {
                 <div key={index} className='minor-rule-row'>
                     <select
                         className='select-field'
-                        value={row.selectValue1}
+                        value={row.condition_type}
                         style={{ width: '100px' }}
-                        onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
-                        disabled={index === 0} // Disable condition select field for the first row
+                        onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
+                        disabled={index === 0}
                     >
                         <option value="">And/Or</option>
                         <option value="and">And</option>
@@ -48,8 +55,8 @@ const RuleRow = ({ setConditions }) => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.selectValue2}
-                        onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
+                        value={row.condition}
+                        onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
                     >
                         <option value="">Select Type</option>
                         <option value="payment_type">Payment Mode</option>
@@ -63,7 +70,7 @@ const RuleRow = ({ setConditions }) => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.selectValue3}
+                        value={row.match_type}
                         onChange={(e) => handleSelectChange(index, 'match_type', e.target.value)}
                     >
                         <option value="">Select Match Type</option>
@@ -88,11 +95,10 @@ const RuleRow = ({ setConditions }) => {
                             <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                         )}
                     </div>
-
                 </div>
             ))}
         </>
-    )
-}
+    );
+};
 
 export default RuleRow;
