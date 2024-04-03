@@ -18,7 +18,9 @@ const SetPreferenceRules = () => {
 
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
+    const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
 
+    console.log("All Edit Data",courierEditRules);
     const handleToggle = (index) => {
         setIsActive(prevState => ({
             ...prevState,
@@ -37,8 +39,13 @@ const SetPreferenceRules = () => {
         setRulePanel(true);
     };
 
-    const editRuleRow = () => {
+    const editRuleRow = (id) => {
+
         setRulePanel(true);
+        if(id !== null)
+        {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_ACTION",payload:id });
+        }
     };
 
     const deleteRuleRow = (id) => {
@@ -148,7 +155,7 @@ const SetPreferenceRules = () => {
                                     <p>Preference 4: {rule?.priority_4}</p>
                                 </div>
                                 <div className='rules-action-btn'>
-                                    <button className='btn main-button'onClick={editRuleRow} ><FontAwesomeIcon icon={faPenToSquare} /></button>
+                                    <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}><FontAwesomeIcon icon={faPenToSquare} /></button>
                                     <button className='btn main-button ms-2'>
                                         <FontAwesomeIcon icon={faTrashCan} onClick={() => handleRuleDelete(rule?.id)} />
                                     </button>
@@ -186,7 +193,7 @@ const SetPreferenceRules = () => {
                                     <option key={option?.value} value={option?.value}>{option?.value}</option>
                                 ))}
                             </select>
-                        </label>
+                        </label>    
                     </div>
 
                     <div style={{ width: '100%' }} className='mb-5'>

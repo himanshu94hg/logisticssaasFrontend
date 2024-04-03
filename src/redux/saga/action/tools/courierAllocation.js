@@ -1,8 +1,8 @@
 import axios from "../../../../axios/index"
-import { COURIER_ALLOCATION_ACTION,COURIER_ALLOCATION_PARTNER_ACTION,COURIER_ALLOCATION_PARTNER_POST_ACTION,COURIER_ALLOCATION_RULE_ACTION,COURIER_ALLOCATION_RULE_POST_ACTION,COURIER_ALLOCATION_RULE_DELETE_ACTION } from "../../constant/tools";
+import { COURIER_ALLOCATION_ACTION,COURIER_ALLOCATION_PARTNER_ACTION,COURIER_ALLOCATION_PARTNER_POST_ACTION,COURIER_ALLOCATION_RULE_ACTION,COURIER_ALLOCATION_RULE_POST_ACTION,COURIER_ALLOCATION_RULE_DELETE_ACTION,COURIER_ALLOCATION_RULE_EDIT_ACTION,COURIER_ALLOCATION_RULE_EDIT_POST_ACTION,COURIER_ALLOCATION_RULE_STATUS_ACTION } from "../../constant/tools";
 import { call,put,takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
-import {GET_COURIER_ALLOCATION_DATA,GET_COURIER_ALLOCATION_POST_DATA,GET_COURIER_ALLOCATION_RULE_DATA,GET_COURIER_ALLOCATION_RULE_POST_DATA,GET_COURIER_ALLOCATION_RULE_DELETE_DATA} from "../../../constants/tools";
+import {GET_COURIER_ALLOCATION_DATA,GET_COURIER_ALLOCATION_POST_DATA,GET_COURIER_ALLOCATION_RULE_DATA,GET_COURIER_ALLOCATION_RULE_POST_DATA,GET_COURIER_ALLOCATION_RULE_DELETE_DATA,GET_COURIER_ALLOCATION_RULE_EDIT_DATA,GET_COURIER_ALLOCATION_RULE_EDIT_POST_DATA,GET_COURIER_ALLOCATION_RULE_STATUS_DATA} from "../../../constants/tools";
 import { toast } from "react-toastify";
 
 async function courierAllocationAPI(data) {
@@ -135,6 +135,68 @@ function* courierAllocationRuleDeleteAction(action) {
     }
 }
 
+async function courierAllocationRuleEditAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
+        data:data
+    });
+    return listData
+}
+
+function* courierAllocationRuleEditAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(courierAllocationRuleEditAPI, payload);
+        if (response) {
+            yield put({ type: GET_COURIER_ALLOCATION_RULE_EDIT_DATA, payload: response });
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+async function courierAllocationRuleEditPostAPI(data) {
+    let listData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
+        data:data
+    });
+    return listData
+}
+
+function* courierAllocationRuleEditPostAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(courierAllocationRuleEditPostAPI, payload);
+        if (response) {
+            yield put({ type: GET_COURIER_ALLOCATION_RULE_EDIT_POST_DATA, payload: response });
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+async function courierAllocationRuleStatusAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}${data}`,
+        data:data
+    });
+    return listData
+}
+
+function* courierAllocationRuleStatusAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(courierAllocationRuleStatusAPI, payload);
+        if (response) {
+            yield put({ type: GET_COURIER_ALLOCATION_RULE_STATUS_DATA, payload: response });
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
 
 export function* courierAllocationWatcher() {
     yield takeLatest(COURIER_ALLOCATION_ACTION, courierAllocationAction);
@@ -143,4 +205,7 @@ export function* courierAllocationWatcher() {
     yield takeLatest(COURIER_ALLOCATION_RULE_ACTION, courierAllocationRuleAction);
     yield takeLatest(COURIER_ALLOCATION_RULE_POST_ACTION, courierAllocationRulePostAction);
     yield takeLatest(COURIER_ALLOCATION_RULE_DELETE_ACTION, courierAllocationRuleDeleteAction);
+    yield takeLatest(COURIER_ALLOCATION_RULE_EDIT_ACTION, courierAllocationRuleEditAction);
+    yield takeLatest(COURIER_ALLOCATION_RULE_EDIT_POST_ACTION, courierAllocationRuleEditPostAction);
+    yield takeLatest(COURIER_ALLOCATION_RULE_STATUS_ACTION, courierAllocationRuleStatusAction);
 }
