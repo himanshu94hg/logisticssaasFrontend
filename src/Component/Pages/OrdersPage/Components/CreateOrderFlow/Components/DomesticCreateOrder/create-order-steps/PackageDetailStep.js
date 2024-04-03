@@ -16,8 +16,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
         }
-        if(formData.order_details.payment_type === "COD")
-        {
+        if (formData.order_details.payment_type === "COD") {
             if (!cod_charges) {
                 errorsObj.cod_charges = "COD Charges is required!";
             }
@@ -35,13 +34,13 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             errorsObj.height = "Height is required!";
         }
         setErrors(errorsObj);
-        console.log("Package Details Data",Object.keys(errorsObj));
+        console.log("Package Details Data", Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
     };
 
     const handleNext = () => {
         const isValid = handleValidation();
-        console.log("Package Details",isValid)
+        console.log("Package Details", isValid)
         if (isValid) {
             onNext();
         }
@@ -85,7 +84,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const chargedWeight = formData?.dimension_details.weight;
 
 
-    useEffect(()=>{
+    useEffect(() => {
         setFormData(prevData => ({
             ...prevData,
             dimension_details: {
@@ -93,7 +92,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                 vol_weight: vol_data.toFixed(2)
             }
         }));
-    },[vol_data])
+    }, [vol_data])
 
     useEffect(() => {
         if (vol_data && chargedWeight) {
@@ -122,12 +121,12 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <span>Invoice Amount <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
-                                type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')} 
+                                type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }}    
+                                }}
                             />
                             {errors.invoice_amount && <span className="custom-error">{errors.invoice_amount}</span>}
                         </label>
@@ -137,14 +136,14 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <span>COD Charges <span className='text-gray'>(Optional)</span></span>
                             <input
                                 className={`input-field ${formData.order_details.payment_type === "COD" && errors.cod_charges ? 'input-field-error' : ''}`}
-                                type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')} 
+                                type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}
                             />
-                                {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
+                            {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
                         </label>
                     </div>
                     <hr />
@@ -156,13 +155,13 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 className={`input-field ${errors.cod_charges && 'input-field-error'}`}
                                 style={{ minWidth: '15    0px' }}
                                 type="text" value={formData.dimension_details.weight}
-                                onChange={(e) => handleChangeDimension(e, 'weight')} 
+                                onChange={(e) => handleChangeDimension(e, 'weight')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }}/>
+                                }} />
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
                             </span>
@@ -185,12 +184,12 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <input
                                 className={`input-field ${errors.length && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.length}
-                                onChange={(e) => handleChangeDimension(e, 'length')} 
+                                onChange={(e) => handleChangeDimension(e, 'length')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }}/>
+                                }} />
                             {errors.length && <span className="custom-error">{errors.length}</span>}
 
                         </label>
@@ -200,12 +199,12 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             Breadth (cm)
                             <input
                                 className={`input-field ${errors.breadth && 'input-field-error'}`}
-                                type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')} 
+                                type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }}/>
+                                }} />
                             {errors.breadth && <span className="custom-error">{errors.breadth}</span>}
                         </label>
 
@@ -214,12 +213,12 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             Height (cm)
                             <input
                                 className={`input-field ${errors.height && 'input-field-error'}`}
-                                type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')} 
+                                type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }}/>
+                                }} />
                             {errors.height && <span className="custom-error">{errors.height}</span>}
                         </label>
                     </div>

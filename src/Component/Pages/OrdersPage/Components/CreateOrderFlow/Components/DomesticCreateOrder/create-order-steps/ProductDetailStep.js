@@ -80,8 +80,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const handlePriceValidation = (value, index) => {
         const regex = /^\d{1,4}$/;
         if (!regex.test(value)) {
-            setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: 'Please enter(up to 4 digits).' }));
-        } else {
+            // setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: 'Please enter(up to 4 digits).' }));
             setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: '' }));
         }
     };
