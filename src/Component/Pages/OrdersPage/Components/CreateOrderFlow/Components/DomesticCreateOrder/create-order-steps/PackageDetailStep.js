@@ -184,7 +184,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             Length (cm)
                             <input
                                 className={`input-field ${errors.length && 'input-field-error'}`}
-                                type="text" value={formData.dimension_details.length}
+                                type="text" value={formData?.dimension_details?.length}
                                 onChange={(e) => handleChangeDimension(e, 'length')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
