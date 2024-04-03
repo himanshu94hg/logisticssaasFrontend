@@ -30,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const CreditReceipt = ({ billingCard}) => {
+const CreditReceipt = ({ billingCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -89,7 +89,7 @@ const CreditReceipt = ({ billingCard}) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className='table-container'>
+                <div className='table-container cr-table-height'>
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
@@ -124,7 +124,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.id ?? 0}
+                                                    {row?.id ?? 0}
                                                 </p>
                                             </div>
                                         </td>
@@ -132,7 +132,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.note_number ?? 0}
+                                                    {row?.note_number ?? 0}
                                                 </p>
                                             </div>
                                         </td>
@@ -140,7 +140,7 @@ const CreditReceipt = ({ billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''}
+                                                    {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''}
                                                 </p>
                                             </div>
                                         </td>
@@ -186,12 +186,12 @@ export default CreditReceipt;
 
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
-     
+
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingReceiptExportCard);
     const handleViewDetails = (id) => {
         setExportButtonClick(true);
-        dispatch({ type: "BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION",payload:id });
+        dispatch({ type: "BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION", payload: id });
     };
     useEffect(() => {
         if (exportButtonClick) {
@@ -227,7 +227,7 @@ function Preview({ show, handleClose, selectedRow }) {
                                             <span>SURAT,GUJARAT</span><br />
                                         </td>
                                         <td style={{ textAlign: 'right', width: '50%', border: 'none !important' }}><strong>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</strong><br /><br />
-                                        Regd. Add. : 476B 2nd & 3rd Floor, Sector 39 Block C, Gurugram, Haryana, Pin-122001.<br />
+                                            Regd. Add. : 476B 2nd & 3rd Floor, Sector 39 Block C, Gurugram, Haryana, Pin-122001.<br />
                                         </td>
                                     </tr>
                                 </table>
@@ -276,8 +276,8 @@ function Preview({ show, handleClose, selectedRow }) {
                     </div>
                     <div className="row">
                         <div className="col-xs-12">
-                            <br></br>    
-                            <br></br>    
+                            <br></br>
+                            <br></br>
                         </div>
                     </div>
                 </div>
