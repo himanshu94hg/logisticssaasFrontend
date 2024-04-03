@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan, faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { faPenToSquare as faPenToSquareRegular } from '@fortawesome/free-regular-svg-icons';
 import RuleRow from './RuleRow';
 import './SetPreferenceRules.css';
 
