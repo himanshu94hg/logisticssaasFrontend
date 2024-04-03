@@ -171,10 +171,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder="Enter Unit Price"
                                         type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
                                         onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
+                                            const allowedCharacters = /^[0-9\b.]+$/;
+                                            if (!allowedCharacters.test(e.key)) {
                                                 e.preventDefault();
                                             }
-                                        }}
+                                        }} 
                                     />
                                 </label>
                                 {/* Quantity */}

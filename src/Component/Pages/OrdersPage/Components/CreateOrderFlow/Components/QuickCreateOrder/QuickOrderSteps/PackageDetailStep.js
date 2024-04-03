@@ -1,80 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const [errors, setErrors] = useState({});
-
-    const handleValidation = () => {
-        const { cod_charges } = formData?.charge_details;
-        const { invoice_amount, } = formData?.order_details;
-        const { weight, length, breadth, height } = formData?.dimension_details;
-
-        const errorsObj = {};
-
-        if (!invoice_amount) {
-            errorsObj.invoice_amount = "Invoice Amount is required!";
-        }
-        if (formData.order_details.payment_type === "COD") {
-            if (!cod_charges) {
-                errorsObj.cod_charges = "COD Charges is required!";
-            }
-        }
-        if (!weight) {
-            errorsObj.weight = "Dead Weight is required!";
-        }
-        if (!length) {
-            errorsObj.length = "Length is required!";
-        }
-        if (!breadth) {
-            errorsObj.breadth = "Breadth is required!";
-        }
-        if (!height) {
-            errorsObj.height = "Height is required!";
-        }
-        setErrors(errorsObj);
-        console.log("Package Details Data", Object.keys(errorsObj));
-        return Object.keys(errorsObj).length === 0;
-    };
-
-    const handleNext = () => {
-        const isValid = handleValidation();
-        console.log("Package Details", isValid)
-        if (isValid) {
-            onNext();
-        }
-    };
-
-    const handleChangeOrder = (e, field) => {
-        const value = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            order_details: {
-                ...prevData.order_details,
-                [field]: value
-            }
-        }));
-    };
-    const handleChangeCharge = (e, field) => {
-        const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            charge_details: {
-                ...prevData.charge_details,
-                [field]: charge
-            }
-        }));
-    };
-
-    const handleChangeDimension = (e, field) => {
-        const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            dimension_details: {
-                ...prevData.dimension_details,
-                [field]: charge
-            }
-        }));
-    };
-
+const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors }) => {
     const [finalWeight, setFinalWeight] = useState(0)
 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
@@ -94,6 +20,42 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
         }
     }, [vol_data, chargedWeight]);
 
+
+    const handleChangeOrder = (e, field) => {
+        const value = e.target.value.trim();
+        setFormData(prevData => ({
+            ...prevData,
+            order_details: {
+                ...prevData.order_details,
+                [field]: value
+            }
+        }));
+    };
+
+    const handleChangeCharge = (e, field) => {
+        const charge = e.target.value.trim();
+        setFormData(prevData => ({
+            ...prevData,
+            charge_details: {
+                ...prevData.charge_details,
+                [field]: charge
+            }
+        }));
+    };
+
+    const handleChangeDimension = (e, field) => {
+        const charge = e.target.value.trim();
+        setFormData(prevData => ({
+            ...prevData,
+            dimension_details: {
+                ...prevData.dimension_details,
+                [field]: charge,
+                vol_weight: vol_data.toFixed(2)
+            }
+        }));
+    };
+
+    console.log(vol_data, "this is vol_data")
 
     return (
         <div>

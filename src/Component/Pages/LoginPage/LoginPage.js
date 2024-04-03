@@ -7,10 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
 import { toast } from 'react-toastify';
+import { errorHandleSecond, errorHandlefirst } from '../../../customFunction/errorHandling';
 
-const LoginPage = ({ setTokenExists ,tokenExists}) => {
+const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -28,16 +29,21 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
       if (response.status == 200) {
         toast.success("User Logged in succesfully!")
         setTokenExists(true)
-        navigate(indexPattern); 
+        navigate(indexPattern);
         Cookies.set('access_token', response?.data?.access_token)
         // localStorage.setItem('token', token);
         Cookies.set('user_id', response?.data?.user_id)
-        dispatch({type:LOGIN_DATA,payload:response})
+        dispatch({ type: LOGIN_DATA, payload: response })
         window.location.reload()
       }
 
     } catch (error) {
-      setError('Invalid username or password');
+      const errorType = typeof error?.response?.data.detail;
+      if (errorType === "string") {
+        errorHandlefirst(error?.response?.data.detail)
+      } else {
+        errorHandleSecond(error?.response?.data)
+      }
     }
   }
 
@@ -85,7 +91,7 @@ const LoginPage = ({ setTokenExists ,tokenExists}) => {
               <i>Password</i>
             </div>
             <div className="links">
-              <a href="#">Forgot Password?</a> <a href="#" onClick={()=>navigate(signUpPattern)}>Signup</a>
+              <a href="#">Forgot Password?</a> <a href="#" onClick={() => navigate(signUpPattern)}>Signup</a>
             </div>
             <button className='btn main-button' type="submit" >Login</button>
           </form>

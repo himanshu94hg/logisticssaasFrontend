@@ -20,3 +20,7 @@ export function formatNumber(number) {
   }
 }
 
+
+export const  weightCalculation=(res)=>{
+    return res/1000
+}
