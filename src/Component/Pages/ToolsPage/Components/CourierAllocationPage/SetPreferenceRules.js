@@ -1,18 +1,31 @@
-import { faPenToSquare, faTrashCan } from '@fortawesome/free-regular-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenToSquare, faTrashCan, faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
 import RuleRow from './RuleRow';
-import './SetPreferenceRules.css'
-import { faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
+import './SetPreferenceRules.css';
 
 const SetPreferenceRules = () => {
+    const dispatch = useDispatch();
     const [rules, setRules] = useState([]);
-    const [rulePanel, setRulePanel] = useState(false)
+    const [rulePanel, setRulePanel] = useState(false);
     const [isActive, setIsActive] = useState(false);
+    const [ruleName, setRuleName] = useState('');
+    const [priority, setPriority] = useState('');
+    const [selectedPartners, setSelectedPartners] = useState(Array(4).fill(''));
+    const [conditions, setConditions] = useState([]);
+    const [editingRuleId, setEditingRuleId] = useState(null);
 
-    const handleToggle = () => {
-        setIsActive(!isActive);
-        console.log(isActive)
+    const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
+    const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
+
+    console.log("All Edit Data", courierEditRules);
+
+    const handleToggle = (index) => {
+        setIsActive(prevState => ({
+            ...prevState,
+            [index]: !prevState[index]
+        }));
     };
 
     useEffect(() => {
@@ -23,12 +36,42 @@ const SetPreferenceRules = () => {
     }, []);
 
     const addRuleRow = () => {
-        // const newRule = { id: Date.now() };
-        // const updatedRules = [...rules, newRule];
-        // setRules(updatedRules);
-        // localStorage.setItem('rules', JSON.stringify(updatedRules));
-        setRulePanel(true)
+        console.log("Hit Add");
+        setRulePanel(true);
+        setEditingRuleId(null);
+        setRuleName('');
+        setPriority('');
+        setSelectedPartners(Array(4).fill(''));
+        setConditions([]);
     };
+
+    const editRuleRow = (id) => {
+        setRulePanel(true);
+        setEditingRuleId(id);
+        dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_ACTION", payload: id });
+    };
+    
+    useEffect(() => {
+        if (editingRuleId && courierEditRules && courierEditRules.data) {
+            const rule = courierEditRules.data;
+            setRuleName(rule.rule_name);
+            setPriority(rule.priority);
+            setSelectedPartners([rule.priority_1, rule.priority_2, rule.priority_3, rule.priority_4]);
+            if (rule.preference_choices && Array.isArray(rule.preference_choices)) {
+                setConditions(rule.preference_choices.map(condition => ({
+                    condition: condition.condition_type,
+                    condition_type: condition.criteria,
+                    match_type: condition.match_type,
+                    match_value: condition.match_value
+                })));
+            } else {
+                setConditions([]);
+            }
+        }
+    }, [editingRuleId, courierEditRules]);
+    
+    
+    
 
     const deleteRuleRow = (id) => {
         const updatedRules = rules.filter(rule => rule.id !== id);
@@ -36,76 +79,133 @@ const SetPreferenceRules = () => {
         localStorage.setItem('rules', JSON.stringify(updatedRules));
     };
 
+    const handleRuleDelete = (id) => {
+        if (id !== null) {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
+        }
+    };
+
     const handleSubmit = () => {
-        setRules(1)
-        setRulePanel(false)
-    }
+        const requestData = {
+            rule_name: ruleName,
+            priority: priority,
+            priority_1: selectedPartners[0],
+            priority_2: selectedPartners[1],
+            priority_3: selectedPartners[2],
+            priority_4: selectedPartners[3],
+            rules: conditions.map(condition => ({
+                condition: condition.condition,
+                condition_type: condition.condition_type || '',
+                match_type: condition.match_type,
+                match_value: condition.match_value
+            }))
+        };
+
+        if (editingRuleId) {
+            console.log("Hit Editing");
+            dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_POST_ACTION", payload: { id: editingRuleId,requestData } });
+        } else {
+            console.log("Hit Adding");
+            dispatch({ type: "COURIER_ALLOCATION_RULE_POST_ACTION", payload: requestData });
+        }
+        
+        setRulePanel(false);
+    };
+
+    useEffect(() => {
+        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+    }, [dispatch]);
+
+    const handleConditionChange = (index, field, value) => {
+        const updatedConditions = [...conditions];
+        updatedConditions[index][field] = value;
+        setConditions(updatedConditions);
+    };
+
+    const handlePartnerChange = (index, value) => {
+        const updatedPartners = [...selectedPartners];
+        updatedPartners[index] = value;
+        setSelectedPartners(updatedPartners);
+    };
+
+    const handlePriorityChange = (e) => {
+        const selectedValue = e.target.value;
+        setPriority(selectedValue);
+    };
+    
+
+    const [priorityOptions, setPriorityOptions] = useState([1, 2, 3, 4]);
+
+    useEffect(() => {
+        if (courierRules?.data) {
+            const maxPriority = Math.max(...courierRules?.data?.map(rule => rule.priority), 0);
+            const newPriorityOptions = Array.from({ length: 4 }, (_, index) => ({
+                value: maxPriority + index + 1
+            }));
+            setPriorityOptions(newPriorityOptions);            
+        }
+    }, [courierRules]);
+
+    console.log("Priority Options", priorityOptions);
 
     return (
         <>
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
-            {rules.length !== 0 &&
-                <div className='create-rules-section'>
+            {courierRules?.data?.map((rule, index) => (
+                <div key={index} className='create-rules-section'>
                     <div className='created-rules'>
                         <div className='cr-rule-name'>
                             <div className='rule-name'>
-                                <p>Rule Name: Rule1</p>
-                                <p>Priority: #1</p>
+                                <p>Rule Name: {rule?.rule_name}</p>
+                                <p>Priority: #{rule?.priority}</p>
                             </div>
                             <div className="toggle-switch">
                                 <input
                                     type="checkbox"
-                                    id="toggle"
-                                    checked={isActive}
-                                    onChange={handleToggle}
+                                    id={`toggle-${index}`}
+                                    checked={isActive[index]}
+                                    onChange={() => handleToggle(index)}
                                 />
-                                <label htmlFor="toggle" className={`toggle-label ${isActive ? 'checked' : ''}`}>
+                                <label htmlFor={`toggle-${index}`} className={`toggle-label ${rule.status === true ? 'checked' : ''}`}>
                                     <span className="toggle-inner" />
                                     <span className="toggle-switch" />
                                 </label>
                             </div>
                         </div>
                         <div className='cr-rule-conditions'>
-                            <div className='rule-row'>
-                                <div className='rule-item'>
-                                    <p>Order Amount</p>
-                                    <p>Is</p>
-                                    <p>₹ 100</p>
-                                    <p className='rule-condition'>AND</p>
-                                </div>
-                                <div className='rule-item'>
-                                    <p>Order Amount</p>
-                                    <p>Is</p>
-                                    <p>₹ 100</p>
-                                    <p className='rule-condition'>OR</p>
-                                </div>
-                                <div className='rule-item'>
-                                    <p>Order Amount</p>
-                                    <p>Is</p>
-                                    <p>₹ 100</p>
-                                    <p className='rule-condition'>AND</p>
-                                </div>
+                            <div className='rule-row text-capitalize'>
+                                {rule?.preference_choices?.map((condition, index) => (
+                                    <div key={index} className='rule-item'>
+                                        <p>{condition.criteria}</p>
+                                        <p>{condition.match_type}</p>
+                                        <p>{condition.match_value}</p>
+                                        <p className='rule-condition'>{condition.condition_type}</p>
+                                    </div>
+                                ))}
                             </div>
-                            <div className='rule-preference'>
-                                <p>Preference 1: Courier 1</p>
-                                <p>Preference 2: Courier 2</p>
-                                <p>Preference 3: Courier 3</p>
-                                <p>Preference 4: Courier 4</p>
+                            <div className='rule-preference text-capitalize'>
+                                <p>Preference 1: {rule?.priority_1}</p>
+                                <p>Preference 2: {rule?.priority_2}</p>
+                                <p>Preference 3: {rule?.priority_3}</p>
+                                <p>Preference 4: {rule?.priority_4}</p>
                             </div>
                             <div className='rules-action-btn'>
-                                <button className='btn main-button'><FontAwesomeIcon icon={faPenToSquare} /></button>
-                                <button className='btn main-button ms-2'><FontAwesomeIcon icon={faTrashCan} /></button>
+                                <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
+                                    <FontAwesomeIcon icon={faPenToSquare} />
+                                </button>
+                                <button className='btn main-button ms-2'>
+                                    <FontAwesomeIcon icon={faTrashCan} onClick={() => handleRuleDelete(rule?.id)} />
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
+            ))}
             <div className={`d-flex mt-2 ${rules.length === 0 ? '' : 'justify-content-end w-100'}`}>
                 <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
-
 
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
@@ -121,30 +221,28 @@ const SetPreferenceRules = () => {
                     <div className='rule-name-container'>
                         <label>
                             Rule Name
-                            <input className='input-field' type="text" />
+                            <input className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
                         </label>
 
                         <label>
                             Set Priority for this rule
-                            <select className='select-field' name="" id="">
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
-                                <option value="">4</option>
+                            <select className='select-field' value={priority} onChange={(e) => handlePriorityChange(e)}>
+                                {priorityOptions?.map(option => (
+                                    <option key={option?.value} value={String(option?.value)}>{option?.value}</option>
+                                ))}
                             </select>
                         </label>
                     </div>
 
-
                     <div style={{ width: '100%' }} className='mb-5'>
                         <div className='priority-container'>
-                            {[1, 2, 3, 4].map(priority => (
+                            {[1, 2, 3, 4].map((priority, index) => (
                                 <label key={priority}>
                                     Priority {priority}
                                     <select
                                         className='select-field'
-                                        name=""
-                                        id=""
+                                        value={selectedPartners[index]}
+                                        onChange={(e) => handlePartnerChange(index, e.target.value)}
                                     >
                                         <option value="">Select Partner</option>
                                         <option value="shadow_fax">Shadowfax</option>
@@ -194,13 +292,12 @@ const SetPreferenceRules = () => {
                         </div>
                     </div>
                     <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
-                        <RuleRow />
+                        <RuleRow initialRows={conditions} setConditions={setConditions} />
                     </div>
                     <div className='d-flex justify-content-end'>
                         <button onClick={handleSubmit} className='btn main-button'>Submit</button>
                     </div>
                 </section>
-
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
 

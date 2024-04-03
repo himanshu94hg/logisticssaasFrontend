@@ -132,7 +132,7 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    justify-items: end;
+    /* justify-items: end; */
     gap: 10px;
     position: relative;
     margin-inline: 22px 139px;

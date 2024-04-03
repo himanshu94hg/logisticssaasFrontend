@@ -40,6 +40,8 @@ export const API_URL = {
   GET_BILLING_SHIPING_REMITANCE_URL: "/core-api/features/billing/remittance-log/",
   GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL: "/core-api/features/billing/remittance-log-download/",
   SAVE_FAVOURITE_ORDERS_API:"/orders-api/orders/seller-filter/",
+  GET_COURIER_ALLOCATION_RULE: "/core-api/features/courier-allocation/rules/",
+  GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
 
 
   //SHIPMENT REATTEMPT
