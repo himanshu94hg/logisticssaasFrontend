@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import { percentage } from '../../../../../customFunction/functionLogic';
 
 const TopRTOCity = () => {
+  const [error] = useState(null);
+  const [loading] = useState(false);
   const {rtoTopCity}=useSelector(state=>state?.dashboardRtoReducer)
-  const totalValue=rtoTopCity.reduce((acc,value)=>acc+value.count,0)
-
-  const [loading] = useState(false); // Since it's dummy data, no loading
-  const [error] = useState(null); // No error handling for dummy data
+  const totalValue=rtoTopCity?.reduce((acc,value)=>acc+value.count,0)
 
   return (
     <>
@@ -28,7 +27,6 @@ const TopRTOCity = () => {
                       <p className="font12 bold-600 mb-10">
                         {cityData.count}
                         <span className="text-gray-light ">{percentage(cityData?.count,totalValue)}</span>
-                          {console.log(cityData?.count/totalValue*100,"this will the horable")}
                       </p>
                     </div>
                     <div className="progress mb-15">

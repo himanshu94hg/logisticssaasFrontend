@@ -170,11 +170,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         className='input-field'
                                         placeholder="Enter Unit Price"
                                         type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
-                                        onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
-                                                e.preventDefault();
-                                            }
-                                        }}
+                                        // onKeyPress={(e) => {
+                                        //     if (!/\d/.test(e.key)) {
+                                        //         e.preventDefault();
+                                        //     }
+                                        // }}
                                     />
                                 </label>
                                 {/* Quantity */}
