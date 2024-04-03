@@ -18,8 +18,9 @@ import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 
-const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSelectedRows }) => {
+const ReturnOrders = ({ orders, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -69,7 +70,7 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSe
         }
     };
 
-  
+
 
 
     const openEditingSection = (id) => {
@@ -84,11 +85,14 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow,selectedRows,setSe
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
+                                    <div className='d-flex gap-1 align-items-center'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectAll}
+                                            onChange={handleSelectAll}
+                                        />
+                                        <SelectAllDrop />
+                                    </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>

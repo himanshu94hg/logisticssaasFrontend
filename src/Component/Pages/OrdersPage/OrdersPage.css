@@ -471,4 +471,8 @@
   .cell-inside-box p {
     font-size: 12px;
   }
+
+  .orders-section-tabs .table-container {
+    height: calc(100vh - 283px);
+  }
 }
