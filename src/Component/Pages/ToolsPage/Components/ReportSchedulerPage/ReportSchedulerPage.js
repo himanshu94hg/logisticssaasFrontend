@@ -127,72 +127,74 @@ const ReportSchedulerPage = () => {
 
   return (
     <>
-      <div className='d-flex justify-content-between align-items-center rs-page-container'>
+      <div className='d-flex justify-content-between align-items-center'>
         <h4>Scheduled Reports</h4>
         <button onClick={() => setNewScheduler(!NewScheduler)} className='btn main-button'>Schedule Reports</button>
       </div>
-      <div className='table-container'>
-        <table className="w-100">
-          <thead className="sticky-header">
-            <tr className="table-row box-shadow">
-              <th>Report Title</th>
-              <th>Report Type</th>
-              <th>Status</th>
-              <th>Recipients</th>
-              <th>Report Recurrence</th>
-              <th>Order Type</th>
-              <th>Order status</th>
-              <th>Order Sub Status</th>
-              <th>Actions</th>
-            </tr>
-            <tr className="blank-row"><td></td></tr>
-          </thead>
-          <tbody>
-            {reportSchedularData?.map(report => (
-              <>
-                <tr className='table-row box-shadow' key={report.id}>
-                  <td>{report.report_title}</td>
-                  <td>{report.report_type}</td>
-                  <td>
-                    {/* Toggle switch for status */}
-                    <div className="form-check form-switch">
-                      <input className="form-check-input" type="checkbox" checked={report.enabled} onChange={() => {
-                        // Handle toggle status
-                        const updatedReports = reports.map(rep => {
-                          if (rep.id === report.id) {
-                            return { ...rep, status: !rep.status };
-                          }
-                          return rep;
-                        });
-                        setReports(updatedReports);
-                      }} />
-                    </div>
-                  </td>
-                  <td>{report.recipients}</td>
-                  <td>{report.recurrence}</td>
-                  <td>{report.order_type}</td>
-                  <td>{report.order_status}</td>
-                  <td>{report.order_sub_status}</td>
-                  <td className='align-middle'>
-                    <div className='d-flex align-items-center gap-3'>
-                      <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
-                      <button className='btn delete-btn' onClick={() => handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="blank-row"><td></td></tr>
-              </>
-            ))}
-          </tbody>
-        </table>
+      <div className='rs-page-container'>
+        <div className='table-container'>
+          <table className="w-100">
+            <thead className="sticky-header">
+              <tr className="table-row box-shadow">
+                <th>Report Title</th>
+                <th>Report Type</th>
+                <th>Status</th>
+                <th>Recipients</th>
+                <th>Report Recurrence</th>
+                <th>Order Type</th>
+                <th>Order status</th>
+                <th>Order Sub Status</th>
+                <th>Actions</th>
+              </tr>
+              <tr className="blank-row"><td></td></tr>
+            </thead>
+            <tbody>
+              {reportSchedularData?.map(report => (
+                <>
+                  <tr className='table-row box-shadow' key={report.id}>
+                    <td>{report.report_title}</td>
+                    <td>{report.report_type}</td>
+                    <td>
+                      {/* Toggle switch for status */}
+                      <div className="form-check form-switch">
+                        <input className="form-check-input" type="checkbox" checked={report.enabled} onChange={() => {
+                          // Handle toggle status
+                          const updatedReports = reports.map(rep => {
+                            if (rep.id === report.id) {
+                              return { ...rep, status: !rep.status };
+                            }
+                            return rep;
+                          });
+                          setReports(updatedReports);
+                        }} />
+                      </div>
+                    </td>
+                    <td>{report.recipients}</td>
+                    <td>{report.recurrence}</td>
+                    <td>{report.order_type}</td>
+                    <td>{report.order_status}</td>
+                    <td>{report.order_sub_status}</td>
+                    <td className='align-middle'>
+                      <div className='d-flex align-items-center gap-3'>
+                        <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
+                        <button className='btn delete-btn' onClick={() => handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="blank-row"><td></td></tr>
+                </>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Pagination
+          totalItems={totalItems}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
-      <Pagination
-        totalItems={totalItems}
-        currentPage={currentPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        setCurrentPage={setCurrentPage}
-      />
       <section className={`new-scheduler-slider ${NewScheduler ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewScheduler(!NewScheduler)}>
           <FontAwesomeIcon icon={faChevronRight} />
