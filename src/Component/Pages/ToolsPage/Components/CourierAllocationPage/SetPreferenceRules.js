@@ -146,8 +146,6 @@ const SetPreferenceRules = () => {
         }
     }, [courierRules]);
 
-    console.log("Priority Options", priorityOptions);
-
     return (
         <>
             <div className='set-of-rules'>
