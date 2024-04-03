@@ -69,32 +69,33 @@ const BillingPage = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <div className='billing-page-container'>
+                {/* Shipping Charges */}
+                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard} />}
 
-            {/* Shipping Charges */}
-            {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard} />}
+                {/* Remittance Logs */}
+                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard} />}
 
-            {/* Remittance Logs */}
-            {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard} />}
+                {/* RechargeLogs */}
+                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard} />}
 
-            {/* RechargeLogs */}
-            {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard} />}
+                {/* Invoices */}
+                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard} />}
 
-            {/* Invoices */}
-            {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard} />}
+                {/* Passbook */}
+                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard} />}
 
-            {/* Passbook */}
-            {activeTab === "Passbook" && <PassbookTab billingCard={billingCard} />}
+                {/* Credit Receipt */}
+                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} />}
 
-            {/* Credit Receipt */}
-            {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} />}
-
-            <Pagination
-                totalItems={totalItems}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemsPerPage={setItemsPerPage}
-                setCurrentPage={setCurrentPage}
-            />
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            </div>
         </>
     );
 }

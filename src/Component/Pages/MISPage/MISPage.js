@@ -28,33 +28,35 @@ const MISPage = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {/* OrdersMIS */}
-            <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
-                <ActivityLogsMIS />
-            </div>
+            <div className='mis-page-container'>
+                {/* OrdersMIS */}
+                <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
+                    <ActivityLogsMIS />
+                </div>
 
-            {/* ShipmentsMIS */}
-            <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
-                <ScheduledReportsMIS />
-            </div>
+                {/* ShipmentsMIS */}
+                <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
+                    <ScheduledReportsMIS />
+                </div>
 
-            {/* BillingMIS */}
-            <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
-                <ReportsMIS />
-            </div>
+                {/* BillingMIS */}
+                <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
+                    <ReportsMIS />
+                </div>
 
-            {/* ReturnsMIS */}
-            <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
-                <DownloadMIS />
-            </div>
+                {/* ReturnsMIS */}
+                <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
+                    <DownloadMIS />
+                </div>
 
-            <Pagination
-                totalItems={totalItems}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemsPerPage={setItemsPerPage}
-                setCurrentPage={setCurrentPage}
-            />
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            </div>
         </>
     )
 }

@@ -31,7 +31,7 @@
     border: 2px solid transparent;
 }
 
-.invoiceTab .count-card p{
+.invoiceTab .count-card p {
     font-size: large;
 }
 
@@ -40,4 +40,8 @@
         linear-gradient(to right, var(--sh-primary), var(--sh-primary-middle)) border-box;
     border-radius: 0.5em;
     box-sizing: border-box
+}
+
+.wt-page-container .table-container {
+    height: calc(100vh - 280px);
 }
