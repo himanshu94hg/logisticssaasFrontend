@@ -18,7 +18,6 @@ const SetPreferenceRules = () => {
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
 
-    console.log("All Edit Data", courierEditRules);
 
     const [isActive, setIsActive] = useState([]);
 
