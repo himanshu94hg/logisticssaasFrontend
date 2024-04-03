@@ -12,18 +12,20 @@ const TopRTOPincodes = () => {
 
 
   useEffect(() => {
-    const filtered = rtoTop?.filter(
-      (item) =>
-        item.shipping_detail__pincode.includes(searchTerm) ||
-        item.shipping_detail__city.toLowerCase().includes(searchTerm) ||
-        item.shipping_detail__state.toLowerCase().includes(searchTerm) ||
-        String(item.rto_count).includes(searchTerm)
-    );
-    setFilteredData(filtered);
+    if(rtoTop){
+      const filtered = rtoTop?.filter(
+        (item) =>
+          item.shipping_detail__pincode?.includes(searchTerm) ||
+          item.shipping_detail__city?.toLowerCase()?.includes(searchTerm) ||
+          item.shipping_detail__state?.toLowerCase()?.includes(searchTerm) ||
+          String(item.rto_count)?.includes(searchTerm)
+      );
+      setFilteredData(filtered);
+    }
   }, [rtoTop, searchTerm]);
 
   const handleSearch = (e) => {
-    const term = e.target.value.toLowerCase();
+    const term = e?.target?.value?.toLowerCase();
     setSearchTerm(term);
   };
   

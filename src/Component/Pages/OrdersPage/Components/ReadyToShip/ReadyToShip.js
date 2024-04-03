@@ -21,6 +21,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
+import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 
 const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -240,7 +241,7 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>

@@ -22,7 +22,7 @@ const TopRTOCourier = () => {
           <p>{error}</p>
         ) : (
           rtoTopCourier?.map((courier, index) => (
-            <li key={index} className="">
+            <li key={index} className="d-flex justify-content-between">
               <p className="font12 bold-600 mb-10">
                 <img
                   src={courier.courier_image}

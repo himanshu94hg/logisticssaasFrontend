@@ -40,11 +40,11 @@ const ShippingRates = () => {
                 <tr className='table-row nested-tr box-shadow'>
                     <td rowSpan={3} className=''>
                         <img
-                            width={"35px"}
-                            height={"35px"}
+                            width={"40px"}
+                            height={"40px"}
                             style={{borderRadius:30,border:"1px solid lightgray",padding:2}}
-                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQV2Y9Tw03uOk4k2FaQiVJVHdxStr70xk96GGfi-mkRWw&shttps://companieslogo.com/img/orig/BLUEDART.NS-ce04d13e.png?t=1604067030" alt="" />
-                        <p>  {item.partner}</p>
+                            src={item?.partner_image} alt="" />
+                        <p className='fw-bold'>  {item.partner}</p>
                     </td>
                     <td>Forward</td>
                     <td>₹ {(isChecked ? (item.zone_a * 1.18).toFixed(2) : item.zone_a)}</td>
