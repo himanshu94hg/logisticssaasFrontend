@@ -21,11 +21,9 @@ const SetPreferenceRules = () => {
 
     console.log("All Edit Data", courierEditRules);
 
-    const handleToggle = (index) => {
-        setIsActive(prevState => ({
-            ...prevState,
-            [index]: !prevState[index]
-        }));
+    const handleToggle = (rule) => {
+        setIsActive(prevState => !prevState);
+        dispatch({ type: "COURIER_ALLOCATION_RULE_STATUS_ACTION", payload: rule});
     };
 
     useEffect(() => {
@@ -166,7 +164,7 @@ const SetPreferenceRules = () => {
                                     type="checkbox"
                                     id={`toggle-${index}`}
                                     checked={isActive[index]}
-                                    onChange={() => handleToggle(index)}
+                                    onChange={() => handleToggle(rule)}
                                 />
                                 <label htmlFor={`toggle-${index}`} className={`toggle-label ${rule.status === true ? 'checked' : ''}`}>
                                     <span className="toggle-inner" />
