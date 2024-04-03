@@ -95,7 +95,6 @@ const DomesticCreateOrder = () => {
         ],
     })
 
-
     console.log(formData,"this is a form data")
     useEffect(() => {
         const updateProgressBarWidth = () => {

@@ -78,7 +78,7 @@ export const createOrderPattern = "/create-order";
 export const getCreateOrderRoute = () => {
     return generatePath(createOrderPattern);
 };
-export const createOrderPattern1 = "/create-order1";
+export const createOrderPattern1 = "/create-orders";
 export const getCreateOrder1Route = () => {
     return generatePath(createOrderPattern1);
 };

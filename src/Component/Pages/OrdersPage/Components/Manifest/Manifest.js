@@ -56,7 +56,7 @@ const Manifest = ({ orders }) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className='table-container'>
+                <div className='table-container m-table-height'>
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">

@@ -36,8 +36,9 @@
     padding: 10px;
     cursor: pointer;
     font-size: 0.8rem;
-    width: 180px;
+    width: auto;
     font-weight: 400;
+    white-space: nowrap;
 }
 
 .select-all-drop .options li input {

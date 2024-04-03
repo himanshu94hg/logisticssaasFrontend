@@ -18,7 +18,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     const { pathName } = useSelector(state => state?.authDataReducer)
 
     useEffect(() => {
-        if (location.pathname === "/create-order1") {
+        if (location.pathname === "/create-orders") {
             if (pathName === "Reverse Order") {
                 setOrderStatus(true);
                 setFormData(prevFormData => ({
@@ -45,20 +45,20 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     }, [location, pathName, editStatus]);
 
     useEffect(() => {
-        if (location.state) {
+        if (location?.state) {
             if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder" || location.state.orderType === "normalOrder") {
                 setOrderStatus(false);
-                setFormData(prevFormData => ({
-                    ...prevFormData,
-                    order_details: {
-                        ...prevFormData.order_details,
-                        order_type: "",
-                        payment_type: ""
-                    }
-                }));
+                // setFormData(prevFormData => ({
+                //     ...prevFormData,
+                //     order_details: {
+                //         ...prevFormData.order_details,
+                //         order_type: "",
+                //         payment_type: ""
+                //     }
+                // }));
             }
         }
-    }, [location, pathName, editStatus]);
+    }, [location?.state?.orderType]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -79,7 +79,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         return Object.keys(newErrors).length === 0;
     };
 
-    console.log(formData.other_details.number_of_packets,"formData.order_details.is_mps")
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -248,7 +247,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                 onChange={(e) => handleSelectChange(e, 'Channel')}
                             >
                                 <option value="">Select Order Channel</option>
-                                <option value="Custom">Custom</option>
+                                <option value="custom">Custom</option>
                             </select>
                             {/* {errors.Channel && <div className="custom-error">{errors.Channel}</div>} */}
                         </label>

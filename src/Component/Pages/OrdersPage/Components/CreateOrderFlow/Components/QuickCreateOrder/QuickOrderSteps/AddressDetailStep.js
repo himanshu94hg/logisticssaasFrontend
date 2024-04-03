@@ -2,82 +2,13 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 
-const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
-    const [isChecked, setIsChecked] = useState(true);
+const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setErrors,isChecked,setIsChecked }) => {
+    //const [isChecked, setIsChecked] = useState(true);
     const [BillingDetails, setBillingDetails] = useState(true);
 
-    const [errors, setErrors] = useState({});
+   // const [errors, setErrors] = useState({});
 
-    const validateFormData = () => {
-        const newErrors = {};
-        if (!formData.shipping_details.recipient_name) {
-            newErrors.recipient_name = 'Recipient Name is required!';
-        }
-        if (!formData.shipping_details.mobile_number) {
-            newErrors.mobile_number = 'Mobile Number is required!';
-        } else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
-            newErrors.mobile_number = 'Mobile Number should be 10 digits!';
-        }
-        if (!formData.shipping_details.address) {
-            newErrors.address = 'Address is required!';
-        }
-        if (!formData.shipping_details.landmark) {
-            newErrors.landmark = 'Landmark is required!';
-        }
-        if (!formData.shipping_details.pincode) {
-            newErrors.pincode = 'Pincode is required!';
-        } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
-            newErrors.pincode = 'Pincode should be 6 digits!';
-        }
-        if (!formData.shipping_details.city) {
-            newErrors.city = 'City is required!';
-        }
-        if (!formData.shipping_details.state) {
-            newErrors.state = 'State is required!';
-        }
-        if (!formData.shipping_details.country) {
-            newErrors.country = 'Country is required!';
-        }
-        if (!isChecked) {
-            if (!formData.billing_details.customer_name) {
-                newErrors.billing_customer_name = 'Customer Name is required!';
-            }
-            if (!formData.billing_details.mobile_number) {
-                newErrors.billing_mobile_number = 'Mobile Number is required!';
-            } else if (!/^[0-9]{10}$/.test(formData.billing_details.mobile_number)) {
-                newErrors.billing_mobile_number = 'Mobile Number should be 10 digits!';
-            }
-            if (!formData.billing_details.address) {
-                newErrors.billing_address = 'Address is required!';
-            }
-            if (!formData.billing_details.landmark) {
-                newErrors.billing_landmark = 'Landmark is required!';
-            }
-            if (!formData.billing_details.pincode) {
-                newErrors.billing_pincode = 'Pincode is required!';
-            } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
-                newErrors.billing_pincode = 'Pincode should be 6 digits!';
-            }
-            if (!formData.billing_details.city) {
-                newErrors.billing_city = 'City is required!';
-            }
-            if (!formData.billing_details.state) {
-                newErrors.billing_state = 'State is required!';
-            }
-            if (!formData.billing_details.country) {
-                newErrors.billing_country = 'Country is required!';
-            }
-        }
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const onNextClicked = () => {
-        if (validateFormData()) {
-            onNext();
-        }
-    };
 
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
@@ -89,11 +20,13 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
-                    [field]: e.target.value
+                    [field]: e.target.value,
+                    landmark:e.target.value
                 },
                 billing_details: {
                     ...prevData.billing_details,
-                    [field === "recipient_name" ? "customer_name" : field]: e.target.value
+                    [field === "recipient_name" ? "customer_name" : field]: e.target.value,
+                    landmark:e.target.value
                 }
             }));
         } else {
@@ -101,7 +34,8 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
-                    [field]: e.target.value
+                    [field]: e.target.value,
+                    landmark:e.target.value
                 }
             }));
         }
@@ -112,7 +46,8 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
             ...prevData,
             billing_details: {
                 ...prevData.billing_details,
-                [field]: e.target.value
+                [field]: e.target.value,
+                landmark:e.target.value
             }
         }));
     };
@@ -203,7 +138,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
                                 ...prevState.billing_details,
                                 city: postOffice.District,
                                 state: postOffice.State,
-                                country: postOffice.Country
+                                country: postOffice.Country,
                             }
                         }));
                     }

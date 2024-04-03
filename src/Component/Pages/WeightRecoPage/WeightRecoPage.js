@@ -198,29 +198,30 @@ const WeightRecoPage = () => {
                     <button className='btn main-button' onClick={handleExport}>Export</button>
                 </div>
             </div>}
+            <div className='wt-page-container'>
+                {/* Weight Reconciliation */}
+                <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
+                    <WeightRecoTab weightRecoData={weightData} />
+                </div>
 
-            {/* Weight Reconciliation */}
-            <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
-                <WeightRecoTab weightRecoData={weightData} />
+                {/* Settled Reco */}
+                <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
+                    <SettledReco weightRecoData={setteledData} />
+                </div>
+
+                {/* On-Hold Reco */}
+                <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
+                    <OnHoldReco weightRecoData={holdData} />
+                </div>
+
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
-
-            {/* Settled Reco */}
-            <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
-                <SettledReco weightRecoData={setteledData} />
-            </div>
-
-            {/* On-Hold Reco */}
-            <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
-                <OnHoldReco weightRecoData={holdData} />
-            </div>
-
-            <Pagination
-                totalItems={totalItems}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemsPerPage={setItemsPerPage}
-                setCurrentPage={setCurrentPage}
-            />
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}

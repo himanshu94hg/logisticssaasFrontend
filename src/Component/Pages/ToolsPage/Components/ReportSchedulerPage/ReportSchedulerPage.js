@@ -7,8 +7,7 @@ import { useDispatch } from 'react-redux';
 import { ReactMultiEmail, isEmail } from 'react-multi-email';
 import 'react-multi-email/dist/style.css';
 import Select from 'react-select';
-
-
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const ReportSchedulerPage = () => {
   const dispatch = useDispatch()
@@ -26,8 +25,13 @@ const ReportSchedulerPage = () => {
     order_status: "Forward",
     order_sub_status: "Forward"
   });
-  const { reportSchedularData,ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
-  
+  const { reportSchedularData, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
+  const [totalItems, setTotalItems] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
+
+
+
   const reportType = [
     { value: 'Order', label: 'Order' },
     { value: 'Non-order', label: 'Non-order' },
@@ -92,7 +96,7 @@ const ReportSchedulerPage = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setNewScheduler(false);
-    dispatch({ type: "REPORT_SCHEDULER_POST_ACTION",payload:reportData })
+    dispatch({ type: "REPORT_SCHEDULER_POST_ACTION", payload: reportData })
   }
 
   const handleChange = (e, selectFileds) => {
@@ -100,25 +104,25 @@ const ReportSchedulerPage = () => {
     if (selectFileds === "report_title") {
       setReportData(prev => ({
         ...prev,
-        [selectFileds]: value 
+        [selectFileds]: value
       }));
-    }else if(selectFileds === "recipients"){
-       const concatenatedString = e.join(",");
-       setReportData(prev => ({
+    } else if (selectFileds === "recipients") {
+      const concatenatedString = e.join(",");
+      setReportData(prev => ({
         ...prev,
-        [selectFileds]: concatenatedString 
+        [selectFileds]: concatenatedString
       }));
     }
     else {
       setReportData(prev => ({
         ...prev,
-        [selectFileds]: value 
+        [selectFileds]: value
       }));
     }
   };
 
-  const handleDelete=(value)=>{
-    dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION",payload:value })
+  const handleDelete = (value) => {
+    dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION", payload: value })
   }
 
   return (
@@ -127,62 +131,70 @@ const ReportSchedulerPage = () => {
         <h4>Scheduled Reports</h4>
         <button onClick={() => setNewScheduler(!NewScheduler)} className='btn main-button'>Schedule Reports</button>
       </div>
-      <div className='table-container'>
-        <table className="w-100">
-          <thead className="sticky-header">
-            <tr className="table-row box-shadow">
-              <th>Report Title</th>
-              <th>Report Type</th>
-              <th>Status</th>
-              <th>Recipients</th>
-              <th>Report Recurrence</th>
-              <th>Order Type</th>
-              <th>Order status</th>
-              <th>Order Sub Status</th>
-              <th>Actions</th>
-            </tr>
-            <tr className="blank-row"><td></td></tr>
-          </thead>
-          <tbody>
-            {reportSchedularData?.map(report => (
-              <>
-                <tr className='table-row box-shadow' key={report.id}>
-                  <td>{report.report_title}</td>
-                  <td>{report.report_type}</td>
-                  <td>
-                    {/* Toggle switch for status */}
-                    <div className="form-check form-switch">
-                      <input className="form-check-input" type="checkbox" checked={report.enabled} onChange={() => {
-                        // Handle toggle status
-                        const updatedReports = reports.map(rep => {
-                          if (rep.id === report.id) {
-                            return { ...rep, status: !rep.status };
-                          }
-                          return rep;
-                        });
-                        setReports(updatedReports);
-                      }} />
-                    </div>
-                  </td>
-                  <td>{report.recipients}</td>
-                  <td>{report.recurrence}</td>
-                  <td>{report.order_type}</td>
-                  <td>{report.order_status}</td>
-                  <td>{report.order_sub_status}</td>
-                  <td className='align-middle'>
-                    <div className='d-flex align-items-center gap-3'>
-                      <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
-                      <button className='btn delete-btn' onClick={()=>handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                    </div>
-                  </td>
-                </tr>
-                <tr className="blank-row"><td></td></tr>
-              </>
-            ))}
-          </tbody>
-        </table>
+      <div className='rs-page-container'>
+        <div className='table-container'>
+          <table className="w-100">
+            <thead className="sticky-header">
+              <tr className="table-row box-shadow">
+                <th>Report Title</th>
+                <th>Report Type</th>
+                <th>Status</th>
+                <th>Recipients</th>
+                <th>Report Recurrence</th>
+                <th>Order Type</th>
+                <th>Order status</th>
+                <th>Order Sub Status</th>
+                <th>Actions</th>
+              </tr>
+              <tr className="blank-row"><td></td></tr>
+            </thead>
+            <tbody>
+              {reportSchedularData?.map(report => (
+                <>
+                  <tr className='table-row box-shadow' key={report.id}>
+                    <td>{report.report_title}</td>
+                    <td>{report.report_type}</td>
+                    <td>
+                      {/* Toggle switch for status */}
+                      <div className="form-check form-switch">
+                        <input className="form-check-input" type="checkbox" checked={report.enabled} onChange={() => {
+                          // Handle toggle status
+                          const updatedReports = reports.map(rep => {
+                            if (rep.id === report.id) {
+                              return { ...rep, status: !rep.status };
+                            }
+                            return rep;
+                          });
+                          setReports(updatedReports);
+                        }} />
+                      </div>
+                    </td>
+                    <td>{report.recipients}</td>
+                    <td>{report.recurrence}</td>
+                    <td>{report.order_type}</td>
+                    <td>{report.order_status}</td>
+                    <td>{report.order_sub_status}</td>
+                    <td className='align-middle'>
+                      <div className='d-flex align-items-center gap-3'>
+                        <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
+                        <button className='btn delete-btn' onClick={() => handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="blank-row"><td></td></tr>
+                </>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <Pagination
+          totalItems={totalItems}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
-
       <section className={`new-scheduler-slider ${NewScheduler ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewScheduler(!NewScheduler)}>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -200,19 +212,19 @@ const ReportSchedulerPage = () => {
                     Please Select a report Type
                     <Select
                       options={reportType}
-                      onChange={(e)=>handleChange(e,"report_type")}
+                      onChange={(e) => handleChange(e, "report_type")}
                     />
                   </label>
                   <label>
                     Report Name
-                    <input className='input-field' placeholder='Enter Report Name' type="text" name={"report_title"} onChange={(e)=>handleChange(e,"report_title")} />
+                    <input className='input-field' placeholder='Enter Report Name' type="text" name={"report_title"} onChange={(e) => handleChange(e, "report_title")} />
                   </label>
                   <label>Recipients Email IDs
-                  {/* <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} /> */}
+                    {/* <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} /> */}
                     <ReactMultiEmail
                       placeholder='Enter Recipients email ID and press enter'
                       emails={emails}
-                      onChange={(e)=>handleChange(e,"recipients")}
+                      onChange={(e) => handleChange(e, "recipients")}
                       // onChange={(_emails) => {
                       //   setEmails(_emails);
                       //   console.log(_emails,"this is email data")
@@ -298,21 +310,21 @@ const ReportSchedulerPage = () => {
                     Order Type
                     <Select
                       options={orderType}
-                      onChange={(e)=>handleChange(e,"order_type")}
+                      onChange={(e) => handleChange(e, "order_type")}
                     />
                   </label>
                   <label>
                     Order Status
                     <Select
                       options={orderStatus}
-                      onChange={(e)=>handleChange(e,"order_status")}
+                      onChange={(e) => handleChange(e, "order_status")}
                     />
                   </label>
                   <label>
                     Order Sub-status
                     <Select
                       options={orderSubStatus}
-                      onChange={(e)=>handleChange(e,"order_sub_status")}
+                      onChange={(e) => handleChange(e, "order_sub_status")}
                     />
                   </label>
                 </div>
