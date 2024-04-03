@@ -2,16 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { faBackwardStep, faForwardStep } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Pagination.css'
+import PreviousIcon from './Icons/PreviousIcon';
+import NextIcon from './Icons/NextIcon';
+import LastIcon from './Icons/LastIcon';
+import FirstIcon from './Icons/FirstIcon';
 
-const Pagination = ({ totalItems ,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage}) => {
+const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, setCurrentPage }) => {
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
 
-    useEffect(()=>{
-     if(totalItems){
-        setTotalItemsCount(totalItems)
-     }
-    },[totalItems])
+    useEffect(() => {
+        if (totalItems) {
+            setTotalItemsCount(totalItems)
+        }
+    }, [totalItems])
 
     useEffect(() => {
         setCurrentPage(1);
@@ -59,16 +63,24 @@ const Pagination = ({ totalItems ,itemsPerPage,setItemsPerPage,currentPage,setCu
     return (
         <div className='my-2'>
             <div className='pagination-container'>
-                <div className="pagination">
-                    <p onClick={handleFirstPage} disabled={currentPage === 1}><FontAwesomeIcon icon={faBackwardStep} /></p>
-                    <p onClick={handlePrevious} disabled={currentPage === 1}>Previous</p>
-                    <p>{currentPage} of {totalPages}</p>
-                    <p onClick={handleNext} disabled={currentPage === totalPages}>Next</p>
-                    <p onClick={handleLastPage} disabled={currentPage === totalPages}><FontAwesomeIcon icon={faForwardStep} /></p>
+                <div className='d-flex align-items-center gap-3'>
+                    <div className="pagination">
+                        <p onClick={handleFirstPage} disabled={currentPage === 1}><FirstIcon /></p>
+                        <p onClick={handlePrevious} disabled={currentPage === 1}><PreviousIcon /></p>
+                        <p>{currentPage} of {totalPages}</p>
+                        <p onClick={handleNext} disabled={currentPage === totalPages}><NextIcon /></p>
+                        <p onClick={handleLastPage} disabled={currentPage === totalPages}><LastIcon /></p>
+                    </div>
+                    {/* Go to page */}
+                    <div className='go-to-page'>
+                        Go to page: <input type="text" min="1" max={totalPages} value={goToPage} onChange={handleChange} />
+                        <button onClick={handleGoToPage}>Go</button>
+                    </div>
                 </div>
                 {/* Result count */}
                 <div className="result-count">
-                    Showing {startIndex} to {endIndex} of {totalItemsCount} results.
+                    {/* Showing {startIndex} to {endIndex} of {totalItemsCount} results. */}
+                    Showing {endIndex} of {totalItemsCount} records.
                 </div>
 
                 {/* Dropdown for items per page */}
@@ -80,11 +92,7 @@ const Pagination = ({ totalItems ,itemsPerPage,setItemsPerPage,currentPage,setCu
                         <option value="100">100</option>
                     </select>
                 </div>
-                {/* Go to page */}
-                <div className='go-to-page'>
-                    Go to page: <input type="number" min="1" max={totalPages} value={goToPage} onChange={handleChange} />
-                    <button onClick={handleGoToPage}>Go</button>
-                </div>
+
             </div>
         </div>
     );

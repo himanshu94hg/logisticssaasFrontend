@@ -72,6 +72,7 @@
     height: 34px;
     width: 36px;
     background: var(--sh-primary-light);
+    background: #dfdfdf;
     border-radius: 0 0.5rem 0.5rem 0;
     display: flex;
     justify-content: center;

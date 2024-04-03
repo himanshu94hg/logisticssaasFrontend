@@ -6,9 +6,10 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 
 
-const Manifest = ({ orders}) => {
+const Manifest = ({ orders }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
@@ -55,16 +56,19 @@ const Manifest = ({ orders}) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className='table-container'>
+                <div className='table-container m-table-height'>
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
+                                    <div className='d-flex gap-1 align-items-center'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectAll}
+                                            onChange={handleSelectAll}
+                                        />
+                                        <SelectAllDrop />
+                                    </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Manifest Id</th>
                                 <th style={{ width: '12.5%' }}>Created</th>

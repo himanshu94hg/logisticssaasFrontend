@@ -113,6 +113,10 @@
   overflow-y: scroll;
 }
 
+.orders-section-tabs .table-container.m-table-height {
+  height: calc(100vh - 222px);
+}
+
 .sticky-header {
   position: sticky;
   top: 0;
@@ -470,5 +474,13 @@
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
+  }
+
+  .orders-section-tabs .table-container {
+    height: calc(100vh - 283px);
+  }
+
+  .orders-section-tabs .table-container.m-table-height {
+    height: calc(100vh - 203px);
   }
 }

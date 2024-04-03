@@ -187,7 +187,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     });
                     const temp = response?.data?.map((item,index) => ({
                         label: item.warehouse_name,
-                        value: `${item.warehouse_name}_${index}`,
+                        value: item.warehouse_name,
                     }));
                     setPickupAddresses(temp)
                 }
@@ -387,7 +387,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     value={SaveFilter}
                                     onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
-                                {!SaveFilter ? 'Save Filter' : (
+                                {!SaveFilter ? 'Save Filter (Optional)' : (
                                     <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e)=>setFavName(e.target.value)} />
                                 )}
                             </label>
