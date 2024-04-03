@@ -1,18 +1,19 @@
-import React, { useState, useEffect } from 'react';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import React, { useState,useEffect } from 'react'
 
 const RuleRow = ({ initialRows, setConditions }) => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
-        if (initialRows !== null) {
-            console.log("Initial Rows:", initialRows);
+        if (initialRows == null || initialRows.length === 0) {
+            setRows([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
+        } else {
             setRows(initialRows);
         }
     }, [initialRows]);
-    
+
     const handleSelectChange = (index, field, value) => {
         const newRows = [...rows];
         newRows[index][field] = value;
@@ -38,15 +39,18 @@ const RuleRow = ({ initialRows, setConditions }) => {
         setConditions(newRows);
     };
 
+
+    console.log("Hit Editing Initilize",initialRows);
+    
     return (
         <>
             {rows.map((row, index) => (
                 <div key={index} className='minor-rule-row'>
                     <select
                         className='select-field'
-                        value={row.condition_type}
+                        value={row.condition}
                         style={{ width: '100px' }}
-                        onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
+                        onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
                         disabled={index === 0}
                     >
                         <option value="">And/Or</option>
@@ -55,10 +59,10 @@ const RuleRow = ({ initialRows, setConditions }) => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.condition}
-                        onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
+                        value={row.condition_type}
+                        onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
                     >
-                        <option value="">Select Type</option>
+                        <option value="">Select Condiction</option>
                         <option value="payment_type">Payment Mode</option>
                         <option value="order_amount">Order Amount</option>
                         <option value="pickup_pincode">Pickup Pincode</option>
@@ -95,10 +99,11 @@ const RuleRow = ({ initialRows, setConditions }) => {
                             <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                         )}
                     </div>
+
                 </div>
             ))}
         </>
-    );
-};
+    )
+}
 
-export default RuleRow;
+export default RuleRow

@@ -60,8 +60,8 @@ const SetPreferenceRules = () => {
             setSelectedPartners([rule.priority_1, rule.priority_2, rule.priority_3, rule.priority_4]);
             if (rule.preference_choices && Array.isArray(rule.preference_choices)) {
                 setConditions(rule.preference_choices.map(condition => ({
-                    condition: condition.criteria,
-                    condition_type: condition.condition_type,
+                    condition: condition.condition_type,
+                    condition_type: condition.criteria,
                     match_type: condition.match_type,
                     match_value: condition.match_value
                 })));
@@ -130,8 +130,10 @@ const SetPreferenceRules = () => {
     };
 
     const handlePriorityChange = (e) => {
-        setPriority(e.target.value);
+        const selectedValue = e.target.value;
+        setPriority(selectedValue);
     };
+    
 
     const [priorityOptions, setPriorityOptions] = useState([1, 2, 3, 4]);
 
@@ -225,7 +227,7 @@ const SetPreferenceRules = () => {
 
                         <label>
                             Set Priority for this rule
-                            <select className='select-field' value={priority} onChange={(e) => handlePriorityChange(e.target.value)}>
+                            <select className='select-field' value={priority} onChange={(e) => handlePriorityChange(e)}>
                                 {priorityOptions?.map(option => (
                                     <option key={option?.value} value={String(option?.value)}>{option?.value}</option>
                                 ))}
