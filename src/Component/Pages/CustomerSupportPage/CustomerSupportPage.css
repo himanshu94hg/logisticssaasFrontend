@@ -1,8 +1,7 @@
-.support-page {
-    min-height: calc(100vh - 130px);
-    overflow-y: auto;
-    overflow-x: clip;
+.support-page .table-container {
+    height: calc(100vh - 266px);
 }
+
 
 .support-page .action-options {
     width: fit-content;
@@ -12,7 +11,8 @@
     width: 110px;
     border-radius: 4px;
 }
-.support-page .action-options:hover .action-list ul li{
+
+.support-page .action-options:hover .action-list ul li {
     cursor: pointer;
 }
 
@@ -136,12 +136,15 @@
 }
 
 .support-page table {
-    margin-top: 20px;
-    width: 100%;
+    margin-top: 0px;
 }
 
 .support-page table tr td {
     padding-block: 10px;
+}
+
+.support-page table tr.blank-row td {
+    padding-block: 7px;
 }
 
 .ticket-filter-inputs hr {

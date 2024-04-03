@@ -118,7 +118,7 @@ const CustomerSupportPage = () => {
 
   return (
     <>
-      <div className='p10 support-page position-relative'>
+      <div className='support-page position-relative'>
         <div onClick={() => navigate('/help-articles')} className='help-button'>
           <FontAwesomeIcon icon={faCircleQuestion} />
           <div className='ms-2'>
@@ -140,14 +140,15 @@ const CustomerSupportPage = () => {
         <div className='row mt-3'>
           <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
         </div>
+        <Pagination
+          totalItems={totalItems}
+          currentPage={currentPage}
+          itemsPerPage={itemsPerPage}
+          setItemsPerPage={setItemsPerPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
-      <Pagination
-        totalItems={totalItems}
-        currentPage={currentPage}
-        itemsPerPage={itemsPerPage}
-        setItemsPerPage={setItemsPerPage}
-        setCurrentPage={setCurrentPage}
-      />
+
       <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets); setFilterClick(true) }}>
           <FontAwesomeIcon icon={faChevronRight} />
