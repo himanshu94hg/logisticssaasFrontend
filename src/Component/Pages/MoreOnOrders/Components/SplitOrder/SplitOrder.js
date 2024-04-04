@@ -8,9 +8,9 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
 import SplitOrderModal from "../SplitOrder/SplitOrderModal";
 
-const SplitOrder = ({ orders, handleSearch }) => {
+const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
     const [show, setShow] = useState(false);
@@ -23,8 +23,10 @@ const SplitOrder = ({ orders, handleSearch }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -33,10 +35,16 @@ const SplitOrder = ({ orders, handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
 
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
+        }
+
+        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {

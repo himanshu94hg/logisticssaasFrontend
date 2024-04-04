@@ -22,11 +22,11 @@ const InfoMissing = () => {
     );
 }
 
-const MergeOrder = ({ orders, handleSearch }) => {
+const MergeOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch()
     console.log(orders, "Headers");
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
 
 
@@ -35,8 +35,10 @@ const MergeOrder = ({ orders, handleSearch }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -46,8 +48,13 @@ const MergeOrder = ({ orders, handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"

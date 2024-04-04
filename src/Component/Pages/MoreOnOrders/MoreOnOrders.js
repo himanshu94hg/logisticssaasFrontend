@@ -15,6 +15,7 @@ import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -43,6 +44,7 @@ const MoreOnOrders = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
+    const [BulkActionShow, setBulkActionShow] = useState(false)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
@@ -230,22 +232,22 @@ const MoreOnOrders = () => {
             <div className='orders-section-tabs'>
                 {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
-                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
                 </div>
 
                 {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
-                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
                 </div>
 
                 {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
-                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
                 </div>
 
                 {/* reverse */}
                 <div className={`${activeTab === "Reverse Order" ? "d-block" : "d-none"}`}>
-                    <ReverseOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <ReverseOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
                 </div>
 
                 <Pagination
@@ -255,6 +257,10 @@ const MoreOnOrders = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
+                {BulkActionShow && (
+                    <BulkActionsComponent />
+                )
+                }
             </div>
 
 

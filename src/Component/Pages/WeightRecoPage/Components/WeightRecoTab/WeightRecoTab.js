@@ -52,11 +52,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({weightRecoData}) => {
+const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionShow}) => {
 
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
@@ -94,8 +94,10 @@ const WeightRecoTab = ({weightRecoData}) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(weightRecoData.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -105,8 +107,13 @@ const WeightRecoTab = ({weightRecoData}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -316,20 +323,22 @@ const WeightRecoTab = ({weightRecoData}) => {
                                                         View History
                                                     </button>
                                                 )}
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt='ThreeDots' width={24} />
+                                                {row?.status === "accepted" || row?.status === "auto_accepted" && (
+                                                    <div className='action-options'>
+                                                        <div className='threedots-img'>
+                                                            <img src={ThreeDots} alt='ThreeDots' width={24} />
+                                                        </div>
+                                                        <div className='action-list'>
+                                                            <ul>
+                                                                {row?.status === "pending" ? (
+                                                                    <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
+                                                                ) : (
+                                                                    <li >....</li>
+                                                                )}
+                                                            </ul>
+                                                        </div>
                                                     </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            {row?.status === "pending" ? (
-                                                                <li className='pt-4' onClick={() => handleShowComment(row.id)}>Add Comment</li>
-                                                            ) : (
-                                                                <li >....</li>
-                                                            )}
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                )}
                                             </div>
                                         </td>
                                     </tr>

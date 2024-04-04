@@ -13,6 +13,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -39,6 +40,7 @@ const WeightRecoPage = () => {
     const [backDrop, setBackDrop] = useState(false);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchValue, setSearchValue] = useState("")
+    const [BulkActionShow, setBulkActionShow] = useState(false)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
@@ -201,17 +203,26 @@ const WeightRecoPage = () => {
             <div className='wt-page-container'>
                 {/* Weight Reconciliation */}
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
-                    <WeightRecoTab weightRecoData={weightData} />
+                    <WeightRecoTab weightRecoData={weightData} 
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow}/>
                 </div>
 
                 {/* Settled Reco */}
                 <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
-                    <SettledReco weightRecoData={setteledData} />
+                    <SettledReco weightRecoData={setteledData} 
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow}/>
                 </div>
 
                 {/* On-Hold Reco */}
                 <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
-                    <OnHoldReco weightRecoData={holdData} />
+                    <OnHoldReco weightRecoData={holdData} 
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow}/>
                 </div>
 
                 <Pagination
@@ -221,6 +232,10 @@ const WeightRecoPage = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
+                {BulkActionShow && (
+                    <BulkActionsComponent />
+                )
+                }
             </div>
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}

@@ -32,7 +32,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows}) => {
+const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -60,8 +60,10 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows}) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(shipmentCard.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -71,8 +73,13 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
