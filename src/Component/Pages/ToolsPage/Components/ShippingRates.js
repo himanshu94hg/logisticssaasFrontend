@@ -52,7 +52,7 @@ const ShippingRates = () => {
                     <td>₹ {(isChecked ? (item.zone_c * 1.18).toFixed(2) : item.zone_c)}</td>
                     <td>₹ {(isChecked ? (item.zone_d * 1.18).toFixed(2) : item.zone_d)}</td>
                     <td>₹ {(isChecked ? (item.zone_e * 1.18).toFixed(2) : item.zone_e)}</td>
-                    <td className='rowfull3' rowSpan={3}>₹ {(isChecked ? item.cod_charge * 1.18 : item.cod_charge)}</td>
+                    <td className='rowfull3' rowSpan={3}>₹ {(isChecked ? (item.cod_charge * 1.18).toFixed(2) : item.cod_charge)}</td>
                     <td className='rowfull3' rowSpan={3}>{item.cod_maintenance} %</td>
                 </tr>
                 <tr className='nested-tr box-shadow'>
