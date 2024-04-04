@@ -270,20 +270,28 @@
 }
 
 .header-search-input input {
-  padding-left: 31px;
+  padding-left: 10px;
   border-color: var(--sh-primary-light);
-  padding-right: 10px;
+  padding-right: 40px;
+  min-width: 18rem;
 }
 
 .header-search-input input::placeholder {
   font-size: 0.9rem;
 }
 
-.header-search-input svg {
+.header-search-input button {
   position: absolute;
-  left: 9px;
-  top: 10px;
-  color: var(--sh-primary);
+  top: 0px;
+  right: 0px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .quick-actions-container:hover .quick-actions-hover.hl {
