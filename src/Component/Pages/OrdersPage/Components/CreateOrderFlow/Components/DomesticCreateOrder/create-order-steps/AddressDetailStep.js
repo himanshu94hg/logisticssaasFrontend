@@ -1,16 +1,22 @@
 import axios from 'axios';
 import 'react-toggle/style.css';
 import { toast } from 'react-toastify';
-import React, { useRef, useState,useEffect  } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
+import { useLocation } from 'react-router-dom/dist';
+import { useSelector } from 'react-redux';
 
 
 export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+    const location = useLocation()
     const [isChecked, setIsChecked] = useState(() => {
         const savedCheckboxState = localStorage.getItem('isChecked');
         return savedCheckboxState ? JSON.parse(savedCheckboxState) : true;
     });
     const [BillingDetails, setBillingDetails] = useState(true);
+    const { pathName } = useSelector(state => state?.authDataReducer)
+
+    console.log(location, "this is a dummy data", pathName)
 
     const [errors, setErrors] = useState({});
 
@@ -302,7 +308,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
-                    <h3 className='mb-4'>Shipping Details</h3>
+                    <h3 className='mb-4'>{pathName === "Reverse Order" ? "Pickup Details" : "Shipping Details"} </h3>
                     <div className='row gap-2'>
                         {/* Customer Name */}
                         <label className='col'>
@@ -458,8 +464,9 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <input
                             type="checkbox"
                             checked={isChecked}
+                            disabled={pathName === "Reverse Order" ? true : false}
                             onChange={handleCheckboxChange}
-                            bydefaultChecked = {true}
+                            bydefaultChecked={true}
                         />
                         <label>Billing Address is the same as Shipping address</label>
                     </div>
@@ -471,7 +478,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
-                                Recipient Name
+                                <span> Recipient Name <span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_customer_name && 'input-field-error'}`}
                                     placeholder='Enter Recipient Name'
@@ -481,7 +488,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
-                                Mobile Number
+                                <span>  Mobile Number<span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field '
@@ -531,7 +538,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <div className='row'>
                             {/* Address */}
                             <label className='col'>
-                                Address
+                                <span> Address<span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_address && 'input-field-error'}`}
                                     placeholder="House/Floor No. Building Name or Street, Locality"
@@ -542,7 +549,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <div className='row mt-3'>
                             {/* Address 2 (Optional) */}
                             <label className='col'>
-                                Landmark
+                                <span> Landmark<span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_landmark && 'input-field-error'}`}
                                     placeholder="Any nearby post office, market, Hospital as the landmark"
@@ -553,7 +560,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <div className='row mt-3 gap-2'>
                             {/* Pincode */}
                             <label className='col'>
-                                Pincode
+                                <span> Pincode<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     ref={pincodeRef1}
@@ -567,14 +574,14 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         if (!/\d/.test(e.key)) {
                                             e.preventDefault();
                                         }
-                                }}
+                                    }}
                                 />
                                 {errors.billing_pincode && <div className="custom-error">{errors.billing_pincode}</div>}
                             </label>
 
                             {/* City */}
                             <label className='col'>
-                                City
+                                <span> City<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     ref={cityRef1}
@@ -589,7 +596,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <div className='row mt-3 gap-2'>
                             {/* State */}
                             <label className='col'>
-                                State
+                                <span> State<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     ref={stateRef1}
@@ -599,12 +606,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     onChange={(e) => handleChangeBilling(e, 'state')}
 
                                 />
-                                 {errors.billing_state && <div className="custom-error">{errors.billing_state}</div>}
+                                {errors.billing_state && <div className="custom-error">{errors.billing_state}</div>}
                             </label>
 
                             {/* Country */}
                             <label className='col'>
-                                Country
+                                <span> Country<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.billing_country && 'input-field-error'}`}
@@ -612,7 +619,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     value={formData.billing_details.country}
                                     onChange={(e) => handleChangeBilling(e, 'country')}
                                 />
-                                 {errors.billing_country && <div className="custom-error">{errors.billing_country}</div>}
+                                {errors.billing_country && <div className="custom-error">{errors.billing_country}</div>}
                             </label>
                         </div>
                     </div>

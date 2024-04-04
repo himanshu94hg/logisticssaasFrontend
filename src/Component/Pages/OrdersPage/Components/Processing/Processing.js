@@ -191,19 +191,32 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                                         {/* pickup adress */}
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br />
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
+                                                {row?.order_type === "Forward" ?
+                                                    <p>{row?.pickup_details?.p_warehouse_name}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.pickup_details?.p_address_line1},
+                                                                {row?.pickup_details?.p_address_line2},<br />
+                                                                {row?.pickup_details?.p_city},
+                                                                {row?.pickup_details?.p_state},
+                                                                {row?.pickup_details?.p_pincode}
+                                                            </span>
 
+                                                        </span>
+                                                    </p> : <p>{row?.shipping_detail?.address}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.shipping_detail?.address},
+                                                                {row?.shipping_detail?.landmark},<br />
+                                                                {row?.shipping_detail?.city},
+                                                                {row?.shipping_detail?.state},
+                                                                {row?.shipping_detail?.pincode}
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                }
                                             </div>
                                         </td>
 
