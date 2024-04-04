@@ -1,55 +1,29 @@
-import { call, put, takeLatest } from "@redux-saga/core/effects";
-import axios from "../../../../../axios/index"
 import { toast } from "react-toastify";
+import axios from "../../../../../axios/index"
+import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, ORDERS_GET_ACTION } from "../../../constant/orders";
 import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA } from "../../../../constants/orders";
-import Cookies from "js-cookie";
+import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION } from "../../../constant/orders";
 
-
-const sellerData = Cookies.get("user_id")
-async function orderListDataApi(data) {
-
-    console.log(data,"this is my unique data")
-
+async function fetchOrderListDataApi(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_ORDERS_API}?seller_id=${sellerData}${data}`,
+        url: `${BASE_URL_ORDER}${API_URL.ORDER_DETAILS_API}${data}/`,
         data: data
     });
     return listData
 }
-function* orderListDataAction(action) {
+function* fetchOrderListDataAction(action) {
     let { payload } = action;
     try {
-        let response = yield call(orderListDataApi, payload);
+        let response = yield call(fetchOrderListDataApi, payload);
         if (response.status === 200) {
-            yield put({ type: ORDERS_GET_ACTION, payload: response?.data })
+            yield put({ type: GET_ORDERS_DETAILS_DATA, payload: response?.data })
         }
 
     } catch (error) {
     }
 }
-
-// async function fetchOrderListDataApi(data) {
-//     let listData = axios.request({
-//         method: "GET",
-//         url: `${BASE_URL_ORDER}${API_URL.ORDER_DETAILS_API}${data}/`,
-//         data: data
-//     });
-//     return listData
-// }
-// function* fetchOrderListDataAction(action) {
-//     let { payload } = action;
-//     try {
-//         let response = yield call(fetchOrderListDataApi, payload);
-//         if (response.status === 200) {
-//             yield put({ type: GET_ORDERS_DETAILS_DATA, payload: response?.data })
-//         }
-
-//     } catch (error) {
-//     }
-// }
 
 async function getOrderDataAPI(data) {
     let listData = axios.request({
@@ -71,8 +45,8 @@ function* fetchOrderDataAction(action) {
     }
 }
 
+//UPDATE_ORDERS_API
 async function updateOrderApi(data) {
-    console.log(data,"this is put data")
     let listData = axios.request({
         method: "PUT",
         url: `${BASE_URL_ORDER}${API_URL.ORDER_DETAILS_API}${data.orderId}/`,
@@ -84,21 +58,44 @@ function* updateOrderAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(updateOrderApi, payload);
-        console.log(response,"this is reponse data")
+        console.log(response, "this is reponse data")
         if (response.status === 200) {
             yield put({ type: ORDERS_DETAILS_RES_DATA, payload: response?.status })
             toast.success("Order update successfully")
         }
 
     } catch (error) {
-        console.log(error?.response?.data?.detail, "this is oder id data")
+        console.log(error, "this is oder id data")
         toast.error(`Please enter valid order id!`)
     }
 }
 
+//SAVE_FAVOURITE_ORDERS_API
+async function saveFavouriteOrderAPI(data) {
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.SAVE_FAVOURITE_ORDERS_API}`,
+        data: data
+    });
+}
+function* saveFavouriteOrdersAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(saveFavouriteOrderAPI, payload);
+        if (response.status === 201) {
+            toast.success("Filter added successfully!")
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 export function* ordersTabWatcher() {
-    yield takeLatest(ORDERS_GET_ACTION, orderListDataAction);
+    // yield takeLatest(ORDERS_GET_ACTION, orderListDataAction);
     // yield takeLatest(ORDERS_DETAILS_GET_ACTION, fetchOrderListDataAction);
     yield takeLatest(ORDERS_DETAILS_GET_ACTION, fetchOrderDataAction);
     yield takeLatest(ORDERS_DETAILS_UPDATE_ACTION, updateOrderAction);
+    yield takeLatest(SAVE_FAVOURITE_ORDERS_ACTION, saveFavouriteOrdersAction);
+
 }

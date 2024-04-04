@@ -1,18 +1,41 @@
 import "./header.css";
 import Cookies from "js-cookie";
-import WalletIcon from "./WalletIcon";
-import { useNavigate } from "react-router-dom";
+import WalletIcon from "./Icons/WalletIcon";
+import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
-
+import QuickIcon from "./Icons/QuickIcon";
+import CreateOrderIcon from "./Icons/CreateOrderIcon";
+import QuickShipIcon from "./Icons/QuickShipIcon";
+import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
+import TicketIcon from "./Icons/TicketIcon";
+import TrackingIcon from "./Icons/TrackingIcon";
+import EarnAndGrow from "./Icons/EarnAndGrow";
+import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
+import ReferEarnIcon from "./Icons/ReferEarnIcon";
+import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, ordersPattern, } from "../../../Routes";
+import { useState } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 export default function Header(props) {
-
+  const navigate = useNavigate()
+  const [inputValue, setInputValue] = useState('');
+  const sellerData = Cookies.get("user_id")
+  let authToken = Cookies.get("access_token")
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
- 
+
+  function handleKeyPress(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      navigate(ordersPattern)
+      setInputValue('')
+    }
+  }
+
 
   const handleLogout = () => {
     Cookies.remove('access_token');
@@ -20,101 +43,100 @@ export default function Header(props) {
   };
 
   const gettoken = Cookies.get('access_token');
-
   const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
   const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
 
   return (
     <Navbar
-      className="box-shadow shadow-sm p10-inline"
+      className="box-shadow shadow-sm p10-inline py-1"
       variant="light"
       id="shipEaseNavbarNav"
     >
       <Navbar.Toggle aria-controls="navbarNav" />
       <Navbar.Collapse id="navbarNav">
         <Nav className="ml-auto w-100 alignContent">
-          <div className="alignContent">
-            <Nav.Link>
-              <div className="navItemsContainer buisnessItem">
-                Business Plan
-                <span className="iconContainer">
-                  <FontAwesomeIcon icon={faIndianRupeeSign} />
-                </span>
+          <div className="d-flex justify-content-between w-100 align-items-center">
+            <div className="quick-actions-container">
+              <div className="quick-action-text">
+                <EarnAndGrow />Earn & Grow
               </div>
-            </Nav.Link>
-            <Nav.Link>
-              <div className="navItemsContainer rateCalculatorColor">
-                Rate Calculator
-                <span className="iconContainer">
-                  <FontAwesomeIcon icon={faCalculator} />
-                </span>
-              </div>
-            </Nav.Link>
-            <Nav.Link>
-              <div className="navItemsContainer referColor">
-                Refer to earn coins
-                <span className="iconContainer">
-                  <FontAwesomeIcon icon={faHandHoldingDollar} />
-                </span>
-              </div>
-            </Nav.Link>
-          </div>
-          {/* <div className="icons links ">
-            <div className="iconContainer notificationIcon bell">
-              <FontAwesomeIcon icon={faBell} />
-              <span className="bellColor">3</span>
-            </div>
-            <div className="iconContainer settingIcon cart">
-              <FontAwesomeIcon icon={faCog} />
-              <span className="settingColor">5</span>
-            </div>
-          </div> */}
+              <div className="quick-actions-hover hl">
+                <div className="qa-hovered-content">
+                  <p><BusinessPlanIcon />Business Plan</p>
+                  <p><ReferEarnIcon />Refer to Earn Coins</p>
 
-          <div className="d-flex" style={{ gap: "10px" }}>
-
-            <Nav.Link>
-              <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
-                <span className="iconContainer walletIcon px-2">
-                  <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
-                  <WalletIcon />
-                  {/* <FontAwesomeIcon icon={faWallet} /> */}
-                </span>
-              </div>
-            </Nav.Link>
-            <div className="icons links ">
-              <div className="iconContainer notificationIcon bell">
-                <FontAwesomeIcon icon={faBell} />
-                <span className="bellColor">3</span>
+                </div>
               </div>
             </div>
-            <NavDropdown
-              title={
-                <span>
-                  <img
-                    src={UserImage}
-                    className="user-photo"
-                  // style={{ width: "50px", height: "50px" }}
-                  />
-                  {/* <FontAwesomeIcon icon={faUser} /> */}
-                </span>
-              }
-              id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item eventKey="4.1">
-                Hello, Himanshu
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item eventKey="4.2">
-                <FontAwesomeIcon icon={faEdit} /> Edit Profile
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item
-                eventKey="4.3"
-                onClick={() => handleLogout()}
+
+            <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+              <div className="header-search-input">
+                <input className="input-field"
+                  type="search" placeholder="Search AWB || Order ID"
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyPress={handleKeyPress} />
+                <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+              </div>
+              <div className="quick-actions-container">
+                <div className="quick-action-text">
+                  <QuickIcon /> Quick Actions
+                </div>
+                <div className="quick-actions-hover right-header">
+                  <div className="qa-hovered-content">
+                    <p onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })}><CreateOrderIcon />Create Order</p>
+                    <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
+                    <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
+                    <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
+                    <p><Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link></p>
+                  </div>
+                </div>
+              </div>
+
+              <Nav.Link>
+                <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
+                  <span className="walletIcon px-2">
+                    <WalletIcon />
+                    <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
+                    {/* <FontAwesomeIcon icon={faWallet} /> */}
+                  </span>
+                </div>
+              </Nav.Link>
+              <div className="icons links ">
+                <div className="iconContainer notificationIcon bell">
+                  <FontAwesomeIcon icon={faBell} />
+                  <span className="bellColor">3</span>
+                </div>
+              </div>
+              <NavDropdown
+                title={
+                  <span>
+                    <img
+                      src={UserImage}
+                      className="user-photo"
+                    // style={{ width: "50px", height: "50px" }}
+                    />
+                    {/* <FontAwesomeIcon icon={faUser} /> */}
+                  </span>
+                }
+                id="basic-nav-dropdown"
               >
-                <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-              </NavDropdown.Item>
-            </NavDropdown>
+                <NavDropdown.Item eventKey="4.1">
+                  Hello, Himanshu
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item eventKey="4.2">
+                  <FontAwesomeIcon icon={faEdit} /> Edit Profile
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  eventKey="4.3"
+                  onClick={() => handleLogout()}
+                >
+                  <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                </NavDropdown.Item>
+              </NavDropdown>
+            </div>
           </div>
         </Nav>
       </Navbar.Collapse>

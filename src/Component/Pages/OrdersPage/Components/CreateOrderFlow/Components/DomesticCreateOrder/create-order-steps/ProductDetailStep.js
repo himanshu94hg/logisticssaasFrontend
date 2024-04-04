@@ -80,8 +80,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
     const handlePriceValidation = (value, index) => {
         const regex = /^\d{1,4}$/;
         if (!regex.test(value)) {
-            setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: 'Please enter(up to 4 digits).' }));
-        } else {
+            // setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: 'Please enter(up to 4 digits).' }));
             setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: '' }));
         }
     };
@@ -172,10 +171,11 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         placeholder="Enter Unit Price"
                                         type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
                                         onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
+                                            const allowedCharacters = /^[0-9\b.]+$/;
+                                            if (!allowedCharacters.test(e.key)) {
                                                 e.preventDefault();
                                             }
-                                        }}
+                                        }} 
                                     />
                                 </label>
                                 {/* Quantity */}

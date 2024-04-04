@@ -1,0 +1,52 @@
+.select-all-drop {
+    height: 16px;
+}
+
+.select-all-drop .custom-select {
+    position: relative;
+    display: inline-block;
+}
+
+.select-all-drop .selected-option {
+    padding: 0px;
+    border: none;
+    cursor: pointer;
+}
+
+.select-all-drop .options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: none;
+    border-radius: 0.5rem;
+}
+
+.select-all-drop .open .options {
+    display: block;
+}
+
+.select-all-drop .options li {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    width: auto;
+    font-weight: 400;
+    white-space: nowrap;
+}
+
+.select-all-drop .options li input {
+    margin-right: 5px;
+    vertical-align: -1px;
+}
+
+.select-all-drop .options li:hover {
+    background-color: var(--sh-primary-light);
+    border-radius: 0.5rem;
+}

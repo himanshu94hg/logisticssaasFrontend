@@ -17,7 +17,7 @@ export default function NavTabs(props) {
 
     const response = axios.get(`https://dev.shipease.in/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     if (response.status === 200) {
-     
+
     } else {
       const errorData = response.data;
       console.error('API Error:', errorData);
@@ -49,7 +49,7 @@ export default function NavTabs(props) {
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Courier Preferences
+                Preferences
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Set preference Rules" ? "active" : ""}`}
@@ -60,7 +60,7 @@ export default function NavTabs(props) {
               {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
-                Set preference Rules
+                Rules
               </div>
             </Nav.Link>
           </div>

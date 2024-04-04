@@ -11,6 +11,7 @@ import { AddressDetailStep } from './create-order-steps/AddressDetailStep';
 import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
+import { useSelector } from 'react-redux';
 
 const DomesticCreateOrder = () => {
     const totalSteps = 5;
@@ -68,7 +69,7 @@ const DomesticCreateOrder = () => {
             cod_charges: '',
             shipping_charges: '',
             transaction_fee: '',
-            is_gift_wrap: true
+            is_gift_wrap: false
         },
         dimension_details: {
             weight: '',
@@ -94,6 +95,7 @@ const DomesticCreateOrder = () => {
         ],
     })
 
+    console.log(formData,"this is a form data")
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;
@@ -106,9 +108,12 @@ const DomesticCreateOrder = () => {
         setStep(step + 1);
     };
 
-    const handlePrev = () => {
+    const handlePrev = () => {  
         setStep(step - 1);
     };
+
+    
+
 
     const handleFormSubmit = async () => {
         try {

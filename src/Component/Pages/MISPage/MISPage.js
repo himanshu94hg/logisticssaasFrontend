@@ -5,8 +5,7 @@ import ScheduledReportsMIS from './Components/ScheduledReportsMIS/ScheduledRepor
 import ActivityLogsMIS from './Components/ActivityLogsMIS/ActivityLogsMIS';
 import DownloadMIS from './Components/DownloadMIS/DownloadMIS';
 import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
-import Pagination from '../OrdersPage/Components/Pagination/Pagination';
-
+import Pagination from '../../common/Pagination/Pagination';
 
 const MISPage = () => {
     const [activeTab, setActiveTab] = useState("ActivityLogsMIS");
@@ -29,33 +28,35 @@ const MISPage = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {/* OrdersMIS */}
-            <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
-                <ActivityLogsMIS />
-            </div>
+            <div className='mis-page-container'>
+                {/* OrdersMIS */}
+                <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
+                    <ActivityLogsMIS />
+                </div>
 
-            {/* ShipmentsMIS */}
-            <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
-                <ScheduledReportsMIS />
-            </div>
+                {/* ShipmentsMIS */}
+                <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
+                    <ScheduledReportsMIS />
+                </div>
 
-            {/* BillingMIS */}
-            <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
-                <ReportsMIS />
-            </div>
+                {/* BillingMIS */}
+                <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
+                    <ReportsMIS />
+                </div>
 
-            {/* ReturnsMIS */}
-            <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
-                <DownloadMIS />
-            </div>
+                {/* ReturnsMIS */}
+                <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
+                    <DownloadMIS />
+                </div>
 
-            <Pagination
-                totalItems={totalItems}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemsPerPage={setItemsPerPage}
-                setCurrentPage={setCurrentPage}
-            />
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
+            </div>
         </>
     )
 }

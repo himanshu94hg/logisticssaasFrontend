@@ -1,7 +1,7 @@
 import './SideNav.css';
 import OMSIcon from "./Icons/OMSIcon";
 import MISIcon from "./Icons/MISIcon";
-import { NavLink } from 'react-router-dom';
+import { NavLink, Navigate, useNavigate } from 'react-router-dom';
 import ToolsIcons from "./Icons/ToolsIcons";
 import OrdersIcon from "./Icons/OrdersIcon";
 import BillingIcon from "./Icons/BillingIcon";
@@ -17,20 +17,28 @@ import WeightRecordsIcon from "./Icons/WeightRecordsIcon";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import CustomerSupportIcon from "./Icons/CustomerSupportIcon";
 import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
+import { useDispatch } from 'react-redux';
+import pathAction from '../../../redux/action/pathname';
+import { indexPattern } from '../../../Routes';
 
 
 
 const Dropdown = ({ links, isOpen }) => {
+  const dispatch = useDispatch()
+
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
-        <NavLink key={index} to={link.to} onClick={link.onClick}>
+        <NavLink key={index} to={link.to} onClick={(e) => dispatch(pathAction(link.label))}>
           {link.label}
         </NavLink>
       ))}
     </div>
   );
 };
+
+// dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
+
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -104,6 +112,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 };
 
 const SideNav = (props) => {
+  const navigate = useNavigate()
   const [isExpanded, setExpanded] = useState(false);
   // const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
@@ -148,11 +157,11 @@ const SideNav = (props) => {
     { to: "/Orders", label: "Orders" },
     {
       to: "MoreOnOrders", label: "More On Orders", hasDropdown: true, dropdownLinks: [
-        { to: "/quick-order", label: "Quick Order" },
+        { to: "/create-orders", label: "Quick Order" },
         { to: "/more-on-orders", label: "Reassign Orders" },
         { to: "/more-on-orders", label: "Merge Orders" },
         { to: "/more-on-orders", label: "Split Orders" },
-        { to: "/create-order", label: "Reverse Order" },
+        { to: "/create-orders", label: "Reverse Order" },
       ],
     },
     { to: "/Shipments", label: "Shipments" },
@@ -199,7 +208,8 @@ const SideNav = (props) => {
         <img
           src={Logo}
           alt="Logo"
-        // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
+          onClick={() => navigate(indexPattern)}
+          // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
         />
       </div>
       <div className="menu-container">

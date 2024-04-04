@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const DownloadMIS = () => {
 
@@ -8,20 +10,22 @@ const DownloadMIS = () => {
     const [orders, setAllOrders] = useState([
         {
             id: 1,
-            userDetails: 'John Doe',
-            date: '2024-03-15',
-            time: '10:00 AM',
-            action: 'Logged In',
-            description: 'User logged into the system.'
+            name: 'Bulk Labels',
+            type: 'Label',
+            status: 'In Progress',
+            requested_date: '24 Mar 2024',
+            completed_date: '',
+            d_file: 'labels.pdf'
         },
         {
             id: 2,
-            userDetails: 'Jane Smith',
-            date: '2024-03-15',
-            time: '11:30 AM',
-            action: 'Logged Out',
-            description: 'User logged out of the system.'
-        },
+            name: 'Bulk invoice',
+            type: 'Invoice',
+            status: 'Done',
+            requested_date: '24 Mar 2024',
+            completed_date: '24 Mar 2024',
+            d_file: 'invoice.pdf'
+        }
         // Add more dummy data as needed
     ]);
 
@@ -54,18 +58,20 @@ const DownloadMIS = () => {
     };
 
     return (
-        <section className='position-relative'>
+        <section className='position-relative downloads-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="" />
+                        <label style={{ width: '500px' }}>
+                            <input className='input-field' type="text" placeholder="Search your downloads" />
                             <button>
-                                <img src={SearchIcon} alt="Search" />
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
                     </div>
-                    <div className='button-container'></div>
+                    <div className='button-container'>
+                        <button className='btn main-button'>Export Report</button>
+                    </div>
                 </div>
                 <div className='table-container'>
                     <table className=" w-100">
@@ -78,11 +84,12 @@ const DownloadMIS = () => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '25%' }}>User Details</th>
-                                <th>Date</th>
-                                <th>Time</th>
+                                <th style={{ width: '25%' }}>Name</th>
+                                <th>Type</th>
+                                <th>Status</th>
+                                <th>Request Date</th>
+                                <th>Completed Date</th>
                                 <th>Action</th>
-                                <th>Description</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -99,34 +106,38 @@ const DownloadMIS = () => {
                                             />
                                         </td>
                                         <td>
-                                            {/* User Details */}
+                                            {/* Name */}
                                             <div className='cell-inside-box'>
-                                                {row.userDetails}
+                                                {row.name}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Date */}
+                                            {/* Type */}
                                             <div className='cell-inside-box'>
-                                                {row.date}
+                                                {row.type}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Time */}
+                                            {/* Status */}
                                             <div className='cell-inside-box'>
-                                                {row.time}
+                                                {row.status}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Request Date */}
+                                            <div className='cell-inside-box'>
+                                                {row.requested_date}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Completed Date */}
+                                            <div className='cell-inside-box'>
+                                                {row.completed_date}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Action */}
-                                            <div className='cell-inside-box'>
-                                                {row.action}
-                                            </div>
-                                        </td>
-                                        <td>
-                                            {/* Description */}
-                                            <div className='cell-inside-box'>
-                                                {row.description}
-                                            </div>
+                                            <button className='btn main-button'><FontAwesomeIcon icon={faDownload} /></button>
                                         </td>
                                     </tr>
                                 </React.Fragment>

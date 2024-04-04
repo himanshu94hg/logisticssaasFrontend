@@ -1,0 +1,295 @@
+.add-rule-panel {
+    position: fixed;
+    height: 100vh;
+    background-color: #fff;
+    top: 0;
+    right: -100vw;
+    z-index: 6;
+    transition: 1s;
+    width: 50vw;
+}
+
+.add-rule-panel.open {
+    right: 0;
+}
+
+.ar-panel-body {
+    padding: 30px;
+}
+
+.ar-items-scroll {
+    height: calc(100vh - 474px);
+    overflow-y: auto;
+    overflow-x: clip;
+    counter-reset: section;
+}
+
+.add-rule-btns {
+    min-width: 78px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-rules-section {
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    counter-reset: section;
+}
+
+.create-rules-section p {
+    margin-bottom: 0;
+}
+
+.create-rules-section .created-rules {
+    background: var(--sh-primary-light);
+    padding: 15px;
+    display: flex;
+    gap: 20px;
+    border-radius: 0.5rem;
+    position: relative;
+    flex-direction: column;
+}
+
+.create-rules-section .created-rules .cr-rule-conditions {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.create-rules-section .created-rules .rule-name {
+    margin-left: 50px;
+}
+
+.create-rules-section .created-rules .cr-rule-name {
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-rules-section .created-rules .rule-name {
+    display: flex;
+    gap: 15px;
+}
+
+
+.create-rules-section .created-rules::before {
+    counter-increment: section;
+    content: counter(section);
+    padding-inline: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border: 1px solid var(--sh-primary-light);
+    font-size: 1.7rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+
+
+
+.create-rules-section .rule-row {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    position: relative;
+    margin-left: 50px;
+}
+
+.create-rules-section .rule-row .rule-item {
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+.create-rules-section .rule-row .rule-item p {
+    background-color: #fff;
+    padding: 5px 10px;
+    margin-bottom: 0;
+    border-radius: 0.5rem;
+}
+
+.create-rules-section .rule-row .rule-item p:nth-of-type(1) {
+    width: 150px;
+}
+
+.create-rules-section .rule-row .rule-item p:nth-of-type(2) {
+    width: 188px;
+    text-align: center;
+}
+
+.create-rules-section .rule-row .rule-item p:nth-of-type(3) {
+    width: 150px;
+}
+
+.create-rules-section .rule-preference {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    /* justify-items: end; */
+    gap: 10px;
+    position: relative;
+    /* margin-inline: 22px 139px; */
+}
+
+.create-rules-section .rule-preference p {
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 0.5rem;
+}
+
+.create-rules-section .rule-condition {
+    width: 50px;
+    margin-right: 20px;
+}
+
+.create-rules-section .rule-row .rule-item p.rule-condition {
+    width: 50px;
+    margin-right: 20px;
+    background-color: transparent;
+    font-size: 0.8rem;
+    position: relative;
+}
+
+.create-rules-section .rule-row .rule-item p.rule-condition::before {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 9px;
+    border: 1px dashed var(--sh-primary);
+    left: -4px;
+    top: 42%;
+}
+
+.create-rules-section .rule-row .rule-item p.rule-condition::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 22px;
+    border: 1px dashed var(--sh-primary);
+    left: 20px;
+    top: 70%;
+}
+
+.create-rules-section .rule-row .rule-item:last-of-type p:last-of-type::after {
+    display: none;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type .rule-condition {
+    visibility: hidden;
+    position: relative;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type p:nth-of-type(3) {
+    position: relative;
+}
+
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type p:nth-of-type(3)::before {
+    position: absolute;
+    content: '';
+    height: 1px;
+    width: 19px;
+    border: 1px dashed var(--sh-primary);
+    right: -25px;
+    top: 50%;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type p:nth-of-type(3)::after {
+    position: absolute;
+    content: '';
+    width: 1px;
+    height: 26px;
+    border: 1px dashed var(--sh-primary);
+    right: -30px;
+    top: 50%;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type .match-value-item::before,
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type .match-value-item::after {
+    display: none;
+}
+
+.rules-action-btn {
+    position: absolute;
+    right: -1px;
+    bottom: -13px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding-block: 12px;
+    align-items: flex-end;
+}
+
+.rule-name-container {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.rule-name-container label {
+    width: 100%;
+}
+
+
+
+.cr-rule-name .toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 44px;
+    height: 24px;
+}
+
+.cr-rule-name .toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cr-rule-name .toggle-label {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #ccc;
+    border-radius: 34px;
+}
+
+.cr-rule-name .toggle-inner {
+    display: block;
+    width: 17px;
+    height: 17px;
+    margin: 3px;
+    background-color: white;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.cr-rule-name .toggle-switch .toggle-label.checked .toggle-inner {
+    transform: translateX(20px);
+}
+
+.cr-rule-name .toggle-label.checked {
+    background-color: #2196f3;
+}
+
+
+@media screen and (max-width:1252px) {
+    .create-rules-section .rule-preference {
+        margin-inline: 20px 100px;
+    }
+}

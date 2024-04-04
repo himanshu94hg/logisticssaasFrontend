@@ -1,32 +1,30 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
+import pathClearAction from '../../../../../../../../redux/action/pathname/pathClear';
 
-const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
+const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,setErrors }) => {
     const location = useLocation();
-    const [errors, setErrors] = useState({});
+    const dispatch = useDispatch();
     const [orderStaus, setOrderStatus] = useState(false)
 
-    console.log(location, "this is location?.state?.orderType")
+    const { pathName } = useSelector(state => state?.authDataReducer)
+
 
     useEffect(() => {
-        if (location?.state?.orderType != "normalOrder" && location.pathname === "/create-order" || editStatus != "editStatus" && location.pathname === "/Orders") {
-            setOrderStatus(true)
-            setFormData({
-                ...formData,
-                order_details: {
-                    ...formData.order_details,
-                    order_type: "Reverse",
-                    payment_type: "Prepaid"
-                }
-            });
+        if (location.pathname === "/create-order" && location?.state?.orderType === "normalOrder") {
+            dispatch(pathClearAction('ddd'))
         }
+    }, [location.pathname])
 
-    }, [location, editStatus])
+
+
 
     const validateFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
-            newErrors.customer_order_number = ' Order Number is required!';
+            newErrors.customer_order_number = 'Order Number is required!';
         }
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
@@ -130,13 +128,10 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
 
     return (
         <>
-            {/* Order Details Section */}
             <div className='box-shadow p10 w-100'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-5'>Create a quick order!</h3>
-                    {/* <h3 className='mb-4'>Order Details</h3> */} 
                     <div className='row'>
-                        {/* Customer Order Number */}
                         <label className='col'>
                             <span>Order Number <span className='mandatory'>*</span></span>
                             <input
@@ -149,11 +144,10 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                             {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>
 
-                        {/* Order Type */}
                         <label className='col'>
                             Order Type
                             <select
-                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`select-field ${errors.order_type && 'input-field-error'}`}
                                 value={formData.order_details.order_type}
                                 onChange={(e) => handleSelectChange(e, 'order_type')}
                                 disabled={orderStaus}
@@ -162,14 +156,12 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                                 <option value="Forward">Forward</option>
                                 <option value="Reverse">Reverse</option>
                             </select>
-                            {errors.order_type && <div className="custom-error">{errors.order_type}</div>}
+                            {errors.order_type && <div className="custom-error">{errors.order_type }</div>}
                         </label>
-                        {/* Order Date with react-datepicker */}
-
                         <label className='col'>
                             Payment Type
                             <select
-                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`select-field ${errors.payment_type && 'input-field-error'}`}
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
                                 disabled={orderStaus}
@@ -178,7 +170,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
                                 <option value="Prepaid">Prepaid</option>
                                 <option value="COD">COD</option>
                             </select>
-                            {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
+                            {errors.payment_type && <div className="custom-error">{errors.payment_type }</div>}
                         </label>
                     </div>
                 </div>

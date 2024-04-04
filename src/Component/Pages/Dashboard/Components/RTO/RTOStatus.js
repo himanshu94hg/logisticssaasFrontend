@@ -1,20 +1,20 @@
-import React from 'react'
+import React from 'react';
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
-const StatusBarChart = () => {
+const StatusBarChart = ( ) => {
+    const  data  = useSelector(state => state?.dashboardRtoReducer?.rtoStatus);
+    const latestData = data.slice(-5);
+    const weeks = latestData.map(item => `Week ${item.week_number}`);
+
+    const initiatedData = latestData.map(item => item.rto_initiated);
+    const inTransitData = latestData.map(item => item.rto_intransit);
+    const deliveredData = latestData.map(item => item.rto_delivered);
+
     const seriesData = [
-        {
-            name: 'Initiated',
-            data: [44, 55, 41, 37, 22]
-        },
-        {
-            name: 'In Transit',
-            data: [53, 32, 33, 52, 13]
-        },
-        {
-            name: 'Delivered',
-            data: [12, 17, 11, 9, 15]
-        }
+        { name: 'Initiated', data: initiatedData },
+        { name: 'In Transit', data: inTransitData },
+        { name: 'Delivered', data: deliveredData }
     ];
 
     const options = {
@@ -40,7 +40,7 @@ const StatusBarChart = () => {
             categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
         },
         tooltip: {
-            enabled: true, // Ensure tooltips are enabled
+            enabled: true,
         },
         fill: {
             opacity: 1
@@ -50,7 +50,7 @@ const StatusBarChart = () => {
             horizontalAlign: 'left',
             offsetX: 40
         },
-        colors: ['#8ec2f1', '#9fe0a7', '#fdd7da',]
+        colors: ['#8ec2f1', '#9fe0a7', '#fdd7da']
     };
 
     return (
@@ -60,15 +60,13 @@ const StatusBarChart = () => {
     );
 };
 
-const RTOStatus = () => {
+const RTOStatus = ({ data }) => {
     return (
-        <>
-            <div className="box-shadow shadow-sm p10">
-                <h4 className="title">RTO Status</h4>
-                <StatusBarChart />
-            </div>
-        </>
-    )
-}
+        <div className="box-shadow shadow-sm p10">
+            <h4 className="title">RTO Status</h4>
+            <StatusBarChart data={data} />
+        </div>
+    );
+};
 
-export default RTOStatus
+export default RTOStatus;

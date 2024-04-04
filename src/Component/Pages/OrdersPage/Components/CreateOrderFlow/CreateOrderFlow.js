@@ -6,6 +6,7 @@ import InternationalCreateOrders from './Components/InternationalCreateOrders/In
 import QuickCreateOrder from './Components/QuickCreateOrder/QuickCreateOrder';
 import BulkCreateOrder from './Components/BulkCreateOrder/BulkCreateOrder';
 import { useLocation } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 
 const CreateOrderFlow = () => {
@@ -15,6 +16,7 @@ const CreateOrderFlow = () => {
 
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
+    const { pathName } = useSelector(state => state?.authDataReducer)
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -25,16 +27,26 @@ const CreateOrderFlow = () => {
         setIsOpen(!isOpen);
     };
 
+
     useEffect(() => {
-        if (location.pathname === "/create-order" && location.state && location.state.tabs === "BulkCreateOrder") {
+        if (location.pathname === "/create-order" && location.state && location.state.orderType === "BulkCreateOrder") {
             setActiveTab("BulkCreateOrder");
-        } else if (location.pathname === "/create-order") {
+        }
+        else if (location.pathname === "/create-order" && location.state && location.state.orderType === "normalOrder") {
             setActiveTab("DomesticCreateOrder");
         }
-    }, [location]);
+        else if (pathName === "Quick Order" || location.pathname === "/create-order" && location.state && location.state.orderType === "quickOrder") {
+            setActiveTab("QuickCreateOrder");
+        }
+        else if (pathName === "Reverse Order") {
+            setActiveTab("DomesticCreateOrder");
+        }
+        // else if(location.pathname === "/Orders"){
+        //     setActiveTab("DomesticCreateOrder");
+        // }
+    }, [location, pathName, location?.state?.orderType]);
 
-   
-
+    console.log(location.pathname, location.state?.orderType, "location.pathnamelocation.pathname")
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

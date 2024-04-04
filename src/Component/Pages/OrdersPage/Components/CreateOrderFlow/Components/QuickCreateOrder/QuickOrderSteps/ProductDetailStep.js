@@ -2,34 +2,17 @@ import { faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react'
 
-const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
-    const [errors, setErrors] = useState({});
-    const validateFormData = () => {
-        const newErrors = {};
-        formData?.product_details?.forEach((product, index) => {
-            if (!product?.product_name?.trim()) {
-                newErrors[`product_name_${index}`] = 'Product Name is required!';
-            }
-            if (typeof product?.quantity !== 'string' || !product?.quantity.trim() || isNaN(Number(product?.quantity)) || Number(product?.quantity) <= 0) {
-                newErrors[`quantity_${index}`] = 'Product Quantity is required!';
-            }
-            if (!product?.sku?.trim()) {
-                newErrors[`sku_${index}`] = 'SKU is required!';
-            }
-        });
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-
-    const onNextClicked = () => {
+   
+   /* const onNextClicked = () => {
         if (validateFormData()) {
             if (formData.product_details && formData.product_details.length > 0) {
                 onNext();
             }
         }
-    };
+    };*/
 
     const handleChange = (e, field, index) => {
         const updatedProducts = [...formData.product_details];

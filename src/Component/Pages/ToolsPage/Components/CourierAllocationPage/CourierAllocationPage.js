@@ -8,8 +8,9 @@ import SetPreferenceRules from './SetPreferenceRules';
 import { useDispatch, useSelector } from "react-redux";
 
 const CourierAllocationPage = () => {
-  const [activeTab, setActiveTab] = useState("Courier Preferences");
   const dispatch = useDispatch();
+  const [formData, setFormData] = useState(null)
+  const [activeTab, setActiveTab] = useState("Courier Preferences");
   const partnersData = useSelector(state => state?.toolsSectionReducer.courierAllocation);
 
   useEffect(() => {
@@ -33,6 +34,7 @@ const CourierAllocationPage = () => {
       const partners = newPartnersData[categoryIndex].partners;
       const [removed] = partners.splice(source.index, 1);
       partners.splice(destination.index, 0, removed);
+
       const formattedPayload = newPartnersData.reduce((acc, category) => {
         return acc.concat(category.partners.map((partner, index) => ({
           courier_category: category.id,
@@ -40,63 +42,73 @@ const CourierAllocationPage = () => {
           priority: index + 1
         })));
       }, []);
-      dispatch({ type: "COURIER_ALLOCATION_PARTNER_POST_ACTION", payload: formattedPayload });
+      setFormData(formattedPayload)
+
     }
   };
 
+  const handleSubmit = () => {
+    dispatch({ type: "COURIER_ALLOCATION_PARTNER_POST_ACTION", payload: formData });
+  }
+
   return (
-      <>
-        <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-        <section className={`courier-preference box-shadow shadow-sm white-block p10 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
-          <div className='courier-preference-list'>
-            <DragDropContext onDragEnd={handleDragEnd}>
-              {partnersData?.map((category, index) => (
-                  <div className='Weight-slab' key={category.id}>
-                    <h5>{category.title}</h5>
-                    <Droppable droppableId={index.toString()}>
-                      {(provided) => (
-                          <ul {...provided.droppableProps} ref={provided.innerRef}>
-                            {category.partners.map((partner, index) => (
-                                <Draggable key={partner.id.toString()} draggableId={partner.id.toString()} index={index}>
-                                  {(provided) => (
-                                      <li
-                                          ref={provided.innerRef}
-                                          {...provided.draggableProps}
-                                          {...provided.dragHandleProps}
-                                      >
-                                        <FontAwesomeIcon icon={faEllipsisVertical} /> {partner.title}
-                                      </li>
-                                  )}
-                                </Draggable>
-                            ))}
-                            {provided.placeholder}
-                          </ul>
-                      )}
-                    </Droppable>
-                  </div>
-              ))}
-            </DragDropContext>
-          </div>
-          <div className='cp-or-line'>
-            <hr />
-            <span>OR</span>
-          </div>
-          <div className='default-sorting-section'>
-            <label>
+    <>
+      <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <section className={`courier-preference box-shadow shadow-sm white-block p10 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
+        <div className='courier-preference-list'>
+          <DragDropContext onDragEnd={handleDragEnd}>
+            {partnersData?.map((category, index) => (
+              <div className='Weight-slab' key={category.id}>
+                <h5>{category.title}</h5>
+                <Droppable droppableId={index.toString()}>
+                  {(provided) => (
+                    <ul {...provided.droppableProps} ref={provided.innerRef}>
+                      {category.partners.map((partner, index) => (
+                        <Draggable key={partner.id.toString()} draggableId={partner.id.toString()} index={index}>
+                          {(provided) => (
+                            <li
+                              ref={provided.innerRef}
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                            >
+                              <FontAwesomeIcon icon={faEllipsisVertical} /> {partner.title}
+                            </li>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </ul>
+                  )}
+                </Droppable>
+              </div>
+            ))}
+          </DragDropContext>
+        </div>
+        <div className='cp-or-line'>
+          <hr />
+          <span>OR</span>
+        </div>
+        <div className='default-sorting-section'>
+          <label>
+            <div>
               Sort by default sorting options
               <select className='select-field' name="" id="">
                 <option value="">Select</option>
                 <option value="">Sort as Cheapest</option>
                 <option value="">Sort as Fastest</option>
               </select>
-            </label>
-          </div>
-          <button className='btn main-button'>Submit</button>
-        </section>
-        <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
-          <SetPreferenceRules />
-        </section>
-      </>
+            </div>
+            <div>
+              <button className='btn main-button' onClick={() => handleSubmit()}>Save Courier Preference</button>
+            </div>
+          </label>
+        </div>
+
+      </section>
+      <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
+        <SetPreferenceRules />
+      </section>
+    </>
   );
 }
 

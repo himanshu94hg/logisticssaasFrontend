@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
 import IndiaMapp from "../../../../common/Graph/IndiaMapp";
-import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function StateSplitDashboard() {
   const dispatch = useDispatch();
@@ -24,12 +23,6 @@ function StateSplitDashboard() {
     }
   }, [mydata])
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload:dateRangeDashboard
-  //   })
-  // }, [])
-
   return (
     <div className="box-shadow shadow-sm p10 state-wise-card">
       <div className="card-heading">
@@ -40,7 +33,9 @@ function StateSplitDashboard() {
         <h5 className="total-count">{totalSales}<span className="font12 text-gray">Sales</span></h5>
         <p className="font12 text-gray">Compared To Last Month</p>
       </div>
-      <IndiaMapp stateMapData={stateMapData} />
+      <div className="india-map-container">
+        <IndiaMapp stateMapData={stateMapData} />
+      </div>
     </div>
   );
 }

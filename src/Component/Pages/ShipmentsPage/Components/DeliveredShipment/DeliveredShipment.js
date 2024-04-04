@@ -1,4 +1,3 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
@@ -34,58 +33,12 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const DeliveredShipment = ({shipmentCard}) => {
+const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
-
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-              "type": "shipment",
-              "subtype": "delivered"
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-          };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${"Shipment_Delivered"}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);    
-
-
 
     const reasons = [
         { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
@@ -108,9 +61,11 @@ const DeliveredShipment = ({shipmentCard}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -120,8 +75,13 @@ const DeliveredShipment = ({shipmentCard}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -131,7 +91,6 @@ const DeliveredShipment = ({shipmentCard}) => {
             setSelectAll(false);
         }
     };
-
     const handleSidePanel = () => {
         document.getElementById("sidePanel").style.right = "0"
         setBackDrop(true)
@@ -154,29 +113,6 @@ const DeliveredShipment = ({shipmentCard}) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
@@ -188,13 +124,13 @@ const DeliveredShipment = ({shipmentCard}) => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Date </th>
+                                <th>Order Details </th>
                                 <th>NDR Reason</th>
                                 <th>Package Details</th>
                                 <th>Customer details</th>
                                 <th>Tracking Detail</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                {/* <th>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -213,10 +149,13 @@ const DeliveredShipment = ({shipmentCard}) => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
-                                                <div className='d-flex align-items-center'>
+                                                <p>
+                                                    <span className=''>{row.customer_order_number}</span>
+                                                </p>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -275,32 +214,12 @@ const DeliveredShipment = ({shipmentCard}) => {
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row.status}</p>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                                 {row.ndr_status} */}
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
-                                                            <li>Escalate</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
                                     </tr>
                                 </React.Fragment>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
 
                 {/* <div id='sidePanel' className="side-panel">
                     <div className='sidepanel-closer'>

@@ -301,7 +301,7 @@ p {
 }
 
 .list-ui li {
-  display: flex;
+  display: grid;
   justify-content: space-between;
   align-items: center;
   padding: 7px;
@@ -309,6 +309,12 @@ p {
   margin-bottom: 15px;
   font-size: 13px;
   font-weight: 600;
+  grid-template-columns: 55% 10% 35%;
+}
+
+.cardvalue {
+  display: flex;
+  justify-content: end;
 }
 
 .list-ui li:last-of-type {
@@ -586,13 +592,9 @@ p {
 }
 
 .delete-btn {
-  display: flex;
-  align-items: center;
   background-color: #fddcdf;
   color: #f31429;
-  justify-content: center;
   padding: 5px 10px;
-  width: max-content;
 }
 
 .delete-btn:hover {
@@ -700,7 +702,7 @@ input::placeholder {
 .white-block {
   /* height: calc(100vh - 200px); */
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .column-container {
@@ -725,4 +727,30 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
 
 .shadow-sm {
   box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
+}
+
+.react-toggle:hover:not(.react-toggle--disabled) .react-toggle-track,
+.react-toggle-track {
+  background-color: #ddd;
+}
+
+.react-toggle--checked .react-toggle-track,
+.react-toggle--checked:hover:not(.react-toggle--disabled) .react-toggle-track {
+  background-color: var(--sh-primary);
+}
+
+.react-toggle--checked .react-toggle-track-check,
+.react-toggle-track-x {
+  opacity: 0;
+}
+
+.react-toggle-thumb {
+  border: none;
+}
+
+.reset-btn {
+  color: var(--sh-primary);
+  border-radius: 0;
+  padding: 0;
+  text-decoration: underline;
 }

@@ -1,67 +1,120 @@
-import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import Switch from 'react-switch';
+import Select from 'react-select';
 import './SidePanel.css'
+import Cookies from 'js-cookie';
+import axios from 'axios';
 
-const CustomDatePicker = ({ selectedDate, onChange }) => {
-    return (
-        <DatePicker
-            selected={selectedDate}
-            onChange={date => onChange(date)}
-            dateFormat="yyyy-MM-dd"
-        />
-    );
-};
+const SourceOptions = [
+    { label: "Amazon", value: "amazon" },
+    { label: "Custom", value: "Custom" },
+    { label: "Shopify", value: "shopify" },
+];
 
-const SidePanel = (props) => {
+const OrderStatus = [
+    { value: 'pending', label: 'Pending' },
+    { value: 'processing', label: 'Processing' },
+    { value: 'shipped', label: 'Shipped' },
+    { value: 'delivered', label: 'Delivered' },
+];
+
+const paymentOptions = [
+    { label: "Prepaid", value: "Prepaid" },
+    { label: "COD", value: "cod" },
+]
+
+const Ordertags = [
+    { label: "Tag 1", value: "Tag1" },
+];
+
+const CourierPartner = [
+    { label: "Bluedart", value: "bluedart" },
+    { label: "Shadowfax", value: "shadowfax" },
+    { label: "Delhivery", value: "delhivery" },
+    { label: "Xpressbees", value: "xpressbees" },
+];
+
+
+const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
-    const [paymentOption, setPaymentOption] = useState('');
+    const [SaveFilter, setSaveFilter] = useState(false)
+    const [clearState, setClearState] = useState(false)
+    const [pickupAddresses, setPickupAddresses] = useState([
 
-    const handlePaymentOptionChange = (e) => {
-        setPaymentOption(e.target.value);
-    };
+    ]);
 
-    const handleStartDateChange = date => {
-        setStartDate(date);
-    };
+    const sellerData = Cookies.get("user_id")
+    const authToken = Cookies.get("access_token")
 
-    const handleEndDateChange = date => {
-        setEndDate(date);
-    };
 
-    const handleNameChange = e => {
-        setName(e.target.value);
-    };
-
-    const handleLocationChange = e => {
-        setLocation(e.target.value);
+    const handleCheckboxChange = () => {
+        setSaveFilter(prevState => !prevState);
     };
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log('Filter submitted:', { startDate, endDate, name, location });
-        // Add your custom form submission logic here
+        handleMoreFilter(filterParams)
+        CloseSidePanel()
+        setClearState(true)
+
     };
+
+    const [filterParams, setFilterParams] = useState({
+        start_date: "",
+        end_date: "",
+        status: "",
+        order_source: "",
+        courier_partner: "",
+        payment_type: "",
+        order_id: "",
+        // order_tag: ""
+    })
+
+    console.log(activeTab,"this is a activeTabactiveTabactiveTabactiveTab",filterParams)
+
+    useEffect(() => {
+        if (activeTab || clearState) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                status: "",
+                order_source: "",
+                courier_partner: "",
+                payment_type: "",
+                order_id: "",
+                order_tag: ""
+            })
+        }
+    }, [activeTab,clearState])
 
     const handleReset = () => {
-        setStartDate(null);
-        setEndDate(null);
-        setName('');
-        setLocation('');
+        setFilterParams({
+            start_date: null,
+            end_date: null,
+            status: "",
+            order_source: "",
+            courier_partner: "",
+            payment_type: "",
+            order_id: "",
+            order_tag: ""
+        })
     };
-
-
+    const handleChange = (fieldName, value) => {
+        // Handle the change
+        console.log(fieldName, value);
+    };
+    
 
     return (
         <>
             <div id='sidePanel' className="side-panel">
-                <div id='sidepanel-closer' onClick={props.CloseSidePanel}>
+                <div id='sidepanel-closer' onClick={CloseSidePanel}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
                 <section className='sidepanel-header'>
@@ -70,75 +123,32 @@ const SidePanel = (props) => {
                 </section>
                 <section className='sidepanel-body'>
                     <form onSubmit={handleSubmit}>
-                        <div className="form-input-fields">
-                            <div className='filter-row'>
-                                <label htmlFor="startDate">Start Date:
-                                    <CustomDatePicker selectedDate={startDate} onChange={handleStartDateChange} />
-                                </label>
-                                <label htmlFor="endDate">End Date:
-                                    <CustomDatePicker selectedDate={endDate} onChange={handleEndDateChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="paymentOption">Payment Option:</label>
-                                <select
-                                    id="paymentOption"
-                                    value={paymentOption}
-                                    onChange={handlePaymentOptionChange}
-                                >
-                                    <option value="">Select Payment Option</option>
-                                    <option value="Cash on Delivery">Cash on Delivery</option>
-                                    <option value="Prepaid">Prepaid</option>
-                                    {/* Add more options as needed */}
-                                </select>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="name">Order Source
-                                    <input type="text" id="name" value={name} onChange={handleNameChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="location">Store Name
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="location">Channel
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="location">Order ID
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="location">Payment
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="location">Status
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label htmlFor="location">Product
-                                    <input type="text" id="location" value={location} onChange={handleLocationChange} />
-                                </label>
-                            </div>
+                    <div className="form-input-fields">
+                        <div className='filter-row'>
+                            <label>Order Status
+                                <Select
+                                    options={OrderStatus}
+                                    isMulti
+                                    isSearchable
+                                    onChange={(e) => handleChange("status", e)}
+                                    value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                />
+                            </label>
                         </div>
-                        <div className='advanced-filter-footer text-end'>
-                            <button className='btn seconadary-button' type="button" onClick={handleReset}>
-                                Reset
-                            </button>
-                            <button className='btn main-button ms-3' type="submit">Submit</button>
+                    </div>
+                        <div className='more-filters-footer'>
+                            <div>
+                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                    Reset
+                                </button>
+                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                            </div>
                         </div>
                     </form>
                 </section>
             </div>
         </>
     )
-}
+})
 
 export default SidePanel

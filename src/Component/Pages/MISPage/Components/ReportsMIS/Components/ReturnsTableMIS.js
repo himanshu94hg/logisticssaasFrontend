@@ -1,0 +1,342 @@
+import React, { useState } from 'react'
+import moment from 'moment'
+import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
+import customImg from "../../../../../../assets/image/integration/Manual.png"
+import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
+import InfoIcon from '../../../../../common/Icons/InfoIcon'
+
+const ReturnsTableMIS = () => {
+    const [selectAll, setSelectAll] = useState(false);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [orders, setAllOrders] = useState([
+        {
+            "id": 1239,
+            "customer_order_number": "Test26032024-clone",
+            "courier_partner": "xpressbees",
+            "channel": "custom",
+            "channel_id": null,
+            "awb_number": "Xbees10006",
+            "order_tag": "",
+            "order_type": "Forward",
+            "order_date": "2024-03-26T10:52:46.028000+05:30",
+            "order_courier_status": "Ready_to_ship",
+            "awb_assigned_date": "2024-03-26T17:56:15.057946+05:30",
+            "is_mps": false,
+            "manifest_sent": false,
+            "fulfillment_sent": false,
+            "ndr_status": false,
+            "rto_status": false,
+            "manifest_status": false,
+            "payment_type": "Prepaid",
+            "invoice_amount": "500.00",
+            "status": "shipped",
+            "created_at": "2024-03-26T17:56:14.962924+05:30",
+            "shipping_detail": {
+                "recipient_name": "Vinit",
+                "address": "P584 Hair om Nagar",
+                "landmark": "AWS",
+                "country": "India",
+                "state": "Gujarat",
+                "city": "Surat",
+                "pincode": "394221",
+                "mobile_number": "9874563215",
+                "email": "",
+                "company_name": "",
+                "contact_code": "91"
+            },
+            "order_products": [
+                {
+                    "id": 1572,
+                    "sku": "DWDED",
+                    "product_name": "AWS",
+                    "quantity": 2,
+                    "product_category": "",
+                    "unit_price": "0.00",
+                    "hsn_code": "",
+                    "tax_rate": null,
+                    "product_discount": "0.00"
+                }
+            ],
+            "dimension_detail": {
+                "weight": "0.50",
+                "length": "10.00",
+                "breadth": "10.00",
+                "height": "10.00",
+                "vol_weight": "0.20"
+            },
+            "pickup_details": {
+                "p_customer_name": "Amit",
+                "p_warehouse_name": "BMU",
+                "p_address_line1": "1234 Main Street, Suite 500 Anytown, CA",
+                "p_address_line2": "Hanuman mandir",
+                "p_country": "India",
+                "p_state": "Gujarat",
+                "p_city": "Surat",
+                "p_pincode": "394250",
+                "p_contact": "9874561235",
+                "p_contact_code": "+91"
+            },
+            "charge_detail": {
+                "cod_charges": "0.00",
+                "shipping_charges": "35.40",
+                "transaction_fee": null,
+                "is_gift_wrap": true
+            },
+            "other_details": {
+                "reseller_name": "",
+                "number_of_packets": 0
+            }
+        },
+        {
+            "id": 1238,
+            "customer_order_number": "Test26032024-clone",
+            "courier_partner": "smartr",
+            "channel": "custom",
+            "channel_id": null,
+            "awb_number": "SM100016",
+            "order_tag": "",
+            "order_type": "Forward",
+            "order_date": "2024-03-26T10:52:46.028000+05:30",
+            "order_courier_status": "Ready_to_ship",
+            "awb_assigned_date": "2024-03-26T17:56:10.607029+05:30",
+            "is_mps": false,
+            "manifest_sent": false,
+            "fulfillment_sent": false,
+            "ndr_status": false,
+            "rto_status": false,
+            "manifest_status": false,
+            "payment_type": "Prepaid",
+            "invoice_amount": "500.00",
+            "status": "shipped",
+            "created_at": "2024-03-26T17:56:10.506705+05:30",
+            "shipping_detail": {
+                "recipient_name": "Vinit",
+                "address": "P584 Hair om Nagar",
+                "landmark": "AWS",
+                "country": "India",
+                "state": "Gujarat",
+                "city": "Surat",
+                "pincode": "394221",
+                "mobile_number": "9874563215",
+                "email": "",
+                "company_name": "",
+                "contact_code": "91"
+            },
+            "order_products": [
+                {
+                    "id": 1571,
+                    "sku": "DWDED",
+                    "product_name": "AWS",
+                    "quantity": 2,
+                    "product_category": "",
+                    "unit_price": "0.00",
+                    "hsn_code": "",
+                    "tax_rate": null,
+                    "product_discount": "0.00"
+                }
+            ],
+            "dimension_detail": {
+                "weight": "0.50",
+                "length": "10.00",
+                "breadth": "10.00",
+                "height": "10.00",
+                "vol_weight": "0.20"
+            },
+            "pickup_details": {
+                "p_customer_name": "Amit",
+                "p_warehouse_name": "BMU",
+                "p_address_line1": "1234 Main Street, Suite 500 Anytown, CA",
+                "p_address_line2": "Hanuman mandir",
+                "p_country": "India",
+                "p_state": "Gujarat",
+                "p_city": "Surat",
+                "p_pincode": "394250",
+                "p_contact": "9874561235",
+                "p_contact_code": "+91"
+            },
+            "charge_detail": {
+                "cod_charges": "0.00",
+                "shipping_charges": "35.40",
+                "transaction_fee": null,
+                "is_gift_wrap": true
+            },
+            "other_details": {
+                "reseller_name": "",
+                "number_of_packets": 0
+            }
+        },
+        // Add more dummy data as needed
+    ]);
+
+    // Handler for "Select All" checkbox
+    const handleSelectAll = () => {
+        setSelectAll(!selectAll);
+        if (!selectAll) {
+            setSelectedRows(orders.map(row => row.id));
+        } else {
+            setSelectedRows([]);
+        }
+    };
+
+    // Handler for individual checkbox
+    const handleSelectRow = (orderId) => {
+        const isSelected = selectedRows.includes(orderId);
+
+        if (isSelected) {
+            setSelectedRows(selectedRows.filter(id => id !== orderId));
+        } else {
+            setSelectedRows([...selectedRows, orderId]);
+        }
+
+        // Check if all rows are selected, then select/deselect "Select All"
+        if (selectedRows.length === orders.length - 1 && isSelected) {
+            setSelectAll(false);
+        } else {
+            setSelectAll(false);
+        }
+    };
+
+    return (
+        <table className=" w-100">
+            <thead className="sticky-header">
+                <tr className="table-row box-shadow">
+                    <th style={{ width: '1%' }}>
+                        <input
+                            type="checkbox"
+                            checked={selectAll}
+                            onChange={handleSelectAll}
+                        />
+                    </th>
+                    <th style={{ width: '25%' }}>Order Details</th>
+                    <th>Customer Details</th>
+                    <th>Package Details</th>
+                    <th>Payment</th>
+                    <th>Pickup Address</th>
+                    <th>Shipping Details</th>
+                    <th>Status</th>
+                </tr>
+                <tr className="blank-row"><td></td></tr>
+            </thead>
+            <tbody>
+                {orders.map((row, index) => (
+                    <React.Fragment key={row.id}>
+                        {index > 0 && <tr className="blank-row"><td></td></tr>}
+                        <tr className='table-row box-shadow'>
+                            <td className='checkbox-cell'>
+                                <input
+                                    type="checkbox"
+                                    checked={selectedRows.includes(row.id)}
+                                    onChange={() => handleSelectRow(row.id)}
+                                />
+                            </td>
+                            <td>
+                                {/* User Details */}
+                                <div className='cell-inside-box'>
+                                    <p className=''>
+                                        {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                            : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                    : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                        : ""}
+                                        &nbsp; <span className=''>{row.customer_order_number}</span>
+                                    </p>
+                                    <p className='ws-nowrap d-flex align-items-center'>
+                                        <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                        <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                {/* Customer Details */}
+                                <div className='cell-inside-box'>
+                                    <p>{row?.shipping_detail?.recipient_name}</p>
+                                    <p>{row?.shipping_detail?.mobile_number ?? null}
+                                        <span className='details-on-hover ms-2'>
+                                            <InfoIcon />
+                                            <span style={{ width: '250px' }}>
+                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                            </span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                {/* Package Details */}
+                                <div className='cell-inside-box'>
+                                    <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                    <p>Wt:  {row?.dimension_detail?.weight} kg <br />
+                                        <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                        <span className='details-on-hover ms-2 align-middle'>
+                                            <InfoIcon />
+                                            <span style={{ width: '250px' }}>
+                                                {row?.order_products.map((product, index) => (
+                                                    <React.Fragment key={index}>
+                                                        <strong>Product:</strong> {product.product_name}<br />
+                                                        <strong>SKU:</strong> {product.sku}<br />
+                                                        <strong>Qt.:</strong> {product.quantity}<br />
+                                                    </React.Fragment>
+                                                ))}
+                                            </span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </td>
+                            <td>
+                                {/* Payment */}
+                                <div className='cell-inside-box'>
+                                    <p>&#x20B9; {row?.invoice_amount}</p>
+                                    <p className='order-Status-box mt-1'>{row?.payment_type}</p>
+                                </div>
+                            </td>
+                            <td>
+                                {/* Pickup Address */}
+                                <div className='cell-inside-box'>
+                                    {row?.pickup_details ? (
+                                        <p>{row?.pickup_details?.p_warehouse_name}
+                                            <span className='details-on-hover ms-2'>
+                                                <InfoIcon />
+                                                {/* {!row?.pickup_details?.p_warehouse_name && ( */}
+                                                <span style={{ width: '250px' }}>
+                                                    {row?.pickup_details?.p_address_line1},
+                                                    {row?.pickup_details?.p_address_line2},<br />
+                                                    {row?.pickup_details?.p_city},
+                                                    {row?.pickup_details?.p_state},
+                                                    {row?.pickup_details?.p_pincode}
+                                                </span>
+                                                {/* )} */}
+
+                                            </span>
+                                        </p>
+                                    ) : ''}
+                                </div>
+                            </td>
+                            <td>
+                                {/* Shipping Details */}
+                                <div className='cell-inside-box'>
+                                    <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                    <p className=''>{row?.courier_partner ?? ""} </p>
+                                </div>
+                            </td>
+                            <td className='align-middle'>
+                                {/*  Status  */}
+                                <p className='order-Status-box'>{row?.status || 'New'}</p>
+                            </td>
+                        </tr>
+                    </React.Fragment>
+                ))}
+            </tbody>
+        </table>
+    )
+}
+
+export default ReturnsTableMIS

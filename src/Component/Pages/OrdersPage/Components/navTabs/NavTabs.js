@@ -8,6 +8,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { createOrderPattern } from "../../../../../Routes";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { AiOutlineImport } from "react-icons/ai";
+import { IoMdSync } from "react-icons/io";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -87,14 +89,22 @@ export default function NavTabs(props) {
                 Ready to Ship
               </div>
             </Nav.Link>
+            <Nav.Link className={`${props.activeTab === "Pickup" ? "active" : ""}`}
+              onClick={() => {
+                props.setActiveTab("Pickup");
+              }}
+            >
+              <div className="navItemsContainer">
+                Pickups
+              </div>
+            </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Manifest");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
-                Pickup and Manifest
+                Manifest
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
@@ -102,7 +112,6 @@ export default function NavTabs(props) {
                 props.setActiveTab("Returns");
               }}
             >
-              {" "}
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
                 Returns
@@ -135,9 +144,14 @@ export default function NavTabs(props) {
 
       </div>
       <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button" onClick={() => navigate(createOrderPattern,{state:{tabs:"BulkCreateOrder"}})}>Import Orders</button>
-        <button className="btn main-button" onClick={handleSubmit}>Sync Orders</button>
-        <button onClick={() => navigate(createOrderPattern,{state:{orderType:"normalOrder"}})} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</button>
+        <button
+          className="btn main-button"
+          onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
+        >
+          <AiOutlineImport className="align-text-bottom" /> Import
+        </button>
+        <button className="btn main-button" onClick={handleSubmit}><IoMdSync /> Sync</button>
+        <button onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create</button>
       </div>
     </Navbar>
   );

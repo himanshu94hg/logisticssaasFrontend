@@ -1,41 +1,57 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 
-const RuleRow = () => {
-    const [rows, setRows] = useState([{ selectValue1: '', selectValue2: '', selectValue3: '', inputValue: '' }]);
+const RuleRow = ({ initialRows, setConditions }) => {
+    const [rows, setRows] = useState([]);
+
+    useEffect(() => {
+        if (initialRows == null || initialRows.length === 0) {
+            setRows([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
+        } else {
+            setRows(initialRows);
+        }
+    }, [initialRows]);
 
     const handleSelectChange = (index, field, value) => {
         const newRows = [...rows];
         newRows[index][field] = value;
         setRows(newRows);
+        setConditions(newRows);
     };
-
+    
     const handleInputChange = (index, value) => {
         const newRows = [...rows];
-        newRows[index].inputValue = value;
+        newRows[index].match_value = value;
         setRows(newRows);
-    };
+        setConditions(newRows);
+    };    
 
     const handleAddRow = () => {
-        setRows([...rows, { selectValue1: '', selectValue2: '', selectValue3: '', inputValue: '' }]);
+        setRows([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
     };
 
     const handleRemoveRow = (index) => {
         const newRows = [...rows];
         newRows.splice(index, 1);
         setRows(newRows);
+        setConditions(newRows);
     };
+
+
+    console.log("Hit Editing Initilize",initialRows);
+    
     return (
         <>
             {rows.map((row, index) => (
                 <div key={index} className='minor-rule-row'>
                     <select
                         className='select-field'
-                        value={row.selectValue1}
-                        onChange={(e) => handleSelectChange(index, 'selectValue1', e.target.value)}
-                        disabled={index === 0} // Disable condition select field for the first row
+                        value={row.condition}
+                        style={{ width: '100px' }}
+                        onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
+                        disabled={index === 0}
                     >
                         <option value="">And/Or</option>
                         <option value="and">And</option>
@@ -43,9 +59,10 @@ const RuleRow = () => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.selectValue2}
-                        onChange={(e) => handleSelectChange(index, 'selectValue2', e.target.value)}
+                        value={row.condition_type}
+                        onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
                     >
+                        <option value="">Select Condiction</option>
                         <option value="payment_type">Payment Mode</option>
                         <option value="order_amount">Order Amount</option>
                         <option value="pickup_pincode">Pickup Pincode</option>
@@ -57,9 +74,10 @@ const RuleRow = () => {
                     </select>
                     <select
                         className='select-field'
-                        value={row.selectValue3}
-                        onChange={(e) => handleSelectChange(index, 'selectValue3', e.target.value)}
+                        value={row.match_type}
+                        onChange={(e) => handleSelectChange(index, 'match_type', e.target.value)}
                     >
+                        <option value="">Select Match Type</option>
                         <option value="is">Is</option>
                         <option value="is_not">Is not</option>
                         <option value="starts_with">Starts with</option>
@@ -69,16 +87,19 @@ const RuleRow = () => {
                     <input
                         className='input-field'
                         type="text"
-                        value={row.inputValue}
+                        value={row.match_value}
                         onChange={(e) => handleInputChange(index, e.target.value)}
                         placeholder="Enter text"
                     />
-                    {rows.length > 1 && (
-                        <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                    )}
-                    {index === rows.length - 1 && (
-                        <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
-                    )}
+                    <div className='add-rule-btns'>
+                        {rows.length > 1 && (
+                            <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
+                        )}
+                        {index === rows.length - 1 && (
+                            <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
+                        )}
+                    </div>
+
                 </div>
             ))}
         </>

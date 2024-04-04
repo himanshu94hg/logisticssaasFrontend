@@ -14,6 +14,7 @@ import { weightRecoReducer } from "./weightReco";
 import { moreorderSectionReducer } from "./moreorder";
 import { orderSectionReducer } from "./orders";
 import { exportSectionReducer } from "./exports";
+import { integrationReducer } from "./integration";
 
 export const rootReducer = combineReducers({
     authDataReducer,
@@ -30,5 +31,6 @@ export const rootReducer = combineReducers({
     weightRecoReducer,
     moreorderSectionReducer,
     orderSectionReducer,
-    exportSectionReducer
+    exportSectionReducer,
+    integrationReducer
 })

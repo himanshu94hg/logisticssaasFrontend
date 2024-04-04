@@ -18,68 +18,25 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
+import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
+import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) => {
+const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-              "type": "Processing",
-              "subtype": ""
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-          };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${"Processing"}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -91,12 +48,17 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
 
     // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+        const isSelected = selectedRows?.includes(orderId);
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -105,6 +67,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
         } else {
             setSelectAll(false);
         }
+
     };
 
     const handleSidePanel = () => {
@@ -123,62 +86,23 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
         setOrderId(id)
     }
 
-
-
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => handleSearch(e.target.value)} />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button' onClick={() => handleExport()}>Export</button>
-                        <div className='action-options bulk-actions ms-2'>
-                            <div className='btn main-button'>
-                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
-                            </div>
-                            <div className='action-list'>
-                                <ul>
-                                    <li>Bulk Ship</li>
-                                    <li>Mark as Verified</li>
-                                    <li>Add Bulk Tag</li>
-                                    <li><hr /></li>
-                                    <li>Bulk Weight/Dimension Update</li>
-                                    <li>Bulk Warehouse Update</li>
-                                    <li><hr /></li>
-                                    <li>Bulk Delete Order</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
-                                    <input
-                                        type="checkbox"
-                                        checked={selectAll}
-                                        onChange={handleSelectAll}
-                                    />
+                                    <div className='d-flex gap-1 align-items-center'>
+                                        <input
+                                            type="checkbox"
+                                            checked={selectAll}
+                                            onChange={handleSelectAll}
+                                        />
+                                        <SelectAllDrop />
+                                    </div>
+
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
@@ -199,7 +123,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row?.id)}
+                                                checked={selectedRows?.includes(row?.id)}
                                                 onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
@@ -241,7 +165,7 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -267,19 +191,32 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
                                         {/* pickup adress */}
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.pickup_details?.p_warehouse_name}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br />
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p>
+                                                {row?.order_type === "Forward" ?
+                                                    <p>{row?.pickup_details?.p_warehouse_name}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.pickup_details?.p_address_line1},
+                                                                {row?.pickup_details?.p_address_line2},<br />
+                                                                {row?.pickup_details?.p_city},
+                                                                {row?.pickup_details?.p_state},
+                                                                {row?.pickup_details?.p_pincode}
+                                                            </span>
 
+                                                        </span>
+                                                    </p> : <p>{row?.shipping_detail?.address}
+                                                        <span className='details-on-hover ms-2'>
+                                                            <InfoIcon />
+                                                            <span style={{ width: '250px' }}>
+                                                                {row?.shipping_detail?.address},
+                                                                {row?.shipping_detail?.landmark},<br />
+                                                                {row?.shipping_detail?.city},
+                                                                {row?.shipping_detail?.state},
+                                                                {row?.shipping_detail?.pincode}
+                                                            </span>
+                                                        </span>
+                                                    </p>
+                                                }
                                             </div>
                                         </td>
 
@@ -300,13 +237,13 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
                                                             <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li>Mark As Verified</li>
-                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
-                                                            <li><hr /></li>
-                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
-                                                            <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION",payload:row?.id })}>Delete Order</li>
+                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
+                                                            <li className='action-hr'></li>
+                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
+                                                            <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -318,8 +255,6 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
                         </tbody>
                     </table>
                 </div>
-                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
-
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
 
                 <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
@@ -329,6 +264,6 @@ const Processing = ({ orders, handleSearch, setEditOrderSection, setOrderId }) =
 
         </section>
     );
-};
+})
 
 export default Processing;

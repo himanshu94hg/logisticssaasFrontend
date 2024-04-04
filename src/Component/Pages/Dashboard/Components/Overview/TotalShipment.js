@@ -6,17 +6,10 @@ import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 import { percentage } from "../../../../../customFunction/functionLogic";
 
 function TotalShipment() {
-  const dispatch = useDispatch()
   const [data, setData] = useState(null);
   const [totalShipment, setTotalShipment] = useState(null);
   const { shimpmetCard } = useSelector(state => state?.dashboardOverviewReducer)
 
-
-  
-  // useEffect(() => {
-  //   dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
-  // }, [])
-  
   useEffect(() => {
     if (shimpmetCard) {
       const total_shipment = Object.values(shimpmetCard).reduce((acc, value) => acc + value, 0)
@@ -99,7 +92,7 @@ function TotalShipment() {
                   {/* Yet To Pick */}
                   <div className="mb-3">
                     <div className="d-flex align-items-center justify-content-between">
-                      <p className="font12 bold-600 mb-2">Yet To Pick</p>
+                      <p className="font12 bold-600 mb-2">Pickup Requested</p>
                       <p className="font12 text-gray mb-0">
                         {shimpmetCard?.yet_to_pick_orders} {percentage(shimpmetCard?.yet_to_pick_orders, totalShipment)}
                       </p>

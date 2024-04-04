@@ -10,12 +10,21 @@ import { WareHouseDetailStep } from '../CreateOrderFlow/Components/DomesticCreat
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import orderIdAction from '../../../../../redux/action/orders/orderId';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
-    const [activeSection, setActiveSection] = useState("Order Details");
+    const [wareHouses, setWarehouses] = useState([])
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
+    const authToken = Cookies.get("access_token");
+    const sellerData = Cookies.get("user_id");
+    const [activeSection, setActiveSection] = useState("Order Details");
+
+
     const [formData, setFormData] = useState({
         order_details: {
             customer_order_number: '',
@@ -96,19 +105,27 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderUpdateRes])
 
-    const handleUpdate = () => {
+    useEffect(() => {
+        if (EditOrderSection) {
+            setActiveSection("Order Details");
+        }
+    }, [EditOrderSection]);
 
+
+    const handleUpdate = () => {
         dispatch({
             type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
                 formData: formData,
                 orderId: orderId
             }
         })
+        setEditOrderSection(false)
     };
 
     useEffect(() => {
         if (orderId) {
             dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+            dispatch(orderIdAction(orderId))
         }
     }, [orderId])
 
@@ -188,10 +205,39 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     }, [orderDetailsData])
 
 
-    const dateString = 'Wed Mar 20 2024 16:59:06 GMT+0530 (India Standard Time)';
-    const formattedDate = moment(orderDetailsData?.order_date).format('ddd MMM DD YYYY HH:mm:ss [GMT]ZZ') + " (India Standard Time)";
 
+    useEffect(() => {
+        if (orderId) {
+            const fetchWarehouses = async () => {
+                try {
+                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    setWarehouses(response.data);
+                } catch (error) {
+                }
+            };
+            fetchWarehouses();
+        }
+    }, [orderId]);
 
+    useEffect(() => {
+        if (wareHouses) {
+            let data = wareHouses.filter(item => item?.warehouse_name === wareHouseName)
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                order_details: {
+                    ...prevFormData.order_details,
+                    warehouse_id: data[0]?.id
+                }
+            }));
+        }
+    }, [wareHouses])
+
+    // const {orderId}=useSelector(state=>state?.orderSectionReducer)
+    // console.log(orderId,"this is orderId data")
 
 
     return (
@@ -202,7 +248,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 </div>
                 <section className='edit-order-header'>
                     <div>
-                        <h2 className='mb-1'>Order Id : <span className='text-capitalize'>{orderDetailsData?.customer_order_number}</span></h2>
+                        <h2 className='mb-1'>Order Id : <span className='text-capitalize'>{orderDetailsData?.customer_order_number && orderDetailsData.customer_order_number.slice(0, 40)}</span></h2>
                         <h5 className='mb-0'>Edit Your Order Details!</h5>
                     </div>
                 </section>
@@ -263,9 +309,12 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                             {activeSection === "Warehouse Details" && (
                                 <div>
                                     <WareHouseDetailStep
-                                        wareHouseName={wareHouseName}
                                         formData={formData}
                                         setFormData={setFormData}
+                                        wareHouseName={wareHouseName}
+                                        setWareHouseName={setWareHouseName}
+                                        wareHouses={wareHouses}
+                                        setWarehouses={setWarehouses}
                                     />
                                 </div>
                             )}

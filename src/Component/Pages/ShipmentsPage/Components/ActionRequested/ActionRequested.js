@@ -1,5 +1,5 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -34,12 +34,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequested = ({shipmentCard}) => {
+const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const handleExport = () => {
@@ -83,14 +82,21 @@ const ActionRequested = ({shipmentCard}) => {
         }
     }, [exportCard]);  
       
-
+    
+    const handleRto = ((orderIds)=>{
+        const stringifiedReattempt = JSON.stringify(orderIds);
+        dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
+    });
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            // setSelectedRows(orders.map(row => row?.order_details?.id));
+            // setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(shipmentCard.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -99,10 +105,16 @@ const ActionRequested = ({shipmentCard}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
 
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
+        }
+
+        // Check if all rows are selected, then select/deselect "Select All"
         // if (selectedRows.length === orders.length - 1 && isSelected) {
         //     setSelectAll(false);
         // } else {
@@ -123,29 +135,6 @@ const ActionRequested = ({shipmentCard}) => {
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" />
-                            <button>
-                                <img src={SearchIcon} alt="Search" />
-                            </button>
-                        </label>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button me-2' onClick={() => handleExport()}>Export</button>
-                        <button className='btn main-button me-2' onClick={handleSidePanel}>Advanced Filters</button>
-                        <button className='btn main-button'>Report</button>
-                    </div>
-                </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
@@ -157,7 +146,7 @@ const ActionRequested = ({shipmentCard}) => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Date requested</th>
+                                <th>Order Details</th>
                                 <th>NDR Reason</th>
                                 <th>Package Details</th>
                                 <th>Customer details</th>
@@ -182,10 +171,13 @@ const ActionRequested = ({shipmentCard}) => {
                                         <td>
                                             {/* Date detail */}
                                             <div className='cell-inside-box'>
-                                                <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
-                                                <div className='d-flex align-items-center'>
+                                                <p>
+                                                    <span className=''>{row.customer_order_number}</span>
+                                                </p>
+                                                <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                </div>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -248,16 +240,16 @@ const ActionRequested = ({shipmentCard}) => {
                                             {/* {row.ndr_action}
                                                  {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Attempt</button>
+                                                <button className='btn main-button'><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Re-attempt</li>
-                                                            <li>RTO</li>
-                                                            <li>Escalate</li>
+                                                            {/* <li onClick={() => handleReattempt(row.id)}>Re-attempt</li> */}
+                                                            <li onClick={() => handleRto(row.id)}>RTO</li>
+                                                            {/* <li><Link to={`/customer-support?awb_number=${row?.awb_number}`}>Escalate</Link></li> */}
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -269,7 +261,6 @@ const ActionRequested = ({shipmentCard}) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 

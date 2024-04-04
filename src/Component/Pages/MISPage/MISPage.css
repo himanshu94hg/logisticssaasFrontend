@@ -6,6 +6,17 @@
 .reports-mis .table-container {
     z-index: 1;
     position: relative;
+    height: calc(100vh - 289px);
+    overflow-y: auto;
+}
+
+.downloads-mis .table-container {
+    height: calc(100vh - 265px);
+}
+
+.reports-mis .filter-container {
+    align-items: end;
+    gap: 3rem;
 }
 
 .reports-mis .search-container {
@@ -13,6 +24,35 @@
     gap: 20px;
     align-items: flex-end;
     width: 100%;
+}
+
+.downloads-mis .search-container label button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.reports-mis .search-container label input {
+    border-color: var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    padding-left: 32px;
+}
+
+.downloads-mis .search-container label input {
+    padding-left: 10px;
+}
+
+.reports-mis .css-13cymwt-control {
+    height: 36px;
+    min-height: unset;
 }
 
 .reports-mis .css-13cymwt-control,

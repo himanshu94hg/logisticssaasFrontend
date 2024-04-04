@@ -1,14 +1,15 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,BASE_URL_BILLING } from "../../../../axios/config";
-import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION } from "../../constant/billing";
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA } from "../../../constants/billing";
+import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION } from "../../constant/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA } from "../../../constants/billing";
+import {toast} from "react-toastify";
 
 
 async function billingFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URLW}`,
+        url: `${BASE_URL_DUMMY}${API_URL.GET_BILLING_URLW}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -17,7 +18,7 @@ async function billingFileAPI(data) {
 async function billingShippingFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIP_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIP_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -26,7 +27,17 @@ async function billingShippingFileAPI(data) {
 async function billingShippingRemitanceFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_REMITANCE_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
+        data: data
+    });
+    return listData;
+}
+
+async function billingShippingRemitanceDownloadFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        responseType: 'blob',
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL}?transaction_id=${data}`,
         data: data
     });
     return listData;
@@ -35,7 +46,7 @@ async function billingShippingRemitanceFileAPI(data) {
 async function billingShippingRechargeFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_RECHARGE_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_RECHARGE_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -44,7 +55,7 @@ async function billingShippingRechargeFileAPI(data) {
 async function billingShippingInvoiceFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_INVOICE_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
     return listData;
@@ -53,7 +64,17 @@ async function billingShippingInvoiceFileAPI(data) {
 async function billingShippingReceiptFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_SHIPING_URL}`,
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_CREDIT_URL}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
+        data: data
+    });
+    return listData;
+}
+
+async function billingShippingReceiptExportFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        responseType: 'blob',
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_CREDIT_EXPORT_URL}?receipt_id=${data}`,
         data: data
     });
     return listData;
@@ -143,11 +164,43 @@ function* billingShipingReceiptFilesAction(action) {
     }
 }
 
+function* billingShipingReceiptExportFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingShippingReceiptExportFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+function* billingShipingRemitanceDownloadFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingShippingRemitanceDownloadFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA, payload: response?.data })
+            toast.success("Logs Export Successfully!");
+        }
+        else {
+            toast.error("Failed to Export Sheet!");
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 export function* getBillingWatcher() {
     yield takeLatest(BILLING_DATA_ACTION,billingFilesAction);
     yield takeLatest(BILLING_SHIPING_DATA_ACTION,billingShipingFilesAction);
     yield takeLatest(BILLING_SHIPING_REMITANCE_DATA_ACTION,billingShipingRemitanceFilesAction);
+    yield takeLatest(BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION,billingShipingRemitanceDownloadFilesAction);
     yield takeLatest(BILLING_SHIPING_RECHARGE_DATA_ACTION,billingShipingRechargeFilesAction);
     yield takeLatest(BILLING_SHIPING_INVOICE_DATA_ACTION,billingShipingInvoiceFilesAction);
     yield takeLatest(BILLING_SHIPING_RECEIPT_DATA_ACTION,billingShipingReceiptFilesAction);
+    yield takeLatest(BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,billingShipingReceiptExportFilesAction);
 }

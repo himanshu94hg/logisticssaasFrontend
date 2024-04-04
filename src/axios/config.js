@@ -34,6 +34,19 @@ export const API_URL = {
   GET_COURIER_POST_ALLOCATION: "/core-api/seller/tools/save-general-preference/",
   POST_SELLER_SIGNUP: "/core-api/seller/sign-up/",
   ORDER_DETAILS_API: "/orders-api/orders/order-complete-detail/",
+  GET_BILLING_CREDIT_URL: "/core-api/features/billing/credit-receipt/",
+  GET_BILLING_CREDIT_EXPORT_URL: "/core-api/features/billing/credit-receipt-download/",
+  GET_BILLING_SHIPING_INVOICE_URL: "/core-api/features/billing/invoice/",
+  GET_BILLING_SHIPING_REMITANCE_URL: "/core-api/features/billing/remittance-log/",
+  GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_URL: "/core-api/features/billing/remittance-log-download/",
+  SAVE_FAVOURITE_ORDERS_API:"/orders-api/orders/seller-filter/",
+  GET_COURIER_ALLOCATION_RULE: "/core-api/features/courier-allocation/rules/",
+  GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
+
+
+  //SHIPMENT REATTEMPT
+  GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
+  GET_SHIPMENT_RTO_URL: "/core-api/shipping/mark-order-rto/",
 
   //ORDERS API
   GET_ORDERS_API: "/orders-api/orders/",
@@ -85,6 +98,7 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE: "/orders-api/dashboard/shipment/weight-profile/",
   GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
+  GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA: "/orders-api/dashboard/shipment/shipment-overview-courier/",
 
 
   //DASHBOARD NDR API'S
@@ -92,14 +106,32 @@ export const API_URL = {
   GET_DASHBOARD_NDR_NDR_STATUS: "/orders-api/dashboard/ndr/ndr-status/",
   GET_DASHBOARD_NDR_SUCCESS_BY_COURIER: "/orders-api/dashboard/ndr/success-by-courier/",
   GET_DASHBOARD_NDR_SUCCESS_BY_ZONE: "/orders-api/dashboard/ndr/success-by-zone/",
+  GET_DASHBOARD_NDR_DELIVERY_ATTEMPT: "/orders-api/dashboard/ndr/ndr-to-delivery-attempt/",
+  GET_DASHBOARD_NDR_FUNNEL_ATTEMPT: "/orders-api/dashboard/ndr/ndr-funnel/",
+  GET_DASHBOARD_NDR_RESPONSE_ATTEMPT: "/orders-api/dashboard/ndr/ndr-response/",
+  GET_DASHBOARD_NDR_SPLIT_ATTEMPT: "/orders-api/dashboard/ndr/ndr-reason-split/",
+  GET_DASHBOARD_NDR_BUYER_ATTEMPT: "/orders-api/dashboard/ndr/ndr-seller-buyer-response/",
 
   //DASHBOARD RTO API'S
   GET_DASHBOARD_RTO_TOP_RTO: "/orders-api/dashboard/rto/top-rto/",
   GET_DASHBOARD_RTO_TOP_CITY: "/orders-api/dashboard/rto/top-rto-city/",
   GET_DASHBOARD_RTO_COUNT_MONTHWISE: "/orders-api/dashboard/rto/month-wise-rto-count/",
   GET_DASHBOARD_RTO_TOP_COURIER: "/orders-api/dashboard/rto/top-rto-courier/",
+  GET_DASHBOARD_RTO_STATUS: "/orders-api/dashboard/rto/rto-status/",
 
   //DASHBOARD COURIER API'S
   GET_DASHBOARD_COURIER_DATA: "/orders-api/dashboard/courier/courier-data/",
+
+  //INTEGRATION API'S
+  POST_GENERATE_API_KEY:"/core-api/seller/api-key/",
+
+  //WEIGHT RECO
+  GET_WEIGHT: "/orders-api/orders/weight-reconciliation/",
+  GET_HOLD: "/orders-api/orders/weight-reconciliation-on-hold/",
+  GET_SETTELED: "/orders-api/orders/setteled-weight-reconciliation/",
+  GET_HISTORY: "/orders-api/orders/weight-reconciliation-history/",
+  GET_ACCEPT: "/orders-api/orders/weight-reconciliation-accept/",
+  GET_COMMENT : "/orders-api/orders/weight-reconciliation-create-history/",
+  GET_DISPUTE : "/orders-api/orders/weight-reconciliation-dispute/",
 
 };

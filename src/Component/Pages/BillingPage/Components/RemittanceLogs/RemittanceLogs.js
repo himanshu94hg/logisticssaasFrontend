@@ -1,6 +1,5 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -29,12 +28,15 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RemittanceLogs = ({billingCard}) => {
+const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
 
+    const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+    const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingRemitanceDOWNLOADCard)
 
     const reasons = [
         { count: 300, data: 207 },
@@ -53,13 +55,14 @@ const RemittanceLogs = ({billingCard}) => {
     };
 
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(billingCard.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -69,8 +72,13 @@ const RemittanceLogs = ({billingCard}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -91,6 +99,19 @@ const RemittanceLogs = ({billingCard}) => {
         setBackDrop(false)
     }
 
+    const handelExportData = (row) => {
+        setExportButtonClick(true);
+        dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION",payload:row });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Remitance Logs"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
 
 
     // useEffect(() => {
@@ -161,7 +182,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {/* <DateFormatter dateTimeString={row?.datetime} /> */}
-                                                    {row?.datetime}
+                                                    {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''}
                                                 </p>
                                             </div>
                                         </td>
@@ -169,7 +190,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* crf_id */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.crf_id}
+                                                    {row?.crf_id}
                                                 </p>
                                             </div>
                                         </td>
@@ -177,8 +198,8 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.utr_number}
-                                                </p>  
+                                                    {row?.utr_number}
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -201,7 +222,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                ₹{0.00}
+                                                    ₹{row?.early_cod_charge}
                                                 </p>
                                             </div>
                                         </td>
@@ -209,7 +230,7 @@ const RemittanceLogs = ({billingCard}) => {
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                ₹{0.00}
+                                                    ₹{0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -221,19 +242,19 @@ const RemittanceLogs = ({billingCard}) => {
                                                 </p>
                                             </div>
                                         </td>
-                                        
+
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                 {row?.description}
+                                                    {row?.description}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* View Transaction Details */}
                                             <div className='cell-inside-box'>
-                                                <button className='btn main-button'>Export</button>
+                                                <button className='btn main-button' onClick={() => handelExportData(row.id)}>Export</button>
                                             </div>
                                         </td>
 
@@ -243,18 +264,9 @@ const RemittanceLogs = ({billingCard}) => {
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 

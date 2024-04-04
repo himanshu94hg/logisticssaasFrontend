@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const ScheduledReportsMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
@@ -41,18 +43,20 @@ const ScheduledReportsMIS = () => {
     };
 
     return (
-        <section className='position-relative'>
+        <section className='position-relative reports-mis downloads-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
-                        <label>
-                            <input type="text" placeholder="Search Report Title" />
+                        <label style={{ width: '500px' }}>
+                            <input className='input-field' type="text" placeholder="Search Report Title" />
                             <button>
-                                <img src={SearchIcon} alt="Search" />
+                                <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
                     </div>
-                    <div className='button-container'></div>
+                    <div className='button-container'>
+                        <button className='btn main-button'>Export Report</button>
+                    </div>
                 </div>
                 <div className='table-container'>
                     <table className=" w-100">
@@ -69,6 +73,7 @@ const ScheduledReportsMIS = () => {
                                 <th>Report Type</th>
                                 <th>Status</th>
                                 <th>Recipients</th>
+                                <th>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -103,6 +108,9 @@ const ScheduledReportsMIS = () => {
                                             <div className='cell-inside-box'>
                                                 {row.recipients}
                                             </div>
+                                        </td>
+                                        <td>
+                                            <button className='btn main-button'><FontAwesomeIcon icon={faDownload} /></button>
                                         </td>
                                     </tr>
                                 </React.Fragment>

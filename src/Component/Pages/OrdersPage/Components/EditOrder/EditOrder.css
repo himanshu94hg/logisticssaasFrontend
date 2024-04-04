@@ -46,7 +46,7 @@
 }
 
 .edit-order-body .details-side .details-component {
-    height: calc(100vh - 172px);
+    height: calc(100vh - 188px);
     overflow-y: scroll;
     width: 100%;
 }
@@ -59,7 +59,7 @@
     width: 90%;
 }
 
-.edit-order-body .details-side .details-component .warehouse-options .sm-warehouse-item{
+.edit-order-body .details-side .details-component .warehouse-options .sm-warehouse-item {
     width: 50%;
 }
 

@@ -3,12 +3,9 @@ import React, { useEffect, } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { percentage } from "../../../../../customFunction/functionLogic";
-import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 
 function CustomTable({ data }) {
-
  const total=data.reduce((acc,data)=>acc+data.total,0) 
-
   return (
     <table className="custom-table w-100">
       <thead>
@@ -40,18 +37,7 @@ function CustomTable({ data }) {
 }
 
 function TopSellingDashboard() {
-  const dispatch = useDispatch()
-  const endDate = moment(new Date()).format("YYYY-MM-DD")
-  const startDate = moment(new Date()).subtract(1, 'months').format("YYYY-MM-DD"); 
   const { topSellCard } = useSelector(state => state?.dashboardOverviewReducer)
-
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "DASHBOARD_OVERVIEW_TOPSELL_ACTION", payload: dateRangeDashboard
-  //   })
-  // }, [])
-
-
   return (
     <div className="box-shadow shadow-sm p10 top-selling-page dashboard-table">
       <div className="d-flex justify-content-between align-items-center">

@@ -30,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const InvoicesTab = ({billingCard}) => {
+const InvoicesTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
     const [backDrop, setBackDrop] = useState(false);
     const [InvoiceData, setInvoiceData] = useState(true);
 
@@ -71,7 +71,7 @@ const InvoicesTab = ({billingCard}) => {
                     </div>
                 </div>
                 {
-                    InvoiceData ? <FreightInvoice billingCard={billingCard} /> : <AllOtherInvoices billingCard={billingCard}/>
+                    InvoiceData ? <FreightInvoice billingCard={billingCard} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow}/> : <AllOtherInvoices />
                 }
 
                 <SidePanel CloseSidePanel={CloseSidePanel} />

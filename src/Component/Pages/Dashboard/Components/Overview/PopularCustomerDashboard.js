@@ -4,12 +4,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { BiSolidBadgeCheck } from "react-icons/bi";
 import { percentage } from "../../../../../customFunction/functionLogic";
-import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
-
 
 function PopularCustomerDashboard() {
-  const dispatch = useDispatch()
-
   const renderStars = (percentage) => {
     const totalStars = 5;
     const filledStars = Math.ceil((percentage / 100) * totalStars);
@@ -20,15 +16,8 @@ function PopularCustomerDashboard() {
     return stars;
   };
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: 'DASHBOARD_OVERVIEW_MOSTPOPULAR_CUSTOMER_ACTION', payload: dateRangeDashboard
-  //   })
-  // }, [])
-
   const { mostPopularCusData } = useSelector(state => state?.dashboardOverviewReducer)
   const total = mostPopularCusData.reduce((acc, data) => acc + data.count, 0)
-
 
   return (
     <div className="box-shadow shadow-sm p10">

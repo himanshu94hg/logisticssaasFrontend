@@ -1,23 +1,21 @@
 import ApexCharts from 'apexcharts';
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const DeliveryPerformance = () => {
+    const chartRef = useRef(null);
     const dispatch = useDispatch();
     const deliveryData = useSelector(state => state?.dashboardOverviewReducer.deliveryPerformanceData);
-
-    // useEffect(() => {
-    //     dispatch({
-    //         type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION",
-    //         payload: dateRangeDashboard
-    //     });
-    // }, [dispatch]);
-
 
     useEffect(() => {
         if (deliveryData) {
             renderChart(deliveryData);
+            return () => {
+                if (chartRef.current) {
+                    chartRef.current.destroy();
+                }
+            };
         }
     }, [deliveryData]);
 
@@ -29,6 +27,10 @@ const DeliveryPerformance = () => {
     };
 
     const renderChart = (data) => {
+        if (chartRef.current && chartRef.current.chart) {
+            chartRef.current.chart.destroy();
+        }
+
         if (data && data.on_time_orders && data.late_orders) {
             const options = {
                 series: [{
@@ -58,7 +60,7 @@ const DeliveryPerformance = () => {
                     colors: ['transparent']
                 },
                 xaxis: {
-                    categories:  ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
+                    categories: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5'],
                     labels: {
                         rotateAlways: true,
                         rotate: -45,
@@ -91,10 +93,12 @@ const DeliveryPerformance = () => {
                 ]
             };
 
-            const chart = new ApexCharts(document.getElementById('chart'), options);
-            chart.render();
+            chartRef.current = new ApexCharts(document.getElementById('chart'), options);
+            chartRef.current.render();
             return () => {
-                chart.destroy();
+                if (chartRef.current) {
+                    chartRef.current.destroy();
+                }
             };
         } else {
             // console.error('Delivery data is not valid:', data);
@@ -102,7 +106,7 @@ const DeliveryPerformance = () => {
     };
 
     return (
-        <div className='box-shadow shadow-sm p10' style={{ minHeight: '300px', maxHeight: '500px' }}>
+        <div className='box-shadow shadow-sm p10' style={{ maxHeight: '500px' }}>
             <h4 className='title'>Delivery Performance</h4>
             <div id="chart" />
         </div>

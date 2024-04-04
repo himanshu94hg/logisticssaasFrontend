@@ -29,10 +29,10 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard }) => {
+const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
@@ -40,9 +40,11 @@ const ShippingCharges = ({ billingCard }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(data.map(row => row.id));
+            setSelectedRows(billingCard.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -52,8 +54,13 @@ const ShippingCharges = ({ billingCard }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -116,7 +123,7 @@ const ShippingCharges = ({ billingCard }) => {
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th>Order ID</th>
+                                <th>AWB Number</th>
                                 <th>Courier Details</th>
                                 <th>AWB Assigned Date</th>
                                 <th>Shipment Status</th>
@@ -144,7 +151,7 @@ const ShippingCharges = ({ billingCard }) => {
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.order_id}
+                                                    {row?.order_detail?.awb_number}
                                                 </p>
                                             </div>
                                         </td>

@@ -1,0 +1,42 @@
+.hover-effect {
+    position: relative;
+    cursor: pointer;
+
+  }
+  
+  .hover-box {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    width: 70px;
+    transform: translateX(-50%);
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    display: none; 
+    z-index: 1;
+  }
+  .hover-box:before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent transparent #dfd6d6 transparent;
+  }
+    
+  .hover-box p{
+    font-size: 11px;
+    line-height: 12px;
+  }
+  
+  .hover-effect:hover .hover-box {
+    display: block; 
+    background:#dfd6d6;
+    padding: 7px 10px 5px 5px ;
+
+  }
+  

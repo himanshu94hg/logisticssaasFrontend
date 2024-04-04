@@ -93,7 +93,6 @@ const WalletRechargeComponent = (props) => {
         } catch (error) {
         }
     }, [Razorpay, rechargeAmount, dispatch]);
-    
 
     return (
         <>

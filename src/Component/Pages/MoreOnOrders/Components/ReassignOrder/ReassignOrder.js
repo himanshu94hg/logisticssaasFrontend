@@ -10,6 +10,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
+import { toast } from 'react-toastify';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -47,10 +48,10 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders,handleSearch }) => {
+const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -63,16 +64,16 @@ const ReassignOrder = ({ orders,handleSearch }) => {
 
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
-    console.log("Reassign Sample",reassignCard)
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -82,8 +83,13 @@ const ReassignOrder = ({ orders,handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
@@ -105,17 +111,23 @@ const ReassignOrder = ({ orders,handleSearch }) => {
     }
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        setSingleShip(true);
+        if(reassignCard.length > 0)
+        {
+            setSingleShip(true);
+        }
+        else{
+            toast.error("Something went wrong!!")
+        }
     };
 
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                <div className="box-shadow shadow-sm p7 mb-3 filter-container">
+                {/* <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <div className='d-flex'>
                             <label>
-                                <input type="text" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
+                                <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
                                 <button>
                                     <img src={SearchIcon} alt="Search" />
                                 </button>
@@ -142,16 +154,16 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                     <li>Bulk Ship</li>
                                     <li>Mark as Verified</li>
                                     <li>Add Bulk Tag</li>
-                                    <li><hr /></li>
+                                    <li className='action-hr'></li>
                                     <li>Bulk Weight/Dimension Update</li>
                                     <li>Bulk Warehouse Update</li>
-                                    <li><hr /></li>
+                                    <li className='action-hr'></li>
                                     <li>Bulk Delete Order</li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
@@ -279,11 +291,11 @@ const ReassignOrder = ({ orders,handleSearch }) => {
                                                         <ul>
                                                             <li>Add Tag</li>
                                                             <li>Verify Order</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
                                                             <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
                                                             <li>Mark As Verified</li>
-                                                            <li><hr /></li>
+                                                            <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
 
                                                         </ul>

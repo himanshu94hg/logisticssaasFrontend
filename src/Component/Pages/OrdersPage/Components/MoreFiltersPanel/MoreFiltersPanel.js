@@ -1,107 +1,71 @@
 import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
 import './MoreFiltersPanel.css'
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
 const SourceOptions = [
-    { label: "Amazon_IN", value: "Amazon_IN" },
+    { label: "Amazon", value: "amazon" },
     { label: "Custom", value: "Custom" },
-    { label: "Shopify", value: "Shopify", disabled: true },
-    // Add more options as needed
+    { label: "Shopify", value: "shopify" },
 ];
 
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
+    { label: "Pending", value: "pending" },
     { label: "cancelled", value: "cancelled" },
     { label: "Delivered", value: "delivered" },
+    { label: "Picked Up", value: "picked_up" },
     { label: "In Transit", value: "in_transit" },
     { label: "Out of Delivery", value: "out_for_delivery" },
-    { label: "Pending", value: "pending" },
-    { label: "Lost", value: "lost" },
-    { label: "Manifested", value: "manifested" },
+    { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
+    { label: "Manifested", value: "manifested" },
     { label: "RTO Initiated", value: "rto_initiated" },
+    { label: "NDR", value: "ndr" },
+    { label: "Lost", value: "lost" },
+    { label: "Damaged", value: "damaged" },
 ];
 
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
-    { label: "COD", value: "cod" },
-    // Add more options as needed
-];
-
-const PickupAddresses = [
-    { label: "Adress 1", value: "Adress1" },
-    // Add more options as needed
-];
+    { label: "COD", value: "COD" },
+]
 
 const Ordertags = [
-    { label: "Tag 1", value: "Tag1" },
-    // Add more options as needed
+    { label: "Tag 1", value: "tag1" },
+    { label: "Tag 2", value: "tag2" },
+    { label: "Tag 3", value: "tag3" },
 ];
 
 const CourierPartner = [
-    { label: "Courier 1", value: "Courier1" },
-    // Add more options as needed
+    { label: "Smartr", value: "smartr" },
+    { label: "Ekart", value: "ekart" },
+    { label: "Ekart 5kg", value: "ekart_5kg" },
+    { label: "Bluedart", value: "bluedart" },
+    { label: "Shadowfax", value: "shadowfax" },
+    { label: "Delhivery", value: "delhivery" },
+    { label: "Amazon Swa", value: "amazon_swa" },
+    { label: "Xpressbees", value: "xpressbees" },
+    { label: "Professional", value: "professional" },
+    { label: "Ecom Express", value: "ecom_express" },
 ];
 
 
-const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [SaveFilter, setSaveFilter] = useState(false)
-
-    const handleCheckboxChange = () => {
-        setSaveFilter(prevState => !prevState);
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-    };
-
-    const handleChange = (name, value) => {
-        if (name === "start_date" || name === "end_date") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value
-            }));
-        }
-        if (name === "status") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-        if (name === "order_source") {
-            let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-
-    };
-    // console.log(temp_data, "fieldNamefieldNamefieldName")
-
-
-
-    const handleReset = () => {
-        setStartDate(null);
-        setEndDate(null);
-        setName('');
-        setLocation('');
-    };
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
+    const dispatch = useDispatch()
+    const sellerData = Cookies.get("user_id")
+    const authToken = Cookies.get("access_token")
+    const [favName, setFavName] = useState("");
+    const [saveFav, setSaveFav] = useState(false);
+    const [SaveFilter, setSaveFilter] = useState(false);
+    const [clearState, setClearState] = useState(false);
+    const [pickupAddresses, setPickupAddresses] = useState([]);
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -110,17 +74,147 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
         order_source: "",
         courier_partner: "",
         payment_type: "",
-        order_id: ""
+        order_id: "",
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: ""
     })
 
-    console.log(filterParams, "fieldNamefieldNamefieldName")
 
 
-    //     channel =
-    //     product =
-    //     store_name =
-    //     save_filter = True / False
-    //     filter_name =
+    const handleCheckboxChange = (select) => {
+        setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        const encodedParams = Object.entries(filterParams)
+        .filter(([key, value]) => value !== null && value !== '')
+        .map(([key, value]) => `${(key)}=${(value)}`)
+        .join('&');
+
+        handleMoreFilter(filterParams)
+        CloseSidePanel()
+        setClearState(true)
+        setFilterParams({
+            start_date: null,
+            end_date: null,
+            status: "",
+            order_source: "",
+            courier_partner: "",
+            payment_type: "",
+            order_id: "",
+            order_tag: "",
+            sku: "",
+            sku_match_type: "",
+            pickup_address: ""
+        })
+        if (saveFav) {
+            dispatch({ type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                filter_query:encodedParams,
+                filter_name:favName
+            } })
+        }
+        setSaveFilter(false)
+        setFavName("")
+    };
+
+    useEffect(() => {
+        if (activeTab) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                status: "",
+                order_source: "",
+                courier_partner: "",
+                payment_type: "",
+                order_id: "",
+                order_tag: "",
+                sku: "",
+                sku_match_type: "",
+                pickup_address: ""
+            })
+        }
+    }, [activeTab, clearState])
+
+    const handleChange = (name, value) => {
+        if (name === "start_date" || name === "end_date") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value
+            }));
+        }
+        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
+            let temp_data = ''
+            let temp = value.map((item) => {
+                temp_data += item.value + ","
+            })
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        }
+        if (name === "payment_type") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value.value
+            }));
+        }
+        if (name === "order_id" || name === "sku") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value.target.value
+            }));
+        }
+        if (name === "sku_match_type") {
+            setFilterParams(prev => ({
+                ...prev,
+                skuType: value
+            }))
+        }
+    };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                if (MoreFilters) {
+                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    const temp = response?.data?.map((item,index) => ({
+                        label: item.warehouse_name,
+                        value: item.warehouse_name,
+                    }));
+                    setPickupAddresses(temp)
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData(); // Call the fetchData function
+
+    }, [MoreFilters, sellerData, authToken]);
+
+    const handleReset = () => {
+        setFilterParams({
+            start_date: null,
+            end_date: null,
+            status: "",
+            order_source: "",
+            courier_partner: "",
+            payment_type: "",
+            order_id: "",
+            order_tag: "",
+            sku: "",
+            sku_match_type: "",
+            pickup_address: ""
+        })
+    };
 
     return (
         <>
@@ -143,7 +237,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
-                                            selected={filterParams.start_date}
+                                            selected={filterParams?.start_date}
                                             onChange={(e) => handleChange("start_date", e)}
                                         />
                                     </div>
@@ -155,7 +249,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
-                                            selected={filterParams.end_date}
+                                            selected={filterParams?.end_date}
                                             onChange={(e) => handleChange("end_date", e)}
                                         />
                                     </div>
@@ -168,7 +262,7 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                         isMulti
                                         isSearchable
                                         onChange={(e) => handleChange("status", e)}
-
+                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -176,11 +270,10 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label >Order Source
                                     <Select
                                         options={SourceOptions}
-                                        // defaultValue={SourceOptions}
-                                        onChange={(e) => handleChange("order_source",e)}
+                                        onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
-
+                                        value={filterParams.order_source ? SourceOptions.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -188,9 +281,10 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Courier Partner
                                     <Select
                                         options={CourierPartner}
-                                        onChange={(e) => handleChange(e, "courier_partner")}
+                                        onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
+                                        value={filterParams.courier_partner ? CourierPartner.filter(option => filterParams.courier_partner.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -198,34 +292,31 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                 <label>Payment Option
                                     <Select
                                         options={paymentOptions}
-                                        onChange={(e) => handleChange(e, "payment_type")}
+                                        defaultValue={filterParams?.payment_type}
+                                        onChange={(e) => handleChange("payment_type", e)}
+                                        value={paymentOptions.find(option => option.value === filterParams.payment_type)}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
-                                        options={PickupAddresses}
+                                        isMulti
+                                        isSearchable
+                                        options={pickupAddresses}
+                                        onChange={(e) => handleChange("pickup_address", e)}
+                                        value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Order Tag
                                     <Select
-                                        options={Ordertags}
-                                        // onChange={(e) => handleChange(e, "courier_partner")}
                                         isMulti
                                         isSearchable
-                                    />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label>Search Multiple Order Ids
-                                    <input
-                                        className='input-field'
-                                        type="text"
-                                        placeholder='Enter Order ID comma separated'
-                                        onChange={(e) => handleChange(e, "order_id")}
+                                        options={Ordertags}
+                                        onChange={(e) => handleChange("order_tag", e)}
+                                        value={filterParams.order_tag ? Ordertags?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -234,35 +325,70 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
                                     <input
                                         className='input-field'
                                         type="text"
+                                        value={filterParams.sku}
                                         placeholder='Enter SKU'
-                                    // onChange={(e) => handleChange(e, "order_id")}
+                                        onChange={(e) => handleChange("sku", e)}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row sku-checkbox'>
-                                <label>
+                                <label htmlFor="singleSku">
                                     Single SKU
-                                    <input type="radio" name="skuType" id="" />
+                                    <input
+                                        type="radio"
+                                        name="skuType"
+                                        id="singleSku"
+                                        value="single"
+                                        // checked={filterParams.skuType === "single"}
+                                        onChange={() => handleChange("sku_match_type", "single")}
+                                    />
                                 </label>
-                                <label>
+                                <label htmlFor="multiSku">
                                     Multi SKU
-                                    <input type="radio" name="skuType" id="" />
+                                    <input
+                                        type="radio"
+                                        name="skuType"
+                                        id="multiSku"
+                                        value="multi"
+                                        // checked={filterParams.skuType === "multi"}
+                                        onChange={() => handleChange("sku_match_type", "multi")}
+                                    />
                                 </label>
-                                <label>
+                                <label htmlFor="matchExact">
                                     Match Exact
-                                    <input type="radio" name="skuType" id="" />
+                                    <input
+                                        type="radio"
+                                        name="skuType"
+                                        id="matchExact"
+                                        value="exact"
+                                        // checked={filterParams.skuType === "exact"}
+                                        onChange={() => handleChange("sku_match_type", "exact")}
+                                    />
                                 </label>
                             </div>
+                            <div className='filter-row mb-2'>
+                                <label>Search Multiple Order Ids
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        value={filterParams.order_id}
+                                        placeholder='Enter Order ID comma separated'
+                                        onChange={(e) => handleChange("order_id", e)}
+                                    />
+                                </label>
+                            </div>
+
                         </div>
                         <div className='more-filters-footer'>
                             <label>
                                 <input
                                     type="checkbox"
                                     checked={SaveFilter}
-                                    onChange={handleCheckboxChange}
+                                    value={SaveFilter}
+                                    onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
-                                {!SaveFilter ? 'Save Filter' : (
-                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                {!SaveFilter ? 'Save Filter (Optional)' : (
+                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e)=>setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>
@@ -277,6 +403,6 @@ const MoreFiltersPanel = ({ MoreFilters, CloseSidePanel }) => {
             </div>
         </>
     )
-}
+})
 
 export default MoreFiltersPanel

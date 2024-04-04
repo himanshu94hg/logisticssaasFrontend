@@ -7,6 +7,7 @@ import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
+import { useSelector } from 'react-redux';
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
     const location = useLocation();
@@ -14,23 +15,52 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
-
-    console.log(location, "this is location?.state?.orderType")
+    const { pathName } = useSelector(state => state?.authDataReducer)
 
     useEffect(() => {
-        if (location?.state?.orderType != "normalOrder" && location.pathname === "/create-order" || editStatus != "editStatus" && location.pathname === "/Orders") {
-            setOrderStatus(true)
-            setFormData({
-                ...formData,
-                order_details: {
-                    ...formData.order_details,
-                    order_type: "Reverse",
-                    payment_type: "Prepaid"
-                }
-            });
-        }
+        if (location.pathname === "/create-orders") {
+            if (pathName === "Reverse Order") {
+                setOrderStatus(true);
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    order_details: {
+                        ...prevFormData.order_details,
+                        order_type: "Reverse",
+                        payment_type: "Prepaid",
 
-    }, [location, editStatus])
+                    }
+                }));
+            } else if (pathName === "Quick Order" || location.state && (location.state.orderType === "normalOrder")) {
+                setOrderStatus(false);
+                setFormData({
+                    ...formData,
+                    order_details: {
+                        ...formData.order_details,
+                        order_type: "",
+                        payment_type: ""
+                    }
+                });
+            }
+        }
+    }, [location, pathName, editStatus]);
+
+
+
+    useEffect(() => {
+        if (location?.state) {
+            if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder" || location.state.orderType === "normalOrder") {
+                setOrderStatus(false);
+                // setFormData(prevFormData => ({
+                //     ...prevFormData,
+                //     order_details: {
+                //         ...prevFormData.order_details,
+                //         order_type: "",
+                //         payment_type: ""
+                //     }
+                // }));
+            }
+        }
+    }, [location?.state?.orderType]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -40,15 +70,17 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Order Type is required!';
         }
-        if (!formData.order_details.order_date) {
-            newErrors.order_date = 'Order Date is required!';
-        }
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Payment Type is required!';
         }
+        if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
+            newErrors.number_of_packets = 'Packets is required!';
+        }
         setErrors(newErrors);
+        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
+
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -112,9 +144,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             }
         });
     };
-    const handleToggleChange = (field) => {
-        const charValue = formData[field] ? null : "1";
-        setFormData({ ...formData, [field]: charValue });
+    const handleToggleChange = (e) => {
+        const isChecked = e.target.checked;
+        setFormData(prevData => ({
+            ...prevData,
+            order_details: {
+                ...prevData.order_details,
+                is_mps: isChecked,
+            },
+            other_details: {
+                ...prevData.other_details,
+                number_of_packets: isChecked ? 1 : 0,
+            },
+        }));
     };
 
     const startOfMonth = new Date();
@@ -137,6 +179,15 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         }));
     };
 
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
     return (
         <>
             {/* Order Details Section */}
@@ -183,7 +234,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
                                     dateFormat="dd/MM/yyyy"
                                     maxDate={new Date()}
-                                    className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
+                                    onKeyDown={(e) => handleKeyDown(e)}
+                                    className={`input-field`}
                                 />
                             </div>
                             {errors.order_date && <div className="custom-error">{errors.order_date}</div>}
@@ -197,7 +249,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                 onChange={(e) => handleSelectChange(e, 'Channel')}
                             >
                                 <option value="">Select Order Channel</option>
-                                <option value="Custom">Custom</option>
+                                <option value="custom">Custom</option>
                             </select>
                             {/* {errors.Channel && <div className="custom-error">{errors.Channel}</div>} */}
                         </label>
@@ -257,19 +309,20 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     <label className='col'>
                                         <input
                                             type="checkbox"
-                                            checked={formData.shipment_type}
-                                            onChange={() => handleToggleChange('shipment_type')}
+                                            disabled={orderStaus}
+                                            checked={formData.order_details.is_mps}
+                                            onChange={(e) => handleToggleChange(e, 'is_mps')}
                                         />
                                         <span className="slider"></span>
                                     </label>
                                 </div>
                             </label>
-                            <label style={{ width: '100%' }} className={`${formData.shipment_type === "1" ? '' : 'd-none'}`}>
+                            <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
                                 Number of packets
                                 <input
                                     type="text"
                                     className='input-field'
-                                    value={formData.other_details.number_of_packets || 0}
+                                    value={formData.other_details.number_of_packets}
                                     onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
                                     placeholder='Enter Number of Packets'
                                     onKeyPress={(e) => {
@@ -278,6 +331,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                         }
                                     }}
                                 />
+                                {errors.number_of_packets && <div className="custom-error">{errors.number_of_packets}</div>}
                             </label>
 
                         </div>
@@ -309,13 +363,21 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                         </label>
                         <label className='col'>
                             Gift Wrap
-                            <input
+                            <select
+                                name=""
+                                className='select-field'
+                                onChange={(e) => handleChangeCharge(e, 'gift_wrap')}
+                            >
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                            {/* <input
                                 type="text"
                                 className='input-field'
                                 value={formData.charge_details.gift_wrap}
                                 onChange={(e) => handleChangeCharge(e, 'gift_wrap')}
                                 placeholder='Yes / NO'
-                            />
+                            /> */}
                         </label>
                         <label className='col'>
                             Transaction fee
