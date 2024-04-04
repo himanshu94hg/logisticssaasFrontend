@@ -278,10 +278,10 @@ const RateCalculatorPage = () => {
                     </select>
                   </label>
                   <label className={`${!invoiceField ? 'invisible' : ''}`}>
-                    Invoice Amount
+                    Invoice Amount (₹)
                     <input
                       className="input-field"
-                      type="number"
+                      type="text"
                       name="invoice_amount"
                       value={formData.invoice_amount}
                       onChange={(e) => handleChange(e)}

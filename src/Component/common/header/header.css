@@ -298,6 +298,18 @@
   height: 136px;
 }
 
+.user-image-container a {
+  display: flex;
+  align-items: center;
+}
+
+.user-image-container a span.user-image-icon {
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
 /* Media query for tablets */
 @media only screen and (min-width: 1601px) {
   #shipEaseNavbarNav {
