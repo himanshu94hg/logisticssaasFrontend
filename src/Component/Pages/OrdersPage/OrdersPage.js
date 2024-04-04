@@ -22,6 +22,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
+import Modal from 'react-modal';
+import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -55,6 +57,7 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const [addTagShow, setaddTagShow] = useState(false)
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -69,7 +72,7 @@ const OrdersPage = () => {
     const handleSearch = () => {
         setQueryParamSearch(searchValue);
         setSearchValue('');
-      
+
     }
 
     useEffect(() => {
@@ -151,7 +154,7 @@ const OrdersPage = () => {
                     toast.error("Something went wrong!")
                 });
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab,queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -201,6 +204,12 @@ const OrdersPage = () => {
     const handleChange = (SearchOption) => {
         setSearchOption(SearchOption);
     };
+
+    const handleAddTagPop = () => {
+        setaddTagShow(false)
+    }
+
+
 
     return (
         <>
@@ -288,6 +297,7 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
+                        setaddTagShow={setaddTagShow}
                     />
                 </div>
 
@@ -351,9 +361,16 @@ const OrdersPage = () => {
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
             />
-            <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+            <div className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
-
+            <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
+                <AddTagPop
+                    addTagShow={addTagShow}
+                />
+                {addTagShow &&
+                    <div onClick={() => setaddTagShow(false)} className="backdrop"></div>
+                }
+            </section>
         </>
     )
 }
