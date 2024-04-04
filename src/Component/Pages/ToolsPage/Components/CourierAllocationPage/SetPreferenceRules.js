@@ -200,10 +200,10 @@ const SetPreferenceRules = () => {
                                 ))}
                             </div>
                             <div className='rule-preference text-capitalize'>
-                                <p>Preference 1: {rule?.priority_1}</p>
-                                <p>Preference 2: {rule?.priority_2}</p>
-                                <p>Preference 3: {rule?.priority_3}</p>
-                                <p>Preference 4: {rule?.priority_4}</p>
+                                <p>Preference 1:<br />{rule?.priority_1}</p>
+                                <p>Preference 2:<br />{rule?.priority_2}</p>
+                                <p>Preference 3:<br />{rule?.priority_3}</p>
+                                <p>Preference 4:<br />{rule?.priority_4}</p>
                             </div>
                             <div className='rules-action-btn'>
                                 <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
