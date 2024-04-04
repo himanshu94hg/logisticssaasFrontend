@@ -38,7 +38,6 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActio
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const handleExport = () => {
