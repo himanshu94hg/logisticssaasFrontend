@@ -218,7 +218,6 @@ const SetPreferenceRules = () => {
                 ))}
             </div>
 
-
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
                 <div id='sidepanel-closer' onClick={() => setRulePanel(false)}>
