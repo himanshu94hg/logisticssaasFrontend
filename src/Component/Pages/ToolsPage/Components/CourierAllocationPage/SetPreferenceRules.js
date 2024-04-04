@@ -156,8 +156,6 @@ const SetPreferenceRules = () => {
         }
     }, [courierRules]);
     
-    
-
     return (
         <>
             <div className='set-of-rules'>
