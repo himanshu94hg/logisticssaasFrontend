@@ -210,6 +210,7 @@ const RateCalculatorPage = () => {
                 <input
                   type="search"
                   className="input-field"
+                  value={orderId}
                   placeholder="Enter Order ID"
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
