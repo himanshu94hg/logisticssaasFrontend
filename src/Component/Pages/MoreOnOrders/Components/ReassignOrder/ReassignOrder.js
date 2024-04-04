@@ -56,12 +56,6 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-    // useEffect(() => {
-    //     if (selectedOrderId !== null) {
-    //         dispatch({ type: "REASSIGN_DATA_ACTION", payload: selectedOrderId });
-    //     }
-    // }, [dispatch, selectedOrderId]);       
-
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
 
