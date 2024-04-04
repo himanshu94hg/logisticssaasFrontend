@@ -38,54 +38,12 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActio
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-              "type": "shipment",
-              "subtype": "action_requested"
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-          };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${"Shipment_Action_Requested"}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);  
-      
     
     const handleRto = ((orderIds)=>{
         const stringifiedReattempt = JSON.stringify(orderIds);
         dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
     });
+
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
