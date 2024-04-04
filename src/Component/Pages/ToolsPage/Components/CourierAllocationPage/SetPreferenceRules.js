@@ -144,17 +144,19 @@ const SetPreferenceRules = () => {
     };
     
 
-    const [priorityOptions, setPriorityOptions] = useState([1, 2, 3, 4]);
+    const [priorityOptions, setPriorityOptions] = useState([]);
 
     useEffect(() => {
         if (courierRules?.data) {
-            const maxPriority = Math.max(...courierRules?.data?.map(rule => rule.priority), 0);
-            const newPriorityOptions = Array.from({ length: 4 }, (_, index) => ({
-                value: maxPriority + index + 1
+            const totalRules = courierRules.data.length;
+            const newPriorityOptions = Array.from({ length: totalRules + 1 }, (_, index) => ({
+                value: index + 1
             }));
             setPriorityOptions(newPriorityOptions);            
         }
     }, [courierRules]);
+    
+    
 
     return (
         <>
@@ -236,8 +238,9 @@ const SetPreferenceRules = () => {
                         <label>
                             Set Priority for this rule
                             <select className='select-field' value={priority} onChange={(e) => handlePriorityChange(e)}>
+                                <option value="">Select Priority</option>
                                 {priorityOptions?.map(option => (
-                                    <option key={option?.value} value={String(option?.value)}>{option?.value}</option>
+                                    <option key={option?.value} value={option?.value}>{option?.value}</option>
                                 ))}
                             </select>
                         </label>
