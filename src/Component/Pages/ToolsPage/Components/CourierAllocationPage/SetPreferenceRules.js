@@ -32,7 +32,7 @@ const SetPreferenceRules = () => {
         }
     }, [courierRules]);
 
-    const handleToggle = (index,id) => {
+    const handleToggle = (index, id) => {
         const newIsActive = [...isActive];
         newIsActive[index] = !newIsActive[index];
         setIsActive(newIsActive);
@@ -60,7 +60,7 @@ const SetPreferenceRules = () => {
         setEditingRuleId(id);
         dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_ACTION", payload: id });
     };
-    
+
     useEffect(() => {
         if (editingRuleId && courierEditRules && courierEditRules.data) {
             const rule = courierEditRules.data;
@@ -79,9 +79,9 @@ const SetPreferenceRules = () => {
             }
         }
     }, [editingRuleId, courierEditRules]);
-    
-    
-    
+
+
+
 
     const deleteRuleRow = (id) => {
         const updatedRules = rules.filter(rule => rule.id !== id);
@@ -113,12 +113,12 @@ const SetPreferenceRules = () => {
 
         if (editingRuleId) {
             console.log("Hit Editing");
-            dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_POST_ACTION", payload: { id: editingRuleId,requestData } });
+            dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_POST_ACTION", payload: { id: editingRuleId, requestData } });
         } else {
             console.log("Hit Adding");
             dispatch({ type: "COURIER_ALLOCATION_RULE_POST_ACTION", payload: requestData });
         }
-        
+
         setRulePanel(false);
     };
 
@@ -142,7 +142,7 @@ const SetPreferenceRules = () => {
         const selectedValue = e.target.value;
         setPriority(selectedValue);
     };
-    
+
 
     const [priorityOptions, setPriorityOptions] = useState([]);
 
@@ -152,7 +152,7 @@ const SetPreferenceRules = () => {
             const newPriorityOptions = Array.from({ length: totalRules + 1 }, (_, index) => ({
                 value: index + 1
             }));
-            setPriorityOptions(newPriorityOptions);            
+            setPriorityOptions(newPriorityOptions);
         }
     }, [courierRules]);
     
@@ -163,9 +163,12 @@ const SetPreferenceRules = () => {
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
-            {courierRules?.data?.map((rule, index) => (
-                <div key={index} className='create-rules-section'>
-                    <div className='created-rules'>
+            <div className={`d-flex mt-2 ${courierRules?.length === 0 ? '' : 'justify-content-end w-100'}`}>
+                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
+            </div>
+            <div className='create-rules-section'>
+                {courierRules?.data?.map((rule, index) => (
+                    <div key={index} className='created-rules'>
                         <div className='cr-rule-name'>
                             <div className='rule-name'>
                                 <p>Rule Name: {rule?.rule_name}</p>
@@ -176,7 +179,7 @@ const SetPreferenceRules = () => {
                                     type="checkbox"
                                     id={`toggle-${index}`}
                                     checked={isActive[index]}
-                                    onChange={() => handleToggle(index,rule?.id)}
+                                    onChange={() => handleToggle(index, rule?.id)}
                                 />
                                 <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
                                     <span className="toggle-inner" />
@@ -188,11 +191,13 @@ const SetPreferenceRules = () => {
                         <div className='cr-rule-conditions'>
                             <div className='rule-row text-capitalize'>
                                 {rule?.preference_choices?.map((condition, index) => (
+
                                     <div key={index} className='rule-item'>
+                                        {console.log(index, "this is rule data", index, condition)}
                                         <p>{condition.criteria}</p>
                                         <p>{condition.match_type}</p>
-                                        <p>{condition.match_value}</p>
-                                        <p className='rule-condition'>{condition.condition_type}</p>
+                                        <p className={`${rule?.preference_choices.length < 2 ? 'match-value-item' : ''}`}>{condition.match_value}</p>
+                                        <p className="rule-condition">{condition.condition_type}</p>
                                     </div>
                                 ))}
                             </div>
@@ -212,11 +217,9 @@ const SetPreferenceRules = () => {
                             </div>
                         </div>
                     </div>
-                </div>
-            ))}
-            <div className={`d-flex mt-2 ${rules.length === 0 ? '' : 'justify-content-end w-100'}`}>
-                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
+                ))}
             </div>
+
 
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>

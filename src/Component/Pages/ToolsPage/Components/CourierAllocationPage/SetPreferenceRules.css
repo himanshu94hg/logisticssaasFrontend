@@ -32,7 +32,7 @@
 }
 
 .create-rules-section {
-    width: fit-content;
+    width: 100%;
     margin-top: 15px;
     display: flex;
     flex-direction: column;
@@ -58,6 +58,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .create-rules-section .created-rules .rule-name {
@@ -135,7 +136,7 @@
     /* justify-items: end; */
     gap: 10px;
     position: relative;
-    margin-inline: 22px 139px;
+    /* margin-inline: 22px 139px; */
 }
 
 .create-rules-section .rule-preference p {
@@ -209,6 +210,11 @@
     border: 1px dashed var(--sh-primary);
     right: -30px;
     top: 50%;
+}
+
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type .match-value-item::before,
+.create-rules-section .created-rules .rule-row .rule-item:first-of-type .match-value-item::after {
+    display: none;
 }
 
 .rules-action-btn {

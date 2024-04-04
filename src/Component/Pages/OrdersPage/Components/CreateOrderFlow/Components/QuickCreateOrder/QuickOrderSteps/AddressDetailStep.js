@@ -286,7 +286,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                         <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
-                                Recipient Name
+                            <span>Recipient Name <span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_customer_name && 'input-field-error'}`}
                                     placeholder='Enter Recipient Name'
@@ -296,7 +296,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
-                                Mobile Number
+                                <span> Mobile Number<span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field '
@@ -327,7 +327,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                         <div className='row mt-3'>
                             {/* Address */}
                             <label className='col'>
-                                Address
+                                <span>Address<span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_address && 'input-field-error'}`}
                                     placeholder="House/Floor No. Building Name or Street, Locality"
@@ -336,7 +336,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                             </label>
                             {/* Pincode */}
                             <label className='col'>
-                                Pincode
+                                <span>Pincode <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     ref={pincodeRef1}

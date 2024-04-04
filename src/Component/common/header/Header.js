@@ -76,7 +76,7 @@ export default function Header(props) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress} />
-                <FontAwesomeIcon icon={faMagnifyingGlass} />
+                <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
               </div>
               <div className="quick-actions-container">
                 <div className="quick-action-text">
