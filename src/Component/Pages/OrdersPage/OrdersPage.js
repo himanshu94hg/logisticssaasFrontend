@@ -24,19 +24,20 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 
 const SearchOptions = [
-    { value: 'awb', label: 'AWB' },
-    { value: 'order_id', label: 'Order ID' },
-    { value: 'mobile', label: 'Mobile' },
-    { value: 'email', label: 'Email' },
-    { value: 'name', label: 'Name' },
-    { value: 'sku', label: 'SKU' },
-    { value: 'picup_address', label: 'Pickup Address' },
+    { value: 'awb_number', label: 'AWB' },
+    { value: 'customer_order_number', label: 'Order ID' },
+    { value: 'shipping_detail__mobile_number', label: 'Mobile' },
+    { value: 'shipping_detail__email', label: 'Email' },
+    { value: 'shipping_detail__recipient_name', label: 'Name' },
+    { value: 'shipping_detail__pincode', label: 'Pincode' },
+    { value: 'shipping_detail__city', label: 'City' },
 ];
 
 const OrdersPage = () => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
+    const [pageStatus,pageStatusSet]=useState(true)
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
@@ -53,6 +54,7 @@ const OrdersPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
 
@@ -67,11 +69,24 @@ const OrdersPage = () => {
     }
 
     const handleSearch = () => {
-        setQueryParamSearch(searchValue);
-        setSearchValue('');
-      
+        axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+                setSearchValue('');
+                pageStatusSet(false)
+            })
+            .catch(error => {
+                toast.error("Something went wrong!")
+            });
     }
 
+
+    console.log(totalItems, "this is totalItemstotalItemstotalItems")
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
@@ -81,6 +96,9 @@ const OrdersPage = () => {
     }, [activeTab])
 
     const handleMoreFilter = (data) => {
+        setItemsPerPage(20)
+        setCurrentPage(1)
+
         const queryParams = {};
         Object.keys(data).forEach(key => {
             if (data[key] !== '' && data[key] !== null) {
@@ -94,64 +112,61 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-    let allOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&page_size=${itemsPerPage}&page=${currentPage}`;
-    let unprocessable = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
-    let processing = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
-    let readyToShip = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
-    let returnOrders = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
-    let manifest = `https://dev.shipease.in/orders-api/orders/?seller_id=${sellerData}&courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+
 
     useEffect(() => {
         let apiUrl = '';
-        switch (activeTab) {
-            case "All Orders":
-                apiUrl = allOrders;
-                break;
-            case "Unprocessable":
-                apiUrl = unprocessable;
-                break;
-            case "Processing":
-                apiUrl = processing;
-                break;
-            case "Ready to Ship":
-                apiUrl = readyToShip;
-                break;
-            case "Pickup":
-                apiUrl = manifest;
-                break;
-            case "Returns":
-                apiUrl = returnOrders;
-                break;
-            default:
-                apiUrl = '';
-        }
-
-        if (apiUrl) {
-            const queryParams = { ...queryParamTemp };
-            if (queryParamSearch) {
-                queryParams['q'] = queryParamSearch;
+        if(pageStatus){
+            switch (activeTab) {
+                case "All Orders":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Unprocessable":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Processing":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Ready to Ship":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Pickup":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Returns":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                default:
+                    apiUrl = '';
             }
-            const queryString = Object.keys(queryParams)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                .join('&');
-
-            if (queryString) {
-                apiUrl += '&' + queryString;
-            }
-            axios.get(apiUrl, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
+    
+            if (apiUrl) {
+                const queryParams = { ...queryParamTemp };
+                const queryString = Object.keys(queryParams)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                    .join('&');
+    
+                if (queryString) {
+                    apiUrl += '&' + queryString;
                 }
-            })
-                .then(response => {
-                    setTotalItems(response?.data?.count)
-                    setOrders(response.data.results);
+                axios.get(apiUrl, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
                 })
-                .catch(error => {
-                    toast.error("Something went wrong!")
-                });
+                    .then(response => {
+                        setTotalItems(response?.data?.count)
+                        setOrders(response.data.results);
+                    })
+                    .catch(error => {
+                        toast.error("Something went wrong!")
+                    });
+            }
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab,queryParamSearch, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage]);
+
+
+    console.log(orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -195,16 +210,18 @@ const OrdersPage = () => {
         }
     }, [exportCard]);
 
-    console.log(activeTab, searchValue, "this is a circle data")
 
-
-    const handleChange = (SearchOption) => {
-        setSearchOption(SearchOption);
+    const handleChange = (option) => {
+        setSearchOption(option);
+        setsearchType(option.value)
     };
+
+    console.log(searchType, "this is a search option data")
+
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

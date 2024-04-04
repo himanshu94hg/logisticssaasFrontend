@@ -12,7 +12,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
 
     useEffect(() => {
-        if (totalItems) {
+        if (totalItems >= 0) {
             setTotalItemsCount(totalItems)
         }
     }, [totalItems])
@@ -60,6 +60,8 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     const startIndex = Math.min((currentPage - 1) * itemsPerPage + 1, totalItemsCount);
     const endIndex = Math.min(currentPage * itemsPerPage, totalItemsCount);
 
+    console.log(totalItems, "endIndexendIndex", totalItemsCount)
+
     return (
         <div className='my-2'>
             <div className='pagination-container'>
@@ -80,7 +82,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                 {/* Result count */}
                 <div className="result-count">
                     {/* Showing {startIndex} to {endIndex} of {totalItemsCount} results. */}
-                    Showing {endIndex} of {totalItemsCount} records.
+                    Showing {totalItems < 20 ? totalItemsCount : itemsPerPage}  of {totalItemsCount} records.
                 </div>
 
                 {/* Dropdown for items per page */}

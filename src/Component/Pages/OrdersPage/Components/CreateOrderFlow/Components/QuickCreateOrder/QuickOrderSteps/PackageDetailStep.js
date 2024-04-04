@@ -127,7 +127,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
 
                         {/* Length (cm) */}
                         <label className='col'>
-                            Length (cm)
+                            <span> Length (cm)<span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.length && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.length}
@@ -143,7 +143,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
 
                         {/* Breadth (cm) */}
                         <label className='col'>
-                            Breadth (cm)
+                            <span>  Breadth (cm)<span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.breadth && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
@@ -157,7 +157,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
 
                         {/* Height (cm) */}
                         <label className='col'>
-                            Height (cm)
+                            <span>   Height (cm)<span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.height && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')}
