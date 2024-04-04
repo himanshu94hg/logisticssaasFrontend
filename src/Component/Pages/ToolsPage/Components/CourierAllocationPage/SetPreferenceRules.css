@@ -58,6 +58,7 @@
     position: relative;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .create-rules-section .created-rules .rule-name {
@@ -135,7 +136,7 @@
     /* justify-items: end; */
     gap: 10px;
     position: relative;
-    margin-inline: 22px 139px;
+    /* margin-inline: 22px 139px; */
 }
 
 .create-rules-section .rule-preference p {
