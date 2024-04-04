@@ -51,7 +51,6 @@ const InfoMissing = () => {
 const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
