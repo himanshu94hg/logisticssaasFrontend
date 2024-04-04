@@ -71,15 +71,15 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Payment Type is required!';
         }
-        if (formData.order_details.is_mps && formData.other_details.number_of_packets==null ||"") {
+        if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
             newErrors.number_of_packets = 'Packets is required!';
         }
         setErrors(newErrors);
-        console.log(newErrors,"this is new errors")
+        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
-    console.log(formData.other_details.number_of_packets,"formData.order_details.is_mps")
+    console.log(formData.other_details.number_of_packets, "formData.order_details.is_mps")
 
     const handleChange = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -113,7 +113,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
             }
         }));
     };
-    const handleChangeCharge = (e, field) => {                                          
+    const handleChangeCharge = (e, field) => {
         const charge = e.target.value === '' ? null : e.target.value;
         setFormData(prevData => ({
             ...prevData,
@@ -362,13 +362,21 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                         </label>
                         <label className='col'>
                             Gift Wrap
-                            <input
+                            <select
+                                name=""
+                                className='select-field'
+                                onChange={(e) => handleChangeCharge(e, 'gift_wrap')}
+                            >
+                                <option value="no">No</option>
+                                <option value="yes">Yes</option>
+                            </select>
+                            {/* <input
                                 type="text"
                                 className='input-field'
                                 value={formData.charge_details.gift_wrap}
                                 onChange={(e) => handleChangeCharge(e, 'gift_wrap')}
                                 placeholder='Yes / NO'
-                            />
+                            /> */}
                         </label>
                         <label className='col'>
                             Transaction fee
