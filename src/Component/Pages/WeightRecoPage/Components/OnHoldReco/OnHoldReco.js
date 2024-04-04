@@ -38,10 +38,10 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({weightRecoData}) => {
+const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionShow}) => {
 
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
@@ -75,8 +75,10 @@ const WeightRecoTab = ({weightRecoData}) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(weightRecoData.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -86,8 +88,13 @@ const WeightRecoTab = ({weightRecoData}) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"

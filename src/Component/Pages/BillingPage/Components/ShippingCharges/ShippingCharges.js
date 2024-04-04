@@ -29,10 +29,10 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard }) => {
+const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
@@ -41,8 +41,10 @@ const ShippingCharges = ({ billingCard }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(billingCard.map(row => row.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -52,8 +54,13 @@ const ShippingCharges = ({ billingCard }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"

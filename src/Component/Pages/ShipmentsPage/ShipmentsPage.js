@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -38,6 +39,7 @@ const ShipmentsPage = () => {
     const [searchValue, setSearchValue] = useState("")
     const reattemptOrderIds = selectedRows.join(',');
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [BulkActionShow, setBulkActionShow] = useState(false)
 
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -209,6 +211,7 @@ const ShipmentsPage = () => {
                     <ActionRequired shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
 
@@ -216,6 +219,7 @@ const ShipmentsPage = () => {
                     <ActionRequested shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
 
@@ -223,6 +227,7 @@ const ShipmentsPage = () => {
                     <RTOShipment shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
 
@@ -230,6 +235,7 @@ const ShipmentsPage = () => {
                     <DeliveredShipment shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
                 <Pagination
@@ -239,6 +245,10 @@ const ShipmentsPage = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
+                {BulkActionShow && (
+                    <BulkActionsComponent />
+                )
+                }
             </div>
 
 

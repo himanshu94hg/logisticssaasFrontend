@@ -48,10 +48,10 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders,handleSearch }) => {
+const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -70,8 +70,10 @@ const ReassignOrder = ({ orders,handleSearch }) => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -81,8 +83,13 @@ const ReassignOrder = ({ orders,handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"

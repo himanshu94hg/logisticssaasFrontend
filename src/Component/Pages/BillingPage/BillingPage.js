@@ -9,6 +9,7 @@ import PassbookTab from './Components/PassbookTab/PassbookTab';
 import { useDispatch, useSelector } from 'react-redux';
 import './BillingPage.css';
 import Pagination from '../../common/Pagination/Pagination';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -18,6 +19,8 @@ const BillingPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [selectedRows, setSelectedRows] = useState([]);
     
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
@@ -71,22 +74,40 @@ const BillingPage = () => {
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='billing-page-container'>
                 {/* Shipping Charges */}
-                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard} />}
+                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard} 
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Remittance Logs */}
-                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard} />}
+                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard} 
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                setBulkActionShow={setBulkActionShow}/>}
 
                 {/* RechargeLogs */}
-                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard} />}
+                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard} 
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Invoices */}
-                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard} />}
+                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard} 
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Passbook */}
-                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard} />}
+                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard} 
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Credit Receipt */}
-                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} />}
+                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} 
+                selectedRows={selectedRows}
+                setSelectedRows={setSelectedRows}
+                setBulkActionShow={setBulkActionShow}/>}
 
                 <Pagination
                     totalItems={totalItems}
@@ -95,6 +116,10 @@ const BillingPage = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
+                {BulkActionShow && (
+                    <BulkActionsComponent />
+                )
+                }
             </div>
         </>
     );

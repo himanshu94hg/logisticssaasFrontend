@@ -47,20 +47,22 @@ const InfoMissing = () => {
     );
 }
 
-const ReverseOrder = ({ orders, handleSearch }) => {
+const ReverseOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
 
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
-        setSelectAll(!selectAll);
+        setSelectAll(!selectAll);   
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
@@ -70,8 +72,13 @@ const ReverseOrder = ({ orders, handleSearch }) => {
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+        }
+
+        if (setSelectedRows !== ([])) {
+            setBulkActionShow(true)
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
