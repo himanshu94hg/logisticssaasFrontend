@@ -303,7 +303,7 @@
   align-items: center;
 }
 
-.user-image-container a span {
+.user-image-container a span.user-image-icon {
   width: 36px;
   height: 36px;
   overflow: hidden;

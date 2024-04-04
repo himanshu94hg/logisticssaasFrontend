@@ -111,7 +111,7 @@ export default function Header(props) {
               </div>
               <NavDropdown
                 title={
-                  <span>
+                  <span className="user-image-icon">
                     {/* <img
                       src={UserImage}
                       className="user-photo"
@@ -128,14 +128,14 @@ export default function Header(props) {
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">
-                  <FontAwesomeIcon icon={faEdit} /> Edit Profile
+                  <FontAwesomeIcon icon={faEdit} /><span className="ms-2">Edit Profile</span>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   eventKey="4.3"
                   onClick={() => handleLogout()}
                 >
-                  <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                  <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
