@@ -9,7 +9,6 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows }) => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     console.log(exportCard, "Export Action Bulk")
 
-
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
