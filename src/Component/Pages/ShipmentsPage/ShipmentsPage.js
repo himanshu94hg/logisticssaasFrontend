@@ -44,7 +44,7 @@ const ShipmentsPage = () => {
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    console.log(exportCard, "Export")
+    // console.log(selectedRows, "selectedRowsselectedRowsselectedRows")
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -246,7 +246,7 @@ const ShipmentsPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent />
+                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows}/>
                 )
                 }
             </div>
