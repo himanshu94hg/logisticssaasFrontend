@@ -28,7 +28,7 @@ const DomesticCreateOrder = () => {
             invoice_amount: '',
             is_mps: false,
             warehouse_id: '',
-            order_tag: '',
+            order_tag: [],
             payment_type: '',
             order_date: currentDate,
             order_type: "",

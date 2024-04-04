@@ -43,11 +43,13 @@ function* moreorderShipFilesAction(action) {
     try {
         let response = yield call(moreorderShipFileAPI, payload);
         if (response.status === 200) {
-            yield put({ type: GET_REASSIGN_SHIP_DATA, payload: response?.data })
-        }
-        else {
+            yield put({ type: GET_REASSIGN_SHIP_DATA, payload: response?.data });
+            toast.success(response?.data?.message);
+        } else {
+            toast.error(response?.data?.message);
         }
     } catch (error) {
+        toast.error(error?.message);
         if (reject) reject(error);
     }
 }

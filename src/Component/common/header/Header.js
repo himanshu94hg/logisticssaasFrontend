@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
 import CreateOrderIcon from "./Icons/CreateOrderIcon";
@@ -20,6 +20,7 @@ import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, orde
 import { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import UserImageIcon from "./Icons/UserImageIcon";
 
 export default function Header(props) {
   const navigate = useNavigate()
@@ -110,30 +111,31 @@ export default function Header(props) {
               </div>
               <NavDropdown
                 title={
-                  <span>
-                    <img
+                  <span className="user-image-icon">
+                    {/* <img
                       src={UserImage}
                       className="user-photo"
-                    // style={{ width: "50px", height: "50px" }}
-                    />
+                    /> */}
                     {/* <FontAwesomeIcon icon={faUser} /> */}
+                    <UserImageIcon />
                   </span>
                 }
                 id="basic-nav-dropdown"
+                className="user-image-container"
               >
                 <NavDropdown.Item eventKey="4.1">
                   Hello, Himanshu
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">
-                  <FontAwesomeIcon icon={faEdit} /> Edit Profile
+                  <FontAwesomeIcon icon={faEdit} /><span className="ms-2">Edit Profile</span>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item
                   eventKey="4.3"
                   onClick={() => handleLogout()}
                 >
-                  <FontAwesomeIcon icon={faSignOutAlt} /> Logout
+                  <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
