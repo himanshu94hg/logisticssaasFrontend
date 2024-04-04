@@ -129,6 +129,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderId])
 
+    console.log(new Date(orderDetailsData?.order_date),"this is a data dtaa",new Date())
+
     useEffect(() => {
         if (orderDetailsData) {
             setFormData(prevData => ({
@@ -140,7 +142,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     // warehouse_id: orderDetailsData,
                     order_tag: orderDetailsData?.order_tag,
                     payment_type: orderDetailsData?.payment_type,
-                    order_date: currentDate,
+                    order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
                     order_type: orderDetailsData?.order_type,
                     channel: orderDetailsData?.channel,
                     channel_id: orderDetailsData?.channel_id
