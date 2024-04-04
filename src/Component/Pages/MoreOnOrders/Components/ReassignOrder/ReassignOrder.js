@@ -56,11 +56,11 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-    useEffect(() => {
-        if (selectedOrderId !== null) {
-            dispatch({ type: "REASSIGN_DATA_ACTION", payload: selectedOrderId });
-        }
-    }, [dispatch, selectedOrderId]);       
+    // useEffect(() => {
+    //     if (selectedOrderId !== null) {
+    //         dispatch({ type: "REASSIGN_DATA_ACTION", payload: selectedOrderId });
+    //     }
+    // }, [dispatch, selectedOrderId]);       
 
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
@@ -109,15 +109,11 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
+
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        if(reassignCard.length > 0)
-        {
-            setSingleShip(true);
-        }
-        else{
-            toast.error("Something went wrong!!")
-        }
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShip(true);
     };
 
     return (
@@ -312,6 +308,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
+                
             </div>
         </section >
     );

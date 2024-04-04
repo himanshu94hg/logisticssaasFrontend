@@ -34,7 +34,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows }) => {
             "max_weight": "",
             "min_product_qty": "",
             "max_product_qty": "",
-            "rto_status": false,
+            "rto_status": activeTab === "Action Required" ? false : activeTab === "Action Requested" ? false : activeTab === "Delivered" ? false : activeTab === "RTO" ? true : false,
             "global_type": "",
             "payment_type": ""
         };
