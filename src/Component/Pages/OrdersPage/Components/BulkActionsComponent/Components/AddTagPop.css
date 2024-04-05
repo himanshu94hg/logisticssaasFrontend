@@ -38,12 +38,32 @@
 
 .ba-pop-show .pop-content label {
     display: flex;
-    gap: 5px;
-    align-items: baseline;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ba-pop-show .pop-content label .label-name {
+    padding-block: 5px;
+    text-align: center;
+    min-width: 100px;
+    box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0.5rem;
+    padding-inline: 10px;
+}
+
+.ba-pop-show .pop-footer {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    position: relative;
+    height: 40px;
 }
 
 .ba-pop-show .pop-footer label {
     align-items: center;
+    position: absolute;
+    right: 31px;
 }
 
 .ba-pop-show .pop-footer label input {
@@ -54,13 +74,4 @@
     width: 30px;
     height: 30px;
     cursor: pointer;
-}
-
-.ba-pop-show .pop-footer {
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-    border-top: 1px solid gray;
-    margin-top: 15px;
-    padding-top: 15px;
 }

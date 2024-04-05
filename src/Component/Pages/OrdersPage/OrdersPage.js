@@ -366,6 +366,7 @@ const OrdersPage = () => {
             <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
                 <AddTagPop
                     addTagShow={addTagShow}
+                    setaddTagShow={setaddTagShow}
                 />
                 {addTagShow &&
                     <div onClick={() => setaddTagShow(false)} className="backdrop"></div>
