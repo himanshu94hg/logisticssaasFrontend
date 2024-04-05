@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
-import { useDispatch } from 'react-redux'
 
 const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch();
