@@ -49,6 +49,7 @@ const CreateTicketForm = (props) => {
   const [selectFile, setSelectFile] = useState(false)
   const [fileObj, setFileObj] = useState(null)
   const [categoryStatus, setCategoryStatus] = useState(false)
+  const [awbStatus, setAwbStatus] = useState(false)
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const CreateTicketForm = (props) => {
     }
   },[escalateAwbNumber]);
 
-  console.log(escalateAwbNumber,"Escalate Awb number ...................")
+  console.log(awbStatus,"Escalate Awb number ...................")
 
   const [ticketData, setTicketData] = useState({
     category: null,
@@ -203,8 +204,10 @@ const CreateTicketForm = (props) => {
         }
     ).then(response => {
       console.warn(response, "Response")
+      setAwbStatus(false);
     }).catch(error => {
       toast.error("One of these AWB numbers is invalid.");
+      setAwbStatus(true);
     });
   };
 
@@ -243,6 +246,9 @@ const CreateTicketForm = (props) => {
     }
     if (typeof ticketData?.sub_category !== 'string' || !ticketData.sub_category.trim()) {
       validationErrors.sub_category = "Sub category is required!";
+    }
+    if (awbStatus === true) {
+      validationErrors.awb_number = "One of these AWB numbers is invalid.";
     }
     setErrors(validationErrors)
 
@@ -331,7 +337,6 @@ const CreateTicketForm = (props) => {
             name={"awb_number"}
             value={escalateAwbNumber}
             onChange={(e) => handleCreateTicket(e)}
-            onBlur={(e) => handleBlurAWB(e)}
           />
         ) : (
           <FormInput
@@ -343,6 +348,7 @@ const CreateTicketForm = (props) => {
             onBlur={(e) => handleBlurAWB(e)}
           />
         )}
+        {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
         <FormInput
           type="select"
           mandatory={"*"}
