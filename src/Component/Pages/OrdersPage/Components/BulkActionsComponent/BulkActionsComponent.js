@@ -105,33 +105,37 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                 }
                 return total;
             }, 0);
+            console.log("All Count Data", shippedCount);
             toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
             setShipButtonClicked(false);
         }
     }, [shipButtonClicked, bulkShipData]);
+    
 
     return (
         <>
-            <section className='bulk-action-container box-shadow'>
-                <div className='ba-inner-container'>
-                    <div className='ba-rows-selected'>
-                        <span className='fw-bold font20'>20</span>
-                        <span>Rows Selected</span>
+            {selectedRows.length > 0 && (
+                <section className='bulk-action-container box-shadow'>
+                    <div className='ba-inner-container'>
+                        <div className='ba-rows-selected'>
+                            <span className='fw-bold font20'>20</span>
+                            <span>Rows Selected</span>
+                        </div>
+                        <ul className='ba-actions'>
+                            <li onClick={() => addTag()}><span>Add Tag</span></li>
+                            <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
+                            <li><span>Warehouse update</span></li>
+                            <li onClick={() => rtoUpdate()}><span>RTO update</span></li>
+                            <li><span>Weight/Dimension update</span></li>
+                            <li onClick={handelBulkShip}><span>Ship</span></li>
+                            <li onClick={handleExport}><span>Export</span></li>
+                            <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
+                            <li onClick={() => bulkDeleted()}><span>Delete</span></li>
+                        </ul>
+                        <div className='ba-close'></div>
                     </div>
-                    <ul className='ba-actions'>
-                        <li onClick={() => addTag()}><span>Add Tag</span></li>
-                        <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                        <li><span>Warehouse update</span></li>
-                        <li onClick={() => rtoUpdate()}><span>RTO update</span></li>
-                        <li><span>Weight/Dimension update</span></li>
-                        <li onClick={handelBulkShip}><span>Ship</span></li>
-                        <li onClick={handleExport}><span>Export</span></li>
-                        <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                        <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                    </ul>
-                    <div className='ba-close'></div>
-                </div>
-            </section>
+                </section>
+            )}
         </>
     )
 }
