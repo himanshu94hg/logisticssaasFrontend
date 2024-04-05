@@ -98,18 +98,22 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     };    
 
     useEffect(() => {
-        if (shipButtonClicked && bulkShipData !== null) {
-            const shippedCount = Object.values(bulkShipData).reduce((total, order) => {
-                if (order.status === true) {
-                    return total + 1;
-                }
-                return total;
-            }, 0);
-            console.log("All Count Data", shippedCount);
-            toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
+        console.log(shipButtonClicked,"BulkShip bulkShipData",bulkShipData);
+        if(shipButtonClicked === true)
+        {
+            if (bulkShipData !== null) {
+                const shippedCount = Object.values(bulkShipData).reduce((total, order) => {
+                    if (order?.status === true) {
+                        return total + 1;
+                    }
+                    return total;
+                }, 0);
+                console.log("All Count Data", shippedCount);
+                toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
+            }
             setShipButtonClicked(false);
         }
-    }, [shipButtonClicked, bulkShipData]);
+    }, [bulkShipData]);
     
 
     return (
