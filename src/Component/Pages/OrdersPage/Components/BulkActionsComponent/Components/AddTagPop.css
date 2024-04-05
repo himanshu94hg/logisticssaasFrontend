@@ -1,0 +1,119 @@
+.ba-popup-container .ba-pop-show {
+    background-color: #fff;
+    width: 0%;
+    height: 0%;
+    z-index: 6;
+    transition: 0.5s ease-in;
+    border-radius: 0.5rem;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.ba-popup-container .ba-pop-show.open {
+    width: 500px;
+    height: 400px;
+}
+
+.ba-pop-show .pop-heading {
+    /* border-bottom: 1px solid gray; */
+    padding: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--sh-primary-light);
+}
+
+.ba-pop-show .pop-heading h4 {
+    margin-bottom: 0;
+}
+
+.ba-pop-show .pop-content {
+    padding-inline: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: space-between;
+    white-space: nowrap;
+}
+
+.ba-pop-show .pop-content label {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.ba-pop-show .pop-content label .label-name {
+    padding-block: 5px;
+    text-align: center;
+    min-width: 100px;
+    box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0.5rem;
+    padding-inline: 10px;
+}
+
+.ba-pop-show .pop-footer {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    position: relative;
+    height: 40px;
+}
+
+.ba-pop-show .pop-footer label {
+    align-items: center;
+    position: absolute;
+    right: 31px;
+}
+
+.ba-pop-show .pop-footer label input {
+    accent-color: var(--sh-primary);
+}
+
+.ba-pop-show .pop-footer label span {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.Labels-pool {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.label-button-container {
+    width: auto;
+    border: 1px solid var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    color: var(--sh-primary);
+    height: 28px;
+    padding-inline: 7px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+}
+
+.label-button-container.active {
+    background: var(--sh-primary);
+    border: 1px solid var(--sh-primary);
+    color: #fff;
+}
+
+.label-button-container .label-button {
+    background: transparent;
+    border: none;
+    padding: 0;
+    max-width: 400px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.label-button-container.active .label-button {
+    color: #fff;
+}

@@ -21,7 +21,7 @@ import customImg from "../../../../../assets/image/integration/Manual.png"
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -235,7 +235,7 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                            <li>Add Tag</li>
+                                                            <li onClick={() => setaddTagShow(true)}>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
