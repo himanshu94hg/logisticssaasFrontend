@@ -130,8 +130,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                             <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
                             {/* <li ><span>RTO update</span></li> */}
                             <li><span>Weight/Dimension update</span></li>
-                            <li><span>Ship</span></li>
-                            <li><span>Export</span></li>
+                            <li onClick={handelBulkShip}><span>Ship</span></li>
+                            <li onClick={handleExport}><span>Export</span></li>
                             <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
                             <li onClick={() => bulkDeleted()}><span>Delete</span></li>
                         </ul>
