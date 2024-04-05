@@ -172,6 +172,7 @@ const OrdersPage = () => {
                         setOrders(response.data.results);
                     })
                     .catch(error => {
+                        console.log(error,"this is a error data")
                         toast.error("Something went wrong!")
                     });
             }
