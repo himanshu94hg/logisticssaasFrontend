@@ -83,25 +83,29 @@ const RechargeLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionSh
 
 
 
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
-
+    const calculateTotalAmount = (billingCard) => {
+        const totalAmount = billingCard.reduce((total, item) => total + parseFloat(item.amount), 0);
+        return totalAmount.toFixed(2);
+    };
+    
     return (
         <section className='position-relative'>
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Successful Recharge: <span>&#8377; {data?.total_sucefully_recharge}</span></p>
+                        <p style={{ fontSize: "13px" }}>Successful Recharge: <span>&#8377; {calculateTotalAmount(billingCard)}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Credit: <span>&#8377; {data?.total_credit}</span></p>
+                        <p style={{ fontSize: "13px" }}>Total Credit: <span>&#8377; {data?.total_credit}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Debit: <span>&#8377; {data?.$total_debit}</span></p>
+                        <p style={{ fontSize: "13px" }}>Total Debit: <span>&#8377; {data?.$total_debit}</span></p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p style={{ fontSize: "13px" }}>Cashback </p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p style={{ fontSize: "13px" }}>Referral</p>
                     </div>
                 </div>
                 <div className='table-container'>
