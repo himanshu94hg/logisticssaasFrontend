@@ -39,7 +39,7 @@ const OrdersPage = () => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
-    const [pageStatus,pageStatusSet]=useState(true)
+    const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
@@ -119,7 +119,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         let apiUrl = '';
-        if(pageStatus){
+        if (pageStatus) {
             switch (activeTab) {
                 case "All Orders":
                     apiUrl = `https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
@@ -142,13 +142,13 @@ const OrdersPage = () => {
                 default:
                     apiUrl = '';
             }
-    
+
             if (apiUrl) {
                 const queryParams = { ...queryParamTemp };
                 const queryString = Object.keys(queryParams)
                     .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                     .join('&');
-    
+
                 if (queryString) {
                     apiUrl += '&' + queryString;
                 }
@@ -169,7 +169,7 @@ const OrdersPage = () => {
     }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
 
-    console.log(orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
+    console.log(orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage, "this is involve data")
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -220,7 +220,7 @@ const OrdersPage = () => {
     };
 
     console.log(searchType, "this is a search option data")
-    
+
     const handleAddTagPop = () => {
         setaddTagShow(false)
     }
@@ -255,7 +255,13 @@ const OrdersPage = () => {
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
+                            <ul
+                                className="dropdown-menu"
+                                style={{
+                                    paddingInline: '12px',
+                                    minWidth: '110px',
+                                }}
+                            >
                                 <li>Filter 1</li>
                                 <li>Filter 2</li>
                                 <li>Filter 3</li>

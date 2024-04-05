@@ -118,7 +118,7 @@
   height: 0;
   /* height: 25px; */
   overflow: hidden;
-  font-size: 14px;
+  font-size: 0.8rem;
   border-radius: 0.5rem;
   padding-inline: 10px;
   display: flex;
