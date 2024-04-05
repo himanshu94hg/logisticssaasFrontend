@@ -38,9 +38,9 @@ const paymentOptions = [
 ]
 
 const Ordertags = [
-    { label: "Tag 1", value: "tag1" },
-    { label: "Tag 2", value: "tag2" },
-    { label: "Tag 3", value: "tag3" },
+    { label: "Tag 1", value: "" },
+    { label: "Tag 2", value: "" },
+    { label: "Tag 3", value: "" },
 ];
 
 const CourierPartner = [

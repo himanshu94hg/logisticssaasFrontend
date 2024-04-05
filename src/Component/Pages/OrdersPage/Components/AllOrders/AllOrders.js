@@ -20,13 +20,15 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const AllOrders = ({ orders, handleSearch, setBulkActionShow, selectedRows, setSelectedRows }) => {
-
-    const dispatch = useDispatch()
+const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const [selectAll, setSelectAll] = useState(false);
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+
+    useEffect(() => {
+        if (orderdelete) {
+            setSelectAll(false)
+        }
+    }, [orderdelete])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -39,36 +41,28 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow, selectedRows, setS
         }
     };
 
-    console.log(selectedRows,"selectedRowsselectedRows")
-
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows?.includes(orderId);
-
+        const isSelected = selectedRows.includes(orderId);
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows?.filter(id => id !== orderId));
-            setBulkActionShow(true)
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
-            setBulkActionShow(false)
+            updatedSelectedRows = [...selectedRows, orderId];
+        }
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
         }
 
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
 
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
     const handleDownloadLabel = async (orderId) => {
         try {
@@ -291,20 +285,8 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow, selectedRows, setS
                             </tbody>
                         </table>
                     </div>
-
-                    <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
-
-                    {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
-
-                    <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
                 </div>
             </section>
-
         </>
     );
 };

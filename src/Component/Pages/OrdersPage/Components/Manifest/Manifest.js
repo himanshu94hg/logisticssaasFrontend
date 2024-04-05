@@ -9,49 +9,47 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 
 
-const Manifest = ({ orders }) => {
+const Manifest = ({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
-    const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+
+    useEffect(() => {
+        if (orderdelete) {
+            setSelectAll(false)
+        }
+    }, [orderdelete])
+
     const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-        } else {
-            setSelectedRows([]);
-        }
+        // setSelectAll(!selectAll);
+        // if (!selectAll) {
+        //     setSelectedRows(orders.map(row => row?.id));
+        //     setBulkActionShow(true)
+        // } else {
+        //     setSelectedRows([]);
+        //     setBulkActionShow(false)
+        // }
     };
+
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-        setBulkActions(true)
-        console.log(BulkActions)
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-        } else {
-            setSelectedRows([...selectedRows, orderId]);
-        }
-        if (selectedRows.length === orders.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
-            setSelectAll(false);
-        }
+        // const isSelected = selectedRows?.includes(orderId);
+        // setBulkActions(true)
+        // console.log(BulkActions)
+        // if (isSelected) {
+        //     setSelectedRows(selectedRows.filter(id => id !== orderId));
+        // } else {
+        //     setSelectedRows([...selectedRows, orderId]);
+        // }
+        // if (selectedRows.length === orders.length - 1 && isSelected) {
+        //     setSelectAll(false);
+        // } else {
+        //     setSelectAll(false);
+        // }
     };
 
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
     return (
         <section className='position-relative'>
@@ -90,7 +88,7 @@ const Manifest = ({ orders }) => {
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows.includes(row?.id)}
+                                                checked={selectedRows?.includes(row?.id)}
                                                 onChange={() => handleSelectRow(row?.id)}
                                             />
                                         </td>
@@ -152,8 +150,6 @@ const Manifest = ({ orders }) => {
                         </tbody>
                     </table>
                 </div>
-                <MoreFiltersPanel MoreFilters={MoreFilters} CloseSidePanel={CloseSidePanel} />
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
             </div>
         </section>
     );
