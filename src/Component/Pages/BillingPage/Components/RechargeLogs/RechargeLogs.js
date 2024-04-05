@@ -95,10 +95,10 @@ const RechargeLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionSh
                         <p style={{ fontSize: "13px" }}>Successful Recharge: <span>&#8377; {calculateTotalAmount(billingCard)}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Total Credit: <span>&#8377; {data?.total_credit}</span></p>
+                        <p style={{ fontSize: "13px" }}>Total Credit: <span>&#8377; {calculateTotalAmount(billingCard)}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Total Debit: <span>&#8377; {data?.$total_debit}</span></p>
+                        <p style={{ fontSize: "13px" }}>Total Debit: <span>&#8377; {0.00}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p style={{ fontSize: "13px" }}>Cashback </p>
