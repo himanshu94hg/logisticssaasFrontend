@@ -12,58 +12,101 @@ import Pagination from '../../common/Pagination/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
-    { value: 'awb', label: 'AWB' },
-    { value: 'order_id', label: 'Order ID' },
-    { value: 'mobile', label: 'Mobile' },
-    { value: 'email', label: 'Email' },
-    { value: 'name', label: 'Name' },
-    { value: 'sku', label: 'SKU' },
-    { value: 'picup_address', label: 'Pickup Address' },
+    { value: 'awb_number', label: 'AWB' },
+    { value: 'customer_order_number', label: 'Order ID' },
+    { value: 'shipping_detail__mobile_number', label: 'Mobile' },
+    { value: 'shipping_detail__email', label: 'Email' },
+    { value: 'shipping_detail__recipient_name', label: 'Name' },
+    { value: 'shipping_detail__pincode', label: 'Pincode' },
+    { value: 'shipping_detail__city', label: 'City' },
 ];
 
-
 const MoreOnOrders = () => {
-    const dispatch = useDispatch();
-    const [selectedOption, setSelectedOption] = useState("Domestic");
-    const [activeTab, setActiveTab] = useState("Merge Order");
-    const [isOpen, setIsOpen] = useState(false);
+    const dispatch = useDispatch()
+    const sellerData = Cookies.get("user_id")
+    let authToken = Cookies.get("access_token")
+    const [pageStatus,pageStatusSet]=useState(true)
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
-    const [reassignedOrderId, setReassignedOrderId] = useState(null);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [orderId, setOrderId] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
-    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [queryParamSearch, setQueryParamSearch] = useState(null)
+    const [activeTab, setActiveTab] = useState("Merge Order");
+    const [EditOrderSection, setEditOrderSection] = useState(false)
+    const [BulkActionShow, setBulkActionShow] = useState(false)
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
-    const [BulkActionShow, setBulkActionShow] = useState(false)
-
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const { pathName } = useSelector(state => state?.authDataReducer)
 
     const handleSidePanel = () => {
         setMoreFilters(true);
         setBackDrop(true)
     }
 
-    const sellerData = Cookies.get("user_id")
-    let authToken = Cookies.get("access_token")
+    const CloseSidePanel = () => {
+        setMoreFilters(false);
+        setBackDrop(false)
+    }
 
-    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
-    const { pathName } = useSelector(state => state?.authDataReducer)
+    const handleSearch = () => {
+        axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+                setSearchValue('');
+                pageStatusSet(false)
+            })
+            .catch(error => {
+                toast.error("Something went wrong!")
+            });
+    }
 
 
-    let reassign = `https://dev.shipease.in/core-api/shipping/reassign/`
-    let merge = `https://dev.shipease.in/orders-api/orders/merge-order/`
-    let split = `https://dev.shipease.in/orders-api/orders/split-order/`
-    let reverse = `https://dev.shipease.in/orders-api/orders/reverse-order/`
+    console.log(totalItems, "this is totalItemstotalItemstotalItems")
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+            setQueryParamTemp({});
+            setQueryParamSearch(null);
+        }
+    }, [activeTab])
+
+    const handleMoreFilter = (data) => {
+        setItemsPerPage(20)
+        setCurrentPage(1)
+
+        const queryParams = {};
+        Object.keys(data).forEach(key => {
+            if (data[key] !== '' && data[key] !== null) {
+                if (key === 'start_date' || key === 'end_date') {
+                    queryParams[key] = moment(data[key]).format('YYYY-MM-DD');
+                } else {
+                    queryParams[key] = data[key];
+                }
+            }
+        });
+        setQueryParamTemp(queryParams);
+    };
 
     useEffect(() => {
         if (pathName === "Reassign Orders") {
@@ -80,50 +123,57 @@ const MoreOnOrders = () => {
 
     useEffect(() => {
         let apiUrl = '';
-        switch (activeTab) {
-            case "Reassign Order":
-                apiUrl = `${reassign}?page=${currentPage}&page_size=${itemsPerPage}`;
-                break;
-            case "Merge Order":
-                apiUrl = `${merge}?page=${currentPage}&page_size=${itemsPerPage}`;
-                break;
-            case "Split Order":
-                apiUrl = `${split}?page=${currentPage}&page_size=${itemsPerPage}`;
-                break;
-            case "Reverse Order":
-                apiUrl = `${reverse}?page=${currentPage}&page_size=${itemsPerPage}`;
-                break;
-            default:
-                apiUrl = '';
-        }
-
-        if (apiUrl) {
-            if (searchValue?.trim() !== '' && searchValue?.length >= 3) {
-                apiUrl += `&q=${encodeURIComponent(searchValue.trim())}`;
+        if(pageStatus){
+            switch (activeTab) {
+                case "Reassign Order":
+                    apiUrl = `https://dev.shipease.in/core-api/shipping/reassign/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Merge Order":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/merge-order/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Split Order":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/split-order/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                case "Reverse Order":
+                    apiUrl = `https://dev.shipease.in/orders-api/orders/reverse-order/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    break;
+                default:
+                    apiUrl = '';
             }
-
-            axios.get(apiUrl, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
+    
+            if (apiUrl) {
+                const queryParams = { ...queryParamTemp };
+                const queryString = Object.keys(queryParams)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                    .join('&');
+    
+                if (queryString) {
+                    apiUrl += '&' + queryString;
                 }
-            })
-                .then(response => {
-                    console.log('Data is data:', response.data.results);
-                    setTotalItems(response?.data?.count)
-                    setOrders(response.data.results);
+                axios.get(apiUrl, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
                 })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
+                    .then(response => {
+                        setTotalItems(response?.data?.count)
+                        setOrders(response.data.results);
+                    })
+                    .catch(error => {
+                        toast.error("Something went wrong!")
+                    });
+            }
         }
-    }, [activeTab, orderCancelled, orderdelete, orderClone, sellerData, searchValue, itemsPerPage, currentPage]);
+    }, [activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
+
+    console.log( activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab === "All Orders" ? "" : activeTab,
+                "type": activeTab === "Merge Order" ? "" : activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -162,22 +212,13 @@ const MoreOnOrders = () => {
     }, [exportCard]);
 
 
-    const handleSearch = (value) => {
-        setSearchValue(value)
-    }
-
-    const handleReassignOrder = (orderId) => {
-        setReassignedOrderId(orderId);
+    const handleChange = (option) => {
+        setSearchOption(option);
+        setsearchType(option.value)
     };
 
-    const handleChange = (SearchOption) => {
-        setSearchOption(SearchOption);
-    };
+    console.log(searchType, "this is a search option data")
 
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
     return (
         <>
@@ -275,4 +316,4 @@ const MoreOnOrders = () => {
     )
 }
 
-export default MoreOnOrders
+export default MoreOnOrders;
