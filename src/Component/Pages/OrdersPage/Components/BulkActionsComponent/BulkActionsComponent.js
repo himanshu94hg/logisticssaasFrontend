@@ -17,7 +17,6 @@ const BulkActionsComponent = ({ selectedRows }) => {
         dispatch({
             type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
                 order_ids: selectedRows,
-                warehouse_id:1
             }
         })
     }
@@ -26,6 +25,7 @@ const BulkActionsComponent = ({ selectedRows }) => {
         dispatch({
             type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
                 order_ids: selectedRows,
+                warehouse_id:22
             }
         })
     }
@@ -39,7 +39,7 @@ const BulkActionsComponent = ({ selectedRows }) => {
     const bulkCancelled = () => {
         dispatch({
             type: "BULK_CANCEL_ORDER_ACTION", payload: {
-                order_ids: selectedRows,
+                awb_numbers: selectedRows,
             }
         })
     }
@@ -55,8 +55,8 @@ const BulkActionsComponent = ({ selectedRows }) => {
                     <ul className='ba-actions'>
                         <li onClick={() => addTag()}><span>Add Tag</span></li>
                         <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                        <li><span>Warehouse update</span></li>
-                        <li onClick={() => rtoUpdate()}><span>RTO update</span></li>
+                        <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
+                        {/* <li ><span>RTO update</span></li> */}
                         <li><span>Weight/Dimension update</span></li>
                         <li><span>Ship</span></li>
                         <li><span>Export</span></li>

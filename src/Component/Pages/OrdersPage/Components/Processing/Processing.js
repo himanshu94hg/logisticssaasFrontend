@@ -1,15 +1,11 @@
+import moment from 'moment/moment';
 import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
-import moment from 'moment/moment';
-import { useDispatch, useSelector } from 'react-redux';
+import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
@@ -18,16 +14,20 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+
+    useEffect(() => {
+        if (orderdelete) {
+            setSelectAll(false)
+        }
+    }, [orderdelete])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -46,39 +46,27 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
     };
 
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows?.includes(orderId);
-
+        const isSelected = selectedRows.includes(orderId);
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-            setBulkActionShow(true)
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            updatedSelectedRows = [...selectedRows, orderId];
+        }
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
         }
 
-        if (setSelectedRows !== ([])) {
-            setBulkActionShow(true)
-        }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
-
     };
-
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
 
     const openEditingSection = (id) => {
@@ -255,13 +243,8 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                         </tbody>
                     </table>
                 </div>
-                <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
-
                 <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
-
             </div>
-
-
         </section>
     );
 })

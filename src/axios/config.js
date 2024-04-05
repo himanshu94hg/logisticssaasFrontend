@@ -47,7 +47,7 @@ export const API_URL = {
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",
   BULK_MARK_ORDER_VERIFY:"/orders-api/orders/bulk-action/mark-order-verify/",
   BULK_DELETE_ORDER:"/orders-api/orders/bulk-action/delete-order/",
-  BULK_CANCEL_ORDER:"/orders-api/orders/bulk-action/cancel-order/",
+  BULK_CANCEL_ORDER:"/core-api/shipping/cancel-order/",
   BULK_PICKUP_ADDRESS_UPDATE:"/orders-api/orders/bulk-action/pickup-address-update/",
 
 
@@ -60,6 +60,7 @@ export const API_URL = {
   CANCEL_ORDERS_API: "/orders-api/orders/cancel-order/",
   DELETE_ORDERS_API: "/orders-api/orders/order-complete-detail/",
   CLONE_ORDERS_API: "/orders-api/orders/clone-order/",
+  GENERATE_MANIFEST_API: "/orders-api/orders/generate-manifest/",
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
