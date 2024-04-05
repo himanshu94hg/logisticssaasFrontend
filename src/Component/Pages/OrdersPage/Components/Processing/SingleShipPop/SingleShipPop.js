@@ -9,9 +9,13 @@ import axios from "axios";
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
+import { useDispatch } from 'react-redux';
+import shipNowAction from '../../../../../../redux/action/orders/shipNow';
+
 
 const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const navigation = useNavigate();
+    const dispatch=useDispatch()
     const [shipingResponse, setShipingResponse] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -56,6 +60,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     setSingleShip(false);
                     navigation('/Orders');
                     toast.success('Order successfully shipped!');
+                    dispatch(shipNowAction(new Date()))
                 }
                 else {
                     toast.error(response.data.message, {

@@ -23,6 +23,7 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
+
     useEffect(() => {
         if (orderdelete) {
             setSelectAll(false)

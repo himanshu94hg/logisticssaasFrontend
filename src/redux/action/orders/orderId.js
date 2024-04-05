@@ -1,4 +1,4 @@
-import { GET_ORDER_ID_DATA } from "../../constants/orders";
+import {  GET_ORDER_ID_DATA } from "../../constants/orders";
 
 export default function orderIdAction(data){
     return{
