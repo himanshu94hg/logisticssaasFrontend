@@ -7,7 +7,6 @@ import { useDispatch } from 'react-redux'
 const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
-    const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData } = useSelector(state => state?.orderSectionReducer)
