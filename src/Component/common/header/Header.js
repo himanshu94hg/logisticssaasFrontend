@@ -17,10 +17,11 @@ import EarnAndGrow from "./Icons/EarnAndGrow";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
 import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, ordersPattern, } from "../../../Routes";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import UserImageIcon from "./Icons/UserImageIcon";
+import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
 
 export default function Header(props) {
   const navigate = useNavigate()
@@ -43,9 +44,23 @@ export default function Header(props) {
     window.location.reload()
   };
 
+  const [temp, setTemp] = useState({
+    var1: "",
+    var2: ""
+  })
   const gettoken = Cookies.get('access_token');
-  const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
-  const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
+  useEffect(() => {
+    const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
+    const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
+
+    setTemp(prev => ({
+      ...prev,
+      var1: getPayment,
+      var2: setPayment
+    }))
+  }, [])
+
+  console.log(temp, "temptemp")
 
   return (
     <Navbar
@@ -96,9 +111,14 @@ export default function Header(props) {
 
               <Nav.Link>
                 <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
-                  <span className="walletIcon px-2">
-                    <WalletIcon />
-                    <div className="walletBalance">₹ {setPayment?.balance ?? getPayment?.balance}</div>
+                  <span className={`walletIcon px-2 ${(temp.var2?.balance || temp.var1?.balance) < 1000 ? 'empty' : ''}`}>
+                    {(temp.var2?.balance || temp.var1?.balance) < 1000 ? <EmptyWalletIcon /> : <WalletIcon />}
+                    <div className="walletBalance">
+                      ₹ {temp.var2?.balance ?? temp.var1?.balance}
+                    </div>
+                    {(temp.var2?.balance || temp.var1?.balance) < 1000 &&
+                      <span className="low-balance">!Low Balance</span>
+                    }
                     {/* <FontAwesomeIcon icon={faWallet} /> */}
                   </span>
                 </div>

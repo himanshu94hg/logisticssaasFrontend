@@ -50,25 +50,26 @@ const CreateOrderFlow = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <div className='create-order-flow-container'>
+                {/* All Orders */}
+                <div className={`${activeTab === "DomesticCreateOrder" ? "d-block" : "d-none"}`}>
+                    <DomesticCreateOrder />
+                </div>
 
-            {/* All Orders */}
-            <div className={`${activeTab === "DomesticCreateOrder" ? "d-block" : "d-none"}`}>
-                <DomesticCreateOrder />
-            </div>
+                {/* All Orders */}
+                <div className={`${activeTab === "InternationalCreateOrders" ? "d-block" : "d-none"}`}>
+                    <InternationalCreateOrders />
+                </div>
 
-            {/* All Orders */}
-            <div className={`${activeTab === "InternationalCreateOrders" ? "d-block" : "d-none"}`}>
-                <InternationalCreateOrders />
-            </div>
+                {/* All Orders */}
+                <div className={`${activeTab === "BulkCreateOrder" ? "d-block" : "d-none"}`}>
+                    <BulkCreateOrder />
+                </div>
 
-            {/* All Orders */}
-            <div className={`${activeTab === "BulkCreateOrder" ? "d-block" : "d-none"}`}>
-                <BulkCreateOrder />
-            </div>
-
-            {/* All Orders */}
-            <div className={`${activeTab === "QuickCreateOrder" ? "d-block" : "d-none"}`}>
-                <QuickCreateOrder />
+                {/* All Orders */}
+                <div className={`${activeTab === "QuickCreateOrder" ? "d-block" : "d-none"}`}>
+                    <QuickCreateOrder />
+                </div>
             </div>
         </>
     )

@@ -66,7 +66,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                     <div className='row'>
                         {/* Invoice Amount */}
                         <label className='col'>
-                            <span>Invoice Amount <span className='mandatory'>*</span></span>
+                            <span>Invoice Amount (₹)<span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
                                 type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
@@ -81,7 +81,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
 
                         {/* COD Charges */}
                         <label className='col'>
-                            <span>COD Charges <span className='text-gray'>(Optional)</span></span>
+                            <span>COD Charges (₹) <span className='text-gray'>(Optional)</span></span>
                             <input
                                 className={`input-field ${formData.order_details.payment_type === "COD" && errors.cod_charges ? 'input-field-error' : ''}`}
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
@@ -97,18 +97,21 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                     <div className='mt-3'>
                         <div className='fw-bold lh-base'>Dead Weight <span className='mandatory'>*</span><br />
                             {errors.weight && <span className="custom-error">{errors.weight}</span>}
-                            <input
-                                // className='input-field'
-                                className={`input-field ${errors.cod_charges && 'input-field-error'}`}
-                                style={{ minWidth: '15    0px' }}
-                                type="text" value={formData.dimension_details.weight}
-                                onChange={(e) => handleChangeDimension(e, 'weight')}
-                                onKeyPress={(e) => {
-                                    const allowedCharacters = /^[0-9\b.]+$/;
-                                    if (!allowedCharacters.test(e.key)) {
-                                        e.preventDefault();
-                                    }
-                                }} />
+                            <label>
+                                <input
+                                    // className='input-field'
+                                    className={`input-field ${errors.cod_charges && 'input-field-error'}`}
+                                    style={{ minWidth: '15    0px' }}
+                                    type="text" value={formData.dimension_details.weight}
+                                    onChange={(e) => handleChangeDimension(e, 'weight')}
+                                    onKeyPress={(e) => {
+                                        const allowedCharacters = /^[0-9\b.]+$/;
+                                        if (!allowedCharacters.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }} />
+                                <span class="unit">CM</span>
+                            </label>
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
                             </span>
@@ -127,7 +130,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
 
                         {/* Length (cm) */}
                         <label className='col'>
-                            <span> Length (cm)<span className='mandatory'>*</span></span>
+                            <span>Length <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.length && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.length}
@@ -137,13 +140,14 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         e.preventDefault();
                                     }
                                 }} />
+                            <span class="unit pd-lbh">CM</span>
                             {errors.length && <span className="custom-error">{errors.length}</span>}
 
                         </label>
 
                         {/* Breadth (cm) */}
                         <label className='col'>
-                            <span>  Breadth (cm)<span className='mandatory'>*</span></span>
+                            <span>Breadth <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.breadth && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
@@ -152,12 +156,13 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         e.preventDefault();
                                     }
                                 }} />
+                            <span class="unit pd-lbh">CM</span>
                             {errors.breadth && <span className="custom-error">{errors.breadth}</span>}
                         </label>
 
                         {/* Height (cm) */}
                         <label className='col'>
-                            <span>   Height (cm)<span className='mandatory'>*</span></span>
+                            <span>Height <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.height && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')}
@@ -166,6 +171,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         e.preventDefault();
                                     }
                                 }} />
+                            <span class="unit pd-lbh">CM</span>
                             {errors.height && <span className="custom-error">{errors.height}</span>}
                         </label>
                     </div>
