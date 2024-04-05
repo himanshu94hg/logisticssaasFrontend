@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
 import { useDispatch } from 'react-redux'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const reattemptOrderIds = selectedRows.join(',');
