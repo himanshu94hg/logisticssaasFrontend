@@ -50,7 +50,7 @@ const SelectAllDrop = () => {
                             <li key={option.value}>
                                 <input
                                     type="checkbox"
-                                    checked={options[0].isChecked} // Check the value passed to checked attribute
+                                    // checked={options[0].isChecked} // Check the value passed to checked attribute
                                     onChange={() => handleOptionClick(options[0])} // Pass the first option to handleOptionClick
                                 />
 

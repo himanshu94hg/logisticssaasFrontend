@@ -39,6 +39,8 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow, selectedRows, setS
         }
     };
 
+    console.log(selectedRows,"selectedRowsselectedRows")
+
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows?.includes(orderId);
 
@@ -126,7 +128,6 @@ const AllOrders = ({ orders, handleSearch, setBulkActionShow, selectedRows, setS
 
             <section className='position-relative'>
                 <div className="position-relative">
-
                     <div className='table-container'>
                         <table className=" w-100">
                             <thead className="sticky-header">

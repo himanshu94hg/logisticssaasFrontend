@@ -27,6 +27,8 @@ import { getexportWatcher } from "./action/exports";
 import { orderActionTabWatcher } from "./action/orders/deleteOrder";
 import { ordersTabWatcher } from "./action/orders/orders";
 import { getIntegrationWatcher } from "./action/integration";
+import { getBulkOrderActionWatcher } from "./action/orders/bulkAction";
+
 
 export default function* rootSaga() {
   yield all([
@@ -57,6 +59,7 @@ export default function* rootSaga() {
    ordersTabWatcher(),
    getexportWatcher(),
    orderActionTabWatcher(),
-   getIntegrationWatcher()
+   getIntegrationWatcher(),
+   getBulkOrderActionWatcher()
   ]);
 }
