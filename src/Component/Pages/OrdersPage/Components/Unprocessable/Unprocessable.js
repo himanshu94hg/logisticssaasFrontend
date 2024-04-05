@@ -1,13 +1,9 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
-import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
@@ -16,15 +12,19 @@ import magentoImg from "../../../../../assets/image/integration/magento.png"
 import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../assets/image/integration/Manual.png"
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 
 const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
-    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+
+    useEffect(() => {
+        if (orderdelete) {
+            setSelectAll(false)
+        }
+    }, [orderdelete])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -38,17 +38,20 @@ const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRow
     };
 
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows?.includes(orderId);
-
+        const isSelected = selectedRows.includes(orderId);
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-            setBulkActionShow(true)
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
-            setBulkActionShow(false)
+            updatedSelectedRows = [...selectedRows, orderId];
         }
-
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
+        }
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -222,21 +225,11 @@ const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRow
                                             </div>
                                         </td>
                                     </tr>
-                                    {/* Additional information row */}
-                                    {/* <tr>
-                                        <td colSpan="9">
-                                            <div>
-                                                <p><strong>Product Name:</strong> {row?.product_name}</p>
-                                                <p><strong>Product SKU:</strong> {row?.product_sku}</p>
-                                            </div>
-                                        </td>
-                                    </tr> */}
                                 </React.Fragment>
                             ))}
                         </tbody>
                     </table>
                 </div>
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
             </div>
         </section>
     );

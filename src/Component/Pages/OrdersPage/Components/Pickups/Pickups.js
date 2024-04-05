@@ -26,35 +26,57 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
 
-    // Handler for "Select All" checkbox
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+
+    useEffect(() => {
+        if (orderdelete) {
+            setSelectAll(false)
+        }
+    }, [orderdelete])
+
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows?.includes(orderId);
-        setBulkActions(true)
+        const isSelected = selectedRows.includes(orderId);
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows?.filter(id => id !== orderId));
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            updatedSelectedRows = [...selectedRows, orderId];
+        }
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
         }
 
-        if (selectedRows?.length === orders.length - 1 && isSelected) {
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
+
+
+    const generateManifest = (value) => {
+        dispatch({
+            type: "GENERATE_MANIFEST_ACTION", payload: {
+                order_ids: `${value}`
+            }
+        })
+    }
 
 
     return (
@@ -203,10 +225,8 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'>Generate Manifest</button>
+                                                <button className='btn main-button' onClick={() => generateManifest(row.id)}>Generate Manifest</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -215,7 +235,6 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
                                                         <ul>
                                                             <li>Download Label</li>
                                                             <li>Download Invoice</li>
-                                                            <li>Generate manifest</li>
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -227,9 +246,6 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
                         </tbody>
                     </table>
                 </div>
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
             </div>
         </section>
     );

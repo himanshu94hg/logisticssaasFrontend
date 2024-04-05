@@ -24,6 +24,7 @@ function* bulkAddOrderTagAction(action) {
     try {
         let response = yield call(bulkAddOrderTagApi, payload);
         if (response.status === 200) {
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Add Order tag successfully!")
         }
 
@@ -46,6 +47,7 @@ function* bulkMarkOrderVerifyAction(action) {
     try {
         let response = yield call(bulkMarkOrderVerifyApi, payload);
         if (response.status === 200) {
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Marked verified successfully!")
         }
 
@@ -68,6 +70,7 @@ function* bulkDeleteOrderAction(action) {
     try {
         let response = yield call(bulkDeleteOrderApi, payload);
         if (response.status === 200) {
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Order deleted successfully!")
         }
 
@@ -79,7 +82,7 @@ function* bulkDeleteOrderAction(action) {
 //BULK_CANCEL_ORDER
 async function bulkCancelOrderApi(data) {
     let listData = axios.request({
-        method: "PUT",
+        method: "POST",
         url: `${BASE_URL_ORDER}${API_URL.BULK_CANCEL_ORDER}`,
         data: data
     });
@@ -113,7 +116,8 @@ function* bulkPickupAddressUpdateAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(bulkPickupAddressUpdateApi, payload);
-        if (response.status === 204) {
+        if (response.status === 200) {
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Pickup address update successfully")
         }
 

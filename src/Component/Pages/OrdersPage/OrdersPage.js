@@ -59,6 +59,18 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
+    
+    console.log(BulkActionShow,selectedRows, "this is totalItemstotalItemstotalItems")
+
+    useEffect(()=>{
+
+        if(orderdelete){
+            setSelectedRows([])
+            setBulkActionShow(false)
+        }
+
+    },[orderdelete])
+
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -88,7 +100,6 @@ const OrdersPage = () => {
     }
 
 
-    console.log(totalItems, "this is totalItemstotalItemstotalItems")
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");

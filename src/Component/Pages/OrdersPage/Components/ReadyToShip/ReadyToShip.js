@@ -25,15 +25,16 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 
 const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
-
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
-    const [BulkActions, setBulkActions] = useState(false)
+    const {  orderdelete } = useSelector(state => state?.orderSectionReducer)
 
+    useEffect(()=>{
+        if(orderdelete){
+            setSelectAll(false)
+        }
+    },[orderdelete])
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -43,25 +44,23 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
             setSelectedRows([]);
             setBulkActionShow(false)
         }
-        setBulkActions(true); // Set BulkActions to true whenever "Select All" checkbox is checked
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows?.includes(orderId);
-
-        if (!isSelected) {
-            setBulkActions(true); // Set BulkActions to true if checkbox is checked
-        }
-
+        const isSelected = selectedRows.includes(orderId);
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows?.filter(id => id !== orderId));
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            updatedSelectedRows = [...selectedRows, orderId];
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows?.length === orders?.length - 1 && isSelected) {
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
+        }
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -69,15 +68,6 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
     };
 
 
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
 
     const handleDownloadLabel = async (orderId) => {
         try {
@@ -103,6 +93,7 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
             toast.error("Somethng went wrong!")
         }
     };
+    
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
@@ -327,10 +318,6 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
                         </tbody>
                     </table>
                 </div>
-
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
             </div>
         </section>
     );
