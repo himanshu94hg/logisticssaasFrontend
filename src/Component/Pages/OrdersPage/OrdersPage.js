@@ -22,6 +22,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
+import Modal from 'react-modal';
+import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -57,6 +59,7 @@ const OrdersPage = () => {
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const [addTagShow, setaddTagShow] = useState(false)
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -217,6 +220,11 @@ const OrdersPage = () => {
     };
 
     console.log(searchType, "this is a search option data")
+    
+    const handleAddTagPop = () => {
+        setaddTagShow(false)
+    }
+
 
 
     return (
@@ -305,6 +313,7 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
+                        setaddTagShow={setaddTagShow}
                     />
                 </div>
 
@@ -368,9 +377,17 @@ const OrdersPage = () => {
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
             />
-            <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+            <div className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
-
+            <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
+                <AddTagPop
+                    addTagShow={addTagShow}
+                    setaddTagShow={setaddTagShow}
+                />
+                {addTagShow &&
+                    <div onClick={() => setaddTagShow(false)} className="backdrop"></div>
+                }
+            </section>
         </>
     )
 }
