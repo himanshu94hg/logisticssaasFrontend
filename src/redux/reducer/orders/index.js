@@ -1,4 +1,4 @@
-import { GET_ORDERS_DATA, GET_ORDERS_DETAILS_DATA, GET_ORDER_ID_DATA, ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA } from "../../constants/orders";
+import { GET_ORDERS_DATA, GET_ORDERS_DETAILS_DATA, GET_ORDER_ID_DATA, ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, SHIP_NOW_DATA } from "../../constants/orders";
 
 const initialState = {
     ordersData: [],
@@ -52,6 +52,11 @@ export const orderSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 bulkShipData: action?.payload
+            };
+        case SHIP_NOW_DATA:
+            return {
+                ...state,
+                orderClone: action?.payload
             };
         default:
             return state

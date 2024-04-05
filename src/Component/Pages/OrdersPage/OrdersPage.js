@@ -59,8 +59,6 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
-    
-    console.log(BulkActionShow,selectedRows, "this is totalItemstotalItemstotalItems")
 
     useEffect(()=>{
 
@@ -229,8 +227,6 @@ const OrdersPage = () => {
         setSearchOption(option);
         setsearchType(option.value)
     };
-
-    console.log(searchType, "this is a search option data")
 
     const handleAddTagPop = () => {
         setaddTagShow(false)
