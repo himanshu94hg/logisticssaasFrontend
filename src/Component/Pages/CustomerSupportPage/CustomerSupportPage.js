@@ -36,25 +36,22 @@ const CustomerSupportPage = () => {
     let url = apiUrl;
     switch (activeTab) {
       case "openTickets":
-        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       case "inProgressTickets":
-        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       case "closedTickets":
-        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       case "allTickets":
-        url += `?&page=${currentPage}&page_size=${itemsPerPage}`;
+        url += `?page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
         break;
       default:
         break;
     }
 
     if (url) {
-      if (searchValue.trim() !== '') {
-        url += `${activeTab === 'allTickets' ? '' : '&'}q=${encodeURIComponent(searchValue.trim())}`;
-      }
       axios.get(url, {
         headers: {
           Authorization: `Bearer ${authToken}`,
@@ -108,6 +105,11 @@ const CustomerSupportPage = () => {
   };
 
   useEffect(() => {
+    setSearchValue('')
+  }, [activeTab])
+  console.log(activeTab, "activeTabactiveTabactiveTab")
+
+  useEffect(() => {
     setAllTicket(allTicket)
   }, [allTicket])
 
@@ -135,6 +137,7 @@ const CustomerSupportPage = () => {
           setFilterTickets={setFilterTickets}
           setNewTicket={setNewTicket}
           NewTicket={NewTicket}
+          searchValue={searchValue}
           handleSearch={handleSearch}
         />
         <div className='row mt-3'>

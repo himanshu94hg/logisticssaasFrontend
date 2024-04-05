@@ -173,7 +173,7 @@ const OrdersPage = () => {
                     })
                     .catch(error => {
                         console.log(error,"this is a error data")
-                        toast.error("Something went wrong!")
+                        toast.error("Api Call failed!")
                     });
             }
         }

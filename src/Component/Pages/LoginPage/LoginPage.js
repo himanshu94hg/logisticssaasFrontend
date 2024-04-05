@@ -7,8 +7,9 @@ import React, { useEffect, useState } from 'react';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
 import { toast } from 'react-toastify';
-import { errorHandleSecond, errorHandlefirst } from '../../../customFunction/errorHandling';
+import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 import Logo from '../../../assets/image/logo/logo.svg'
+
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
@@ -39,10 +40,15 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       }
 
     } catch (error) {
+      console.log(error,"this is a error data")
       const errorType = typeof error?.response?.data.detail;
       if (errorType === "string") {
         errorHandlefirst(error?.response?.data.detail)
-      } else {
+      } 
+      else if(error?.response?.status===500){
+        errorinApi()
+      }
+      else {
         errorHandleSecond(error?.response?.data)
       }
     }

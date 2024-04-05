@@ -12,9 +12,12 @@ export const checkType = (res) => {
 export const errorHandlefirst = (res) => {
     toast.error(res)
 }
+export const errorinApi = (res) => {
+    toast.error("Api called failed!")
+}
 
 export const errorHandleSecond = (res) => {
-    Object.keys(res).map(key => {
+    Object.keys(res)?.map(key => {
         res[key].map(value => {
             toast.error(`${key.split("_").join(" ")}:${value}`)
         });
