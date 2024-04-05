@@ -353,6 +353,24 @@
     right: 37px;
 }
 
+.create-order-flow-container label {
+    position: relative;
+}
+
+.create-order-flow-container span.unit {
+    align-items: center;
+    background: var(--sh-primary-light);
+    background: #dfdfdf;
+    border-radius: 0 .5rem .5rem 0;
+    bottom: 1px;
+    display: flex;
+    height: 34px;
+    justify-content: center;
+    position: absolute;
+    right: 1px;
+    width: 36px;
+}
+
 /* Add responsiveness for smaller screens */
 
 @media screen and (max-width:1600px) {
