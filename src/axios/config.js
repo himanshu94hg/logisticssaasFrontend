@@ -106,6 +106,7 @@ export const API_URL = {
   GET_DASHBOARD_SHIPMENT_OFD_DATA: "/orders-api/dashboard/shipment/ofd-data/",
   GET_DASHBOARD_SHIPMENT_ZONE_WISE_DATA: "/orders-api/dashboard/zone-wise-data/",
   GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA: "/orders-api/dashboard/shipment/shipment-overview-courier/",
+  GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX: "/orders-api/dashboard/shipment/zone-wise-performance/",
 
 
   //DASHBOARD NDR API'S

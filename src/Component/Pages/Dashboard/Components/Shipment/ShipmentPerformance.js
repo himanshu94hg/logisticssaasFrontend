@@ -1,20 +1,61 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
+import { useSelector } from 'react-redux';
 
 const ShipmentPerformance = () => {
+  const [data, setData] = useState([]);
   const [expandedRow, setExpandedRow] = useState(null);
+  const { performanceMetrix } = useSelector(state => state?.dashboardShipmentReducer)
 
-  const data = [
-    { week: 1, FAT: { total: 100, prepaid: 80, cod: 20 }, FAD: { total: 80, prepaid: 65, cod: 15 }, SAD: { total: 70, prepaid: 55, cod: 15 }, TAD: { total: 150, prepaid: 120, cod: 30 } },
-    { week: 2, FAT: { total: 110, prepaid: 90, cod: 20 }, FAD: { total: 85, prepaid: 70, cod: 15 }, SAD: { total: 72, prepaid: 58, cod: 14 }, TAD: { total: 155, prepaid: 124, cod: 31 } },
-    { week: 3, FAT: { total: 120, prepaid: 96, cod: 24 }, FAD: { total: 90, prepaid: 72, cod: 18 }, SAD: { total: 75, prepaid: 60, cod: 15 }, TAD: { total: 160, prepaid: 128, cod: 32 } },
-    { week: 4, FAT: { total: 115, prepaid: 92, cod: 23 }, FAD: { total: 88, prepaid: 70, cod: 18 }, SAD: { total: 73, prepaid: 58, cod: 15 }, TAD: { total: 158, prepaid: 126, cod: 32 } },
-    { week: 5, FAT: { total: 105, prepaid: 84, cod: 21 }, FAD: { total: 82, prepaid: 66, cod: 16 }, SAD: { total: 68, prepaid: 54, cod: 14 }, TAD: { total: 145, prepaid: 116, cod: 29 } },
-  ];
+  const transformData = (data) => {
+    return data.map((zoneData,i) => ({
+      week: i,
+      FAD: {
+        total: zoneData.fad_orders.fad_orders,
+        prepaid: zoneData.fad_orders.prepaid_fad_orders,
+        cod: zoneData.fad_orders.cod_fad_orders
+      },
+      FAT: {
+        total: zoneData.fat_orders.fat_orders,
+        prepaid: zoneData.fat_orders.prepaid_fat_orders,
+        cod: zoneData.fat_orders.cod_fat_orders
+      },
+     
+      SAD: {
+        total: zoneData.sad_orders.sad_orders,
+        prepaid: zoneData.sad_orders.prepaid_sad_orders,
+        cod: zoneData.sad_orders.cod_sad_orders
+      },
+      TAD: {
+        total: zoneData.tad_orders.tad_orders,
+        prepaid: zoneData.tad_orders.prepaid_tad_orders,
+        cod: zoneData.tad_orders.cod_tad_orders
+      }
+    }));
+  };
+
+  useEffect(() => {
+    if (performanceMetrix) {
+      setData(transformData(performanceMetrix));
+    }
+  }, [performanceMetrix]);
 
   const handleRowClick = (index) => {
     setExpandedRow(expandedRow === index ? null : index);
   };
+
+
+  const [keyName, setKeyName] = useState([])
+
+  useEffect(() => {
+    if (performanceMetrix && performanceMetrix.length > 0) {
+      const capitalizedKeyNames = Object.keys(performanceMetrix[0])
+        .filter(key => key !== "zone")
+        .map(key => key.replace('_orders', '').split('_').join(' ').toUpperCase());
+      setKeyName(capitalizedKeyNames);
+    }
+  }, [performanceMetrix]);
+
 
   return (
     <div className="box-shadow shadow-sm p10 dashboard-table">
@@ -26,23 +67,23 @@ const ShipmentPerformance = () => {
               <thead>
                 <tr>
                   <th>Counter</th>
-                  {data.map((weekData) => (
-                    <th key={weekData.week}>Zone {weekData.week}</th>
+                  {performanceMetrix?.map((weekData) => (
+                    <th key={weekData.zone}>Zone {weekData.zone}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
-                {['FAT', 'FAD', 'SAD', 'TAD'].map((counter, counterIndex) => (
+                {keyName?.map((counter, counterIndex) => (
                   <React.Fragment key={counterIndex}>
                     <tr onClick={() => handleRowClick(counterIndex)}>
                       <td>
                         {expandedRow === counterIndex ? <FaAngleUp /> : <FaAngleDown />}
                         <span className='ms-2'>{counter}</span>
                       </td>
-                      {data.map((weekData, weekIndex) => (
+                      {data?.map((weekData, weekIndex) => (
                         <td key={weekData.week}>
-                          {/* {expandedRow !== counterIndex ? weekData[counter].prepaid : weekData[counter].total} &#40;{Math.floor((weekData[counter].total / weekData.TAD.total) * 100)}%&#41; */}
-                          {weekData[counter].total}
+                         { console.log(data,"this is data")}
+                          {weekData[counter]?.total}
                         </td>
                       ))}
                     </tr>
@@ -52,7 +93,7 @@ const ShipmentPerformance = () => {
                           <td>Prepaid</td>
                           {data.map((weekData) => (
                             <td key={weekData.week} className="prepaid-cell">
-                              {weekData[counter].prepaid} &#40;{Math.floor((weekData[counter].prepaid / weekData[counter].total) * 100)}%&#41;
+                              {weekData[counter].prepaid} &#40;{Math.floor((weekData[counter].prepaid / weekData[counter].total) * 100)||0}%&#41;
                             </td>
                           ))}
                         </tr>
@@ -60,7 +101,7 @@ const ShipmentPerformance = () => {
                           <td>COD</td>
                           {data.map((weekData) => (
                             <td key={weekData.week} className="cod-cell">
-                              {weekData[counter].cod} &#40;{Math.floor(((weekData[counter].cod) / weekData[counter].total) * 100)}%&#41;
+                              {weekData[counter].cod} &#40;{Math.floor(((weekData[counter].cod) / weekData[counter].total) * 100)||0}%&#41;
                             </td>
                           ))}
                         </tr>

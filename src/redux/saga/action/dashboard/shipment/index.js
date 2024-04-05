@@ -2,8 +2,8 @@
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { BASE_URL_ORDER, API_URL } from "../../../../../axios/config";
-import { DASHBOARD_SHIPMENT_OFD_DATA_ACTION ,DASHBOARD_SHIPMENT_WEIGHT_PROFILE_ACTION,DASHBOARD_SHIPMENT_ZONEWISE_DATA_ACTION,DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION} from "../../../constant/dashboard/shipment";
-import { GET_DASHBOARD_SHIPMENT_OFD_DATA, GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE_DATA, GET_DASHBOARD_SHIPMENT_ZONEWISE_DATA,GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA} from "../../../../constants/dashboard/shipment";
+import { DASHBOARD_SHIPMENT_OFD_DATA_ACTION ,DASHBOARD_SHIPMENT_WEIGHT_PROFILE_ACTION,DASHBOARD_SHIPMENT_ZONEWISE_DATA_ACTION,DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION, DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_ACTION} from "../../../constant/dashboard/shipment";
+import { GET_DASHBOARD_SHIPMENT_OFD_DATA, GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE_DATA, GET_DASHBOARD_SHIPMENT_ZONEWISE_DATA,GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA, GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_DATA} from "../../../../constants/dashboard/shipment";
 
 
 //1.GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE
@@ -69,7 +69,7 @@ function* zoneWiseDataAction(action) {
     }
 }
 
-//2.GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER
+//4.GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER
 async function courierserviceDataApi(data) {
     const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
     let listData = axios.request({
@@ -90,10 +90,32 @@ function* courierserviceDataAction(action) {
     }
 }
 
+//5.GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX
+async function performanceMetrixApi(data) {
+    const queryParams = Object.entries(data).map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`).join('&');
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX}?${queryParams}`,
+    });
+    return listData
+}
+function* performanceMetrixAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(performanceMetrixApi, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 export function* getShipmentTabWatcher() {
     yield takeLatest(DASHBOARD_SHIPMENT_WEIGHT_PROFILE_ACTION, weightProfileAction);
     yield takeLatest(DASHBOARD_SHIPMENT_OFD_DATA_ACTION, ofdDataAction);
     yield takeLatest(DASHBOARD_SHIPMENT_ZONEWISE_DATA_ACTION, zoneWiseDataAction);
     yield takeLatest(DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION, courierserviceDataAction);
+    yield takeLatest(DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_ACTION, performanceMetrixAction);
   
 }
