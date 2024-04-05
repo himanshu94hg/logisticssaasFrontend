@@ -20,6 +20,7 @@ const ShipmentDashboard = ({activeTab}) => {
       dispatch({type:"DASHBOARD_SHIPMENT_OFD_DATA_ACTION",payload:dateRangeDashboard})
       dispatch({type:"DASHBOARD_SHIPMENT_ZONEWISE_DATA_ACTION",payload:dateRangeDashboard})
       dispatch({type:"DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION",payload:dateRangeDashboard})
+      dispatch({type:"DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_ACTION",payload:dateRangeDashboard})
     }
   },[activeTab])
 

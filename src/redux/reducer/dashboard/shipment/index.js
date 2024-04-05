@@ -1,10 +1,11 @@
-import { GET_DASHBOARD_SHIPMENT_OFD_DATA, GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE_DATA, GET_DASHBOARD_SHIPMENT_ZONEWISE_DATA,GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA } from "../../../constants/dashboard/shipment";
+import { GET_DASHBOARD_SHIPMENT_OFD_DATA, GET_DASHBOARD_SHIPMENT_WEIGHT_PROFILE_DATA, GET_DASHBOARD_SHIPMENT_ZONEWISE_DATA,GET_DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA, GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_DATA } from "../../../constants/dashboard/shipment";
 
 const initialState = {
     weightProfile: null,
     ofdData:[],
     zoneWiseData:null,
-    overviewCourier:null    
+    overviewCourier:null,
+    performanceMetrix:[]
 };
 
 export const dashboardShipmentReducer = (state = initialState, action) => {
@@ -28,6 +29,11 @@ export const dashboardShipmentReducer = (state = initialState, action) => {
             return{
                 ...state,
                 overviewCourier: action?.payload
+            }
+        case GET_DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_DATA:
+            return{
+                ...state,
+                performanceMetrix: action?.payload
             }
         default:
             return state
