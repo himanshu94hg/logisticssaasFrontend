@@ -16,11 +16,11 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
         }
-        if (formData.order_details.payment_type === "COD") {
-            if (!cod_charges) {
-                errorsObj.cod_charges = "COD Charges is required!";
-            }
-        }
+        // if (formData.order_details.payment_type === "COD") {
+        //     if (!cod_charges) {
+        //         errorsObj.cod_charges = "COD Charges is required!";
+        //     }
+        // }
         if (!weight) {
             errorsObj.weight = "Dead Weight is required!";
         }
@@ -144,7 +144,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }}
                             />
-                            {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
+                            {/* {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>} */}
                         </label>
                     </div>
                     <hr />
