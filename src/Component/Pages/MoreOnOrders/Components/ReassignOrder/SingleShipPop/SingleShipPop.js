@@ -13,7 +13,7 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const navigation = useNavigate();
     const dispatch = useDispatch()
     const [currentDate, setCurrentDate] = useState(new Date());
-    const [shipingData, setShipingData] = useState([]);
+    const [shipingData, setShipingData] = useState(false);
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
     const addDays = (date, days) => {
@@ -30,13 +30,18 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
 
     const handleSubmit = (option) => {
         dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: {"courier":option,"order_id":orderId} });
+        setShipingData(true);
     };
 
     useEffect(() => {
-        console.log("All shipping Data Reflect",moreorderCard)
-        if (moreorderCard?.status) {
-            setSingleShip(false);
-        } 
+        console.log(shipingData,"All shipping Data Reflect",moreorderCard)
+        if(shipingData === true)
+        {
+            if (moreorderCard?.status) {
+                setSingleShip(false);
+            }
+            setShipingData(false);
+        }
     }, [moreorderCard]);
     
     const handleClose = () => {
