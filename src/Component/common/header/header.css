@@ -108,6 +108,30 @@
   justify-content: flex-start;
   gap: 10px;
   align-items: center;
+  position: relative;
+}
+
+.walletContainer .walletIcon .low-balance {
+  position: absolute;
+  top: 37px;
+  right: 0;
+  height: 0;
+  /* height: 25px; */
+  overflow: hidden;
+  font-size: 14px;
+  border-radius: 0.5rem;
+  padding-inline: 10px;
+  display: flex;
+  align-items: center;
+  background: #ffc107;
+  color: #121212;
+  font-weight: 700;
+  transition: 0.2s;
+  z-index: 1;
+}
+
+.walletContainer:hover .walletIcon .low-balance {
+  height: 25px;
 }
 
 .alignContent {

@@ -111,11 +111,14 @@ export default function Header(props) {
 
               <Nav.Link>
                 <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
-                  <span className={`walletIcon px-2 ${(temp.var2?.balance || temp.var1?.balance) > 1000 ? 'empty' : ''}`}>
-                    {(temp.var2?.balance || temp.var1?.balance) > 1000 ? <EmptyWalletIcon /> : <WalletIcon />}
+                  <span className={`walletIcon px-2 ${(temp.var2?.balance || temp.var1?.balance) < 1000 ? 'empty' : ''}`}>
+                    {(temp.var2?.balance || temp.var1?.balance) < 1000 ? <EmptyWalletIcon /> : <WalletIcon />}
                     <div className="walletBalance">
                       ₹ {temp.var2?.balance ?? temp.var1?.balance}
                     </div>
+                    {(temp.var2?.balance || temp.var1?.balance) < 1000 &&
+                      <span className="low-balance">!Low Balance</span>
+                    }
                     {/* <FontAwesomeIcon icon={faWallet} /> */}
                   </span>
                 </div>
