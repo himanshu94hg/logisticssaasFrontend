@@ -138,6 +138,7 @@
     gap: 10px;
     position: relative;
     /* margin-inline: 22px 139px; */
+    min-width: 380px;
 }
 
 .create-rules-section .rule-preference p {
