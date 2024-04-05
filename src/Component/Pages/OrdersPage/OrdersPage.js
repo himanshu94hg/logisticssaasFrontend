@@ -356,7 +356,7 @@ const OrdersPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent />
+                    <BulkActionsComponent selectedRows={selectedRows} />
                 )
                 }
             </div>

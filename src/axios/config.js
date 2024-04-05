@@ -43,6 +43,13 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_RULE: "/core-api/features/courier-allocation/rules/",
   GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
 
+  //BULK ACTION ACTION SECTION
+  BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",
+  BULK_MARK_ORDER_VERIFY:"/orders-api/orders/bulk-action/mark-order-verify/",
+  BULK_DELETE_ORDER:"/orders-api/orders/bulk-action/delete-order/",
+  BULK_CANCEL_ORDER:"/orders-api/orders/bulk-action/cancel-order/",
+  BULK_PICKUP_ADDRESS_UPDATE:"/orders-api/orders/bulk-action/pickup-address-update/",
+
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",
