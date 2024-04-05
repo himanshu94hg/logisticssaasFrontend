@@ -88,6 +88,10 @@
   min-width: 150px;
 }
 
+.walletContainer .walletIcon.empty {
+  border-color: #e60000;
+}
+
 /* .walletContainer .walletIcon svg path {
   fill: var(--sh-primary);
 } */
@@ -146,6 +150,10 @@
 .walletBalance {
   font-size: 18px;
   font-weight: 700;
+}
+
+.walletContainer .walletIcon.empty .walletBalance {
+  color: #e60000;
 }
 
 .walletDays {
