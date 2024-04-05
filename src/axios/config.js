@@ -42,6 +42,7 @@ export const API_URL = {
   SAVE_FAVOURITE_ORDERS_API:"/orders-api/orders/seller-filter/",
   GET_COURIER_ALLOCATION_RULE: "/core-api/features/courier-allocation/rules/",
   GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
+  BULK_SHIP_ORDERS_API:"/core-api/shipping/bulk-ship-order/",
 
 
   //SHIPMENT REATTEMPT

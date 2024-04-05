@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA } from "../../../../constants/orders";
-import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION } from "../../../constant/orders";
+import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA } from "../../../../constants/orders";
+import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION } from "../../../constant/orders";
 
 async function fetchOrderListDataApi(data) {
     let listData = axios.request({
@@ -91,11 +91,32 @@ function* saveFavouriteOrdersAction(action) {
     }
 }
 
+async function bulkShipOrderAPI(data) {
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_SHIP_ORDERS_API}`,
+        data: data
+    });
+}
+function* bulkShipOrdersAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(bulkShipOrderAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: BULK_SHIP_DATA, payload: response?.data })
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 export function* ordersTabWatcher() {
     // yield takeLatest(ORDERS_GET_ACTION, orderListDataAction);
     // yield takeLatest(ORDERS_DETAILS_GET_ACTION, fetchOrderListDataAction);
     yield takeLatest(ORDERS_DETAILS_GET_ACTION, fetchOrderDataAction);
     yield takeLatest(ORDERS_DETAILS_UPDATE_ACTION, updateOrderAction);
     yield takeLatest(SAVE_FAVOURITE_ORDERS_ACTION, saveFavouriteOrdersAction);
+    yield takeLatest(BULK_SHIP_ORDERS_ACTION, bulkShipOrdersAction);
 
 }

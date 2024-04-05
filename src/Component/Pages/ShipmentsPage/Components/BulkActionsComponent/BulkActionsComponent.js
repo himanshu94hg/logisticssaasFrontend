@@ -60,33 +60,35 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows }) => {
 
     return (
         <>
+        {selectedRows.length > 0 && (
             <section className='bulk-action-container box-shadow'>
-                <div className='ba-inner-container'>
-                    <div className='ba-rows-selected'>
-                        <span className='fw-bold font20'>{selectedRows.length}</span>
-                        <span>Rows Selected</span>
-                    </div>
-                    <ul className='ba-actions'>
-                        <li><span>IVR</span></li>
-                        {(activeTab !== "Delivered" || activeTab !== "RTO") && (
-                            <>
-                                {activeTab === "Action Required" && (
-                                    <>
-                                        <li onClick={handleReattemptOrder}><span>Re-Attempt</span></li>
-                                        <li onClick={handleRtoOrder}><span>RTO</span></li>
-                                    </>
-                                )}
-                                {activeTab === "Action Requested" && (
-                                    <li onClick={handleRtoOrder}><span>RTO</span></li>
-                                )}
-                            </>
-                        )}
-                        <li onClick={handleExport}><span>Export</span></li>
-                    </ul>
-
-                    <div className='ba-close'></div>
+            <div className='ba-inner-container'>
+                <div className='ba-rows-selected'>
+                    <span className='fw-bold font20'>{selectedRows.length}</span>
+                    <span>Rows Selected</span>
                 </div>
-            </section>
+                <ul className='ba-actions'>
+                    <li><span>IVR</span></li>
+                    {(activeTab !== "Delivered" || activeTab !== "RTO") && (
+                        <>
+                            {activeTab === "Action Required" && (
+                                <>
+                                    <li onClick={handleReattemptOrder}><span>Re-Attempt</span></li>
+                                    <li onClick={handleRtoOrder}><span>RTO</span></li>
+                                </>
+                            )}
+                            {activeTab === "Action Requested" && (
+                                <li onClick={handleRtoOrder}><span>RTO</span></li>
+                            )}
+                        </>
+                    )}
+                    <li onClick={handleExport}><span>Export</span></li>
+                </ul>
+
+                <div className='ba-close'></div>
+            </div>
+        </section>
+        )}
         </>
     )
 }

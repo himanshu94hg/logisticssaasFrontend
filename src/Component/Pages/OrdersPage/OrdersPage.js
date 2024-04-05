@@ -22,7 +22,6 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
-import Modal from 'react-modal';
 import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop';
 
 const SearchOptions = [
@@ -365,7 +364,7 @@ const OrdersPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent />
+                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows}/>
                 )
                 }
             </div>
