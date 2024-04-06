@@ -119,7 +119,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
     return (
         <>
 
-
             <section className='position-relative'>
                 <div className="position-relative">
                     <div className='table-container'>
