@@ -94,6 +94,7 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
         }
     };
     
+    
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
