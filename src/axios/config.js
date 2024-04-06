@@ -50,6 +50,7 @@ export const API_URL = {
   BULK_DELETE_ORDER:"/orders-api/orders/bulk-action/delete-order/",
   BULK_CANCEL_ORDER:"/core-api/shipping/cancel-order/",
   BULK_PICKUP_ADDRESS_UPDATE:"/orders-api/orders/bulk-action/pickup-address-update/",
+  BULK_DIMENSION_DETAILS_UPDATE:"/orders-api/orders/bulk-action/dimension-detail-update/",
 
 
   //SHIPMENT REATTEMPT

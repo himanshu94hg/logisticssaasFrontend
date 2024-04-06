@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION } from "../../../constant/orders/bulkAction";
+import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION } from "../../../constant/orders/bulkAction";
 import { ORDERS_DELETE_RES_DATA } from "../../../../constants/orders";
 
 
@@ -126,6 +126,29 @@ function* bulkPickupAddressUpdateAction(action) {
     }
 }
 
+//BULK_PICKUP_ADDRESS_UPDATE
+async function bulkDimensionDetailUpdateApi(data) {
+    let listData = axios.request({
+        method: "PUT",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_DIMENSION_DETAILS_UPDATE}`,
+        data: data
+    });
+    return listData
+}
+function* bulkDimensionDetailUpdateAction(action) {
+    let { payload, } = action;
+    try {
+        let response = yield call(bulkDimensionDetailUpdateApi, payload);
+        if (response.status === 200) {
+            // yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            toast.success("Dimension update successfully")
+        }
+
+    } catch (error) {
+        toast.error(error?.response?.data?.detail)
+    }
+}
+
 
 export function* getBulkOrderActionWatcher() {
     yield takeLatest(BULK_ADD_ORDER_TAG_ACTION, bulkAddOrderTagAction);
@@ -133,4 +156,5 @@ export function* getBulkOrderActionWatcher() {
     yield takeLatest(BULK_DELETE_ORDER_ACTION, bulkDeleteOrderAction);
     yield takeLatest(BULK_CANCEL_ORDER_ACTION, bulkCancelOrderAction);
     yield takeLatest(BULK_PICKUP_ADDRESS_UPDATE_ACTION, bulkPickupAddressUpdateAction);
+    yield takeLatest(BULK_DIMESION_DETAILS_UPDATE_ACTION, bulkDimensionDetailUpdateAction);
 }
