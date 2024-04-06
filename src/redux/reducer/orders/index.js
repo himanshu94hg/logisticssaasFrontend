@@ -27,7 +27,7 @@ export const orderSectionReducer = (state = initialState, action) => {
         case ORDERS_DETAILS_RES_DATA:
             return {
                 ...state,
-                orderUpdateRes: action?.payload
+                orderUpdateRes: action?.payload+new Date()
             };
         case ORDERS_CANCEL_RES_DATA:
             return {
