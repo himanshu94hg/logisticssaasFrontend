@@ -43,6 +43,7 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_RULE: "/core-api/features/courier-allocation/rules/",
   GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
   BULK_SHIP_ORDERS_API:"/core-api/shipping/bulk-ship-order/",
+  MANIFEST_LIST_API:"/orders-api/orders/manifest/",
 
   //BULK ACTION ACTION SECTION
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",
@@ -59,7 +60,7 @@ export const API_URL = {
 
   //ORDERS API
   GET_ORDERS_API: "/orders-api/orders/",
-  CANCEL_ORDERS_API: "/orders-api/orders/cancel-order/",
+  CANCEL_ORDERS_API: "/core-api/shipping/cancel-order/",
   DELETE_ORDERS_API: "/orders-api/orders/order-complete-detail/",
   CLONE_ORDERS_API: "/orders-api/orders/clone-order/",
   GENERATE_MANIFEST_API: "/orders-api/orders/generate-manifest/",

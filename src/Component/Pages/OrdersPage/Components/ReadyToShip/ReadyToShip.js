@@ -27,13 +27,13 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
-    const {  orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
-    useEffect(()=>{
-        if(orderdelete){
+    useEffect(() => {
+        if (orderdelete) {
             setSelectAll(false)
         }
-    },[orderdelete])
+    }, [orderdelete])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -93,7 +93,7 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
             toast.error("Somethng went wrong!")
         }
     };
-    
+
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
@@ -306,7 +306,12 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             <li>Reassign</li>
                                                             <li className='action-hr'></li>
-                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
+                                                            <li onClick={() => dispatch({
+                                                                type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+                                                                    awb_numbers: [
+                                                                        row?.awb_number                                                                   ]
+                                                                }
+                                                            })}>Cancel Order</li>
                                                         </ul>
                                                     </div>
                                                 </div>

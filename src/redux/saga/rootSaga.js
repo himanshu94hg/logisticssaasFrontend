@@ -28,6 +28,7 @@ import { orderActionTabWatcher } from "./action/orders/deleteOrder";
 import { ordersTabWatcher } from "./action/orders/orders";
 import { getIntegrationWatcher } from "./action/integration";
 import { getBulkOrderActionWatcher } from "./action/orders/bulkAction";
+import { orderManifestTabWatcher } from "./action/orders/manifest";
 
 
 export default function* rootSaga() {
@@ -60,6 +61,7 @@ export default function* rootSaga() {
    getexportWatcher(),
    orderActionTabWatcher(),
    getIntegrationWatcher(),
-   getBulkOrderActionWatcher()
+   getBulkOrderActionWatcher(),
+   orderManifestTabWatcher()
   ]);
 }

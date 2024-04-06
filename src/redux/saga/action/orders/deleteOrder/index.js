@@ -12,9 +12,9 @@ const sellerData = Cookies.get("user_id")
 async function cancelOrderApi(data) {
     console.log(data, "this is put data")
     let listData = axios.request({
-        method: "PUT",
-        url: `${BASE_URL_ORDER}${API_URL.CANCEL_ORDERS_API}${data}/`,
-        data: data.formData
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.CANCEL_ORDERS_API}`,
+        data: data
     });
     return listData
 }
