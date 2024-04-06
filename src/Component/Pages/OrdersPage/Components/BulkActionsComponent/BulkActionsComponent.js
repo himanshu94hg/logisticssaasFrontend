@@ -47,6 +47,26 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
             }
         })
     }
+    const bulkDimesionDetailUpdate = () => {
+        dispatch({
+            type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: [
+                {
+                    order:40,
+                    weight:3,
+                    length:2,
+                    breadth:15.2,
+                    height:23
+                }
+            ]
+        })
+    }
+    const handelBulkShip = () => {
+        let data = {
+            "order_ids": selectedRows.map(id => id.toString())
+        };
+        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
+        setShipButtonClicked(true);
+    };
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -89,13 +109,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
         }
     }, [exportCard]);
 
-    const handelBulkShip = () => {
-        let data = {
-            "order_ids": selectedRows.map(id => id.toString())
-        };
-        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
-        setShipButtonClicked(true);
-    };
+   
 
     useEffect(() => {
         console.log(shipButtonClicked, "BulkShip bulkShipData", bulkShipData);
@@ -121,7 +135,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                 <section className='bulk-action-container box-shadow'>
                     <div className='ba-inner-container'>
                         <div className='ba-rows-selected'>
-                            <span className='fw-bold font20'>20</span>
+                            <span className='fw-bold font20'>{selectedRows.length}</span>
                             <span>Rows Selected</span>
                         </div>
                         <ul className='ba-actions'>
@@ -129,7 +143,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                             <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
                             <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
                             {/* <li ><span>RTO update</span></li> */}
-                            <li><span>Weight/Dimension update</span></li>
+                            <li onClick={()=>bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
                             <li onClick={handelBulkShip}><span>Ship</span></li>
                             <li onClick={handleExport}><span>Export</span></li>
                             <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
