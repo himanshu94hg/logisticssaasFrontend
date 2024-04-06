@@ -140,7 +140,7 @@ function* bulkDimensionDetailUpdateAction(action) {
     try {
         let response = yield call(bulkDimensionDetailUpdateApi, payload);
         if (response.status === 200) {
-            // yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Dimension update successfully")
         }
 

@@ -21,6 +21,7 @@ import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -277,7 +278,12 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                                 <li>Reassign</li>
                                                                 <li>Clone Order</li>
                                                                 <li className='action-hr'></li>
-                                                                <li>Cancel Order</li>
+                                                                <li onClick={() => dispatch({
+                                                                type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+                                                                    awb_numbers: [
+                                                                        row?.awb_number                                                                   ]
+                                                                }
+                                                            })}>Cancel Order</li>
                                                             </ul>
                                                         </div>
                                                     </div>

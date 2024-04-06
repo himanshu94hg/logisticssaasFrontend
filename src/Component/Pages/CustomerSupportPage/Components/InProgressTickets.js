@@ -59,9 +59,17 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
         }
     };
 
+    const handleReopenTicket = (id, status) => {
+        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
+    }
+
+    const handleEscalateTicket = (id, status) => {
+        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
+    }
     const handleCloseTicket = (id, status) => {
         dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
     }
+
 console.log(activeTab,"activeTab")
     return (
         <section className='position-relative'>
@@ -151,8 +159,8 @@ console.log(activeTab,"activeTab")
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Escalate</li>
-                                                            <li>Re-open</li>
+                                                            <li onClick={() => handleEscalateTicket(item?.id, "Escalate")}>Escalate</li>
+                                                            <li onClick={() => handleReopenTicket(item?.id, "reopen")}>Re-open</li>
                                                             {activeTab != "closedTickets" && <li onClick={() => handleCloseTicket(item?.id, "Closed")}>Close</li>}
                                                         </ul>
                                                     </div>
