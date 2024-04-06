@@ -269,7 +269,12 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li>Cancel Booking</li>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                {row?.courier_partner != null && (
+                                                                    <>
+                                                                        <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                        <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                                    </>
+                                                                )}
                                                                 <li>Reassign</li>
                                                                 <li>Clone Order</li>
                                                                 <li className='action-hr'></li>

@@ -301,13 +301,13 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
-                                                            <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                            <li>Reassign</li>
-                                                            <li className='action-hr'></li>
-                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
-                                                        </ul>
+                                                    <ul>
+                                                        <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                        <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                        <li>Reassign</li>
+                                                        <li className='action-hr'></li>
+                                                        <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION", payload: row?.id })}>Cancel Order</li>
+                                                    </ul>
                                                     </div>
                                                 </div>
                                             </div>
