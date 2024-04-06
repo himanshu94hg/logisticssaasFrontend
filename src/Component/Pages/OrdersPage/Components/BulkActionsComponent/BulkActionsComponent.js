@@ -123,8 +123,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                 }, 0);
                 console.log("All Count Data", shippedCount);
                 toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
+                setShipButtonClicked(false);
             }
-            setShipButtonClicked(false);
         }
     }, [shipButtonClicked, bulkShipData]);
 
