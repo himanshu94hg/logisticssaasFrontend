@@ -14,17 +14,19 @@
     margin-bottom: 5px;
     /* Space between rows */
     transition: 400ms;
-    transform: scale(1, 1);
+    /* transform: scale(1); */
     perspective: 1000px;
     background-color: transparent;
     min-height: 25.18rem;
     perspective: 1000px;
     color: white;
     transition-timing-function: linear;
+    /* transform-style: preserve-3d; */
 }
 
 .box:hover {
-    transform: scale3d(1.03, 1.03, 1)
+    /* transform: scale(1.03) */
+    box-shadow: 0px 0px 72px -36px rgb(19 20 21);
 }
 
 
@@ -133,10 +135,33 @@
 
 }
 
+.mark-as-default-btn:hover {
+    background-color: var(--sh-primary);
+    color: #fff;
+}
+
 .mark-as-default-btn.bg-green:hover,
 .mark-as-default-btn.bg-green:active {
     background-color: green !important;
     color: #fff;
+}
+
+.manage-warehouse .search-container label button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 0 0.5rem 0.5rem 0;
+}
+
+.manage-warehouse .search-container .input-field {
+    padding-left: 10px;
 }
 
 @media (max-width: 768px) {
