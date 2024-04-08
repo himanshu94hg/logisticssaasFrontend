@@ -4,7 +4,7 @@ import {
   Nav
 } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChevronUp, faChevronDown, faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { RiFilterLine } from "react-icons/ri";
@@ -83,11 +83,15 @@ export default function NavTabs(props) {
       </Navbar.Collapse>
       <div className="support-right-section">
         <div className="search-container">
-          {/* <button>
-            <img src={SearchIcon} alt="Search" />
-          </button> */}
-          {/* <label className="label">Search by Ticket ID || AWB || Pickup ID</label> */}
-          <input placeholder="Search by Ticket ID || AWB || Pickup ID" type="text" value={props.searchValue} className="input-field" onChange={(e) => props.handleSearch(e.target.value)} />
+          <label className="label">
+            <input
+              placeholder="Search by Ticket ID || AWB || Pickup ID"
+              type="text" value={props.searchValue}
+              className="input-field"
+              onChange={(e) => props.handleSearch(e.target.value)}
+            />
+            <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+          </label>
         </div>
         <button
           onClick={() => props.setFilterTickets(!props.FilterTickets)}
