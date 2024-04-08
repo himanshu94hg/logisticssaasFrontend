@@ -39,14 +39,25 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    const [allShipment, setAllShipment] = useState([]);
+
+    useEffect(() => {
+        if (shipmentCard) {
+            setAllShipment(shipmentCard);
+        }
+    }, [shipmentCard]);
 
 
     const handleReattempt = ((orderIds)=>{
+        const updatedRules = allShipment.filter(shipment => shipment.id !== orderIds);
+        setAllShipment(updatedRules);
         const stringifiedOrderIds = JSON.stringify(orderIds);
         dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: {"order_ids":stringifiedOrderIds} });
     });
 
     const handleRto = ((orderIds)=>{
+        const updatedRules = allShipment.filter(shipment => shipment.id !== orderIds);
+        setAllShipment(updatedRules);
         const stringifiedReattempt = JSON.stringify(orderIds);
         dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
     });
@@ -140,7 +151,7 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {shipmentCard?.map((row, index) => (
+                            {allShipment?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
