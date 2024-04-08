@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA } from "../../../../constants/orders";
-import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION } from "../../../constant/orders";
+import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA } from "../../../../constants/orders";
+import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION } from "../../../constant/orders";
 
 async function fetchOrderListDataApi(data) {
     let listData = axios.request({
@@ -91,6 +91,27 @@ function* saveFavouriteOrdersAction(action) {
     }
 }
 
+
+async function saveFavListApi(data) {
+    return axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.SAVE_FAVOURITE_ORDERS_API}`,
+        data: data
+    });
+}
+function* saveFavListAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(saveFavListApi, payload);
+        if (response.status === 200) {
+            yield put({ type: SAVE_FAV_LIST_DATA, payload: response?.data })
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 async function bulkShipOrderAPI(data) {
     return axios.request({
         method: "POST",
@@ -139,5 +160,6 @@ export function* ordersTabWatcher() {
     yield takeLatest(SAVE_FAVOURITE_ORDERS_ACTION, saveFavouriteOrdersAction);
     yield takeLatest(BULK_SHIP_ORDERS_ACTION, bulkShipOrdersAction);
     yield takeLatest(ORDERS_TAG_LIST_API_ACTION, bulkGetOrdersTagAction);
+    yield takeLatest(GET_SAVE_FAVOURITE_ORDERS_ACTION, saveFavListAction);
 
 }

@@ -11,7 +11,7 @@ import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdateWeight, setUpdateWarehouse,setSelectedRows ,setBulkActionShow}) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -35,7 +35,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdate
 
     const rtoUpdate = () => {
         setUpdateWarehouse(true)
-      
+
     }
     const bulkDeleted = () => {
         dispatch({
@@ -79,11 +79,11 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdate
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": 
-                activeTab === "All Orders" ||activeTab === "Unprocessable"||
-                activeTab === "Processing" ||activeTab === "Ready to Ship"||
-                activeTab === "Pickup" ||activeTab === "Returns"
-                 ? "" : activeTab,
+                "type":
+                    activeTab === "All Orders" || activeTab === "Unprocessable" ||
+                        activeTab === "Processing" || activeTab === "Ready to Ship" ||
+                        activeTab === "Pickup" || activeTab === "Returns"
+                        ? "" : activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -151,25 +151,25 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdate
 
                             {activeTab === "All Orders" &&
                                 <>
-                                    <li onClick={() => addTag()}><span>Add Tag</span></li>
-                                    <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted()}><span>Delete</span></li>
+                                    <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
+                                    <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
                                     <li ><span>Label</span></li>
                                     <li ><span>Invoice</span></li>
-                                    <li onClick={handleExport}><span>Export</span></li>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                 </>
                             }
 
                             {activeTab === "Unprocessable" &&
                                 <>
-                                    <li onClick={() => addTag()}><span>Add Tag</span></li>
-                                    <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                                    <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
-                                    <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
-                                    <li onClick={handleExport}><span>Export</span></li>
+                                    <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
+                                    <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
+                                    <li onClick={() => rtoUpdate()}><WarehouseIcon /><span>Warehouse update</span></li>
+                                    <li onClick={() => bulkDimesionDetailUpdate()}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                 </>
                             }
                             {activeTab === "Processing" && <>
@@ -187,8 +187,9 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdate
                                     <li ><span>Generate Pickup</span></li>
                                     <li ><span>Label</span></li>
                                     <li ><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                    <li onClick={handleExport}><span>Export</span></li>
+                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+
                                 </>
                             }
                             {activeTab === "Pickup" &&
@@ -196,13 +197,14 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdate
                                     <li ><span>Generate Manifest</span></li>
                                     <li ><span>Label</span></li>
                                     <li ><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
+                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
                                 </>
                             }
 
                             {activeTab === "Returns" &&
                                 <>
-                                    <li onClick={handleExport}><span>Export</span></li>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+
                                 </>
                             }
                         </ul>
