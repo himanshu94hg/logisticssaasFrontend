@@ -44,7 +44,6 @@ const ShipmentsPage = () => {
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    // console.log(selectedRows, "selectedRowsselectedRowsselectedRows")
 
     const handleSidePanel = () => {
         setMoreFilters(true);
