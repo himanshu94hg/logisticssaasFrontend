@@ -60,9 +60,21 @@ const OrdersPage = () => {
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
     // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
+
+    const [queryName, setQueryName] = useState([])
+
+    useEffect(() => {
+        if (favListData) {
+            let temp = [];
+            favListData.map((item) => {
+                temp.push(item)
+            })
+            setQueryName(temp)
+        }
+    }, [favListData])
 
     useEffect(() => {
         if (exportCard) {
@@ -71,7 +83,7 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(BulkActionShow, "billingShipingReceiptExportCard")
+    console.log(queryName, "billingShipingReceiptExportCard")
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
 
@@ -117,6 +129,7 @@ const OrdersPage = () => {
             setSearchValue("");
             setQueryParamTemp({});
             setQueryParamSearch(null);
+            dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
         }
     }, [activeTab])
 
@@ -258,6 +271,7 @@ const OrdersPage = () => {
 
 
 
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -283,23 +297,25 @@ const OrdersPage = () => {
                             >
                                 <HiOutlineFilter className='align-text-bottom' />More Filters
                             </button>
-                            <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span className="visually-hidden">Toggle Dropdown</span>
+                            <button className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span className="visually-hidden" >Toggle Dropdown</span>
                             </button>
                             <ul
                                 className="dropdown-menu"
+                                type="button"
                                 style={{
                                     paddingInline: '12px',
                                     minWidth: '110px',
                                 }}
                             >
-                                <li>Filter 1</li>
-                                <li>Filter 2</li>
-                                <li>Filter 3</li>
-                                <li>Filter 4</li>
+                                {queryName?.map((item) => {
+                                    return (
+                                        <li>{item?.filter_name}</li>
+                                    )
+                                })}
                             </ul>
                         </div>
-                        <button className='btn main-button-outline ms-2'  onClick={()=>handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
