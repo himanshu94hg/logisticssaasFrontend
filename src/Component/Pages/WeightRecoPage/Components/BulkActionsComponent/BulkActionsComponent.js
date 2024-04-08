@@ -1,5 +1,4 @@
 import React from 'react'
-// import './BulkActionsComponent.css'
 
 const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     return (
