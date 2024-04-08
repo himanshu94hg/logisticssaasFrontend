@@ -268,7 +268,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                         </div>
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li>Cancel Booking</li>
                                                                 {row?.courier_partner != null && (
                                                                     <>
                                                                         <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
@@ -277,7 +276,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                                 )}
                                                                 <li>Reassign</li>
                                                                 <li>Clone Order</li>
-                                                                <li className='action-hr'></li>
                                                                 <li onClick={() => dispatch({
                                                                 type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
                                                                     awb_numbers: [

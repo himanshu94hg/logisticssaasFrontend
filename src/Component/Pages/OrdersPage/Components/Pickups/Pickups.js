@@ -21,6 +21,7 @@ import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { toast } from 'react-toastify';
 
 
 const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -78,6 +79,57 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
         })
     }
 
+    const handleDownloadLabel = async (orderId) => {
+        try {
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/${orderId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.status === 200) {
+                toast.success("Download label successfully")
+            }
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            toast.error("Somethng went wrong!")
+        }
+    };
+    
+
+    const handleDownloadInvoice = async (orderId) => {
+        try {
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'Invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            toast.error("Somethng went wrong!")
+        }
+    };
 
     return (
         <section className='position-relative'>
@@ -233,8 +285,8 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Download Label</li>
-                                                            <li>Download Invoice</li>
+                                                            <li  onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
+                                                            <li  onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                         </ul>
                                                     </div>
                                                 </div>
