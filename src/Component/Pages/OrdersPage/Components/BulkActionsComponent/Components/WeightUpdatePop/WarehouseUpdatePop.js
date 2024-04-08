@@ -187,6 +187,13 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, UpdateWarehouse }) => {
                             </div>
                             {showDropdown && (
                                 <div className="wd-dropdown-content">
+                                    <input
+                                        type="text"
+                                        placeholder="Search warehouse..."
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                        className="wd-search-input"
+                                    />
                                     <div className="wd-options">
                                         {loading ? (
                                             <div>Loading...</div>
@@ -200,19 +207,14 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, UpdateWarehouse }) => {
                                             <div>No warehouses found.</div>
                                         )}
                                     </div>
-                                    <input
-                                        type="text"
-                                        placeholder="Search warehouse..."
-                                        value={searchTerm}
-                                        onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="wd-search-input"
-                                    />
+
 
                                 </div>
                             )}
                         </div>
                     </div>
                     <div className='d-flex justify-content-end w-100 my-2 pe-2'>
+                        <button onClick={() => setUpdateWarehouse(false)} className='btn cancel-button me-2'>Cancel</button>
                         <button onClick={() => setUpdateWarehouse(false)} className='btn main-button'>Apply</button>
                     </div>
                 </div>
