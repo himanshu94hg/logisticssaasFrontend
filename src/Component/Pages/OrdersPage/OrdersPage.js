@@ -23,7 +23,8 @@ import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/AddTagPop';
-import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WarehouseUpdatePop';
+import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WarehouseUpdatePop/WarehouseUpdatePop';
+import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -61,6 +62,7 @@ const OrdersPage = () => {
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
+    const [UpdateWeight, setUpdateWeight] = useState(false)
 
     useEffect(() => {
 
@@ -238,7 +240,7 @@ const OrdersPage = () => {
         }
     }, [activeTab])
 
-    console.log(BulkActionShow,"this is a bulk action show")
+    console.log(BulkActionShow, "this is a bulk action show")
 
 
     return (
@@ -397,6 +399,7 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         setaddTagShow={setaddTagShow}
                         setUpdateWarehouse={setUpdateWarehouse}
+                        setUpdateWeight={setUpdateWeight}
                     />
                 )
                 }
@@ -428,6 +431,16 @@ const OrdersPage = () => {
                 />
                 {UpdateWarehouse &&
                     <div onClick={() => setUpdateWarehouse(false)} className="backdrop"></div>
+                }
+            </section>
+
+            <section className={`ba-popup-container ${!UpdateWeight ? 'invisible' : ''}`}>
+                <WeightUpdatePop
+                    UpdateWeight={UpdateWeight}
+                    setUpdateWeight={setUpdateWeight}
+                />
+                {UpdateWeight &&
+                    <div onClick={() => setUpdateWeight(false)} className="backdrop"></div>
                 }
             </section>
         </>
