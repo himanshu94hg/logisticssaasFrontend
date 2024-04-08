@@ -21,16 +21,16 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         //         errorsObj.cod_charges = "COD Charges is required!";
         //     }
         // }
-        if (!weight) {
+        if (!weight || weight <= 0) {
             errorsObj.weight = "Dead Weight is required!";
         }
-        if (!length) {
+        if (!length || length <= 0) {
             errorsObj.length = "Length is required!";
         }
-        if (!breadth) {
+        if (!breadth || breadth <= 0) {
             errorsObj.breadth = "Breadth is required!";
         }
-        if (!height) {
+        if (!height || height <= 0) {
             errorsObj.height = "Height is required!";
         }
         setErrors(errorsObj);
