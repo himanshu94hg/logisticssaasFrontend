@@ -44,6 +44,7 @@ export const API_URL = {
   GET_COURIER_ALLOCATION_STATUS_RULE: "/core-api/features/courier-allocation/rules/status/",
   BULK_SHIP_ORDERS_API:"/core-api/shipping/bulk-ship-order/",
   MANIFEST_LIST_API:"/orders-api/orders/manifest/",
+  ORDER_TAGS_LIST_API:"/orders-api/orders/order-tags/",
 
   //BULK ACTION ACTION SECTION
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",

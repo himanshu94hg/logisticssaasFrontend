@@ -123,7 +123,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow,BulkActionShow, select
 
     return (
         <>
-
             <section className='position-relative'>
                 <div className="position-relative">
                     <div className='table-container'>

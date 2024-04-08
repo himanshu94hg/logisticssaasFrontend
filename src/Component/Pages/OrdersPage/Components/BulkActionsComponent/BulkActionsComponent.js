@@ -11,7 +11,7 @@ import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse, setUpdateWeight }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow,setUpdateWeight, setUpdateWarehouse,setSelectedRows ,setBulkActionShow}) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -35,12 +35,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
 
     const rtoUpdate = () => {
         setUpdateWarehouse(true)
-        // dispatch({
-        //     type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
-        //         order_ids: selectedRows,
-        //         warehouse_id: 22
-        //     }
-        // })
+      
     }
     const bulkDeleted = () => {
         dispatch({
@@ -76,13 +71,19 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
         };
         dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
         setShipButtonClicked(true);
+        setSelectedRows([])
+        setBulkActionShow(false)
     };
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab === "All Orders" ? "" : activeTab,
+                "type": 
+                activeTab === "All Orders" ||activeTab === "Unprocessable"||
+                activeTab === "Processing" ||activeTab === "Ready to Ship"||
+                activeTab === "Pickup" ||activeTab === "Returns"
+                 ? "" : activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -156,8 +157,6 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
                                     <li onClick={() => bulkDeleted()}><span>Delete</span></li>
                                     <li ><span>Label</span></li>
                                     <li ><span>Invoice</span></li>
-                                    <li><span>Manifest</span></li>
-                                    <li ><span>Reassign</span></li>
                                     <li onClick={handleExport}><span>Export</span></li>
                                 </>
                             }
