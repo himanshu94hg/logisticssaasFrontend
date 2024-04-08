@@ -69,6 +69,14 @@ const BillingPage = () => {
         setIsOpen(!isOpen);
     };
 
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+
+        }
+    }, [activeTab])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

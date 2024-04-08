@@ -156,6 +156,14 @@ const ShipmentsPage = () => {
 
     const handleSearch = () => { }
 
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+
+        }
+    }, [activeTab])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

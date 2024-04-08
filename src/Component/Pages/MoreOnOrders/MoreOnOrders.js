@@ -51,6 +51,8 @@ const MoreOnOrders = () => {
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
+    const [addTagShow, setaddTagShow] = useState(false)
+    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { pathName } = useSelector(state => state?.authDataReducer)
 
@@ -217,6 +219,15 @@ const MoreOnOrders = () => {
         setsearchType(option.value)
     };
 
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+
+        }
+    }, [activeTab])
+
+
     console.log(searchType, "this is a search option data")
 
 
@@ -299,7 +310,13 @@ const MoreOnOrders = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent />
+                    <BulkActionsComponent
+                        activeTab={activeTab}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setaddTagShow={setaddTagShow}
+                        setUpdateWarehouse={setUpdateWarehouse}
+                    />
                 )
                 }
             </div>

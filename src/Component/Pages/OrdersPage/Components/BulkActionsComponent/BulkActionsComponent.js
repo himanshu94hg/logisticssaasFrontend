@@ -10,13 +10,12 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData } = useSelector(state => state?.orderSectionReducer)
     const addTag = () => {
-        setaddTagShow(true)
-        // dispatch({
-        //     type: "BULK_ADD_ORDER_TAG_ACTION", payload: {
-        //         order_ids: selectedRows,
-        //         tag_ids: [18, 19]
-        //     }
-        // })
+        dispatch({
+            type: "BULK_ADD_ORDER_TAG_ACTION", payload: {
+                order_ids: selectedRows,
+                tag_ids: [18, 19]
+            }
+        })
     }
     const markedVerified = () => {
         dispatch({
