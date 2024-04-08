@@ -74,6 +74,7 @@ const AddTagPop = ({ addTagShow, setaddTagShow }) => {
                         </div>
 
                         <div className='d-flex justify-content-end w-100 my-2'>
+                            <button onClick={() => setaddTagShow(false)} className='btn cancel-button me-2'>Cancel</button>
                             <button onClick={() => setaddTagShow(false)} className='btn main-button'>Apply</button>
                         </div>
 
