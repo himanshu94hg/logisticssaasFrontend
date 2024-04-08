@@ -110,7 +110,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                             e.preventDefault();
                                         }
                                     }} />
-                                <span class="unit">CM</span>
+                                <span class="unit">KG</span>
                             </label>
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
@@ -176,7 +176,11 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         </label>
                     </div>
                     <div className="volumetric-weight">
-                        <p>Charged Weight:&nbsp; {finalWeight} Kg</p>
+                        <label>
+                            Charged Weight
+                            <input className='input-field' type="text" value={finalWeight} />
+                            <span class="unit">KG</span>
+                        </label>
                     </div>
                 </div>
             </div>
