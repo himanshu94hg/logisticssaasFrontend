@@ -16,7 +16,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrderId,BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -36,16 +36,34 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
         }
     }, [activeTab])
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-            setBulkActionShow(true)
+    console.log(selectedRows,"setSelectedRows")
+
+    const handleSelectAll = (data) => {
+
+        if (data === "selectAll") {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
+
         } else {
-            setSelectedRows([]);
-            setBulkActionShow(false)
-            setSelectAll(false)
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
         }
+
+        console.log(data, "datadatadatadata")
     };
 
     const handleShipNow = (orderId) => {
@@ -97,7 +115,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow}/>
+                                        <SelectAllDrop handleSelectAll={handleSelectAll} BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
 
                                 </th>
