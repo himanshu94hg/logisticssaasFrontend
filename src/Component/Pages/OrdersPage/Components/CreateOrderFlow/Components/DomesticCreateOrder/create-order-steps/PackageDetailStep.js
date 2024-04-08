@@ -233,7 +233,11 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         </label>
                     </div>
                     <div className="volumetric-weight">
-                        <p>Charged Weight:&nbsp; {finalWeight} Kg</p>
+                        <label>
+                            Charged Weight
+                            <input className='input-field' type="text" value={finalWeight} />
+                            <span class="unit">KG</span>
+                        </label>
                     </div>
 
                 </div>

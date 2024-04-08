@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
 import SearchIcon from '../../../assets/image/icons/search-icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleXmark, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleXmark, faMagnifyingGlass, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import './ManageWarehouse.css';
@@ -20,7 +20,7 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
   };
 
 
-  console.log(boxData,"boxDataboxDataboxData")
+  console.log(boxData, "boxDataboxDataboxData")
 
   // Inside BoxGrid component
   const handleSetDefault = (index) => {
@@ -71,7 +71,7 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
             <div className='warehouse-details'>
               <button
                 onClick={() => handleSetDefault(index)}
-                className={`btn mark-as-default-btn ${defaultWarehouseIndex === index ? 'bg-green text-white' : ''}`}>
+                className={`btn mark-as-default-btn ${defaultWarehouseIndex === index ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
                 {defaultWarehouseIndex === index ? 'Default' : 'Mark as Default'}
               </button>
               <div>
@@ -171,9 +171,9 @@ const ManageWarehouse = () => {
         <section className="box-shadow shadow-sm p7 mb-3 filter-container">
           <div className="search-container">
             <label>
-              <input type="text" placeholder="Search by Location || Address || City || State || Pincode" />
+              <input className='input-field' type="text" placeholder="Search by Location || Address || City || State || Pincode" />
               <button>
-                <img src={SearchIcon} alt="Search" />
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </label>
           </div>
