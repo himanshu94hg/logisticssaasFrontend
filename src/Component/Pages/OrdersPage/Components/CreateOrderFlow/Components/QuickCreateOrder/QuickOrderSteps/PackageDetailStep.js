@@ -75,6 +75,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         e.preventDefault();
                                     }
                                 }}
+                                placeholder='Enter invoice amount'
                             />
                             {errors.invoice_amount && <span className="custom-error">{errors.invoice_amount}</span>}
                         </label>
@@ -90,6 +91,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         e.preventDefault();
                                     }
                                 }}
+                                placeholder='Enter COD charges'
                             />
                             {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
                         </label>
@@ -109,8 +111,9 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         if (!allowedCharacters.test(e.key)) {
                                             e.preventDefault();
                                         }
-                                    }} />
-                                <span class="unit">CM</span>
+                                    }}
+                                    placeholder='Enter dead weight' />
+                                <span class="unit">KG</span>
                             </label>
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
@@ -139,7 +142,9 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter length'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {errors.length && <span className="custom-error">{errors.length}</span>}
 
@@ -155,7 +160,9 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter breadth'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {errors.breadth && <span className="custom-error">{errors.breadth}</span>}
                         </label>
@@ -170,13 +177,19 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     if (!/\d/.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter height'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {errors.height && <span className="custom-error">{errors.height}</span>}
                         </label>
                     </div>
                     <div className="volumetric-weight">
-                        <p>Charged Weight:&nbsp; {finalWeight} Kg</p>
+                        <label>
+                            Charged Weight
+                            <input className='input-field' type="text" value={finalWeight > 0 ? finalWeight : ''} placeholder='...' />
+                            <span class="unit">KG</span>
+                        </label>
                     </div>
                 </div>
             </div>

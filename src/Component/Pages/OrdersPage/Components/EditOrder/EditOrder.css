@@ -77,3 +77,27 @@
 .edit-order-body .navigation-side ul li.active {
     background-color: #ddd;
 }
+
+.edit-order-body label {
+    position: relative;
+}
+
+.edit-order-body span.unit {
+    align-items: center;
+    background: var(--sh-primary-light);
+    background: #dfdfdf;
+    border-radius: 0 .5rem .5rem 0;
+    bottom: 1px;
+    display: flex;
+    height: 34px;
+    justify-content: center;
+    position: absolute;
+    right: 1px;
+    width: 36px;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+.edit-order-body span.unit.pd-lbh {
+    right: 12px;
+}

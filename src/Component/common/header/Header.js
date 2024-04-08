@@ -40,27 +40,28 @@ export default function Header(props) {
 
 
   const handleLogout = () => {
+    localStorage.clear();
     Cookies.remove('access_token');
     window.location.reload()
   };
 
   const [temp, setTemp] = useState({
-    var1: "",
-    var2: ""
-  })
-  const gettoken = Cookies.get('access_token');
+    var1: null,
+    var2: null,
+  });
+  
+  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
+  
   useEffect(() => {
-    const getPayment = JSON.parse(localStorage.getItem('paymentCard')) ?? null;
-    const setPayment = JSON.parse(localStorage.getItem('paymentSetCard')) ?? null;
-
     setTemp(prev => ({
       ...prev,
-      var1: getPayment,
-      var2: setPayment
-    }))
-  }, [])
-
-  console.log(temp, "temptemp")
+      var1: paymentCard,
+      var2: paymentSetCard
+    }));
+  }, [paymentCard, paymentSetCard]);
+  
+  console.log(temp, "temptemp");
 
   return (
     <Navbar

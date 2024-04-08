@@ -62,7 +62,7 @@
     align-items: center;
 }
 
-.support-choice-card {
+.support-right-section .search-container .support-choice-card {
     position: relative;
     display: inline-block;
     text-align: center;
@@ -101,17 +101,26 @@
 }
 
 .support-right-section .search-container label {
-    font-size: 14px;
-    padding-left: 30px;
-    position: absolute;
-    top: 8px;
-    transition: 0.3s;
-    pointer-events: none;
+    position: relative;
 }
 
 .support-right-section .search-container input {
     height: 36px;
-    padding-left: 30px;
+    padding-left: 10px;
+}
+
+.support-right-section .search-container button {
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 0 0.5rem 0.5rem 0;
 }
 
 .support-right-section .search-container input:focus~label {

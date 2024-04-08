@@ -120,7 +120,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
     return (
         <>
 
-
             <section className='position-relative'>
                 <div className="position-relative">
                     <div className='table-container'>
@@ -269,11 +268,14 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                         </div>
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li>Cancel Booking</li>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                {row?.courier_partner != null && (
+                                                                    <>
+                                                                        <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                        <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                                    </>
+                                                                )}
                                                                 <li>Reassign</li>
                                                                 <li>Clone Order</li>
-                                                                <li className='action-hr'></li>
                                                                 <li onClick={() => dispatch({
                                                                 type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
                                                                     awb_numbers: [
