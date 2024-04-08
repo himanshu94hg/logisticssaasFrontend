@@ -57,19 +57,20 @@ const OrdersPage = () => {
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
     // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
-    useEffect(()=>{
-        if(exportCard){
+    useEffect(() => {
+        if (exportCard) {
             setBulkActionShow(false)
             setSelectedRows([])
         }
-    },[exportCard])
+    }, [exportCard])
 
-    console.log(BulkActionShow,"billingShipingReceiptExportCard")
+    console.log(BulkActionShow, "billingShipingReceiptExportCard")
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
 
     useEffect(() => {
@@ -248,7 +249,11 @@ const OrdersPage = () => {
         }
     }, [activeTab])
 
-    console.log(BulkActionShow,"this is a bulk action show")
+    const handleReset = () => {
+        setSearchValue("")
+        setHandleResetFrom(true)
+    }
+
 
 
     return (
@@ -274,7 +279,7 @@ const OrdersPage = () => {
                                 type="button"
                                 className="btn main-button-outline ms-2"
                             >
-                                <HiOutlineFilter className='align-text-bottom' /> More Filters
+                                <HiOutlineFilter className='align-text-bottom' />More Filters
                             </button>
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
@@ -292,7 +297,7 @@ const OrdersPage = () => {
                                 <li>Filter 4</li>
                             </ul>
                         </div>
-                        <button className='btn main-button-outline ms-2'><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline ms-2'  onClick={()=>handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
@@ -387,9 +392,9 @@ const OrdersPage = () => {
                         orders={orders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
+                        selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
-                        selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                     />
                 </div>
@@ -397,15 +402,16 @@ const OrdersPage = () => {
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
+                    setItemsPerPage={setItemsPerPage}
                 />
                 {BulkActionShow && (
                     <BulkActionsComponent
                         activeTab={activeTab}
                         selectedRows={selectedRows}
-                        setSelectedRows={setSelectedRows}
                         setaddTagShow={setaddTagShow}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                         setUpdateWarehouse={setUpdateWarehouse}
                     />
                 )
@@ -418,6 +424,8 @@ const OrdersPage = () => {
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
+                handleResetFrom={handleResetFrom}
+                setHandleResetFrom={setHandleResetFrom}
             />
             <div className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
@@ -425,6 +433,9 @@ const OrdersPage = () => {
                 <AddTagPop
                     addTagShow={addTagShow}
                     setaddTagShow={setaddTagShow}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow}
                 />
                 {addTagShow &&
                     <div onClick={() => setaddTagShow(false)} className="backdrop"></div>
@@ -433,6 +444,7 @@ const OrdersPage = () => {
 
             <section className={`ba-popup-container ${!UpdateWarehouse ? 'invisible' : ''}`}>
                 <WarehouseUpdatePop
+                    selectedRows={selectedRows}
                     UpdateWarehouse={UpdateWarehouse}
                     setUpdateWarehouse={setUpdateWarehouse}
                 />

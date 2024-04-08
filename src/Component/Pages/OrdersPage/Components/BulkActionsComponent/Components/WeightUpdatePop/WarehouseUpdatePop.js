@@ -5,8 +5,10 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 
-const WarehouseUpdatePop = ({ setUpdateWarehouse, UpdateWarehouse }) => {
+const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse }) => {
+    const dispatch = useDispatch()
     const dropdownRef = useRef(null);
     const [warehouses, setWarehouses] = useState([]);
     const [showDropdown, setShowDropdown] = useState(false);
@@ -23,64 +25,6 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, UpdateWarehouse }) => {
             channel: "custom",
             channel_id: null
         },
-        shipping_details: {
-            recipient_name: "",
-            address: "",
-            landmark: "",
-            country: "India",
-            state: "",
-            city: "",
-            pincode: "",
-            mobile_number: "",
-            email: "",
-            company_name: "",
-            contact_code: "91"
-        },
-        billing_details: {
-            customer_name: "",
-            address: "",
-            landmark: "",
-            country: "India",
-            state: "",
-            city: "",
-            pincode: "",
-            mobile_number: "",
-            email: "",
-            company_name: "",
-            contact_code: "91"
-        },
-        other_details: {
-            number_of_packets: 0,
-            reseller_name: ""
-        },
-        charge_details: {
-            cod_charges: '',
-            shipping_charges: '',
-            transaction_fee: '',
-            is_gift_wrap: true
-        },
-        dimension_details: {
-            weight: '',
-            length: '',
-            breadth: '',
-            height: '',
-            vol_weight: ''
-        },
-        product_details: [
-            {
-                product_name: "",
-                quantity: '',
-                unit_price: 0,
-                product_category: "",
-                weight: 0,
-                sku: "",
-                hsn_code: "",
-                tax_rate: null,
-                product_discount: 0,
-                hts_number: "",
-                export_reference_number: ""
-            }
-        ],
     })
     const [loading, setLoading] = useState(false);
     const authToken = Cookies.get("access_token");
@@ -159,6 +103,9 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, UpdateWarehouse }) => {
         setShowDropdown(!showDropdown);
     };
 
+
+    console.log(formData, "warehouseswarehouseswarehouses")
+
     return (
         <>
             <div className={`ba-pop-show warehouse-update ${UpdateWarehouse ? 'open' : ''}`}>
@@ -215,7 +162,15 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, UpdateWarehouse }) => {
                     </div>
                     <div className='d-flex justify-content-end w-100 my-2 pe-2'>
                         <button onClick={() => setUpdateWarehouse(false)} className='btn cancel-button me-2'>Cancel</button>
-                        <button onClick={() => setUpdateWarehouse(false)} className='btn main-button'>Apply</button>
+                        <button onClick={() => {
+                            setUpdateWarehouse(false)
+                            dispatch({
+                                type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
+                                    order_ids: selectedRows,
+                                    warehouse_id: formData?.order_details?.warehouse_id
+                                }
+                            })
+                        }} className='btn main-button'>Apply</button>
                     </div>
                 </div>
             </div>
