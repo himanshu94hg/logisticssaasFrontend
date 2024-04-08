@@ -102,7 +102,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
-        if (orderUpdateRes === 200) {
+        if (orderUpdateRes) {
             setEditOrderSection(false)
         }
     }, [orderUpdateRes])

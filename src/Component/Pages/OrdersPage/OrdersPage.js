@@ -57,7 +57,7 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone,orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
 
     useEffect(()=>{
@@ -175,7 +175,7 @@ const OrdersPage = () => {
                     });
             }
         }
-    }, [orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone,orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
 
     console.log(orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage, "this is involve data")

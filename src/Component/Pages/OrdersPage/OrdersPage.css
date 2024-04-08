@@ -54,7 +54,7 @@
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-in-out;
-  z-index: 1;
+  z-index: 2;
   background: #fff;
 }
 
@@ -301,7 +301,7 @@
 .cell-inside-box .product-details span,
 .cell-inside-box .details-on-hover span {
   display: none;
-  padding: 13px;
+  padding: 2px 10px;
   text-decoration: none;
   color: #111;
   font-size: 14px;
@@ -314,7 +314,7 @@
   filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
   width: auto;
   z-index: 6;
-  max-height: 155px;
+  max-height: 67px;
   overflow-y: auto;
 }
 

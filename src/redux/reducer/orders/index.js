@@ -1,4 +1,4 @@
-import { GET_ORDERS_DATA, GET_ORDERS_DETAILS_DATA, GET_ORDER_ID_DATA, ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, SHIP_NOW_DATA } from "../../constants/orders";
+import { GET_ORDERS_DATA, GET_ORDERS_DETAILS_DATA, GET_ORDER_ID_DATA, ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, SHIP_NOW_DATA, MANIFEST_LIST_DATA } from "../../constants/orders";
 
 const initialState = {
     ordersData: [],
@@ -8,7 +8,8 @@ const initialState = {
     orderdelete: null,
     orderClone: null,
     orderId: null,
-    bulkShipData: []
+    bulkShipData: [],
+    manifestList:[]
 };
 
 export const orderSectionReducer = (state = initialState, action) => {
@@ -26,7 +27,7 @@ export const orderSectionReducer = (state = initialState, action) => {
         case ORDERS_DETAILS_RES_DATA:
             return {
                 ...state,
-                orderUpdateRes: action?.payload
+                orderUpdateRes: action?.payload+new Date()
             };
         case ORDERS_CANCEL_RES_DATA:
             return {
@@ -57,6 +58,11 @@ export const orderSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 orderClone: action?.payload
+            };
+        case MANIFEST_LIST_DATA:
+            return {
+                ...state,
+                manifestList: action?.payload
             };
         default:
             return state

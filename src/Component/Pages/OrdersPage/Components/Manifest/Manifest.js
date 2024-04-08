@@ -9,13 +9,23 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 
 
-const Manifest = ({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ orders,activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
-    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const { orderdelete, manifestList } = useSelector(state => state?.orderSectionReducer)
+
+
+    useEffect(() => {
+        if(activeTab==="Manifest"){
+
+            dispatch({ type: "MANIFEST_LIST_API_ACTION" })
+        }
+    }, [activeTab])
+
+    console.log(manifestList, "manifestListmanifestList")
 
     useEffect(() => {
         if (orderdelete) {
@@ -74,14 +84,13 @@ const Manifest = ({ orders, setEditOrderSection, setOrderId, setBulkActionShow, 
                                 <th style={{ width: '8%' }}>Courier</th>
                                 <th style={{ width: '12.5%' }}>Number of Order</th>
                                 <th style={{ width: '10.5%' }}>Pickup Reference Number</th>
-                                <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Download</th>
 
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders?.map((row, index) => (
+                            {manifestList?.map((row, index) => (
                                 <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -95,42 +104,40 @@ const Manifest = ({ orders, setEditOrderSection, setOrderId, setBulkActionShow, 
 
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{row?.awb_number}</p>
+                                                <p>{row?.id}</p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>{moment(row?.created_at).format("YYYY-MM-DD")}</p>
+                                                <p>{moment(row?.created).format("YYYY-MM-DD")}</p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.courier_partner}</p>
+                                                <p className='width-eclipse'>{row?.type}</p>
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='order-Status-box mt-1'>{row.courier_partner}</p>
+                                                <p className='order-Status-box mt-1'>{row?.courier}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             <td className='align-middle'>
                                                 <div className='cell-inside-box'>
-                                                    <p>{row?.id}</p>
+                                                    <p>{row?.number_of_order}</p>
                                                 </div>
                                             </td>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className=''>{row.awb_number} </p>
+                                                <p className=''>{row?.p_ref_no} </p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            <p className='order-Status-box'>{row?.status}</p>
-                                        </td>
+
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'> Download Menifest</button>
+                                                <button className='btn main-button'> Download Manifest</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
