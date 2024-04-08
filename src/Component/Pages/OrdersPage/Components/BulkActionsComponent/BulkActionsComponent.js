@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -26,12 +26,13 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     }
 
     const rtoUpdate = () => {
-        dispatch({
-            type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
-                order_ids: selectedRows,
-                warehouse_id: 22
-            }
-        })
+        setUpdateWarehouse(true)
+        // dispatch({
+        //     type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
+        //         order_ids: selectedRows,
+        //         warehouse_id: 22
+        //     }
+        // })
     }
     const bulkDeleted = () => {
         dispatch({

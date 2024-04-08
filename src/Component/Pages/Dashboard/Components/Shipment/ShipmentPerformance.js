@@ -8,31 +8,36 @@ const ShipmentPerformance = () => {
   const { performanceMetrix } = useSelector(state => state?.dashboardShipmentReducer)
 
   const transformData = (data) => {
-    return data.map((zoneData,i) => ({
+    return data.map((zoneData, i) => ({
       week: i,
       FAD: {
+        tooltip: 'FAD',
         total: zoneData.fad_orders.fad_orders,
         prepaid: zoneData.fad_orders.prepaid_fad_orders,
         cod: zoneData.fad_orders.cod_fad_orders
       },
       FAT: {
+        tooltip: 'FAD',
         total: zoneData.fat_orders.fat_orders,
         prepaid: zoneData.fat_orders.prepaid_fat_orders,
         cod: zoneData.fat_orders.cod_fat_orders
       },
-     
+
       SAD: {
+        tooltip: 'FAD',
         total: zoneData.sad_orders.sad_orders,
         prepaid: zoneData.sad_orders.prepaid_sad_orders,
         cod: zoneData.sad_orders.cod_sad_orders
       },
       TAD: {
+        tooltip: 'FAD',
         total: zoneData.tad_orders.tad_orders,
         prepaid: zoneData.tad_orders.prepaid_tad_orders,
         cod: zoneData.tad_orders.cod_tad_orders
       }
     }));
   };
+
 
   useEffect(() => {
     if (performanceMetrix) {
@@ -82,7 +87,7 @@ const ShipmentPerformance = () => {
                       </td>
                       {data?.map((weekData, weekIndex) => (
                         <td key={weekData.week}>
-                         { console.log(data,"this is data")}
+                          {console.log(data, "this is data")}
                           {weekData[counter]?.total}
                         </td>
                       ))}
@@ -93,7 +98,7 @@ const ShipmentPerformance = () => {
                           <td>Prepaid</td>
                           {data.map((weekData) => (
                             <td key={weekData.week} className="prepaid-cell">
-                              {weekData[counter].prepaid} &#40;{Math.floor((weekData[counter].prepaid / weekData[counter].total) * 100)||0}%&#41;
+                              {weekData[counter].prepaid} &#40;{Math.floor((weekData[counter].prepaid / weekData[counter].total) * 100) || 0}%&#41;
                             </td>
                           ))}
                         </tr>
@@ -101,7 +106,7 @@ const ShipmentPerformance = () => {
                           <td>COD</td>
                           {data.map((weekData) => (
                             <td key={weekData.week} className="cod-cell">
-                              {weekData[counter].cod} &#40;{Math.floor(((weekData[counter].cod) / weekData[counter].total) * 100)||0}%&#41;
+                              {weekData[counter].cod} &#40;{Math.floor(((weekData[counter].cod) / weekData[counter].total) * 100) || 0}%&#41;
                             </td>
                           ))}
                         </tr>
