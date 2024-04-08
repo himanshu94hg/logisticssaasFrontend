@@ -83,7 +83,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                         <label className='col'>
                             <span>COD Charges (₹) <span className='text-gray'>(Optional)</span></span>
                             <input
-                                className={`input-field ${formData.order_details.payment_type === "COD" && errors.cod_charges ? 'input-field-error' : ''}`}
+                                className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
@@ -91,7 +91,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     }
                                 }}
                             />
-                            {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>}
+                            {/*formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>*/}
                         </label>
                     </div>
                     <div className='mt-3'>
