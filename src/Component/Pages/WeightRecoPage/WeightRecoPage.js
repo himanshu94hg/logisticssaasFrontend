@@ -150,6 +150,14 @@ const WeightRecoPage = () => {
         setSearchOption(SearchOption);
     };
 
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+
+        }
+    }, [activeTab])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -233,7 +241,11 @@ const WeightRecoPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent />
+                    <BulkActionsComponent
+                        activeTab={activeTab}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                    />
                 )
                 }
             </div>
