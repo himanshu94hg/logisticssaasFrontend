@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom/dist';
 import { useSelector } from 'react-redux';
 
 
-export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors , seteditErrors }) => {
     const location = useLocation()
     const [isChecked, setIsChecked] = useState(() => {
         const savedCheckboxState = localStorage.getItem('isChecked');
@@ -314,10 +314,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>Recipient Name <span className='mandatory'>*</span></span>
                             <input
-                                className={`input-field ${errors.recipient_name && 'input-field-error'}`}
+                                className={`input-field ${errors.recipient_name || editErrors?.recipient_name ? 'input-field-error' : ''}`}
                                 placeholder='Enter Recipient Name'
                                 type="text" value={formData.shipping_details.recipient_name} onChange={(e) => handleChangeShiping(e, 'recipient_name')} />
-                            {errors.recipient_name && <div className="custom-error">{errors.recipient_name}</div>}
+                            {(errors.recipient_name || editErrors?.recipient_name) && <div className="custom-error">{errors.recipient_name || editErrors?.recipient_name}</div>}
                         </label>
 
                         {/* Mobile Number with Country Code Select */}
@@ -334,7 +334,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     {/* Add more country codes as needed */}
                                 </select>
                                 <input
-                                    className={`input-field ${errors.mobile_number && 'input-field-error'}`}
+                                    className={`input-field ${errors.mobile_number || editErrors?.mobile_number ? 'input-field-error' : ''}`}
                                     type="text"
                                     value={formData.shipping_details.mobile_number}
                                     onChange={(e) => handleChangeShiping(e, 'mobile_number')}
@@ -348,7 +348,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }}
                                 />
                             </div>
-                            {errors.mobile_number && <div className="custom-error">{errors.mobile_number}</div>}
+                            {(errors.mobile_number || editErrors?.mobile_number ) && <div className="custom-error">{errors.mobile_number || editErrors?.mobile_number}</div>}
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -374,10 +374,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>Address <span className='mandatory'>*</span></span>
                             <input
-                                className={`input-field ${errors.address && 'input-field-error'}`}
+                                className={`input-field ${errors.address || editErrors?.address ? 'input-field-error' : ''}`}
                                 placeholder="House/Floor No. Building Name or Street, Locality"
                                 type="text" value={formData.shipping_details.address} onChange={(e) => handleChangeShiping(e, 'address')} />
-                            {errors.address && <div className="custom-error">{errors.address}</div>}
+                            {(errors.address || editErrors?.address) && <div className="custom-error">{errors.address || editErrors?.address}</div>}
                         </label>
                     </div>
                     <div className='row mt-3'>
@@ -385,10 +385,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>Landmark <span className='mandatory'>*</span></span>
                             <input
-                                className={`input-field ${errors.landmark && 'input-field-error'}`}
+                                className={`input-field ${errors.landmark || editErrors?.landmark ? 'input-field-error' : ''}`}
                                 placeholder="Any nearby post office, market, Hospital as the landmark"
                                 type="text" value={formData.shipping_details.landmark} onChange={(e) => handleChangeShiping(e, 'landmark')} />
-                            {errors.landmark && <div className="custom-error">{errors.landmark}</div>}
+                            {(errors.landmark || editErrors?.landmark) && <div className="custom-error">{errors.landmark || editErrors?.landmark}</div>}
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -398,7 +398,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <input
                                 type="text"
                                 ref={pincodeRef}
-                                className={`input-field ${errors.pincode && 'input-field-error'}`}
+                                className={`input-field ${errors.pincode || editErrors?.pincode ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's Pincode"
                                 onBlur={handlePincodeChange}
                                 value={formData.shipping_details.pincode}
@@ -410,7 +410,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }}
                             />
-                            {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
+                            {(errors.pincode || editErrors?.pincode) && <div className="custom-error">{errors.pincode || editErrors?.pincode}</div>}
                         </label>
 
                         {/* City */}
@@ -419,12 +419,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <input
                                 type="text"
                                 ref={cityRef}
-                                className={`input-field ${errors.city && 'input-field-error'}`}
+                                className={`input-field ${errors.city || editErrors?.city ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's City"
                                 value={formData.shipping_details.city}
                                 onChange={(e) => handleChangeShiping(e, 'city')}
                             />
-                            {errors.city && <div className="custom-error">{errors.city}</div>}
+                            {(errors.city || editErrors?.city) && <div className="custom-error">{errors.city || editErrors?.city}</div>}
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -434,12 +434,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <input
                                 type="text"
                                 ref={stateRef}
-                                className={`input-field ${errors.state && 'input-field-error'}`}
+                                className={`input-field ${errors.state || editErrors?.state ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's State"
                                 value={formData.shipping_details.state}
                                 onChange={(e) => handleChangeShiping(e, 'state')}
                             />
-                            {errors.state && <div className="custom-error">{errors.state}</div>}
+                            {(errors.state || editErrors?.state ) && <div className="custom-error">{errors.state || editErrors?.state}</div>}
                         </label>
 
                         {/* Country */}
@@ -448,12 +448,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <input
                                 type="text"
                                 ref={countryRef}
-                                className={`input-field ${errors.country && 'input-field-error'}`}
+                                className={`input-field ${errors.country || editErrors?.country ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's State"
                                 value={formData.shipping_details.country}
                                 onChange={(e) => handleChangeShiping(e, 'country')}
                             />
-                            {errors.country && <div className="custom-error">{errors.country}</div>}
+                            {(errors.country || editErrors?.country) && <div className="custom-error">{errors.country || editErrors?.country}</div>}
                         </label>
                     </div>
                 </div>
@@ -480,11 +480,11 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label className='col'>
                                 <span> Recipient Name <span className='mandatory'>*</span></span>
                                 <input
-                                    className={`input-field ${errors.billing_customer_name && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_customer_name || editErrors?.billing_customer_name ? 'input-field-error' : ''}`}
                                     placeholder='Enter Recipient Name'
                                     type="text" value={formData.billing_details.customer_name ?? formData.shipping_details.recipient_name} onChange={(e) => handleChangeBilling(e, 'customer_name')} />
                             </label>
-                            {errors.billing_customer_name && <div className="custom-error">{errors.billing_customer_name}</div>}
+                            {(errors.billing_customer_name || editErrors?.billing_customer_name) && <div className="custom-error">{errors.billing_customer_name || editErrors?.billing_customer_name}</div>}
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
@@ -500,7 +500,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         {/* Add more country codes as needed */}
                                     </select>
                                     <input
-                                        className={`input-field ${errors.billing_mobile_number && 'input-field-error'}`}
+                                        className={`input-field ${errors.billing_mobile_number || editErrors?.billing_mobile_number ? 'input-field-error' : ''}`}
                                         type="text"
                                         value={formData.billing_details.mobile_number}
                                         onChange={(e) => handleChangeBilling(e, 'mobile_number')}
@@ -514,7 +514,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         }}
                                     />
                                 </div>
-                                {errors.billing_mobile_number && <div className="custom-error">{errors.billing_mobile_number}</div>}
+                                {(errors.billing_mobile_number || editErrors?.billing_mobile_number) && <div className="custom-error">{errors.billing_mobile_number || editErrors?.billing_mobile_number}</div>}
                             </label>
                         </div>
                         <div className='row mt-3'>
@@ -540,10 +540,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label className='col'>
                                 <span> Address<span className='mandatory'>*</span></span>
                                 <input
-                                    className={`input-field ${errors.billing_address && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_address || editErrors?.billing_address ? 'input-field-error' : ''}`}
                                     placeholder="House/Floor No. Building Name or Street, Locality"
                                     type="text" value={formData.billing_details.address} onChange={(e) => handleChangeBilling(e, 'address')} />
-                                {errors.billing_address && <div className="custom-error">{errors.billing_address}</div>}
+                                {(errors.billing_address || editErrors?.billing_address) && <div className="custom-error">{errors.billing_address || editErrors?.billing_address}</div>}
                             </label>
                         </div>
                         <div className='row mt-3'>
@@ -551,10 +551,10 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label className='col'>
                                 <span> Landmark<span className='mandatory'>*</span></span>
                                 <input
-                                    className={`input-field ${errors.billing_landmark && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_landmark || editErrors?.billing_landmark ? 'input-field-error' : ''}`}
                                     placeholder="Any nearby post office, market, Hospital as the landmark"
                                     type="text" value={formData.billing_details.landmark} onChange={(e) => handleChangeBilling(e, 'landmark')} />
-                                {errors.billing_landmark && <div className="custom-error">{errors.billing_landmark}</div>}
+                                {(errors.billing_landmark || editErrors?.billing_landmark) && <div className="custom-error">{errors.billing_landmark || editErrors?.billing_landmark}</div>}
                             </label>
                         </div>
                         <div className='row mt-3 gap-2'>
@@ -564,7 +564,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <input
                                     type="text"
                                     ref={pincodeRef1}
-                                    className={`input-field ${errors.billing_pincode && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_pincode || editErrors?.billing_pincode ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's Pincode"
                                     onBlur={handlePincodeChange1}
                                     value={formData.billing_details.pincode}
@@ -576,7 +576,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         }
                                     }}
                                 />
-                                {errors.billing_pincode && <div className="custom-error">{errors.billing_pincode}</div>}
+                                {(errors.billing_pincode || editErrors?.billing_pincode) && <div className="custom-error">{errors.billing_pincode || editErrors?.billing_pincode}</div>}
                             </label>
 
                             {/* City */}
@@ -585,12 +585,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <input
                                     type="text"
                                     ref={cityRef1}
-                                    className={`input-field ${errors.billing_city && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_city || editErrors?.billing_city ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's City"
                                     value={formData.billing_details.city}
                                     onChange={(e) => handleChangeBilling(e, 'city')}
                                 />
-                                {errors.billing_city && <div className="custom-error">{errors.billing_city}</div>}
+                                {(errors.billing_city || editErrors?.billing_city) && <div className="custom-error">{errors.billing_city || editErrors?.billing_city}</div>}
                             </label>
                         </div>
                         <div className='row mt-3 gap-2'>
@@ -600,13 +600,13 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <input
                                     type="text"
                                     ref={stateRef1}
-                                    className={`input-field ${errors.billing_state && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_state || editErrors?.billing_state ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's State"
                                     value={formData.billing_details.state}
                                     onChange={(e) => handleChangeBilling(e, 'state')}
 
                                 />
-                                {errors.billing_state && <div className="custom-error">{errors.billing_state}</div>}
+                                {(errors.billing_state || editErrors?.billing_state) && <div className="custom-error">{errors.billing_state || editErrors?.billing_state}</div>}
                             </label>
 
                             {/* Country */}
@@ -614,12 +614,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <span> Country<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.billing_country && 'input-field-error'}`}
+                                    className={`input-field ${errors.billing_country || editErrors?.billing_country ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's Country"
                                     value={formData.billing_details.country}
                                     onChange={(e) => handleChangeBilling(e, 'country')}
                                 />
-                                {errors.billing_country && <div className="custom-error">{errors.billing_country}</div>}
+                                {(errors.billing_country || editErrors?.billing_country) && <div className="custom-error">{errors.billing_country || editErrors?.billing_country}</div>}
                             </label>
                         </div>
                     </div>

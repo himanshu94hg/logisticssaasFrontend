@@ -23,6 +23,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const [activeSection, setActiveSection] = useState("Order Details");
+    const [editErrors, seteditErrors] = useState({});
+    const [isChecked, setIsChecked] = useState();
 
 
     const [formData, setFormData] = useState({
@@ -111,15 +113,127 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [EditOrderSection]);
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!formData.order_details.customer_order_number) {
+            newErrors.customer_order_number = ' Order Number is required!';
+        }
+        if (!formData.order_details.order_type) {
+            newErrors.order_type = 'Order Type is required!';
+        }
+        if (!formData.order_details.payment_type) {
+            newErrors.payment_type = 'Payment Type is required!';
+        }
+        if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
+            newErrors.number_of_packets = 'Packets is required!';
+        }
+        if (!formData.shipping_details.recipient_name) {
+            newErrors.recipient_name = 'Recipient Name is required!';
+        }
+        if (!formData.shipping_details.mobile_number) {
+            newErrors.mobile_number = 'Mobile Number is required!';
+        } else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
+            newErrors.mobile_number = 'Mobile Number should be 10 digits!';
+        }
+        if (!formData.shipping_details.address) {
+            newErrors.address = 'Address is required!';
+        }
+        if (!formData.shipping_details.landmark) {
+            newErrors.landmark = 'Landmark is required!';
+        }
+        if (!formData.shipping_details.pincode) {
+            newErrors.pincode = 'Pincode is required!';
+        } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
+            newErrors.pincode = 'Pincode should be 6 digits!';
+        }
+        if (!formData.shipping_details.city) {
+            newErrors.city = 'City is required!';
+        }
+        if (!formData.shipping_details.state) {
+            newErrors.state = 'State is required!';
+        }
+        if (!formData.shipping_details.country) {
+            newErrors.country = 'Country is required!';
+        }
+        if (!formData.order_details.invoice_amount){
+            newErrors.invoice_amount = 'Invoice amount is required!';
+        }
+        if (formData.order_details.payment_type === "COD") {
+            if (!formData.charge_details.cod_charges) {
+                newErrors.cod_charges = 'COD Charges is required!';
+            }
+        }
+        if (!formData.dimension_details.weight) {
+            newErrors.weight = 'Dead Weight is required!';
+        }
+        if (!formData.dimension_details.height) {
+            newErrors.height = 'Height is required!';
+        }
+        if (!formData.dimension_details.length) {
+            newErrors.length = 'Length is required!';
+        }
+        if (!formData.dimension_details.breadth) {
+            newErrors.breadth = 'Breadth is required!';
+        }
+        if (!isChecked) {
+            if (!formData.billing_details.customer_name) {
+                newErrors.billing_customer_name = 'Customer Name is required!';
+            }
+            if (!formData.billing_details.mobile_number) {
+                newErrors.billing_mobile_number = 'Mobile Number is required!';
+            } else if (!/^[0-9]{10}$/.test(formData.billing_details.mobile_number)) {
+                newErrors.billing_mobile_number = 'Mobile Number should be 10 digits!';
+            }
+            if (!formData.billing_details.address) {
+                newErrors.billing_address = 'Address is required!';
+            }
+            if (!formData.billing_details.landmark) {
+                newErrors.billing_landmark = 'Landmark is required!';
+            }
+            if (!formData.billing_details.pincode) {
+                newErrors.billing_pincode = 'Pincode is required!';
+            } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
+                newErrors.billing_pincode = 'Pincode should be 6 digits!';
+            }
+            if (!formData.billing_details.city) {
+                newErrors.billing_city = 'City is required!';
+            }
+            if (!formData.billing_details.state) {
+                newErrors.billing_state = 'State is required!';
+            }
+            if (!formData.billing_details.country) {
+                newErrors.billing_country = 'Country is required!';
+            }
+        }
+        formData?.product_details?.forEach((product, index) => {
+            if (!product?.product_name?.trim()) {
+                newErrors[`product_name_${index}`] = 'Product Name is required!';
+            }
+            if (!product?.quantity){
+                newErrors.quantity = 'Product Quantity is required!'
+            }
+            if (!product?.sku?.trim()) {
+                newErrors[`sku_${index}`] = 'SKU is required!';
+            }
+        });
+
+        seteditErrors(newErrors);
+        console.log(newErrors, "this is new errors")
+        return Object.keys(newErrors).length === 0;
+    };
+
 
     const handleUpdate = () => {
-        dispatch({
-            type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
-                formData: formData,
-                orderId: orderId
-            }
-        })
-        setEditOrderSection(false)
+        if (validateFormData()) {
+            dispatch({
+                type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
+                    formData: formData,
+                    orderId: orderId
+                }
+            })
+            setEditOrderSection(false) 
+        }
+       
     };
 
     useEffect(() => {
@@ -273,6 +387,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         editStatus={"editStatus"}
                                         formData={formData}
                                         setFormData={setFormData}
+                                        editErrors={editErrors}
+                                        seteditErrors={seteditErrors}
                                     />
                                 </div>
                             )}
@@ -283,6 +399,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                     <AddressDetailStep
                                         formData={formData}
                                         setFormData={setFormData}
+                                        editErrors={editErrors}
+                                        seteditErrors={seteditErrors}
                                     />
                                 </div>
                             )}
@@ -293,6 +411,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                     <ProductDetailStep
                                         formData={formData}
                                         setFormData={setFormData}
+                                        editErrors={editErrors}
+                                        seteditErrors={seteditErrors}
                                     />
                                 </div>
                             )}
@@ -303,6 +423,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                     <PackageDetailStep
                                         formData={formData}
                                         setFormData={setFormData}
+                                        editErrors={editErrors}
+                                        seteditErrors={seteditErrors}
                                     />
                                 </div>
                             )}

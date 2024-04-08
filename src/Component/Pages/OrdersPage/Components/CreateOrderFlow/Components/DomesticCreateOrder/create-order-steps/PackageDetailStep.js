@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
     const [errors, setErrors] = useState({});
 
     const handleValidation = () => {
@@ -120,7 +120,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             <span>Invoice Amount (₹) <span className='mandatory'>*</span></span>
                             <input
-                                className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
+                                className={`input-field ${errors.invoice_amount || editErrors?.invoice_amount ? 'input-field-error' : ''}`}
                                 type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
@@ -129,14 +129,14 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }}
                             />
-                            {errors.invoice_amount && <span className="custom-error">{errors.invoice_amount}</span>}
+                            {(errors.invoice_amount || editErrors?.invoice_amount) && <span className="custom-error">{errors.invoice_amount || editErrors?.invoice_amount}</span>}
                         </label>
 
                         {/* COD Charges */}
                         <label className='col'>
                             <span>COD Charges (₹) <span className='text-gray'>(Optional)</span></span>
                             <input
-                                className={`input-field ${formData.order_details.payment_type === "COD" && errors.cod_charges ? 'input-field-error' : ''}`}
+                                className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
                                     if (!/\d/.test(e.key)) {
@@ -154,7 +154,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                             <label>
                                 <input
                                     // className='input-field'
-                                    className={`input-field ${errors.cod_charges && 'input-field-error'}`}
+                                    className={`input-field ${errors.weight || editErrors?.weight ? 'input-field-error' : ''}`}
                                     style={{ minWidth: '15    0px' }}
                                     type="text" value={formData.dimension_details.weight}
                                     onChange={(e) => handleChangeDimension(e, 'weight')}
@@ -165,6 +165,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                         }
                                     }} />
                                 <span class="unit">KG</span>
+                                {(errors.weight || editErrors?.weight) && <span className="custom-error">{errors.weight || editErrors?.weight}</span>}
                             </label>
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
@@ -186,7 +187,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             Length
                             <input
-                                className={`input-field ${errors.length && 'input-field-error'}`}
+                                className={`input-field ${errors.length || editErrors?.length ? 'input-field-error' : ''}`}
                                 type="text" value={formData?.dimension_details?.length}
                                 onChange={(e) => handleChangeDimension(e, 'length')}
                                 onKeyPress={(e) => {
@@ -196,7 +197,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }} />
                             <span class="unit pd-lbh">CM</span>
-                            {errors.length && <span className="custom-error">{errors.length}</span>}
+                            {(errors.length || editErrors?.length) && <span className="custom-error">{errors.length || editErrors?.length }</span>}
 
                         </label>
 
@@ -204,7 +205,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                         <label className='col'>
                             Breadth
                             <input
-                                className={`input-field ${errors.breadth && 'input-field-error'}`}
+                                className={`input-field ${errors.breadth || editErrors?.breadth ? 'input-field-error':''}`}
                                 type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
@@ -213,14 +214,14 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }} />
                             <span class="unit pd-lbh">CM</span>
-                            {errors.breadth && <span className="custom-error">{errors.breadth}</span>}
+                            {(errors.breadth || editErrors?.breadth) && <span className="custom-error">{errors.breadth || editErrors?.breadth}</span>}
                         </label>
 
                         {/* Height (cm) */}
                         <label className='col'>
                             Height
                             <input
-                                className={`input-field ${errors.height && 'input-field-error'}`}
+                                className={`input-field ${errors.height || editErrors?.height ? 'input-field-error' : ''}`}
                                 type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
@@ -229,7 +230,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                     }
                                 }} />
                             <span class="unit pd-lbh">CM</span>
-                            {errors.height && <span className="custom-error">{errors.height}</span>}
+                            {(errors.height || editErrors?.height) && <span className="custom-error">{errors.height || editErrors?.height}</span>}
                         </label>
                     </div>
                     <div className="volumetric-weight">
