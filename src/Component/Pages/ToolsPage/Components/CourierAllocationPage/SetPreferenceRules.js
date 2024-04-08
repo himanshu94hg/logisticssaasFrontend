@@ -125,6 +125,7 @@ const SetPreferenceRules = () => {
     const priorityOptions = Array.from({ length: allRules.length + 1 }, (_, index) => ({
         value: index + 1
     }));
+    
 
     return (
         <>
