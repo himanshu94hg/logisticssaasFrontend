@@ -77,6 +77,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: 400;
+    font-size: 1rem;
 }
 
 
