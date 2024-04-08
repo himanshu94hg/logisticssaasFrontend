@@ -6,7 +6,7 @@ const options = [
     { value: 'select_all', label: 'Select All (263 Orders)', isChecked: false },
 ];
 
-const SelectAllDrop = ({setBulkActionShow}) => {
+const SelectAllDrop = ({setBulkActionShow,handleSelectAll}) => {
     const [isOpen, setIsOpen] = useState(false);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const dropdownRef = useRef(null);
@@ -36,6 +36,7 @@ const SelectAllDrop = ({setBulkActionShow}) => {
         setSelectedOptions(updatedOptions.filter((opt) => opt.isChecked));
         if(e?.target?.checked){
             setBulkActionShow(true)
+            handleSelectAll("selectAll")
         }else{
             setBulkActionShow(false)
 

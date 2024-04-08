@@ -59,15 +59,16 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
-    const {exportStatus}=useSelector(state=>state?.billingSectionReducer)
+    // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
     useEffect(()=>{
-        if(exportStatus){
+        if(exportCard){
             setBulkActionShow(false)
+            setSelectedRows([])
         }
-    },[exportStatus])
+    },[exportCard])
 
-    console.log(exportStatus,"billingShipingReceiptExportCard")
+    console.log(BulkActionShow,"billingShipingReceiptExportCard")
 
     useEffect(() => {
 
