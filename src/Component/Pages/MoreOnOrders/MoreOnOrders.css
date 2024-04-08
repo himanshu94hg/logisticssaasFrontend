@@ -218,25 +218,7 @@
 }
 
 
-.cell-inside-box .product-details span,
-.cell-inside-box .details-on-hover span {
-  display: none;
-  padding: 13px;
-  text-decoration: none;
-  color: #111;
-  font-size: 14px;
-  position: absolute;
-  background-color: #fff;
-  top: -38px;
-  left: 22px;
-  border-radius: 7px;
-  box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
-  filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
-  width: auto;
-  z-index: 6;
-  max-height: 155px;
-  overflow-y: auto;
-}
+
 
 .cell-inside-box .product-details span:after,
 .cell-inside-box .details-on-hover span:after {
