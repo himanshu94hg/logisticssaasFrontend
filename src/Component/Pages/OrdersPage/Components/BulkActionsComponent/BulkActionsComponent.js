@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
