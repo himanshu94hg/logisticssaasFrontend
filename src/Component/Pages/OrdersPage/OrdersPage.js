@@ -22,7 +22,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
-import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop';
+import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/AddTagPop';
+import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WarehouseUpdatePop';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -57,17 +58,18 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone,orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
+    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(orderdelete){
+        if (orderdelete) {
             setSelectedRows([])
             setBulkActionShow(false)
         }
 
-    },[orderdelete])
+    }, [orderdelete])
 
 
     const handleSidePanel = () => {
@@ -170,12 +172,12 @@ const OrdersPage = () => {
                         setOrders(response.data.results);
                     })
                     .catch(error => {
-                        console.log(error,"this is a error data")
+                        console.log(error, "this is a error data")
                         toast.error("Api Call failed!")
                     });
             }
         }
-    }, [orderCancelled, orderdelete, orderClone,orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
 
     console.log(orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage, "this is involve data")
@@ -228,9 +230,9 @@ const OrdersPage = () => {
         setsearchType(option.value)
     };
 
-    const handleAddTagPop = () => {
-        setaddTagShow(false)
-    }
+    // const handleAddTagPop = () => {
+    //     setaddTagShow(false)
+    // }
 
 
     return (
@@ -377,7 +379,13 @@ const OrdersPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows}/>
+                    <BulkActionsComponent
+                        activeTab={activeTab}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setaddTagShow={setaddTagShow}
+                        setUpdateWarehouse={setUpdateWarehouse}
+                    />
                 )
                 }
             </div>
@@ -398,6 +406,16 @@ const OrdersPage = () => {
                 />
                 {addTagShow &&
                     <div onClick={() => setaddTagShow(false)} className="backdrop"></div>
+                }
+            </section>
+
+            <section className={`ba-popup-container ${!UpdateWarehouse ? 'invisible' : ''}`}>
+                <WarehouseUpdatePop
+                    UpdateWarehouse={UpdateWarehouse}
+                    setUpdateWarehouse={setUpdateWarehouse}
+                />
+                {UpdateWarehouse &&
+                    <div onClick={() => setUpdateWarehouse(false)} className="backdrop"></div>
                 }
             </section>
         </>
