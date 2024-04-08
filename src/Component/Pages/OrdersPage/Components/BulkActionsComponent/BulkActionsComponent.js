@@ -129,6 +129,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     }, [shipButtonClicked, bulkShipData]);
 
 
+    console.log(activeTab,"this is a dummy data")
+
     return (
         <>
             {selectedRows.length > 0 && (
@@ -139,7 +141,10 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
                             <span>Rows Selected</span>
                         </div>
                         <ul className='ba-actions'>
-                            <li onClick={() => addTag()}><span>Add Tag</span></li>
+                        {(activeTab === "All Orders" || activeTab === "Unprocessable" || activeTab === "Processing") && 
+                         <li onClick={() => addTag()}><span>Add Tag</span></li>
+                         
+                         }
                             <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
                             <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
                             {/* <li ><span>RTO update</span></li> */}

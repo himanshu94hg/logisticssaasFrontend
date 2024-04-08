@@ -129,7 +129,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderId])
 
-    console.log(new Date(orderDetailsData?.order_date),"this is a data dtaa",new Date())
+    console.log(new Date(orderDetailsData?.order_date), "this is a data dtaa", new Date())
 
     useEffect(() => {
         if (orderDetailsData) {
@@ -273,6 +273,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         editStatus={"editStatus"}
                                         formData={formData}
                                         setFormData={setFormData}
+                                        handleUpdate={handleUpdate}
                                     />
                                 </div>
                             )}
