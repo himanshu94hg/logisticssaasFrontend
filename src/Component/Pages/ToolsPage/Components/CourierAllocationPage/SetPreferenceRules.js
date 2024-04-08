@@ -78,9 +78,9 @@ const SetPreferenceRules = () => {
             const updatedRules = allRules.filter(rule => rule.id !== id);
             setAllRules(updatedRules);
             dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
-            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
         }
     };
+    
 
     const handleSubmit = () => {
         const requestData = {
