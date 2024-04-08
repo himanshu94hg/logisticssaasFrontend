@@ -228,8 +228,6 @@ const MoreOnOrders = () => {
     }, [activeTab])
 
 
-    console.log(searchType, "this is a search option data")
-
 
     return (
         <>
