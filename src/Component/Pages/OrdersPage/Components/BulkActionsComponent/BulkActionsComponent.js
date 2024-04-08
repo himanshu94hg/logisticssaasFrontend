@@ -2,6 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
+import DeleteIcon from './Components/BulkIcons/DeleteIcon'
+import ExportIcon from './Components/BulkIcons/ExportIcon';
+import CancelIcon from './Components/BulkIcons/CancelIcon';
+import ShippingIcon from './Components/BulkIcons/ShippingIcon';
+import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
+import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
+import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
+import AddTagIcon from './Components/BulkIcons/AddTagIcon';
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse, setUpdateWeight }) => {
     const dispatch = useDispatch();
@@ -167,14 +175,14 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
                                 </>
                             }
                             {activeTab === "Processing" && <>
-                                <li onClick={() => addTag()}><span>Add Tag</span></li>
-                                <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                                <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
-                                <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
-                                <li onClick={handelBulkShip}><span>Ship</span></li>
-                                <li onClick={handleExport}><span>Export</span></li>
+                                <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
+                                <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
+                                <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
+                                <li onClick={() => rtoUpdate()}><WarehouseIcon /><span>Warehouse update</span></li>
+                                <li onClick={() => bulkDimesionDetailUpdate()}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
+                                <li onClick={handelBulkShip}><ShippingIcon /><span>Ship</span></li>
+                                <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                             </>}
                             {activeTab === "Ready to Ship" &&
                                 <>
