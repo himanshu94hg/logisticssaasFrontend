@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse, setUpdateWeight }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -49,17 +49,18 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
         })
     }
     const bulkDimesionDetailUpdate = () => {
-        dispatch({
-            type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: [
-                {
-                    order: 40,
-                    weight: 3,
-                    length: 2,
-                    breadth: 15.2,
-                    height: 23
-                }
-            ]
-        })
+        setUpdateWeight(true)
+        // dispatch({
+        //     type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: [
+        //         {
+        //             order: 40,
+        //             weight: 3,
+        //             length: 2,
+        //             breadth: 15.2,
+        //             height: 23
+        //         }
+        //     ]
+        // })
     }
     const handelBulkShip = () => {
         let data = {

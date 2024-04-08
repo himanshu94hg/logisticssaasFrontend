@@ -1,0 +1,44 @@
+.ba-pop-show.weight-update.open {
+    width: 60%;
+}
+
+
+.weight-update .pop-content {
+    padding-top: 10px;
+}
+
+.weight-update .pop-content .lbh-labels {
+    display: flex;
+    gap: 10px;
+}
+
+.weight-update .pop-content label {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0px;
+    position: relative;
+}
+
+
+
+.weight-update .pop-content .lbh-labels input {
+    min-width: unset;
+    width: 100%;
+}
+
+.weight-update .pop-content .lbh-labels .unit {
+    align-items: center;
+    background: var(--sh-primary-light);
+    background: #dfdfdf;
+    border-radius: 0 .5rem .5rem 0;
+    bottom: 1px;
+    display: flex;
+    height: 34px;
+    justify-content: center;
+    position: absolute;
+    right: 1px;
+    width: 36px;
+    font-weight: 400;
+    font-size: 1rem;
+}
