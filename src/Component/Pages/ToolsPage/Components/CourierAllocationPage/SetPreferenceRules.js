@@ -7,30 +7,29 @@ import './SetPreferenceRules.css';
 
 const SetPreferenceRules = () => {
     const dispatch = useDispatch();
-    const [rules, setRules] = useState([]);
     const [rulePanel, setRulePanel] = useState(false);
     const [ruleName, setRuleName] = useState('');
     const [priority, setPriority] = useState('');
     const [selectedPartners, setSelectedPartners] = useState(Array(4).fill(''));
     const [conditions, setConditions] = useState([]);
     const [editingRuleId, setEditingRuleId] = useState(null);
+    const [isActive, setIsActive] = useState([]);
+    const [allRules, setAllRules] = useState([]);
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
 
-
-    const [isActive, setIsActive] = useState([]);
+    useEffect(() => {
+        if (courierRules?.data) {
+            setAllRules(courierRules.data);
+            initializeIsActiveState(courierRules.data);
+        }
+    }, [courierRules]);
 
     const initializeIsActiveState = (rules) => {
         const initialActiveState = rules.map(rule => rule.status);
         setIsActive(initialActiveState);
     };
-
-    useEffect(() => {
-        if (courierRules?.data) {
-            initializeIsActiveState(courierRules.data);
-        }
-    }, [courierRules]);
 
     const handleToggle = (index, id) => {
         const newIsActive = [...isActive];
@@ -39,13 +38,6 @@ const SetPreferenceRules = () => {
         dispatch({ type: "COURIER_ALLOCATION_RULE_STATUS_ACTION", payload: { togglestatus: newIsActive[index], id: id } });
     };
 
-    useEffect(() => {
-        const savedRules = JSON.parse(localStorage.getItem('rules'));
-        if (savedRules) {
-            setRules(savedRules);
-        }
-    }, []);
-
     const addRuleRow = () => {
         setRulePanel(true);
         setEditingRuleId(null);
@@ -53,6 +45,7 @@ const SetPreferenceRules = () => {
         setPriority('');
         setSelectedPartners(Array(4).fill(''));
         setConditions([]);
+        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
     };
 
     const editRuleRow = (id) => {
@@ -80,18 +73,12 @@ const SetPreferenceRules = () => {
         }
     }, [editingRuleId, courierEditRules]);
 
-
-
-
-    const deleteRuleRow = (id) => {
-        const updatedRules = rules.filter(rule => rule.id !== id);
-        setRules(updatedRules);
-        localStorage.setItem('rules', JSON.stringify(updatedRules));
-    };
-
     const handleRuleDelete = (id) => {
         if (id !== null) {
+            const updatedRules = allRules.filter(rule => rule.id !== id);
+            setAllRules(updatedRules);
             dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
+            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
         }
     };
 
@@ -105,32 +92,24 @@ const SetPreferenceRules = () => {
             priority_4: selectedPartners[3],
             rules: conditions.map(condition => ({
                 condition: condition.condition,
-                condition_type: condition.condition_type || '',
+                condition_type: condition.condition_type,
                 match_type: condition.match_type,
                 match_value: condition.match_value
             }))
         };
 
         if (editingRuleId) {
-            console.log("Hit Editing");
             dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_POST_ACTION", payload: { id: editingRuleId, requestData } });
         } else {
-            console.log("Hit Adding");
             dispatch({ type: "COURIER_ALLOCATION_RULE_POST_ACTION", payload: requestData });
         }
-
+        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
         setRulePanel(false);
     };
 
     useEffect(() => {
         dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
     }, [dispatch]);
-
-    const handleConditionChange = (index, field, value) => {
-        const updatedConditions = [...conditions];
-        updatedConditions[index][field] = value;
-        setConditions(updatedConditions);
-    };
 
     const handlePartnerChange = (index, value) => {
         const updatedPartners = [...selectedPartners];
@@ -143,19 +122,10 @@ const SetPreferenceRules = () => {
         setPriority(selectedValue);
     };
 
+    const priorityOptions = Array.from({ length: allRules.length + 1 }, (_, index) => ({
+        value: index + 1
+    }));
 
-    const [priorityOptions, setPriorityOptions] = useState([]);
-
-    useEffect(() => {
-        if (courierRules?.data) {
-            const totalRules = courierRules.data.length;
-            const newPriorityOptions = Array.from({ length: totalRules + 1 }, (_, index) => ({
-                value: index + 1
-            }));
-            setPriorityOptions(newPriorityOptions);
-        }
-    }, [courierRules]);
-    
     return (
         <>
             <div className='set-of-rules'>
@@ -165,7 +135,7 @@ const SetPreferenceRules = () => {
                 <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
             <div className='create-rules-section'>
-                {courierRules?.data?.map((rule, index) => (
+                {allRules?.map((rule, index) => (
                     <div key={index} className='created-rules'>
                         <div className='cr-rule-name'>
                             <div className='rule-name'>
@@ -209,8 +179,8 @@ const SetPreferenceRules = () => {
                                 <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
                                     <FontAwesomeIcon icon={faPenToSquare} />
                                 </button>
-                                <button className='btn main-button ms-2'>
-                                    <FontAwesomeIcon icon={faTrashCan} onClick={() => handleRuleDelete(rule?.id)} />
+                                <button className='btn main-button ms-2' onClick={() => handleRuleDelete(rule?.id)}>
+                                    <FontAwesomeIcon icon={faTrashCan} />
                                 </button>
                             </div>
                         </div>
@@ -218,8 +188,7 @@ const SetPreferenceRules = () => {
                 ))}
             </div>
 
-
-            {/* Add Rule Side Panel */} 
+            {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
                 <div id='sidepanel-closer' onClick={() => setRulePanel(false)}>
                     <FontAwesomeIcon icon={faChevronRight} />

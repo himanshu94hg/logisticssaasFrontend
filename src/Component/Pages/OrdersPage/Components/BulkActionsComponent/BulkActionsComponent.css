@@ -1,10 +1,15 @@
 .bulk-action-container {
     position: absolute;
     width: 90%;
+    width: fit-content;
     height: auto;
     bottom: 64px;
     left: 5%;
     box-shadow: 0 0 18px 10px rgba(0, 0, 0, 0.1) !important;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .ba-inner-container {
@@ -21,7 +26,8 @@
     padding: 20px 16px;
     background: var(--sh-primary-light);
     color: var(--sh-primary);
-    width: 152px;
+    width: auto;
+    white-space: nowrap;
     border-radius: 0.5rem 0 0 0.5rem;
 }
 

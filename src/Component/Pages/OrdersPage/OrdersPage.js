@@ -22,7 +22,8 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
-import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop';
+import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/AddTagPop';
+import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WarehouseUpdatePop';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -69,6 +70,7 @@ const OrdersPage = () => {
     },[exportCard])
 
     console.log(BulkActionShow,"billingShipingReceiptExportCard")
+    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
 
     useEffect(() => {
 
@@ -233,9 +235,9 @@ const OrdersPage = () => {
         setsearchType(option.value)
     };
 
-    const handleAddTagPop = () => {
-        setaddTagShow(false)
-    }
+    // const handleAddTagPop = () => {
+    //     setaddTagShow(false)
+    // }
 
 
     useEffect(() => {
@@ -398,7 +400,16 @@ const OrdersPage = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
-                {BulkActionShow && <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows}  />}
+                {BulkActionShow && (
+                    <BulkActionsComponent
+                        activeTab={activeTab}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setaddTagShow={setaddTagShow}
+                        setUpdateWarehouse={setUpdateWarehouse}
+                    />
+                )
+                }
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
@@ -417,6 +428,16 @@ const OrdersPage = () => {
                 />
                 {addTagShow &&
                     <div onClick={() => setaddTagShow(false)} className="backdrop"></div>
+                }
+            </section>
+
+            <section className={`ba-popup-container ${!UpdateWarehouse ? 'invisible' : ''}`}>
+                <WarehouseUpdatePop
+                    UpdateWarehouse={UpdateWarehouse}
+                    setUpdateWarehouse={setUpdateWarehouse}
+                />
+                {UpdateWarehouse &&
+                    <div onClick={() => setUpdateWarehouse(false)} className="backdrop"></div>
                 }
             </section>
         </>

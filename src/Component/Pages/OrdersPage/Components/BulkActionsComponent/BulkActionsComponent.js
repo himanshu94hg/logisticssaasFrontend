@@ -3,19 +3,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData } = useSelector(state => state?.orderSectionReducer)
     const addTag = () => {
-        dispatch({
-            type: "BULK_ADD_ORDER_TAG_ACTION", payload: {
-                order_ids: selectedRows,
-                tag_ids: [18, 19]
-            }
-        })
+        setaddTagShow(true)
+        // dispatch({
+        //     type: "BULK_ADD_ORDER_TAG_ACTION", payload: {
+        //         order_ids: selectedRows,
+        //         tag_ids: [18, 19]
+        //     }
+        // })
     }
     const markedVerified = () => {
         dispatch({
@@ -26,12 +27,13 @@ const BulkActionsComponent = ({ activeTab, selectedRows, }) => {
     }
 
     const rtoUpdate = () => {
-        dispatch({
-            type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
-                order_ids: selectedRows,
-                warehouse_id: 22
-            }
-        })
+        setUpdateWarehouse(true)
+        // dispatch({
+        //     type: "BULK_PICKUP_ADDRESS_UPDATE_ACTION", payload: {
+        //         order_ids: selectedRows,
+        //         warehouse_id: 22
+        //     }
+        // })
     }
     const bulkDeleted = () => {
         dispatch({

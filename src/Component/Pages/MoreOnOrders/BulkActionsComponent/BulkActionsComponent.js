@@ -1,5 +1,5 @@
 import React from 'react'
-import './BulkActionsComponent.css'
+// import './BulkActionsComponent.css'
 
 const BulkActionsComponent = () => {
     return (

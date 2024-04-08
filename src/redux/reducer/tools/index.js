@@ -94,10 +94,10 @@ export const toolsSectionReducer = (state = initialState, action) => {
         case GET_COURIER_ALLOCATION_RULE_DATA:
             return {
                 ...state,
-                courierAllocationRuleData: action?.payload
+                courierAllocationRuleData: action?.payload,
             };
 
-        case GET_COURIER_ALLOCATION_RULE_DELETE_DATA:   
+        case GET_COURIER_ALLOCATION_RULE_DELETE_DATA:  
             return {
                 ...state,
                 courierAllocationRuleDeleteData: action?.payload

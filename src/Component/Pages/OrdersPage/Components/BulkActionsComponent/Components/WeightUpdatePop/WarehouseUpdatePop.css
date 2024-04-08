@@ -1,0 +1,16 @@
+.warehouse-update .wd-dropdown-content {
+    margin-top: 0;
+    top: 38px;
+    bottom: unset;
+    padding-bottom: 5px;
+}
+
+.warehouse-update .wd-options {
+    height: 12rem;
+}
+
+.warehouse-update .wd-search-input {
+    border-radius: 0.5rem 0.5rem 0 0;
+    border-top: none;
+    border-bottom: 1px solid var(--sh-primary-middle);
+}

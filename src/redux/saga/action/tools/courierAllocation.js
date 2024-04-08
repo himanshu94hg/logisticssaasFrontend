@@ -91,7 +91,7 @@ function* courierAllocationRuleAction(action) {
     }
 }
 
-async function courierAllocationRulePostAPI(data) {
+function courierAllocationRulePostAPI(data) {
     let listData = axios.request({
         method: "POST",
         url: `${BASE_URL_CORE}${API_URL.GET_COURIER_ALLOCATION_RULE}`,
@@ -128,6 +128,7 @@ function* courierAllocationRuleDeleteAction(action) {
         let response = yield call(courierAllocationRuleDeleteAPI, payload);
         if (response) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_DELETE_DATA, payload: response });
+            
             toast.success("Record deleted successfully");
         }
     } catch (error) {
