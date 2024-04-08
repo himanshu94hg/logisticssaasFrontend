@@ -97,7 +97,6 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
             "global_type": "",
             "payment_type": ""
         };
-        console.log("All Request data", requestData);
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
     useEffect(() => {

@@ -16,7 +16,7 @@ import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 
-const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -25,6 +25,12 @@ const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRow
             setSelectAll(false)
         }
     }, [orderdelete])
+
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -73,7 +79,7 @@ const Unprocessable = ({ orders, setBulkActionShow, selectedRows, setSelectedRow
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop />
+                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>

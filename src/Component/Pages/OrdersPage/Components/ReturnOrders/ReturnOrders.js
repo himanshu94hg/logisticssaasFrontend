@@ -21,7 +21,7 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const ReturnOrders = ({ orders, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReturnOrders = ({ orders, setOrderId, activeTab,BulkActionShow,setBulkActionShow, selectedRows, setSelectedRows }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -32,6 +32,12 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow, selectedRows, set
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
 
+
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -49,25 +55,25 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow, selectedRows, set
         setSingleShip(true);
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows?.includes(orderId);
-
+        const isSelected = selectedRows.includes(orderId);
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows?.filter(id => id !== orderId));
-            setBulkActionShow(true)
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            updatedSelectedRows = [...selectedRows, orderId];
             setBulkActionShow(false)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows?.length === orders?.length - 1 && isSelected) {
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
+        }
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
-            setBulkActionShow(false)
         } else {
             setSelectAll(false);
-            setBulkActionShow(false)
         }
     };
 
@@ -92,7 +98,7 @@ const ReturnOrders = ({ orders, setOrderId, setBulkActionShow, selectedRows, set
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop />
+                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>

@@ -16,7 +16,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrderId,BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -30,6 +30,12 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
         }
     }, [orderdelete])
 
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
+
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -38,6 +44,7 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
         } else {
             setSelectedRows([]);
             setBulkActionShow(false)
+            setSelectAll(false)
         }
     };
 
@@ -75,6 +82,7 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
         setOrderId(id)
     }
 
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -89,7 +97,7 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop />
+                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow}/>
                                     </div>
 
                                 </th>
@@ -234,7 +242,7 @@ const Processing = React.memo(({ orders, setEditOrderSection, setOrderId, setBul
                                                             <li onClick={() => dispatch({
                                                                 type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
                                                                     awb_numbers: [
-                                                                        row?.awb_number                                                                   ]
+                                                                        row?.awb_number]
                                                                 }
                                                             })}>Cancel Order</li>
                                                             <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>

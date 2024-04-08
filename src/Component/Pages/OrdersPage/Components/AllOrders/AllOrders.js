@@ -20,7 +20,7 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
-const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const AllOrders = ({ orders, activeTab, setBulkActionShow,BulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -30,6 +30,11 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
             setSelectAll(false)
         }
     }, [orderdelete])
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -55,6 +60,7 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
             setBulkActionShow(true);
         } else {
             setBulkActionShow(false);
+
         }
 
         if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
@@ -87,7 +93,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error('Error:', error);
         }
     };
 
@@ -113,7 +118,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error('Error:', error);
         }
     };
 
@@ -133,7 +137,7 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                 checked={selectAll}
                                                 onChange={handleSelectAll}
                                             />
-                                            <SelectAllDrop />
+                                            <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                         </div>
                                     </th>
                                     <th style={{ width: '24%' }}>Order Details</th>
@@ -248,7 +252,6 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                             {/* shiping section here */}
                                             <td>
                                                 <div className='cell-inside-box'>
-                                                    {/* <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p> */}
                                                     <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
                                                     <p className=''>{row?.courier_partner ?? ""} </p>
                                                 </div>
@@ -258,10 +261,8 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                 <p className='order-Status-box'>{row?.status || 'New'}</p>
                                             </td>
                                             <td className='align-middle'>
-                                                {/* {row?.ndr_action}
-                                             {row?.ndr_status} */}
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : row?.status === 'pickup_requested' ? 'Download Label' : ''}</button>
+                                                    <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : row?.status === 'pickup_requested' ? 'Download Label' : row?.status === "cancelled" ? <span>Clone Order</span> : ""}</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
@@ -277,11 +278,11 @@ const AllOrders = ({ orders, setBulkActionShow, selectedRows, setSelectedRows })
                                                                 <li>Reassign</li>
                                                                 <li>Clone Order</li>
                                                                 <li onClick={() => dispatch({
-                                                                type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                                                                    awb_numbers: [
-                                                                        row?.awb_number                                                                   ]
-                                                                }
-                                                            })}>Cancel Order</li>
+                                                                    type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+                                                                        awb_numbers: [
+                                                                            row?.awb_number]
+                                                                    }
+                                                                })}>Cancel Order</li>
                                                             </ul>
                                                         </div>
                                                     </div>

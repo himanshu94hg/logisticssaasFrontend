@@ -24,7 +24,7 @@ import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 
-const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReadyToShip = ({ orders,activeTab,BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -34,6 +34,11 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
             setSelectAll(false)
         }
     }, [orderdelete])
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -53,6 +58,7 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
             updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
             updatedSelectedRows = [...selectedRows, orderId];
+            setBulkActionShow(false)
         }
         setSelectedRows(updatedSelectedRows);
         if (updatedSelectedRows.length > 0) {
@@ -141,7 +147,6 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            console.error('Error:', error);
         }
     };
 
@@ -160,7 +165,7 @@ const ReadyToShip = ({ orders, setBulkActionShow, selectedRows, setSelectedRows 
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop />
+                                       <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>

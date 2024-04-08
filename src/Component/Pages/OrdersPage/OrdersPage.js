@@ -57,18 +57,17 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone,orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
 
-    useEffect(()=>{
+    useEffect(() => {
 
-        if(orderdelete){
+        if (orderdelete) {
             setSelectedRows([])
             setBulkActionShow(false)
         }
 
-    },[orderdelete])
-
+    }, [orderdelete])
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -170,15 +169,12 @@ const OrdersPage = () => {
                         setOrders(response.data.results);
                     })
                     .catch(error => {
-                        console.log(error,"this is a error data")
                         toast.error("Api Call failed!")
                     });
             }
         }
-    }, [orderCancelled, orderdelete, orderClone,orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
-
-    console.log(orderCancelled, orderdelete, orderClone, activeTab, queryParamTemp, currentPage, itemsPerPage, "this is involve data")
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -209,7 +205,6 @@ const OrdersPage = () => {
             "global_type": "",
             "payment_type": ""
         };
-        console.log("All Request data", requestData);
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
@@ -231,6 +226,17 @@ const OrdersPage = () => {
     const handleAddTagPop = () => {
         setaddTagShow(false)
     }
+
+
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+
+        }
+    }, [activeTab])
+
+    console.log(BulkActionShow,"this is a bulk action show")
 
 
     return (
@@ -299,6 +305,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                     />
                 </div>
@@ -309,6 +316,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                         activeTab={activeTab} orders={orders}
                     />
@@ -326,6 +334,7 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
                         setaddTagShow={setaddTagShow}
+                        BulkActionShow={BulkActionShow}
                     />
                 </div>
 
@@ -337,6 +346,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
                         selectedRows={selectedRows}
+                        BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                     />
                 </div>
@@ -349,6 +359,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
                         selectedRows={selectedRows}
+                        BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                     />
                 </div>
@@ -364,6 +375,7 @@ const OrdersPage = () => {
                         orders={orders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
+                        BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
@@ -376,10 +388,7 @@ const OrdersPage = () => {
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
                 />
-                {BulkActionShow && (
-                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows}/>
-                )
-                }
+                {BulkActionShow && <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />}
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />

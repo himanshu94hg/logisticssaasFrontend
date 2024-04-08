@@ -24,7 +24,7 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 import { toast } from 'react-toastify';
 
 
-const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -36,6 +36,11 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
             setSelectAll(false)
         }
     }, [orderdelete])
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -103,7 +108,7 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
             toast.error("Somethng went wrong!")
         }
     };
-    
+
 
     const handleDownloadInvoice = async (orderId) => {
         try {
@@ -145,7 +150,7 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop />
+                                       <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
@@ -285,8 +290,8 @@ const Pickups = ({ orders, setBulkActionShow, selectedRows, setSelectedRows }) =
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li  onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
-                                                            <li  onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                            <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
+                                                            <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                         </ul>
                                                     </div>
                                                 </div>
