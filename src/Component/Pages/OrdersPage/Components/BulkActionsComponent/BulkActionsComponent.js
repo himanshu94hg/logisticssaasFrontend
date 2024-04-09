@@ -17,26 +17,48 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData,labelData,invoiceData } = useSelector(state => state?.orderSectionReducer)
+    const [genaratelabel, setGenaratelabel] = useState(false);
+    const [generateinvoice, setGenerateinvoice] = useState(false);
 
 
     console.log(labelData,invoiceData,"labelData,invoiceData")
 
 
-    useEffect(()=>{
+useEffect(()=>{
        if(labelData){
-        const blob = new Blob([labelData], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'label.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        if(genaratelabel === true){
+            const blob = new Blob([labelData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setGenaratelabel(false)
+           }  
        }
     },[labelData])
 
     useEffect(()=>{
+        if(invoiceData){
+         if(generateinvoice === true){
+            const blob = new Blob([invoiceData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+             setGenerateinvoice(false)
+            }  
+        }
+     },[invoiceData])
+
+   /* useEffect(()=>{
         if(invoiceData){
             const blob = new Blob([invoiceData], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
@@ -48,7 +70,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
            }
-    },[invoiceData])
+    },[invoiceData])*/
 
 
     const addTag = () => {
@@ -97,17 +119,20 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
     }
     const generateLabel = () => {
         dispatch({
-            type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: {
+            type: "BULK_ORDER_GENERATE_LABEL_ACTION", 
+            payload: {
                 order_ids: selectedRows.join(',')
             }
-        })
+        });    
+        setGenaratelabel(true)    
     }
     const generateInvoice = () => {
         dispatch({
             type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
                 order_ids: selectedRows.join(',')
             }
-        })
+        });
+        setGenerateinvoice(true)
     }
     const bulkDimesionDetailUpdate = () => {
         setUpdateWeight(true)
