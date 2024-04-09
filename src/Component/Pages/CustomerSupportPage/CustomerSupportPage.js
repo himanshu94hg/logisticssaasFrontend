@@ -12,6 +12,7 @@ import ViewTicketSlider from './Components/ViewTicketSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../common/Pagination/Pagination';
+import { toast } from 'react-toastify';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -36,16 +37,16 @@ const CustomerSupportPage = () => {
     let url = apiUrl;
     switch (activeTab) {
       case "openTickets":
-        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
+        url += `?status=Open&page=${currentPage}&page_size=${itemsPerPage}`;
         break;
       case "inProgressTickets":
-        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
+        url += `?status=In-progress&page=${currentPage}&page_size=${itemsPerPage}`;
         break;
       case "closedTickets":
-        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
+        url += `?status=Closed&page=${currentPage}&page_size=${itemsPerPage}`;
         break;
       case "allTickets":
-        url += `?page=${currentPage}&page_size=${itemsPerPage}&q=${searchValue}`;
+        url += `?page=${currentPage}&page_size=${itemsPerPage}`;
         break;
       default:
         break;
@@ -66,8 +67,8 @@ const CustomerSupportPage = () => {
         });
     }
 
-  }, [activeTab, status, searchValue, currentPage, itemsPerPage]);
-
+  }, [activeTab, status, currentPage, itemsPerPage]);
+  
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();
     if (categories != []) {
@@ -114,9 +115,25 @@ const CustomerSupportPage = () => {
   }, [allTicket])
 
 
-  const handleSearch = (value) => {
+  /*const handleSearch = (value) => {
     setSearchValue(value)
-  }
+  }*/
+  const handleSearch = () => {
+    axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    })
+        .then(response => {
+            setTotalItems(response?.data?.count)
+            setAllTicket(response.data.results);
+            setSearchValue('');
+        })
+        .catch(error => {
+            toast.error("Something went wrong!")
+        });
+        setSearchValue('');
+}
 
   return (
     <>
@@ -138,6 +155,7 @@ const CustomerSupportPage = () => {
           setNewTicket={setNewTicket}
           NewTicket={NewTicket}
           searchValue={searchValue}
+          setSearchValue={setSearchValue}
           handleSearch={handleSearch}
         />
         <div className='row mt-3'>

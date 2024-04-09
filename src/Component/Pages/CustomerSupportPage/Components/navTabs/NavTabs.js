@@ -86,11 +86,11 @@ export default function NavTabs(props) {
           <label className="label">
             <input
               placeholder="Search by Ticket ID || AWB || Pickup ID"
-              type="text" value={props.searchValue}
+              type="search" value={props.searchValue}
               className="input-field"
-              onChange={(e) => props.handleSearch(e.target.value)}
+              onChange={(e) => props.setSearchValue(e.target.value)}
             />
-            <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            <button onClick={() => props.handleSearch()}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </label>
         </div>
         <button
