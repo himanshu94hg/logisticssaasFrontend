@@ -124,6 +124,7 @@ function* bulkShipOrdersAction(action) {
     try {
         let response = yield call(bulkShipOrderAPI, payload);
         if (response.status === 200) {
+            toast.success("Order Shipped successfully!")
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
         }
 
@@ -144,6 +145,7 @@ function* bulkGetOrdersTagAction(action) {
     try {
         let response = yield call(bulkGetOrdersTagApi, payload);
         if (response.status === 200) {
+
             yield put({ type: BULK_ORDERS_TAG_LIST_DATA, payload: response?.data })
         }
 
@@ -151,6 +153,9 @@ function* bulkGetOrdersTagAction(action) {
         if (reject) reject(error);
     }
 }
+
+
+
 
 export function* ordersTabWatcher() {
     // yield takeLatest(ORDERS_GET_ACTION, orderListDataAction);
