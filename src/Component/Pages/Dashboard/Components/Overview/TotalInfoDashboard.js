@@ -51,7 +51,7 @@ function TotalInfoDashboard() {
                     {totalCustomer?.percentage_increase_last_30_days_vs_last_60_days | 0} %
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
-                    this month
+                  Comparative analysis
                   </p>
                 </div>
               </div>
@@ -88,7 +88,7 @@ function TotalInfoDashboard() {
                     {dailyShipment ? `+${dailyShipment.average_shipment_per_day}%` : '+0%'}
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
-                    this month
+                  Comparative analysis
                   </p>
 
                 </div>
@@ -124,7 +124,7 @@ function TotalInfoDashboard() {
                     +{avarageSelling?.percentage_change || 0 }%
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
-                    comparative analysis</p>
+                    Comparative analysis</p>
                 </div>
               </div>
             </div>
@@ -162,7 +162,7 @@ function TotalInfoDashboard() {
 
                   </span>
                   <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap">
-                    comparative analysis
+                    Comparative analysis
                   </p>
                 </div>
               </div>

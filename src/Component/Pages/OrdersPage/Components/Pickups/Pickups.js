@@ -22,12 +22,14 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 
 const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
+    const token=Cookies.get("access_token")
 
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -85,12 +87,17 @@ const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedR
     }
 
     const handleDownloadLabel = async (orderId) => {
+        const requestData = {
+            order_ids: `${orderId}` 
+        };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/${orderId}/`, {
-                method: 'GET',
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
                 },
+                body: JSON.stringify(requestData)
             });
             if (response.status === 200) {
                 toast.success("Download label successfully")
@@ -111,12 +118,17 @@ const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedR
 
 
     const handleDownloadInvoice = async (orderId) => {
+        const requestData = {
+            order_ids: `${orderId}` 
+        };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
-                method: 'GET',
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
                 },
+                body: JSON.stringify(requestData)
             });
             if (!response.ok) {
                 throw new Error('Something went wrong');

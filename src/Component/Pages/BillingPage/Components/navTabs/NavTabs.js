@@ -98,9 +98,9 @@ export default function NavTabs(props) {
         </Nav>
       </Navbar.Collapse>
       
-      <div className="d-flex gap-10 align-items-center">
+      {/* <div className="d-flex gap-10 align-items-center">
         <button className="btn main-button">Export CSV</button>
-      </div>
+      </div> */}
     </Navbar>
   );
 }

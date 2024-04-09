@@ -28,6 +28,7 @@ const ReadyToShip = ({ orders,activeTab,BulkActionShow, setBulkActionShow, selec
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const token=Cookies.get("access_token")
 
     useEffect(() => {
         if (orderdelete) {
@@ -77,11 +78,18 @@ const ReadyToShip = ({ orders,activeTab,BulkActionShow, setBulkActionShow, selec
 
     const handleDownloadLabel = async (orderId) => {
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/${orderId}/`, {
-                method: 'GET',
+            const requestData = {
+                order_ids: `${orderId}` 
+            };
+
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
                 },
+                body: JSON.stringify(requestData)
+
             });
             if (response.status === 200) {
                 toast.success("Download label successfully")
@@ -126,12 +134,17 @@ const ReadyToShip = ({ orders,activeTab,BulkActionShow, setBulkActionShow, selec
     };
 
     const handleDownloadInvoice = async (orderId) => {
+        const requestData = {
+            order_ids: `${orderId}` 
+        };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
-                method: 'GET',
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}` 
                 },
+                body: JSON.stringify(requestData)
             });
             if (!response.ok) {
                 throw new Error('Something went wrong');

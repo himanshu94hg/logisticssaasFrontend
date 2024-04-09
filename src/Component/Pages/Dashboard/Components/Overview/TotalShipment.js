@@ -59,7 +59,7 @@ function TotalShipment() {
                   <span className="text-color font13 pt20 bold-600 d-block">
                   </span>
                   <p className="text-xs text-gray font13 m0 text-gray-600">
-                    this month
+                     Comparative analysis
                   </p>
                 </div>
               </div>

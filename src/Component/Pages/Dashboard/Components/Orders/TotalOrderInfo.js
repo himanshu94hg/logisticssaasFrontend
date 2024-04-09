@@ -38,7 +38,7 @@ function TotalOrderInfo() {
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      this month
+                       Comparative analysis
                     </p>
                   </div> 
                 </div>
@@ -75,7 +75,7 @@ function TotalOrderInfo() {
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end ">
-                      this month
+                       Comparative analysis
                     </p>
                   </div> 
                 </div>
@@ -109,7 +109,7 @@ function TotalOrderInfo() {
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      this month
+                       Comparative analysis
                     </p>
                   </div>
                 </div>
@@ -145,7 +145,7 @@ function TotalOrderInfo() {
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                      this month
+                       Comparative analysis
                     </p>
                   </div> 
                 </div>
