@@ -59,6 +59,7 @@ export const API_URL = {
   BULK_ORDER_GENERATE_LABEL_API:"/core-api/shipping/generate-label/", 
   BULK_ORDER_GENERATE_INVOICE_API:"/core-api/shipping/generate-invoice/", 
   BULK_ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/", 
+  BULK_DIMENSION_GET_API:"/orders-api/orders/bulk-action/dimension-details/", 
 
   //SHIPMENT REATTEMPT
   GET_SHIPMENT_REATTEMPT_URL: "/core-api/shipping/reattempt-order/",

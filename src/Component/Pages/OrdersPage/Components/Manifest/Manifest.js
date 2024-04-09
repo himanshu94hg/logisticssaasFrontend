@@ -169,14 +169,14 @@ const Manifest = ({ orders, activeTab, setEditOrderSection, setOrderId, setBulkA
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
-                                    <div className='d-flex gap-1 align-items-center'>
+                                    {/* <div className='d-flex gap-1 align-items-center'>
                                         <input
                                             type="checkbox"
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
                                         <SelectAllDrop />
-                                    </div>
+                                    </div> */}
                                 </th>
                                 <th style={{ width: '24%' }}>Manifest Id</th>
                                 <th style={{ width: '12.5%' }}>Created</th>
@@ -195,11 +195,11 @@ const Manifest = ({ orders, activeTab, setEditOrderSection, setOrderId, setBulkA
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
-                                            <input
+                                            {/* <input
                                                 type="checkbox"
                                                 checked={selectedRows?.includes(row?.id)}
                                                 onChange={() => handleSelectRow(row?.id)}
-                                            />
+                                            /> */}
                                         </td>
 
                                         <td>
