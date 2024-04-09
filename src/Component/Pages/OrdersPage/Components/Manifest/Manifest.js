@@ -7,19 +7,24 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 
-const Manifest = ({ orders,activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ orders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const token = Cookies.get("access_token")
 
-    const { orderdelete, manifestList ,downloadManifest} = useSelector(state => state?.orderSectionReducer)
+    const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
+
+
 
 
     useEffect(() => {
-        if(activeTab==="Manifest"){
+        if (activeTab === "Manifest") {
 
             dispatch({ type: "MANIFEST_LIST_API_ACTION" })
         }
@@ -60,27 +65,100 @@ const Manifest = ({ orders,activeTab, setEditOrderSection, setOrderId, setBulkAc
         // }
     };
 
-const manifestDownload=(value)=>{
-    dispatch({type:"BULK_ORDER_DOWNLOAD_MANIFEST_ACTION",payload:{
-        manifest_id:value  
-    }})
-}
-
-
-useEffect(()=>{
-    if(downloadManifest){
-        const blob = new Blob([downloadManifest], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'manifest.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+    const manifestDownload = (value) => {
+        dispatch({
+            type: "BULK_ORDER_DOWNLOAD_MANIFEST_ACTION", payload: {
+                manifest_id: value
+            }
+        })
     }
 
-},[downloadManifest])
+    const handleDownloadLabel = async (data) => {
+        let temp = []
+        data.map((item) => {
+            temp.push(item?.order)
+        })
+        const requestData = {
+            order_ids: `${temp.join(",")}`
+        };
+
+        try {
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(requestData)
+            });
+            if (response.status === 200) {
+                toast.success("Download label successfully")
+            }
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            toast.error("Somethng went wrong!")
+        }
+    };
+
+
+    const handleDownloadInvoice = async (data) => {
+        let temp = []
+        data.map((item) => {
+            temp.push(item?.order)
+        })
+        const requestData = {
+            order_ids: `${temp.join(",")}`
+        };
+        try {
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(requestData)
+            });
+            if (!response.ok) {
+                throw new Error('Something went wrong');
+            }
+
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'Invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            toast.error("Somethng went wrong!")
+        }
+    };
+
+
+    useEffect(() => {
+        if (downloadManifest) {
+            const blob = new Blob([downloadManifest], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'manifest.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+    }, [downloadManifest])
 
 
     return (
@@ -159,15 +237,15 @@ useEffect(()=>{
 
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button' onClick={()=>manifestDownload(row?.id)}> Download Manifest</button>
+                                                <button className='btn main-button' onClick={() => manifestDownload(row?.id)}> Download Manifest</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li>Download Label</li>
-                                                            <li>Download Invoice</li>
+                                                            <li onClick={() => handleDownloadLabel(row.manifest_order)}>Download label</li>
+                                                            <li onClick={() => handleDownloadInvoice(row.manifest_order)}>Download Invoice</li>
                                                         </ul>
                                                     </div>
                                                 </div>
