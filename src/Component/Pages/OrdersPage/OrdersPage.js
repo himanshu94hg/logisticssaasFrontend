@@ -475,6 +475,7 @@ const OrdersPage = () => {
             <section className={`ba-popup-container ${!UpdateWeight ? 'invisible' : ''}`}>
                 <WeightUpdatePop
                     UpdateWeight={UpdateWeight}
+                    selectedRows={selectedRows}
                     setUpdateWeight={setUpdateWeight}
                 />
                 {UpdateWeight &&

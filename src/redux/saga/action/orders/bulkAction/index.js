@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_GENERATE_MENIFEST_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, BULK_ORDER_GENERATE_INVOICE_ACTION, BULK_ORDER_GENERATE_LABEL_ACTION, BULK_ORDER_GENERATE_PICKUP_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION } from "../../../constant/orders/bulkAction";
-import { ORDERS_DELETE_RES_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_LABEL_LIST_DATA } from "../../../../constants/orders";
+import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_GENERATE_MENIFEST_ACTION, BULK_GET_DIMENSION_DETAILS_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, BULK_ORDER_GENERATE_INVOICE_ACTION, BULK_ORDER_GENERATE_LABEL_ACTION, BULK_ORDER_GENERATE_PICKUP_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION } from "../../../constant/orders/bulkAction";
+import { ORDERS_DELETE_RES_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_LABEL_LIST_DATA, ORDERS_PRODUCT_DIMENSION_DATA } from "../../../../constants/orders";
 
 
 const sellerData = Cookies.get("user_id")
@@ -261,6 +261,27 @@ function* bulkDownloadManifestAction(action) {
     }
 }
 
+// BULK_DIMENSION_GET_API
+async function bulkOrderDimensionApi(data) {
+    return axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_DIMENSION_GET_API}?order_ids=${data}`,
+        // data: data
+    });
+}
+function* bulkOrderDimensionAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(bulkOrderDimensionApi, payload);
+        if (response.status === 200) {
+            yield put({ type: ORDERS_PRODUCT_DIMENSION_DATA, payload: response?.data })
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 
 export function* getBulkOrderActionWatcher() {
     yield takeLatest(BULK_ADD_ORDER_TAG_ACTION, bulkAddOrderTagAction);
@@ -274,5 +295,6 @@ export function* getBulkOrderActionWatcher() {
     yield takeLatest(BULK_ORDER_GENERATE_LABEL_ACTION, bulkGenerateLabelAction);
     yield takeLatest(BULK_ORDER_GENERATE_INVOICE_ACTION, bulkGenerateInvoiceAction);
     yield takeLatest(BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, bulkDownloadManifestAction);
+    yield takeLatest(BULK_GET_DIMENSION_DETAILS_ACTION, bulkOrderDimensionAction);
 
 }

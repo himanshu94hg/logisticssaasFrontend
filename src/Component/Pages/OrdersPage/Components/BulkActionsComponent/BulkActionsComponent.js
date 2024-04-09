@@ -24,29 +24,29 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
 
     useEffect(()=>{
        if(labelData){
-        const blob = new Blob([labelData], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = 'label.pdf';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
+        // const blob = new Blob([labelData], { type: 'application/pdf' });
+        // const url = URL.createObjectURL(blob);
+        // const a = document.createElement('a');
+        // a.href = url;
+        // a.download = 'label.pdf';
+        // document.body.appendChild(a);
+        // a.click();
+        // document.body.removeChild(a);
+        // URL.revokeObjectURL(url);
        }
     },[labelData])
 
     useEffect(()=>{
         if(invoiceData){
-            const blob = new Blob([invoiceData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Invoice.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            // const blob = new Blob([invoiceData], { type: 'application/pdf' });
+            // const url = URL.createObjectURL(blob);
+            // const a = document.createElement('a');
+            // a.href = url;
+            // a.download = 'Invoice.pdf';
+            // document.body.appendChild(a);
+            // a.click();
+            // document.body.removeChild(a);
+            // URL.revokeObjectURL(url);
            }
     },[invoiceData])
 
