@@ -9,7 +9,7 @@ import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-sol
 import { useLocation } from 'react-router';
 import { useSelector } from 'react-redux';
 
-export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) => {
+export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, seteditErrors }) => {
     const location = useLocation();
     const [errors, setErrors] = useState({});
     const [AddFields, SetAddFields] = useState(false);
@@ -200,12 +200,12 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                             <span>Order Number <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                className={`input-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`input-field ${errors.customer_order_number || editErrors?.customer_order_number ? 'input-field-error' : ''}`}
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
                             />
-                            {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
+                            {(errors.customer_order_number || editErrors?.customer_order_number) && <div className="custom-error">{errors.customer_order_number || editErrors?.customer_order_number}</div>}
                         </label>
                     </div>
                     <div className='row mt-4 gap-2'>
@@ -213,7 +213,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                         <label className='col'>
                             Order Type
                             <select
-                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`select-field ${errors.order_type || editErrors?.order_type ? 'input-field-error' : ''}`}
                                 value={formData.order_details.order_type}
                                 onChange={(e) => handleSelectChange(e, 'order_type')}
                                 disabled={orderStaus}
@@ -222,7 +222,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                 <option value="Forward">Forward</option>
                                 <option value="Reverse">Reverse</option>
                             </select>
-                            {errors.order_type && <div className="custom-error">{errors.order_type}</div>}
+                            {(errors.order_type || editErrors?.order_type) && <div className="custom-error">{errors.order_type || editErrors?.order_type}</div>}
                         </label>
                         {/* Order Date with react-datepicker */}
                         <label className='col'>
@@ -238,7 +238,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                     className={`input-field`}
                                 />
                             </div>
-                            {errors.order_date && <div className="custom-error">{errors.order_date}</div>}
+                            {(errors.order_date || editErrors?.order_date) && <div className="custom-error">{errors.order_date || editErrors?.order_date}</div>}
                         </label>
 
                         <label className='col'>
@@ -291,7 +291,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                         <label className='col'>
                             Payment Type
                             <select
-                                className={`select-field ${errors.customer_order_number && 'input-field-error'}`}
+                                className={`select-field ${errors.payment_type || editErrors?.payment_type ? 'input-field-error' : ''}`}
                                 value={formData.order_details.payment_type}
                                 onChange={(e) => handleSelectChange(e, 'payment_type')}
                                 disabled={orderStaus}
@@ -300,7 +300,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                 <option value="Prepaid">Prepaid</option>
                                 <option value="COD">COD</option>
                             </select>
-                            {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
+                            {(errors.payment_type || editErrors?.payment_type) && <div className="custom-error">{errors.payment_type || editErrors?.payment_type}</div>}
                         </label>
                         <div className='col d-flex gap-4'>
                             <label style={{ height: '54px' }}>
@@ -331,7 +331,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus }) 
                                         }
                                     }}
                                 />
-                                {errors.number_of_packets && <div className="custom-error">{errors.number_of_packets}</div>}
+                                {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
                             </label>
 
                         </div>
