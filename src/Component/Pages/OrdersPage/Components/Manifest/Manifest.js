@@ -15,7 +15,7 @@ const Manifest = ({ orders,activeTab, setEditOrderSection, setOrderId, setBulkAc
     const [BulkActions, setBulkActions] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
-    const { orderdelete, manifestList } = useSelector(state => state?.orderSectionReducer)
+    const { orderdelete, manifestList ,downloadManifest} = useSelector(state => state?.orderSectionReducer)
 
 
     useEffect(() => {
@@ -59,6 +59,28 @@ const Manifest = ({ orders,activeTab, setEditOrderSection, setOrderId, setBulkAc
         //     setSelectAll(false);
         // }
     };
+
+const manifestDownload=(value)=>{
+    dispatch({type:"BULK_ORDER_DOWNLOAD_MANIFEST_ACTION",payload:{
+        manifest_id:value  
+    }})
+}
+
+
+useEffect(()=>{
+    if(downloadManifest){
+        const blob = new Blob([downloadManifest], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'manifest.pdf';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+},[downloadManifest])
 
 
     return (
@@ -137,7 +159,7 @@ const Manifest = ({ orders,activeTab, setEditOrderSection, setOrderId, setBulkAc
 
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button'> Download Manifest</button>
+                                                <button className='btn main-button' onClick={()=>manifestDownload(row?.id)}> Download Manifest</button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />

@@ -3,8 +3,8 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION } from "../../../constant/orders/bulkAction";
-import { ORDERS_DELETE_RES_DATA } from "../../../../constants/orders";
+import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_GENERATE_MENIFEST_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, BULK_ORDER_GENERATE_INVOICE_ACTION, BULK_ORDER_GENERATE_LABEL_ACTION, BULK_ORDER_GENERATE_PICKUP_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION } from "../../../constant/orders/bulkAction";
+import { ORDERS_DELETE_RES_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_LABEL_LIST_DATA } from "../../../../constants/orders";
 
 
 const sellerData = Cookies.get("user_id")
@@ -92,7 +92,7 @@ function* bulkCancelOrderAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(bulkCancelOrderApi, payload);
-        console.log(response?.status,"this is a response data")
+        console.log(response?.status, "this is a response data")
         if (response.status === 200) {
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Order cancelled successfully")
@@ -149,6 +149,118 @@ function* bulkDimensionDetailUpdateAction(action) {
     }
 }
 
+async function bulkGenerateManifestApi(data) {
+    console.log(data, "this is a bulk data")
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_ORDER_GENERATE_MENIFEST_API}`,
+        data: data
+    });
+}
+function* bulkGenerateManifestAction(action) {
+    let { payload, reject } = action;
+    console.log(payload, "this is payload data")
+    try {
+        let response = yield call(bulkGenerateManifestApi, payload);
+        if (response.status === 200) {
+            toast.success(`${payload?.orderLength.length} Manifest generate successfully!`)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+async function bulkGeneratePickupApi(data) {
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_ORDER_GENERATE_PICKUP_API}`,
+        data: data
+    });
+}
+function* bulkGeneratePickupAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(bulkGeneratePickupApi, payload);
+        if (response.status === 200) {
+            toast.success(` Pikcup generate successfully!`)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+async function bulkGenerateLabelApi(data) {
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_ORDER_GENERATE_LABEL_API}`,
+        data: data
+    });
+}
+function* bulkGenerateLabelAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(bulkGenerateLabelApi, payload);
+        console.log(response,"responseresponseresponse")
+        if (response.status === 200) {
+            toast.success(` Label generated successfully!`)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_LABEL_LIST_DATA, payload: response?.data })
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+async function bulkGenerateInvoiceApi(data) {
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_ORDER_GENERATE_INVOICE_API}`,
+        data: data
+    });
+}
+function* bulkGenerateInvoiceAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(bulkGenerateInvoiceApi, payload);
+        if (response.status === 200) {
+            toast.success(` Label generated successfully!`)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_INVOICE_LIST_DATA, payload: response?.data })
+
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+async function bulkDownloadManifestApi(data) {
+    return axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.BULK_ORDER_DOWNLOAD_MANIFEST_API}`,
+        data: data
+    });
+}
+function* bulkDownloadManifestAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(bulkDownloadManifestApi, payload);
+        if (response.status === 200) {
+            toast.success(` Label generated successfully!`)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_DOWNLOAD_MANIFEST_DATA, payload: response?.data })
+
+        }
+
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
 
 export function* getBulkOrderActionWatcher() {
     yield takeLatest(BULK_ADD_ORDER_TAG_ACTION, bulkAddOrderTagAction);
@@ -157,4 +269,10 @@ export function* getBulkOrderActionWatcher() {
     yield takeLatest(BULK_CANCEL_ORDER_ACTION, bulkCancelOrderAction);
     yield takeLatest(BULK_PICKUP_ADDRESS_UPDATE_ACTION, bulkPickupAddressUpdateAction);
     yield takeLatest(BULK_DIMESION_DETAILS_UPDATE_ACTION, bulkDimensionDetailUpdateAction);
+    yield takeLatest(BULK_GENERATE_MENIFEST_ACTION, bulkGenerateManifestAction);
+    yield takeLatest(BULK_ORDER_GENERATE_PICKUP_ACTION, bulkGeneratePickupAction);
+    yield takeLatest(BULK_ORDER_GENERATE_LABEL_ACTION, bulkGenerateLabelAction);
+    yield takeLatest(BULK_ORDER_GENERATE_INVOICE_ACTION, bulkGenerateInvoiceAction);
+    yield takeLatest(BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, bulkDownloadManifestAction);
+
 }

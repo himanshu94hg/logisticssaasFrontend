@@ -327,7 +327,7 @@ const OrdersPage = () => {
                         <span>Cancel order</span> </p>
                 </div>
                 <div className='button-container'>
-                    <button className='btn main-button' onClick={handleExport}>Export</button>
+                    {/* <button className='btn main-button' onClick={handleExport}>Export</button> */}
                 </div>
             </div>}
 
