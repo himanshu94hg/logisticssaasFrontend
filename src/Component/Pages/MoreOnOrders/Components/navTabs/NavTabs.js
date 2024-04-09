@@ -69,17 +69,7 @@ export default function NavTabs(props) {
                   Split Order
                 </div>
               </Nav.Link>
-              <Nav.Link className={`${props.activeTab === "Reverse Order" ? "active" : ""}`}
-                        onClick={() => {
-                          props.setActiveTab("Reverse Order");
-                        }}
-              >
-                {" "}
-                <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faCube} /> */}
-                  Reverse Order
-                </div>
-              </Nav.Link>
+              
             </div>
           </Nav>
         </Navbar.Collapse>

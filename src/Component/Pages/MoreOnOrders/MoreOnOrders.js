@@ -171,48 +171,6 @@ const MoreOnOrders = () => {
 
     console.log( activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
 
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-                "type": activeTab === "Merge Order" ? "" : activeTab,
-                "subtype": ""
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-        };
-        console.log("All Request data", requestData);
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);
-
 
     const handleChange = (option) => {
         setSearchOption(option);
@@ -275,9 +233,6 @@ const MoreOnOrders = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
-                <div className='button-container'>
-                    <button className='btn main-button' onClick={handleExport}>Export</button>
-                </div>
             </div>}
             <div className='orders-section-tabs'>
                 {/* reassign */}
@@ -293,11 +248,6 @@ const MoreOnOrders = () => {
                 {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
                     <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
-                </div>
-
-                {/* reverse */}
-                <div className={`${activeTab === "Reverse Order" ? "d-block" : "d-none"}`}>
-                    <ReverseOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
                 </div>
 
                 <Pagination
