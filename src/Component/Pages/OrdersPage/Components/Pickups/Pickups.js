@@ -22,9 +22,12 @@ import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
 import { toast } from 'react-toastify';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
 
 
-const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -150,7 +153,7 @@ const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedR
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                       <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
+                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
@@ -188,14 +191,23 @@ const Pickups = ({ orders,activeTab, BulkActionShow,setBulkActionShow, selectedR
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    <OverlayTrigger
+                                                        placement="right"
+                                                        overlay={
+                                                            <Tooltip id={`tooltip-right`}>
+                                                                {row?.order_type}
+                                                            </Tooltip>
+                                                        }
+                                                    >
+                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    </OverlayTrigger>
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
