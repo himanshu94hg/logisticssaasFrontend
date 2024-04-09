@@ -115,15 +115,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }));
     };
     const handleChangeCharge = (e, field) => {
-        const charge = e.target.value === '' ? null : e.target.value;
+        let value = e.target.value;
+        if (field === 'is_gift_wrap') {
+            value = value === 'true'; 
+        }
         setFormData(prevData => ({
             ...prevData,
             charge_details: {
                 ...prevData.charge_details,
-                [field]: charge
+                [field]: value
             }
         }));
     };
+    
 
     const handleSelectChange = (e, field) => {
         setFormData({
@@ -366,10 +370,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                             <select
                                 name=""
                                 className='select-field'
-                                onChange={(e) => handleChangeCharge(e, 'gift_wrap')}
+                                onChange={(e) => handleChangeCharge(e, 'is_gift_wrap')}
+                                value={formData.charge_details.is_gift_wrap}
                             >
-                                <option value="no">No</option>
-                                <option value="yes">Yes</option>
+                                <option value={true}>Yes</option> 
+                                <option value={false}>No</option>
                             </select>
                             {/* <input
                                 type="text"
