@@ -69,6 +69,7 @@ a:hover {
     /* margin-inline: 7px; */
     white-space: nowrap;
     padding-block: 7px;
+    border-radius: 0.5rem;
 }
 
 #sidenav .nav-link:active span,
@@ -99,6 +100,11 @@ a:hover {
     fill: #fff;
 }
 
+.sidebar-label-wrapper a:hover .submenu-icon svg path,
+#sidenav .nav-link.main:hover .submenu-icon svg path {
+    fill: #0F3C5B;
+}
+
 .sidebar-label-wrapper a.active svg path,
 .sidebar-label-wrapper .nav-link.active svg path {
     fill: #fff;
@@ -121,7 +127,7 @@ a:hover {
 .nav-link.main:hover .nav-link {
     color: #fff;
     background-color: #0F3C5B;
-    border-radius: 0.2rem;
+    border-radius: 0.5rem;
 }
 
 .sidebar-label-wrapper a.active,
@@ -139,9 +145,9 @@ a:hover {
     display: none;
     flex-direction: column;
     align-items: flex-start;
-    width: 80%;
+    width: 100%;
     font-size: 0.9rem;
-    padding-left: 2.2rem;
+    padding-left: 1.9rem;
     animation: dropdown 0.4s linear;
     /* overflow-y: hidden; */
     /* overflow-x: hidden; */
@@ -154,22 +160,31 @@ a:hover {
     padding-block: 0.5rem;
 }
 
+.SideNav .dropdown-content a .submenu-icon {
+    color: #0F3C5B;
+}
+
 .SideNav .dropdown-content a:hover {
     background-color: #0F3C5B;
     color: #fff;
+    border-radius: 0.5rem;
+}
+
+#sidenav .nav-link.main .dropdown-content a:hover .submenu-icon svg path {
+    fill: #fff;
 }
 
 .SideNav .dropdown-content.open {
     display: flex;
-    gap: 5px;
 }
 
 .SideNav .dropdown-content.open a {
     position: relative;
     padding-left: 10px;
+    width: 100%;
 }
 
-.SideNav .dropdown-content.open a::before {
+/* .SideNav .dropdown-content.open a::before {
     content: '';
     position: absolute;
     width: 1px;
@@ -177,13 +192,13 @@ a:hover {
     height: 45px;
     left: -12px;
     bottom: 19px;
-}
+} */
 
-.SideNav .dropdown-content.open a:first-of-type::before {
+/* .SideNav .dropdown-content.open a:first-of-type::before {
     height: 27px;
-}
+} */
 
-.SideNav .dropdown-content.open a::after {
+/* .SideNav .dropdown-content.open a::after {
     content: '';
     position: absolute;
     width: 15px;
@@ -191,7 +206,7 @@ a:hover {
     height: 1px;
     left: -12px;
     bottom: 19px;
-}
+} */
 
 
 @keyframes dropdown {
