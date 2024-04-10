@@ -122,6 +122,11 @@ const ShipmentsPage = () => {
         }
     }, [activeTab])
 
+    const handleReset = () => {
+        setSearchValue("")
+        // setHandleResetFrom(true)
+    }
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -157,7 +162,7 @@ const ShipmentsPage = () => {
                                 <li>Filter 4</li>
                             </ul>
                         </div>
-                        <button className='btn main-button-outline ms-2'><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
