@@ -87,9 +87,11 @@ export default function NavTabs(props) {
             <input
               placeholder="Search by Ticket ID || AWB || Pickup ID"
               type="search" value={props.searchValue}
-              className="input-field"
+              className={`input-field ${props.errors.searchValue ? 'input-field-error' : ''}`}
               onChange={(e) => props.setSearchValue(e.target.value)}
             />
+             {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
+
             <button onClick={() => props.handleSearch()}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </label>
         </div>

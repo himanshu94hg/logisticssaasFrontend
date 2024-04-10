@@ -29,6 +29,7 @@ const CustomerSupportPage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState("");
+  const [errors, setErrors] = useState({});
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
@@ -115,24 +116,36 @@ const CustomerSupportPage = () => {
   }, [allTicket])
 
 
+  const validateData = () => {
+    const newErrors = {};
+    if (!searchValue) {
+        newErrors.searchValue = 'Field is required!';
+    }        
+    setErrors(newErrors);
+    console.log(newErrors, "this is new errors")
+    return Object.keys(newErrors).length === 0;
+};
+
   /*const handleSearch = (value) => {
     setSearchValue(value)
   }*/
   const handleSearch = () => {
+   if(validateData()) {
     axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
-        headers: {
-            Authorization: `Bearer ${authToken}`
-        }
-    })
-        .then(response => {
-            setTotalItems(response?.data?.count)
-            setAllTicket(response.data.results);
-            setSearchValue('');
-        })
-        .catch(error => {
-            toast.error("Something went wrong!")
-        });
-        setSearchValue('');
+      headers: {
+          Authorization: `Bearer ${authToken}`
+      }
+  })
+      .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+          setSearchValue('');
+      })
+      .catch(error => {
+          toast.error("Something went wrong!")
+      });
+      setSearchValue('');
+   }
 }
 
   return (
@@ -157,6 +170,7 @@ const CustomerSupportPage = () => {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
+          errors={errors}
         />
         <div className='row mt-3'>
           <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
