@@ -59,16 +59,19 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
         }
     };
 
-    const handleReopenTicket = (id, status) => {
-        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
+    const handleCloseOpenTicket = (id, status) => {
+        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: {
+            status:status,
+            ticket_ids:[id]
+        } })
     }
 
-    const handleEscalateTicket = (id, status) => {
-        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
+    const handleEscalateTicket = (id) => {
+        dispatch({ type: "TICKET_ESCALATE_ACTION", payload: {
+            ticket_ids:[id]
+        } })
     }
-    const handleCloseTicket = (id, status) => {
-        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: id, status: {status:status} })
-    }
+  
 
 console.log(activeTab,"activeTab")
     return (
@@ -159,9 +162,9 @@ console.log(activeTab,"activeTab")
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleEscalateTicket(item?.id, "Escalate")}>Escalate</li>
-                                                            <li onClick={() => handleReopenTicket(item?.id, "reopen")}>Re-open</li>
-                                                            {activeTab != "closedTickets" && <li onClick={() => handleCloseTicket(item?.id, "Closed")}>Close</li>}
+                                                            <li onClick={() => handleEscalateTicket(item?.id)}>Escalate</li>
+                                                            {activeTab != "openTickets" && <li onClick={() => handleCloseOpenTicket(item?.id, "Open")}>Re-open</li>}
+                                                            {activeTab != "closedTickets" && <li onClick={() => handleCloseOpenTicket(item?.id, "Closed")}>Close</li>}
                                                         </ul>
                                                     </div>
                                                 </div>
