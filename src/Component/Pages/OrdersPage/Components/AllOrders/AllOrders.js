@@ -326,7 +326,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        <div className='action-list'>
+                                                        {row.status !== "cancelled" ?  <div className='action-list'>
                                                             <ul>
                                                                 {row?.courier_partner != null && (
                                                                     <>
@@ -343,7 +343,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 })}>Cancel Order</li>
                                                             </ul>
-                                                        </div>
+                                                        </div>:""}
+                                                      
                                                     </div>
                                                 </div>
                                             </td>
