@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => {
+export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editErrors , seteditErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
     const [errors, setErrors] = useState({});
     const validateFormData = () => {
@@ -126,13 +126,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <label className='col'>
                                     <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
-                                        className={`input-field ${errors[`product_name_${index}`] ? 'input-field-error' : ''}`}
+                                         className={`input-field ${(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) ? 'input-field-error' : ''}`}
                                         placeholder="Enter your product name"
                                         type="text"
                                         value={product.product_name}
                                         onChange={(e) => handleProductNameChange(e, index)}
                                     />
-                                    {errors[`product_name_${index}`] && <span className="custom-error">{errors[`product_name_${index}`]}</span>}
+                                    {(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) && <span className="custom-error">{errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]}</span>}
                                 </label>
                                 <label className='col'>
                                     <span>Product Category <span className='text-gray'>(Optional)</span></span>
@@ -182,7 +182,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                 <label className='col'>
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
-                                        className={`input-field ${errors[`quantity_${index}`] ? 'input-field-error' : ''}`}
+                                        className={`input-field ${(errors[`quantity_${index}`] || editErrors?.quantity) ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
@@ -193,18 +193,18 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData }) => 
                                             }
                                         }}
                                     />
-                                    {errors[`quantity_${index}`] && <span className="custom-error">{errors[`quantity_${index}`]}</span>}
+                                    {(errors[`quantity_${index}`] || editErrors?.quantity) && <span className="custom-error">{errors[`quantity_${index}`] || editErrors?.quantity}</span>}
                                 </label>
                                 <label className='col'>
                                     <span>SKU <span className='mandatory'>*</span></span>
                                     <input
                                         type="text"
-                                        className={`input-field ${errors[`sku_${index}`] ? 'input-field-error' : ''}`}
+                                        className={`input-field ${(errors[`sku_${index}`] || editErrors?.[`sku_${index}`]) ? 'input-field-error' : ''}`}
                                         value={product.sku}
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />
-                                    {errors[`sku_${index}`] && <span className="custom-error" style={{ display: "block" }}>{errors[`sku_${index}`]}</span>}
+                                    {(errors[`sku_${index}`] || editErrors?.[`sku_${index}`]) && <span className="custom-error" style={{ display: "block" }}>{errors[`sku_${index}`] || editErrors?.[`sku_${index}`]}</span>}
                                     <span>
                                         <input
                                             type="checkbox"

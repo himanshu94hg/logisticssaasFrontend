@@ -125,7 +125,11 @@ const BillingPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent />
+                    <BulkActionsComponent
+                        activeTab={activeTab}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                    />
                 )
                 }
             </div>

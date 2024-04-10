@@ -104,9 +104,13 @@ function* courierAllocationRulePostAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationRulePostAPI, payload);
-        if (response) {
+        console.log("courierAllocationRulePostAction",response);
+        if (response.status === 201) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_POST_DATA, payload: response });
-            toast.success("Rules Added successfully.");
+            toast.success(response.data.message);
+        }
+        else{
+            toast.success(response.data.message);
         }
     } catch (error) {
         if (reject) reject(error);
@@ -126,10 +130,12 @@ function* courierAllocationRuleDeleteAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationRuleDeleteAPI, payload);
-        if (response) {
+        if (response.status === 201) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_DELETE_DATA, payload: response });
-            
-            toast.success("Record deleted successfully");
+            toast.success(response.data.message);
+        }
+        else{
+            toast.success(response.data.message);
         }
     } catch (error) {
         if (reject) reject(error);
@@ -171,13 +177,13 @@ function* courierAllocationRuleEditPostAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationRuleEditPostAPI, payload);
-        if (response) {
+        if (response.status === 201) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_EDIT_POST_DATA, payload: response });
-            toast.success("Record Updated successfully");
+            toast.success(response.data.message);
         }
         else
         {
-            toast.error(response.message);
+            toast.success(response.data.message);
         }
     } catch (error) {
         toast.error(error.message);
@@ -199,9 +205,12 @@ function* courierAllocationRuleStatusAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationRuleStatusAPI, payload);
-        if (response) {
+        if (response.status === 200) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_STATUS_DATA, payload: response });
-            toast.success("Status Changed successfully");
+            toast.success(response.data.message);
+        }
+        else{
+            toast.success(response.data.message);
         }
     } catch (error) {
         if (reject) reject(error);

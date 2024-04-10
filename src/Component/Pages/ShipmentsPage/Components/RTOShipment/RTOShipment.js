@@ -38,6 +38,13 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionSho
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    const [allShipment, setAllShipment] = useState([]);
+
+    useEffect(() => {
+        if (shipmentCard) {
+            setAllShipment(shipmentCard);
+        }
+    }, [shipmentCard]);
 
     const reasons = [
         { count: 1, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
@@ -126,7 +133,7 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionSho
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {shipmentCard?.map((row, index) => (
+                            {allShipment?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>

@@ -20,6 +20,8 @@ import mobileLogo from '../../../assets/image/logo/mobileLogo.svg'
 import { useDispatch } from 'react-redux';
 import pathAction from '../../../redux/action/pathname';
 import { indexPattern } from '../../../Routes';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 
 
 
@@ -30,7 +32,7 @@ const Dropdown = ({ links, isOpen }) => {
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
         <NavLink key={index} to={link.to} onClick={(e) => dispatch(pathAction(link.label))}>
-          {link.label}
+        <span className='submenu-icon'><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
         </NavLink>
       ))}
     </div>
@@ -113,8 +115,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 
 const SideNav = (props) => {
   const navigate = useNavigate()
-  const [isExpanded, setExpanded] = useState(false);
-  // const [isExpanded, setExpanded] = useState(true);
+  // const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
   const [openDropdown, setOpenDropdown] = useState(null);
 

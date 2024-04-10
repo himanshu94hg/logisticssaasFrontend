@@ -38,8 +38,17 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActio
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
+    const [allShipment, setAllShipment] = useState([]);
+
+    useEffect(() => {
+        if (shipmentCard) {
+            setAllShipment(shipmentCard);
+        }
+    }, [shipmentCard]);
     
     const handleRto = ((orderIds)=>{
+        const updatedRules = allShipment.filter(shipment => shipment.id !== orderIds);
+        setAllShipment(updatedRules);
         const stringifiedReattempt = JSON.stringify(orderIds);
         dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: {"order_ids":stringifiedReattempt} });
     });
@@ -114,7 +123,7 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActio
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {shipmentCard?.map((row, index) => (
+                            {allShipment?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>

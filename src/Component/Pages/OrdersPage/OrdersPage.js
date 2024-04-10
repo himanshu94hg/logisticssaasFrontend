@@ -55,7 +55,6 @@ const OrdersPage = () => {
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [handleResetFrom, setHandleResetFrom] = useState(false);
@@ -204,48 +203,6 @@ const OrdersPage = () => {
     }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
 
 
-    const handleExport = () => {
-        setExportButtonClick(true);
-        const requestData = {
-            "order_tab": {
-                "type": activeTab === "All Orders" ? "" : activeTab,
-                "subtype": ""
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
-        };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-    };
-
-    useEffect(() => {
-        if (exportButtonClick) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);
-
-
     const handleChange = (option) => {
         setSearchOption(option);
         setsearchType(option.value)
@@ -325,9 +282,6 @@ const OrdersPage = () => {
                         <span>Last Month</span> |
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
-                </div>
-                <div className='button-container'>
-                    {/* <button className='btn main-button' onClick={handleExport}>Export</button> */}
                 </div>
             </div>}
 

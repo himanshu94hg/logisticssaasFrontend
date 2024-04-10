@@ -69,7 +69,7 @@ const DomesticCreateOrder = () => {
             cod_charges: '',
             shipping_charges: '',
             transaction_fee: '',
-            is_gift_wrap: false
+            is_gift_wrap: false || true
         },
         dimension_details: {
             weight: '',

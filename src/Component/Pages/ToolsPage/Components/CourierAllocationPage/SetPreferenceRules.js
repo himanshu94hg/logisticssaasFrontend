@@ -15,9 +15,13 @@ const SetPreferenceRules = () => {
     const [editingRuleId, setEditingRuleId] = useState(null);
     const [isActive, setIsActive] = useState([]);
     const [allRules, setAllRules] = useState([]);
+    const [trigger, setTrigger] = useState(false);
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
+    const courierPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRulePostData);
+    const courierDeleteRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleDeleteData);
+    const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
 
     useEffect(() => {
         if (courierRules?.data) {
@@ -25,6 +29,25 @@ const SetPreferenceRules = () => {
             initializeIsActiveState(courierRules.data);
         }
     }, [courierRules]);
+
+    useEffect(() => {
+        if (courierPostRules && courierPostRules.data && courierPostRules.data.status === true) {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+        }
+    }, [courierPostRules]);
+
+    useEffect(() => {
+        if (courierDeleteRules && courierDeleteRules.data && courierDeleteRules.data.status === true) {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+        }
+    }, [courierDeleteRules]);
+
+    useEffect(() => {
+        if (courierEditPostRules && courierEditPostRules.data && courierEditPostRules.data.status === true) {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+        }
+    }, [courierEditPostRules]);
+    
 
     const initializeIsActiveState = (rules) => {
         const initialActiveState = rules.map(rule => rule.status);
@@ -78,9 +101,9 @@ const SetPreferenceRules = () => {
             const updatedRules = allRules.filter(rule => rule.id !== id);
             setAllRules(updatedRules);
             dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
-            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
         }
     };
+    
 
     const handleSubmit = () => {
         const requestData = {
@@ -102,8 +125,8 @@ const SetPreferenceRules = () => {
             dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_POST_ACTION", payload: { id: editingRuleId, requestData } });
         } else {
             dispatch({ type: "COURIER_ALLOCATION_RULE_POST_ACTION", payload: requestData });
+            setTrigger(true)
         }
-        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
         setRulePanel(false);
     };
 
@@ -125,6 +148,7 @@ const SetPreferenceRules = () => {
     const priorityOptions = Array.from({ length: allRules.length + 1 }, (_, index) => ({
         value: index + 1
     }));
+    
 
     return (
         <>
