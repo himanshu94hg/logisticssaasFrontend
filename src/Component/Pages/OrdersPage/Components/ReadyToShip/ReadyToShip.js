@@ -31,7 +31,7 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-    const token=Cookies.get("access_token")
+    const token = Cookies.get("access_token")
 
     useEffect(() => {
         if (orderdelete) {
@@ -82,14 +82,14 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
     const handleDownloadLabel = async (orderId) => {
         try {
             const requestData = {
-                order_ids: `${orderId}` 
+                order_ids: `${orderId}`
             };
 
             const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(requestData)
 
@@ -138,14 +138,14 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
 
     const handleDownloadInvoice = async (orderId) => {
         const requestData = {
-            order_ids: `${orderId}` 
+            order_ids: `${orderId}`
         };
         try {
             const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(requestData)
             });
@@ -325,27 +325,29 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                             {/* {row.ndr_action}
                                              {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className="btn main-button" onClick={() => handleGeneratePickup(row.id)}>
+                                                <button className="btn main-button" onClick={() => handleGeneratePickup(row.id)} disabled={row?.status === "cancelled" && true}>
                                                     Generate Pickup
                                                 </button>
                                                 <div className='action-options'>
-                                                    <div className='threedots-img'>
+                                                    <div className='threedots-img' disabled={true}>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
-                                                            <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                            <li>Reassign</li>
-                                                            <li className='action-hr'></li>
-                                                            <li onClick={() => dispatch({
-                                                                type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                                                                    awb_numbers: [
-                                                                        row?.awb_number]
-                                                                }
-                                                            })}>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
+                                                    {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
+                                                        <div className='action-list'>
+                                                            <ul>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                                <li>Reassign</li>
+                                                                <li className='action-hr'></li>
+                                                                <li onClick={() => dispatch({
+                                                                    type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+                                                                        awb_numbers: [
+                                                                            row?.awb_number]
+                                                                    }
+                                                                })}>Cancel Order</li>
+                                                            </ul>
+                                                        </div>
+                                                    ) : null}
                                                 </div>
                                             </div>
                                         </td>

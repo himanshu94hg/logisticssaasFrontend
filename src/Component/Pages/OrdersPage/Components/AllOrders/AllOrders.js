@@ -22,6 +22,9 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import SingleShipPop from '../Processing/SingleShipPop/SingleShipPop';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
@@ -123,6 +126,45 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
         } catch (error) {
         }
     };
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [SingleShip, setSingleShip] = useState(false)
+
+
+    const handleShipNow = (orderId) => {
+        setSelectedOrderId(orderId);
+        setSingleShip(true);
+    };
+    const handleGeneratePickup = async (orderId) => {
+        let authToken = Cookies.get("access_token")
+        try {
+            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-pickup/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                },
+                body: JSON.stringify({
+                    orders: [
+                        orderId
+                    ]
+                })
+            });
+            if (response?.status === 200) {
+                toast.success("Generate Pickup successfully")
+            }
+        } catch (error) {
+            toast.error("Something went wrong!")
+        }
+    };
+
+
+    const generateManifest = (value) => {
+        dispatch({
+            type: "GENERATE_MANIFEST_ACTION", payload: {
+                order_ids: `${value}`
+            }
+        })
+    }
 
     return (
         <>
@@ -273,12 +315,18 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn main-button'>{row?.order_courier_status === 'Unprocessable' ? 'Edit Order' : row?.order_courier_status === 'Processing' ? 'Ship Now' : row?.order_courier_status === 'Ready_to_ship' ? (<label onClick={() => handleDownloadLabel(row.id)}>Generate Pickup</label>) : row?.order_courier_status === 'Manifest' ? 'Generate Manifest' : row?.status === 'pickup_requested' ? 'Download Label' : row?.status === "cancelled" ? <span>Clone Order</span> : ""}</button>
+                                                    <button className='btn main-button'>{
+                                                        row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
+                                                            : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
+                                                                : row?.status === "cancelled" ? <span>Clone Order</span>
+                                                                    : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
+                                                                        : row?.status === "shipped" ? <span  onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
+                                                    }</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        <div className='action-list'>
+                                                        {row.status !== "cancelled" ?  <div className='action-list'>
                                                             <ul>
                                                                 {row?.courier_partner != null && (
                                                                     <>
@@ -287,7 +335,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     </>
                                                                 )}
                                                                 <li>Reassign</li>
-                                                                <li>Clone Order</li>
+                                                                <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
                                                                         awb_numbers: [
@@ -295,7 +343,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 })}>Cancel Order</li>
                                                             </ul>
-                                                        </div>
+                                                        </div>:""}
+                                                      
                                                     </div>
                                                 </div>
                                             </td>
@@ -305,6 +354,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                             </tbody>
                         </table>
                     </div>
+                    <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
                 </div>
             </section>
         </>

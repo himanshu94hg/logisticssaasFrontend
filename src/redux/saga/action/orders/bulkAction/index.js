@@ -227,7 +227,7 @@ function* bulkGenerateInvoiceAction(action) {
     try {
         let response = yield call(bulkGenerateInvoiceApi, payload);
         if (response.status === 200) {
-            toast.success(` Label generated successfully!`)
+            toast.success(` Invoice downloaded successfully!`)
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             yield put({ type: ORDERS_INVOICE_LIST_DATA, payload: response?.data })
 
@@ -250,7 +250,7 @@ function* bulkDownloadManifestAction(action) {
     try {
         let response = yield call(bulkDownloadManifestApi, payload);
         if (response.status === 200) {
-            toast.success(` Label generated successfully!`)
+            toast.success(` Manifest downloaded successfully!`)
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             yield put({ type: ORDERS_DOWNLOAD_MANIFEST_DATA, payload: response?.data })
 

@@ -102,6 +102,9 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
         setEditOrderSection(true)
         setOrderId(id)
     }
+    const markedVerified = () => {
+       
+    }
 
 
     return (
@@ -266,7 +269,13 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                             <li>Verify Order</li>
                                                             <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
-                                                            <li>Mark As Verified</li>
+                                                            <li  onClick={()=>
+                                                                 dispatch({
+                                                                    type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
+                                                                        order_ids: [row?.id],
+                                                                    }
+                                                                })
+                                                            }>Mark As Verified</li>
                                                             <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
                                                             <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({
