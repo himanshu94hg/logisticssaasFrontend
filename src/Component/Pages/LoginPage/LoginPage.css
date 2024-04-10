@@ -117,7 +117,7 @@
 }
 
 
-.login-section .signin .signup-text a {
+.login-section .signin .signup-text button {
     color: var(--sh-primary);
 }
 

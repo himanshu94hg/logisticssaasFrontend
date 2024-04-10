@@ -12,6 +12,7 @@ import Logo from '../../../assets/image/logo/logo.svg'
 import FacebookIcon from './Icons/FacebookIcon';
 import PhoneIcon from './Icons/PhoneIcon';
 import GoogleIcon from './Icons/GoogleIcon';
+import EmailIcon from './Icons/EmailIcon';
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
@@ -194,7 +195,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                     {!OtpLogin ?
                       <><PhoneIcon /><span>Phone</span></>
                       :
-                      <><PhoneIcon /><span>Email</span></>
+                      <><EmailIcon /><span>Email</span></>
                     }
 
                   </button>
@@ -202,7 +203,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                   <button className='btn'><FacebookIcon /><span>Facebook</span></button>
                 </div>
               </div>
-              <p className='signup-text'>Kindly <a href="#" onClick={() => navigate(signUpPattern)}>Signup</a> if you are a new user.</p>
+              <p className='signup-text'>Kindly <button className='btn p-0' href="#" onClick={() => navigate(signUpPattern)}>Signup</button> if you are a new user.</p>
             </div>
           </div>
         </div>
