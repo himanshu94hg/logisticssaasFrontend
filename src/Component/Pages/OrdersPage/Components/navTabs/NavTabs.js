@@ -151,12 +151,12 @@ export default function NavTabs(props) {
       </div>
       <div className="d-flex gap-10 align-items-center">
         <button
-          className="btn main-button"
+          className="btn main-button-outline"
           onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
         >
           <AiOutlineImport className="align-text-bottom" /> Import
         </button>
-        <button className="btn main-button" onClick={handleSubmit}><IoMdSync /> Sync</button>
+        <button className="btn main-button-outline" onClick={handleSubmit}><IoMdSync /> Sync</button>
         <button onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create</button>
       </div>
     </Navbar>
