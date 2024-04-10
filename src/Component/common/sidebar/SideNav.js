@@ -43,8 +43,8 @@ const Dropdown = ({ links, isOpen }) => {
 
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
-  // const [isDropdownOpen, setDropdownOpen] = useState(false);
-  const [isDropdownOpen, setDropdownOpen] = useState(true);
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
+  // const [isDropdownOpen, setDropdownOpen] = useState(true);
   const location = useLocation();
 
   const handleDropdownToggle = () => {
@@ -136,9 +136,9 @@ const SideNav = (props) => {
   };
 
   const handleMouseLeave = () => {
-    // setExpanded(false);
+    setExpanded(false);
     // Close all dropdowns when slider is closed
-    // setOpenDropdown(null);
+    setOpenDropdown(null);
   };
 
   const handleDropdownToggle = (label) => {
