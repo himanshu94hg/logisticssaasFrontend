@@ -106,7 +106,7 @@ const OrdersPage = () => {
         setBackDrop(false)
     }
 
-    const validateFormData = () => {
+    const validateData = () => {
         const newErrors = {};
         if (searchType === 'customer_order_number' && !searchValue) {
             newErrors.customer_order_number = 'Order Number is required!';
@@ -136,7 +136,7 @@ const OrdersPage = () => {
     };
     
     const handleSearch = () => {
-        if (validateFormData()) {
+        if (validateData()) {
             axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
