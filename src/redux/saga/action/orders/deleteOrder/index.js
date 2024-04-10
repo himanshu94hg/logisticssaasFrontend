@@ -28,7 +28,8 @@ function* cancelOrderAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        toast.error("Awb number is not correct!")
+        console.log(error,"this is error page dtta")
     }
 }
 

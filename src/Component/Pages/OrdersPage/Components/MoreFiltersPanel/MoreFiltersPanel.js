@@ -7,7 +7,7 @@ import Select from 'react-select';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -37,11 +37,6 @@ const paymentOptions = [
     { label: "COD", value: "COD" },
 ]
 
-const Ordertags = [
-    { label: "Tag 1", value: "" },
-    { label: "Tag 2", value: "" },
-    { label: "Tag 3", value: "" },
-];
 
 const CourierPartner = [
     { label: "Smartr", value: "smartr" },
@@ -66,6 +61,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
+    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const [orderTag, setorderTag] = useState([]);
+
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -200,6 +198,26 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         fetchData(); // Call the fetchData function
 
     }, [MoreFilters, sellerData, authToken]);
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setorderTag(formattedData);
+        } else {
+            setorderTag([]);
+        }
+    }, [tagListData]);
+
+  
 
     useEffect(()=>{
         if(handleResetFrom){
@@ -336,10 +354,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <Select
                                         isMulti
                                         isSearchable
-                                        options={Ordertags}
+                                        options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
-                                        value={filterParams.order_tag ? Ordertags?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
-                                    />
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
