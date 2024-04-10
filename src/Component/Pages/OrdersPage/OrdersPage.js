@@ -61,6 +61,7 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
+    const [errors, setErrors] = useState({});
     // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
     const [queryName, setQueryName] = useState([])
@@ -105,12 +106,42 @@ const OrdersPage = () => {
         setBackDrop(false)
     }
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (searchType === 'customer_order_number' && !searchValue) {
+            newErrors.customer_order_number = 'Order Number is required!';
+        }
+        if (searchType === 'shipping_detail__mobile_number' && !searchValue) {
+            newErrors.customer_order_number = 'Mobile Number is required!';
+        }
+        if (searchType === 'shipping_detail__email' && !searchValue) {
+            newErrors.shipping_detail__email = 'Email is required!';
+        } 
+        if (searchType === 'shipping_detail__recipient_name' && !searchValue) {
+            newErrors.shipping_detail__recipient_name = 'Name is required!';
+        } 
+        if (searchType === 'shipping_detail__pincode' && !searchValue) {
+            newErrors.customer_order_number = 'Pincode Number is required!';
+        } 
+        if (searchType === 'shipping_detail__city' && !searchValue) {
+            newErrors.customer_order_number = 'City is required!';
+        }   
+        if (searchType === 'awb_number' && !searchValue) {
+            newErrors.customer_order_number = 'AWB is required!';
+        }  
+              
+        setErrors(newErrors);
+        console.log(newErrors, "this is new errors")
+        return Object.keys(newErrors).length === 0;
+    };
+    
     const handleSearch = () => {
-        axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
+        if (validateFormData()) {
+            axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
             .then(response => {
                 setTotalItems(response?.data?.count)
                 setOrders(response.data.results);
@@ -120,7 +151,8 @@ const OrdersPage = () => {
             .catch(error => {
                 toast.error("Something went wrong!")
             });
-    }
+        }
+    };
 
 
     useEffect(() => {
@@ -241,7 +273,8 @@ const OrdersPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            {(errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number) && <div className="custom-error">{errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number}</div>}
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
