@@ -424,6 +424,7 @@
 
 .last-thirty-table {
     max-height: 400px;
+    overflow-x: hidden;
 }
 
 .last-thirty-table thead tr {
