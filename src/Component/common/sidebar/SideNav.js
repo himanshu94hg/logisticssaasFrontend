@@ -43,8 +43,8 @@ const Dropdown = ({ links, isOpen }) => {
 
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
-  const [isDropdownOpen, setDropdownOpen] = useState(false);
-  // const [isDropdownOpen, setDropdownOpen] = useState(true);
+  // const [isDropdownOpen, setDropdownOpen] = useState(false);
+  const [isDropdownOpen, setDropdownOpen] = useState(true);
   const location = useLocation();
 
   const handleDropdownToggle = () => {
@@ -115,8 +115,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 
 const SideNav = (props) => {
   const navigate = useNavigate()
-  const [isExpanded, setExpanded] = useState(false);
-  // const [isExpanded, setExpanded] = useState(true);
+  // const [isExpanded, setExpanded] = useState(false);
+  const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
   const [openDropdown, setOpenDropdown] = useState(null);
 
@@ -136,9 +136,9 @@ const SideNav = (props) => {
   };
 
   const handleMouseLeave = () => {
-    setExpanded(false);
+    // setExpanded(false);
     // Close all dropdowns when slider is closed
-    setOpenDropdown(null);
+    // setOpenDropdown(null);
   };
 
   const handleDropdownToggle = (label) => {
