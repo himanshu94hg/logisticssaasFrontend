@@ -163,17 +163,29 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 newErrors.cod_charges = 'COD Charges is required!';
             }
         }
-        if (!formData.dimension_details.weight || formData.dimension_details.weight == 0) {
+        if (formData.dimension_details.weight == 0) {
             newErrors.weight = 'Dead Weight should be greater than 0!';
         }
-        if (!formData.dimension_details.height || formData.dimension_details.height == 0) {
+        if (!formData.dimension_details.weight) {
+            newErrors.weight = 'Dead Weight is required!';
+        }
+        if (formData.dimension_details.height == 0) {
             newErrors.height = 'Height should be greater than 0!';
         }
-        if (!formData.dimension_details.length || formData.dimension_details.length == 0) {
+        if (!formData.dimension_details.height) {
+            newErrors.height = 'Height is required!';
+        }
+        if (formData.dimension_details.length == 0) {
             newErrors.length = 'Length should be greater than 0!';
         }
-        if (!formData.dimension_details.breadth || formData.dimension_details.breadth == 0) {
+        if (!formData.dimension_details.length) {
+            newErrors.length = 'Length is required!';
+        }
+        if (formData.dimension_details.breadth == 0) {
             newErrors.breadth = 'Breadth should be greater than 0!';
+        }
+        if (!formData.dimension_details.breadth) {
+            newErrors.breadth = 'Breadth is required!';
         }
         if (!isChecked) {
             if (!formData.billing_details.customer_name) {
