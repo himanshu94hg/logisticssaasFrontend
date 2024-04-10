@@ -114,7 +114,6 @@ const OrdersPage = () => {
             .then(response => {
                 setTotalItems(response?.data?.count)
                 setOrders(response.data.results);
-                setSearchValue('');
                 pageStatusSet(false)
             })
             .catch(error => {
