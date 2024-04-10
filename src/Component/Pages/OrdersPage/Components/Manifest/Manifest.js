@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 
-const Manifest = ({ orders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -20,6 +20,14 @@ const Manifest = ({ orders, activeTab, setEditOrderSection, setOrderId, setBulkA
 
     const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
 
+
+    useEffect(()=>{
+        if(manifestList){
+            setTotalItems(manifestList?.length)
+        }
+    },[manifestList])
+
+    console.log(manifestList.length,"manifestList")
 
 
 

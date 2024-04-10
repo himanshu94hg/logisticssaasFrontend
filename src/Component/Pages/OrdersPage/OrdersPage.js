@@ -355,7 +355,12 @@ const OrdersPage = () => {
 
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
-                    <Manifest setBulkActionShow={setBulkActionShow} activeTab={activeTab} orders={orders} handleSearch={handleSearch} />
+                    <Manifest
+                        activeTab={activeTab}
+                        handleSearch={handleSearch}
+                        setTotalItems={setTotalItems}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
 
                 {/* Returns */}
