@@ -8,6 +8,7 @@ import { loginPattern } from '../../../Routes';
 
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
+    const [numberOfOrders, setnumberOfOrders] = useState(null)
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -27,6 +28,9 @@ const SignUpPage = () => {
         setUserRole(event.target.value);
     };
 
+    const handleNumberOfOrders = (e) => {
+        setnumberOfOrders(e.target.value)
+    }
 
     // console.log(UserRole, 'this is user role')
 
@@ -66,34 +70,98 @@ const SignUpPage = () => {
                                 UserRole === 'seller' &&
                                 <form className="form" onSubmit={handleSubmit(onSubmit)}>
                                     <h3 className='text-center mb-3'>Create an Account</h3>
-                                    <label>
-                                        <input className='input-field' id="first_name" placeholder="First name"  {...register("first_name", { required: true })} />
-                                        {errors.first_name && <p className="error-message">First name is required!</p>}
-                                    </label>
-                                    <label>
-                                        <input className='input-field' id="last_name" placeholder="Last name" {...register("last_name", { required: true })} />
-                                        {errors.last_name && <p className="error-message">Last name is required!</p>}
-                                    </label>
-                                    <label>
-                                        <input className='input-field' id="company_name" placeholder="Company Name"   {...register("company_name", { required: true })} />
-                                        {errors.company_name && <p className="error-message">This field is required</p>}
-                                    </label>
-                                    <label>
-                                        <input className='input-field' id="contact_number" placeholder="Contact Number" {...register("contact_number", { required: true })} />
-                                        {errors.contact_number && <p className="error-message">Contact number is required</p>}
-                                    </label>
-                                    <label>
-                                        <input className='input-field' id="email" placeholder="Email" {...register("email", { required: true, pattern: /^\S+@\S+$/i })} />
-                                        {errors.email && <p className="error-message">Please enter a valid email address</p>}
-                                    </label>
-                                    <label>
-                                        <input className='input-field' id="password" placeholder="Password" {...register("password", { required: true, minLength: 6 })} type="password" />
-                                        {errors.password && <p className="error-message">Password must be at least 6 characters</p>}
+                                    <div className='d-flex gap-3'>
+                                        <label className="inputBox">
+                                            <input
+                                                autoComplete="off"
+                                                type='text'
+                                                className='input-field'
+                                                id="first_name"
+                                                {...register("first_name", { required: true })}
+                                                required
+                                            />
+                                            <i>First name</i>
+                                            {errors.first_name && <p className="error-message">First name is required!</p>}
+                                        </label>
+                                        <label className="inputBox">
+                                            <input
+                                                autoComplete="off"
+                                                type='text'
+                                                className='input-field'
+                                                id="last_name"
+                                                {...register("last_name", { required: true })}
+                                                required
+                                            />
+                                            <i>Last name</i>
+                                            {errors.last_name && <p className="error-message">Last name is required!</p>}
+                                        </label>
+                                    </div>
+                                    <div className='d-flex gap-3'>
+                                        <label className="inputBox">
+                                            <input
+                                                autoComplete="off"
+                                                type='text'
+                                                className='input-field'
+                                                id="contact_number"
+                                                {...register("contact_number", { required: true })}
+                                                required
+                                            />
+                                            <i>Contact Number</i>
+                                            {errors.contact_number && <p className="error-message">Contact number is required</p>}
+                                        </label>
+                                        <label className="inputBox">
+                                            <input
+                                                autoComplete="off"
+                                                type='text'
+                                                className='input-field'
+                                                id="company_name"
+                                                {...register("company_name", { required: true })}
+                                                required
+                                            />
+                                            <i>Company Name</i>
+                                            {errors.company_name && <p className="error-message">This field is required</p>}
+                                        </label>
+                                    </div>
+                                    <div className='d-flex gap-3'>
+                                        <label className="inputBox">
+                                            <input
+                                                autoComplete="off"
+                                                type='text'
+                                                className='input-field'
+                                                id="email"
+                                                {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+                                                required
+                                            />
+                                            <i>Email</i>
+                                            {errors.email && <p className="error-message">Please enter a valid email address</p>}
+                                        </label>
+                                        <label className="inputBox">
+                                            <input
+                                                autoComplete="off"
+                                                className='input-field'
+                                                type='text'
+                                                id="password"
+                                                {...register("password", { required: true, minLength: 6 })}
+                                                required
+                                            />
+                                            <i>Password</i>
+                                            {errors.password && <p className="error-message">Password must be at least 6 characters</p>}
+                                        </label>
+                                    </div>
+                                    <label className="inputBox">
+                                        <select value={numberOfOrders} onChange={handleNumberOfOrders} className='select-field'>
+                                            <option value=""></option>
+                                            <option value="Setting up a new business">Setting up a new business</option>
+                                            <option value="Between 1-10 orders">Between 1-10 orders</option>
+                                            <option value="11-100 orders">11-100 orders</option>
+                                            <option value="101-1000 orders">101-1000 orders</option>
+                                            <option value="1001-5000 orders">1001-5000 orders</option>
+                                            <option value="More than 5000 orders">More than 5000 orders</option>
+                                        </select>
+                                        <i className={`${numberOfOrders !== (null || "") ? 'd-none' : ''}`}>How many orders do you ship in a month ?</i>
                                     </label>
                                     <button type="submit" className="btn main-button">Sign Up</button>
-
-                                    <p className='signup-text'>Already a member? <button className='btn p-0' href="#" onClick={() => navigate(loginPattern)}>Login</button></p>
-
+                                    <p className='signup-text text-center'>Already a member? <button className='btn p-0' href="#" onClick={() => navigate(loginPattern)}>Login</button></p>
                                 </form>
                             }
 

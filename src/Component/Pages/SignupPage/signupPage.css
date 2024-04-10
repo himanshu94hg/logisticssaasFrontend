@@ -74,8 +74,8 @@
   pointer-events: none;
 }
 
-.signup-section .signup .content .form .inputBox input:focus~i,
-.signup-section .signup .content .form .inputBox input:valid~i {
+.signup-section .signup .content .form .inputBox input:valid~i,
+.signup-section .signup .content .form .inputBox input:focus~i {
   transform: translateY(-1rem);
   font-size: 0.8em;
   color: transparent;

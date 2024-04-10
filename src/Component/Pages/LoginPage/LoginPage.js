@@ -110,7 +110,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
               <img src={Logo} alt="Logo" height={25} />
               {!OtpLogin ? <>
                 <form onSubmit={handleLogin} className="form">
-                  <div className="inputBox">
+                  <label className="inputBox">
                     <input
                       className='input-field'
                       // id='username'
@@ -120,8 +120,8 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                       onChange={(e) => setUsername(e.target.value)}
                       required />
                     <i>Username</i>
-                  </div>
-                  <div className="inputBox">
+                  </label>
+                  <label className="inputBox">
                     <input
                       className='input-field'
                       // id='password'
@@ -131,7 +131,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                       onChange={(e) => setPassword(e.target.value)}
                       required />
                     <i>Password</i>
-                  </div>
+                  </label>
                   <div className="links justify-content-between">
                     <label>
                       <input
@@ -149,7 +149,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
               </> :
                 <>
                   <form onSubmit={handleOTPSubmit} className="form">
-                    <div className="inputBox">
+                    <label className="inputBox">
                       <input
                         className='input-field'
                         // id='username'
@@ -159,11 +159,11 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                         onChange={(e) => setUsername(e.target.value)}
                         required />
                       <i>Mobile Number</i>
-                    </div>
+                    </label>
                     {
                       SentOtp &&
                       <>
-                        <div className="inputBox">
+                        <label className="inputBox">
                           <input
                             className='input-field'
                             // id='password'
@@ -174,7 +174,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                             required
                           />
                           <i>Enter OTP</i>
-                        </div>
+                        </label>
                         <div className="links justify-content-end">
                           <button type='button' onClick={handleResendOTP} className='btn p-0'>{resendText}</button>
                         </div>
