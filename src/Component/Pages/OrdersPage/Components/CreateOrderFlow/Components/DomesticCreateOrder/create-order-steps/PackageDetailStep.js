@@ -22,17 +22,17 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         //     }
         // }
         if (!weight || weight <= 0) {
-            errorsObj.weight = "Dead Weight is required!";
+            errorsObj.weight = "Dead Weight should be greater than 0!";
         }
         if (!length || length <= 0) {
-            errorsObj.length = "Length is required!";
+            errorsObj.length = "Length should be greater than 0!";
         }
         if (!breadth || breadth <= 0) {
-            errorsObj.breadth = "Breadth is required!";
+            errorsObj.breadth = "Breadth should be greater than 0!";
         }
         if (!height || height <= 0) {
-            errorsObj.height = "Height is required!";
-        }
+            errorsObj.height = "Height should be greater than 0!";
+        }        
         setErrors(errorsObj);
         console.log("Package Details Data", Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
