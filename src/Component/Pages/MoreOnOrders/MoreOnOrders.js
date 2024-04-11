@@ -180,7 +180,6 @@ const MoreOnOrders = () => {
         // setHandleResetFrom(true)
     }
 
-
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
