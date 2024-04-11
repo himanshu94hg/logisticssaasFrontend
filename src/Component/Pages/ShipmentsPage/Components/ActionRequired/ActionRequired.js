@@ -17,6 +17,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import moment from "moment";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye } from '@fortawesome/free-solid-svg-icons';
+import { Modal } from 'react-bootstrap';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -136,6 +139,17 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
         setBackDrop(false)
     }
 
+    const [show, setShow] = useState(false);
+    const [selectedData, setSelectedData] = useState(null);
+
+    const handleShow = (row) => {
+        console.log("Modal",row);
+        setSelectedData(row);
+        setShow(true);
+    };
+
+    const handleClose = () => setShow(false);
+
 
     return (
         <section className='position-relative'>
@@ -205,7 +219,9 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
                                         <td>
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
-                                                <p><strong>Attempts: </strong>{row?.ndr_details.length}</p>
+                                                <p ><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
+                                                     <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} />
+                                                </p>
                                                 {row?.ndr_details.length > 0 && (
                                                     row.ndr_details.map((detail, index) => (
                                                         <p key={index}>NDR Reason: {detail.reason}</p>
@@ -284,6 +300,7 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
                 </div>
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                <Preview show={show} handleClose={handleClose} selectedData={selectedData} />
 
             </div>
         </section >
@@ -291,3 +308,37 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
 };
 
 export default ActionRequired;
+
+function Preview({ show, handleClose, selectedData }) {
+    console.log("All Select",selectedData);
+    return (
+        <Modal show={show} onHide={handleClose} size="lg">
+            <Modal.Header closeButton>
+                <Modal.Title>NDR Attempt History</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+            <table className="table">
+                <tbody>
+                    <tr>
+                        <th>Raised Date</th>
+                        <th>Action By</th>
+                        <th>Reason</th>
+                        <th>Remark</th>
+                        <th>Status</th>
+                    </tr>
+                    {selectedData?.ndr_details?.map((row, index) => (
+                        <tr key={index}>
+                            <td>{row?.raised_date ? <DateFormatter dateTimeString={row?.raised_date} /> : ''}</td>
+                            <td>{row?.action_by}</td>
+                            <td>{row?.reason}</td>
+                            <td>{row?.remark}</td>
+                            <td>{row?.action_status}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            </Modal.Body>
+        </Modal>
+    );
+}
