@@ -21,16 +21,16 @@
 }
 
 .signup-section .signup .content {
-  padding: 40px 50px;
+  padding: 20px 50px;
   min-width: 610px;
-  min-height: 62vh;
+  /* min-height: 62vh; */
   background: #fff;
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  gap: 40px;
+  gap: 25px;
   border: 1px solid #d3d3d3;
   border-radius: 20px;
   margin-right: 80px;
@@ -48,7 +48,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 15px;
 }
 
 .signup-section .signup .content .form .inputBox {
@@ -118,4 +118,62 @@
 
 .signup-section .signup .user-role-select label input {
   accent-color: var(--sh-primary);
+}
+
+.signup-section .signup .signup-with-social {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.signup-section .signup .signup-with-social button {
+  border: 1px solid var(--sh-primary-middle);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  padding: 5px 8px;
+}
+
+.signup-section .signup .signup-with-social .v-line {
+  height: 25px;
+  width: 1px;
+  background: #808080ad;
+  margin-inline: 26px;
+}
+
+.signup-section .signup-division {
+  position: relative;
+  width: 100%;
+  display: flex;
+  margin-inline: auto;
+  justify-content: center;
+}
+
+.signup-section .signup-division hr {
+  width: 60%;
+}
+
+.signup-section .signup-division span {
+  position: absolute;
+  left: 45%;
+  top: 21%;
+  background: #fff;
+  padding-inline: 12px;
+  font-size: 0.8rem;
+  color: #808080;
+}
+
+/* 
+.track-order {
+  background: url(../../../assets/image/settingsBG/TrackYourOrder1.png);
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: 50%;
+} */
+
+.track-order img {
+  width: 63%;
+  margin-inline: auto;
 }
