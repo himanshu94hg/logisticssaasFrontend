@@ -495,6 +495,22 @@
   left: 30%;
 }
 
+ul.order-label-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+  white-space: pre;
+}
+
+ul.order-label-list li {
+  padding: 2px 5px;
+  border: 1px solid var(--sh-primary-middle);
+  border-radius: 0.5rem;
+  white-space: nowrap;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;

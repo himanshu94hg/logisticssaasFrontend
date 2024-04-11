@@ -17,6 +17,10 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 
 const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -137,7 +141,20 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
                                                     <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
-
+                                                    <CustomTooltip
+                                                        triggerComponent={<span className='ms-1'>
+                                                            <OrderTagsIcon />
+                                                        </span>}
+                                                        tooltipComponent={
+                                                            <div className='Labels-pool'>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                            </div>
+                                                        }
+                                                        addClassName=''
+                                                    />
                                                 </p>
                                                 {/* <p>{row?.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}

@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircle, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
@@ -25,6 +25,8 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import SingleShipPop from '../Processing/SingleShipPop/SingleShipPop';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
@@ -235,6 +237,21 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                             <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                         </OverlayTrigger>
                                                         <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+
+                                                        <CustomTooltip
+                                                            triggerComponent={<span className='ms-1'>
+                                                                <OrderTagsIcon />
+                                                            </span>}
+                                                            tooltipComponent={
+                                                                <div className='Labels-pool'>
+                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
+                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
+                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
+                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                </div>
+                                                            }
+                                                            addClassName=''
+                                                        />
                                                     </p>
                                                 </div>
                                             </td>
@@ -320,13 +337,13 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
                                                                 : row?.status === "cancelled" ? <span>Clone Order</span>
                                                                     : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
-                                                                        : row?.status === "shipped" ? <span  onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
+                                                                        : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
                                                     }</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        {row.status !== "cancelled" ?  <div className='action-list'>
+                                                        {row.status !== "cancelled" ? <div className='action-list'>
                                                             <ul>
                                                                 {row?.courier_partner != null && (
                                                                     <>
@@ -343,8 +360,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 })}>Cancel Order</li>
                                                             </ul>
-                                                        </div>:""}
-                                                      
+                                                        </div> : ""}
+
                                                     </div>
                                                 </div>
                                             </td>
