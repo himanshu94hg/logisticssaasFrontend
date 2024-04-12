@@ -124,7 +124,6 @@ function* bulkShipOrdersAction(action) {
     try {
         let response = yield call(bulkShipOrderAPI, payload);
         if (response.status === 200) {
-            toast.success("Order Shipped successfully!")
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
         }
 
