@@ -16,7 +16,7 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
   const { zonePathName } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
-    if (zonePathName) { // Only run if pathName is "Zone Mapping" and zoneStatus is false
+    if (zonePathName) {
       setZoneStatus(true)
       setZoneMapping(true)
     }
@@ -37,11 +37,6 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
     }
   };
 
-  const data = [
-    {
-      name: "Sanjeev"
-    }
-  ]
   const exportToExcel = async () => {
     try {
       const response = await dispatch({ type: "ZONE_MAPPING_ACTION", payload: pincode });
@@ -56,14 +51,12 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
     } catch (error) {
       // toast.error('Error exporting data:', error);
     }
-
   };
-
 
 
   return (
     <>
-      <section  ref={popRef}  className={`zone-mapping-container ${zoneStatus ? '' : 'd-none'}`}>
+      <section ref={popRef} className={`zone-mapping-container ${zoneStatus ? '' : 'd-none'}`}>
         <h4>Zone Mapping</h4>
         <form action="">
           <div className='d-flex mt-4 gap-4 align-items-end justify-content-between'>
@@ -72,7 +65,7 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
               <input className='input-field' type="text" placeholder='6 Digits Pick-up Area Pincode' onChange={(e) => setPincode(e.target.value)} />
             </label>
             <button type='button' className='btn main-button' onClick={exportToExcel}>
-              <span className='rotate-180'><PiExport fontSize={25} onClick={()=>setZoneMapping(false)} /></span> Export
+              <span className='rotate-180'><PiExport fontSize={25} onClick={() => setZoneMapping(false)} /></span> Export
             </button>
           </div>
         </form>

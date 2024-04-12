@@ -140,15 +140,17 @@ const EditWareHouse = () => {
     };
 
     const handleInputChange = (e, section) => {
+
         const { name, value } = e.target;
+        console.log (name, value,'this is action data')
         if (section === "rto_details") {
-            setFormData({
-                ...formData,
-                rto_details: {
-                    ...formData.rto_details,
-                    [name]: value
-                }
-            });
+            // setFormData({
+            //     ...formData,
+            //     rto_details: {
+            //         ...formData.rto_details,
+            //         [name]: value
+            //     }
+            // });
         } else {
             setFormData({
                 ...formData,
@@ -344,7 +346,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_warehouse_name"
+                                        name="warehouse_name"
                                         placeholder='Enter Warehouse Name'
                                         value={formData.rto_details.warehouse_name || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
@@ -355,9 +357,9 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_contact_person_name"
+                                        name="contact_person_name"
                                         placeholder='Enter Contact Person Name'
-                                        value={formData.rto_details.contact_person_name || ''}
+                                        value={formData.rto_details.contact_person_name}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
                                     />
                                 </label>
@@ -368,7 +370,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_contact_number"
+                                        name="contact_number"
                                         placeholder='Enter Contact Person Number'
                                         value={formData.rto_details.contact_number || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
@@ -392,7 +394,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_email"
+                                        name="email"
                                         placeholder='Enter Email'
                                         value={formData.rto_details.email || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
@@ -403,7 +405,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_address"
+                                        name="address"
                                         placeholder='Enter Warehouse Address 1'
                                         value={formData.rto_details.address || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
@@ -416,7 +418,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_landmark"
+                                        name="landmark"
                                         placeholder='Enter Landmark'
                                         value={formData.rto_details.landmark || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
@@ -427,7 +429,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_pincode"
+                                        name="pincode"
                                         placeholder='Enter Pincode'
                                         ref={pincodeRef}
                                         onBlur={handlePincodeChange}
@@ -442,7 +444,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_city"
+                                        name="city"
                                         ref={cityRef}
                                         disabled
                                         value={formData.rto_details.city || ''}
@@ -454,7 +456,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_state"
+                                        name="state"
                                         ref={stateRef}
                                         disabled
                                         value={formData.rto_details.state || ''}
@@ -468,7 +470,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_country"
+                                        name="country"
                                         ref={countryRef}
                                         disabled
                                         value={formData.rto_details.country || ''}

@@ -45,8 +45,6 @@ const Dropdown = ({ links, isOpen }) => {
   );
 };
 
-// dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
-
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
@@ -143,7 +141,6 @@ const SideNav = (props) => {
 
   const handleMouseLeave = () => {
     setExpanded(false);
-    // Close all dropdowns when slider is closed
     setOpenDropdown(null);
   };
 
