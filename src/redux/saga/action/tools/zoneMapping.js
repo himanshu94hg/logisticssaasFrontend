@@ -21,7 +21,6 @@ function* zoneMappingAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(zoneMappingAPI, payload);
-        console.log(response,"this is a pincode data")
         if (response.status === 200) {
             toast.success(response?.data?.detail)
             yield put({ type: GET_ZONE_MAPPING_DATA, payload: response?.data })

@@ -11,14 +11,11 @@ import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import EditWareHouse from './EditWareHouse';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
-  const [isOpen, setIsOpen] = useState(null);
   const dispatch = useDispatch()
-
-  
-  
-  
+  const [isOpen, setIsOpen] = useState(null);
   const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
   
   useEffect(() => {
@@ -32,17 +29,13 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
       setDefaultWarehouseIndex(temp)
     }
   }, [boxData])
-  console.log(defaultWarehouseIndex, "this is a box data ")    
 
   const handleToggle = (index, id) => {
     setIsOpen(isOpen === index ? null : index);
   };
 
 
-
-  // Inside BoxGrid component
   const handleSetDefault = (index, id) => {
-    // Check if the current warehouse is already marked as default
     if (defaultWarehouseIndex === index) {
       Swal.fire({
         title: 'Already Default',
@@ -81,7 +74,6 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
   }
 
 
-
   return (
     <div className="box-grid">
       {boxData.map((box, index) => (
@@ -89,11 +81,9 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
-              {console.log(defaultWarehouseIndex, index, "defaultWarehouseIndexdefaultWarehouseIndex")}
               <button
                 onClick={() => handleSetDefault(index, box.id)}
                 className={`btn mark-as-default-btn  ${box?.is_default ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
-                {/* {defaultWarehouseIndex === index ? 'Default' : <span>Mark as Default</span>} */}
                 {box?.is_default ? <span className=''>Default</span> : <span>Mark as Default</span>}
               </button>
               <div>
@@ -222,6 +212,7 @@ const ManageWarehouse = () => {
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>Edit Warehouse</h2>
+         <EditWareHouse/>
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>

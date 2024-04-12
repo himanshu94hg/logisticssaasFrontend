@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
-const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setEditOrderSection,setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -111,6 +111,10 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
 
     }
 
+    const openCloneSection = (id) => {
+        setCloneOrderSection(true)
+        setOrderId(id)
+    }
 
     return (
         <section className='position-relative'>
@@ -309,7 +313,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                                     }
                                                                 })
                                                             }>Mark As Verified</li>
-                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
+                                                            <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                             <li className='action-hr'></li>
                                                             <li onClick={() => dispatch({
                                                                 type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {

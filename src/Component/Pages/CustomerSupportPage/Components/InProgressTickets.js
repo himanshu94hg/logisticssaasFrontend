@@ -4,6 +4,7 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import { useDispatch } from 'react-redux';
+import { capatlize } from '../../../../customFunction/functionLogic';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -90,6 +91,7 @@ console.log(activeTab,"activeTab")
                                 </th>
                                 <th>Ticket ID</th>
                                 <th>AWB(s)</th>
+                                <th>Severity</th>
                                 <th>Subcategory</th>
                                 <th>Ticket Status</th>
                                 <th>Resolution Due By</th>
@@ -120,6 +122,13 @@ console.log(activeTab,"activeTab")
                                             {/* AWB */}
                                             <div className='cell-inside-box'>
                                                 {item?.awb_number}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* AWB */}
+                                            <div className='cell-inside-box'>
+                                            <span className={`fw-bold ${item?.severity==="critical"?"text-danger":item?.severity==="high"?"text-warning":item?.severity==="low"?"text-success":"text-info"}`}> {capatlize(item?.severity)}</span>
+
                                             </div>
                                         </td>
                                         <td>

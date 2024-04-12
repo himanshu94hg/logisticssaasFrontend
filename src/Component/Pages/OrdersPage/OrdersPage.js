@@ -25,6 +25,7 @@ import { RxReset } from "react-icons/rx";
 import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/AddTagPop';
 import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WarehouseUpdatePop/WarehouseUpdatePop';
 import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
+import CloneOrder from './Components/CloneOrder/CloneOrder';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -51,6 +52,7 @@ const OrdersPage = () => {
     const [queryParamSearch, setQueryParamSearch] = useState(null)
     const [activeTab, setActiveTab] = useState("Processing");
     const [EditOrderSection, setEditOrderSection] = useState(false)
+    const [CloneOrderSection, setCloneOrderSection] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
@@ -334,6 +336,8 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
+                        setCloneOrderSection={setCloneOrderSection}
+                        setOrderId={setOrderId}
                     />
                 </div>
 
@@ -360,6 +364,7 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
+                        setCloneOrderSection={setCloneOrderSection}
                         setaddTagShow={setaddTagShow}
                         BulkActionShow={BulkActionShow}
                     />
@@ -435,6 +440,7 @@ const OrdersPage = () => {
             </div>
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
+            <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} />
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}

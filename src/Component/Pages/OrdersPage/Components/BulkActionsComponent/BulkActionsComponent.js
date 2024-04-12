@@ -153,11 +153,7 @@ useEffect(()=>{
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type":
-                    activeTab === "All Orders" || activeTab === "Unprocessable" ||
-                        activeTab === "Processing" || activeTab === "Ready to Ship" ||
-                        activeTab === "Pickup" || activeTab === "Returns"
-                        ? "" : activeTab,
+                "type": activeTab === "All Orders" ? "All Orders" : activeTab ,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
