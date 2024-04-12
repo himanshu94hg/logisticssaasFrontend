@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import EditWareHouse from './EditWareHouse';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
   const [isOpen, setIsOpen] = useState(null);
@@ -32,7 +33,6 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
       setDefaultWarehouseIndex(temp)
     }
   }, [boxData])
-  console.log(defaultWarehouseIndex, "this is a box data ")    
 
   const handleToggle = (index, id) => {
     setIsOpen(isOpen === index ? null : index);
@@ -89,7 +89,6 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
-              {console.log(defaultWarehouseIndex, index, "defaultWarehouseIndexdefaultWarehouseIndex")}
               <button
                 onClick={() => handleSetDefault(index, box.id)}
                 className={`btn mark-as-default-btn  ${box?.is_default ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
@@ -222,6 +221,7 @@ const ManageWarehouse = () => {
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>Edit Warehouse</h2>
+         <EditWareHouse/>
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>

@@ -16,7 +16,6 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
   const { zoneMapping } = useSelector(state => state?.toolsSectionReducer)
   const { pathName } = useSelector(state => state?.authDataReducer)
   const tempPath=pathName+new Date()
-  console.log(pathName, "pathNamepathNamepathName")
 
   useEffect(() => {
     if (pathName==="Zone Mapping") {
@@ -44,7 +43,6 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
       name: "Sanjeev"
     }
   ]
-  console.log(ZoneMapping, 'sdjfnklsndflksndfklnsdlfnsdklfnsdkjfns')
   const exportToExcel = async () => {
     try {
       const response = await dispatch({ type: "ZONE_MAPPING_ACTION", payload: pincode });
