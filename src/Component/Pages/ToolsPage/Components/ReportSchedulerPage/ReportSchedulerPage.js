@@ -37,6 +37,7 @@ const ReportSchedulerPage = () => {
     { value: 'Non-order', label: 'Non-order' },
   ];
   const orderType = [
+    { value: 'both', label: 'Both' },
     { value: 'Prepaid', label: 'Prepaid' },
     { value: 'COD', label: 'COD' },
   ];
