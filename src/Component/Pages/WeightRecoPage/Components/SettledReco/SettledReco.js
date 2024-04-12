@@ -20,6 +20,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -191,7 +192,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                                                     : row?.order?.channel && row?.order?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row?.order?.channel && row?.order?.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                                : row?.order.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     &nbsp; <span className=''>{row?.order?.customer_order_number}</span>
                                                 </p>

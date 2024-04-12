@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../../common/Pagination/Pagination';
 import { toast } from 'react-toastify';
+import { RxReset } from "react-icons/rx";
+import { useSelector } from 'react-redux';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -33,6 +35,9 @@ const CustomerSupportPage = () => {
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
+  const {ticketStatus}=useSelector(state=>state?.customerSupportReducer)
+
+  console.log(ticketStatus,"ticketStatus")
 
   useEffect(() => {
     let url = apiUrl;
@@ -68,7 +73,7 @@ const CustomerSupportPage = () => {
         });
     }
 
-  }, [activeTab, status, currentPage, itemsPerPage]);
+  }, [activeTab, status, currentPage,ticketStatus, itemsPerPage]);
   
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
     const queryParams = new URLSearchParams();
@@ -148,6 +153,8 @@ const CustomerSupportPage = () => {
    }
 }
 
+
+
   return (
     <>
       <div className='support-page position-relative'>
@@ -194,6 +201,7 @@ const CustomerSupportPage = () => {
         </section>
         <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />
       </div>
+      
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
           <FontAwesomeIcon icon={faChevronRight} />

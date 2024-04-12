@@ -37,7 +37,6 @@ function* courierAllocationAction(action) {
     try {
         let response = yield call(courierAllocationAPI, payload);
         if (response.status === 200) {
-            
             // yield put({ type: GET_RATE_CARD_DATA, payload: response })
         }
     } catch (error) {

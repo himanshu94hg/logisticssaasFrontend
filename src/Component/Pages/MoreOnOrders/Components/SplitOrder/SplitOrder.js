@@ -7,6 +7,16 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
 import SplitOrderModal from "../SplitOrder/SplitOrderModal";
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
 
 const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -114,11 +124,11 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                         <thead className="sticky-header">
                         <tr className="table-row box-shadow">
                             <th style={{ width: '1%' }}>
-                                <input
+                                {/* <input
                                     type="checkbox"
                                     checked={selectAll}
                                     onChange={handleSelectAll}
-                                />
+                                /> */}
                             </th>
                             <th style={{ width: '24%' }}>Order Details</th>
                             <th style={{ width: '12.5%' }}>Customer details</th>
@@ -137,27 +147,40 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                                 {index > 0 && <tr className="blank-row"><td></td></tr>}
                                 <tr className='table-row box-shadow'>
                                     <td className='checkbox-cell'>
-                                        <input
+                                        {/* <input
                                             type="checkbox"
                                             checked={selectedRows.includes(row?.id)}
                                             onChange={() => handleSelectRow(row?.id)}
-                                        />
+                                        /> */}
                                     </td>
                                     <td>
                                         {/* order detail */}
                                         <div className='cell-inside-box'>
-                                            <p className=''>
-                                                {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
-                                                {row?.customer_order_number}
-                                            </p>
-                                            <p className='ws-nowrap d-flex align-items-center'>
-                                                {/* {formatDate(row?.inserted)} */}
-                                                {/*<DateFormatter dateTimeString={row?.inserted} />*/}
-                                                <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
-
-                                            </p>
-                                        </div>
+                                                <p className=''>
+                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
+                                                                                    : ""}
+                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
+                                                </p>
+                                                <p className='ws-nowrap d-flex align-items-center'>
+                                                    <OverlayTrigger
+                                                        placement="right"
+                                                        overlay={
+                                                            <Tooltip id={`tooltip-right`}>
+                                                                {row?.order_type}
+                                                            </Tooltip>
+                                                        }
+                                                    >
+                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    </OverlayTrigger>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
+                                            </div>
                                     </td>
                                     <td>
                                         {/* customer detail */}
