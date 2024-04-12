@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './MISPage.css'
 import NavTabs from './Components/navTabs/NavTabs';
 import ScheduledReportsMIS from './Components/ScheduledReportsMIS/ScheduledReportsMIS';
@@ -6,15 +6,16 @@ import ActivityLogsMIS from './Components/ActivityLogsMIS/ActivityLogsMIS';
 import DownloadMIS from './Components/DownloadMIS/DownloadMIS';
 import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
 import Pagination from '../../common/Pagination/Pagination';
+import { useDispatch } from 'react-redux';
 
 const MISPage = () => {
-    const [activeTab, setActiveTab] = useState("ActivityLogsMIS");
-
-    const [selectedOption, setSelectedOption] = useState("Domestic");
+    const dispatch=useDispatch();
     const [isOpen, setIsOpen] = useState(false);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [activeTab, setActiveTab] = useState("ScheduledReportsMIS");
+    const [selectedOption, setSelectedOption] = useState("Domestic");
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -25,28 +26,31 @@ const MISPage = () => {
         setIsOpen(!isOpen);
     };
 
+
+
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='mis-page-container'>
                 {/* OrdersMIS */}
                 <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
-                    <ActivityLogsMIS />
+                    <ActivityLogsMIS activeTab={activeTab}/>
                 </div>
 
                 {/* ShipmentsMIS */}
                 <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
-                    <ScheduledReportsMIS />
+                    <ScheduledReportsMIS activeTab={activeTab}/>
                 </div>
 
                 {/* BillingMIS */}
                 <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
-                    <ReportsMIS />
+                    <ReportsMIS activeTab={activeTab}/>
                 </div>
 
                 {/* ReturnsMIS */}
                 <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
-                    <DownloadMIS />
+                    <DownloadMIS activeTab={activeTab}/>
                 </div>
 
                 <Pagination

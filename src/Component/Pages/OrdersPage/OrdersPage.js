@@ -83,7 +83,7 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(queryName, "billingShipingReceiptExportCard")
+    console.log(queryParamTemp, "billingShipingReceiptExportCard")
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
 
@@ -157,11 +157,14 @@ const OrdersPage = () => {
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
-            setQueryParamTemp({});
+            // setQueryParamTemp({});
             setQueryParamSearch(null);
-            dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
         }
     }, [activeTab])
+
+    useEffect(()=>{
+        dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
+    },[])
 
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
@@ -231,7 +234,7 @@ const OrdersPage = () => {
                     });
             }
         }
-    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes,queryParamTemp, activeTab, currentPage, itemsPerPage]);
 
 
     const handleChange = (option) => {
@@ -284,7 +287,7 @@ const OrdersPage = () => {
                                 type="button"
                                 className="btn main-button-outline ms-2"
                             >
-                                <HiOutlineFilter className='align-text-bottom' />More Filters
+                                <HiOutlineFilter className='align-text-bottom' /> More Filters
                             </button>
                             <button className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden" >Toggle Dropdown</span>

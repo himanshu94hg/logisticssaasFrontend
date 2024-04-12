@@ -1,16 +1,35 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { faCalendarAlt, faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-const ActivityLogsMIS = () => {
+const ActivityLogsMIS = ({activeTab}) => {
+    const dispatch=useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+
+
+    useEffect(()=>{
+        if (activeTab === "ActivityLogsMIS") {
+            dispatch({type:"MIS_ACTIVITIES_LOG_ACTION",payload:{
+                from_date:"2023-04-09",
+                to_date:"2024-04-11"
+            }})
+        }
+    },[activeTab])
+
+
+    const {activitiesLog}=useSelector(state=>state?.misSectionReducer)
+
+    console.log(activitiesLog?.results,"activitiesLogactivitiesLog")
 
     const TypeOptions = [
         { value: '', label: 'Select Type' },
@@ -156,12 +175,13 @@ const ActivityLogsMIS = () => {
                                 <th>Imported</th>
                                 <th>Error Count</th>
                                 <th>Total Count</th>
+                                <th>Remarks</th>
                                 <th>Error Report</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {activitiesLog?.results?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -175,13 +195,13 @@ const ActivityLogsMIS = () => {
                                         <td>
                                             {/* Activity */}
                                             <div className='cell-inside-box'>
-                                                {row.activity}
+                                                {row?.action_type}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Start Time */}
                                             <div className='cell-inside-box'>
-                                                {row.start_time}
+                                                {moment(row.action_time).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>
@@ -206,6 +226,12 @@ const ActivityLogsMIS = () => {
                                             {/* Total Count */}
                                             <div className='cell-inside-box'>
                                                 {row.total_count}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            {/* Total Count */}
+                                            <div className='cell-inside-box'>
+                                                {row?.remarks}
                                             </div>
                                         </td>
                                         <td>

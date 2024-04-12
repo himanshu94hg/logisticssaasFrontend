@@ -154,4 +154,15 @@ export const API_URL = {
   GET_COMMENT : "/orders-api/orders/weight-reconciliation-create-history/",
   GET_DISPUTE : "/orders-api/orders/weight-reconciliation-dispute/",
 
+  //MIS API
+  MIS_DOWNLOAD:"/orders-api/mis/downloads/",
+  MIS_REPORT_BILLING:"/orders-api/mis/report/billing/",
+  MIS_REPORT_ORDERS:"/orders-api/mis/report/orders/",
+  MIS_REPORT_RETURNS:"/orders-api/mis/report/returns/",
+  MIS_REPORT_SHIPMENTS:"/orders-api/mis/report/shipments/",
+  MIS_SCHEDULED_REPEORTS:"/orders-api/mis/scheduled-reports/",
+  MIS_ACTIVITIES_LOG:"/core-api/seller/mis/activity-log/",
+
+  //SETTINGS API
+   SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/"
 };

@@ -16,6 +16,7 @@ import { orderSectionReducer } from "./orders";
 import { exportSectionReducer } from "./exports";
 import { integrationReducer } from "./integration";
 import { customerSupportReducer } from "./customerSupport";
+import { misSectionReducer } from "./mis";
 
 export const rootReducer = combineReducers({
     authDataReducer,
@@ -34,5 +35,6 @@ export const rootReducer = combineReducers({
     orderSectionReducer,
     exportSectionReducer,
     integrationReducer,
-    customerSupportReducer
+    customerSupportReducer,
+    misSectionReducer
 })

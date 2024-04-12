@@ -30,16 +30,7 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "ActivityLogsMIS" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("ActivityLogsMIS");
-              }}
-            >
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Activities
-              </div>
-            </Nav.Link>
+          
             <Nav.Link className={`${props.activeTab === "ScheduledReportsMIS" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("ScheduledReportsMIS");
@@ -68,6 +59,16 @@ export default function NavTabs(props) {
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faCube} /> */}
                 Downloads
+              </div>
+            </Nav.Link>
+            <Nav.Link className={`${props.activeTab === "ActivityLogsMIS" ? "active" : ""}`}
+              onClick={() => {
+                props.setActiveTab("ActivityLogsMIS");
+              }}
+            >
+              <div className="navItemsContainer">
+                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+                Activities
               </div>
             </Nav.Link>
           </div>

@@ -3,9 +3,11 @@ import ShippingChargesMIS from './Components/WeightRecoMIS.js';
 import WeightRecoMIS from './Components/WeightRecoMIS.js';
 import InvoiceMIS from './Components/InvoiceMIS.js';
 import OnHoldRecoMIS from './Components/OnHoldRecoMIS.js';
+import { useSelector } from 'react-redux';
 
 const BillingTableMIS = ({ subType }) => {
 
+    const {reportsBillingData}=useSelector(state=>state?.misSectionReducer)
 
 
     return (
