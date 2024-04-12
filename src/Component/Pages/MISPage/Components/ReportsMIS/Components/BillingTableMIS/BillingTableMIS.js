@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 
 const BillingTableMIS = ({ subType }) => {
 
-    const {reportsBillingData}=useSelector(state=>state?.misSectionReducer)
 
 
     return (

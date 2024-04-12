@@ -2,10 +2,15 @@ import React, { useState } from 'react'
 import moment from 'moment'
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useSelector } from 'react-redux';
 
 const InvoiceMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const {reportsBillingData}=useSelector(state=>state?.misSectionReducer)
+
+    console.log(reportsBillingData,"reportsBillingDatareportsBillingData")
+    
     const [orders, setAllOrders] = useState([
         {
             "id": 506,
@@ -104,7 +109,7 @@ const InvoiceMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {orders.map((row, index) => (
+                {reportsBillingData.length&& reportsBillingData?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
@@ -119,7 +124,7 @@ const InvoiceMIS = () => {
                                 {/* AWB detail */}
                                 <div className='cell-inside-box'>
                                     <p className='text-capitalize'>
-                                        {row?.order_detail?.awb_number}
+                                        {row?.invoice_id}
                                     </p>
                                 </div>
                             </td>
@@ -127,7 +132,7 @@ const InvoiceMIS = () => {
                                 {/* Courier detail */}
                                 <div className='cell-inside-box'>
                                     <p className='text-capitalize'>
-                                        {row?.order_detail?.courier_partner}
+                                        {`${moment(row?.invoice_date).format('DD MMM YYYY')}`}
                                     </p>
                                 </div>
                             </td>
@@ -135,7 +140,7 @@ const InvoiceMIS = () => {
                                 {/* AWB Assigned Date */}
                                 <div className='cell-inside-box'>
                                     <p className=''>
-                                        {`${moment(row?.datetime).format('DD MMM YYYY')}`}
+                                        {`${moment(row?.due_date).format('DD MMM YYYY')}`}
                                     </p>
                                 </div>
                             </td>
@@ -143,7 +148,7 @@ const InvoiceMIS = () => {
                                 {/* Shipment Status */}
                                 <div className='cell-inside-box'>
                                     <p className='text-capitalize'>
-                                        {row?.status}
+                                        {row?.total}
                                     </p>
                                 </div>
                             </td>
@@ -151,7 +156,7 @@ const InvoiceMIS = () => {
                                 {/* Applied Weight Charges */}
                                 <div className='cell-inside-box'>
                                     <p className=''>
-                                        -
+                                        {row?.status}
                                     </p>
                                 </div>
                             </td>
