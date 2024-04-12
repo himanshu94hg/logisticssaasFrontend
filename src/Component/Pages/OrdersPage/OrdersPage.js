@@ -304,7 +304,7 @@ const OrdersPage = () => {
                                     return (
                                         <>
                                             {/* <li className="active">{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li> */}
-                                            <li>{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li>
+                                            <li>{item?.filter_name}</li>
                                         </>
                                     )
                                 })}

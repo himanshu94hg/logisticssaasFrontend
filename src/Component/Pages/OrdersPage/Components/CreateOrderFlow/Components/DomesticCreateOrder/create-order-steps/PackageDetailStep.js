@@ -197,7 +197,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     }
                                 }} />
                             <span class="unit pd-lbh">CM</span>
-                            {(errors.length || editErrors?.length) && <span className="custom-error">{errors.length || editErrors?.length }</span>}
+                            {(errors.length || editErrors?.length) && <span className="custom-error">{errors.length || editErrors?.length}</span>}
 
                         </label>
 
@@ -205,7 +205,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                         <label className='col'>
                             Breadth
                             <input
-                                className={`input-field ${errors.breadth || editErrors?.breadth ? 'input-field-error':''}`}
+                                className={`input-field ${errors.breadth || editErrors?.breadth ? 'input-field-error' : ''}`}
                                 type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9\b.]+$/;
@@ -235,7 +235,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     </div>
                     <div className="volumetric-weight">
                         <label>
-                            Charged Weight
+                            Chargeable Weight
                             <input className='input-field' type="text" value={finalWeight} />
                             <span class="unit">KG</span>
                         </label>
