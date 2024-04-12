@@ -13,16 +13,15 @@ const ZoneMappingPop = ({ ZoneMapping, setZoneMapping }) => {
   const [zoneData, setZoneData] = useState([])
   const [pincode, setPincode] = useState("")
   const [zoneStatus, setZoneStatus] = useState(false)
-  const { zoneMapping } = useSelector(state => state?.toolsSectionReducer)
-  const { pathName } = useSelector(state => state?.authDataReducer)
-  const tempPath=pathName+new Date()
+  const { zonePathName } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
-    if (pathName==="Zone Mapping") {
+    if (zonePathName) { // Only run if pathName is "Zone Mapping" and zoneStatus is false
       setZoneStatus(true)
       setZoneMapping(true)
     }
-  }, [tempPath])
+  }, [zonePathName]);
+
 
   useEffect(() => {
     document.addEventListener('mousedown', handleClickOutside);
