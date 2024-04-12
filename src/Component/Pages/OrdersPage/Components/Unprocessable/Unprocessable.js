@@ -139,16 +139,18 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row?.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row?.inserted} />*/}
-                                                    <OverlayTrigger
-                                                        placement="right"
-                                                        overlay={
-                                                            <Tooltip id={`tooltip-right`}>
-                                                                {row?.order_type}
-                                                            </Tooltip>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <img
+                                                                src={ForwardIcon}
+                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                alt="Forward/Reverse"
+                                                                width={24}
+                                                            />
                                                         }
-                                                    >
-                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    </OverlayTrigger>
+                                                        tooltipComponent={<>{row?.order_type}</>}
+                                                        addClassName='verified-hover'
+                                                    />
                                                     <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
                                                     <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
@@ -216,7 +218,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         </td>
                                         {/* pickup adress */}
                                         <td className='align-middle'>
-                                            <div className='cell-inside-box'>
+                                            <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                 <p>{row?.pickup_details?.p_warehouse_name}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />

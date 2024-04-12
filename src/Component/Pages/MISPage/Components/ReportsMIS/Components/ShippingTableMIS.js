@@ -58,7 +58,7 @@ const ShippingTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {reportShipmentsData?.results.map((row, index) => (
+                { reportShipmentsData?.results?.length&&reportShipmentsData?.results.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
@@ -70,13 +70,11 @@ const ShippingTableMIS = () => {
                                 />
                             </td>
                             <td>
-                                {/* Date */}
                                 <div className='cell-inside-box'>
                                     <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
                                 </div>
                             </td>
                             <td>
-                                {/* NDR Reason*/}
                                 <div className='cell-inside-box'>
                                     <p><strong>Attempts: </strong>{row?.ndr_details.length}</p>
                                     {row?.ndr_details.length > 0 && (
@@ -87,7 +85,6 @@ const ShippingTableMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* package  details */}
                                 <div className='cell-inside-box'>
                                     <p className='width-eclipse'>{row.order_products.product_name}</p>
                                     <p>Wt:  {row?.dimension_detail?.weight} kg <br />
@@ -108,7 +105,6 @@ const ShippingTableMIS = () => {
                                 </div>
                             </td>
                             <td>
-                                {/* customer detail */}
                                 <div className='cell-inside-box'>
                                     <p>{row?.shipping_detail?.recipient_name}</p>
                                     <p>{row?.shipping_detail?.mobile_number ?? null}
@@ -128,7 +124,6 @@ const ShippingTableMIS = () => {
                                 </div>
                             </td>
                             <td className='align-middle'>
-                                {/*  Status section  */}
                                 <p className='order-Status-box'>{row.status}</p>
                             </td>
                         </tr>
