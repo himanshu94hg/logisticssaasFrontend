@@ -1,4 +1,4 @@
-name: DeployFrontEndProject
+name: DeployFrontEndProjectDev
 
 # Controls when the action will run. 
 on:
