@@ -164,5 +164,6 @@ export const API_URL = {
   MIS_ACTIVITIES_LOG:"/core-api/seller/mis/activity-log/",
 
   //SETTINGS API
-   SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/"
+   SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/",
+   SETTINGS_DELETE_WAREHOUSE_API:"/core-api/features/warehouse-detail/"
 };

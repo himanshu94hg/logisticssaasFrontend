@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
   const [isOpen, setIsOpen] = useState(null);
@@ -91,8 +92,9 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
               {console.log(defaultWarehouseIndex, index, "defaultWarehouseIndexdefaultWarehouseIndex")}
               <button
                 onClick={() => handleSetDefault(index, box.id)}
-                className={`btn mark-as-default-btn ${defaultWarehouseIndex === index ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
-                {defaultWarehouseIndex === index ? 'Default' : <span>Mark as Default</span>}
+                className={`btn mark-as-default-btn  ${box?.is_default ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
+                {/* {defaultWarehouseIndex === index ? 'Default' : <span>Mark as Default</span>} */}
+                {box?.is_default ? <span className=''>Default</span> : <span>Mark as Default</span>}
               </button>
               <div>
                 <div className='warehouse-heading mb-2'>
@@ -117,7 +119,9 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
                 <button className='btn main-button-outline' onClick={() => handleToggle(index)}>Show RTO Address</button>
                 <div className='d-flex gap-2'>
                   <button className='btn edit-btn' onClick={() => editWarehouse(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                  <button className='btn delete-btn'><FontAwesomeIcon icon={faTrashCan} /></button>
+                  <button className='btn delete-btn' 
+                  onClick={()=>dispatch({type:"DELETE_WAREHOUSE_ACTION",payload:box?.id})}
+                  ><FontAwesomeIcon icon={faTrashCan} /></button>
                 </div>
               </div>
             </div>
@@ -152,21 +156,20 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
 };
 
 const ManageWarehouse = () => {
-  const [editWarehouse, setEditWarehouse] = useState(false);
-  const [boxes, setBoxes] = useState([]);
   let navigate = useNavigate();
+  const [boxes, setBoxes] = useState([]);
+  let sellerData = Cookies.get("user_id")
+  let authToken = Cookies.get("access_token");
+  const [editWarehouse, setEditWarehouse] = useState(false);
+  const {defaultWarehouseRes}=useSelector(state=>state?.settingsSectionReducer)
 
   useEffect(() => {
     fetchDataFromApi();
-  }, []);
-
-
-  let authToken = Cookies.get("access_token");
-  let sellerData = Cookies.get("user_id")
+  }, [defaultWarehouseRes]);
 
   const fetchDataFromApi = async () => {
     try {
-      const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+      const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }

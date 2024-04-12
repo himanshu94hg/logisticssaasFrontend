@@ -101,7 +101,9 @@
 
 .label-button-container.active {
     background: var(--sh-primary);
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
     border: 1px solid var(--sh-primary);
+    /* border: none; */
     color: #fff;
 }
 

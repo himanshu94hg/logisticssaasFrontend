@@ -372,7 +372,7 @@ const RateCalculatorPage = () => {
                 </div>
                 <div className=" d-flex gap-2 mt-3 charged-weight-sec">
                   <label>
-                    <strong>Charged Weight:</strong>
+                    <strong>Chargeable Weight:</strong>
                     <input type="text" className='input-field' value={chargedWeight} />
                     <span className='unit'>KG</span>
                   </label>
