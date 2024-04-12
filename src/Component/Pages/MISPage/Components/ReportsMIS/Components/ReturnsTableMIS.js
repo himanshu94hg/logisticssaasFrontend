@@ -18,7 +18,6 @@ const ReturnsTableMIS = () => {
     const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
     console.log(reportsReturnsData,"reportShipmentsDatareportShipmentsData")
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -28,17 +27,13 @@ const ReturnsTableMIS = () => {
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === reportsReturnsData?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -68,7 +63,7 @@ const ReturnsTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {reportsReturnsData?.results?.map((row, index) => (
+                {reportsReturnsData?.results?.length&&reportsReturnsData?.results?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
