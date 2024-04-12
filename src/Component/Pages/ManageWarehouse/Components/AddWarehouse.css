@@ -12,3 +12,7 @@
 .input-field-error{
     border: 1px solid red;
 }
+.edit-warehouse-section{
+    height: 100vh;
+    overflow-y: scroll;
+}
