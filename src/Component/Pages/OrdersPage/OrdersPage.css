@@ -232,6 +232,20 @@
   min-height: unset;
 }
 
+.search-container.ot-filters .btn-group ul.dropdown-menu li {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+.search-container.ot-filters .btn-group ul.dropdown-menu li.active {
+  background: #2684FF;
+  color: #fff;
+}
+
+.search-container.ot-filters .btn-group ul.dropdown-menu li:hover {
+  background: #DEEBFF;
+}
+
 .css-t3ipsp-control:hover {
   min-height: unset;
 }

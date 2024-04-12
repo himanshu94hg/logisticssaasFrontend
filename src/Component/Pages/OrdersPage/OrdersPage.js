@@ -116,25 +116,25 @@ const OrdersPage = () => {
         }
         if (searchType === 'shipping_detail__email' && !searchValue) {
             newErrors.shipping_detail__email = 'Email is required!';
-        } 
+        }
         if (searchType === 'shipping_detail__recipient_name' && !searchValue) {
             newErrors.shipping_detail__recipient_name = 'Name is required!';
-        } 
+        }
         if (searchType === 'shipping_detail__pincode' && !searchValue) {
             newErrors.customer_order_number = 'Pincode Number is required!';
-        } 
+        }
         if (searchType === 'shipping_detail__city' && !searchValue) {
             newErrors.customer_order_number = 'City is required!';
-        }   
+        }
         if (searchType === 'awb_number' && !searchValue) {
             newErrors.customer_order_number = 'AWB is required!';
-        }  
-              
+        }
+
         setErrors(newErrors);
         console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
-    
+
     const handleSearch = () => {
         if (validateData()) {
             axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
@@ -142,14 +142,14 @@ const OrdersPage = () => {
                     Authorization: `Bearer ${authToken}`
                 }
             })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-                pageStatusSet(false)
-            })
-            .catch(error => {
-                toast.error("Something went wrong!")
-            });
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setOrders(response.data.results);
+                    pageStatusSet(false)
+                })
+                .catch(error => {
+                    toast.error("Something went wrong!")
+                });
         }
     };
 
@@ -296,13 +296,16 @@ const OrdersPage = () => {
                                 className="dropdown-menu"
                                 type="button"
                                 style={{
-                                    paddingInline: '12px',
+                                    paddingInline: '0px',
                                     minWidth: '110px',
                                 }}
                             >
                                 {queryName?.map((item) => {
                                     return (
-                                        <li>{item?.filter_name}</li>
+                                        <>
+                                            <li>{item?.filter_name}</li>
+                                            {/* <li className="active">{item?.filter_name}</li> */}
+                                        </>
                                     )
                                 })}
                             </ul>
@@ -318,7 +321,7 @@ const OrdersPage = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
-            </div>}
+            </div >}
 
             <div className='orders-section-tabs'>
                 {/* All Orders */}
