@@ -2,11 +2,25 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import moment from 'moment';
 
-const DownloadMIS = () => {
-
+const DownloadMIS = ({ activeTab }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const { misDownloadData } = useSelector(state => state?.misSectionReducer)
+
+    useEffect(() => {
+        if (activeTab === "DownloadMIS") {
+            dispatch({ type: "MIS_DOWNLOAD_ACTION" })
+        }
+    }, [activeTab])
+
+
+    console.log(misDownloadData?.results, "misDownloadDatamisDownloadData")
+
     const [orders, setAllOrders] = useState([
         {
             id: 1,
@@ -94,7 +108,7 @@ const DownloadMIS = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {orders.map((row, index) => (
+                            {misDownloadData?.results?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -108,31 +122,31 @@ const DownloadMIS = () => {
                                         <td>
                                             {/* Name */}
                                             <div className='cell-inside-box'>
-                                                {row.name}
+                                                {row.report_title}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Type */}
                                             <div className='cell-inside-box'>
-                                                {row.type}
+                                                {row.report_type}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Status */}
                                             <div className='cell-inside-box'>
-                                                {row.status}
+                                                {row.report_status}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Request Date */}
                                             <div className='cell-inside-box'>
-                                                {row.requested_date}
+                                                {moment(row.requested_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>
                                             {/* Completed Date */}
                                             <div className='cell-inside-box'>
-                                                {row.completed_date}
+                                                {moment(row.completed_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>

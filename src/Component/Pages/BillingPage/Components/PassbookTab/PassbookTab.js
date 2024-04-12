@@ -120,13 +120,13 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Current Usable Balance:     <span>&#8377; {data?.current_unavailable_balance}</span></p>
+                        <p>Current Usable Balance:     <span>&#8377; {data?.current_unavailable_balance ||0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Balance On Hold:     <span>&#8377; {data?.corrent_on_hold_blance}</span></p>
+                        <p>Balance On Hold:     <span>&#8377; {data?.corrent_on_hold_blance ||0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Balance:     <span>&#8377; {data?.corrent_blance}</span></p>
+                        <p>Total Balance:     <span>&#8377; {data?.corrent_blance||0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
