@@ -28,6 +28,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
 
 const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -207,7 +208,15 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
+                                                    <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                        {row.customer_order_number}
+                                                        <CustomTooltip
+                                                            triggerComponent={<VerifiedOrderIcon />}
+                                                            tooltipComponent='Verified'
+                                                            addClassName='verified-hover'
+                                                        />
+                                                        {/* <VerifiedOrderIcon /> */}
+                                                    </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}

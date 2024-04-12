@@ -364,6 +364,16 @@
   transform: rotate(0deg);
 }
 
+.cell-inside-box .verified-hover {
+  max-width: unset;
+  min-width: unset;
+  max-height: unset;
+  min-height: unset;
+  height: auto;
+  width: auto;
+  font-weight: 700;
+}
+
 .order-Status-box {
   background-color: #c5dcf1;
   padding: 4px 10px;

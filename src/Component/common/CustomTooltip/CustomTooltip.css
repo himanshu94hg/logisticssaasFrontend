@@ -22,12 +22,12 @@
     min-width: 382px;
     max-width: 500px;
     z-index: 6;
-    min-height: 65px;
+    min-height: 39px;
     max-height: 65px;
     overflow-y: auto;
     font-size: 0.8rem;
-    display: flex;
-    align-items: center;
+    /* display: flex; */
+    /* align-items: center; */
 }
 
 .tooltip-container:hover .tooltip {

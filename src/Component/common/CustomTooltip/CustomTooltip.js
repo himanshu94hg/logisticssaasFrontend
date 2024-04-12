@@ -16,7 +16,7 @@ const CustomTooltip = ({ triggerComponent, tooltipComponent, addClassName }) => 
         <div className="tooltip-container" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <div>{triggerComponent}</div>
             {showTooltip &&
-            <div className={`tooltip ${addClassName}`}>{tooltipComponent}</div>
+                <div className={`tooltip ${addClassName}`}>{tooltipComponent}</div>
             }
         </div>
     );
