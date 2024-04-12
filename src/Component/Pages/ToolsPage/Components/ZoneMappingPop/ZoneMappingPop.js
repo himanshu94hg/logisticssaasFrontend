@@ -11,10 +11,11 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
   const [zoneData, setZoneData] = useState([])
   const [pincode, setPincode] = useState("")
   const [zoneStatus, setZoneStatus] = useState(false)
-  const { zonePathName } = useSelector(state => state?.authDataReducer)
+  const { zonePathName,pathName } = useSelector(state => state?.authDataReducer)
+  console.log(zonePathName,"zonePathNamezonePathName>>>>>>>>>>",pathName)
 
   useEffect(() => {
-    if (zonePathName) {
+    if (zonePathName && pathName==="Zone Mapping") {
       setZoneStatus(true)
       setZoneMapping(true)
     }
