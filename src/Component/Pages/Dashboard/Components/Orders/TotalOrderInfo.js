@@ -38,9 +38,9 @@ function TotalOrderInfo() {
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                       Comparative analysis
+                      Comparative analysis
                     </p>
-                  </div> 
+                  </div>
                 </div>
               </div>
               <div className="col-12">
@@ -61,7 +61,7 @@ function TotalOrderInfo() {
 
                     </div>
                     <div>
-                      <p className="font14 text-gray m-0 ws-nowrap">Cancel Order</p>
+                      <p className="font14 text-gray m-0 ws-nowrap">Cancelled Orders</p>
                       <h3 className="font20 title-text p-y bold-600 m0">
                         {orderCount?.cancel_order}
                       </h3>
@@ -70,14 +70,14 @@ function TotalOrderInfo() {
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
-                   <div className="card-footer1">
+                  <div className="card-footer1">
                     <span className="text-red font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end ">
-                       Comparative analysis
+                      Comparative analysis
                     </p>
-                  </div> 
+                  </div>
                 </div>
               </div>
               <div className="col-12">
@@ -104,12 +104,12 @@ function TotalOrderInfo() {
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
-                   <div className="card-footer1">
+                  <div className="card-footer1">
                     <span className="text-red font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                       Comparative analysis
+                      Comparative analysis
                     </p>
                   </div>
                 </div>
@@ -145,9 +145,9 @@ function TotalOrderInfo() {
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                       Comparative analysis
+                      Comparative analysis
                     </p>
-                  </div> 
+                  </div>
                 </div>
               </div>
               <div className="col-12">
