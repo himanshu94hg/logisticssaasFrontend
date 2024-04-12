@@ -47,6 +47,7 @@ export const API_URL = {
   MANIFEST_LIST_API:"/orders-api/orders/manifest/",
   ORDER_TAGS_LIST_API:"/orders-api/orders/order-tags/",
   ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/",
+  ORDER_CLONE_API: "/orders-api/orders/",
   
   //BULK ACTION ACTION SECTION
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",

@@ -29,7 +29,7 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows }) => {
+const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows,setCloneOrderSection,setOrderId }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -167,6 +167,11 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                 order_ids: `${value}`
             }
         })
+    }
+
+    const openCloneSection = (id) => {
+        setCloneOrderSection(true)
+        setOrderId(id)
     }
 
     return (
@@ -363,7 +368,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     </>
                                                                 )}
                                                                 <li>Reassign</li>
-                                                                <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
+                                                                {/* <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li> */}
+                                                                <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
                                                                         awb_numbers: [

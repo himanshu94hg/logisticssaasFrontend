@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA } from "../../../../constants/orders";
-import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION } from "../../../constant/orders";
+import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA,ORDERS_DETAILS_CLONE_DATA } from "../../../../constants/orders";
+import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION,ORDERS_DETAILS_CLONE_ACTION } from "../../../constant/orders";
 
 async function fetchOrderListDataApi(data) {
     let listData = axios.request({
@@ -154,6 +154,31 @@ function* bulkGetOrdersTagAction(action) {
 }
 
 
+//CLONE_ORDERS_API
+async function cloneOrderApi(data) {
+    let listData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_ORDER}${API_URL.ORDER_CLONE_API}`,
+        data: data.formData
+    });
+    return listData
+}
+function* cloneOrderAction(action) {
+    let { payload, } = action;
+    try {
+        let response = yield call(cloneOrderApi, payload);
+        console.log(response, "this is reponse data")
+        if (response.status === 201) {
+            yield put({ type: ORDERS_DETAILS_CLONE_DATA, payload: response?.status })
+            toast.success("Order Clone successfully")
+        }
+
+    } catch (error) {
+        console.log(error, "this is oder id data")
+        toast.error(`Please enter valid order id!`)
+    }
+}
+
 
 
 export function* ordersTabWatcher() {
@@ -165,5 +190,6 @@ export function* ordersTabWatcher() {
     yield takeLatest(BULK_SHIP_ORDERS_ACTION, bulkShipOrdersAction);
     yield takeLatest(ORDERS_TAG_LIST_API_ACTION, bulkGetOrdersTagAction);
     yield takeLatest(GET_SAVE_FAVOURITE_ORDERS_ACTION, saveFavListAction);
+    yield takeLatest(ORDERS_DETAILS_CLONE_ACTION, cloneOrderAction);
 
 }
