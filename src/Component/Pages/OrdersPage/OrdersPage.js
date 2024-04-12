@@ -321,7 +321,7 @@ const OrdersPage = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
-            </div >}
+            </div>}
 
             <div className='orders-section-tabs'>
                 {/* All Orders */}
@@ -443,7 +443,7 @@ const OrdersPage = () => {
                 handleResetFrom={handleResetFrom}
                 setHandleResetFrom={setHandleResetFrom}
             />
-            <div className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
+            <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
             <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
                 <AddTagPop

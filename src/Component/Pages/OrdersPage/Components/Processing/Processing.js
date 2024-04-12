@@ -177,16 +177,18 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    <OverlayTrigger
-                                                        placement="right"
-                                                        overlay={
-                                                            <Tooltip id={`tooltip-right`}>
-                                                                {row?.order_type}
-                                                            </Tooltip>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <img
+                                                                src={ForwardIcon}
+                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                alt="Forward/Reverse"
+                                                                width={24}
+                                                            />
                                                         }
-                                                    >
-                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    </OverlayTrigger>
+                                                        tooltipComponent={<>{row?.order_type}</>}
+                                                        addClassName='verified-hover'
+                                                    />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
                                                     <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
@@ -223,7 +225,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -236,6 +238,9 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}
+
                                                 </p>
                                             </div>
                                         </td>
@@ -248,32 +253,32 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                         </td>
                                         {/* pickup adress */}
                                         <td className='align-middle'>
-                                            <div className='cell-inside-box'>
-                                                {row?.order_type === "Forward" ?
-                                                    <p>{row?.pickup_details?.p_warehouse_name}
-                                                        <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.pickup_details?.p_address_line1},
-                                                                {row?.pickup_details?.p_address_line2},<br />
-                                                                {row?.pickup_details?.p_city},
-                                                                {row?.pickup_details?.p_state},
-                                                                {row?.pickup_details?.p_pincode}
+                                            <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
+                                                {
+                                                    row?.order_type === "Forward" ?
+                                                        <p>{row?.pickup_details?.p_warehouse_name}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.pickup_details?.p_address_line1},
+                                                                    {row?.pickup_details?.p_address_line2},<br />
+                                                                    {row?.pickup_details?.p_city},
+                                                                    {row?.pickup_details?.p_state},
+                                                                    {row?.pickup_details?.p_pincode}
+                                                                </span>
                                                             </span>
-
-                                                        </span>
-                                                    </p> : <p>{row?.shipping_detail?.address}
-                                                        <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.shipping_detail?.address},
-                                                                {row?.shipping_detail?.landmark},<br />
-                                                                {row?.shipping_detail?.city},
-                                                                {row?.shipping_detail?.state},
-                                                                {row?.shipping_detail?.pincode}
+                                                        </p> : <p>{row?.shipping_detail?.address}
+                                                            <span className='details-on-hover ms-2'>
+                                                                <InfoIcon />
+                                                                <span style={{ width: '250px' }}>
+                                                                    {row?.shipping_detail?.address},
+                                                                    {row?.shipping_detail?.landmark},<br />
+                                                                    {row?.shipping_detail?.city},
+                                                                    {row?.shipping_detail?.state},
+                                                                    {row?.shipping_detail?.pincode}
+                                                                </span>
                                                             </span>
-                                                        </span>
-                                                    </p>
+                                                        </p>
                                                 }
                                             </div>
                                         </td>

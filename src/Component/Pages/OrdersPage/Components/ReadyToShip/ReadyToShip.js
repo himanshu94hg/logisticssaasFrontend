@@ -237,16 +237,18 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
                                                     {/*<DateFormatter dateTimeString={row.inserted} />*/}
-                                                    <OverlayTrigger
-                                                        placement="right"
-                                                        overlay={
-                                                            <Tooltip id={`tooltip-right`}>
-                                                                {row?.order_type}
-                                                            </Tooltip>
+                                                    <CustomTooltip
+                                                        triggerComponent={
+                                                            <img
+                                                                src={ForwardIcon}
+                                                                className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`}
+                                                                alt="Forward/Reverse"
+                                                                width={24}
+                                                            />
                                                         }
-                                                    >
-                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    </OverlayTrigger>
+                                                        tooltipComponent={<>{row?.order_type}</>}
+                                                        addClassName='verified-hover'
+                                                    />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
                                                     <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
@@ -315,7 +317,7 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                         <td className='align-middle'>
                                             {/* pickup adress */}
                                             <td className='align-middle'>
-                                                <div className='cell-inside-box'>
+                                                <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                     <p>{row?.pickup_details?.p_warehouse_name}
                                                         <span className='details-on-hover ms-2'>
                                                             <InfoIcon />
