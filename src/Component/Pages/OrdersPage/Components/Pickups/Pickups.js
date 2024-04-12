@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircle, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -26,13 +26,16 @@ import Cookies from 'js-cookie';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
 
 const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
-    const token=Cookies.get("access_token")
+    const token = Cookies.get("access_token")
 
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -91,14 +94,14 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
 
     const handleDownloadLabel = async (orderId) => {
         const requestData = {
-            order_ids: `${orderId}` 
+            order_ids: `${orderId}`
         };
         try {
             const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(requestData)
             });
@@ -122,14 +125,14 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
 
     const handleDownloadInvoice = async (orderId) => {
         const requestData = {
-            order_ids: `${orderId}` 
+            order_ids: `${orderId}`
         };
         try {
             const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}` 
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(requestData)
             });
@@ -205,7 +208,15 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
+                                                    <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                        {row.customer_order_number}
+                                                        <CustomTooltip
+                                                            triggerComponent={<VerifiedOrderIcon />}
+                                                            tooltipComponent='Verified'
+                                                            addClassName='verified-hover'
+                                                        />
+                                                        {/* <VerifiedOrderIcon /> */}
+                                                    </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     {/* {formatDate(row.inserted)} */}
@@ -221,6 +232,20 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    <CustomTooltip
+                                                        triggerComponent={<span className='ms-1'>
+                                                            <OrderTagsIcon />
+                                                        </span>}
+                                                        tooltipComponent={
+                                                            <div className='Labels-pool'>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                            </div>
+                                                        }
+                                                        addClassName=''
+                                                    />
                                                 </p>
                                                 {/* <p>{row.channel}</p> */}
                                                 {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}

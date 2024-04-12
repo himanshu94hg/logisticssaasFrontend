@@ -135,14 +135,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                 <th style={{ width: '12%' }}>Courier Partner</th>
                                 <th style={{ width: '12%' }}>Extra Amount Charged</th>
                                 <th style={{ width: '12%' }}>On Hold Amount</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
+                              
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -161,34 +154,16 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className=''>
-                                                    <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row.channel}</span>
-                                                    {row?.order_details?.order_number}
-                                                </p> */}
+                                              
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <DateFormatter dateTimeString={row?.order?.awb_assigned_date} />
-                                                    {/* <img src={ForwardIcon} className={`ms-2 ${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
                                                 </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.id}</p>
-                                                {/* <p>{row.s_contact}
-                                                    <span className='details-on-hover ms-2'>
-                                                        <InfoIcon />
-                                                        <span style={{ width: '150px' }}>
-                                                            {row.s_city}, {row.s_state}, {row.s_pincode}
-                                                        </span>
-                                                    </span>
-                                                </p> */}
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -203,7 +178,6 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                             <div className='cell-inside-box'>
 
                                                 <p className='mt-1'>
-
                                                     {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
                                                     <span className='text-capitalize'>{row?.order?.courier_partner}</span>
                                                 </p>
@@ -230,13 +204,6 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                     </table>
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
-
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>

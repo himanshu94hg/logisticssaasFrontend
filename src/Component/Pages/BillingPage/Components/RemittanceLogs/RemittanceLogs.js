@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -126,16 +127,16 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total COD:     <span>&#8377; {data?.cod_total ?? 0}</span></p>
+                        <p>Total COD:     <span>&#8377; {data?.cod_total || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Remitted:     <span>&#8377; {data?.remitted_cod ?? 0}</span></p>
+                        <p>COD Remitted:     <span>&#8377; {data?.remitted_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Pending:     <span>&#8377; {data?.cod_total - data?.remitted_cod ?? 0}</span></p>
+                        <p>COD Pending:     <span>&#8377; {data?.cod_total - data?.remitted_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remittance Date:     <span>&#8377; {data?.nextRemitDate ?? ""}</span></p>
+                        <p>Next Remittance Date:     <span>&#8377; {data?.nextRemitDate || moment(new Date()).format("DD MMM")}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p>Next Remit Amount:     <span>&#8377; {data?.nextRemitCod ?? 0}</span></p>
