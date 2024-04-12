@@ -18,7 +18,7 @@ import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faTrash, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
@@ -162,9 +162,9 @@ const OrdersPage = () => {
         }
     }, [activeTab])
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
-    },[])
+    }, [])
 
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
@@ -234,7 +234,7 @@ const OrdersPage = () => {
                     });
             }
         }
-    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes,queryParamTemp, activeTab, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, queryParamTemp, activeTab, currentPage, itemsPerPage]);
 
 
     const handleChange = (option) => {
@@ -303,8 +303,8 @@ const OrdersPage = () => {
                                 {queryName?.map((item) => {
                                     return (
                                         <>
-                                            <li>{item?.filter_name}</li>
-                                            {/* <li className="active">{item?.filter_name}</li> */}
+                                            {/* <li className="active">{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li> */}
+                                            <li>{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li>
                                         </>
                                     )
                                 })}
