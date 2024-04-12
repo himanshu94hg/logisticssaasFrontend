@@ -42,7 +42,7 @@ const MoreOnOrders = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [queryParamSearch, setQueryParamSearch] = useState(null)
-    const [activeTab, setActiveTab] = useState("Merge Order");
+    const [activeTab, setActiveTab] = useState("Reassign Order");
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -125,7 +125,7 @@ const MoreOnOrders = () => {
 
     useEffect(() => {
         let apiUrl = '';
-        if(pageStatus){
+        if (pageStatus) {
             switch (activeTab) {
                 case "Reassign Order":
                     apiUrl = `https://dev.shipease.in/core-api/shipping/reassign/?page_size=${itemsPerPage}&page=${currentPage}`;
@@ -142,32 +142,23 @@ const MoreOnOrders = () => {
                 default:
                     apiUrl = '';
             }
-    
+
             if (apiUrl) {
-                const queryParams = { ...queryParamTemp };
-                const queryString = Object.keys(queryParams)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                    .join('&');
-    
-                if (queryString) {
-                    apiUrl += '&' + queryString;
-                }
                 axios.get(apiUrl, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
                 })
-                    .then(response => {
-                        setTotalItems(response?.data?.count)
-                        setOrders(response.data.results);
-                    })
-                    .catch(error => {
-                        toast.error("Something went wrong!")
-                    });
+                .then(response => {
+                    setTotalItems(response?.data?.count);
+                    setOrders(response.data.results);
+                })
+                .catch(error => {
+                    toast.error("Something went wrong!")
+                });
             }
         }
     }, [activeTab, queryParamTemp, currentPage, itemsPerPage]);
-
 
     console.log( activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
 
@@ -188,7 +179,6 @@ const MoreOnOrders = () => {
         setSearchValue("")
         // setHandleResetFrom(true)
     }
-
 
     return (
         <>

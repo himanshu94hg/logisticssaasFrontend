@@ -10,6 +10,16 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { toast } from 'react-toastify';
 
 
@@ -191,16 +201,29 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {/* <img src={AmazonLogo} alt='AmazonLogo' width={24} className='me-2' /><span className='me-2 text-capitalize'>{row?.channel}</span> */}
-                                                    {row?.customer_order_number}
+                                                    {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
+                                                        : row.channel.toLowerCase() === "woocommerce" ? <img src={woocomImg} alt="Manual" width="20" />
+                                                            : row.channel.toLowerCase() === "opencart" ? <img src={openCartImg} alt="Manual" width="20" />
+                                                                : row.channel.toLowerCase() === "storehippo" ? <img src={storeHipImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
+                                                                        : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
+                                                                            : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
+                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
+                                                                                    : ""}
+                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    {/* {formatDate(row?.inserted)} */}
-                                                    {/*<DateFormatter dateTimeString={row?.inserted} />*/}
-                                                    <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
-                                                    <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
-
-                                                </p>
+                                                    <OverlayTrigger
+                                                        placement="right"
+                                                        overlay={
+                                                            <Tooltip id={`tooltip-right`}>
+                                                                {row?.order_type}
+                                                            </Tooltip>
+                                                        }
+                                                    >
+                                                        <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
+                                                    </OverlayTrigger>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -272,7 +295,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button' onClick={() => handleShipNow(row?.id)}>Reassign Order</button>
-                                                <div className='action-options'>
+                                                {/* <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
@@ -289,7 +312,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
 
                                                         </ul>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
                                         </td>
                                     </tr>

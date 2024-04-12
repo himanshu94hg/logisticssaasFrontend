@@ -1,11 +1,26 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import moment from 'moment';
 
-const ScheduledReportsMIS = () => {
+const ScheduledReportsMIS = ({activeTab}) => {
+    const dispatch=useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const {scheduleReportsData}=useSelector(state=>state?.misSectionReducer)
+
+    console.log(scheduleReportsData,"scheduleReportsDatascheduleReportsData")
+
+
+    useEffect(() => {
+        if (activeTab === "ScheduledReportsMIS") {
+            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION" })
+        }
+    }, [activeTab])
+
     // Dummy data
     const dummyData = [
         { id: 1, reportTitle: 'Report 1', reportType: 'Type 1', status: 'Pending', recipients: 'Recipient 1' },
@@ -71,6 +86,8 @@ const ScheduledReportsMIS = () => {
                                 </th>
                                 <th style={{ width: '25%' }}>Report Title</th>
                                 <th>Report Type</th>
+                                <th>Created</th>
+                                <th>Finished</th>
                                 <th>Status</th>
                                 <th>Recipients</th>
                                 <th>Action</th>
@@ -78,7 +95,7 @@ const ScheduledReportsMIS = () => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {dummyData.map((row, index) => (
+                            {scheduleReportsData?.results?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -91,22 +108,32 @@ const ScheduledReportsMIS = () => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {row.reportTitle}
+                                                {row?.report_title}
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {row.reportType}
+                                                {row?.report_type}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='cell-inside-box'>
-                                                {row.status}
+                                                {moment(row?.created_at).format("DD MMM YYYY")}
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            <div className='cell-inside-box'>
+                                                {moment(row?.finished_at).format("DD MMM YYYY")}
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            <div className='cell-inside-box'>
+                                                {row?.report_status}
                                             </div>
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {row.recipients}
+                                                {row?.recipients}
                                             </div>
                                         </td>
                                         <td>

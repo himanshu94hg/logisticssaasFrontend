@@ -201,17 +201,9 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                 <th style={{ width: '12%' }}>Shipping Details</th>
                                 <th style={{ width: '12%' }}>Entered Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
-                                {/* <th style={{ width: '12%' }}>Settled Weight & Dimensions (CM)</th> */}
-                                <th style={{ width: '12%' }}>Status <FontAwesomeIcon icon={faFilter} className="filter-icon" onClick={handleSidePanel} /></th>
+                                <th style={{ width: '12%' }}>Status </th>
                                 <th style={{ width: '12%' }}>Action</th>
-                                {/* <th style={{ width: '25%' }}>Order Details</th>
-                                <th style={{ width: '10%' }}>Customer details</th>
-                                <th style={{ width: '10%' }}>Package Details</th>
-                                <th style={{ width: '5%' }}>Payment</th>
-                                <th style={{ width: '12%' }}>Pickup Address</th>
-                                <th style={{ width: '8%' }}>Shipping Details</th>
-                                <th style={{ width: '5%' }}>Status</th>
-                                <th style={{ width: '5%' }}>Action</th> */}
+                               
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>

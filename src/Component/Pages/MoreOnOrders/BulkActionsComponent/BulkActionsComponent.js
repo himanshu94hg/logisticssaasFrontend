@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse }) => {
     const dispatch = useDispatch();
@@ -125,6 +127,51 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
         }
     }, [shipButtonClicked, bulkShipData]);
 
+    const handleMergeOrders = async () => {
+        try {
+            const authToken = Cookies.get("access_token");
+            if (!authToken) {
+                throw new Error("Authentication token not found.");
+            }
+    
+            if (selectedRows.length === 0) {
+                throw new Error('Please select at least one order to merge.');
+            }
+    
+            const data = JSON.stringify({
+                "order_ids": selectedRows.join(',')
+            });
+    
+            const config = {
+                method: 'post',
+                url: `${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`,
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                },
+                data: data
+            };
+    
+            const response = await axios.request(config);
+    
+            if (response.ok) {
+                toast.success("Order merged successfully.");
+            } else {
+                const errorMessage = response.data && response.data.detail ? response.data.detail : 'Order cannot be merged.';
+                throw new Error(errorMessage);
+            }
+        } catch (error) {
+            if (error.response) {
+                toast.error(`Error: ${error.response.data.detail}`);
+            } else if (error.request) {
+                toast.error("No response from server.");
+            } else {
+                toast.error(error.message);
+            }
+        }
+    };
+    
+
 
 
     return (
@@ -137,49 +184,21 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
                             <span>Rows Selected</span>
                         </div>
                         <ul className='ba-actions'>
-
-                            {activeTab === "Split Order" &&
-                                <>
-                                    <li onClick={() => addTag()}><span>Add Tag</span></li>
-                                    <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                                    <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
-                                    <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
-                                    <li onClick={handelBulkShip}><span>Ship</span></li>
-                                    <li onClick={handleExport}><span>Export</span></li>
-                                </>
-                            }
-
-                            {activeTab === "Reverse Order" &&
-                                <>
-                                    <li onClick={() => addTag()}><span>Add Tag</span></li>
-                                    <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                                    <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
-                                    <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
-                                    <li onClick={handelBulkShip}><span>Ship</span></li>
-                                    <li onClick={handleExport}><span>Export</span></li>
-                                </>
-                            }
                             {activeTab === "Merge Order" && <>
-                                <li onClick={() => addTag()}><span>Add Tag</span></li>
+                                {/* <li onClick={() => addTag()}><span>Add Tag</span></li>
                                 <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
+                                <li onClick={() => bulkCancelled()}><span>Cancel</span></li> */}
                                 <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                                <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
+                                <li onClick={() => handleMergeOrders()}><span>Merge</span></li>
+                                {/* <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
                                 <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
                                 <li onClick={handelBulkShip}><span>Ship</span></li>
-                                <li onClick={handleExport}><span>Export</span></li>
+                                <li onClick={handleExport}><span>Export</span></li> */}
                             </>}
                             {activeTab === "Reassign Order" &&
                                 <>
                                     <li ><span>Reassign</span></li>
-                                    <li ><span>Label</span></li>
-                                    <li ><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled()}><span>Cancel</span></li>
-                                    <li onClick={handleExport}><span>Export</span></li>
+                                    {/* <li onClick={handleExport}><span>Export</span></li> */}
                                 </>
                             }
                         </ul>

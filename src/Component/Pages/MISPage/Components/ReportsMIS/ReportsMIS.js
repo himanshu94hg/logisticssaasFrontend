@@ -9,13 +9,19 @@ import ShippingTableMIS from './Components/ShippingTableMIS';
 import Swal from 'sweetalert2';
 import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
 import ReturnsTableMIS from './Components/ReturnsTableMIS';
+import { useDispatch } from 'react-redux';
+import moment from 'moment';
+import { useSelector } from 'react-redux';
 
-const ReportsMIS = () => {
+const ReportsMIS = ({ activeTab }) => {
+    const dispatch = useDispatch()
     const [showComponent, setShowComponent] = useState(null);
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
     const [secondSelectedOption, setSecondSelectedOption] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [stateData, setStateData] = useState(false)
+    const [stateData1, setStateData1] = useState(new Date())
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -28,11 +34,10 @@ const ReportsMIS = () => {
     const secondOptionsMap = {
         Orders: [
             { value: '', label: 'Select Option' },
-            { value: 'all_order', label: 'All Orders' },
-            { value: 'process_order', label: 'Processing Order' },
-            { value: 'shipped_order', label: 'Shipped Order' },
-            { value: 'manifest_order', label: 'Manifested Order' },
-            { value: 'delivered_order', label: 'Delivered Order' },
+            { value: 'all_orders', label: 'All Orders' },
+            { value: 'processing_orders', label: 'Processing Order' },
+            { value: 'shipped_orders', label: 'Shipped Order' },
+            { value: 'delivered_orders', label: 'Delivered Order' },
             { value: 'picked_orders', label: 'Picked Orders' },
             { value: 'archive_orders', label: 'Archive Orders' },
         ],
@@ -73,22 +78,65 @@ const ReportsMIS = () => {
     };
 
     // Handle date picker change
-    const handleStartDateChange = date => {
+    const handleStartDateChange = (date) => {
+        console.log(date, "this is date data")
         setStartDate(date);
     };
 
-    const handleEndDateChange = date => {
+    const handleEndDateChange = (date) => {
         setEndDate(date);
     };
+
+    console.log(startDate, endDate, "this is start date and end date")
+
+
+    useEffect(() => {
+        // if(stateData){
+            if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
+                dispatch({
+                    type: "MIS_REPORT_ORDERS_ACTION", payload: {
+                        sub_type: secondSelectedOption?.value,
+                        start_date: moment(startDate).format("YYYY-MM-DD"),
+                        end_date: moment(endDate).format("YYYY-MM-DD")
+                    }
+                })
+            } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
+                dispatch({
+                    type: "MIS_REPORT_BILLING_ACTION", payload: {
+                        sub_type: secondSelectedOption?.value,
+                        start_date: moment(startDate).format("YYYY-MM-DD"),
+                        end_date: moment(endDate).format("YYYY-MM-DD")
+                    }
+                })
+            } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
+                dispatch({
+                    type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                        sub_type: secondSelectedOption?.value,
+                        start_date: moment(startDate).format("YYYY-MM-DD"),
+                        end_date: moment(endDate).format("YYYY-MM-DD")
+                    }
+                })
+            } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
+                dispatch({
+                    type: "MIS_REPORT_RETURNS_ACTION", payload: {
+                        sub_type: secondSelectedOption?.value,
+                        start_date: moment(startDate).format("YYYY-MM-DD"),
+                        end_date: moment(endDate).format("YYYY-MM-DD")
+                    }
+                })
+            }
+        // }
+    }, [showComponent,stateData1])
+
 
     // Handle form submit
     const handleSubmit = e => {
         e.preventDefault();
-        //console.log("THis is second,,,,,,,,,,,," + secondSelectedOption.value)
+        setStateData(true)
+        setStateData1(new Date())
+        console.log(showComponent, "showComponentshowComponent")
         if (firstSelectedOption && secondSelectedOption) {
-            // Reset second select after submit
             setShowComponent(firstSelectedOption.value);
-
         } else if (!firstSelectedOption) {
             Swal.fire({
                 icon: 'error',
@@ -172,6 +220,7 @@ const ReportsMIS = () => {
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setStateData={setStateData}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS

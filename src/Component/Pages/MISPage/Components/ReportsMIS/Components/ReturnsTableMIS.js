@@ -10,175 +10,19 @@ import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.
 import customImg from "../../../../../../assets/image/integration/Manual.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
+import { useSelector } from 'react-redux'
 
 const ReturnsTableMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [orders, setAllOrders] = useState([
-        {
-            "id": 1239,
-            "customer_order_number": "Test26032024-clone",
-            "courier_partner": "xpressbees",
-            "channel": "custom",
-            "channel_id": null,
-            "awb_number": "Xbees10006",
-            "order_tag": "",
-            "order_type": "Forward",
-            "order_date": "2024-03-26T10:52:46.028000+05:30",
-            "order_courier_status": "Ready_to_ship",
-            "awb_assigned_date": "2024-03-26T17:56:15.057946+05:30",
-            "is_mps": false,
-            "manifest_sent": false,
-            "fulfillment_sent": false,
-            "ndr_status": false,
-            "rto_status": false,
-            "manifest_status": false,
-            "payment_type": "Prepaid",
-            "invoice_amount": "500.00",
-            "status": "shipped",
-            "created_at": "2024-03-26T17:56:14.962924+05:30",
-            "shipping_detail": {
-                "recipient_name": "Vinit",
-                "address": "P584 Hair om Nagar",
-                "landmark": "AWS",
-                "country": "India",
-                "state": "Gujarat",
-                "city": "Surat",
-                "pincode": "394221",
-                "mobile_number": "9874563215",
-                "email": "",
-                "company_name": "",
-                "contact_code": "91"
-            },
-            "order_products": [
-                {
-                    "id": 1572,
-                    "sku": "DWDED",
-                    "product_name": "AWS",
-                    "quantity": 2,
-                    "product_category": "",
-                    "unit_price": "0.00",
-                    "hsn_code": "",
-                    "tax_rate": null,
-                    "product_discount": "0.00"
-                }
-            ],
-            "dimension_detail": {
-                "weight": "0.50",
-                "length": "10.00",
-                "breadth": "10.00",
-                "height": "10.00",
-                "vol_weight": "0.20"
-            },
-            "pickup_details": {
-                "p_customer_name": "Amit",
-                "p_warehouse_name": "BMU",
-                "p_address_line1": "1234 Main Street, Suite 500 Anytown, CA",
-                "p_address_line2": "Hanuman mandir",
-                "p_country": "India",
-                "p_state": "Gujarat",
-                "p_city": "Surat",
-                "p_pincode": "394250",
-                "p_contact": "9874561235",
-                "p_contact_code": "+91"
-            },
-            "charge_detail": {
-                "cod_charges": "0.00",
-                "shipping_charges": "35.40",
-                "transaction_fee": null,
-                "is_gift_wrap": true
-            },
-            "other_details": {
-                "reseller_name": "",
-                "number_of_packets": 0
-            }
-        },
-        {
-            "id": 1238,
-            "customer_order_number": "Test26032024-clone",
-            "courier_partner": "smartr",
-            "channel": "custom",
-            "channel_id": null,
-            "awb_number": "SM100016",
-            "order_tag": "",
-            "order_type": "Forward",
-            "order_date": "2024-03-26T10:52:46.028000+05:30",
-            "order_courier_status": "Ready_to_ship",
-            "awb_assigned_date": "2024-03-26T17:56:10.607029+05:30",
-            "is_mps": false,
-            "manifest_sent": false,
-            "fulfillment_sent": false,
-            "ndr_status": false,
-            "rto_status": false,
-            "manifest_status": false,
-            "payment_type": "Prepaid",
-            "invoice_amount": "500.00",
-            "status": "shipped",
-            "created_at": "2024-03-26T17:56:10.506705+05:30",
-            "shipping_detail": {
-                "recipient_name": "Vinit",
-                "address": "P584 Hair om Nagar",
-                "landmark": "AWS",
-                "country": "India",
-                "state": "Gujarat",
-                "city": "Surat",
-                "pincode": "394221",
-                "mobile_number": "9874563215",
-                "email": "",
-                "company_name": "",
-                "contact_code": "91"
-            },
-            "order_products": [
-                {
-                    "id": 1571,
-                    "sku": "DWDED",
-                    "product_name": "AWS",
-                    "quantity": 2,
-                    "product_category": "",
-                    "unit_price": "0.00",
-                    "hsn_code": "",
-                    "tax_rate": null,
-                    "product_discount": "0.00"
-                }
-            ],
-            "dimension_detail": {
-                "weight": "0.50",
-                "length": "10.00",
-                "breadth": "10.00",
-                "height": "10.00",
-                "vol_weight": "0.20"
-            },
-            "pickup_details": {
-                "p_customer_name": "Amit",
-                "p_warehouse_name": "BMU",
-                "p_address_line1": "1234 Main Street, Suite 500 Anytown, CA",
-                "p_address_line2": "Hanuman mandir",
-                "p_country": "India",
-                "p_state": "Gujarat",
-                "p_city": "Surat",
-                "p_pincode": "394250",
-                "p_contact": "9874561235",
-                "p_contact_code": "+91"
-            },
-            "charge_detail": {
-                "cod_charges": "0.00",
-                "shipping_charges": "35.40",
-                "transaction_fee": null,
-                "is_gift_wrap": true
-            },
-            "other_details": {
-                "reseller_name": "",
-                "number_of_packets": 0
-            }
-        },
-        // Add more dummy data as needed
-    ]);
+    const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
+    console.log(reportsReturnsData,"reportShipmentsDatareportShipmentsData")
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(reportsReturnsData?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -195,7 +39,7 @@ const ReturnsTableMIS = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === reportsReturnsData?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -224,7 +68,7 @@ const ReturnsTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {orders.map((row, index) => (
+                {reportsReturnsData?.results?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>

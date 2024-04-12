@@ -148,15 +148,6 @@ useEffect(()=>{
         //     ]
         // })
     }
-    const handelBulkShip = () => {
-        let data = {
-            "order_ids": selectedRows.map(id => id.toString())
-        };
-        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
-        setShipButtonClicked(true);
-        setSelectedRows([])
-        setBulkActionShow(false)
-    };
 
     const handleExport = () => {
         setExportButtonClick(true);
@@ -203,8 +194,16 @@ useEffect(()=>{
     }, [exportCard]);
 
 
+    const handelBulkShip = () => {
+        let data = {
+            "order_ids": selectedRows.map(id => id.toString())
+        };
+        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
+        setShipButtonClicked(true);
+    };    
 
     useEffect(() => {
+        console.log("All Bulk Ship 1",shipButtonClicked);
         if (shipButtonClicked === true) {
             if (bulkShipData && Object.keys(bulkShipData).length > 0) {
                 const shippedCount = Object.values(bulkShipData).reduce((total, order) => {
@@ -214,8 +213,8 @@ useEffect(()=>{
                     return total;
                 }, 0);
                 toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
+                setShipButtonClicked(false);
             }
-            setShipButtonClicked(false);
         }
     }, [shipButtonClicked, bulkShipData]);
 

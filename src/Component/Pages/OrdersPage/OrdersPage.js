@@ -18,7 +18,7 @@ import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, faTrash, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
@@ -83,7 +83,7 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(queryName, "billingShipingReceiptExportCard")
+    console.log(queryParamTemp, "billingShipingReceiptExportCard")
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
 
@@ -116,25 +116,25 @@ const OrdersPage = () => {
         }
         if (searchType === 'shipping_detail__email' && !searchValue) {
             newErrors.shipping_detail__email = 'Email is required!';
-        } 
+        }
         if (searchType === 'shipping_detail__recipient_name' && !searchValue) {
             newErrors.shipping_detail__recipient_name = 'Name is required!';
-        } 
+        }
         if (searchType === 'shipping_detail__pincode' && !searchValue) {
             newErrors.customer_order_number = 'Pincode Number is required!';
-        } 
+        }
         if (searchType === 'shipping_detail__city' && !searchValue) {
             newErrors.customer_order_number = 'City is required!';
-        }   
+        }
         if (searchType === 'awb_number' && !searchValue) {
             newErrors.customer_order_number = 'AWB is required!';
-        }  
-              
+        }
+
         setErrors(newErrors);
         console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
-    
+
     const handleSearch = () => {
         if (validateFormData()) {
             axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
@@ -142,14 +142,14 @@ const OrdersPage = () => {
                     Authorization: `Bearer ${authToken}`
                 }
             })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-                pageStatusSet(false)
-            })
-            .catch(error => {
-                toast.error("Something went wrong!")
-            });
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setOrders(response.data.results);
+                    pageStatusSet(false)
+                })
+                .catch(error => {
+                    toast.error("Something went wrong!")
+                });
         }
     };
 
@@ -157,11 +157,14 @@ const OrdersPage = () => {
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
-            setQueryParamTemp({});
+            // setQueryParamTemp({});
             setQueryParamSearch(null);
-            dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
         }
     }, [activeTab])
+
+    useEffect(() => {
+        dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
+    }, [])
 
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
@@ -231,7 +234,7 @@ const OrdersPage = () => {
                     });
             }
         }
-    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, activeTab, queryParamTemp, currentPage, itemsPerPage]);
+    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, queryParamTemp, activeTab, currentPage, itemsPerPage]);
 
 
     const handleChange = (option) => {
@@ -284,7 +287,7 @@ const OrdersPage = () => {
                                 type="button"
                                 className="btn main-button-outline ms-2"
                             >
-                                <HiOutlineFilter className='align-text-bottom' />More Filters
+                                <HiOutlineFilter className='align-text-bottom' /> More Filters
                             </button>
                             <button className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden" >Toggle Dropdown</span>
@@ -293,13 +296,16 @@ const OrdersPage = () => {
                                 className="dropdown-menu"
                                 type="button"
                                 style={{
-                                    paddingInline: '12px',
+                                    paddingInline: '0px',
                                     minWidth: '110px',
                                 }}
                             >
                                 {queryName?.map((item) => {
                                     return (
-                                        <li>{item?.filter_name}</li>
+                                        <>
+                                            {/* <li className="active">{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li> */}
+                                            <li>{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li>
+                                        </>
                                     )
                                 })}
                             </ul>
@@ -315,7 +321,7 @@ const OrdersPage = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
-            </div>}
+            </div >}
 
             <div className='orders-section-tabs'>
                 {/* All Orders */}

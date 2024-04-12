@@ -18,6 +18,11 @@ import { weightCalculation } from '../../../../../customFunction/functionLogic';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
 const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
@@ -103,7 +108,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
         setOrderId(id)
     }
     const markedVerified = () => {
-       
+
     }
 
 
@@ -161,7 +166,15 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
+                                                    <span className='d-inline-flex align-items-center gap-1 ms-2'>
+                                                        {row.customer_order_number}
+                                                        <CustomTooltip
+                                                            triggerComponent={<VerifiedOrderIcon />}
+                                                            tooltipComponent='Verified'
+                                                            addClassName='verified-hover'
+                                                        />
+                                                        {/* <VerifiedOrderIcon /> */}
+                                                    </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <OverlayTrigger
@@ -174,7 +187,22 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                     >
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    <CustomTooltip
+                                                        triggerComponent={<span className='ms-1'>
+                                                            <OrderTagsIcon />
+                                                        </span>}
+                                                        tooltipComponent={
+                                                            <div className='Labels-pool'>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
+                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                            </div>
+                                                        }
+                                                        addClassName=''
+                                                    />
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -269,8 +297,8 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setOrde
                                                             <li>Verify Order</li>
                                                             <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
-                                                            <li  onClick={()=>
-                                                                 dispatch({
+                                                            <li onClick={() =>
+                                                                dispatch({
                                                                     type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
                                                                         order_ids: [row?.id],
                                                                     }

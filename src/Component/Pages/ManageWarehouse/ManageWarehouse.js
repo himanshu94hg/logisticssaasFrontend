@@ -9,21 +9,38 @@ import './ManageWarehouse.css';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
   const [isOpen, setIsOpen] = useState(null);
+  const dispatch = useDispatch()
 
+  
+  
+  
   const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
+  
+  useEffect(() => {
+    if (boxData) {
+      let temp = null;
+      boxData.map((item) => {
+        if (item.is_default){
+          temp=item.id
+        }
+      })
+      setDefaultWarehouseIndex(temp)
+    }
+  }, [boxData])
+  console.log(defaultWarehouseIndex, "this is a box data ")    
 
-  const handleToggle = (index) => {
+  const handleToggle = (index, id) => {
     setIsOpen(isOpen === index ? null : index);
   };
 
 
-  console.log(boxData, "boxDataboxDataboxData")
 
   // Inside BoxGrid component
-  const handleSetDefault = (index) => {
+  const handleSetDefault = (index, id) => {
     // Check if the current warehouse is already marked as default
     if (defaultWarehouseIndex === index) {
       Swal.fire({
@@ -39,13 +56,14 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
         text: 'Do you want to mark this warehouse as default?',
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: '<span class="custom-confirm-button">Yes, mark it as default</span>',
+        confirmButtonText: `<span class="custom-confirm-button">Yes, mark it as default</span>`,
         cancelButtonText: '<span class="custom-cancel-button">No, cancel</span>',
         reverseButtons: true,
         confirmButtonClass: 'my-confirm-button-class',
         cancelButtonClass: 'my-cancel-button-class'
       }).then((result) => {
         if (result.isConfirmed) {
+          dispatch({ type: "MAKE_WAREHOUSE_DEFAULT_ACTION", payload: id })
           setDefaultWarehouseIndex(index);
           Swal.fire(
             'Marked as Default!',
@@ -66,13 +84,15 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
   return (
     <div className="box-grid">
       {boxData.map((box, index) => (
+
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
+              {console.log(defaultWarehouseIndex, index, "defaultWarehouseIndexdefaultWarehouseIndex")}
               <button
-                onClick={() => handleSetDefault(index)}
+                onClick={() => handleSetDefault(index, box.id)}
                 className={`btn mark-as-default-btn ${defaultWarehouseIndex === index ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
-                {defaultWarehouseIndex === index ? 'Default' : 'Mark as Default'}
+                {defaultWarehouseIndex === index ? 'Default' : <span>Mark as Default</span>}
               </button>
               <div>
                 <div className='warehouse-heading mb-2'>

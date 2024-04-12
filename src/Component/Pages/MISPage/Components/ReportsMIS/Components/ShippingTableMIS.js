@@ -1,199 +1,19 @@
 import React, { useState } from 'react'
 import moment from 'moment'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
+import { useSelector } from 'react-redux';
 
 const ShippingTableMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [orders, setAllOrders] = useState([
-        {
-            "id": 1027,
-            "customer_order_number": "Test100",
-            "courier_partner": "professional",
-            "channel": "custom",
-            "channel_id": null,
-            "awb_number": "TPC1000010  ",
-            "order_type": "Forward",
-            "order_date": "2024-03-22T11:57:40.080085+05:30",
-            "order_courier_status": null,
-            "awb_assigned_date": "2024-03-22T12:07:17.161328+05:30",
-            "is_mps": false,
-            "manifest_sent": false,
-            "fulfillment_sent": false,
-            "ndr_status": true,
-            "rto_status": false,
-            "manifest_status": false,
-            "payment_type": "Prepaid",
-            "invoice_amount": "5000.00",
-            "status": "in_transit",
-            "created_at": "2024-03-22T11:57:40.080232+05:30",
-            "shipping_detail": {
-                "recipient_name": "Aman",
-                "address": "MG Road Delhi",
-                "landmark": "Near Sahara Mall",
-                "country": "India",
-                "state": "Haryana",
-                "city": "Gurgaon",
-                "pincode": "122001",
-                "mobile_number": "7894587845",
-                "email": null,
-                "company_name": null,
-                "contact_code": "91"
-            },
-            "order_products": [
-                {
-                    "id": 1006,
-                    "sku": "Prod1",
-                    "product_name": "Product 1",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1007,
-                    "sku": "Prod2",
-                    "product_name": "Product 2",
-                    "quantity": 40,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1008,
-                    "sku": "Prod3",
-                    "product_name": "Product 3",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                }
-            ],
-            "dimension_detail": {
-                "weight": "100.00",
-                "length": "10.00",
-                "breadth": "12.00",
-                "height": "11.00",
-                "vol_weight": null
-            },
-            "pickup_details": {
-                "p_customer_name": "contact name",
-                "p_warehouse_name": "first warehouse name test",
-                "p_address_line1": "address line one",
-                "p_address_line2": "address line two",
-                "p_country": "India",
-                "p_state": "uttar pradesh",
-                "p_city": "Fatehpur",
-                "p_pincode": "545678",
-                "p_contact": "8790987654",
-                "p_contact_code": "+91"
-            },
-            "ndr_details": []
-        },
-        {
-            "id": 1027,
-            "customer_order_number": "Test100",
-            "courier_partner": "professional",
-            "channel": "custom",
-            "channel_id": null,
-            "awb_number": "TPC1000010  ",
-            "order_type": "Forward",
-            "order_date": "2024-03-22T11:57:40.080085+05:30",
-            "order_courier_status": null,
-            "awb_assigned_date": "2024-03-22T12:07:17.161328+05:30",
-            "is_mps": false,
-            "manifest_sent": false,
-            "fulfillment_sent": false,
-            "ndr_status": true,
-            "rto_status": false,
-            "manifest_status": false,
-            "payment_type": "Prepaid",
-            "invoice_amount": "5000.00",
-            "status": "in_transit",
-            "created_at": "2024-03-22T11:57:40.080232+05:30",
-            "shipping_detail": {
-                "recipient_name": "Aman",
-                "address": "MG Road Delhi",
-                "landmark": "Near Sahara Mall",
-                "country": "India",
-                "state": "Haryana",
-                "city": "Gurgaon",
-                "pincode": "122001",
-                "mobile_number": "7894587845",
-                "email": null,
-                "company_name": null,
-                "contact_code": "91"
-            },
-            "order_products": [
-                {
-                    "id": 1006,
-                    "sku": "Prod1",
-                    "product_name": "Product 1",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1007,
-                    "sku": "Prod2",
-                    "product_name": "Product 2",
-                    "quantity": 40,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                },
-                {
-                    "id": 1008,
-                    "sku": "Prod3",
-                    "product_name": "Product 3",
-                    "quantity": 10,
-                    "product_category": null,
-                    "unit_price": null,
-                    "hsn_code": null,
-                    "tax_rate": null,
-                    "product_discount": null
-                }
-            ],
-            "dimension_detail": {
-                "weight": "100.00",
-                "length": "10.00",
-                "breadth": "12.00",
-                "height": "11.00",
-                "vol_weight": null
-            },
-            "pickup_details": {
-                "p_customer_name": "contact name",
-                "p_warehouse_name": "first warehouse name test",
-                "p_address_line1": "address line one",
-                "p_address_line2": "address line two",
-                "p_country": "India",
-                "p_state": "uttar pradesh",
-                "p_city": "Fatehpur",
-                "p_pincode": "545678",
-                "p_contact": "8790987654",
-                "p_contact_code": "+91"
-            },
-            "ndr_details": []
-        }
-        // Add more dummy data as needed
-    ]);
+    const {reportShipmentsData}=useSelector(state=>state?.misSectionReducer)
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(reportShipmentsData?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -210,7 +30,7 @@ const ShippingTableMIS = () => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === reportShipmentsData?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -238,7 +58,7 @@ const ShippingTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {orders.map((row, index) => (
+                {reportShipmentsData?.results.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
