@@ -22,6 +22,7 @@ import pathAction from '../../../redux/action/pathname';
 import { indexPattern } from '../../../Routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import zonePathClearAction from '../../../redux/action/pathname/zonePath';
 
 
 
@@ -31,15 +32,18 @@ const Dropdown = ({ links, isOpen }) => {
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
-        <NavLink key={index} to={link.to} onClick={(e) => dispatch(pathAction(link.label))}>
+        <NavLink key={index} to={link.to}
+        onClick={(e) => {
+          dispatch(zonePathClearAction(link.label));
+          dispatch(pathAction(link.label));
+        }}
+        >
         <span className='submenu-icon'><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
         </NavLink>
       ))}
     </div>
   );
 };
-
-// dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
 
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
@@ -137,7 +141,6 @@ const SideNav = (props) => {
 
   const handleMouseLeave = () => {
     setExpanded(false);
-    // Close all dropdowns when slider is closed
     setOpenDropdown(null);
   };
 

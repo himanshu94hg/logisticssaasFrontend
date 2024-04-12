@@ -8,16 +8,18 @@ import { toast } from 'react-toastify';
 const ZoneMappingPop = ({ setZoneMapping }) => {
   const dispatch = useDispatch();
   const popRef = useRef(null);
-  const [pincode, setPincode] = useState('');
-  const [zoneStatus, setZoneStatus] = useState(false);
-  const { pathName } = useSelector(state => state?.authDataReducer);
+  const [zoneData, setZoneData] = useState([])
+  const [pincode, setPincode] = useState("")
+  const [zoneStatus, setZoneStatus] = useState(false)
+  const { zonePathName } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
-    if (pathName === 'Zone Mapping') {
-      setZoneStatus(true);
-      setZoneMapping(true);
+    if (zonePathName) {
+      setZoneStatus(true)
+      setZoneMapping(true)
     }
-  }, [pathName]);
+  }, [zonePathName]);
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -32,6 +34,13 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [setZoneMapping]);
+
+  const handleClickOutside = (event) => {
+    if (popRef.current && !popRef.current.contains(event.target)) {
+      setZoneMapping(false);
+      setZoneStatus(false)
+    }
+  };
 
   const exportToExcel = async () => {
     try {
@@ -52,7 +61,7 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
               <input className='input-field' type="text" placeholder='6 Digits Pick-up Area Pincode' onChange={(e) => setPincode(e.target.value)} />
             </label>
             <button type='button' className='btn main-button' onClick={exportToExcel}>
-              <span className='rotate-180'><PiExport fontSize={25} /></span> Export
+              <span className='rotate-180'><PiExport fontSize={25} onClick={() => setZoneMapping(false)} /></span> Export
             </button>
           </div>
         </form>

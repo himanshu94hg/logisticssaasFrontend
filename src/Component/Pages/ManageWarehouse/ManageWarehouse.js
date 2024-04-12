@@ -14,12 +14,8 @@ import { useSelector } from 'react-redux';
 import EditWareHouse from './EditWareHouse';
 
 const BoxGrid = ({ boxData, editWarehouse }) => {
-  const [isOpen, setIsOpen] = useState(null);
   const dispatch = useDispatch()
-
-  
-  
-  
+  const [isOpen, setIsOpen] = useState(null);
   const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
   
   useEffect(() => {
@@ -39,10 +35,7 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
   };
 
 
-
-  // Inside BoxGrid component
   const handleSetDefault = (index, id) => {
-    // Check if the current warehouse is already marked as default
     if (defaultWarehouseIndex === index) {
       Swal.fire({
         title: 'Already Default',
@@ -81,7 +74,6 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
   }
 
 
-
   return (
     <div className="box-grid">
       {boxData.map((box, index) => (
@@ -92,7 +84,6 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
               <button
                 onClick={() => handleSetDefault(index, box.id)}
                 className={`btn mark-as-default-btn  ${box?.is_default ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
-                {/* {defaultWarehouseIndex === index ? 'Default' : <span>Mark as Default</span>} */}
                 {box?.is_default ? <span className=''>Default</span> : <span>Mark as Default</span>}
               </button>
               <div>
