@@ -364,6 +364,16 @@
   transform: rotate(0deg);
 }
 
+.cell-inside-box .verified-hover {
+  max-width: unset;
+  min-width: unset;
+  max-height: unset;
+  min-height: unset;
+  height: auto;
+  width: auto;
+  font-weight: 700;
+}
+
 .order-Status-box {
   background-color: #c5dcf1;
   padding: 4px 10px;
@@ -493,6 +503,22 @@
   z-index: 6;
   top: 20%;
   left: 30%;
+}
+
+ul.order-label-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 5px;
+  white-space: pre;
+}
+
+ul.order-label-list li {
+  padding: 2px 5px;
+  border: 1px solid var(--sh-primary-middle);
+  border-radius: 0.5rem;
+  white-space: nowrap;
 }
 
 @media screen and (max-width:1366px) {
