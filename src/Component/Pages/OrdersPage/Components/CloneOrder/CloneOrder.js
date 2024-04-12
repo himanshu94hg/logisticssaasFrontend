@@ -249,7 +249,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
-                    customer_order_number: orderDetailsData?.customer_order_number,
+                    customer_order_number: orderDetailsData?.customer_order_number + "_clone",
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
                     // warehouse_id: orderDetailsData,
