@@ -156,7 +156,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     // className='input-field'
                                     className={`input-field ${errors.weight || editErrors?.weight ? 'input-field-error' : ''}`}
                                     style={{ minWidth: '15    0px' }}
-                                    type="text" value={formData.dimension_details.weight}
+                                    type="text" 
+                                    value={formData.dimension_details.weight}
                                     onChange={(e) => handleChangeDimension(e, 'weight')}
                                     onKeyPress={(e) => {
                                         const allowedCharacters = /^[0-9\b.]+$/;

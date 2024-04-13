@@ -273,7 +273,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                             <input
                                 type="text"
                                 className='input-field'
-                                value={formData.order_details.order_tag}
+                                // value={formData.order_details.order_tag || ""}
                                 onChange={(e) => handleChange(e, 'order_tag')}
                                 placeholder='Enter Customer Order Tag'
                             />

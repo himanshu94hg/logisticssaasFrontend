@@ -298,7 +298,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     is_gift_wrap: orderDetailsData?.charge_detail?.is_gift_wrap ? "Yes" : "No"
                 },
                 dimension_details: {
-                    weight: orderDetailsData?.dimension_detail?.weight,
+                    weight: orderDetailsData?.dimension_detail?.weight / 1000,
                     length: orderDetailsData?.dimension_detail?.length,
                     breadth: orderDetailsData?.dimension_detail?.breadth,
                     height: orderDetailsData?.dimension_detail?.height,
