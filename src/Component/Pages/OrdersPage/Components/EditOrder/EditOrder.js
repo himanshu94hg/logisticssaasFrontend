@@ -163,14 +163,26 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 newErrors.cod_charges = 'COD Charges is required!';
             }
         }
+        if (formData.dimension_details.weight == 0) {
+            newErrors.weight = 'Dead Weight should be greater than 0!';
+        }
         if (!formData.dimension_details.weight) {
             newErrors.weight = 'Dead Weight is required!';
+        }
+        if (formData.dimension_details.height == 0) {
+            newErrors.height = 'Height should be greater than 0!';
         }
         if (!formData.dimension_details.height) {
             newErrors.height = 'Height is required!';
         }
+        if (formData.dimension_details.length == 0) {
+            newErrors.length = 'Length should be greater than 0!';
+        }
         if (!formData.dimension_details.length) {
             newErrors.length = 'Length is required!';
+        }
+        if (formData.dimension_details.breadth == 0) {
+            newErrors.breadth = 'Breadth should be greater than 0!';
         }
         if (!formData.dimension_details.breadth) {
             newErrors.breadth = 'Breadth is required!';
@@ -298,7 +310,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     is_gift_wrap: orderDetailsData?.charge_detail?.is_gift_wrap ? "Yes" : "No"
                 },
                 dimension_details: {
-                    weight: orderDetailsData?.dimension_detail?.weight,
+                    weight: orderDetailsData?.dimension_detail?.weight / 1000,
                     length: orderDetailsData?.dimension_detail?.length,
                     breadth: orderDetailsData?.dimension_detail?.breadth,
                     height: orderDetailsData?.dimension_detail?.height,
