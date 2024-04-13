@@ -13,7 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import EditWareHouse from './EditWareHouse';
 
-const BoxGrid = ({ boxData, editWarehouse }) => {
+const BoxGrid = ({ boxData, editWarehouse,setWareHouseId }) => {
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(null);
   const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
@@ -108,7 +108,10 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
               <div className='d-flex justify-content-between'>
                 <button className='btn main-button-outline' onClick={() => handleToggle(index)}>Show RTO Address</button>
                 <div className='d-flex gap-2'>
-                  <button className='btn edit-btn' onClick={() => editWarehouse(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
+                  <button className='btn edit-btn' onClick={() => {
+                    editWarehouse(index);
+                    setWareHouseId(box.id)
+                  }}><FontAwesomeIcon icon={faPenToSquare} /></button>
                   <button className='btn delete-btn' 
                   onClick={()=>dispatch({type:"DELETE_WAREHOUSE_ACTION",payload:box?.id})}
                   ><FontAwesomeIcon icon={faTrashCan} /></button>
@@ -148,8 +151,8 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
 const ManageWarehouse = () => {
   let navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
-  let sellerData = Cookies.get("user_id")
   let authToken = Cookies.get("access_token");
+  const [wareHouseId,setWareHouseId]=useState(null)
   const [editWarehouse, setEditWarehouse] = useState(false);
   const {defaultWarehouseRes}=useSelector(state=>state?.settingsSectionReducer)
 
@@ -200,7 +203,7 @@ const ManageWarehouse = () => {
         <section className='warehouse-grid-container'>
           <div>
             <h4 className='mb-3'>Manage Pickup Addresses</h4>
-            <BoxGrid boxData={boxes} editWarehouse={handleEditWarehouse} />
+            <BoxGrid boxData={boxes} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
           </div>
         </section>
       </div>
@@ -212,7 +215,7 @@ const ManageWarehouse = () => {
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>Edit Warehouse</h2>
-         <EditWareHouse/>
+        <EditWareHouse wareHouseId={wareHouseId} setEditWarehouse={setEditWarehouse}/>
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
