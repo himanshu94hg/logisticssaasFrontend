@@ -301,7 +301,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={formData.weight / 1000}
+                      value={isChecked === true ? formData.weight / 1000 : formData.weight}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
