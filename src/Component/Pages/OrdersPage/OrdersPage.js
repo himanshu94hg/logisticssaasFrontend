@@ -59,6 +59,7 @@ const OrdersPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
+    
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
@@ -367,6 +368,7 @@ const OrdersPage = () => {
                         setCloneOrderSection={setCloneOrderSection}
                         setaddTagShow={setaddTagShow}
                         BulkActionShow={BulkActionShow}
+                        
                     />
                 </div>
 
