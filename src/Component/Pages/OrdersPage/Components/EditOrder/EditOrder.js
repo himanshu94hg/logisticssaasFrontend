@@ -33,7 +33,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             invoice_amount: '',
             is_mps: false,
             warehouse_id: '',
-            order_tag: '',
+            order_tag: [],
             payment_type: '',
             order_date: currentDate,
             order_type: "",
@@ -259,6 +259,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
 
     useEffect(() => {
         if (orderDetailsData) {
+            const orderTagIds = orderDetailsData?.order_tag?.map(tag =>tag.id);
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
@@ -266,7 +267,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
                     // warehouse_id: orderDetailsData,
-                    order_tag: orderDetailsData?.order_tag,
+                    order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
                     order_type: orderDetailsData?.order_type,
@@ -365,7 +366,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     }, [wareHouses])
 
     // const {orderId}=useSelector(state=>state?.orderSectionReducer)
-    // console.log(orderId,"this is orderId data")
+    console.log(formData,"this is orderId data")
 
 
     return (
