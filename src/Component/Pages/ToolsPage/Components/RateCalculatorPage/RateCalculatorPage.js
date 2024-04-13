@@ -121,7 +121,7 @@ const RateCalculatorPage = () => {
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
       setOrderField(true)
-      setOrderId(e.target.value)
+      setOrderId(e.target.value || "")
     } else {
       setOrderField(false);
     }
@@ -175,7 +175,7 @@ const RateCalculatorPage = () => {
   useEffect(() => {
     const { weight, volmetric_weight } = formData;
     if (volmetric_weight !== null) {
-      const newChargedWeight = Math.max(weight, volmetric_weight);
+      const newChargedWeight = Math.max(weight, volmetric_weight) / 1000;
       setChargedWeight(newChargedWeight);
     }
   }, [formData.weight, formData.volmetric_weight]);
@@ -300,7 +300,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={formData.weight}
+                      value={formData.weight / 1000}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
@@ -319,6 +319,7 @@ const RateCalculatorPage = () => {
                       className='input-field'
                       type="text"
                       name="length"
+                      value={formData.length}
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Length'
                       onKeyPress={(e) => {
@@ -336,6 +337,7 @@ const RateCalculatorPage = () => {
                       className='input-field'
                       type="text"
                       name="breadth"
+                      value={formData.breadth}
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Breadth'
                       onKeyPress={(e) => {
@@ -353,6 +355,7 @@ const RateCalculatorPage = () => {
                       className='input-field'
                       type="text"
                       name="height"
+                      value={formData.height}
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Height'
                       onKeyPress={(e) => {
