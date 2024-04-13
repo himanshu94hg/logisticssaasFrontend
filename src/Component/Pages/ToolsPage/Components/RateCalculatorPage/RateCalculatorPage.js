@@ -121,9 +121,10 @@ const RateCalculatorPage = () => {
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
       setOrderField(true)
-      setOrderId(e.target.value || "")
+      setOrderId(e.target.value)
     } else {
       setOrderField(false);
+      setOrderId('')
     }
   }
 
@@ -210,7 +211,7 @@ const RateCalculatorPage = () => {
                 <input
                   type="search"
                   className="input-field"
-                  value={orderId}
+                  value={orderId ?? ""}
                   placeholder="Enter Order ID"
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
