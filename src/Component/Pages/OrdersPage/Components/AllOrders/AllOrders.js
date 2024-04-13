@@ -29,7 +29,7 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows,setCloneOrderSection,setOrderId }) => {
+const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -192,14 +192,14 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                             <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                         </div>
                                     </th>
-                                    <th style={{ width: '24%' }}>Order Details</th>
+                                    <th style={{ width: '20%' }}>Order Details</th>
                                     <th style={{ width: '12.5%' }}>Customer details</th>
-                                    <th style={{ width: '16%' }}>Package Details</th>
-                                    <th style={{ width: '8%' }}>Payment</th>
+                                    <th style={{ width: '21%' }}>Package Details</th>
+                                    <th style={{ width: '5%' }}>Payment</th>
                                     <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                    <th style={{ width: '10.5%' }}>Shipping Details</th>
-                                    <th style={{ width: '6%' }}>Status</th>
-                                    <th style={{ width: '6%' }}>Action</th>
+                                    <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                    <th style={{ width: '5%' }}>Status</th>
+                                    <th style={{ width: '5%' }}>Action</th>
 
                                 </tr>
                                 <tr className="blank-row"><td></td></tr>
@@ -288,9 +288,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                             <td>
                                                 {/* package  details */}
                                                 <div className='cell-inside-box'>
-                                                    <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                    <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg <br />
-                                                        <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                                    {/* <p className='width-eclipse'>{row.order_products.product_name}</p> */}
+                                                    <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
@@ -303,6 +302,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                 ))}
                                                             </span>
                                                         </span>
+                                                        <br />
+                                                        <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     </p>
                                                 </div>
                                             </td>

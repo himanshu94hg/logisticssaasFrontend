@@ -192,8 +192,8 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                {/* <p className='width-eclipse'>{row?.order_products.product_name}</p> */}
+                                                <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -206,6 +206,8 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span>LBH(cm): {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>

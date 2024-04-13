@@ -187,12 +187,12 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                         <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '20%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '20%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '10.5%' }}>Shipping Details</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
 
@@ -290,8 +290,8 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -304,6 +304,8 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span> LBH(cm): {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
