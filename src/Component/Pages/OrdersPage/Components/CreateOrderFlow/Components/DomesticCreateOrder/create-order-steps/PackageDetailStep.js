@@ -15,24 +15,37 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
+            
         }
         // if (formData.order_details.payment_type === "COD") {
         //     if (!cod_charges) {
         //         errorsObj.cod_charges = "COD Charges is required!";
         //     }
         // }
-        if (!weight || weight <= 0) {
+        if (weight <= 0) {
+            errorsObj.weight = "Dead Weight should be greater than 0!";
+        }
+        if (!weight) {
             errorsObj.weight = "Dead Weight is required!";
         }
-        if (!length || length <= 0) {
+        if (length <= 0) {
+            errorsObj.length = "Length should be greater than 0!";
+        }
+        if (!length ) {
             errorsObj.length = "Length is required!";
         }
-        if (!breadth || breadth <= 0) {
+        if (breadth <= 0) {
+            errorsObj.breadth = "Breadth should be greater than 0!";
+        }
+        if (!breadth) {
             errorsObj.breadth = "Breadth is required!";
         }
-        if (!height || height <= 0) {
-            errorsObj.height = "Height is required!";
+        if (height <= 0) {
+            errorsObj.height = "Height should be greater than 0!";
         }
+        if (!height) {
+            errorsObj.height = "Height is required!";
+        }         
         setErrors(errorsObj);
         console.log("Package Details Data", Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
@@ -236,7 +249,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     <div className="volumetric-weight">
                         <label>
                             Chargeable Weight
-                            <input className='input-field' type="text" value={finalWeight} />
+                            <input className='input-field' type="text" value={finalWeight/1000} />
                             <span class="unit">KG</span>
                         </label>
                     </div>

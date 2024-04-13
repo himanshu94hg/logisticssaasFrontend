@@ -24,7 +24,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 
-const Processing = React.memo(({ orders, activeTab, setEditOrderSection,setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -200,10 +200,13 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection,setClone
                                                         </span>}
                                                         tooltipComponent={
                                                             <div className='Labels-pool'>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                {row?.order_tag?.map((item) => {
+                                                                    { console.log(item, "this is a item data") }
+                                                                    return (
+                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+
+                                                                    )
+                                                                })}
                                                             </div>
                                                         }
                                                         addClassName=''
@@ -302,7 +305,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection,setClone
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                            <li onClick={() => setaddTagShow(true)}>Add Tag</li>
+                                                            <li onClick={() => {setaddTagShow(true);setSelectedRows([row.id])}}>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
