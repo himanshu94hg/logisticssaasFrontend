@@ -36,7 +36,7 @@ const NDRPieChart = () => {
             },
             style: {
                 fontWeight: "bold",
-                colors: ["#000"] 
+                colors: ["#000000"] 
             }
         },
         legend: {
