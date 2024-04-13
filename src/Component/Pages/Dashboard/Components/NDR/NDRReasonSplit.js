@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
 const NDRPieChart = () => {
-
     const ndrSplit =useSelector(state=>state?.dashboardNdrReducer?.splitStatus)
     console.log("NDR RESPONSE Data",ndrSplit)
     const seriesData = ndrSplit?.map(item => item?.count) || [];
@@ -34,6 +33,10 @@ const NDRPieChart = () => {
             formatter(val, opts) {
                 const name = opts.w.globals.labels[opts.seriesIndex];
                 return [name, val.toFixed(1) + '%'];
+            },
+            style: {
+                fontWeight: "bold",
+                colors: ["#000000"] 
             }
         },
         legend: {

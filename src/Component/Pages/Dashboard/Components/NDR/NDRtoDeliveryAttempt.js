@@ -29,8 +29,8 @@ const ApexChart = () => {
                     return val.toFixed(2);
                 },
                 style: {
-                    fontWeight: "important",
-                    colors: ["#000"] 
+                    fontWeight: "bold",
+                    colors: ["#000000"] 
                 }
             }
         }
