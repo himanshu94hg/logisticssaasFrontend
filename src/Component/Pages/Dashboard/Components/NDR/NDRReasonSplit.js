@@ -33,6 +33,10 @@ const NDRPieChart = () => {
             formatter(val, opts) {
                 const name = opts.w.globals.labels[opts.seriesIndex];
                 return [name, val.toFixed(1) + '%'];
+            },
+            style: {
+                fontWeight: "bold",
+                colors: ["#000"] 
             }
         },
         legend: {
