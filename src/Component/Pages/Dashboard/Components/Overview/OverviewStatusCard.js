@@ -16,28 +16,28 @@ const OverviewStatusCard = () => {
                 <div className='status-container-item'>
                     <div className='status-header'>
                         <p>COD</p>
-                        <p className='header-polygon'></p>
+                        {/* <p className='header-polygon'></p> */}
                     </div>
                     <div className='status-item'>
                         <div className='status-counter'>
                             <p>Total</p>
-                            <p>{formatNumber(codDetails?.total_cod || 0) }</p>
+                            <p>{formatNumber(codDetails?.total_cod || 0)}</p>
                         </div>
                         <div className='status-counter'>
                             <p>Remitted</p>
-                            <p>{formatNumber(codDetails?.remitted_cod||0) }</p>
+                            <p>{formatNumber(codDetails?.remitted_cod || 0)}</p>
                         </div>
                         <div className='status-counter'>
                             <p> Pending</p>
-                            <p>{formatNumber(codDetails?.cod_pending|| 0) }</p>
+                            <p>{formatNumber(codDetails?.cod_pending || 0)}</p>
                         </div>
                         <div className='status-counter'>
                             <p>Today's Remittance</p>
-                            <p>{formatNumber(codDetails?.total_cod|| 0)}</p>
+                            <p>{formatNumber(codDetails?.total_cod || 0)}</p>
                         </div>
                         <div className='status-counter'>
                             <p>Upcoming Remittance</p>
-                            <p>{formatNumber(codDetails?.next_remit_amount||0)}</p>
+                            <p>{formatNumber(codDetails?.next_remit_amount || 0)}</p>
                         </div>
                         <div className='status-counter'>
                             <p>Remit Date</p>
@@ -46,10 +46,11 @@ const OverviewStatusCard = () => {
 
                     </div>
                 </div>
+                <hr className='mx-auto' style={{ width: '80%' }} />
                 <div className='status-container-item'>
                     <div className='status-header'>
                         <p>NDR</p>
-                        <p className='header-polygon'></p>
+                        {/* <p className='header-polygon'></p> */}
                     </div>
                     <div className='status-item'>
                         <div className='status-counter'>
@@ -74,10 +75,11 @@ const OverviewStatusCard = () => {
                         </div>
                     </div>
                 </div>
+                <hr className='mx-auto' style={{ width: '80%' }} />
                 <div className='status-container-item'>
                     <div className='status-header'>
                         <p>RTO</p>
-                        <p className='header-polygon'></p>
+                        {/* <p className='header-polygon'></p> */}
                     </div>
                     <div className='status-item'>
                         <div className='status-counter'>
