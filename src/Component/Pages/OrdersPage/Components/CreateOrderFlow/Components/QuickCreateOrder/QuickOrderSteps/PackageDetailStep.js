@@ -139,7 +139,8 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 type="text" value={formData.dimension_details.length}
                                 onChange={(e) => handleChangeDimension(e, 'length')}
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /^[0-9\b.]+$/;
+                                    if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}
@@ -157,7 +158,8 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 className={`input-field ${errors.breadth && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.breadth} onChange={(e) => handleChangeDimension(e, 'breadth')}
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /^[0-9\b.]+$/;
+                                    if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}
@@ -174,7 +176,8 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 className={`input-field ${errors.height && 'input-field-error'}`}
                                 type="text" value={formData.dimension_details.height} onChange={(e) => handleChangeDimension(e, 'height')}
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /^[0-9\b.]+$/;
+                                    if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}
