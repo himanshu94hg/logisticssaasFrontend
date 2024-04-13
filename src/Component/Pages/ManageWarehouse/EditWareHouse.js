@@ -1,13 +1,15 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import './Components/AddWarehouse.css';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-const EditWareHouse = () => {
-    const [SameRTO, setSameRTO] = useState(false);
+const EditWareHouse = ({ wareHouseId,setEditWarehouse }) => {
+    const dispatch = useDispatch();
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
@@ -16,7 +18,7 @@ const EditWareHouse = () => {
     const cityRef1 = useRef(null);
     const stateRef1 = useRef(null);
     const countryRef1 = useRef(null);
-    const hardcodedToken = Cookies.get("access_token");
+    const [SameRTO, setSameRTO] = useState(false);
     const [formData, setFormData] = useState({
         warehouse_name: "",
         address_line1: "",
@@ -35,7 +37,7 @@ const EditWareHouse = () => {
         warehouse_code: "",
         org_unit_id: null,
         easyecom_warehouse_id: null,
-        is_rto_same: false,
+        is_rto_same: true,
         rto_details: {
             warehouse_name: "",
             contact_person_name: "",
@@ -50,23 +52,60 @@ const EditWareHouse = () => {
             country: ""
         }
     });
+    const { warehouseDetails } = useSelector(state => state?.settingsSectionReducer)
+    useEffect(() => {
+        if (warehouseDetails) {
+            setFormData({
+                warehouse_name: warehouseDetails?.warehouse_name || "",
+                address_line1: warehouseDetails?.address_line1 || "",
+                address_line2: warehouseDetails?.address_line2 || "",
+                contact_name: warehouseDetails?.contact_name || "",
+                contact_number: warehouseDetails?.contact_number || null,
+                is_default: warehouseDetails?.is_default || false,
+                city: warehouseDetails?.city || "",
+                state: warehouseDetails?.state || "",
+                pincode: warehouseDetails?.pincode || null,
+                gst_number: warehouseDetails?.gst_number || null,
+                support_email: warehouseDetails?.support_email || "",
+                support_phone: warehouseDetails?.support_phone || null,
+                country_code: warehouseDetails?.country_code || "+91",
+                country: warehouseDetails?.country || "India",
+                warehouse_code: warehouseDetails?.warehouse_code || "",
+                org_unit_id: warehouseDetails?.org_unit_id || null,
+                easyecom_warehouse_id: warehouseDetails?.easyecom_warehouse_id || null,
+                is_rto_same: warehouseDetails?.is_rto_same || true,
+                rto_details: {
+                    warehouse_name: warehouseDetails?.rto_details?.warehouse_name || "",
+                    contact_person_name: warehouseDetails?.rto_details?.contact_person_name || "",
+                    contact_number: warehouseDetails?.rto_details?.contact_number || null,
+                    alternate_number: warehouseDetails?.rto_details?.alternate_number || null,
+                    email: warehouseDetails?.rto_details?.email || "",
+                    address: warehouseDetails?.rto_details?.address || "",
+                    landmark: warehouseDetails?.rto_details?.landmark || "",
+                    pincode: warehouseDetails?.rto_details?.pincode || null,
+                    city: warehouseDetails?.rto_details?.city || "",
+                    state: warehouseDetails?.rto_details?.state || "",
+                    country: warehouseDetails?.rto_details?.country || ""
+                }
+            });
+        }
+    }, [warehouseDetails])
 
-    console.log(formData, "this is a address data");
+    useEffect(() => {
+        if (wareHouseId) {
+            dispatch({ type: "GET_WAREHOUSE_DETAILS_ACTION", payload: wareHouseId })
+        }
+    }, [wareHouseId])
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const newErrors = {};
-            const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData, {
-                headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-        } catch (error) {
-            console.error('Fetch Error:', error);
-            toast.error(error?.response?.data?.detail);
-        }
+        dispatch({
+            type: "EDIT_WAREHOUSE_ACTION", payload: {
+                wareHouseId: wareHouseId,
+                formData: formData
+            }
+        })
+        setEditWarehouse(false)
     };
 
     const handlePincodeChange = async () => {
@@ -87,9 +126,12 @@ const EditWareHouse = () => {
                 const postOffice = data.PostOffice[0];
                 setFormData(prevState => ({
                     ...prevState,
-                    city: postOffice.District,
-                    state: postOffice.State,
-                    country: postOffice.Country
+                    rto_details: {
+                        ...prevState.rto_details,
+                        city: postOffice.District,
+                        state: postOffice.State,
+                        country: postOffice.Country
+                    }
                 }));
             } else {
                 throw new Error('No data found for the given pincode.');
@@ -120,11 +162,11 @@ const EditWareHouse = () => {
 
         try {
             const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
-            
+
             if (response.data && response.data.length > 0) {
                 const data = response.data[0];
                 const postOffice = data.PostOffice[0];
-                console.log(postOffice,"postOfficepostOfficepostOffice")
+                console.log(postOffice, "postOfficepostOfficepostOffice")
                 setFormData(prevState => ({
                     ...prevState,
                     city: postOffice.District,
@@ -140,17 +182,16 @@ const EditWareHouse = () => {
     };
 
     const handleInputChange = (e, section) => {
-
         const { name, value } = e.target;
-        console.log (name, value,'this is action data')
+        console.log(name, value, 'this is action data')
         if (section === "rto_details") {
-            // setFormData({
-            //     ...formData,
-            //     rto_details: {
-            //         ...formData.rto_details,
-            //         [name]: value
-            //     }
-            // });
+            setFormData(prevState => ({
+                ...prevState,
+                rto_details: {
+                    ...prevState.rto_details,
+                    [name]: value
+                }
+            }));
         } else {
             setFormData({
                 ...formData,
@@ -158,7 +199,13 @@ const EditWareHouse = () => {
             });
         }
     };
-
+    const handleCheckboxChange = () => {
+        setSameRTO(!SameRTO);
+        setFormData(prevState => ({
+            ...prevState,
+            is_rto_same: !SameRTO
+        }));
+    };
     return (
         <>
             <form id="formSubmit" onSubmit={handleSubmit}>
@@ -335,7 +382,11 @@ const EditWareHouse = () => {
                         </div>
                         <hr />
                         <label className='d-flex flex-row align-items-center mt-3'>
-                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} defaultChecked={true} />
+                            <input
+                                type="checkbox"
+                                onChange={handleCheckboxChange}
+                                defaultChecked={formData.is_rto_same}
+                            />
                             Use a different address as RTO address
                         </label>
                         <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
@@ -381,7 +432,7 @@ const EditWareHouse = () => {
                                     <input
                                         type="text"
                                         className='input-field'
-                                        name="rto_alternate_number"
+                                        name="alternate_number"
                                         placeholder='Enter Alternate Contact'
                                         value={formData.rto_details.alternate_number || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
@@ -481,9 +532,9 @@ const EditWareHouse = () => {
                         </div>
                     </div>
                     <div className='d-flex justify-content-end my-3'>
-                        <button className='btn main-button-outline' type='reset'>
+                        {/* <button className='btn main-button-outline' type='reset'>
                             Reset
-                        </button>
+                        </button> */}
                         <button className='btn main-button ms-2' type='submit'>
                             Submit
                         </button>

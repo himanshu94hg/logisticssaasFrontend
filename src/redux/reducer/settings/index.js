@@ -1,7 +1,8 @@
-import { GET_DEFAULT_WAREHOUSE_UPDATE } from "../../constants/settings";
+import { GET_DEFAULT_WAREHOUSE_UPDATE, GET_WAREHOUSE_DETAILS_DATA } from "../../constants/settings";
 
 const initialState = {
     defaultWarehouseRes:[],
+    warehouseDetails:null,
 };
 
 export const settingsSectionReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ export const settingsSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 defaultWarehouseRes: action?.payload +new Date()
+            };
+        case GET_WAREHOUSE_DETAILS_DATA:
+            return {
+                ...state,
+                warehouseDetails: action?.payload 
             };
       
         default:
