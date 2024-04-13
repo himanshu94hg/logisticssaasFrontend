@@ -44,6 +44,7 @@ const Overview = ({ activeTab }) => {
         <TotalShipment />
         <DeliveryPerformance />
         <StateSplitDashboard />
+        <WeightDiscrepancies />
       </Col>
       <Col className="col-6 cardsSpace">
         <TotalInfoDashboard />
@@ -56,7 +57,6 @@ const Overview = ({ activeTab }) => {
         <RevenueDashboard />
         <CourierWiseDashboard />
         <PopularCustomerDashboard />
-        <WeightDiscrepancies />
       </Col>
     </Row>
   );
