@@ -1,0 +1,49 @@
+.low-balance-container {
+    position: fixed;
+    width: 30%;
+    height: 50%;
+    background: #fff;
+    top: 25%;
+    left: 35%;
+    z-index: 6;
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.low-balance-container .lb-header {
+    background-color: #F05353;
+    width: 100%;
+    display: flex;
+    padding-block: 15px;
+    align-items: center;
+    justify-content: center;
+}
+
+.low-balance-container .lb-body {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.low-balance-container .lb-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: 15px;
+}
+
+.low-balance-container .lb-footer button {
+    background-color: #F05353;
+    width: fit-content;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 17px;
+    padding-inline: 15px;
+    padding-block: 8px;
+}
