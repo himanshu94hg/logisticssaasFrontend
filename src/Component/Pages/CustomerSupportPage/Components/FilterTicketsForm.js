@@ -101,6 +101,7 @@ const FilterTicketsForm = (props) => {
               onChange={handleResolutionDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              maxDate={new Date()}
             />
           </div>
         </div>
@@ -118,6 +119,7 @@ const FilterTicketsForm = (props) => {
               onChange={handleEndDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              maxDate={new Date()}
             />
           </div>
         </div>

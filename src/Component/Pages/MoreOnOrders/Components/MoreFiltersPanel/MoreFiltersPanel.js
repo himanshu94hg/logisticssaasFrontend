@@ -231,6 +231,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             className='input-field'
                                             selected={filterParams?.start_date}
                                             onChange={(e) => handleChange("start_date", e)}
+                                            maxDate={new Date()}
                                         />
                                     </div>
                                 </label>
@@ -243,6 +244,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             className='input-field'
                                             selected={filterParams?.end_date}
                                             onChange={(e) => handleChange("end_date", e)}
+                                            maxDate={new Date()}
                                         />
                                     </div>
                                 </label>
