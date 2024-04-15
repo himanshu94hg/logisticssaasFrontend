@@ -67,6 +67,8 @@ const OrdersPage = () => {
     const [errors, setErrors] = useState({});
     // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
+    console.log("All Item Logs",itemsPerPage)
+
     const [queryName, setQueryName] = useState([])
 
     useEffect(() => {
