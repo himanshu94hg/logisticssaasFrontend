@@ -466,11 +466,23 @@
     /* animation: circleblinker 2s infinite; */
 }
 
+
 /* @keyframes circleblinker {
     50% {
         opacity: 70%;
     }
 } */
+
+.dashboard-table .pa-tootltip {
+    width: auto;
+    min-width: unset;
+    max-width: unset;
+    max-height: unset;
+    min-height: unset;
+    white-space: nowrap;
+    left: 36px;
+    bottom: -2px;
+}
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
