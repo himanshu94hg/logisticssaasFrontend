@@ -255,6 +255,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             pickup_address: ""
         })
     };
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
 
     return (
         <>
@@ -278,8 +287,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
                                             selected={filterParams?.start_date}
+                                            onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
-                                            onBlur={CloseSidePanel}
                                         />
                                     </div>
                                 </label>
@@ -292,6 +301,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             className='input-field'
                                             maxDate={new Date()}
                                             selected={filterParams?.end_date}
+                                            onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("end_date", e)}
                                         />
                                     </div>
