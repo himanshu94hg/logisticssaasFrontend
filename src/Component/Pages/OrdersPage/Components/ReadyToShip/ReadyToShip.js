@@ -28,6 +28,7 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import SingleShipPop from './SingleShipPop';
 
 
 const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -35,6 +36,10 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const token = Cookies.get("access_token")
+    const [SingleShip, setSingleShip] = useState(false)
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
     useEffect(() => {
         if (orderdelete) {
@@ -167,6 +172,12 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
             window.URL.revokeObjectURL(url);
         } catch (error) {
         }
+    };
+
+    const handleShipNow = (orderId) => {
+        setSelectedOrderId(orderId);
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShip(true);
     };
 
 
@@ -366,7 +377,7 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                             <ul>
                                                                 <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                                <li>Reassign</li>
+                                                                <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
@@ -386,6 +397,7 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                         </tbody>
                     </table>
                 </div>
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
             </div>
         </section>
     );
