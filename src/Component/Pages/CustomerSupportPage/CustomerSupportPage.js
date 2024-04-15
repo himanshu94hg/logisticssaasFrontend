@@ -15,6 +15,7 @@ import Pagination from '../../common/Pagination/Pagination';
 import { toast } from 'react-toastify';
 import { RxReset } from "react-icons/rx";
 import { useSelector } from 'react-redux';
+import AllTickets from './Components/AllTickets';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -32,12 +33,13 @@ const CustomerSupportPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState("");
   const [errors, setErrors] = useState({});
+  const [clearTicket, setClearTicket] = useState(false)
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
-  const {ticketStatus}=useSelector(state=>state?.customerSupportReducer)
+  const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
-  console.log(ticketStatus,"ticketStatus")
+  console.log(ticketStatus, "ticketStatus")
 
   useEffect(() => {
     let url = apiUrl;
@@ -73,11 +75,11 @@ const CustomerSupportPage = () => {
         });
     }
 
-  }, [activeTab, status, currentPage,ticketStatus, itemsPerPage]);
-  
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
+  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage]);
+
+  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate) => {
     const queryParams = new URLSearchParams();
-    if (categories != []) {
+    if (Array.isArray(categories) && categories.length > 0) {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
@@ -88,6 +90,9 @@ const CustomerSupportPage = () => {
     }
     if (endDt != null || undefined) {
       queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
+    }
+    if (createdDate != null || undefined) {
+      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));
     }
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
@@ -114,7 +119,6 @@ const CustomerSupportPage = () => {
   useEffect(() => {
     setSearchValue('')
   }, [activeTab])
-  console.log(activeTab, "activeTabactiveTabactiveTab")
 
   useEffect(() => {
     setAllTicket(allTicket)
@@ -124,34 +128,34 @@ const CustomerSupportPage = () => {
   const validateData = () => {
     const newErrors = {};
     if (!searchValue) {
-        newErrors.searchValue = 'Field is required!';
-    }        
+      newErrors.searchValue = 'Field is required!';
+    }
     setErrors(newErrors);
     console.log(newErrors, "this is new errors")
     return Object.keys(newErrors).length === 0;
-};
+  };
 
   /*const handleSearch = (value) => {
     setSearchValue(value)
   }*/
   const handleSearch = () => {
-   if(validateData()) {
-    axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
-      headers: {
+    if (validateData()) {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
+        headers: {
           Authorization: `Bearer ${authToken}`
-      }
-  })
-      .then(response => {
+        }
+      })
+        .then(response => {
           setTotalItems(response?.data?.count)
           setAllTicket(response.data.results);
           setSearchValue('');
-      })
-      .catch(error => {
+        })
+        .catch(error => {
           toast.error("Something went wrong!")
-      });
+        });
       setSearchValue('');
-   }
-}
+    }
+  }
 
 
 
@@ -178,9 +182,17 @@ const CustomerSupportPage = () => {
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
           errors={errors}
+          setClearTicket={setClearTicket}
         />
         <div className='row mt-3'>
-          <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+          {activeTab === "allTickets" &&
+            <AllTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+
+          }
+          {
+            (activeTab === "openTickets" || activeTab === "closedTickets" || activeTab === "inProgressTickets") &&
+            <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+          }
         </div>
         <Pagination
           totalItems={totalItems}
@@ -199,9 +211,9 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'> More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
-        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />
+        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} clearTicket={clearTicket} setClearTicket={setClearTicket} />
       </div>
-      
+
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
           <FontAwesomeIcon icon={faChevronRight} />
