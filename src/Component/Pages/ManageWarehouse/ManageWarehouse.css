@@ -182,6 +182,18 @@
 }
 
 
+
+.ticket-slider-body .mobile-number-field input.input-field {
+    border-radius: 0.5rem;
+    padding-left: 72px;
+}
+
+.ticket-slider-body .mobile-number-field select.input-field {
+    width: 60px;
+    min-width: 60px;
+}
+
+
 @media (max-width: 768px) {
     .box-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));

@@ -25,7 +25,7 @@ const AddWarehouse = () => {
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const [errors, setErrors] = useState({});
-    const navigate=useNavigate()
+    const navigate = useNavigate()
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -67,7 +67,7 @@ const AddWarehouse = () => {
             }
             if (!gstNumber) {
                 newErrors.gstNumber = "GST Number is required";
-            }  else if (!/^\d{15}$/.test(gstNumber) && gstNumber.length !== 15) {
+            } else if (!/^\d{15}$/.test(gstNumber) && gstNumber.length !== 15) {
                 newErrors.gstNumber = "GST Number should contain exactly 15 digits ";
             }
             if (!addressLine1) {
@@ -142,9 +142,9 @@ const AddWarehouse = () => {
                     country: rto_country
                 }
             };
-            console.log(formData,"formDataformDataformData")
+            console.log(formData, "formDataformDataformData")
 
-            const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData,{
+            const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData, {
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'
@@ -153,7 +153,7 @@ const AddWarehouse = () => {
             if (response.status === 201) {
                 const responseData = response.data;
                 console.log('API Response:', responseData);
-                if(responseData){
+                if (responseData) {
                     toast.success("Warehouse added successfully!")
                     navigate(manageWarehousesPattern)
                     const form = document.getElementById('formSubmit');
@@ -170,7 +170,7 @@ const AddWarehouse = () => {
                 //     text: '',
                 //     confirmButtonText: 'OK'
                 // }).then(() => {
-                   
+
                 // });
             } else {
                 const errorData = response.data;
@@ -178,7 +178,7 @@ const AddWarehouse = () => {
             }
         } catch (error) {
             console.error('Fetch Error:', error);
-          toast.error(error?.response?.data?.detail)
+            toast.error(error?.response?.data?.detail)
         }
     };
 
@@ -311,8 +311,8 @@ const AddWarehouse = () => {
                                             }
                                         }}
                                     />
-                                </div>    
-                                    {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
+                                </div>
+                                {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
                             </label>
                             <label>
                                 GST Number
@@ -345,7 +345,7 @@ const AddWarehouse = () => {
                                     name="address_line2"
                                     placeholder='Enter Warehouse Address 2'
                                 />
-                                 {errors.address_line2 && <div className="error">{errors.address_line2}</div>}
+                                {errors.address_line2 && <div className="error">{errors.address_line2}</div>}
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
@@ -447,8 +447,8 @@ const AddWarehouse = () => {
                             </label>
                         </div>
                         <hr />
-                        <label className='d-flex flex-row align-items-center mt-3'>
-                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} defaultChecked={true} />
+                        <label className='d-flex flex-row align-items-center mt-3 gap-2'>
+                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} defaultChecked={false} />
                             Use a different address as RTO address
                         </label>
                         <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
