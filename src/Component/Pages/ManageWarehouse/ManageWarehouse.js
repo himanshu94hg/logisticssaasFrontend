@@ -13,17 +13,17 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import EditWareHouse from './EditWareHouse';
 
-const BoxGrid = ({ boxData, editWarehouse,setWareHouseId }) => {
+const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
   const [isOpen, setIsOpen] = useState(null);
   const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
-  
+
   useEffect(() => {
     if (boxData) {
       let temp = null;
       boxData.map((item) => {
-        if (item.is_default){
-          temp=item.id
+        if (item.is_default) {
+          temp = item.id
         }
       })
       setDefaultWarehouseIndex(temp)
@@ -112,8 +112,8 @@ const BoxGrid = ({ boxData, editWarehouse,setWareHouseId }) => {
                     editWarehouse(index);
                     setWareHouseId(box.id)
                   }}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                  <button className='btn delete-btn' 
-                  onClick={()=>dispatch({type:"DELETE_WAREHOUSE_ACTION",payload:box?.id})}
+                  <button className='btn delete-btn'
+                    onClick={() => dispatch({ type: "DELETE_WAREHOUSE_ACTION", payload: box?.id })}
                   ><FontAwesomeIcon icon={faTrashCan} /></button>
                 </div>
               </div>
@@ -152,9 +152,9 @@ const ManageWarehouse = () => {
   let navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
   let authToken = Cookies.get("access_token");
-  const [wareHouseId,setWareHouseId]=useState(null)
+  const [wareHouseId, setWareHouseId] = useState(null)
   const [editWarehouse, setEditWarehouse] = useState(false);
-  const {defaultWarehouseRes}=useSelector(state=>state?.settingsSectionReducer)
+  const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -194,8 +194,8 @@ const ManageWarehouse = () => {
             </label>
           </div>
           <div className='button-container'>
-            <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
-            <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
+            <button className='btn main-button-outline me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
+            <button className='btn main-button-outline me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
             <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
           </div>
         </section>
@@ -209,13 +209,18 @@ const ManageWarehouse = () => {
       </div>
 
       {/* Edit Slider */}
-      <section className={`ticket-slider ${editWarehouse ? 'open' : ''}`}>
+      <section className={`ticket-slider warehouse-edit ${editWarehouse ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setEditWarehouse(!editWarehouse)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>Edit Warehouse</h2>
-        <EditWareHouse wareHouseId={wareHouseId} setEditWarehouse={setEditWarehouse}/>
+        </section>
+        <section className='ticket-slider-body'>
+          <EditWareHouse wareHouseId={wareHouseId} setEditWarehouse={setEditWarehouse} />
+        </section>
+        <section className='ticket-slider-footer'>
+          <button className='btn main-button'>Submit</button>
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>

@@ -249,7 +249,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     <div className="volumetric-weight">
                         <label>
                             Chargeable Weight
-                            <input className='input-field' type="text" value={finalWeight/1000} />
+                            <input className='input-field' type="text" value={finalWeight} />
                             <span class="unit">KG</span>
                         </label>
                     </div>

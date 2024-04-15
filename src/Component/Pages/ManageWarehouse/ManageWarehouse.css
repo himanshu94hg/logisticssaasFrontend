@@ -164,6 +164,24 @@
     padding-left: 10px;
 }
 
+
+.warehouse-edit .ticket-slider-footer {
+    padding-inline: 30px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.warehouse-edit .add-warehouse-section .d-flex.justify-content-end.my-3 button {
+    display: none;
+}
+
+.warehouse-edit .add-warehouse-section {
+    box-shadow: none !important;
+    padding: 0;
+    height: calc(100vh - 175px);
+}
+
+
 @media (max-width: 768px) {
     .box-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
