@@ -97,19 +97,19 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         handleMoreFilter(filterParams)
         CloseSidePanel()
         setClearState(true)
-        setFilterParams({
-            start_date: null,
-            end_date: null,
-            status: "",
-            order_source: "",
-            courier_partner: "",
-            payment_type: "",
-            order_id: "",
-            order_tag: "",
-            sku: "",
-            sku_match_type: "",
-            pickup_address: ""
-        })
+        // setFilterParams({
+        //     start_date: null,
+        //     end_date: null,
+        //     status: "",
+        //     order_source: "",
+        //     courier_partner: "",
+        //     payment_type: "",
+        //     order_id: "",
+        //     order_tag: "",
+        //     sku: "",
+        //     sku_match_type: "",
+        //     pickup_address: ""
+        // })
         if (saveFav) {
             dispatch({ type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
                 filter_query:encodedParams,
@@ -279,6 +279,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             className='input-field'
                                             selected={filterParams?.start_date}
                                             onChange={(e) => handleChange("start_date", e)}
+                                            onBlur={CloseSidePanel}
                                         />
                                     </div>
                                 </label>
@@ -289,6 +290,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
+                                            maxDate={new Date()}
                                             selected={filterParams?.end_date}
                                             onChange={(e) => handleChange("end_date", e)}
                                         />
