@@ -359,15 +359,12 @@
 }
 
 .status-container-item .status-header {
-    background: #fff;
     display: inline-block;
-    /* height: 80px; */
-    /* margin-right: 22px; */
     position: relative;
-    /* width: 80px; */
     display: flex;
     align-items: center;
     border-radius: 0.5rem;
+    gap: 15px;
 }
 
 .status-container-item .status-header .header-polygon {
@@ -387,20 +384,16 @@
 .status-container-item .status-header p {
     margin: auto;
     text-align: center;
-    font-size: 1rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    padding: 5px 30px;
-    background-color: var(--sh-primary-light);
-    color: var(--sh-primary);
-    border-radius: 18px;
-
+    padding: 0px;
 }
 
 .status-container-item .status-item {
     display: flex;
     width: 100%;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
 }
 
 .status-container-item .status-item .status-counter {
@@ -450,6 +443,33 @@
     height: 100%;
     display: flex;
     align-items: center;
+} */
+
+.status-card-container .circle-blinker {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    display: inline-flex;
+    background: var(--sh-primary);
+    border-radius: 50%;
+    /* vertical-align: -3px; */
+    align-items: center;
+    justify-content: center;
+}
+
+.status-card-container .circle-blinker span {
+    border-radius: 50%;
+    width: 50%;
+    height: 50%;
+    background: #fff;
+    /* margin-top: 0; */
+    /* animation: circleblinker 2s infinite; */
+}
+
+/* @keyframes circleblinker {
+    50% {
+        opacity: 70%;
+    }
 } */
 
 @media screen and (max-width: 1800px) {
