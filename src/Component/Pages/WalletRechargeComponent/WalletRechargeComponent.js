@@ -98,12 +98,12 @@ const WalletRechargeComponent = (props) => {
         <>
             <section className={`wallet-container ${props.WalletRecharge ? 'show' : ''}`}>
                 <div className='wallet-box'>
-                    <button
+                    {/* <button
                         onClick={() => props.setWalletRecharge(!props.WalletRecharge)}
                         className='btn close-button'
                     >
                         <FontAwesomeIcon icon={faXmark} />
-                    </button>
+                    </button> */}
                     <div className='wallet-inner-bg'>
                         <div className='balance-container'>
                             <h4 className='my-3'>Your Wallet</h4>
