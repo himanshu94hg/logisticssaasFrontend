@@ -50,6 +50,7 @@ import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalcu
 import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
+import LowBalancePop from "./Component/Pages/WalletRechargeComponent/LowBalancePop.js/LowBalancePop";
 
 
 function App() {
@@ -144,6 +145,8 @@ function App() {
       </div>
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
       <section onClick={() => setWalletRecharge(!WalletRecharge)} className={`backdrop ${WalletRecharge ? 'd-block' : 'd-none'}`}></section>
+
+      <LowBalancePop setWalletRecharge={setWalletRecharge} />
 
       <ZoneMappingPop ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
       <section onClick={() => setZoneMapping(false)} className={`backdrop ${ZoneMapping ? 'd-block' : 'd-none'}`}></section>
