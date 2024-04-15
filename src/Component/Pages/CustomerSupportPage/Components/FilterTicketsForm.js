@@ -12,6 +12,7 @@ const FilterTicketsForm = (props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [resolutionDate, setResolutionDate] = useState();
+  const [createdDate, setCreatedDate] = useState();
 
   const authToken = Cookies.get("access_token")
 
@@ -41,16 +42,20 @@ const FilterTicketsForm = (props) => {
     setSelectedStatus(selectedOption.value);
   };
 
+
+  const handleCreatedChange = (date) => {
+    setCreatedDate(date);
+  };
   const handleResolutionDateChange = (date) => {
     setResolutionDate(date);
   };
-
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
 
+
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
+    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter",createdDate)
   };
 
   const handleReset = () => {
@@ -58,6 +63,7 @@ const FilterTicketsForm = (props) => {
     setSelectedStatus('');
     setResolutionDate(null);
     setEndDate(null);
+    setCreatedDate(null)
     // props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
   };
   const StatusOptions = [
@@ -67,7 +73,15 @@ const FilterTicketsForm = (props) => {
     { value: 'Closed', label: 'Closed' },
   ];
 
-
+  const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
   return (
     <section className='ticket-slider-body'>
       <div className='ticket-filter-inputs'>
@@ -88,11 +102,28 @@ const FilterTicketsForm = (props) => {
 
       <div className='ticket-filter-inputs'>
         <div>
+          <h6>Created At</h6>
+          <div className='date-picker-container'>
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className='calendar-icon'
+              onClick={() => document.getElementById("createdDate").focus()}
+            />
+            <DatePicker
+              id="createdDate"
+              selected={createdDate}
+              onChange={handleCreatedChange}
+              dateFormat='dd/MM/yyyy'
+              className='input-field'
+            />
+          </div>
+        </div>
+        <div>
           <h6>Resolution Due By</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon 
-              icon={faCalendarAlt} 
-              className='calendar-icon' 
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className='calendar-icon'
               onClick={() => document.getElementById("resolutionDate").focus()}
             />
             <DatePicker
@@ -107,9 +138,9 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Last Updated</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon 
-              icon={faCalendarAlt} 
-              className='calendar-icon' 
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className='calendar-icon'
               onClick={() => document.getElementById("endDate").focus()}
             />
             <DatePicker
