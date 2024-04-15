@@ -395,13 +395,15 @@ const RateCalculatorPage = () => {
               <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
                 <section className=''>
                   <div className='ship-container-row box-shadow shadow-sm' >
-                    <div className='d-flex gap-2'>
-                      <div className='img-container'>
-                        <img src="" alt="" />
-                      </div>
-                      <div className='d-flex flex-column justify-content-center'>
+                    <div className='d-flex flex-column justify-content-center'>
+                      <div className='d-flex justify-content-center flex-column '>
+                        <img
+                          className='ms-3'
+                          style={{border:"1px solid gray",borderRadius:"50%"}}
+                          width={"50px"}
+                          height={"50px"}
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvWc9wk8XH4WVN0EbuacoFQyXJNQuw2nuKrz-EjH5B0Q&s" alt="" />
                         <p>{item?.courier_partner}</p>
-                        {/* <p>partner_title</p> */}
                         <p>RTO Charges: ₹{item?.rate}</p>
                       </div>
                     </div>
