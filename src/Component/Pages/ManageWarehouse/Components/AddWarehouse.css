@@ -1,18 +1,21 @@
 .add-warehouse-section {
-    height: calc(100vh - 175px);
+    height: calc(100vh - 149px);
     overflow-y: scroll;
 }
 
 .add-warehouse-section label {
     width: 100%;
 }
-.error{
+
+.error {
     color: red;
 }
-.input-field-error{
+
+.input-field-error {
     border: 1px solid red;
 }
-.edit-warehouse-section{
+
+.edit-warehouse-section {
     height: 100vh;
     overflow-y: scroll;
 }
