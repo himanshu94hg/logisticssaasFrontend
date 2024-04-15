@@ -6,11 +6,9 @@ import { useDispatch,useSelector } from 'react-redux';
 import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop';
-import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'; 
-import axios from "axios";
-import Cookies from 'js-cookie';
-import shipNowAction from '../../../../../../src/redux/action/orders/shipNow';
+
+
 
 const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const navigation = useNavigate();
@@ -18,7 +16,7 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [shipingData, setShipingData] = useState(false);
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
-    let authToken = Cookies.get("access_token")
+
 
     const addDays = (date, days) => {
         const result = new Date(date);
