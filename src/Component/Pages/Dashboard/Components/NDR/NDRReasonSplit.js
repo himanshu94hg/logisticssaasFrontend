@@ -35,7 +35,7 @@ const NDRPieChart = () => {
                 return [name, val.toFixed(1) + '%'];
             },
             style: {
-                fontWeight: "bold",
+                fontWeight: "Medium",
                 colors: ["#000000"] 
             }
         },
