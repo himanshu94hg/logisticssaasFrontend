@@ -27,6 +27,7 @@ export default function NavTabs(props) {
 
   const handleReset = () => {
     props.setSearchValue('')
+    props.setClearTicket(true)
   }
 
   return (

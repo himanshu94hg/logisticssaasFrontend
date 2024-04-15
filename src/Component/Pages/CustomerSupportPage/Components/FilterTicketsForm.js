@@ -17,6 +17,17 @@ const FilterTicketsForm = (props) => {
   const authToken = Cookies.get("access_token")
 
   useEffect(() => {
+    if (props?.clearTicket) {
+      setSelectedCategories([]);
+      setSelectedStatus('');
+      setResolutionDate(null);
+      setEndDate(null);
+      setCreatedDate(null)
+    }
+    props?.setClearTicket(false)
+  }, [props?.clearTicket])
+
+  useEffect(() => {
     if (props.filterClick) {
       axios.get('https://dev.shipease.in/core-api/features/ticket-sub-category/', {
         headers: {
@@ -55,7 +66,7 @@ const FilterTicketsForm = (props) => {
 
 
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter",createdDate)
+    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter", createdDate)
   };
 
   const handleReset = () => {
@@ -74,14 +85,14 @@ const FilterTicketsForm = (props) => {
   ];
 
   const handleKeyDown = (e) => {
-        const allowedCharacters = /[0-9/]/;
-        if (e.key === 'Backspace' || e.key === 'Delete') {
-            return;
-        }
-        if (!allowedCharacters.test(e.key)) {
-            e.preventDefault();
-        }
+    const allowedCharacters = /[0-9/]/;
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      return;
     }
+    if (!allowedCharacters.test(e.key)) {
+      e.preventDefault();
+    }
+  }
   return (
     <section className='ticket-slider-body'>
       <div className='ticket-filter-inputs'>
@@ -115,6 +126,7 @@ const FilterTicketsForm = (props) => {
               onChange={handleCreatedChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              strictParsing={true} 
             />
           </div>
         </div>
@@ -132,6 +144,7 @@ const FilterTicketsForm = (props) => {
               onChange={handleResolutionDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              strictParsing={true} 
             />
           </div>
         </div>
@@ -149,6 +162,7 @@ const FilterTicketsForm = (props) => {
               onChange={handleEndDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              strictParsing={true} 
             />
           </div>
         </div>

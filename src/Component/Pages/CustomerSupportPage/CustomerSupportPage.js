@@ -33,6 +33,7 @@ const CustomerSupportPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState("");
   const [errors, setErrors] = useState({});
+  const [clearTicket, setClearTicket] = useState(false)
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
@@ -78,7 +79,7 @@ const CustomerSupportPage = () => {
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate) => {
     const queryParams = new URLSearchParams();
-    if (categories != []) {
+    if (Array.isArray(categories) && categories.length > 0) {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
@@ -181,6 +182,7 @@ const CustomerSupportPage = () => {
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
           errors={errors}
+          setClearTicket={setClearTicket}
         />
         <div className='row mt-3'>
           {activeTab === "allTickets" &&
@@ -188,7 +190,7 @@ const CustomerSupportPage = () => {
 
           }
           {
-            (activeTab === "openTickets" || activeTab === "closedTickets") &&
+            (activeTab === "openTickets" || activeTab === "closedTickets" || activeTab === "inProgressTickets") &&
             <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
           }
         </div>
@@ -209,7 +211,7 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'> More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
-        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />
+        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} clearTicket={clearTicket} setClearTicket={setClearTicket} />
       </div>
 
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
