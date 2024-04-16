@@ -127,7 +127,6 @@ const WeightRecoPage = () => {
 
     const handleReset = () => {
         setSearchValue("")
-        // setHandleResetFrom(true)
     }
 
     return (
