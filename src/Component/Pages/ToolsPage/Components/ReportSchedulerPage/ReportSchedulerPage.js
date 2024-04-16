@@ -251,16 +251,19 @@ const ReportSchedulerPage = () => {
               <div class="grid-item component-2">
                 <h5>Frequency Details</h5>
                 <div className='d-flex flex-column gap-4'>
-                  <label>
-                    Send Reports
-                    <label>Every Month
+                  <label className='d-flex gap-5 align-items-center'>
+                    Send Reports:
+                    <label className='d-flex gap-2 align-items-center'>
                       <input type="radio" name="Send_Reports" id="" />
+                      Every Month
                     </label>
-                    <label>Every Week
+                    <label className='d-flex gap-2 align-items-center'>
                       <input type="radio" name="Send_Reports" id="" />
+                      Every Week
                     </label>
-                    <label>Every Day
+                    <label className='d-flex gap-2 align-items-center'>
                       <input type="radio" name="Send_Reports" id="" />
+                      Every Day
                     </label>
                   </label>
                   <label>
