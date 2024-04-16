@@ -100,6 +100,8 @@ function* generateManifestAction(action) {
 }
 
 
+
+
 export function* orderActionTabWatcher() {
     yield takeLatest(ORDERS_DETAILS_CANCEL_ACTION, cancelOrderAction);
     yield takeLatest(CLONE_ORDERS_UPDATE_ACTION, cloneOrderAction);

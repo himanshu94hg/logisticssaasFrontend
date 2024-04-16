@@ -59,6 +59,7 @@ const OrdersPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
+    const [resetValue, setResetValue] = useState(new Date());
     
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
@@ -67,6 +68,7 @@ const OrdersPage = () => {
     const [errors, setErrors] = useState({});
     // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
+    console.log("All Item Logs",itemsPerPage,totalItems,currentPage)
 
     const [queryName, setQueryName] = useState([])
 
@@ -262,6 +264,7 @@ const OrdersPage = () => {
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
+        
     }
 
 

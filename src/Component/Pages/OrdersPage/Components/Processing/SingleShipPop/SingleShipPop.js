@@ -41,7 +41,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                 }
             };
 
-            axios.get(`https://dev.shipease.in/core-api/shipping/ship-rate-card/?order_id=${orderId}&seller_id=${sellerId}`, config)
+            axios.get(`https://dev.shipease.in/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                 }).catch((error) => {

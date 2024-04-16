@@ -190,7 +190,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                     <div className="volumetric-weight">
                         <label>
                             Chargeable Weight
-                            <input className='input-field' type="text" value={finalWeight > 0 ? finalWeight : ''} placeholder='...' />
+                            <input className='input-field' type="text" value={parseFloat(finalWeight)?.toFixed(2) > 0 ? parseFloat(finalWeight)?.toFixed(2) : ''} placeholder='...' />
                             <span class="unit">KG</span>
                         </label>
                     </div>

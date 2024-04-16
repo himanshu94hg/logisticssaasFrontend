@@ -16,48 +16,84 @@ const BillingPage = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState("Shipping Charges");
     const [selectedOption, setSelectedOption] = useState("Domestic");
-    const [itemsPerPage, setItemsPerPage] = useState(100);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
     
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
-    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
+    const { billingCard,billingShipingCard ,billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
 
-    console.log("All Item Logs",billingShipingCard)
+    console.log("All Item Logs",billingShipingCard.count)
 
     useEffect(() => {
         switch (activeTab) {
             case "Shipping Charges":
                 dispatch({ type: "BILLING_SHIPING_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                setTotalItems(billingShipingCard.length);
                 break;
             case "Remittance Logs":
                 dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                setTotalItems(billingShipingRemitanceCard.length);
                 break;
             case "Recharge Logs":
                 dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                setTotalItems(billingShipingRechargeCard.length);
                 break;
             case "Invoices":
                 dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                setTotalItems(billingShipingInvoiceCard.length);
                 break;
             case "Passbook":
                 dispatch({ type: "BILLING_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                setTotalItems(billingCard.length);
                 break;
             case "Credit Receipt":
                 dispatch({ type: "BILLING_SHIPING_RECEIPT_DATA_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                setTotalItems(billingShipingReceiptCard.length);
                 break;
             default:
                 break;
         }
+    }, [activeTab,dispatch,itemsPerPage,currentPage]);
 
-    }, [dispatch, activeTab, currentPage, itemsPerPage]);
+    useEffect(() => {
+        if (billingShipingCard && billingShipingCard?.count !== undefined) {
+            setTotalItems(billingShipingCard?.count);
+        }
+    }, [billingShipingCard]);
+
+    useEffect(() => {
+        if (billingCard && billingCard?.count !== undefined) {
+            setTotalItems(billingCard?.count);
+        }
+    }, [billingCard]);
+
+    useEffect(() => {
+        if (billingShipingRemitanceCard && billingShipingRemitanceCard?.count !== undefined) {
+            setTotalItems(billingShipingRemitanceCard?.count);
+        }
+    }, [billingShipingRemitanceCard]);
+
+    useEffect(() => {
+        if (billingShipingRemitanceCard && billingShipingRemitanceCard?.count !== undefined) {
+            setTotalItems(billingShipingRemitanceCard?.count);
+        }
+    }, [billingShipingRemitanceCard]);
+
+    useEffect(() => {
+        if (billingShipingRechargeCard && billingShipingRechargeCard?.count !== undefined) {
+            setTotalItems(billingShipingRechargeCard?.count);
+        }
+    }, [billingShipingRechargeCard]);
+
+    useEffect(() => {
+        if (billingShipingInvoiceCard && billingShipingInvoiceCard?.count !== undefined) {
+            setTotalItems(billingShipingInvoiceCard?.count);
+        }
+    }, [billingShipingInvoiceCard]);
+
+    useEffect(() => {
+        if (billingShipingReceiptCard && billingShipingReceiptCard?.count !== undefined) {
+            setTotalItems(billingShipingReceiptCard?.count);
+        }
+    }, [billingShipingReceiptCard]);
+
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -72,7 +108,6 @@ const BillingPage = () => {
         if (BulkActionShow) {
             setBulkActionShow(false)
             setSelectedRows([])
-
         }
     }, [activeTab])
 
@@ -81,37 +116,37 @@ const BillingPage = () => {
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='billing-page-container'>
                 {/* Shipping Charges */}
-                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard} 
+                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Remittance Logs */}
-                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard} 
+                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 setBulkActionShow={setBulkActionShow}/>}
 
                 {/* RechargeLogs */}
-                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard} 
+                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Invoices */}
-                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard} 
+                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Passbook */}
-                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard} 
+                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 setBulkActionShow={setBulkActionShow}/>}
 
                 {/* Credit Receipt */}
-                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard} 
+                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
                 setBulkActionShow={setBulkActionShow}/>}

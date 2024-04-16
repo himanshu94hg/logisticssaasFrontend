@@ -24,7 +24,10 @@ const RateCalculatorPage = () => {
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
+    
   };
+
+  console.log(isChecked,"this is ischekced data")
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -120,10 +123,10 @@ const RateCalculatorPage = () => {
 
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
-      setOrderField(true)
+      // setOrderField(true)
       setOrderId(e.target.value)
     } else {
-      setOrderField(false);
+      // setOrderField(false);
       setOrderId('')
     }
   }
@@ -176,14 +179,14 @@ const RateCalculatorPage = () => {
   useEffect(() => {
     const { weight, volmetric_weight } = formData;
     if (volmetric_weight !== null) {
-      const newChargedWeight = Math.max(weight, volmetric_weight) / 1000;
+      const newChargedWeight = Math.max(weight, volmetric_weight) ;
       setChargedWeight(newChargedWeight);
     }
   }, [formData.weight, formData.volmetric_weight]);
 
   const containerStyle = {
-    opacity: orderField ? 0.5 : 1,
-    pointerEvents: orderField ? 'none' : 'auto',
+    opacity: isChecked ? 0.5 : 1,
+    pointerEvents: isChecked ? 'none' : 'auto',
   };
 
   const orderIdApiCAll = () => {
@@ -301,7 +304,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={isChecked === true ? formData.weight : formData.weight}
+                      value={formData.weight}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
@@ -377,7 +380,7 @@ const RateCalculatorPage = () => {
                 <div className=" d-flex gap-2 mt-3 charged-weight-sec">
                   <label>
                     <strong>Chargeable Weight:</strong>
-                    <input type="text" className='input-field' value={chargedWeight} />
+                    <input type="text" className='input-field' value={ parseFloat(chargedWeight)?.toFixed(2)} />
                     <span className='unit'>KG</span>
                   </label>
                   {/* <span>{chargedWeight}</span> */}
