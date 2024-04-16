@@ -166,7 +166,8 @@ const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkAction
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {moment(row.datetime).format("YYYY-MM-DD")}
+                                                <span>{`${moment(row?.datetime).format('DD MMM YYYY')}`}</span>
+                                                    {/* {moment(row.datetime).format("YYYY-MM-DD")} */}
                                                 </p>
                                             </div>
                                         </td>
