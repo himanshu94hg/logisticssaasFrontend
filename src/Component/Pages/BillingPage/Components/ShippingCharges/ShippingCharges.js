@@ -91,6 +91,8 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
 
     const handleClose = () => setShow(false);
 
+    console.log("Billing Count",billingCard);
+
 
     return (
         <section className='position-relative'>
