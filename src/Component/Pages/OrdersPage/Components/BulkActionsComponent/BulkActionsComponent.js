@@ -210,6 +210,8 @@ useEffect(()=>{
                 }, 0);
                 toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
                 setShipButtonClicked(false);
+                setBulkActionShow(false)
+                setSelectedRows([])
             }
         }
     }, [shipButtonClicked, bulkShipData]);

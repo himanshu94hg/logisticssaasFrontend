@@ -8,7 +8,7 @@ import './Components/AddWarehouse.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-const EditWareHouse = ({ wareHouseId,setEditWarehouse }) => {
+const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     const dispatch = useDispatch();
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
@@ -381,11 +381,11 @@ const EditWareHouse = ({ wareHouseId,setEditWarehouse }) => {
                             </label>
                         </div>
                         <hr />
-                        <label className='d-flex flex-row align-items-center mt-3'>
+                        <label className='d-flex flex-row align-items-center mt-3 gap-2'>
                             <input
                                 type="checkbox"
                                 onChange={handleCheckboxChange}
-                                defaultChecked={formData.is_rto_same}
+                                defaultChecked={!formData.is_rto_same}
                             />
                             Use a different address as RTO address
                         </label>

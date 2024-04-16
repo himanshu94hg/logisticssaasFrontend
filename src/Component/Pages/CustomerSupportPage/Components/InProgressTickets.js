@@ -74,7 +74,7 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
     }
   
 
-console.log(activeTab,"activeTab")
+console.log(allTicket,"activeTab")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -94,6 +94,7 @@ console.log(activeTab,"activeTab")
                                 <th>Severity</th>
                                 <th>Subcategory</th>
                                 <th>Ticket Status</th>
+                                <th>Created at</th>
                                 <th>Resolution Due By</th>
                                 <th>Last Updated</th>
                                 <th style={{ width: '6%' }}>Action</th>
@@ -141,6 +142,12 @@ console.log(activeTab,"activeTab")
                                             {/* Status */}
                                             <div className='cell-inside-box'>
                                                 {item?.status}
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* resolutionDueBy */}
+                                            <div className='cell-inside-box'>
+                                                {moment(item?.created_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
