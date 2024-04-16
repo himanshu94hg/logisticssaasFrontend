@@ -226,7 +226,7 @@ const SetPreferenceRules = () => {
                     <div className='rule-name-container'>
                         <label>
                             Rule Name
-                            <input className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
+                            <input placeholder='Enter the rule name' className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
                         </label>
 
                         <label>

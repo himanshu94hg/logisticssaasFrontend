@@ -29,7 +29,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
+const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
@@ -102,7 +102,7 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
 
     const handelExportData = (row) => {
         setExportButtonClick(true);
-        dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION",payload:row });
+        dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION", payload: row });
     };
 
     useEffect(() => {
@@ -136,7 +136,7 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
                         <p>COD Pending:     <span>&#8377; {data?.cod_total - data?.remitted_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remittance Date:     <span>&#8377; {data?.nextRemitDate || moment(new Date()).format("DD MMM")}</span></p>
+                        <p>Next Remittance Date:     <span> {data?.nextRemitDate || moment(new Date()).format("DD MMM")}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p>Next Remit Amount:     <span>&#8377; {data?.nextRemitCod ?? 0}</span></p>
@@ -215,7 +215,7 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹{0.00}
+                                                    ₹ {0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -223,7 +223,7 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹{row?.early_cod_charge}
+                                                    ₹ {row?.early_cod_charge}
                                                 </p>
                                             </div>
                                         </td>
@@ -231,7 +231,7 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹{0.00}
+                                                    ₹ {0.00}
                                                 </p>
                                             </div>
                                         </td>
@@ -239,7 +239,7 @@ const RemittanceLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkAction
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹{row?.amount}
+                                                    ₹ {row?.amount}
                                                 </p>
                                             </div>
                                         </td>
