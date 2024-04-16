@@ -149,12 +149,13 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
 };
 
 const ManageWarehouse = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
-  let authToken = Cookies.get("access_token");
-  const [wareHouseId, setWareHouseId] = useState(null)
+  const [searchQuery, setSearchQuery] = useState('');
+  const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer);
+  const authToken = Cookies.get("access_token");
+  const [wareHouseId, setWareHouseId] = useState(null);
   const [editWarehouse, setEditWarehouse] = useState(false);
-  const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -176,6 +177,15 @@ const ManageWarehouse = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredBoxes = boxes.filter(box => {
+    const searchString = `${box.warehouse_name} ${box.address_line1} ${box.city} ${box.state} ${box.pincode}`.toLowerCase();
+    return searchString.includes(searchQuery.toLowerCase());
+  });
+
   const handleEditWarehouse = (index) => {
     console.log("Editing warehouse at index:", index);
     setEditWarehouse(!editWarehouse);
@@ -187,7 +197,13 @@ const ManageWarehouse = () => {
         <section className="box-shadow shadow-sm p7 mb-3 filter-container">
           <div className="search-container">
             <label>
-              <input className='input-field' type="text" placeholder="Search by Location || Address || City || State || Pincode" />
+              <input
+                className='input-field'
+                type="text"
+                placeholder="Search by Location || Address || City || State || Pincode"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
               <button>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
@@ -203,14 +219,14 @@ const ManageWarehouse = () => {
         <section className='warehouse-grid-container'>
           <div>
             <h4 className='mb-3'>Manage Pickup Addresses</h4>
-            <BoxGrid boxData={boxes} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
+            <BoxGrid boxData={filteredBoxes} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
           </div>
         </section>
       </div>
 
       {/* Edit Slider */}
       <section className={`ticket-slider warehouse-edit ${editWarehouse ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => setEditWarehouse(!editWarehouse)}>
+        <div id='sidepanel-closer' onClick={() => setEditWarehouse(false)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
@@ -228,4 +244,4 @@ const ManageWarehouse = () => {
   );
 };
 
-export default ManageWarehouse
+export default ManageWarehouse;
