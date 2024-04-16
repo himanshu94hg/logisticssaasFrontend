@@ -30,7 +30,7 @@ const LowBalancePop = ({ setWalletRecharge }) => {
 
     useEffect(() => {
         const isPopupClosed = localStorage.getItem('popupClosed');
-        if ((temp.var2?.balance || temp.var1?.balance) < 500) {
+        if ((temp.var2?.balance< 500 || temp.var1?.balance < 500) ) {
             setIsVisible(true); // Set visibility based on balance condition
         } else if (isPopupClosed === 'true') {
             setIsVisible(false);
