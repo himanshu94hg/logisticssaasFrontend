@@ -29,7 +29,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
+const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -91,7 +91,7 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
 
     const handleClose = () => setShow(false);
 
-    console.log("Billing Count",billingCard);
+    console.log("Billing Count", billingCard);
 
 
     return (
@@ -99,7 +99,7 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Freight Charges: <span>&#8377; {data?.Total_freight_charges||0}</span></p>
+                        <p>Total Freight Charges: <span>&#8377; {data?.Total_freight_charges || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p>Billed Freight Charges: <span>&#8377; 0</span></p>
@@ -127,7 +127,7 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
                                 </th>
                                 <th>AWB Number</th>
                                 <th>Courier Details</th>
-                                <th>AWB Assigned Date</th>
+                                <th style={{ width: '12%' }}>AWB Assigned Date</th>
                                 <th>Shipment Status</th>
                                 <th>Applied Weight Charges</th>
                                 <th>Excess Weight Charges</th>

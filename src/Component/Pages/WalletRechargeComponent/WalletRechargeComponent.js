@@ -7,6 +7,7 @@ import ccAvenue from '../../../assets/image/logo/ccAvenue.png';
 import RazorpayImg from '../../../assets/image/logo/Razorpay.png';
 import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
 import { useDispatch, useSelector } from 'react-redux';
+import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg'
 
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
@@ -34,7 +35,7 @@ const WalletRechargeComponent = (props) => {
         }
     }, [paymentCard, paymentSetCard]);
 
-    
+
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);
     };
@@ -62,7 +63,7 @@ const WalletRechargeComponent = (props) => {
                 currency: "INR",
                 name: "Shipease",
                 description: "Wallet Recharge",
-                image: "https://example.com/your_logo",
+                image: ShipeaseLogo,
                 prefill: {
                     name: "Shipease",
                     email: "nitesh.singh@shipease.in",

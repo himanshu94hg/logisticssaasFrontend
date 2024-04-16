@@ -30,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const CreditReceipt = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
+const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -155,7 +155,7 @@ const CreditReceipt = ({ billingCard,selectedRows,setSelectedRows,setBulkActionS
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    ₹   {row?.total ?? 0}
+                                                    ₹ {row?.total ?? 0}
                                                 </p>
                                             </div>
                                         </td>
@@ -185,7 +185,7 @@ const CreditReceipt = ({ billingCard,selectedRows,setSelectedRows,setBulkActionS
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
 
             </div>
-        </section >
+        </section>
     );
 };
 
@@ -255,15 +255,15 @@ function Preview({ show, handleClose, selectedRow }) {
                                 <tbody>
                                     <tr>
                                         <td>Credit note issue against Lost Credit</td>
-                                        <td className="text-center">Rs. {Math.round((selectedRow?.total * 100 / 118) * 100) / 100}</td>
+                                        <td className="text-center">₹ {Math.round((selectedRow?.total * 100 / 118) * 100) / 100}</td>
                                     </tr>
                                     <tr>
                                         <td>18% GST</td>
-                                        <td className="text-center">RS. {selectedRow?.total - Math.round((selectedRow?.total * 100 / 118) * 100) / 100}</td>
+                                        <td className="text-center">₹ {selectedRow?.total - Math.round((selectedRow?.total * 100 / 118) * 100) / 100}</td>
                                     </tr>
                                     <tr>
                                         <td><strong>Total Credit Note Value</strong></td>
-                                        <td className="text-center"><strong>Rs. {selectedRow?.total}</strong></td>
+                                        <td className="text-center"><strong>₹ {selectedRow?.total}</strong></td>
                                     </tr>
                                 </tbody>
                             </table>

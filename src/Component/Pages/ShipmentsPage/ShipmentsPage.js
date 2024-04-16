@@ -68,16 +68,16 @@ const ShipmentsPage = () => {
         let param = '';
         switch (activeTab) {
             case "Action Required":
-                param = "pending";
+                param = "pending" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
                 break;
             case "Action Requested":
-                param = "requested";
+                param = "requested" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
                 break;
             case "RTO":
-                param = "rto";
+                param = "rto" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
                 break;
             case "Delivered":
-                param = "delivered";
+                param = "delivered"+ `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
                 break;
             default:
                 param = '';

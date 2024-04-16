@@ -29,37 +29,37 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
+const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
-    
+
     const reasons = [
-        { count: 247483644, credit_blance: 0.0, dr_blance: 100, cr_pathner_name:'bluedart_surface'},
-        { count: 395645666, credit_blance: 3463, dr_blance: 200,cr_pathner_name:'bluedart_surface'},
-        { count: 746465788, credit_blance:  200,dr_blance: 6000,cr_pathner_name:'bluedart_surface'},
-        { count: 746465788, credit_blance:  700,dr_blance: 100,cr_pathner_name:'bluedart_surface'},
-      ];
-    
-      const awbcount = (reasons) => {
+        { count: 247483644, credit_blance: 0.0, dr_blance: 100, cr_pathner_name: 'bluedart_surface' },
+        { count: 395645666, credit_blance: 3463, dr_blance: 200, cr_pathner_name: 'bluedart_surface' },
+        { count: 746465788, credit_blance: 200, dr_blance: 6000, cr_pathner_name: 'bluedart_surface' },
+        { count: 746465788, credit_blance: 700, dr_blance: 100, cr_pathner_name: 'bluedart_surface' },
+    ];
+
+    const awbcount = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].count;
-      };
-    
-      const creditData = (reasons) => {
+    };
+
+    const creditData = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].credit_blance;
-      };
-      const drData = (reasons) => {
+    };
+    const drData = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].dr_blance;
-      };
-      const cr_pathner_name = (reasons) => {
+    };
+    const cr_pathner_name = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].cr_pathner_name;
-      };
+    };
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -120,13 +120,13 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Current Usable Balance:     <span>&#8377; {data?.current_unavailable_balance ||0}</span></p>
+                        <p>Current Usable Balance:     <span>&#8377; {data?.current_unavailable_balance || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Balance On Hold:     <span>&#8377; {data?.corrent_on_hold_blance ||0}</span></p>
+                        <p>Balance On Hold:     <span>&#8377; {data?.corrent_on_hold_blance || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Balance:     <span>&#8377; {data?.corrent_blance||0}</span></p>
+                        <p>Total Balance:     <span>&#8377; {data?.corrent_blance || 0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
@@ -166,7 +166,8 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {moment(row.datetime).format("YYYY-MM-DD")}
+                                                <span>{`${moment(row?.datetime).format('DD MMM YYYY')}`}</span>
+                                                    {/* {moment(row.datetime).format("YYYY-MM-DD")} */}
                                                 </p>
                                             </div>
                                         </td>
@@ -174,7 +175,7 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row?.order_detail?.awb_number}
+                                                    {row?.order_detail?.awb_number}
                                                 </p>
                                             </div>
                                         </td>
@@ -182,7 +183,7 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
-                                                {row?.order_detail?.courier_partner}
+                                                    {row?.order_detail?.courier_partner}
                                                 </p>
                                             </div>
                                         </td>
@@ -190,7 +191,7 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* Shipment Status */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                   {row?.transaction_type=="c" ?"₹"+row.amount:null}
+                                                    {row?.transaction_type == "c" ? "₹ " + row.amount : null}
                                                 </p>
                                             </div>
                                         </td>
@@ -198,7 +199,7 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* Applied Weight Charges */}
                                             <div classamount='cell-inside-box'>
                                                 <p className=''>
-                                                 {row?.transaction_type=="d" ?("₹"+row.amount):null}
+                                                    {row?.transaction_type == "d" ? ("₹ " + row.amount) : null}
                                                 </p>
                                             </div>
                                         </td>
@@ -206,7 +207,7 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                ₹  {row.balance}
+                                                    ₹ {row.balance}
                                                 </p>
                                             </div>
                                         </td>
@@ -214,7 +215,7 @@ const PassbookTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                {row.description}
+                                                    {row.description}
                                                 </p>
                                             </div>
                                         </td>
