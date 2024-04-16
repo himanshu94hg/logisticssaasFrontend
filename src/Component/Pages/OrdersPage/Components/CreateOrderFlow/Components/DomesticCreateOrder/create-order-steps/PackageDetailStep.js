@@ -15,7 +15,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
-            
+
         }
         // if (formData.order_details.payment_type === "COD") {
         //     if (!cod_charges) {
@@ -31,7 +31,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         if (length <= 0) {
             errorsObj.length = "Length should be greater than 0!";
         }
-        if (!length ) {
+        if (!length) {
             errorsObj.length = "Length is required!";
         }
         if (breadth <= 0) {
@@ -45,7 +45,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }
         if (!height) {
             errorsObj.height = "Height is required!";
-        }         
+        }
         setErrors(errorsObj);
         console.log("Package Details Data", Object.keys(errorsObj));
         return Object.keys(errorsObj).length === 0;
@@ -92,6 +92,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     };
 
     const [finalWeight, setFinalWeight] = useState(0)
+    
+
 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
     const chargedWeight = formData?.dimension_details.weight;
@@ -249,7 +251,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     <div className="volumetric-weight">
                         <label>
                             Chargeable Weight
-                            <input className='input-field' type="text" value={finalWeight.toFixed(2)} />
+                            <input className='input-field' type="text" value={parseFloat(finalWeight)?.toFixed(2)} />
                             <span class="unit">KG</span>
                         </label>
                     </div>

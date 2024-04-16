@@ -172,11 +172,14 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         {row.customer_order_number}
-                                                        <CustomTooltip
-                                                            triggerComponent={<VerifiedOrderIcon />}
-                                                            tooltipComponent='Verified'
-                                                            addClassName='verified-hover'
-                                                        />
+                                                        {row?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
+
                                                         {/* <VerifiedOrderIcon /> */}
                                                     </span>
                                                 </p>
@@ -194,23 +197,25 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    <CustomTooltip
-                                                        triggerComponent={<span className='ms-1'>
-                                                            <OrderTagsIcon />
-                                                        </span>}
-                                                        tooltipComponent={
-                                                            <div className='Labels-pool'>
-                                                                {row?.order_tag?.map((item) => {
-                                                                    { console.log(item, "this is a item data") }
-                                                                    return (
-                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+                                                    {
+                                                        row?.order_tag.length > 0 && <CustomTooltip
+                                                            triggerComponent={<span className='ms-1'>
+                                                                <OrderTagsIcon />
+                                                            </span>}
+                                                            tooltipComponent={
+                                                                <div className='Labels-pool'>
+                                                                    {row?.order_tag?.map((item) => {
+                                                                        { console.log(item, "this is a item data") }
+                                                                        return (
+                                                                            <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
 
-                                                                    )
-                                                                })}
-                                                            </div>
-                                                        }
-                                                        addClassName=''
-                                                    />
+                                                                        )
+                                                                    })}
+                                                                </div>
+                                                            }
+                                                            addClassName=''
+                                                        />
+                                                    }
                                                 </p>
                                             </div>
                                         </td>
@@ -305,7 +310,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
                                                     <div className='action-list'>
                                                         <ul>
                                                             <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                            <li onClick={() => {setaddTagShow(true);setSelectedRows([row.id])}}>Add Tag</li>
+                                                            <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) }}>Add Tag</li>
                                                             <li>Verify Order</li>
                                                             <li className='action-hr'></li>
                                                             <li>Call Buyer</li>
