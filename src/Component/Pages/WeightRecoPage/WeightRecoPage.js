@@ -80,21 +80,12 @@ const WeightRecoPage = () => {
             switch (activeTab) {
                 case "Weight Reconciliation":
                     await dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                    if (weightData && Array.isArray(weightData)) {
-                        setTotalItems(weightData.length);
-                    }
                     break;
                 case "Settled Reconciliation":
                     await dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                    if (setteledData && Array.isArray(setteledData)) {
-                        setTotalItems(setteledData.length);
-                    }
                     break;
                 case "On Hold Reconciliation":
                     await dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                    if (holdData && Array.isArray(holdData)) {
-                        setTotalItems(holdData.length);
-                    }
                     break;
                 default:
                     break;
@@ -103,6 +94,24 @@ const WeightRecoPage = () => {
 
         fetchData();
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if (weightData && weightData?.count !== undefined) {
+            setTotalItems(weightData?.count);
+        }
+    }, [weightData]);
+
+    useEffect(() => {
+        if (holdData && holdData?.count !== undefined) {
+            setTotalItems(holdData?.count);
+        }
+    }, [holdData]);
+
+    useEffect(() => {
+        if (setteledData && setteledData?.count !== undefined) {
+            setTotalItems(setteledData?.count);
+        }
+    }, [setteledData]);
 
     const handleChange = (SearchOption) => {
         setSearchOption(SearchOption);
@@ -171,7 +180,7 @@ const WeightRecoPage = () => {
             <div className='wt-page-container'>
                 {/* Weight Reconciliation */}
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
-                    <WeightRecoTab weightRecoData={weightData} 
+                    <WeightRecoTab weightRecoData={weightData?.results} 
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}/>
@@ -179,7 +188,7 @@ const WeightRecoPage = () => {
 
                 {/* Settled Reco */}
                 <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
-                    <SettledReco weightRecoData={setteledData} 
+                    <SettledReco weightRecoData={setteledData?.results} 
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}/>
@@ -187,7 +196,7 @@ const WeightRecoPage = () => {
 
                 {/* On-Hold Reco */}
                 <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
-                    <OnHoldReco weightRecoData={holdData} 
+                    <OnHoldReco weightRecoData={holdData?.results} 
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}/>

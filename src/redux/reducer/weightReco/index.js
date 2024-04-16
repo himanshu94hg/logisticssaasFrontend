@@ -21,17 +21,17 @@ export const weightRecoReducer = (state = initialState, action) => {
         case GET_WEIGHT_DATA:
             return {
                 ...state,
-                weightData: action?.payload?.results
+                weightData: action?.payload
             };
         case GET_HOLD_DATA:
             return {
                 ...state,
-                holdData: action?.payload?.results
+                holdData: action?.payload
             };
         case GET_SETTELED_DATA:
             return {
                 ...state,
-                setteledData: action?.payload?.results
+                setteledData: action?.payload
             };
         case GET_HISTORY_DATA:
             return {
