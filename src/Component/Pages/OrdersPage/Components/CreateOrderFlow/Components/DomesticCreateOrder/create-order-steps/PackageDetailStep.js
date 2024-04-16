@@ -143,6 +143,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         e.preventDefault();
                                     }
                                 }}
+                                placeholder='Enter invoice amount'
                             />
                             {(errors.invoice_amount || editErrors?.invoice_amount) && <span className="custom-error">{errors.invoice_amount || editErrors?.invoice_amount}</span>}
                         </label>
@@ -158,6 +159,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         e.preventDefault();
                                     }
                                 }}
+                                placeholder='Enter COD charges'
                             />
                             {/* {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>} */}
                         </label>
@@ -178,7 +180,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         if (!allowedCharacters.test(e.key)) {
                                             e.preventDefault();
                                         }
-                                    }} />
+                                    }}
+                                    placeholder='Enter dead weight'
+                                />
                                 <span class="unit">KG</span>
                                 {(errors.weight || editErrors?.weight) && <span className="custom-error">{errors.weight || editErrors?.weight}</span>}
                             </label>
@@ -210,7 +214,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter length'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {(errors.length || editErrors?.length) && <span className="custom-error">{errors.length || editErrors?.length}</span>}
 
@@ -227,7 +233,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter breadth'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {(errors.breadth || editErrors?.breadth) && <span className="custom-error">{errors.breadth || editErrors?.breadth}</span>}
                         </label>
@@ -243,7 +251,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter height'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {(errors.height || editErrors?.height) && <span className="custom-error">{errors.height || editErrors?.height}</span>}
                         </label>
