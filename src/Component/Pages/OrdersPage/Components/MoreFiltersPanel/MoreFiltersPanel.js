@@ -286,6 +286,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
+                                            maxDate={new Date()}
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
