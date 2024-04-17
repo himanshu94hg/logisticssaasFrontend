@@ -49,7 +49,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(dummyData.map(row => row.id));
+            setSelectedRows(scheduledReport.map(row => row.id));
         } else {
             setSelectedRows([]);
         }

@@ -86,7 +86,7 @@ const ActivityLogsMIS = ({activeTab}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(activitylog.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
