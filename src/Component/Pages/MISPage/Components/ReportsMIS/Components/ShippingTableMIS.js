@@ -1,19 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import moment from 'moment'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 
-const ShippingTableMIS = () => {
+const ShippingTableMIS = ({setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [shipmentData, setShipmentData] = useState([]);
     const {reportShipmentsData}=useSelector(state=>state?.misSectionReducer)
 
 
+    useEffect(()=>{
+        if(reportShipmentsData && reportShipmentsData?.results !== null)
+        {
+            setShipmentData(reportShipmentsData?.results);
+            setTotalItems(reportShipmentsData?.count)
+        }
+    },[reportShipmentsData])
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(reportShipmentsData?.map(row => row.id));
+            setSelectedRows(shipmentData?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -58,7 +66,7 @@ const ShippingTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                { reportShipmentsData?.results?.length&&reportShipmentsData?.results.map((row, index) => (
+                { shipmentData?.length &&shipmentData.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>

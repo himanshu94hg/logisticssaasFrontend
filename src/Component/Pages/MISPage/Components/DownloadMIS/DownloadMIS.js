@@ -32,7 +32,7 @@ const DownloadMIS = ({ activeTab }) => {
     }, [activeTab])
 
 
-    console.log(misDownloadData?.results, "misDownloadDatamisDownloadData")
+    console.log(misDownloadData, "misDownloadDatamisDownloadData")
 
     const [orders, setAllOrders] = useState([
         {

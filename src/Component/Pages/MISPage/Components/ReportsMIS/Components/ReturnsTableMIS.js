@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect   } from 'react'
 import moment from 'moment'
 import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
@@ -12,16 +12,25 @@ import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
 
-const ReturnsTableMIS = () => {
+const ReturnsTableMIS = ({setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [returnsData, setReturnsData] = useState([]);
     const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
     console.log(reportsReturnsData,"reportShipmentsDatareportShipmentsData")
+
+    useEffect(()=>{
+        if(reportsReturnsData && reportsReturnsData?.results !== null)
+        {
+            setReturnsData(reportsReturnsData?.results);
+            setTotalItems(reportsReturnsData?.count)
+        }
+    },[reportsReturnsData])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(reportsReturnsData?.map(row => row.id));
+            setSelectedRows(returnsData?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -63,7 +72,7 @@ const ReturnsTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {reportsReturnsData?.results?.length&&reportsReturnsData?.results?.map((row, index) => (
+                {returnsData?.length&&returnsData?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>

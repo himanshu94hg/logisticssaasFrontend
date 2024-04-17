@@ -12,6 +12,7 @@ import ReturnsTableMIS from './Components/ReturnsTableMIS';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const ReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -22,6 +23,12 @@ const ReportsMIS = ({ activeTab }) => {
     const [endDate, setEndDate] = useState(new Date());
     const [stateData, setStateData] = useState(false)
     const [stateData1, setStateData1] = useState(new Date())
+
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+
+    const {reportsOrderData}=useSelector(state=>state?.misSectionReducer)
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -97,7 +104,9 @@ const ReportsMIS = ({ activeTab }) => {
                     type: "MIS_REPORT_ORDERS_ACTION", payload: {
                         sub_type: secondSelectedOption?.value,
                         start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
+                        end_date: moment(endDate).format("YYYY-MM-DD"),
+                        page_size: itemsPerPage,
+                        page: currentPage
                     }
                 })
             } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
@@ -105,7 +114,9 @@ const ReportsMIS = ({ activeTab }) => {
                     type: "MIS_REPORT_BILLING_ACTION", payload: {
                         sub_type: secondSelectedOption?.value,
                         start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
+                        end_date: moment(endDate).format("YYYY-MM-DD"),
+                        page_size: itemsPerPage,
+                        page: currentPage
                     }
                 })
             } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
@@ -113,7 +124,9 @@ const ReportsMIS = ({ activeTab }) => {
                     type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
                         sub_type: secondSelectedOption?.value,
                         start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
+                        end_date: moment(endDate).format("YYYY-MM-DD"),
+                        page_size: itemsPerPage,
+                        page: currentPage
                     }
                 })
             } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
@@ -121,13 +134,44 @@ const ReportsMIS = ({ activeTab }) => {
                     type: "MIS_REPORT_RETURNS_ACTION", payload: {
                         sub_type: secondSelectedOption?.value,
                         start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
+                        end_date: moment(endDate).format("YYYY-MM-DD"),
+                        page_size: itemsPerPage,
+                        page: currentPage
                     }
                 })
             }
         // }
     }, [showComponent,stateData1])
 
+    useEffect(() => {
+        if(reportsOrderData?.count > 0)
+        {
+            dispatch({
+                type: "MIS_REPORT_ORDERS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
+    }, [itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if(reportsOrderData?.count > 0)
+        {
+            dispatch({
+                type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
+    }, [itemsPerPage, currentPage]);
 
     // Handle form submit
     const handleSubmit = e => {
@@ -221,29 +265,40 @@ const ReportsMIS = ({ activeTab }) => {
                                 startDate={startDate}
                                 endDate={endDate}
                                 setStateData={setStateData}
+                                setTotalItems={setTotalItems}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setTotalItems={setTotalItems}
                             />
                         ) : showComponent === 'Billing' ? (
                             <BillingTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setTotalItems={setTotalItems}
                             />
                         ) : showComponent === 'Returns' ? (
                             <ReturnsTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setTotalItems={setTotalItems}
                             />
                         ) : ''
                     )}
                 </div>
             </div>
+            <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
         </section>
     );
 };

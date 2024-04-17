@@ -12,16 +12,26 @@ import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
 
-const OrdersTableMIS = ({setStateData}) => {
+const OrdersTableMIS = ({setStateData,setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [ordersData, setOrdersData] = useState([]);
     const {reportsOrderData}=useSelector(state=>state?.misSectionReducer)
 
-    console.log(reportsOrderData,"reportsOrderDatareportsOrderData")
+    console.log(reportsOrderData,"setStateDatasetStateDatasetStateDatasetStateData")
+
+    useEffect(()=>{
+        if(reportsOrderData && reportsOrderData?.results !== null)
+        {
+            setOrdersData(reportsOrderData?.results);
+            setTotalItems(reportsOrderData?.count)
+        }
+    },[reportsOrderData])
 
     useEffect(()=>{
         if(reportsOrderData){
             setStateData(false)
+            setTotalItems(reportsOrderData?.count)
         }
     },[reportsOrderData])
 
@@ -29,7 +39,7 @@ const OrdersTableMIS = ({setStateData}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(reportsOrderData.map(row => row.id));
+            setSelectedRows(ordersData.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -74,7 +84,7 @@ const OrdersTableMIS = ({setStateData}) => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {reportsOrderData?.results?.map((row, index) => (
+                {ordersData?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
