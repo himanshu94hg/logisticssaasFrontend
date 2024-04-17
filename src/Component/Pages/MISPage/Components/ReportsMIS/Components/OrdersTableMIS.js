@@ -45,7 +45,6 @@ const OrdersTableMIS = ({setStateData,setTotalItems}) => {
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
 
