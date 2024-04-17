@@ -363,28 +363,33 @@
     position: relative;
     display: flex;
     align-items: center;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem 0 0 0.5rem;
     gap: 15px;
+    width: 50%;
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    padding-block: 4px;
+    /* padding-inline: 8px; */
 }
 
 .status-container-item .status-header .header-polygon {
     display: block;
-    height: 55px;
-    width: 55px;
-    background-color: inherit;
+    height: 21px;
+    width: 21px;
+    background-color: #fff;
     border: inherit;
     position: absolute;
-    top: 13px;
-    right: -25px;
+    top: 4px;
+    right: -11px;
     clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-    transform: rotate(-135deg);
-    border-radius: 0 0 0 0.5rem;
+    transform: rotate(45deg);
+    /* border-radius: 0 0 0 0.5rem; */
 }
 
 .status-container-item .status-header p {
     margin: auto;
     text-align: center;
-    font-size: 1.4rem;
+    font-size: 1rem;
     font-weight: 700;
     padding: 0px;
 }

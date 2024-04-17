@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import SingleShipPop from '../../../../Processing/SingleShipPop/SingleShipPop';
 
 const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
     const [warehouses, setWarehouses] = useState([]);
@@ -14,6 +15,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const dropdownRef = useRef(null);
+  
 
     useEffect(() => {
         const fetchWarehouses = async () => {

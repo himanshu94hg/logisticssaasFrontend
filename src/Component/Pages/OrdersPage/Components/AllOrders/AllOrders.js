@@ -352,7 +352,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                     <button className='btn main-button'>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
-                                                                : row?.status === "cancelled" ? <span>Clone Order</span>
+                                                                : row?.status === "cancelled" ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span>
                                                                     : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
                                                                         : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
                                                     }</button>

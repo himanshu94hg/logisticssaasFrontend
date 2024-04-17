@@ -16,6 +16,7 @@ import PackageDetailStep from './QuickOrderSteps/PackageDetailStep';
 import WareHouseDetailStep from './QuickOrderSteps/WareHouseDetailStep';
 import './QuickCreateOrder.css'
 import { checkType, errorHandle, errorHandleSecond, errorHandlefirst } from '../../../../../../../customFunction/errorHandling';
+import SingleShipPop from '../../../Processing/SingleShipPop/SingleShipPop';
 
 
 const QuickCreateOrder = () => {
@@ -26,6 +27,8 @@ const QuickCreateOrder = () => {
     const currentDate = new Date();
     const [errors, setErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [SingleShip, setSingleShip] = useState(false)
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -232,6 +235,8 @@ const QuickCreateOrder = () => {
             }
         }
 
+   
+
     };
 
     return (
@@ -293,6 +298,8 @@ const QuickCreateOrder = () => {
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
+            {/* <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} /> */}
+
         </div>
     );
 };

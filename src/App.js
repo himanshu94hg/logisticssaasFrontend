@@ -146,7 +146,7 @@ function App() {
       <WalletRechargeComponent WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
       <section onClick={() => setWalletRecharge(!WalletRecharge)} className={`backdrop ${WalletRecharge ? 'd-block' : 'd-none'}`}></section>
 
-      <LowBalancePop setWalletRecharge={setWalletRecharge} />
+      {/* <LowBalancePop setWalletRecharge={setWalletRecharge} /> */}
 
       <ZoneMappingPop ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
       <section onClick={() => setZoneMapping(false)} className={`backdrop ${ZoneMapping ? 'd-block' : 'd-none'}`}></section>
