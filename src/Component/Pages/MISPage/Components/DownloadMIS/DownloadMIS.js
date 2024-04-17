@@ -8,6 +8,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -18,10 +19,15 @@ const DownloadMIS = ({ activeTab }) => {
     const [misDownload, setmisDownload] = useState([]);
     let authToken = Cookies.get("access_token")
 
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+
     useEffect(() => {
         if (activeTab === "DownloadMIS") {
             dispatch({ type: "MIS_DOWNLOAD_ACTION" })
             setmisDownload(misDownloadData?.results)
+            setTotalItems(misDownloadData?.count)
         }
     }, [activeTab])
 
@@ -182,6 +188,13 @@ const DownloadMIS = ({ activeTab }) => {
                     </table>
                 </div>
             </div>
+            <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
         </section>
     );
 };
