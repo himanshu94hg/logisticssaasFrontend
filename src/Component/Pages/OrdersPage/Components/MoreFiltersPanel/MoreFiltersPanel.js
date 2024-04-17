@@ -290,6 +290,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
+                                            maxDate={new Date()}
                                         />
                                     </div>
                                 </label>
@@ -304,6 +305,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             selected={filterParams?.end_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("end_date", e)}
+                                            maxDate={new Date()}
                                         />
                                     </div>
                                 </label>

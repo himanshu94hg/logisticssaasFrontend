@@ -145,8 +145,8 @@ const FilterTicketsForm = (props) => {
               onChange={handleResolutionDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
-              strictParsing={true}
-              placeholderText='Click to choose the date'
+              maxDate={new Date()}
+              strictParsing={true} 
             />
           </div>
         </div>
@@ -164,8 +164,8 @@ const FilterTicketsForm = (props) => {
               onChange={handleEndDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
-              strictParsing={true}
-              placeholderText='Click to choose the date'
+              maxDate={new Date()}
+              strictParsing={true} 
             />
           </div>
         </div>

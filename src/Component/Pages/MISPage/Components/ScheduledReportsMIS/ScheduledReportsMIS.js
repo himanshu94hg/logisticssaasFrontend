@@ -5,19 +5,35 @@ import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import Pagination from '../../../../common/Pagination/Pagination';
+
 
 const ScheduledReportsMIS = ({activeTab}) => {
     const dispatch=useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const {scheduleReportsData}=useSelector(state=>state?.misSectionReducer)
+    const [searchValue, setSearchValue] = useState("")
+    const [scheduledReport, setscheduledReport] = useState([]);
+
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+
+    let authToken = Cookies.get("access_token")   
+
 
     console.log(scheduleReportsData,"scheduleReportsDatascheduleReportsData")
 
 
     useEffect(() => {
         if (activeTab === "ScheduledReportsMIS") {
-            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION" })
+            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION",payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+            setscheduledReport(scheduleReportsData.results)
+            setTotalItems(scheduleReportsData.count)
         }
     }, [activeTab])
 
@@ -33,7 +49,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(dummyData.map(row => row.id));
+            setSelectedRows(scheduledReport.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -56,6 +72,26 @@ const ScheduledReportsMIS = ({activeTab}) => {
             setSelectAll(false);
         }
     };
+    const handleSearch = () => {  
+        axios.get(`https://dev.shipease.in/orders-api/mis/scheduled-reports/?q=${searchValue}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        }).then(response => {
+            console.log(response, "this is response")
+            setscheduledReport(response.data.results)
+            setSearchValue("")
+        })
+            .catch(error => {
+                toast.error("Something went wrong!")
+            }); 
+};
+    
+useEffect(() => {
+    if (activeTab) {
+        setSearchValue("");
+    }
+}, [activeTab])
 
     return (
         <section className='position-relative reports-mis downloads-mis'>
@@ -63,8 +99,8 @@ const ScheduledReportsMIS = ({activeTab}) => {
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label style={{ width: '500px' }}>
-                            <input className='input-field' type="text" placeholder="Search Report Title" />
-                            <button>
+                            <input className='input-field' type="text" placeholder="Search Report Title" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+                            <button onClick={() => handleSearch()} >
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
@@ -95,7 +131,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {scheduleReportsData?.results?.map((row, index) => (
+                            {scheduledReport?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -145,6 +181,13 @@ const ScheduledReportsMIS = ({activeTab}) => {
                         </tbody>
                     </table>
                 </div>
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
         </section>
     );

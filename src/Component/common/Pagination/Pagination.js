@@ -11,7 +11,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
 
-    console.log("All Total Item ",totalItemsCount);
+    console.log("All Total Item ",totalItems,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage);
 
     useEffect(() => {
         if (totalItems >= 0) {

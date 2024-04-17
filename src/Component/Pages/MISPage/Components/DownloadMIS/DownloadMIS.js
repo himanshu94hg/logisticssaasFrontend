@@ -5,16 +5,29 @@ import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const { misDownloadData } = useSelector(state => state?.misSectionReducer)
+    const [searchValue, setSearchValue] = useState("")
+    const [misDownload, setmisDownload] = useState([]);
+    let authToken = Cookies.get("access_token")
+
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
 
     useEffect(() => {
         if (activeTab === "DownloadMIS") {
             dispatch({ type: "MIS_DOWNLOAD_ACTION" })
+            setmisDownload(misDownloadData?.results)
+            setTotalItems(misDownloadData?.count)
         }
     }, [activeTab])
 
@@ -47,7 +60,7 @@ const DownloadMIS = ({ activeTab }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(misDownload?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -71,14 +84,29 @@ const DownloadMIS = ({ activeTab }) => {
         }
     };
 
+    const handleSearch = () => {  
+        axios.get(`https://dev.shipease.in/orders-api/mis/downloads/?q=${searchValue}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        }).then(response => {
+            console.log(response, "this is response")
+            setmisDownload(response.data.results)
+            setSearchValue("")
+        })
+            .catch(error => {
+                toast.error("Something went wrong!")
+            }); 
+};
+
     return (
         <section className='position-relative downloads-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label style={{ width: '500px' }}>
-                            <input className='input-field' type="text" placeholder="Search your downloads" />
-                            <button>
+                            <input className='input-field' type="text" placeholder="Search your downloads" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+                            <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
@@ -108,7 +136,7 @@ const DownloadMIS = ({ activeTab }) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {misDownloadData?.results?.map((row, index) => (
+                            {misDownload?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -160,6 +188,13 @@ const DownloadMIS = ({ activeTab }) => {
                     </table>
                 </div>
             </div>
+            <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
         </section>
     );
 };

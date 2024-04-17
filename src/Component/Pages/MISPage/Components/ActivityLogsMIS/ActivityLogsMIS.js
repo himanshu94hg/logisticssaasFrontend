@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const ActivityLogsMIS = ({activeTab}) => {
     const dispatch=useDispatch();
@@ -15,16 +16,11 @@ const ActivityLogsMIS = ({activeTab}) => {
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
+    const [activitylog, setActivitylog] = useState([]);
 
-
-    useEffect(()=>{
-        if (activeTab === "ActivityLogsMIS") {
-            dispatch({type:"MIS_ACTIVITIES_LOG_ACTION",payload:{
-                from_date:"2023-04-09",
-                to_date:"2024-04-11"
-            }})
-        }
-    },[activeTab])
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
 
 
     const {activitiesLog}=useSelector(state=>state?.misSectionReducer)
@@ -90,7 +86,7 @@ const ActivityLogsMIS = ({activeTab}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(activitylog.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -113,6 +109,48 @@ const ActivityLogsMIS = ({activeTab}) => {
             setSelectAll(false);
         }
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
+            await dispatch({
+                type: "MIS_ACTIVITIES_LOG_ACTION",
+                payload: {
+                    from_date: "2023-04-09",
+                    to_date: "2024-04-11",
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            });
+    
+            setActivitylog(activitiesLog?.results);
+            setTotalItems(activitiesLog?.count);
+        }
+    };
+
+    useEffect(() => {
+        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
+            dispatch({
+                type: "MIS_ACTIVITIES_LOG_ACTION",
+                payload: {
+                    from_date: "2023-04-09",
+                    to_date: "2024-04-11",
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            });
+            setActivitylog(activitiesLog?.results);
+        }
+    }, [itemsPerPage, currentPage]);
+    
+
+    useEffect(()=>{
+        if(activitiesLog?.results !== null)
+        {
+            setActivitylog(activitiesLog?.results)
+            setTotalItems(activitiesLog?.count)
+        }
+    },[activitiesLog])
 
     return (
         <section className='position-relative reports-mis'>
@@ -153,6 +191,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                                 />
                             </div>
                         </label>
+                        <button onClick={handleSubmit}  className='btn main-button'>Search</button>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export Report</button>
@@ -181,7 +220,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {activitiesLog?.results?.map((row, index) => (
+                            {activitylog?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -245,6 +284,13 @@ const ActivityLogsMIS = ({activeTab}) => {
                     </table>
                 </div>
             </div>
+            <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
         </section>
     );
 };

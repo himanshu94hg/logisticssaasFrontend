@@ -128,7 +128,7 @@ function* misReportsShipmentsAction(action) {
 async function misScheduledReportsApi(data) {
     return axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.MIS_SCHEDULED_REPEORTS}`,
+        url: `${BASE_URL_ORDER}${API_URL.MIS_SCHEDULED_REPEORTS}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
 }

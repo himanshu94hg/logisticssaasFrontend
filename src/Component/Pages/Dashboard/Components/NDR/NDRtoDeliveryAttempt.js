@@ -25,11 +25,12 @@ const ApexChart = () => {
             dataLabels: {
                 enabled: true,
                 enabledOnSeries: undefined,
-                formatter: function (val, opts) {
-                    return val.toFixed(2);
+                formatter(val, opts) {
+                   // const name = opts.w.globals.labels[opts.seriesIndex];
+                    return [ val.toFixed(1) + '%'];
                 },
                 style: {
-                    fontWeight: "bold",
+                    fontWeight: "Medium",
                     colors: ["#000000"] 
                 }
             }
