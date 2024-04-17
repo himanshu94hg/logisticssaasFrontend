@@ -67,7 +67,7 @@ function* bulkDeleteOrderAction(action) {
         let response = yield call(bulkDeleteOrderApi, payload);
         if (response.status === 200) {
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
-            toast.success("Order deleted successfully!")
+            toast.success(response?.data?.message)
         }
 
     } catch (error) {
@@ -88,7 +88,6 @@ function* bulkCancelOrderAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(bulkCancelOrderApi, payload);
-        console.log(response?.status, "this is a response data")
         if (response.status === 200) {
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Order cancelled successfully")
@@ -146,7 +145,6 @@ function* bulkDimensionDetailUpdateAction(action) {
 }
 
 async function bulkGenerateManifestApi(data) {
-    console.log(data, "this is a bulk data")
     return axios.request({
         method: "POST",
         url: `${BASE_URL_ORDER}${API_URL.BULK_ORDER_GENERATE_MENIFEST_API}`,
@@ -155,7 +153,6 @@ async function bulkGenerateManifestApi(data) {
 }
 function* bulkGenerateManifestAction(action) {
     let { payload, reject } = action;
-    console.log(payload, "this is payload data")
     try {
         let response = yield call(bulkGenerateManifestApi, payload);
         if (response.status === 200) {
@@ -199,7 +196,6 @@ function* bulkGenerateLabelAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(bulkGenerateLabelApi, payload);
-        console.log(response,"responseresponseresponse")
         if (response.status === 200) {
             toast.success(` Label generated successfully!`)
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })

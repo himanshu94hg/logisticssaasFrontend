@@ -12,7 +12,6 @@ const AddTagPop = ({ addTagShow, setaddTagShow, selectedRows,setSelectedRows,set
     const [labels, setLabels] = useState([]);
     const [activeLabels, setActiveLabels] = useState([]); 
     const { tagListData } = useSelector(state => state?.orderSectionReducer);
-    console.log(activeLabels, "tagListDatatagListData");
 
     useEffect(() => {
         let temp = [];

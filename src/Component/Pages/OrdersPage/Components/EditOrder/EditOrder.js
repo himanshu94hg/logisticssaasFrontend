@@ -17,7 +17,6 @@ import orderIdAction from '../../../../../redux/action/orders/orderId';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
-    const [wareHouses, setWarehouses] = useState([])
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
     const authToken = Cookies.get("access_token");
@@ -230,7 +229,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         });
 
         seteditErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -412,8 +410,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}
                                         setWareHouseName={setWareHouseName}
-                                        wareHouses={wareHouses}
-                                        setWarehouses={setWarehouses}
                                     />
                                 </div>
                             )}

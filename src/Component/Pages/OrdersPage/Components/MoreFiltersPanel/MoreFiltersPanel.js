@@ -238,8 +238,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     },[handleResetFrom])
 
-    console.log(handleResetFrom,"handleResetFrom")
-
     const handleReset = () => {
         setFilterParams({
             start_date: null,
