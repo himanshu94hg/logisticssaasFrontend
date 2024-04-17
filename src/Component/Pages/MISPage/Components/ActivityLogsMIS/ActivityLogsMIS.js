@@ -15,16 +15,7 @@ const ActivityLogsMIS = ({activeTab}) => {
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-
-
-    useEffect(()=>{
-        if (activeTab === "ActivityLogsMIS") {
-            dispatch({type:"MIS_ACTIVITIES_LOG_ACTION",payload:{
-                from_date:"2023-04-09",
-                to_date:"2024-04-11"
-            }})
-        }
-    },[activeTab])
+    const [activitylog, setActivitylog] = useState([]);
 
 
     const {activitiesLog}=useSelector(state=>state?.misSectionReducer)
@@ -114,6 +105,17 @@ const ActivityLogsMIS = ({activeTab}) => {
         }
     };
 
+    const handleSubmit = e => {
+        e.preventDefault();
+        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
+            dispatch({type:"MIS_ACTIVITIES_LOG_ACTION",payload:{
+                from_date:"2023-04-09",
+                to_date:"2024-04-11"
+            }})
+            setActivitylog(activitiesLog?.results)
+        }
+    };
+
     return (
         <section className='position-relative reports-mis'>
             <div className="position-relative">
@@ -153,6 +155,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                                 />
                             </div>
                         </label>
+                        <button onClick={handleSubmit}  className='btn main-button'>Search</button>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export Report</button>
@@ -181,7 +184,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {activitiesLog?.results?.map((row, index) => (
+                            {activitylog?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
