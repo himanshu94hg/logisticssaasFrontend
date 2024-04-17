@@ -17,11 +17,8 @@ import orderIdAction from '../../../../../redux/action/orders/orderId';
 
 const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
     const dispatch = useDispatch()
-    const [wareHouses, setWarehouses] = useState([])
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
-    const authToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
     const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState();
@@ -218,7 +215,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         });
 
         seteditErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -242,8 +238,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         }
     }, [orderId])
 
-    console.log(new Date(orderDetailsData?.order_date), "this is a data dtaa", new Date())
-
     useEffect(() => {
         if (orderDetailsData) {
             setFormData(prevData => ({
@@ -252,7 +246,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                     customer_order_number: orderDetailsData?.customer_order_number + "_clone",
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
-                    // warehouse_id: orderDetailsData,
+                    warehouse_id: orderDetailsData?.warehouse_id,
                     order_tag: orderDetailsData?.order_tag,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
@@ -321,38 +315,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
 
 
 
-    useEffect(() => {
-        if (orderId) {
-            const fetchWarehouses = async () => {
-                try {
-                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
-                        headers: {
-                            Authorization: `Bearer ${authToken}`
-                        }
-                    });
-                    setWarehouses(response.data);
-                } catch (error) {
-                }
-            };
-            fetchWarehouses();
-        }
-    }, [orderId]);
-
-    useEffect(() => {
-        if (wareHouses) {
-            let data = wareHouses.filter(item => item?.warehouse_name === wareHouseName)
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                order_details: {
-                    ...prevFormData.order_details,
-                    warehouse_id: data[0]?.id
-                }
-            }));
-        }
-    }, [wareHouses])
-
-    // const {orderId}=useSelector(state=>state?.orderSectionReducer)
-    // console.log(orderId,"this is orderId data")
 
 
     return (
@@ -437,8 +399,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}
                                         setWareHouseName={setWareHouseName}
-                                        wareHouses={wareHouses}
-                                        setWarehouses={setWarehouses}
+                                      
                                     />
                                 </div>
                             )}

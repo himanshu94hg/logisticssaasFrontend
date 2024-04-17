@@ -195,7 +195,15 @@ const ReportsMIS = ({ activeTab }) => {
             });
         }
     };
-
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+          return;
+        }
+        if (!allowedCharacters.test(e.key)) {
+          e.preventDefault();
+        }
+      }
 
 
     return (
@@ -234,6 +242,7 @@ const ReportsMIS = ({ activeTab }) => {
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
                                     selected={startDate}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                     onChange={handleStartDateChange}
                                 />
                             </div>
@@ -246,6 +255,7 @@ const ReportsMIS = ({ activeTab }) => {
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
                                     selected={endDate}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                     onChange={handleEndDateChange}
                                 />
                             </div>

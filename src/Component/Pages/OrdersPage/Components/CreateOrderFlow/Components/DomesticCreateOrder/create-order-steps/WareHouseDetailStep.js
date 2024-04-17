@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wareHouseName,wareHouses }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wareHouseName }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -38,8 +38,8 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
     }, []);
 
     useEffect(() => {
-        if (wareHouses) {
-            let data = wareHouses.filter(item => item?.warehouse_name === wareHouseName)
+        if (warehouses) {
+            let data = warehouses?.filter(item => item?.warehouse_name === wareHouseName)
             setFormData(prevFormData => ({
                 ...prevFormData,
                 order_details: {
@@ -48,7 +48,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
                 }
             }));
         }
-    }, [wareHouses])
+    }, [warehouses])
 
     const handleRadioChange = (e) => {
         const selectedWarehouseId = parseInt(e.target.value);

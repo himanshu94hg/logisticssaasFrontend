@@ -17,7 +17,6 @@ import orderIdAction from '../../../../../redux/action/orders/orderId';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
-    const [wareHouses, setWarehouses] = useState([])
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
     const authToken = Cookies.get("access_token");
@@ -230,7 +229,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         });
 
         seteditErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -245,7 +243,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             })
             setEditOrderSection(false) 
         }
-       
     };
 
     useEffect(() => {
@@ -254,8 +251,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             dispatch(orderIdAction(orderId))
         }
     }, [orderId])
-
-    console.log(new Date(orderDetailsData?.order_date), "this is a data dtaa", new Date())
 
     useEffect(() => {
         if (orderDetailsData) {
@@ -266,7 +261,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     customer_order_number: orderDetailsData?.customer_order_number,
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
-                    // warehouse_id: orderDetailsData,
+                    warehouse_id: orderDetailsData?.warehouse_id,
                     order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
@@ -332,42 +327,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             setWareHouseName(orderDetailsData?.pickup_details?.p_warehouse_name)
         }
     }, [orderDetailsData])
-
-
-
-    useEffect(() => {
-        if (orderId) {
-            const fetchWarehouses = async () => {
-                try {
-                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
-                        headers: {
-                            Authorization: `Bearer ${authToken}`
-                        }
-                    });
-                    setWarehouses(response.data);
-                } catch (error) {
-                }
-            };
-            fetchWarehouses();
-        }
-    }, [orderId]);
-
-    useEffect(() => {
-        if (wareHouses) {
-            let data = wareHouses.filter(item => item?.warehouse_name === wareHouseName)
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                order_details: {
-                    ...prevFormData.order_details,
-                    warehouse_id: data[0]?.id
-                }
-            }));
-        }
-    }, [wareHouses])
-
-    // const {orderId}=useSelector(state=>state?.orderSectionReducer)
-    console.log(formData,"this is orderId data")
-
 
     return (
         <>
@@ -451,8 +410,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}
                                         setWareHouseName={setWareHouseName}
-                                        wareHouses={wareHouses}
-                                        setWarehouses={setWarehouses}
                                     />
                                 </div>
                             )}

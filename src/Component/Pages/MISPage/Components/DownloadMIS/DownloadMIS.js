@@ -60,7 +60,7 @@ const DownloadMIS = ({ activeTab }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(misDownload?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }

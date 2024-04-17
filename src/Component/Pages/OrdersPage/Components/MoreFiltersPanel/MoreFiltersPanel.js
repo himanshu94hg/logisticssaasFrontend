@@ -52,7 +52,7 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter,handleResetFrom,setHandleResetFrom }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
@@ -90,9 +90,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const handleSubmit = e => {
         e.preventDefault();
         const encodedParams = Object.entries(filterParams)
-        .filter(([key, value]) => value !== null && value !== '')
-        .map(([key, value]) => `${(key)}=${(value)}`)
-        .join('&');
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => `${(key)}=${(value)}`)
+            .join('&');
 
         handleMoreFilter(filterParams)
         CloseSidePanel()
@@ -111,10 +111,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         //     pickup_address: ""
         // })
         if (saveFav) {
-            dispatch({ type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
-                filter_query:encodedParams,
-                filter_name:favName
-            } })
+            dispatch({
+                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                    filter_query: encodedParams,
+                    filter_name: favName
+                }
+            })
         }
         setSaveFilter(false)
         setFavName("")
@@ -184,7 +186,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             Authorization: `Bearer ${authToken}`
                         }
                     });
-                    const temp = response?.data?.map((item,index) => ({
+                    const temp = response?.data?.map((item, index) => ({
                         label: item.warehouse_name,
                         value: item.warehouse_name,
                     }));
@@ -217,10 +219,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [tagListData]);
 
-  
 
-    useEffect(()=>{
-        if(handleResetFrom){
+
+    useEffect(() => {
+        if (handleResetFrom) {
             setFilterParams({
                 start_date: null,
                 end_date: null,
@@ -236,9 +238,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             setHandleResetFrom(false)
         }
-    },[handleResetFrom])
-
-    console.log(handleResetFrom,"handleResetFrom")
+    }, [handleResetFrom])
 
     const handleReset = () => {
         setFilterParams({
@@ -286,6 +286,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
                                             className='input-field'
+                                            maxDate={new Date()}
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
@@ -370,7 +371,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
-                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}                                    />
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null} />
                                 </label>
                             </div>
                             <div className='filter-row'>
@@ -441,7 +442,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e)=>setFavName(e.target.value)} />
+                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>

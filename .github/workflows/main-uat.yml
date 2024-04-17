@@ -1,10 +1,10 @@
-name: DeployFrontEndProjectDev
+name: DeployFrontEndProjectUAT
 
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ main ]
+    branches: [ uat ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -18,15 +18,15 @@ jobs:
     - name: Deploy using ssh
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.HOST }}
+        host: ${{ secrets.HOST_UAT }}
         username: ${{ secrets.USERNAME }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.SSH_PRIVATE_KEY_UAT }}
         port: 22
         script: |
           sudo -i
           cd /home/ubuntu/ship_code/shipease_frontend/
           sudo git fetch --all
-          sudo git reset --hard origin/main
+          sudo git reset --hard origin/uat
           sudo git pull https://${{ secrets.GIT_USERNAME }}:${{ secrets.GIT_PASSWORD }}@github.com/Shipease-Technology/shipease_frontend.git --force
           sudo docker build -t shipease_frontend:v2 .
           sudo bash -c "cd /root/Apps/ && docker-compose down && docker-compose up -d"

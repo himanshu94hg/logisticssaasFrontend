@@ -33,8 +33,6 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
 
     }
 
-
-    console.log(dimension,"dimension")
     return (
         <>
             <div className={`ba-pop-show weight-update ${UpdateWeight ? 'open' : ''}`}>

@@ -60,7 +60,7 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [resetValue, setResetValue] = useState(new Date());
-    
+
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
@@ -163,7 +163,7 @@ const OrdersPage = () => {
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
-            // setQueryParamTemp({});
+            setQueryParamTemp({});
             setQueryParamSearch(null);
         }
     }, [activeTab])
@@ -243,6 +243,8 @@ const OrdersPage = () => {
     }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, queryParamTemp, activeTab, currentPage, itemsPerPage]);
 
 
+    console.log(queryParamTemp, "queryParamTempqueryParamTempqueryParamTemp")
+
     const handleChange = (option) => {
         setSearchOption(option);
         setsearchType(option.value)
@@ -264,7 +266,18 @@ const OrdersPage = () => {
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
-        
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}&courier_status=${activeTab==="All Orders"?'':activeTab}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+            })
+            .catch(error => {
+                toast.error("Api Call failed!")
+            });
     }
 
 
@@ -372,7 +385,7 @@ const OrdersPage = () => {
                         setCloneOrderSection={setCloneOrderSection}
                         setaddTagShow={setaddTagShow}
                         BulkActionShow={BulkActionShow}
-                        
+
                     />
                 </div>
 

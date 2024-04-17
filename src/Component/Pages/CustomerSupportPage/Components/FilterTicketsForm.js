@@ -126,8 +126,8 @@ const FilterTicketsForm = (props) => {
               onChange={handleCreatedChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
-              strictParsing={true}
-              placeholderText='Click to choose the date'
+              strictParsing={true} 
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>
@@ -147,6 +147,7 @@ const FilterTicketsForm = (props) => {
               className='input-field'
               maxDate={new Date()}
               strictParsing={true} 
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>
@@ -166,6 +167,7 @@ const FilterTicketsForm = (props) => {
               className='input-field'
               maxDate={new Date()}
               strictParsing={true} 
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>
