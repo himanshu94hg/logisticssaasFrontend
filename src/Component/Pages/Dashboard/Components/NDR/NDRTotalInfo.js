@@ -4,6 +4,8 @@ import NDRicon from '../../../../../assets/image/icons/NDRicon.png'
 import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png'
 import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
 import { useSelector } from "react-redux";
+import NdrIcon from "../../../../common/Icons/InfoCardsIcons/NdrIcon";
+import NdrDeliveredIcon from "../../../../common/Icons/InfoCardsIcons/NdrDeliveredIcon";
 
 function NDRTotalInfo() {
   // Dummy data
@@ -14,7 +16,7 @@ function NDRTotalInfo() {
     ndrdeleverd: { total_delivered_ndr_count: 75 }
   };
 
-  const {counterData}=useSelector(state=>state?.dashboardNdrReducer)
+  const { counterData } = useSelector(state => state?.dashboardNdrReducer)
 
   const [totalNdr, setTotalNdr] = useState(dummyData.totalNdr);
   const [actionRequested, setActionRequested] = useState(dummyData.actionRequested);
@@ -31,25 +33,25 @@ function NDRTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={NDRicon} alt="iconOrders" width={24} />
+                    <div className="CardIconContainer bg-green-light">
+                      <NdrIcon />
                     </div>
-                  <div>
-                  <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.total_ndr}</h3>
-                  </div>
+                    <div>
+                      <p className="font14 text-gray m-0 ws-nowrap">Total NDR</p>
+                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.total_ndr}</h3>
+                    </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
                   <div className="card-footer1">
-                  <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    {0} %
-                  </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                     Comparative analysis
-                  </p>
-                </div> 
+                    <span className="text-green font13 pt20 bold-600 d-block text-end">
+                      {0} %
+                    </span>
+                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
+                      Comparative analysis
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="col-12">
@@ -70,22 +72,22 @@ function NDRTotalInfo() {
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
 
                     </div>
-                   <div>
-                   <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_required}</h3>
-                   </div>
+                    <div>
+                      <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
+                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_required}</h3>
+                    </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
                   <div className="card-footer1">
-                  <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    {0} %
-                  </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                     Comparative analysis
-                  </p>
-                </div> 
+                    <span className="text-red font13 pt20 bold-600 d-block text-end">
+                      {0} %
+                    </span>
+                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
+                      Comparative analysis
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="col-12">
@@ -105,22 +107,22 @@ function NDRTotalInfo() {
                     <div className="CardIconContainer icon-bg">
                       <img src={iconDelivery} alt="iconDelivery" width={24} />
                     </div>
-                   <div>
-                   <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_requested}</h3>
-                   </div>
+                    <div>
+                      <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
+                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.action_requested}</h3>
+                    </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingUp className="trending-icon" />
                   </div>
                   <div className="card-footer1">
-                  <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    {0} %
-                  </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                     Comparative analysis
-                  </p>
-                </div> 
+                    <span className="text-red font13 pt20 bold-600 d-block text-end">
+                      {0} %
+                    </span>
+                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
+                      Comparative analysis
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="col-12">
@@ -137,25 +139,25 @@ function NDRTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={NDRdelivered} alt="iconRTO" width={24} />
+                    <div className="CardIconContainer bg-red-light">
+                      <NdrDeliveredIcon />
                     </div>
-                     <div>
-                     <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
-                    <h3 className="font20 title-text p-y bold-600 m0">{counterData?.ndr_delivered}</h3>
-                     </div>
+                    <div>
+                      <p className="font14 text-gray m-0 ws-nowrap">NDR Delivered</p>
+                      <h3 className="font20 title-text p-y bold-600 m0">{counterData?.ndr_delivered}</h3>
+                    </div>
                   </div>
                   <div className="col-2">
                     <HiTrendingDown className="trending-icon" />
                   </div>
                   <div className="card-footer1">
-                  <span className="text-red font13 pt20 bold-600 d-block text-end">
-                    {0} %
-                  </span>
-                  <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
-                     Comparative analysis
-                  </p>
-                </div> 
+                    <span className="text-red font13 pt20 bold-600 d-block text-end">
+                      {0} %
+                    </span>
+                    <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
+                      Comparative analysis
+                    </p>
+                  </div>
                 </div>
               </div>
               <div className="col-12">
