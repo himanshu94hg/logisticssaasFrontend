@@ -29,6 +29,8 @@ const ReportsMIS = ({ activeTab }) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
     const {reportsOrderData}=useSelector(state=>state?.misSectionReducer)
+    const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
+    const {reportShipmentsData}=useSelector(state=>state?.misSectionReducer)
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -159,10 +161,25 @@ const ReportsMIS = ({ activeTab }) => {
     }, [itemsPerPage, currentPage]);
 
     useEffect(() => {
-        if(reportsOrderData?.count > 0)
+        if(reportShipmentsData?.count > 0)
         {
             dispatch({
                 type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
+    }, [itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if(reportsReturnsData?.count > 0)
+        {
+            dispatch({
+                type: "MIS_REPORT_RETURNS_ACTION", payload: {
                     sub_type: secondSelectedOption?.value,
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
