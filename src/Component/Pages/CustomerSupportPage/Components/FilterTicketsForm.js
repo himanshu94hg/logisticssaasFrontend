@@ -127,6 +127,7 @@ const FilterTicketsForm = (props) => {
               dateFormat='dd/MM/yyyy'
               className='input-field'
               strictParsing={true} 
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>
@@ -145,6 +146,7 @@ const FilterTicketsForm = (props) => {
               dateFormat='dd/MM/yyyy'
               className='input-field'
               strictParsing={true} 
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>
@@ -163,6 +165,7 @@ const FilterTicketsForm = (props) => {
               dateFormat='dd/MM/yyyy'
               className='input-field'
               strictParsing={true} 
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>

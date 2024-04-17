@@ -22,6 +22,7 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import NoData from '../../../../common/noData';
 
 
 const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -277,6 +278,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData/>}
                 </div>
             </div>
         </section>

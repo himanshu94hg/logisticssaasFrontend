@@ -246,7 +246,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                     customer_order_number: orderDetailsData?.customer_order_number + "_clone",
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
-                    // warehouse_id: orderDetailsData,
+                    warehouse_id: orderDetailsData?.warehouse_id,
                     order_tag: orderDetailsData?.order_tag,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
