@@ -8,6 +8,7 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 
 const ScheduledReportsMIS = ({activeTab}) => {
@@ -17,6 +18,11 @@ const ScheduledReportsMIS = ({activeTab}) => {
     const {scheduleReportsData}=useSelector(state=>state?.misSectionReducer)
     const [searchValue, setSearchValue] = useState("")
     const [scheduledReport, setscheduledReport] = useState([]);
+
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+
     let authToken = Cookies.get("access_token")   
 
 
@@ -27,6 +33,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
         if (activeTab === "ScheduledReportsMIS") {
             dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION" })
             setscheduledReport(scheduleReportsData.results)
+            setTotalItems(scheduleReportsData.count)
         }
     }, [activeTab])
 
@@ -174,6 +181,13 @@ useEffect(() => {
                         </tbody>
                     </table>
                 </div>
+                <Pagination
+                    totalItems={totalItems}
+                    currentPage={currentPage}
+                    itemsPerPage={itemsPerPage}
+                    setItemsPerPage={setItemsPerPage}
+                    setCurrentPage={setCurrentPage}
+                />
             </div>
         </section>
     );

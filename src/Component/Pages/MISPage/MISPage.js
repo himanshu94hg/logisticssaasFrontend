@@ -53,13 +53,13 @@ const MISPage = () => {
                     <DownloadMIS activeTab={activeTab}/>
                 </div>
 
-                <Pagination
+                {/* <Pagination
                     totalItems={totalItems}
                     currentPage={currentPage}
                     itemsPerPage={itemsPerPage}
                     setItemsPerPage={setItemsPerPage}
                     setCurrentPage={setCurrentPage}
-                />
+                /> */}
             </div>
         </>
     )
