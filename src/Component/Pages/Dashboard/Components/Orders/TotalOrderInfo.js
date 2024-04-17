@@ -5,6 +5,7 @@ import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png';
 import iconOrders from '../../../../../assets/image/icons/Orders_icon.png';
 import { useSelector } from "react-redux";
 import './TotalOrderInfo.css'
+import AllOrdersIcons from "../../../../common/Icons/InfoCardsIcons/AllOrdersIcons";
 
 function TotalOrderInfo() {
   const { orderCount } = useSelector(state => state?.dashboardOrderReducer)
@@ -22,8 +23,8 @@ function TotalOrderInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={iconOrders} alt="iconOrders" width={24} />
+                    <div className="CardIconContainer bg-green-light text-green">
+                      <AllOrdersIcons />
                     </div>
                     <div>
                       <p className="font14 text-gray m-0 ws-nowrap">Total Orders</p>

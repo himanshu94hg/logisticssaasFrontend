@@ -44,8 +44,8 @@ function TotalShipment() {
             <div className="row">
               <div className="col-8">
                 <div className="d-flex justify-content-start align-items-center">
-                  <div className="infoCardIconContainer bg-red">
-                    <LiaShippingFastSolid className="text-white font30" />
+                  <div className="infoCardIconContainer bg-red-light">
+                    <LiaShippingFastSolid className="text-red font30" />
                   </div>
                   <div className="">
                     <p className="font13 text-gray m-0">Total Shipment</p>
@@ -59,7 +59,7 @@ function TotalShipment() {
                   <span className="text-color font13 pt20 bold-600 d-block">
                   </span>
                   <p className="text-xs text-gray font13 m0 text-gray-600">
-                     Comparative analysis
+                    Comparative analysis
                   </p>
                 </div>
               </div>
