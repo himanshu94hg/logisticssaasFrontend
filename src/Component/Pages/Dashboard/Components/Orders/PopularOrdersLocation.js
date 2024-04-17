@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 
 const PopularOrdersLocation = () => {
 
-  const {popularLocation}=useSelector(state=>state?.dashboardOrderReducer)
+  const { popularLocation } = useSelector(state => state?.dashboardOrderReducer)
 
   return (
     <div className="box-shadow shadow-sm p10">
@@ -12,9 +12,9 @@ const PopularOrdersLocation = () => {
           <h4 className="title">Popular Orders Location</h4>
           <ul className="list-ui mt20">
             {popularLocation?.map((location, index) => (
-              <li key={index} className={`bg-${getColor(index)}-light text-${getColor(index)}`}>
+              <li key={index} className={`bg-${getColor(index)}-light text-${getColor(index)} d-flex justify-content-between`}>
                 <p>{location.p_state}</p>
-                <p>₹ {location.total}</p>
+                <p>{location.total}</p>
               </li>
             ))}
           </ul>

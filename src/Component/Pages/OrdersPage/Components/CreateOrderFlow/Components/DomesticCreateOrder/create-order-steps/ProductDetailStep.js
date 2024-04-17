@@ -138,8 +138,8 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                     <span>Product Category <span className='text-gray'>(Optional)</span></span>
                                     <select
                                         className='select-field'
-                                        value={product.order_type}
-                                        onChange={(e) => handleChange(e, 'order_type', index)}
+                                        value={product.product_category}
+                                        onChange={(e) => handleChange(e, 'product_category', index)}
                                     >
                                         <option value="">Select</option>
                                         <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
