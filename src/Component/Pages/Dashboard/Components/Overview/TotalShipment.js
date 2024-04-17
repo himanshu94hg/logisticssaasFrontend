@@ -4,6 +4,7 @@ import React, { useState, useEffect } from "react";
 import { LiaShippingFastSolid } from "react-icons/lia";
 import { dateRangeDashboard } from "../../../../../customFunction/dateRange";
 import { percentage } from "../../../../../customFunction/functionLogic";
+import TotalShipmentIcon from "../../../../common/Icons/InfoCardsIcons/TotalShipmentIcon";
 
 function TotalShipment() {
   const [data, setData] = useState(null);
@@ -45,7 +46,8 @@ function TotalShipment() {
               <div className="col-8">
                 <div className="d-flex justify-content-start align-items-center">
                   <div className="infoCardIconContainer bg-red-light">
-                    <LiaShippingFastSolid className="text-red font30" />
+                    {/* <LiaShippingFastSolid className="text-red font30" /> */}
+                    <TotalShipmentIcon />
                   </div>
                   <div className="">
                     <p className="font13 text-gray m-0">Total Shipment</p>
