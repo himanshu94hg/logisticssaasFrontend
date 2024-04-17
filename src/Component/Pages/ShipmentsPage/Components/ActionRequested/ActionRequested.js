@@ -192,7 +192,8 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActio
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
                                                 <p ><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
-                                                     <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} />
+                                                     {/* <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} /> */}
+                                                     <InfoIcon onClick={() => handleShow(row)} />
                                                 </p>
                                                 {row?.ndr_details.length > 0 && (
                                                     row.ndr_details.map((detail, index) => (

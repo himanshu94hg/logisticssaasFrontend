@@ -1,6 +1,6 @@
 import React from 'react'
 
-const InfoIcon = () => {
+const InfoIcon = ({ onClick }) => {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -14,6 +14,7 @@ const InfoIcon = () => {
             style={{ enableBackground: "new 0 0 512 512" }}
             xmlSpace="preserve"
             className="hovered-paths"
+            onClick={onClick}
         >
             <g>
                 <g data-name="ESSENTIAL UI">
