@@ -31,7 +31,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
 
     useEffect(() => {
         if (activeTab === "ScheduledReportsMIS") {
-            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION" })
+            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION",payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
             setscheduledReport(scheduleReportsData.results)
             setTotalItems(scheduleReportsData.count)
         }
