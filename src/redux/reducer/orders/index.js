@@ -103,6 +103,7 @@ export const orderSectionReducer = (state = initialState, action) => {
             };
 
         case ORDERS_DETAILS_CLONE_DATA:
+            console.log(action?.payload,"this is a clone dtaa")
             return {
                 ...state,
                 cloneData: action?.payload

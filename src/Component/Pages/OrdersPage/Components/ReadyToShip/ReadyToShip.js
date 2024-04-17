@@ -29,6 +29,7 @@ import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import SingleShipPop from './SingleShipPop';
+import NoData from '../../../../common/noData';
 
 
 const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -237,12 +238,13 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         {row.customer_order_number}
-                                                        <CustomTooltip
-                                                            triggerComponent={<VerifiedOrderIcon />}
-                                                            tooltipComponent='Verified'
-                                                            addClassName='verified-hover'
-                                                        />
-                                                        {/* <VerifiedOrderIcon /> */}
+                                                        {row?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -261,24 +263,22 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    <CustomTooltip
+                                                    {row?.order_tag.length > 0 && <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
                                                             <OrderTagsIcon />
                                                         </span>}
                                                         tooltipComponent={
                                                             <div className='Labels-pool'>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                {row?.order_tag?.map((item) => {
+                                                                    return (
+                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+
+                                                                    )
+                                                                })}
                                                             </div>
                                                         }
-                                                        addClassName=''
-                                                    />
+                                                    />}
                                                 </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -396,6 +396,7 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData/>}
                 </div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
             </div>

@@ -28,6 +28,7 @@ import Cookies from 'js-cookie';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import NoData from '../../../../common/noData';
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
@@ -231,12 +232,13 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                                         : ""}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             {row.customer_order_number}
-                                                            <CustomTooltip
-                                                                triggerComponent={<VerifiedOrderIcon />}
-                                                                tooltipComponent='Verified'
-                                                                addClassName='verified-hover'
-                                                            />
-                                                            {/* <VerifiedOrderIcon /> */}
+                                                            {row?.other_details?.is_verified &&
+                                                                <CustomTooltip
+                                                                    triggerComponent={<VerifiedOrderIcon />}
+                                                                    tooltipComponent='Verified'
+                                                                    addClassName='verified-hover'
+                                                                />
+                                                            }
                                                         </span>
                                                     </p>
                                                     <p className='ws-nowrap d-flex align-items-center'>
@@ -253,21 +255,21 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                             addClassName='verified-hover'
                                                         />
                                                         <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-
-                                                        <CustomTooltip
+                                                        {row?.order_tag.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />
                                                             </span>}
                                                             tooltipComponent={
                                                                 <div className='Labels-pool'>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                    {row?.order_tag?.map((item) => {
+                                                                        return (
+                                                                            <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+
+                                                                        )
+                                                                    })}
                                                                 </div>
                                                             }
-                                                            addClassName=''
-                                                        />
+                                                        />}
                                                     </p>
                                                 </div>
                                             </td>
@@ -378,7 +380,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 })}>Cancel Order</li>
                                                                 {row?.status === "pending" &&
-                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                    <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
                                                                 }
                                                             </ul>
                                                         </div> : ""}
@@ -391,6 +393,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                 ))}
                             </tbody>
                         </table>
+                        {orders?.length === 0 && <NoData />}
                     </div>
                     <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
                 </div>
