@@ -24,12 +24,16 @@ const DownloadMIS = ({ activeTab }) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
     useEffect(() => {
-        if (activeTab === "DownloadMIS") {
-            dispatch({ type: "MIS_DOWNLOAD_ACTION" })
+        dispatch({ type: "MIS_DOWNLOAD_ACTION",payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+    }, [dispatch,activeTab,itemsPerPage,currentPage])
+
+    useEffect(() => {
+        if(misDownloadData?.results !== null && misDownloadData !== undefined)
+        {
             setmisDownload(misDownloadData?.results)
             setTotalItems(misDownloadData?.count)
         }
-    }, [activeTab])
+    }, [misDownloadData])
 
 
     console.log(misDownloadData, "misDownloadDatamisDownloadData")

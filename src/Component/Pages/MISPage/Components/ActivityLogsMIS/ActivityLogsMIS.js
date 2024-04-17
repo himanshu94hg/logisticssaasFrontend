@@ -129,7 +129,8 @@ const ActivityLogsMIS = ({activeTab}) => {
     };
 
     useEffect(() => {
-        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
+        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate)
+        {
             dispatch({
                 type: "MIS_ACTIVITIES_LOG_ACTION",
                 payload: {
@@ -139,18 +140,18 @@ const ActivityLogsMIS = ({activeTab}) => {
                     page: currentPage
                 }
             });
-            setActivitylog(activitiesLog?.results);
         }
-    }, [itemsPerPage, currentPage]);
+    }, [dispatch,itemsPerPage, currentPage]);
     
 
-    useEffect(()=>{
-        if(activitiesLog?.results !== null)
+    useEffect(() => {
+        if(activitiesLog?.results !== null && activitiesLog !== undefined)
         {
             setActivitylog(activitiesLog?.results)
-            setTotalItems(activitiesLog?.count)
+            setTotalItems(activitiesLog.count)
         }
-    },[activitiesLog])
+    }, [activitiesLog])
+
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;
         if (e.key === 'Backspace' || e.key === 'Delete') {

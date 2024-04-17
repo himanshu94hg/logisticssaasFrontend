@@ -26,16 +26,20 @@ const ScheduledReportsMIS = ({activeTab}) => {
     let authToken = Cookies.get("access_token")   
 
 
-    console.log(scheduleReportsData,"scheduleReportsDatascheduleReportsData")
+    console.log(scheduledReport,"scheduleReportsDatascheduleReportsData")
 
 
     useEffect(() => {
-        if (activeTab === "ScheduledReportsMIS") {
             dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION",payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-            setscheduledReport(scheduleReportsData.results)
+    }, [dispatch,activeTab,itemsPerPage,currentPage])
+
+    useEffect(() => {
+        if(scheduleReportsData?.results !== null && scheduleReportsData !== undefined)
+        {
+            setscheduledReport(scheduleReportsData?.results)
             setTotalItems(scheduleReportsData.count)
         }
-    }, [activeTab])
+    }, [scheduleReportsData])
 
     // Dummy data
     const dummyData = [
@@ -131,7 +135,7 @@ useEffect(() => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {scheduledReport?.map((row, index) => (
+                            {scheduledReport && scheduledReport?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
