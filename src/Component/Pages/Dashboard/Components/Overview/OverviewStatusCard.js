@@ -18,9 +18,9 @@ const OverviewStatusCard = () => {
             <div className="box-shadow shadow-sm p10 status-card-container">
                 <div className='status-container-item'>
                     <div className='status-header'>
-                        <CODOverviewIcon />
+                        {/* <CODOverviewIcon /> */}
                         <p>COD</p>
-                        {/* <p className='header-polygon'></p> */}
+                        <p className='header-polygon'></p>
                     </div>
                     <div className='status-item'>
                         <div className='status-counter'>
@@ -53,9 +53,9 @@ const OverviewStatusCard = () => {
                 <hr className='mx-auto' style={{ width: '80%' }} />
                 <div className='status-container-item'>
                     <div className='status-header'>
-                        <NDROverviewIcon />
+                        {/* <NDROverviewIcon /> */}
                         <p>NDR</p>
-                        {/* <p className='header-polygon'></p> */}
+                        <p className='header-polygon'></p>
                     </div>
                     <div className='status-item'>
                         <div className='status-counter'>
@@ -83,9 +83,9 @@ const OverviewStatusCard = () => {
                 <hr className='mx-auto' style={{ width: '80%' }} />
                 <div className='status-container-item'>
                     <div className='status-header'>
-                        <RTOOverviewIcon />
+                        {/* <RTOOverviewIcon /> */}
                         <p>RTO</p>
-                        {/* <p className='header-polygon'></p> */}
+                        <p className='header-polygon'></p>
                     </div>
                     <div className='status-item'>
                         <div className='status-counter'>
