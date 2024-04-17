@@ -114,7 +114,7 @@ function TotalInfoDashboard() {
                 </div>
               </div>
               <div className="col-2 col-lg-2 col-sm-12 col-md-12 chartContainer">
-                <LineGraph cardColor="rgba(75, 192, 192, 1)" />
+                <LineGraph cardColor="#1975C9" />
                 <div className="card-footer">
                   <span className="text-blue font13 pt20 bold-600 d-block text-end">
                     +{avarageSelling?.percentage_change || 0}%
