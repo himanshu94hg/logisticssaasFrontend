@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { RiFilterLine } from "react-icons/ri";
 import { RxReset } from "react-icons/rx";
-
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -25,10 +24,11 @@ export default function NavTabs(props) {
     setIsOpen(!isOpen);
   };
 
-  const handleReset = () => {
-    props.setSearchValue('')
-    props.setClearTicket(true)
-  }
+   const handlereset = () => {
+     props.setSearchValue('')
+     props.setClearTicket(true)
+     props.handleReset();
+   }
 
   return (
     <Navbar
@@ -105,7 +105,7 @@ export default function NavTabs(props) {
           className="btn main-button-outline">
           <RiFilterLine /> More Filters
         </button>
-        <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+        <button className='btn main-button-outline ms-2'  onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</button>
         <button
           onClick={() => props.setNewTicket(!props.NewTicket)}
           className="btn main-button">

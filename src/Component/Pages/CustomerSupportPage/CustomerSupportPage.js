@@ -157,6 +157,21 @@ const CustomerSupportPage = () => {
     }
   }
 
+  const handleReset = () => {
+    axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&status=${activeTab==="allTickets" || activeTab==="openTickets" || activeTab==="inProgressTickets" || activeTab ==="closedTickets" ?'':activeTab}`, {
+         headers: {
+           Authorization: `Bearer ${authToken}`
+         }
+       })
+         .then(response => {
+           setTotalItems(response?.data?.count)
+           setAllTicket(response.data.results);
+           setSearchValue('');
+         })
+         .catch(error => {
+           toast.error("Something went wrong!")
+         });
+ }
 
 
   return (
@@ -183,6 +198,7 @@ const CustomerSupportPage = () => {
           handleSearch={handleSearch}
           errors={errors}
           setClearTicket={setClearTicket}
+          handleReset={handleReset}
         />
         <div className='row mt-3'>
           {activeTab === "allTickets" &&
