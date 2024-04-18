@@ -96,12 +96,18 @@ const DownloadMIS = ({ activeTab }) => {
         }).then(response => {
             console.log(response, "this is response")
             setmisDownload(response.data.results)
-            setSearchValue("")
+           // setSearchValue("")
         })
             .catch(error => {
                 toast.error("Something went wrong!")
             }); 
 };
+
+useEffect(() => {
+    if (activeTab) {
+        setSearchValue("");
+    }
+}, [activeTab])
 
     return (
         <section className='position-relative downloads-mis'>

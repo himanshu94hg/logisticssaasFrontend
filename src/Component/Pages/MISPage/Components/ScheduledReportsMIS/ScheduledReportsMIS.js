@@ -84,7 +84,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
         }).then(response => {
             console.log(response, "this is response")
             setscheduledReport(response.data.results)
-            setSearchValue("")
+           // setSearchValue("")
         })
             .catch(error => {
                 toast.error("Something went wrong!")
