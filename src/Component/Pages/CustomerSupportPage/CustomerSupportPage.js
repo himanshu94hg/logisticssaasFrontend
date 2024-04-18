@@ -148,17 +148,14 @@ const CustomerSupportPage = () => {
         .then(response => {
           setTotalItems(response?.data?.count)
           setAllTicket(response.data.results);
-          setSearchValue('');
         })
         .catch(error => {
           toast.error("Something went wrong!")
         });
-      setSearchValue('');
     }
   }
 
   const handleReset = () => {
-    setSearchValue('')
     if(activeTab === 'allTickets'){
       axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
         headers: {
@@ -168,7 +165,6 @@ const CustomerSupportPage = () => {
         .then(response => {
           setTotalItems(response?.data?.count)
           setAllTicket(response.data.results);
-          setSearchValue('');
         })
         .catch(error => {
           toast.error("Something went wrong!")
@@ -182,7 +178,6 @@ const CustomerSupportPage = () => {
         .then(response => {
           setTotalItems(response?.data?.count)
           setAllTicket(response.data.results);
-          setSearchValue('');
         })
         .catch(error => {
           toast.error("Something went wrong!")
@@ -198,7 +193,6 @@ const CustomerSupportPage = () => {
         .then(response => {
           setTotalItems(response?.data?.count)
           setAllTicket(response.data.results);
-          setSearchValue('');
         })
         .catch(error => {
           toast.error("Something went wrong!")
@@ -213,7 +207,6 @@ const CustomerSupportPage = () => {
         .then(response => {
           setTotalItems(response?.data?.count)
           setAllTicket(response.data.results);
-          setSearchValue('');
         })
         .catch(error => {
           toast.error("Something went wrong!")
