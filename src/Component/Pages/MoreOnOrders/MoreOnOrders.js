@@ -55,6 +55,7 @@ const MoreOnOrders = () => {
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { pathName } = useSelector(state => state?.authDataReducer)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -144,18 +145,26 @@ const MoreOnOrders = () => {
             }
 
             if (apiUrl) {
+                const queryParams = { ...queryParamTemp };
+                const queryString = Object.keys(queryParams)
+                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                    .join('&');
+
+                if (queryString) {
+                    apiUrl += '&' + queryString;
+                }
                 axios.get(apiUrl, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
                 })
-                .then(response => {
-                    setTotalItems(response?.data?.count);
-                    setOrders(response.data.results);
-                })
-                .catch(error => {
-                    toast.error("Something went wrong!")
-                });
+                    .then(response => {
+                        setTotalItems(response?.data?.count)
+                        setOrders(response.data.results);
+                    })
+                    .catch(error => {
+                        toast.error("Api Call failed!")
+                    });
             }
         }
     }, [activeTab, queryParamTemp, currentPage, itemsPerPage]);
@@ -267,6 +276,9 @@ const MoreOnOrders = () => {
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
+                handleMoreFilter={handleMoreFilter}
+                handleResetFrom={handleResetFrom}
+                setHandleResetFrom={setHandleResetFrom}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
