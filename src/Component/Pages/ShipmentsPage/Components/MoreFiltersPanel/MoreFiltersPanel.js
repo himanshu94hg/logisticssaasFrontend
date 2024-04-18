@@ -292,7 +292,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
+                            {/* <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
                                         isMulti
@@ -302,7 +302,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
                                     />
                                 </label>
-                            </div>
+                            </div> */}
                             <div className='filter-row'>
                                 <label>Order Tag
                                     <Select

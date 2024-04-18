@@ -55,6 +55,8 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
     const [orders, setAllOrders] = useState([]);
     const [allShipment, setAllShipment] = useState([]);
 
+    console.log("shipmentCardshipmentCardshipmentCardshipmentCardshipmentCardshipmentCard",shipmentCard)
+
     useEffect(() => {
         if (shipmentCard) {
             setAllShipment(shipmentCard);
