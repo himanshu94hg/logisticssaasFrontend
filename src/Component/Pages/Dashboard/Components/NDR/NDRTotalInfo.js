@@ -6,6 +6,8 @@ import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
 import { useSelector } from "react-redux";
 import NdrIcon from "../../../../common/Icons/InfoCardsIcons/NdrIcon";
 import NdrDeliveredIcon from "../../../../common/Icons/InfoCardsIcons/NdrDeliveredIcon";
+import ActionRequiredIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequiredIcon";
+import ActionRequestedIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequestedIcon";
 
 function NDRTotalInfo() {
   // Dummy data
@@ -33,7 +35,7 @@ function NDRTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer bg-green-light">
+                    <div className="infoCardIconContainer bg-green-light">
                       <NdrIcon />
                     </div>
                     <div>
@@ -68,9 +70,8 @@ function NDRTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={iconDelivery} alt="iconDelivery" width={24} />
-
+                    <div className="infoCardIconContainer bg-orange-light">
+                      <ActionRequiredIcon />
                     </div>
                     <div>
                       <p className="font14 text-gray m-0 ws-nowrap">Action Required</p>
@@ -81,7 +82,7 @@ function NDRTotalInfo() {
                     <HiTrendingUp className="trending-icon" />
                   </div>
                   <div className="card-footer1">
-                    <span className="text-red font13 pt20 bold-600 d-block text-end">
+                    <span className="text-yellow font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
@@ -104,8 +105,8 @@ function NDRTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={iconDelivery} alt="iconDelivery" width={24} />
+                    <div className="infoCardIconContainer bg-blue-light">
+                      <ActionRequestedIcon />
                     </div>
                     <div>
                       <p className="font14 text-gray m-0 ws-nowrap">Action Requested</p>
@@ -116,7 +117,7 @@ function NDRTotalInfo() {
                     <HiTrendingUp className="trending-icon" />
                   </div>
                   <div className="card-footer1">
-                    <span className="text-red font13 pt20 bold-600 d-block text-end">
+                    <span className="text-blue font13 pt20 bold-600 d-block text-end">
                       {0} %
                     </span>
                     <p className="text-xs text-gray font12 m0 text-gray-600 ws-nowrap text-end">
@@ -139,7 +140,7 @@ function NDRTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer bg-red-light">
+                    <div className="infoCardIconContainer bg-red-light">
                       <NdrDeliveredIcon />
                     </div>
                     <div>
