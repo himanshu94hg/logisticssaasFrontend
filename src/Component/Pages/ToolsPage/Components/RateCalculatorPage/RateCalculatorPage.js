@@ -24,10 +24,10 @@ const RateCalculatorPage = () => {
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
-    
+
   };
 
-  console.log(isChecked,"this is ischekced data")
+  console.log(isChecked, "this is ischekced data")
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -179,7 +179,7 @@ const RateCalculatorPage = () => {
   useEffect(() => {
     const { weight, volmetric_weight } = formData;
     if (volmetric_weight !== null) {
-      const newChargedWeight = Math.max(weight, volmetric_weight) ;
+      const newChargedWeight = Math.max(weight, volmetric_weight);
       setChargedWeight(newChargedWeight);
     }
   }, [formData.weight, formData.volmetric_weight]);
@@ -304,7 +304,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={formData.weight}
+                      value={ratePrefilledData ? formData.weight / 1000 : formData.weight}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
@@ -380,7 +380,7 @@ const RateCalculatorPage = () => {
                 <div className=" d-flex gap-2 mt-3 charged-weight-sec">
                   <label>
                     <strong>Chargeable Weight:</strong>
-                    <input type="text" className='input-field' value={ parseFloat(chargedWeight)?.toFixed(2)} />
+                    <input type="text" className='input-field' value={ratePrefilledData ? parseFloat(chargedWeight/1000)?.toFixed(2) : parseFloat(chargedWeight)?.toFixed(2)} />
                     <span className='unit'>KG</span>
                   </label>
                   {/* <span>{chargedWeight}</span> */}
@@ -402,7 +402,7 @@ const RateCalculatorPage = () => {
                       <div className='d-flex justify-content-center flex-column '>
                         <img
                           className='ms-3'
-                          style={{border:"1px solid gray",borderRadius:"50%"}}
+                          style={{ border: "1px solid gray", borderRadius: "50%" }}
                           width={"50px"}
                           height={"50px"}
                           src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvWc9wk8XH4WVN0EbuacoFQyXJNQuw2nuKrz-EjH5B0Q&s" alt="" />
