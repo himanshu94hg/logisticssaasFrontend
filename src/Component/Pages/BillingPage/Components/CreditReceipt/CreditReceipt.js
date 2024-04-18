@@ -2,6 +2,7 @@ import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
+import moment from 'moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -147,7 +148,7 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''}
+                                                    <span className=''>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
                                         </td>

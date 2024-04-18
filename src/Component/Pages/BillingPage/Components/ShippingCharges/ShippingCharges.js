@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SidePanel from './SidePanel/SidePanel';
 import { Modal } from 'react-bootstrap';
+import moment from 'moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -169,7 +170,7 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
+                                                    <span className=''>{`${moment(row?.datetime).format('DD MMM YYYY')} || ${moment(row?.datetime).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
                                         </td>

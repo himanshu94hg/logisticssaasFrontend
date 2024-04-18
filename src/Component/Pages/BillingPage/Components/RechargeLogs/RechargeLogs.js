@@ -1,33 +1,7 @@
+import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
-const RechargeLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
+const RechargeLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -86,7 +60,7 @@ const RechargeLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionSh
         const totalAmount = billingCard.reduce((total, item) => total + parseFloat(item.amount), 0);
         return totalAmount.toFixed(2);
     };
-    
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -142,8 +116,7 @@ const RechargeLogs = ({ billingCard,selectedRows,setSelectedRows,setBulkActionSh
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {/* <DateFormatter dateTimeString={row?.datetime} /> */}
-                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
+                                                    <span className=''>{`${moment(row?.datetime).format('DD MMM YYYY')} || ${moment(row?.datetime).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
                                         </td>
