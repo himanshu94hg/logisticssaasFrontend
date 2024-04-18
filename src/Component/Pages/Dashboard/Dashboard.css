@@ -416,7 +416,7 @@
 }
 
 .status-container-item .status-item .status-counter p:first-of-type {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     /* display: inline-block; */
     /* width: 63%; */
     white-space: nowrap;
