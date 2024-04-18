@@ -7,8 +7,8 @@ const AllOrdersIcons = () => {
                 xmlns="http://www.w3.org/2000/svg"
                 version="1.1"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
-                width={24}
-                height={24}
+                width={28}
+                height={28}
                 x={0}
                 y={0}
                 viewBox="0 0 468.032 468.032"

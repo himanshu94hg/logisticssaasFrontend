@@ -182,8 +182,9 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {/* <DateFormatter dateTimeString={row?.datetime} /> */}
-                                                    {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''}
+                                                    <span className=''>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+
+                                                    {/* {row?.created_at ? <DateFormatter dateTimeString={row.created_at} /> : ''} */}
                                                 </p>
                                             </div>
                                         </td>
