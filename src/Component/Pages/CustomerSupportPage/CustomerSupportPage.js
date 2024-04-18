@@ -158,19 +158,68 @@ const CustomerSupportPage = () => {
   }
 
   const handleReset = () => {
-    axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&status=${activeTab==="allTickets" || activeTab==="openTickets" || activeTab==="inProgressTickets" || activeTab ==="closedTickets" ?'':activeTab}`, {
-         headers: {
-           Authorization: `Bearer ${authToken}`
-         }
-       })
-         .then(response => {
-           setTotalItems(response?.data?.count)
-           setAllTicket(response.data.results);
-           setSearchValue('');
-         })
-         .catch(error => {
-           toast.error("Something went wrong!")
-         });
+    setSearchValue('')
+    if(activeTab === 'allTickets'){
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+          setSearchValue('');
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+    }else if (activeTab === 'openTickets') {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+          setSearchValue('');
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+
+    }
+    else if (activeTab === "closedTickets") {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab==="closedTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+          setSearchValue('');
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+
+    }else if(activeTab === "inProgressTickets"){
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab==="inProgressTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+          setSearchValue('');
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+    }
+   
  }
 
 
