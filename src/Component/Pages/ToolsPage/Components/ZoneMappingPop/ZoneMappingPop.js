@@ -12,7 +12,6 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
   const [pincode, setPincode] = useState("")
   const [zoneStatus, setZoneStatus] = useState(false)
   const { zonePathName,pathName } = useSelector(state => state?.authDataReducer)
-  console.log(zonePathName,"zonePathNamezonePathName>>>>>>>>>>",pathName)
 
   useEffect(() => {
     if (zonePathName && pathName==="Zone Mapping") {

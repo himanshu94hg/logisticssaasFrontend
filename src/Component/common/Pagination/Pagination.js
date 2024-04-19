@@ -11,7 +11,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
 
-    // console.log("All Total Item ",totalItems,itemsPerPage,setItemsPerPage,currentPage,setCurrentPage);
+    console.log("All Total Item ", totalItemsCount);
 
     useEffect(() => {
         if (totalItems >= 0) {
@@ -56,7 +56,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
         if (goToPage !== "" && parseInt(goToPage) !== currentPage) {
             setCurrentPage(parseInt(goToPage));
         }
-        setGoToPage("");
+        // setGoToPage("");
     };
 
     const startIndex = Math.min((currentPage - 1) * itemsPerPage + 1, totalItemsCount);
@@ -83,8 +83,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                 </div>
                 {/* Result count */}
                 <div className="result-count">
-                    {/* Showing {startIndex} to {endIndex} of {totalItemsCount} results. */}
-                    Showing {totalItems < 20 ? totalItemsCount : itemsPerPage}  of {totalItemsCount} records.
+                    Showing {totalItems < 20 ? totalItemsCount : itemsPerPage > totalItems ? totalItems : currentPage===totalPages?totalItems % itemsPerPage:itemsPerPage}  of {totalItemsCount} records.
                 </div>
 
                 {/* Dropdown for items per page */}

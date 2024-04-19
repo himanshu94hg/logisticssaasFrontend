@@ -60,17 +60,26 @@ const OrdersPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [resetValue, setResetValue] = useState(new Date());
-
-    const [handleResetFrom, setHandleResetFrom] = useState(false);
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const [addTagShow, setaddTagShow] = useState(false)
     const [errors, setErrors] = useState({});
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryName, setQueryName] = useState([])
+    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
+    const [UpdateWeight, setUpdateWeight] = useState(false)
+
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
+
     // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
-    console.log("All Item Logs",itemsPerPage,totalItems,currentPage)
-
-    const [queryName, setQueryName] = useState([])
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+            setQueryParamTemp({});
+            setQueryParamSearch(null);
+            setItemsPerPage(20)
+        }
+    }, [activeTab])
 
     useEffect(() => {
         if (favListData) {
@@ -89,18 +98,23 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(queryParamTemp, "billingShipingReceiptExportCard")
-    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
-    const [UpdateWeight, setUpdateWeight] = useState(false)
-
     useEffect(() => {
-
         if (orderdelete) {
             setSelectedRows([])
             setBulkActionShow(false)
         }
-
     }, [orderdelete])
+
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+        }
+    }, [activeTab])
+
+    useEffect(() => {
+        dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
+    }, [])
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -141,9 +155,14 @@ const OrdersPage = () => {
         return Object.keys(newErrors).length === 0;
     };
 
+    const handleChange = (option) => {
+        setSearchOption(option);
+        setsearchType(option.value)
+    };
+
     const handleSearch = () => {
         if (validateData()) {
-            axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`https://dev.shipease.in/orders-api/orders/?courier_status=${activeTab==="All Orders"?"":activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -156,21 +175,13 @@ const OrdersPage = () => {
                 .catch(error => {
                     toast.error("Something went wrong!")
                 });
+                setQueryParamTemp({
+                    search_by:searchType,
+                    q:searchValue
+                })
+                setCurrentPage(1)
         }
     };
-
-
-    useEffect(() => {
-        if (activeTab) {
-            setSearchValue("");
-            setQueryParamTemp({});
-            setQueryParamSearch(null);
-        }
-    }, [activeTab])
-
-    useEffect(() => {
-        dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
-    }, [])
 
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
@@ -189,84 +200,11 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-
-
-    useEffect(() => {
-        let apiUrl = '';
-        if (pageStatus) {
-            switch (activeTab) {
-                case "All Orders":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Unprocessable":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Processing":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Ready to Ship":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Pickup":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Returns":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                default:
-                    apiUrl = '';
-            }
-
-            if (apiUrl) {
-                const queryParams = { ...queryParamTemp };
-                const queryString = Object.keys(queryParams)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                    .join('&');
-
-                if (queryString) {
-                    apiUrl += '&' + queryString;
-                }
-                axios.get(apiUrl, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                })
-                    .then(response => {
-                        setTotalItems(response?.data?.count)
-                        setOrders(response.data.results);
-                    })
-                    .catch(error => {
-                        toast.error("Api Call failed!")
-                    });
-            }
-        }
-    }, [orderCancelled, orderdelete, orderClone, orderUpdateRes, queryParamTemp, activeTab, currentPage, itemsPerPage]);
-
-
-    console.log(queryParamTemp, "queryParamTempqueryParamTempqueryParamTemp")
-
-    const handleChange = (option) => {
-        setSearchOption(option);
-        setsearchType(option.value)
-    };
-
-    // const handleAddTagPop = () => {
-    //     setaddTagShow(false)
-    // }
-
-
-    useEffect(() => {
-        if (BulkActionShow) {
-            setBulkActionShow(false)
-            setSelectedRows([])
-
-        }
-    }, [activeTab])
-
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}&courier_status=${activeTab==="All Orders"?'':activeTab}`, {
+        setQueryParamTemp({})
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '' : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -280,8 +218,57 @@ const OrdersPage = () => {
             });
     }
 
+    useEffect(() => {
+        let apiUrl = '';
+        switch (activeTab) {
+            case "All Orders":
+                apiUrl = `https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Unprocessable":
+                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Processing":
+                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Ready to Ship":
+                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Pickup":
+                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Returns":
+                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            default:
+                apiUrl = '';
+        }
 
+        if (apiUrl) {
+            const queryParams = { ...queryParamTemp };
+            const queryString = Object.keys(queryParams)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .join('&');
 
+                console.log(queryString,"queryStringqueryString")
+
+            if (queryString) {
+                apiUrl += '&' + queryString;
+            }
+            axios.get(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setOrders(response.data.results);
+                })
+                .catch(error => {
+                    toast.error("Api Call failed!")
+                });
+        }
+        // }
+    }, [orderCancelled, orderdelete, queryParamTemp,orderClone, orderUpdateRes,currentPage,itemsPerPage, activeTab]);
 
     return (
         <>
@@ -296,7 +283,6 @@ const OrdersPage = () => {
                                 options={SearchOptions}
                             />
                             <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
-                            {/*(errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number) && <div className="custom-error">{errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number}</div>*/}
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
@@ -320,14 +306,7 @@ const OrdersPage = () => {
                                     minWidth: '110px',
                                 }}
                             >
-                                {queryName?.map((item) => {
-                                    return (
-                                        <>
-                                            {/* <li className="active">{item?.filter_name}<FontAwesomeIcon icon={faXmark} className='font13' /></li> */}
-                                            <li>{item?.filter_name}</li>
-                                        </>
-                                    )
-                                })}
+                                {queryName?.map((item) =><li>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
@@ -469,7 +448,6 @@ const OrdersPage = () => {
                 setHandleResetFrom={setHandleResetFrom}
             />
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
-
             <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
                 <AddTagPop
                     addTagShow={addTagShow}
