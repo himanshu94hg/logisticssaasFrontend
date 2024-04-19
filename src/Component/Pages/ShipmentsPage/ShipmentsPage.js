@@ -153,7 +153,6 @@ const ShipmentsPage = () => {
     // }, [dispatch, activeTab, pageStatus, itemsPerPage, currentPage,queryParamTemp]);
     
 
-
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
 
     console.log(shipmentCard.length, "Active Tab DADA")
