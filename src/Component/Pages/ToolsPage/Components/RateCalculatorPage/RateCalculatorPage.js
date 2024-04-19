@@ -21,6 +21,7 @@ const RateCalculatorPage = () => {
   const [chargedWeight, setChargedWeight] = useState(0);
   const [errors, setErrors] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [shipData, setShipData] = useState([])
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -40,6 +41,29 @@ const RateCalculatorPage = () => {
   });
 
   const { sellerData, reportSchedulerRes, ratePrefilledData, ratingCardData } = useSelector(state => state?.toolsSectionReducer)
+  const { zonePathName } = useSelector(state => state?.authDataReducer)
+
+
+  useEffect(() => {
+    if (sellerData) {
+      setShipData(sellerData)
+    }
+  }, [sellerData])
+
+  console.log(zonePathName, "zonePathNamezonePathNamezonePathNamezonePathName")
+  useEffect(() => {
+    if (zonePathName) {
+      setShipData([])
+      setFormData({
+        shipment_type: "Forward",
+        source_pincode: null,
+        destination_pincode: null,
+        weight: null,
+        volmetric_weight: 0,
+        is_cod: "No",
+      });
+    }
+  }, [zonePathName])
 
 
   useEffect(() => {
@@ -380,7 +404,7 @@ const RateCalculatorPage = () => {
                 <div className=" d-flex gap-2 mt-3 charged-weight-sec">
                   <label>
                     <strong>Chargeable Weight:</strong>
-                    <input type="text" className='input-field' value={ratePrefilledData ? parseFloat(chargedWeight/1000)?.toFixed(2) : parseFloat(chargedWeight)?.toFixed(2)} />
+                    <input type="text" className='input-field' value={ratePrefilledData ? parseFloat(chargedWeight / 1000)?.toFixed(2) : parseFloat(chargedWeight)?.toFixed(2)} />
                     <span className='unit'>KG</span>
                   </label>
                   {/* <span>{chargedWeight}</span> */}
@@ -393,7 +417,7 @@ const RateCalculatorPage = () => {
               </div>
             </form>
           </section>
-          {sellerData && <section className='mt-5'>  {sellerData?.map((item) => {
+          {shipData.length && <section className='mt-5'>  {shipData?.map((item) => {
             return (
               <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
                 <section className=''>
