@@ -77,46 +77,44 @@ const ShipmentsPage = () => {
 
     useEffect(() => {
         let apiUrl = '';
-        if (pageStatus) {
-            switch (activeTab) {
-                case "Action Required":
-                    apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Action Requested":
-                    apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "RTO":
-                    apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Delivered":
-                    apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                default:
-                    apiUrl = '';
+        switch (activeTab) {
+            case "Action Required":
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Action Requested":
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "RTO":
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Delivered":
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            default:
+                apiUrl = '';
+        }
+
+        if (apiUrl) {
+            const queryParams = { ...queryParamTemp };
+            const queryString = Object.keys(queryParams)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .join('&');
+
+            if (queryString) {
+                apiUrl += '&' + queryString;
             }
-
-            if (apiUrl) {
-                const queryParams = { ...queryParamTemp };
-                const queryString = Object.keys(queryParams)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                    .join('&');
-
-                if (queryString) {
-                    apiUrl += '&' + queryString;
+            axios.get(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
                 }
-                axios.get(apiUrl, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
+            })
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setShipment(response.data.results);
                 })
-                    .then(response => {
-                        setTotalItems(response?.data?.count)
-                        setShipment(response.data.results);
-                    })
-                    .catch(error => {
-                        toast.error("Api Call failed!")
-                    });
-            }
+                .catch(error => {
+                    toast.error("Api Call failed!")
+                });
         }
     }, [queryParamTemp, activeTab, currentPage, itemsPerPage]);
     //     if (pageStatus)
@@ -222,6 +220,11 @@ const ShipmentsPage = () => {
                 .catch(error => {
                     toast.error("Something went wrong!")
                 });
+                setQueryParamTemp({
+                    search_by:searchType,
+                    q:searchValue
+                })
+                setCurrentPage(1)
         }
     };
 
@@ -237,6 +240,7 @@ const ShipmentsPage = () => {
         setSearchValue("")
         pageStatusSet(true);
         setHandleResetFrom(true)
+        setQueryParamTemp({})
         axios.get(`${apiEndpoint}orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`

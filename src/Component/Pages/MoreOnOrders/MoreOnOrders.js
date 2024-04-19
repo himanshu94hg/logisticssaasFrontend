@@ -56,6 +56,18 @@ const MoreOnOrders = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { pathName } = useSelector(state => state?.authDataReducer)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const apiEndpoint = "https://dev.shipease.in/";
+    const activeTabValueSet =
+    activeTab === "Reassign Order"
+        ? "core-api/shipping/reassign/"
+        : activeTab === "Merge Order"
+        ? "orders-api/orders/merge-order/"
+        : activeTab === "Split Order"
+        ? "orders-api/orders/split-order/"
+        : "";
+
+
+    console.log("activeTabValueSetactiveTabValueSetactiveTabValueSet",activeTabValueSet,activeTab)
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -68,7 +80,7 @@ const MoreOnOrders = () => {
     }
 
     const handleSearch = () => {
-        axios.get(`https://dev.shipease.in/orders-api/orders/?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+        axios.get(`${apiEndpoint}${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -76,12 +88,16 @@ const MoreOnOrders = () => {
             .then(response => {
                 setTotalItems(response?.data?.count)
                 setOrders(response.data.results);
-                setSearchValue('');
                 pageStatusSet(false)
             })
             .catch(error => {
                 toast.error("Something went wrong!")
             });
+            setQueryParamTemp({
+                search_by:searchType,
+                q:searchValue
+            })
+            setCurrentPage(1)
     }
 
 
@@ -129,16 +145,16 @@ const MoreOnOrders = () => {
         if (pageStatus) {
             switch (activeTab) {
                 case "Reassign Order":
-                    apiUrl = `https://dev.shipease.in/core-api/shipping/reassign/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                     break;
                 case "Merge Order":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/merge-order/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                     break;
                 case "Split Order":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/split-order/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                     break;
                 case "Reverse Order":
-                    apiUrl = `https://dev.shipease.in/orders-api/orders/reverse-order/?page_size=${itemsPerPage}&page=${currentPage}`;
+                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                     break;
                 default:
                     apiUrl = '';
@@ -184,9 +200,23 @@ const MoreOnOrders = () => {
 
         }
     }, [activeTab])
+    
     const handleReset = () => {
         setSearchValue("")
-        // setHandleResetFrom(true)
+        setHandleResetFrom(true)
+        setQueryParamTemp({})
+        axios.get(`${apiEndpoint}${activeTabValueSet}?page_size=${20}&page=${1}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+            })
+            .catch(error => {
+                toast.error("Api Call failed!")
+            });
     }
 
     return (
