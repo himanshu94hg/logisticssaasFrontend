@@ -152,6 +152,7 @@ const CustomerSupportPage = () => {
         .catch(error => {
           toast.error("Something went wrong!")
         });
+        setCurrentPage(1)
     }
   }
 
@@ -168,7 +169,7 @@ const CustomerSupportPage = () => {
         })
         .catch(error => {
           toast.error("Something went wrong!")
-        });
+        }); 
     }else if (activeTab === 'openTickets') {
       axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
         headers: {
