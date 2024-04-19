@@ -220,6 +220,18 @@ const RateCalculatorPage = () => {
     });
   }
 
+  useEffect(() => {
+    setFormData ({
+      shipment_type: "Forward",
+      source_pincode: null,
+      destination_pincode: null,
+      weight: null,
+      volmetric_weight: 0,
+      is_cod: "No",
+    });
+    setOrderId("");
+  }, [])
+
   return (
     <>
       <div className='rate-calc-page'>
