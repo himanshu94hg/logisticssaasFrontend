@@ -103,7 +103,7 @@ const QuickCreateOrder = () => {
         ],
     })
 
-    console.log(formData, "this is quick ship data")
+    console.log(selectedOrderId, "this is quick ship data")
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -218,8 +218,10 @@ const QuickCreateOrder = () => {
                 if (response !== null) {
                     if (response.status === 201) {
                         const responseData = response.data;
-                        toast.success("Order Created successfully!")
-                        navigation('/Orders');
+                        // toast.success("Order Created successfully!")
+                        // navigation('/Orders');
+                        console.log(response)
+                        setSelectedOrderId(response?.data?.id)
                     } else {
                         //    console.log(object)
                         toast.error("Something went wrong!")
@@ -233,10 +235,8 @@ const QuickCreateOrder = () => {
                     errorHandleSecond(error?.response?.data)
                 }
             }
+            setSingleShip(true)
         }
-
-   
-
     };
 
     return (
@@ -291,14 +291,14 @@ const QuickCreateOrder = () => {
                         onPrev={handlePrev}
                         onSubmit={handleFormSubmit}
                         formData={formData}
-                        setFormData={setFormData}
+                        setFormData={setFormData} 
                     />
                 </div>
                 {/* <div className='d-flex justify-content-end my-3 cof-btn-container'>
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            {/* <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} /> */}
+            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
 
         </div>
     );

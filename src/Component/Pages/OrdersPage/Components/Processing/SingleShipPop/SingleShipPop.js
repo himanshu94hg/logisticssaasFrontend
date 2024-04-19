@@ -30,9 +30,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
         return date.toLocaleDateString('en-GB', options);
     };
     const dateAfter2Days = addDays(currentDate, 2);
-
-    const sellerId = Cookies.get("user_id");
     let authToken = Cookies.get("access_token")
+
     useEffect(() => {
         if (orderId !== null) {
             const config = {
@@ -56,18 +55,15 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
             }
         })
             .then((response) => {
-                if (response.data.status === true) {
+                if (response?.data?.status) {
                     setSingleShip(false);
                     navigation('/Orders');
                     toast.success('Order successfully shipped!');
                     dispatch(shipNowAction(new Date()))
                 }
                 else {
-                    toast.error(response.data.message, {
-                        onClose: () => {
-                            setSingleShip(false);
-                        }
-                    });
+                    setSingleShip(true);
+                    toast.error(response.data.message);
                 }
             }).catch((error) => {
                 toast.error("Pincode is not serviceable! ")
@@ -76,6 +72,9 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const handleClose = () => {
         setSingleShip(false); // Close the modal
     };
+
+
+    console.log(SingleShip,"SingleShipSingleShipSingleShip")
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p10 align-items-center'>
