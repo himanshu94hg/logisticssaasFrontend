@@ -117,7 +117,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     const handleChangeCharge = (e, field) => {
         let value = e.target.value;
         if (field === 'is_gift_wrap') {
-            value = value === 'true'; 
+            value = value === 'true';
         }
         setFormData(prevData => ({
             ...prevData,
@@ -127,7 +127,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             }
         }));
     };
-    
+
 
     const handleSelectChange = (e, field) => {
         setFormData({
@@ -192,6 +192,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             e.preventDefault();
         }
     }
+
+
     return (
         <>
             {/* Order Details Section */}
@@ -301,8 +303,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 disabled={orderStaus}
                             >
                                 <option value="">Select Payment Type</option>
-                                <option value="Prepaid">Prepaid</option>
-                                <option value="COD">COD</option>
+                                {formData.order_details.order_type === "Reverse" ? (
+                                    <option value="Prepaid">Prepaid</option>
+                                ) : (
+                                    <>
+                                        <option value="Prepaid">Prepaid</option>
+                                        <option value="COD">COD</option>
+                                    </>
+                                )}
                             </select>
                             {(errors.payment_type || editErrors?.payment_type) && <div className="custom-error">{errors.payment_type || editErrors?.payment_type}</div>}
                         </label>
@@ -373,7 +381,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 onChange={(e) => handleChangeCharge(e, 'is_gift_wrap')}
                                 value={formData.charge_details.is_gift_wrap}
                             >
-                                <option value={true}>Yes</option> 
+                                <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
                             {/* <input

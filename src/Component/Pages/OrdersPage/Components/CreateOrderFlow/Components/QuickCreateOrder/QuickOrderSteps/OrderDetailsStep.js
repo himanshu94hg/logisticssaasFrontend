@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router';
 import pathClearAction from '../../../../../../../../redux/action/pathname/pathClear';
 
-const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,setErrors }) => {
+const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, setErrors }) => {
     const location = useLocation();
     const dispatch = useDispatch();
     const [orderStaus, setOrderStatus] = useState(false)
@@ -156,21 +156,27 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus,errors,set
                                 <option value="Forward">Forward</option>
                                 <option value="Reverse">Reverse</option>
                             </select>
-                            {errors.order_type && <div className="custom-error">{errors.order_type }</div>}
+                            {errors.order_type && <div className="custom-error">{errors.order_type}</div>}
                         </label>
                         <label className='col'>
                             Payment Type
                             <select
                                 className={`select-field ${errors.payment_type && 'input-field-error'}`}
                                 value={formData.order_details.payment_type}
-                                onChange={(e) => handleSelectChange(e, 'payment_type')}
+                                onChange={(e) => handleChange(e, 'payment_type')}
                                 disabled={orderStaus}
                             >
                                 <option value="">Select Payment Type</option>
-                                <option value="Prepaid">Prepaid</option>
-                                <option value="COD">COD</option>
+                                {formData.order_details.order_type === "Reverse" ? (
+                                    <option value="Prepaid">Prepaid</option>
+                                ) : (
+                                    <>
+                                        <option value="Prepaid">Prepaid</option>
+                                        <option value="COD">COD</option>
+                                    </>
+                                )}
                             </select>
-                            {errors.payment_type && <div className="custom-error">{errors.payment_type }</div>}
+                            {errors.payment_type && <div className="custom-error">{errors.payment_type}</div>}
                         </label>
                     </div>
                 </div>
