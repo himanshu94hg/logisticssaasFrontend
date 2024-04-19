@@ -63,6 +63,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [pickupAddresses, setPickupAddresses] = useState([]);
     const { tagListData } = useSelector(state => state?.orderSectionReducer);
     const [orderTag, setorderTag] = useState([]);
+    const [errors, setErrors] = useState({})
 
 
     const [filterParams, setFilterParams] = useState({
@@ -93,6 +94,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => `${(key)}=${(value)}`)
             .join('&');
+
+            if ( SaveFilter && favName.trim() === "") {
+                const validationErrors = {};
+                if (!favName.trim() & favName !== null) {
+                    validationErrors.favName = "Required";
+                }
+                setErrors(validationErrors);
+                console.error(validationErrors,"Favorite name cannot be empty!");
+                return; 
+            }
 
         handleMoreFilter(filterParams)
         CloseSidePanel()
@@ -237,6 +248,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 pickup_address: ""
             })
             setHandleResetFrom(false)
+            setSaveFilter(false)
+            setSaveFav(true)
         }
     }, [handleResetFrom])
 
@@ -440,8 +453,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     onChange={(e) => handleCheckboxChange(e.target.checked)}
                                 />
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
+                                    <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
+                                
+                                {/*errors.favName && <span className='error-text'></span>*/}
+                               
                             </label>
                             <div>
                                 <button className='btn seconadary-button' type="button" onClick={handleReset}>
