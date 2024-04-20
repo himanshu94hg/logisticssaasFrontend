@@ -34,6 +34,7 @@ const CustomerSupportPage = () => {
   const [totalItems, setTotalItems] = useState("");
   const [errors, setErrors] = useState({});
   const [clearTicket, setClearTicket] = useState(false)
+  const [queryParamTemp, setQueryParamTemp] = useState({})
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
@@ -61,21 +62,32 @@ const CustomerSupportPage = () => {
     }
 
     if (url) {
+      const queryParams = { ...queryParamTemp };
+      const queryString = Object.keys(queryParams)
+          .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+          .join('&');
+
+          console.log(queryString,"queryStringqueryString")
+
+      if (queryString) {
+        url += '&' + queryString;
+      }
       axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
+          headers: {
+              Authorization: `Bearer ${authToken}`
+          }
       })
-        .then((response) => {
-          setAllTicket(response?.data?.results);
-          setTotalItems(response?.data?.count);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+          .then(response => {
+              setAllTicket(response?.data?.results);
+              setTotalItems(response?.data?.count);
+          })
+          .catch(error => {
+              toast.error("Api Call failed!")
+          });
     }
 
-  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage]);
+
+  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage,queryParamTemp]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate) => {
     const queryParams = new URLSearchParams();
@@ -153,10 +165,16 @@ const CustomerSupportPage = () => {
           toast.error("Something went wrong!")
         });
         setCurrentPage(1)
+        setQueryParamTemp({
+          q:searchValue
+      })
+      setCurrentPage(1)
     }
   }
 
   const handleReset = () => {
+    setSearchValue("")
+    setQueryParamTemp({})
     if(activeTab === 'allTickets'){
       axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
         headers: {
@@ -214,7 +232,7 @@ const CustomerSupportPage = () => {
         });
     }
    
- }
+  }
 
 
   return (
