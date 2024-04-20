@@ -88,13 +88,13 @@ const WeightRecoMIS = () => {
         <table className=" w-100">
             <thead className="sticky-header">
                 <tr className="table-row box-shadow">
-                    <th style={{ width: '1%' }}>
+                    {/*<th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
                             onChange={handleSelectAll}
                         />
-                    </th>
+    </th>*/}
                     <th>Order Details</th>
                     <th>Product Details</th>
                     <th>Order Total</th>
@@ -111,13 +111,13 @@ const WeightRecoMIS = () => {
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                            <td className='checkbox-cell'>
+                            {/*<td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                            </td>
+                </td>*/}
                             <td>
                                 {/* AWB detail */}
                                 <div className='cell-inside-box'>

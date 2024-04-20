@@ -49,13 +49,13 @@ const ShippingTableMIS = ({setTotalItems}) => {
         <table className=" w-100">
             <thead className="sticky-header">
                 <tr className="table-row box-shadow">
-                    <th style={{ width: '1%' }}>
+                    {/*<th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
                             onChange={handleSelectAll}
                         />
-                    </th>
+    </th>*/}
                     <th>Date</th>
                     <th>NDR Reason</th>
                     <th>Package Details</th>
@@ -70,13 +70,13 @@ const ShippingTableMIS = ({setTotalItems}) => {
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                            <td className='checkbox-cell'>
+                           {/*} <td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                            </td>
+                </td>*/}
                             <td>
                                 <div className='cell-inside-box'>
                                     <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
