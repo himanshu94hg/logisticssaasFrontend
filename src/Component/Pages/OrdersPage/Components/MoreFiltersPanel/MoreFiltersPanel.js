@@ -61,9 +61,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
-    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const { tagListData ,orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
+    const [orderSource, setOrderSource] = useState([]);
 
 
     const [filterParams, setFilterParams] = useState({
@@ -219,6 +220,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [MoreFilters])
 
     useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "GET_ORDER_SOURCE_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
                 value: item.id,
@@ -229,8 +236,21 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setorderTag([]);
         }
     }, [tagListData]);
+    console.log(tagListData ,"OrderSource1" )
 
+    useEffect(() => {
+        if (orderSourceListData && orderSourceListData.length > 0) {
+            const formattedData = orderSourceListData.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setOrderSource(formattedData);
+        } else {
+            setOrderSource([]);
+        }
+    }, [orderSourceListData]);
 
+console.log(orderSourceListData ,"OrderSource" )
 
     useEffect(() => {
         if (handleResetFrom) {

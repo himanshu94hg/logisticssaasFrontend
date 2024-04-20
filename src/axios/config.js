@@ -74,6 +74,7 @@ export const API_URL = {
   CLONE_ORDERS_API: "/orders-api/orders/clone-order/",
   GENERATE_MANIFEST_API: "/orders-api/orders/generate-manifest/",
   ORDER_TAG_CREATED_API: "/orders-api/orders/order-tags/",
+  GET_ORDER_SOURCE_API: "/orders-api/orders/order-sources/",
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
