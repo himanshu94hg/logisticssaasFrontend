@@ -17,6 +17,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import NoData from '../../../../common/noData';
 
 const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -269,6 +270,7 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                         ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
