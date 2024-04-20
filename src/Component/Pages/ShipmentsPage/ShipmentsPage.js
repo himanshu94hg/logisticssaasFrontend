@@ -116,7 +116,7 @@ const ShipmentsPage = () => {
                     toast.error("Api Call failed!")
                 });
         }
-    }, [queryParamTemp, activeTab, currentPage, itemsPerPage]);
+    }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
     //     if (pageStatus)
     //     {
     //         let apiUrl = '';

@@ -183,7 +183,7 @@ const MoreOnOrders = () => {
                     });
             }
         }
-    }, [activeTab, queryParamTemp, currentPage, itemsPerPage]);
+    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage]);
 
     console.log( activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
 

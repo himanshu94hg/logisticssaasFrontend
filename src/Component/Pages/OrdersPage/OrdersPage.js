@@ -268,7 +268,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, queryParamTemp,orderClone, orderUpdateRes,currentPage,itemsPerPage, activeTab]);
+    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp),orderClone, orderUpdateRes,currentPage,itemsPerPage, activeTab]);
 
     return (
         <>
