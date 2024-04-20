@@ -20,6 +20,7 @@ import moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from 'react-bootstrap';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -271,6 +272,7 @@ const ActionRequested = ({shipmentCard,selectedRows,setSelectedRows,setBulkActio
                             ))}
                         </tbody>
                     </table>
+                    {allShipment?.length === 0 && <NoData />}
                 </div>
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
