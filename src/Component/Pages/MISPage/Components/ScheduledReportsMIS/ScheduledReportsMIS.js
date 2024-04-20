@@ -70,7 +70,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === dummyData.length - 1 && isSelected) {
+        if (selectedRows.length === scheduledReport.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);

@@ -81,7 +81,7 @@ const DownloadMIS = ({ activeTab }) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === misDownload.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
