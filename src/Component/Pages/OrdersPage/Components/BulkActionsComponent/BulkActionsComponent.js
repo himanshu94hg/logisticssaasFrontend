@@ -153,7 +153,7 @@ useEffect(()=>{
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab === "All Orders" ? "All Orders" : activeTab ,
+                "type": activeTab === "All Orders" ? "" : activeTab ,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,

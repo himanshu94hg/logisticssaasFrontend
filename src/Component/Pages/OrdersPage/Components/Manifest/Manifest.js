@@ -192,6 +192,7 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
                                 <th style={{ width: '14%' }}>Courier</th>
                                 <th style={{ width: '16%' }}>Number of Order(s)</th>
                                 <th style={{ width: '20%' }}>Pickup Reference Number</th>
+                                <th style={{ width: '10%' }}>Status</th>
                                 <th style={{ width: '15%' }}>Download</th>
 
                             </tr>
@@ -240,6 +241,11 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className=''>{row?.p_ref_no} </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div className='cell-inside-box'>
+                                                <p className='order-Status-box mt-1'>{row?.status}</p>
                                             </div>
                                         </td>
 
