@@ -131,6 +131,17 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         type="text"
                                         value={product.product_name}
                                         onChange={(e) => handleProductNameChange(e, index)}
+                                        onKeyPress={(e) => {
+                                            const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                            if (
+                                                e.key === ' ' &&
+                                                e.target.value.endsWith(' ')
+                                            ) {
+                                                e.preventDefault();
+                                            } else if (!allowedCharacters.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                     {(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) && <span className="custom-error">{errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]}</span>}
                                 </label>

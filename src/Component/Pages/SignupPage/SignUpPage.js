@@ -42,6 +42,15 @@ const SignUpPage = () => {
 
     console.log(numberOfOrders, 'this is user role')
 
+    const onInputChange = e => {
+        const { value } = e.target;
+        console.log('Input value: ', value);
+
+        const re = /^[A-Za-z]+$/;
+        if (value === "" || re.test(value)) {
+            //   setTxt(value);
+        }
+    }
 
     return (
         <>
@@ -80,7 +89,6 @@ const SignUpPage = () => {
                                     <h3 className='text-center'>Sign up with us today</h3>
                                     <div className='signup-with-social'>
                                         <button type='button' className='btn'><GoogleIcon /><span>Signup using Google</span></button>
-                                        {/* <div className='v-line'></div> */}
                                         <button type='button' className='btn'><FacebookIcon /><span>Signup using facebook</span></button>
                                     </div>
                                     <div className='signup-division'>
@@ -95,7 +103,21 @@ const SignUpPage = () => {
                                                     type='text'
                                                     className='input-field'
                                                     id="first_name"
-                                                    {...register("first_name", { required: true })}
+                                                    onChange={onInputChange}
+                                                    {...register("first_name", {
+                                                        required: true,
+                                                    })}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                                        if (
+                                                            e.key === ' ' &&
+                                                            e.target.value.endsWith(' ')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        } else if (!allowedCharacters.test(e.key)) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>First name</i>
@@ -108,6 +130,17 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="last_name"
                                                     {...register("last_name", { required: true })}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                                        if (
+                                                            e.key === ' ' &&
+                                                            e.target.value.endsWith(' ')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        } else if (!allowedCharacters.test(e.key)) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>Last name</i>
@@ -122,6 +155,17 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="company_name"
                                                     {...register("company_name", { required: true })}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                                        if (
+                                                            e.key === ' ' &&
+                                                            e.target.value.endsWith(' ')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        } else if (!allowedCharacters.test(e.key)) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>Company Name</i>
@@ -134,6 +178,16 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="contact_number"
                                                     {...register("contact_number", { required: true })}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[0-9\s]*$/;
+                                                        if (
+                                                            (e.key === ' ' && e.target.value.endsWith(' ')) ||
+                                                            (!allowedCharacters.test(e.key)) ||
+                                                            (e.target.value.length >= 10 && e.key !== 'Backspace' && e.key !== 'Delete')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>Contact Number</i>

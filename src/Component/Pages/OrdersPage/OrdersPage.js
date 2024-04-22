@@ -162,7 +162,7 @@ const OrdersPage = () => {
 
     const handleSearch = () => {
         if (validateData()) {
-            axios.get(`https://dev.shipease.in/orders-api/orders/?courier_status=${activeTab==="All Orders"?"":activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`https://dev.shipease.in/orders-api/orders/?courier_status=${activeTab === "All Orders" ? "" : activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -175,11 +175,11 @@ const OrdersPage = () => {
                 .catch(error => {
                     toast.error("Something went wrong!")
                 });
-                setQueryParamTemp({
-                    search_by:searchType,
-                    q:searchValue
-                })
-                setCurrentPage(1)
+            setQueryParamTemp({
+                search_by: searchType,
+                q: searchValue
+            })
+            setCurrentPage(1)
         }
     };
 
@@ -199,6 +199,9 @@ const OrdersPage = () => {
         });
         setQueryParamTemp(queryParams);
     };
+
+    console.log(queryParamTemp, "queryStringqueryString")
+
 
     const handleReset = () => {
         setSearchValue("")
@@ -249,10 +252,13 @@ const OrdersPage = () => {
                 .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                 .join('&');
 
-                console.log(queryString,"queryStringqueryString")
+            const decodedURL = decodeURIComponent(queryString);
 
-            if (queryString) {
-                apiUrl += '&' + queryString;
+            console.log(decodedURL, "decodedURLdecodedURL");
+
+
+            if (decodedURL) {
+                apiUrl += '&' + decodedURL;
             }
             axios.get(apiUrl, {
                 headers: {
@@ -268,8 +274,27 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp),orderClone, orderUpdateRes,currentPage,itemsPerPage, activeTab]);
+    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
+
+    const handleQueryfilter = (value) => {
+        // setSearchValue("")
+        // setHandleResetFrom(true)
+        setQueryParamTemp({})
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
+            === "All Orders" ? '' : activeTab}&${value}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+            })
+            .catch(error => {
+                toast.error("Api Call failed!")
+            });
+    }
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -306,7 +331,7 @@ const OrdersPage = () => {
                                     minWidth: '110px',
                                 }}
                             >
-                                {queryName?.map((item) =><li>{item?.filter_name}</li>)}
+                                {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
