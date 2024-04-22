@@ -91,10 +91,10 @@ const CustomerSupportPage = () => {
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate) => {
     const queryParams = new URLSearchParams(); 
-    if (categories != "") {
+    /*if (Array.isArray(categories) && categories.length > 0) {
       queryParams.append('sub_category', categories.value);
-    }
-    if (Array.isArray(categories) && categories.length > 0) {
+    }*/
+    if (categories != "") {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
