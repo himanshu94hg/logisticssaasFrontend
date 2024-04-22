@@ -169,5 +169,9 @@ export const API_URL = {
    SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/",
    SETTINGS_DELETE_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
    SETTINGS_GET_WAREHOUSE_DETAILS_API:"/core-api/features/warehouse-detail/",
-   SETTINGS_EDIT_WAREHOUSE_API:"/core-api/features/warehouse-detail/"
+   SETTINGS_EDIT_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
+
+
+   //CHANNEL
+   GET_CHANNEL_URL: "/core-api/channel/channel/",
 };

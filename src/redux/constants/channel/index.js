@@ -1,0 +1,1 @@
+export const SET_CHANNEL_DATA="SET_CHANNEL_DATA"
