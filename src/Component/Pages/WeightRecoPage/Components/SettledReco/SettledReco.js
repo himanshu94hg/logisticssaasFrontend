@@ -21,6 +21,7 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -270,6 +271,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                             ))}
                         </tbody>
                     </table>
+                    {weightRecoData?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>

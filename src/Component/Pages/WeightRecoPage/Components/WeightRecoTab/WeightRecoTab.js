@@ -23,6 +23,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import {toast} from "react-toastify";
 import { FaCheckSquare, FaTimes } from 'react-icons/fa';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -339,6 +340,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                             ))}
                         </tbody>
                     </table>
+                    {weightRecoData?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
 

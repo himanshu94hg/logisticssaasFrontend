@@ -86,6 +86,9 @@ export const API_URL = {
 
   //EXPORTS
   GET_EXPORT_URL: "/orders-api/orders/export-order/",
+  GET_EXPORT_PASSBOOK_URL :"/core-api/features/billing/passbook-download/",
+  GET_EXPORT_SHIPPING_URL :"/core-api/features/billing/shipping-charge-download/",
+  GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
 
 
   //DASHBOARD OVERVIEW API'S 
@@ -170,5 +173,9 @@ export const API_URL = {
    SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/",
    SETTINGS_DELETE_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
    SETTINGS_GET_WAREHOUSE_DETAILS_API:"/core-api/features/warehouse-detail/",
-   SETTINGS_EDIT_WAREHOUSE_API:"/core-api/features/warehouse-detail/"
+   SETTINGS_EDIT_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
+
+
+   //CHANNEL
+   GET_CHANNEL_URL: "/core-api/channel/channel/",
 };

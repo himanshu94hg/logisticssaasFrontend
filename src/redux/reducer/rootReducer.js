@@ -18,6 +18,7 @@ import { integrationReducer } from "./integration";
 import { customerSupportReducer } from "./customerSupport";
 import { misSectionReducer } from "./mis";
 import { settingsSectionReducer } from "./settings";
+import { channelSectionReducer } from "./channel";
 
 export const rootReducer = combineReducers({
     authDataReducer,
@@ -38,5 +39,6 @@ export const rootReducer = combineReducers({
     integrationReducer,
     customerSupportReducer,
     misSectionReducer,
-    settingsSectionReducer
+    settingsSectionReducer,
+    channelSectionReducer
 })

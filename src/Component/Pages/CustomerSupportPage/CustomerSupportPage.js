@@ -167,7 +167,6 @@ const CustomerSupportPage = () => {
         .catch(error => {
           toast.error("Something went wrong!")
         });
-        setCurrentPage(1)
         setQueryParamTemp({
           q:searchValue
       })
