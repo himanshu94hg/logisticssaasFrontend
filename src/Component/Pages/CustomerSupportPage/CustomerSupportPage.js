@@ -119,7 +119,7 @@ const CustomerSupportPage = () => {
       .then(response => {
         setAllTicket(response?.data?.results)
         setFilterTickets(false)
-
+        setTotalItems(response?.data?.count);
       })
       .catch(error => {
         console.error('Error:', error);
