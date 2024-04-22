@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 
 //GET REPORT SCHEDULER LIST API
-async function getReportSchedulerAPI() {
+/*async function getReportSchedulerAPI() {
     try {
         const response = await axios.get(`${BASE_URL_ORDER}${API_URL.GET_REPORT_SCHEDULER}`);
         return response.data;
@@ -22,6 +22,28 @@ function* getReportSchedulerAction() {
         yield put({ type: GET_REPORT_SCHEDULER_DATA, payload: response });
     } catch (error) {
         console.log(error)
+    }
+}*/
+//GET REPORT SCHEDULER LIST API
+async function getReportSchedulerAPI(data) {
+    return axios.request({
+        method: "GET",
+        url: `${BASE_URL_ORDER}${API_URL.GET_REPORT_SCHEDULER}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
+        data: data
+    });
+}
+function* getReportSchedulerAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(getReportSchedulerAPI, payload);
+        console.log(response,"this is getReportSchedulerAPI dta")
+        if (response.status === 200) {
+            yield put({ type: GET_REPORT_SCHEDULER_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        if (reject) reject(error);
     }
 }
 
