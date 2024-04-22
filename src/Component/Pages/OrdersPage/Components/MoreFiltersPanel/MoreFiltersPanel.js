@@ -149,7 +149,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 pickup_address: ""
             })
         }
-    }, [activeTab, clearState])
+    }, [activeTab])
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
