@@ -8,6 +8,7 @@ import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -37,7 +38,6 @@ const paymentOptions = [
     { label: "COD", value: "COD" },
 ]
 
-
 const CourierPartner = [
     { label: "Smartr", value: "smartr" },
     { label: "Ekart", value: "ekart" },
@@ -51,7 +51,6 @@ const CourierPartner = [
     { label: "Ecom Express", value: "ecom_express" },
 ];
 
-
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
@@ -63,7 +62,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [pickupAddresses, setPickupAddresses] = useState([]);
     const { tagListData } = useSelector(state => state?.orderSectionReducer);
     const [orderTag, setorderTag] = useState([]);
-
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -79,9 +77,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address: ""
     })
 
-
-
-
     const handleCheckboxChange = (select) => {
         setSaveFilter(prevState => !prevState);
         setSaveFav(true)
@@ -89,27 +84,26 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleSubmit = e => {
         e.preventDefault();
+        const moment = require('moment');
+
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
-            .map(([key, value]) => `${(key)}=${(value)}`)
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/,'');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
             .join('&');
+
+        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
 
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        setClearState(true)
-        // setFilterParams({
-        //     start_date: null,
-        //     end_date: null,
-        //     status: "",
-        //     order_source: "",
-        //     courier_partner: "",
-        //     payment_type: "",
-        //     order_id: "",
-        //     order_tag: "",
-        //     sku: "",
-        //     sku_match_type: "",
-        //     pickup_address: ""
-        // })
         if (saveFav) {
             dispatch({
                 type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
@@ -138,7 +132,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 pickup_address: ""
             })
         }
-    }, [activeTab, clearState])
+    }, [activeTab])
+
+    console.log("clearStateclearState", filterParams)
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
@@ -219,8 +215,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [tagListData]);
 
-
-
     useEffect(() => {
         if (handleResetFrom) {
             setFilterParams({
@@ -247,7 +241,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             status: "",
             order_source: "",
             courier_partner: "",
-            payment_type: "",
+            payment_type: null,
             order_id: "",
             order_tag: "",
             sku: "",
@@ -264,6 +258,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             e.preventDefault();
         }
     }
+
 
     return (
         <>
@@ -345,7 +340,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 <label>Payment Option
                                     <Select
                                         options={paymentOptions}
-                                        defaultValue={filterParams?.payment_type}
+                                        defaultValue={null}
+                                        // defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
                                         value={paymentOptions.find(option => option.value === filterParams.payment_type)}
                                     />

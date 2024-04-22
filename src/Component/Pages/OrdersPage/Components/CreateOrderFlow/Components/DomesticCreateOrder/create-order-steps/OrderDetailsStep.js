@@ -210,6 +210,17 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                             {(errors.customer_order_number || editErrors?.customer_order_number) && <div className="custom-error">{errors.customer_order_number || editErrors?.customer_order_number}</div>}
                         </label>
@@ -278,6 +289,17 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 // value={formData.order_details.order_tag || ""}
                                 onChange={(e) => handleChange(e, 'order_tag')}
                                 placeholder='Enter Customer Order Tag'
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                         <label className='col'>
@@ -288,6 +310,17 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.other_details.reseller_name}
                                 onChange={(e) => handleReSeller(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                     </div>

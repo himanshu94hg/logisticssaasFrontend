@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom/dist';
 import { useSelector } from 'react-redux';
 
 
-export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors , seteditErrors }) => {
+export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
     const location = useLocation()
     const [isChecked, setIsChecked] = useState(() => {
         const savedCheckboxState = localStorage.getItem('isChecked');
@@ -316,7 +316,19 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className={`input-field ${errors.recipient_name || editErrors?.recipient_name ? 'input-field-error' : ''}`}
                                 placeholder='Enter Recipient Name'
-                                type="text" value={formData.shipping_details.recipient_name} onChange={(e) => handleChangeShiping(e, 'recipient_name')} />
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                type="text" value={formData.shipping_details.recipient_name}
+                                onChange={(e) => handleChangeShiping(e, 'recipient_name')} />
                             {(errors.recipient_name || editErrors?.recipient_name) && <div className="custom-error">{errors.recipient_name || editErrors?.recipient_name}</div>}
                         </label>
 
@@ -348,7 +360,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     }}
                                 />
                             </div>
-                            {(errors.mobile_number || editErrors?.mobile_number ) && <div className="custom-error">{errors.mobile_number || editErrors?.mobile_number}</div>}
+                            {(errors.mobile_number || editErrors?.mobile_number) && <div className="custom-error">{errors.mobile_number || editErrors?.mobile_number}</div>}
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -364,7 +376,20 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's Company Name"
-                                type="email" value={formData.shipping_details.company_name} onChange={(e) => handleChangeShiping(e, 'company_name')} />
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                type="text"
+                                value={formData.shipping_details.company_name}
+                                onChange={(e) => handleChangeShiping(e, 'company_name')} />
                         </label>
                     </div>
 
@@ -376,7 +401,20 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className={`input-field ${errors.address || editErrors?.address ? 'input-field-error' : ''}`}
                                 placeholder="House/Floor No. Building Name or Street, Locality"
-                                type="text" value={formData.shipping_details.address} onChange={(e) => handleChangeShiping(e, 'address')} />
+                                type="text" value={formData.shipping_details.address}
+                                onChange={(e) => handleChangeShiping(e, 'address')}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             {(errors.address || editErrors?.address) && <div className="custom-error">{errors.address || editErrors?.address}</div>}
                         </label>
                     </div>
@@ -387,7 +425,21 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className={`input-field ${errors.landmark || editErrors?.landmark ? 'input-field-error' : ''}`}
                                 placeholder="Any nearby post office, market, Hospital as the landmark"
-                                type="text" value={formData.shipping_details.landmark} onChange={(e) => handleChangeShiping(e, 'landmark')} />
+                                type="text"
+                                value={formData.shipping_details.landmark}
+                                onChange={(e) => handleChangeShiping(e, 'landmark')}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             {(errors.landmark || editErrors?.landmark) && <div className="custom-error">{errors.landmark || editErrors?.landmark}</div>}
                         </label>
                     </div>
@@ -439,7 +491,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 value={formData.shipping_details.state}
                                 onChange={(e) => handleChangeShiping(e, 'state')}
                             />
-                            {(errors.state || editErrors?.state ) && <div className="custom-error">{errors.state || editErrors?.state}</div>}
+                            {(errors.state || editErrors?.state) && <div className="custom-error">{errors.state || editErrors?.state}</div>}
                         </label>
 
                         {/* Country */}

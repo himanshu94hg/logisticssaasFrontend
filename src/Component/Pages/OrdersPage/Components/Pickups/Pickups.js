@@ -334,7 +334,11 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className='btn main-button' onClick={() => generateManifest(row.id)}>Generate Manifest</button>
+                                                {row?.manifest_status ?
+                                                    <button className='btn main-button' onClick={() => generateManifest(row.id)}>Download Manifest</button> :
+                                                    <button className='btn main-button' onClick={() => generateManifest(row.id)}>Generate Manifest</button>
+                                                }
+
                                                 <div className='action-options'>
                                                     <div className='threedots-img'>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
