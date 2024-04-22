@@ -26,6 +26,9 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
         {
             dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
         }
+        else{
+            dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
+        }
     };
 
     useEffect(() => {
