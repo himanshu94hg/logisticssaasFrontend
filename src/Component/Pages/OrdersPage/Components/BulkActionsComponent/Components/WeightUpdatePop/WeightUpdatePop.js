@@ -16,15 +16,25 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
 
     useEffect(()=>{
         if(dimensionData){
-            setDimension(dimensionData) 
+            const convertedData = dimensionData.map(item => ({
+                ...item,
+                weight: parseFloat(item.weight / 1000) // Convert to kg
+            }));
+            setDimension(convertedData) 
         }
     },[dimensionData])
 
 
     const handleInputChange = (index, field, value) => {
         const newData = [...dimension];
-        newData[index][field] = value;
-        setDimension(newData);
+        if (!isNaN(parseFloat(value)) && isFinite(value)) {
+            if (field === 'weight') {
+                newData[index][field] = parseFloat(value); // Convert to kg
+            } else {
+                newData[index][field] = parseFloat(value);
+            }
+            setDimension(newData);
+        }
     };
 
     const handleDimension=()=>{
