@@ -305,14 +305,18 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
 
                     {/* Additional Fields */}
                     <div className={`row gap-2 ${!AddFields ? 'd-none' : ''}`}>
-                        <label className='col' style={{width:"325px"}}>
+                        <label className='col' >
                             Order Tag
                             <Select
+                                style={{width:"325px"}}
                                 isMulti
                                 isSearchable
                                 options={orderTag}
                                 onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
                                 value={formData.order_details.order_tag ? formData.order_details.order_tag?.map(tagId => ({ id: tagId, value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)], label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)] })) : []}
+                                styles={{
+                                    control: styles => ({ ...styles, width: "325px" })
+                                }}
                             />
 
                         </label>
