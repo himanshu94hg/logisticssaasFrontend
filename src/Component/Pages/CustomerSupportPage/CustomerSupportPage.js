@@ -107,7 +107,7 @@ const CustomerSupportPage = () => {
       queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
     }
     if (createdDate != null || undefined) {
-      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));
+      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));  
     }
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
@@ -124,7 +124,9 @@ const CustomerSupportPage = () => {
       .catch(error => {
         console.error('Error:', error);
       });
-
+      setQueryParamTemp({
+        sub_category: categories.value        
+      })
   };
 
   const handleViewButtonClick = (ticketId) => {
