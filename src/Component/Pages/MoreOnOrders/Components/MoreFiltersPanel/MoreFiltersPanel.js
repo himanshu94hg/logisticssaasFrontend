@@ -78,21 +78,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         e.preventDefault();
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        /*setClearState(true)
-        setFilterParams({
-            start_date: null,
-            end_date: null,
-            status: "",
-            order_source: "",
-            courier_partner: "",
-            payment_type: "",
-            order_id: "",
-            order_tag: "",
-            sku: "",
-            sku_match_type: "",
-            pickup_address: ""
-        })*/
-
     };
 
     const [filterParams, setFilterParams] = useState({
@@ -128,6 +113,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
         }
     }, [activeTab, clearState])
+
     useEffect(() => {
         if (handleResetFrom) {
             setFilterParams({
