@@ -42,7 +42,7 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
@@ -188,6 +188,27 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         fetchData(); // Call the fetchData function
 
     }, [MoreFilters, sellerData, authToken]);
+
+    useEffect(() => {
+        if (handleResetFrom) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                status: "",
+                order_source: "",
+                courier_partner: "",
+                payment_type: null,
+                order_id: "",
+                order_tag: "",
+                sku: "",
+                sku_match_type: "",
+                pickup_address: ""
+            })
+            setHandleResetFrom(false)
+            setSaveFilter(false)
+            setSaveFav(true)
+        }
+    }, [handleResetFrom])
 
     const handleReset = () => {
         setFilterParams({
