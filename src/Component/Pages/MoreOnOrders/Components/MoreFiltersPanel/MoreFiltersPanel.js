@@ -78,7 +78,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         e.preventDefault();
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        setClearState(true)
+        /*setClearState(true)
         setFilterParams({
             start_date: null,
             end_date: null,
@@ -91,7 +91,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku: "",
             sku_match_type: "",
             pickup_address: ""
-        })
+        })*/
 
     };
 
@@ -313,7 +313,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
                                         value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
-                                        
                                     />
                                 </label>
                             </div>
