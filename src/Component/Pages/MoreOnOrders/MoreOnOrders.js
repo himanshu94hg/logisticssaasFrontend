@@ -56,6 +56,8 @@ const MoreOnOrders = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { pathName } = useSelector(state => state?.authDataReducer)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryName, setQueryName] = useState([])
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
     const apiEndpoint = "https://dev.shipease.in/";
     const activeTabValueSet =
     activeTab === "Reassign Order"
@@ -126,6 +128,7 @@ const MoreOnOrders = () => {
         });
         setQueryParamTemp(queryParams);
     };
+
 
     useEffect(() => {
         if (pathName === "Reassign Orders") {
@@ -219,6 +222,27 @@ const MoreOnOrders = () => {
             });
     }
 
+    const handleQueryfilter = (value) => {
+        // setSearchValue("")
+        // setHandleResetFrom(true)
+        setQueryParamTemp({})       
+    }
+
+    useEffect(() => {
+        dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
+    }, [])
+
+    useEffect(() => {
+        if (favListData) {
+            let temp = [];
+            favListData.map((item) => {
+                temp.push(item)
+            })
+            setQueryName(temp)
+        }
+    }, [favListData])
+    console.log(favListData,"this is fav list data")
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -247,11 +271,15 @@ const MoreOnOrders = () => {
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
-                                <li>Filter 1</li>
-                                <li>Filter 2</li>
-                                <li>Filter 3</li>
-                                <li>Filter 4</li>
+                            <ul
+                                className="dropdown-menu"
+                                type="button"
+                                style={{
+                                    paddingInline: '0px',
+                                    minWidth: '110px',
+                                }}
+                            >
+                                {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
