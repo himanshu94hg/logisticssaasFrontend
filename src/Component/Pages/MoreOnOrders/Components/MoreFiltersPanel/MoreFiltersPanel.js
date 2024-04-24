@@ -170,11 +170,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }));
         }
         if (name === "payment_type") {
+            let tempValue = Array.isArray(value) ? value.map(option => option.value).join(",") : value.value;
             setFilterParams(prev => ({
                 ...prev,
-                [name]: value.value
+                [name]: tempValue
             }));
         }
+       
         if (name === "order_id" || name === "sku") {
             setFilterParams(prev => ({
                 ...prev,
@@ -313,6 +315,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
                                         value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
+                                        isMulti
                                     />
                                 </label>
                             </div>
