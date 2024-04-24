@@ -379,9 +379,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                             row?.awb_number]
                                                                     }
                                                                 })}>Cancel Order</li>
-                                                                {row?.status === "pending" &&
                                                                     <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
-                                                                }
+                                                                
                                                             </ul>
                                                         </div> : ""}
 

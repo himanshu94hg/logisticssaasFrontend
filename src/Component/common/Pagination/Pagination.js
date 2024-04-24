@@ -91,8 +91,10 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                     Rows per page:
                     <select value={itemsPerPage} onChange={(e) => setItemsPerPage(parseInt(e.target.value))}>
                         <option value="20">20</option>
-                        <option value="50">50</option>
                         <option value="100">100</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                        <option value="all">All</option>
                     </select>
                 </div>
 
