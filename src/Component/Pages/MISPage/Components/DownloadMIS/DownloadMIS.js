@@ -81,7 +81,7 @@ const DownloadMIS = ({ activeTab }) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === misDownload.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -129,13 +129,13 @@ useEffect(() => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
+                                {/*<th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
-                                </th>
+    </th>*/}
                                 <th style={{ width: '25%' }}>Name</th>
                                 <th>Type</th>
                                 <th>Status</th>
@@ -150,13 +150,13 @@ useEffect(() => {
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
+                                        {/*<td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
                                                 onChange={() => handleSelectRow(row.id)}
                                             />
-                                        </td>
+                            </td>*/}
                                         <td>
                                             {/* Name */}
                                             <div className='cell-inside-box'>

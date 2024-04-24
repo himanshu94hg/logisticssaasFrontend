@@ -93,13 +93,13 @@ const InvoiceMIS = () => {
         <table className=" w-100">
             <thead className="sticky-header">
                 <tr className="table-row box-shadow">
-                    <th style={{ width: '1%' }}>
+                   {/*} <th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
                             onChange={handleSelectAll}
                         />
-                    </th>
+    </th>*/}
                     <th>Invoice Id</th>
                     <th>Invoice Date</th>
                     <th>Due Date</th>
@@ -113,13 +113,13 @@ const InvoiceMIS = () => {
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                            <td className='checkbox-cell'>
+                            {/*<td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                            </td>
+                </td>*/}
                             <td>
                                 {/* AWB detail */}
                                 <div className='cell-inside-box'>

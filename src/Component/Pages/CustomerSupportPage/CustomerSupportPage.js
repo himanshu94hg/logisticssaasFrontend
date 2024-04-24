@@ -89,9 +89,12 @@ const CustomerSupportPage = () => {
 
   }, [activeTab, status, currentPage, ticketStatus, itemsPerPage,queryParamTemp]);
 
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate) => {
-    const queryParams = new URLSearchParams();
-    if (Array.isArray(categories) && categories.length > 0) {
+  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate,Severity) => {
+    const queryParams = new URLSearchParams(); 
+    /*if (Array.isArray(categories) && categories.length > 0) {
+      queryParams.append('sub_category', categories.value);
+    }*/
+    if (categories != "") {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
@@ -104,7 +107,10 @@ const CustomerSupportPage = () => {
       queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
     }
     if (createdDate != null || undefined) {
-      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));
+      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));  
+    }
+    if (Severity != null || undefined) {
+      queryParams.append('Severity', Severity);  
     }
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
@@ -116,12 +122,14 @@ const CustomerSupportPage = () => {
       .then(response => {
         setAllTicket(response?.data?.results)
         setFilterTickets(false)
-
+        setTotalItems(response?.data?.count);
       })
       .catch(error => {
         console.error('Error:', error);
       });
-
+      /*setQueryParamTemp({
+        sub_category: categories.value        
+      })*/
   };
 
   const handleViewButtonClick = (ticketId) => {
@@ -186,7 +194,7 @@ const CustomerSupportPage = () => {
         })
         .catch(error => {
           toast.error("Something went wrong!")
-        });
+        }); 
     }else if (activeTab === 'openTickets') {
       axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
         headers: {

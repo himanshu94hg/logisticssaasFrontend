@@ -29,11 +29,13 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
+import SingleShipPopReassign from './SingleShipPopReassign';
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
     useEffect(() => {
         if (orderdelete) {
@@ -132,12 +134,20 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
     };
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
+    const [SingleShipReassign, setSingleShipReassign] = useState(false)
 
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
         setSingleShip(true);
     };
+
+    const handleShipReassign = (orderId) => {
+        setSelectedOrderId(orderId);
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShipReassign(true);
+    };
+
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
@@ -351,7 +361,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn main-button'>{
+                                                    <button className='btn main-button' style={{ width: '100%' }}>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
                                                                 : row?.status === "cancelled" ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span>
@@ -370,7 +380,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                         <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                     </>
                                                                 )}
-                                                                <li>Reassign</li>
+                                                                {/*<li >Reassign</li>*/} 
                                                                 {/* <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li> */}
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li onClick={() => dispatch({
@@ -380,10 +390,11 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 })}>Cancel Order</li>
                                                                     <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
-                                                                
+                                                                 {row?.status === "shipped" &&
+                                                                    <li onClick={() => handleShipReassign(row?.id)}>Reassign</li>
+                                                                }
                                                             </ul>
                                                         </div> : ""}
-
                                                     </div>
                                                 </div>
                                             </td>
@@ -395,6 +406,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                         {orders?.length === 0 && <NoData />}
                     </div>
                     <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                    <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
                 </div>
             </section>
         </>

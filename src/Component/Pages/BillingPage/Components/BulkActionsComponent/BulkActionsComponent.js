@@ -5,48 +5,40 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    console.log(exportCard, "Export Action Bulk")
+    const {exportPassbookCard,exportShippingCard,exportRechargeCard} = useSelector(state => state?.exportSectionReducer)
+    
+    console.log(exportPassbookCard, "Export Action Bulk")
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
-            "order_tab": {
-                "type": activeTab,
-                "subtype": ""
-            },
-            "order_id": `${selectedRows.join(',')}`,
-            "courier": "",
-            "awb_number": "",
-            "min_awb_assign_date": "",
-            "max_awb_assign_date": "",
-            "status": "",
-            "order_type": "",
-            "customer_order_number": "",
-            "channel": "",
-            "min_invoice_amount": "",
-            "max_invoice_amount": "",
-            "warehouse_id": "",
-            "product_name": "",
-            "delivery_address": "",
-            "min_weight": "",
-            "max_weight": "",
-            "min_product_qty": "",
-            "max_product_qty": "",
-            "rto_status": false,
-            "global_type": "",
-            "payment_type": ""
+            "ids": `${selectedRows.join(',')}`
         };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+        if(activeTab === "Passbook")
+        {
+            dispatch({ type: "EXPORT_PASSBOOK_DATA_ACTION", payload: requestData });
+        }
+        else if(activeTab === "Shipping Charges")
+        {
+            dispatch({ type: "EXPORT_SHIPPING_DATA_ACTION", payload: requestData });
+        }
+        else if(activeTab === "Recharge Logs")
+        {
+            dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
+        }
+        else{
+            dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
+        }
     };
 
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            var blob = new Blob([activeTab === "Passbook" ? exportPassbookCard : activeTab === "Shipping Charges" ? exportShippingCard : activeTab === "Recharge Logs" ? exportRechargeCard : exportCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportCard]);
+    }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportCard]);
 
     return (
         <>

@@ -21,6 +21,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { toast } from 'react-toastify';
+import NoData from '../../../../common/noData';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -320,6 +321,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>

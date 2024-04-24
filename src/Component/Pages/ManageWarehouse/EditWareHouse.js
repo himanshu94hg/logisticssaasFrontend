@@ -531,14 +531,14 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                             </div>
                         </div>
                     </div>
-                    <div className='d-flex justify-content-end my-3'>
-                        {/* <button className='btn main-button-outline' type='reset'>
-                            Reset
-                        </button> */}
-                        <button className='btn main-button ms-2' type='submit'>
-                            Submit
-                        </button>
-                    </div>
+                </div>
+                <div className='d-flex justify-content-end my-3'>
+                    <button onClick={() => setEditWarehouse(false)} className='btn cancel-button' type='button'>
+                        Cancel
+                    </button>
+                    <button className='btn main-button ms-2' type='submit'>
+                        Submit
+                    </button>
                 </div>
             </form>
         </>

@@ -213,13 +213,13 @@ const ActivityLogsMIS = ({activeTab}) => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
+                               {/* <th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
-                                </th>
+    </th>*/}
                                 <th style={{ width: '25%' }}>Activity</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
@@ -236,13 +236,13 @@ const ActivityLogsMIS = ({activeTab}) => {
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
+                                       {/*} <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
                                                 onChange={() => handleSelectRow(row.id)}
                                             />
-                                        </td>
+                            </td>*/}
                                         <td>
                                             {/* Activity */}
                                             <div className='cell-inside-box'>

@@ -23,6 +23,7 @@ import moment from 'moment';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import { useDispatch } from 'react-redux';
+import NoData from '../../../../common/noData';
 
 const InfoMissing = () => {
     return (
@@ -306,6 +307,7 @@ const MergeOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>

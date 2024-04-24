@@ -19,6 +19,7 @@ import moment from "moment";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from 'react-bootstrap';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -261,6 +262,7 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionSho
                             ))}
                         </tbody>
                     </table>
+                    {allShipment?.length === 0 && <NoData />}
                 </div>
 
                 {/* <div id='sidePanel' className="side-panel">

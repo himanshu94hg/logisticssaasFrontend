@@ -47,7 +47,7 @@ const OrdersPage = () => {
     const [orderId, setOrderId] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
-    const [itemsPerPage, setItemsPerPage] = useState("20");
+    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [queryParamSearch, setQueryParamSearch] = useState(null)
     const [activeTab, setActiveTab] = useState("Processing");
@@ -207,7 +207,7 @@ const OrdersPage = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setQueryParamTemp({})
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${"20"}&page=${"1"}&courier_status=${activeTab === "All Orders" ? '' : activeTab}`, {
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '' : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
