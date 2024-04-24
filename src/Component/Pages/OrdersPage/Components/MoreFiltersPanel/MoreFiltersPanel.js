@@ -144,20 +144,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
+        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag" || name === "payment_type") {
             let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
+            let temp = value.map((item, index) => {
+                temp_data += item.value;
+                if (index !== value.length - 1) {
+                    temp_data += ",";
+                }
             })
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
-            }));
-        }
-        if (name === "payment_type") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value.value
             }));
         }
         if (name === "order_id" || name === "sku") {
