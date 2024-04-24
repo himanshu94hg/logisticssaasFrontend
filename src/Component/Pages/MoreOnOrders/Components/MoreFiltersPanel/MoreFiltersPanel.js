@@ -56,16 +56,15 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter,handleResetFrom, setHandleResetFrom}) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [SaveFilter, setSaveFilter] = useState(false)
     const [clearState, setClearState] = useState(false)
-    const [pickupAddresses, setPickupAddresses] = useState([
-
-    ]);
+    const [saveFav, setSaveFav] = useState(false);
+    const [pickupAddresses, setPickupAddresses] = useState([]);
 
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
@@ -120,7 +119,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 status: "",
                 order_source: "",
                 courier_partner: "",
-                payment_type: "",
+                payment_type: null,
                 order_id: "",
                 order_tag: "",
                 sku: "",
@@ -129,6 +128,27 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
         }
     }, [activeTab, clearState])
+
+    useEffect(() => {
+        if (handleResetFrom) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                status: "",
+                order_source: "",
+                courier_partner: "",
+                payment_type: null,
+                order_id: "",
+                order_tag: "",
+                sku: "",
+                sku_match_type: "",
+                pickup_address: ""
+            })
+            setHandleResetFrom(false)
+            setSaveFilter(false)
+            setSaveFav(true)
+        }
+    }, [handleResetFrom])
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {
@@ -199,13 +219,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             status: "",
             order_source: "",
             courier_partner: "",
-            payment_type: "",
+            payment_type: null,
             order_id: "",
             order_tag: "",
             sku: "",
             sku_match_type: "",
             pickup_address: ""
         })
+        setSaveFilter(false)
+        setSaveFav(true)
     };
 
     return (
@@ -288,7 +310,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         options={paymentOptions}
                                         defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
-                                        value={paymentOptions.find(option => option.value === filterParams.payment_type)}
+                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
+                                        isMulti
                                     />
                                 </label>
                             </div>
