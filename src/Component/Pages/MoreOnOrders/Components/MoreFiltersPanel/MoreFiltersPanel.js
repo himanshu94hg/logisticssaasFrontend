@@ -128,7 +128,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
         }
     }, [activeTab, clearState])
-
     useEffect(() => {
         if (handleResetFrom) {
             setFilterParams({
@@ -159,8 +158,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
         if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
             let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
+            let temp = value.map((item, index) => {
+                temp_data += item.value;
+                if (index !== value.length - 1) {
+                    temp_data += ",";
+                }
             })
             setFilterParams(prev => ({
                 ...prev,
@@ -311,7 +313,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
                                         value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
-                                        isMulti
+                                        
                                     />
                                 </label>
                             </div>
