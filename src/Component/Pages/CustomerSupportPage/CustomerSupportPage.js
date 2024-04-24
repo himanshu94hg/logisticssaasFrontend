@@ -89,7 +89,7 @@ const CustomerSupportPage = () => {
 
   }, [activeTab, status, currentPage, ticketStatus, itemsPerPage,queryParamTemp]);
 
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate) => {
+  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate,Severity) => {
     const queryParams = new URLSearchParams(); 
     /*if (Array.isArray(categories) && categories.length > 0) {
       queryParams.append('sub_category', categories.value);
@@ -107,7 +107,10 @@ const CustomerSupportPage = () => {
       queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
     }
     if (createdDate != null || undefined) {
-      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));
+      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));  
+    }
+    if (Severity != null || undefined) {
+      queryParams.append('Severity', Severity);  
     }
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
@@ -124,7 +127,9 @@ const CustomerSupportPage = () => {
       .catch(error => {
         console.error('Error:', error);
       });
-
+      /*setQueryParamTemp({
+        sub_category: categories.value        
+      })*/
   };
 
   const handleViewButtonClick = (ticketId) => {
