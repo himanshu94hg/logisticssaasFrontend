@@ -361,7 +361,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn main-button'>{
+                                                    <button className='btn main-button' style={{ width: '100%' }}>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
                                                                 : row?.status === "cancelled" ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span>

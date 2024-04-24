@@ -5,6 +5,10 @@
     /* Each row contains 4 boxes */
     gap: 50px;
     /* Gap between grid items */
+    max-height: calc(100vh - 201px);
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .box {
@@ -171,9 +175,9 @@
     justify-content: flex-end;
 }
 
-.warehouse-edit .add-warehouse-section .d-flex.justify-content-end.my-3 button {
+/* .warehouse-edit .add-warehouse-section .d-flex.justify-content-end.my-3 button {
     display: none;
-}
+} */
 
 .warehouse-edit .add-warehouse-section {
     box-shadow: none !important;

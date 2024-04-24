@@ -7,15 +7,19 @@ import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
+import Select from 'react-select';
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, seteditErrors }) => {
+    const dispatch = useDispatch()
     const location = useLocation();
     const [errors, setErrors] = useState({});
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
     const { pathName } = useSelector(state => state?.authDataReducer)
+    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const [orderTag, setOrderTag] = useState([]);
 
     useEffect(() => {
         if (location.pathname === "/create-orders") {
@@ -62,6 +66,25 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }
     }, [location?.state?.orderType]);
 
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                id:item.id,
+                value: item.name,
+                label: item.name
+            }));
+            console.log("All formattedData formattedData",formattedData);
+            setOrderTag(formattedData);
+        } else {
+            setOrderTag([]);
+        }
+    }, [tagListData]);
+    
+
+    useEffect(() => {
+        dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+    },[])
+
     const validateFormData = () => {
         const newErrors = {};
         if (!formData.order_details.customer_order_number) {
@@ -80,18 +103,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
-
-
-    const handleChange = (e, field) => {
-        const value = e.target.value === '' ? null : e.target.value;
+   
+    const handleChange = (selectedOptions, field) => {
+        const selectedIds = selectedOptions ? selectedOptions.map(option => option.id) : [];
+        const selectedNames = selectedOptions ? selectedOptions.map(option => option.value) : [];
         setFormData(prevData => ({
             ...prevData,
             order_details: {
                 ...prevData.order_details,
-                [field]: value
-            }
+                [field]: selectedIds
+            },
+            order_tag_names: selectedNames 
         }));
-    };
+    };    
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -281,26 +305,20 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
 
                     {/* Additional Fields */}
                     <div className={`row gap-2 ${!AddFields ? 'd-none' : ''}`}>
-                        <label className='col'>
+                        <label className='col' >
                             Order Tag
-                            <input
-                                type="text"
-                                className='input-field'
-                                // value={formData.order_details.order_tag || ""}
-                                onChange={(e) => handleChange(e, 'order_tag')}
-                                placeholder='Enter Customer Order Tag'
-                                onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
-                                    if (
-                                        e.key === ' ' &&
-                                        e.target.value.endsWith(' ')
-                                    ) {
-                                        e.preventDefault();
-                                    } else if (!allowedCharacters.test(e.key)) {
-                                        e.preventDefault();
-                                    }
+                            <Select
+                                style={{width:"325px"}}
+                                isMulti
+                                isSearchable
+                                options={orderTag}
+                                onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
+                                value={formData.order_details.order_tag ? formData.order_details.order_tag?.map(tagId => ({ id: tagId, value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)], label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)] })) : []}
+                                styles={{
+                                    control: styles => ({ ...styles, width: "325px" })
                                 }}
                             />
+
                         </label>
                         <label className='col'>
                             Reseller Name
