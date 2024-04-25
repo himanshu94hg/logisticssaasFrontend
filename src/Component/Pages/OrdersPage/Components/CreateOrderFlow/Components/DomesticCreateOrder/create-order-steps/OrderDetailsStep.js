@@ -113,9 +113,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                 ...prevData.order_details,
                 [field]: selectedIds
             },
-            order_tag_names: selectedNames 
+            order_tag_names: selectedNames || []
         }));
-    };    
+    };      
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -308,12 +308,21 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                         <label className='col' >
                             Order Tag
                             <Select
-                                style={{width:"325px"}}
                                 isMulti
                                 isSearchable
                                 options={orderTag}
                                 onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
-                                value={formData.order_details.order_tag ? formData.order_details.order_tag?.map(tagId => ({ id: tagId, value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)], label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)] })) : []}
+                                value={
+                                    formData.order_details.order_tag
+                                    ? formData.order_tag_names
+                                        ? formData.order_details.order_tag.map(tagId => ({ 
+                                            id: tagId, 
+                                            value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)], 
+                                            label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)] 
+                                        }))
+                                        : []
+                                    : []
+                                }
                                 styles={{
                                     control: styles => ({ ...styles, width: "325px" })
                                 }}

@@ -143,36 +143,26 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
             });
     
             const config = {
-                method: 'post',
-                url: `${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`,
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json'
-                },
-                data: data
+                }
             };
     
-            const response = await axios.request(config);
+            const response = await axios.post(`${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`, data, config);
+            
+            console.log(response);
+            console.log(response.data);
     
-            if (response.ok) {
+            if (response.status === 200) {
                 toast.success("Order merged successfully.");
             } else {
-                const errorMessage = response.data && response.data.detail ? response.data.detail : 'Order cannot be merged.';
-                throw new Error(errorMessage);
+                toast.error("Order cannot be merged.");
             }
         } catch (error) {
-            if (error.response) {
-                toast.error(`Error: ${error.response.data.detail}`);
-            } else if (error.request) {
-                toast.error("No response from server.");
-            } else {
-                toast.error(error.message);
-            }
+            toast.error("Order cannot be merged.");
         }
-    };
-    
-
-
+    };    
 
     return (
         <>

@@ -1,17 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { faBackwardStep, faForwardStep } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Pagination.css'
-import PreviousIcon from './Icons/PreviousIcon';
 import NextIcon from './Icons/NextIcon';
 import LastIcon from './Icons/LastIcon';
 import FirstIcon from './Icons/FirstIcon';
+import PreviousIcon from './Icons/PreviousIcon';
+import React, { useState, useEffect } from 'react';
 
 const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, setCurrentPage }) => {
     const [goToPage, setGoToPage] = useState("");
     const [totalItemsCount, setTotalItemsCount] = useState(totalItems);
-
-    console.log("All Total Item ", totalItemsCount);
 
     useEffect(() => {
         if (totalItems >= 0) {
@@ -20,10 +16,10 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     }, [totalItems])
 
     useEffect(() => {
-        setCurrentPage(1);
+        setCurrentPage("1");
     }, [itemsPerPage, totalItemsCount]);
 
-    const totalPages = Math.ceil(totalItemsCount / itemsPerPage);
+    const totalPages =itemsPerPage==="All"?totalItems: Math.ceil(totalItemsCount / itemsPerPage);
 
     const handleFirstPage = () => {
         setCurrentPage(1);
@@ -34,14 +30,14 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     };
 
     const handlePrevious = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
+        if (parseInt(currentPage) > 1) {
+            setCurrentPage(parseInt(currentPage) - 1);
         }
     };
 
     const handleNext = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
+        if (parseInt(currentPage) < totalPages) {
+            setCurrentPage(parseInt(currentPage) + 1);
         }
     };
 
@@ -53,16 +49,11 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     };
 
     const handleGoToPage = () => {
-        if (goToPage !== "" && parseInt(goToPage) !== currentPage) {
+        if (goToPage !== "" && parseInt(goToPage) !== parseInt(currentPage)) {
             setCurrentPage(parseInt(goToPage));
         }
-        // setGoToPage("");
     };
 
-    const startIndex = Math.min((currentPage - 1) * itemsPerPage + 1, totalItemsCount);
-    const endIndex = Math.min(currentPage * itemsPerPage, totalItemsCount);
-
-    console.log(totalItems, "endIndexendIndex", totalItemsCount)
 
     return (
         <div className='my-2'>
@@ -83,16 +74,19 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                 </div>
                 {/* Result count */}
                 <div className="result-count">
-                    Showing {totalItems < 20 ? totalItemsCount : itemsPerPage > totalItems ? totalItems : currentPage===totalPages?totalItems % itemsPerPage:itemsPerPage}  of {totalItemsCount} records.
+                    Showing {totalItems < 20 ? totalItemsCount : itemsPerPage > totalItems ?
+                     totalItems : currentPage===totalPages?totalItems % itemsPerPage:itemsPerPage==="All"?totalItems:itemsPerPage}  of {totalItemsCount} records.
                 </div>
 
                 {/* Dropdown for items per page */}
                 <div className="items-per-page-dropdown">
                     Rows per page:
-                    <select value={itemsPerPage} onChange={(e) => setItemsPerPage(parseInt(e.target.value))}>
+                    <select value={itemsPerPage} onChange={(e) => setItemsPerPage(`${e.target.value}`)}>
                         <option value="20">20</option>
-                        <option value="50">50</option>
                         <option value="100">100</option>
+                        <option value="500">500</option>
+                        <option value="1000">1000</option>
+                        <option value="All">All</option>
                     </select>
                 </div>
 
