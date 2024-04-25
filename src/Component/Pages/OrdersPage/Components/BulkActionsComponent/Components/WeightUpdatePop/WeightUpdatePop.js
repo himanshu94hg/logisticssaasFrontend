@@ -18,7 +18,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
         if(dimensionData){
             const convertedData = dimensionData.map(item => ({
                 ...item,
-                weight: parseFloat(item.weight / 1000) // Convert to kg
+                weight: parseFloat(item.weight / 1000)
             }));
             setDimension(convertedData) 
         }
@@ -29,7 +29,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
         const newData = [...dimension];
         if (!isNaN(parseFloat(value)) && isFinite(value)) {
             if (field === 'weight') {
-                newData[index][field] = parseFloat(value); // Convert to kg
+                newData[index][field] = parseFloat(value);
             } else {
                 newData[index][field] = parseFloat(value);
             }
