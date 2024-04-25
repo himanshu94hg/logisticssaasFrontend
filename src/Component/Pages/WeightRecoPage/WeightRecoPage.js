@@ -41,6 +41,7 @@ const WeightRecoPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchValue, setSearchValue] = useState("")
     const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
@@ -127,6 +128,14 @@ const WeightRecoPage = () => {
 
     const handleReset = () => {
         setSearchValue("")
+        setHandleResetFrom(true)
+        if(activeTab === "Weight Reconciliation"){
+            dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        } else if(activeTab === "Settled Reconciliation"){
+            dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        } else if(activeTab === "On Hold Reconciliation"){
+            dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        }
     }
 
     return (
@@ -222,6 +231,8 @@ const WeightRecoPage = () => {
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
+                handleResetFrom={handleResetFrom}
+                setHandleResetFrom={setHandleResetFrom}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
         </>

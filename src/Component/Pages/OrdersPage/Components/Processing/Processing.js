@@ -45,7 +45,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
         }
     }, [activeTab])
 
-    console.log(selectedRows, "setSelectedRows")
+    console.log(orders, "setSelectedRows")
 
     const handleSelectAll = (data) => {
 

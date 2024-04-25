@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import { useDispatch } from 'react-redux';
 import { capatlize } from '../../../../customFunction/functionLogic';
+import NoData from '../../../common/noData';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -191,6 +192,7 @@ console.log(allTicket,"activeTab")
                             ))}
                         </tbody>
                     </table>
+                    {allTicket?.length === 0 && <NoData />}
                 </div>
             </div>
         </section >

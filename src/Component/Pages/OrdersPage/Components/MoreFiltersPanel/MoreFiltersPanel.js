@@ -60,7 +60,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
-    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const { tagListData ,orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
 
@@ -125,7 +125,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 status: "",
                 order_source: "",
                 courier_partner: "",
-                payment_type: "",
+                payment_type: null,
                 order_id: "",
                 order_tag: "",
                 sku: "",
@@ -144,20 +144,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
+        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag" || name === "payment_type") {
             let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
+            let temp = value.map((item, index) => {
+                temp_data += item.value;
+                if (index !== value.length - 1) {
+                    temp_data += ",";
+                }
             })
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
-            }));
-        }
-        if (name === "payment_type") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value.value
             }));
         }
         if (name === "order_id" || name === "sku") {
@@ -205,6 +202,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [MoreFilters])
 
     useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "GET_ORDER_SOURCE_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
                 value: item.id,
@@ -224,7 +227,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 status: "",
                 order_source: "",
                 courier_partner: "",
-                payment_type: "",
+                payment_type: null,
                 order_id: "",
                 order_tag: "",
                 sku: "",
@@ -346,7 +349,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         defaultValue={null}
                                         // defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
-                                        value={paymentOptions.find(option => option.value === filterParams.payment_type)}
+                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
+                                        isMulti
                                     />
                                 </label>
                             </div>
@@ -441,7 +445,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
                                     <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
-                                
+
                                 {/*errors.favName && <span className='error-text'></span>*/}
                                
                             </label>

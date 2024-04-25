@@ -235,9 +235,9 @@ const ManageWarehouse = () => {
         <section className='ticket-slider-body'>
           <EditWareHouse wareHouseId={wareHouseId} setEditWarehouse={setEditWarehouse} />
         </section>
-        <section className='ticket-slider-footer'>
+        {/* <section className='ticket-slider-footer'>
           <button className='btn main-button'>Submit</button>
-        </section>
+        </section> */}
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
     </>
