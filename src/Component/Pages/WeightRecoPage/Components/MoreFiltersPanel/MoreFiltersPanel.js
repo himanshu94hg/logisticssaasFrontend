@@ -55,6 +55,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [orderTag, setorderTag] = useState([]);
     const [saveFav, setSaveFav] = useState(false);
     const [favName, setFavName] = useState("");
+    const [errors, setErrors] = useState({})
 
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
