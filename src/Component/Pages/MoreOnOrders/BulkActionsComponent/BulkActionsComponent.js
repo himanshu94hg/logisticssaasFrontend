@@ -150,9 +150,6 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
             };
     
             const response = await axios.post(`${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`, data, config);
-            
-            console.log(response);
-            console.log(response.data);
     
             if (response.status === 200) {
                 toast.success("Order merged successfully.");

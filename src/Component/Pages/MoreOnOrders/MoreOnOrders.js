@@ -55,6 +55,7 @@ const MoreOnOrders = () => {
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { pathName } = useSelector(state => state?.authDataReducer)
+    const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const apiEndpoint = "https://dev.shipease.in/";
     const activeTabValueSet =
@@ -65,9 +66,6 @@ const MoreOnOrders = () => {
         : activeTab === "Split Order"
         ? "orders-api/orders/split-order/"
         : "";
-
-
-    console.log("activeTabValueSetactiveTabValueSetactiveTabValueSet",activeTabValueSet,activeTab)
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -101,7 +99,6 @@ const MoreOnOrders = () => {
     }
 
 
-    console.log(totalItems, "this is totalItemstotalItemstotalItems")
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
@@ -181,10 +178,7 @@ const MoreOnOrders = () => {
                         toast.error("Api Call failed!")
                     });
             }
-    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage]);
-
-    console.log( activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
-
+    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage,moreorderShipCardStatus]);
 
     const handleChange = (option) => {
         setSearchOption(option);

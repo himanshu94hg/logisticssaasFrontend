@@ -6,7 +6,6 @@ import {GET_MOREONORDER_DATA} from "../../../constants/moreonorder";
 
 
 async function moreonorderFileAPI(data) {
-    console.log(data,"MoreOnOrder")
     return axios.request({
         method: "GET",
         url: `${BASE_URL_MOREON}${API_URL.GET_MOREONORDER_URL}${data}`,

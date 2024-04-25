@@ -154,7 +154,6 @@ const OrdersPage = () => {
         }
 
         setErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -253,9 +252,6 @@ const OrdersPage = () => {
                 .join('&');
 
             const decodedURL = decodeURIComponent(queryString);
-
-            console.log(decodedURL, "decodedURLdecodedURL");
-
 
             if (decodedURL) {
                 apiUrl += '&' + decodedURL;

@@ -2,7 +2,7 @@ import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
 import { REASSIGN_DATA_ACTION,REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
-import { GET_REASSIGN_DATA,GET_REASSIGN_SHIP_DATA } from "../../../constants/moreorder";
+import { GET_REASSIGN_DATA,GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
 import {  toast } from 'react-toastify';
 
 
@@ -44,6 +44,7 @@ function* moreorderShipFilesAction(action) {
         let response = yield call(moreorderShipFileAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_REASSIGN_SHIP_DATA, payload: response?.data });
+            yield put({ type: GET_REASSIGN_SHIP_DATA_STATUS, payload: response?.status });
             toast.success(response?.data?.message);
         } else {
             toast.error(response?.data?.message);
