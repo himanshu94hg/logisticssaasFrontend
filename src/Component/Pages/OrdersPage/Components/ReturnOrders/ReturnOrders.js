@@ -105,7 +105,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '26%' }}>Order Details</th>
@@ -115,7 +114,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
                                 <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '8%' }}>Status</th>
-                                {/* <th style={{ width: '6%' }}>Action</th> */}
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -132,7 +130,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -189,7 +186,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
@@ -203,9 +199,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className='width-eclipse'>{row?.order_products.product_name}</p> */}
                                                 <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -225,13 +219,11 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p>&#x20B9; {row?.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
-                                        {/* pickup adress */}
                                         <td className='align-middle'>
                                             <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                 <p>{row?.pickup_details?.p_warehouse_name}
@@ -251,38 +243,13 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {/* <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p> */}
                                                 <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
                                                 <p className=''>{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status || 'New'}</p>
                                         </td>
-                                        {/* <td className='align-middle'>
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button onClick={() => handleShipNow(row?.id)} className='btn main-button'>Ship Now</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={()=>openEditingSection(row?.id)}>Edit Order</li>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Mark As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td> */}
                                     </tr>
                                 </React.Fragment>
                             ))}

@@ -169,7 +169,6 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '20%' }}>Order Details</th>

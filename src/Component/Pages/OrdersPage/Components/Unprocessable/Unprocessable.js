@@ -88,7 +88,6 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
@@ -96,7 +95,6 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
@@ -115,7 +113,6 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -134,12 +131,9 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                             tooltipComponent='Verified'
                                                             addClassName='verified-hover'
                                                         />
-                                                        {/* <VerifiedOrderIcon /> */}
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    {/* {formatDate(row?.inserted)} */}
-                                                    {/*<DateFormatter dateTimeString={row?.inserted} />*/}
                                                     <CustomTooltip
                                                         triggerComponent={
                                                             <img
@@ -168,13 +162,9 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                         addClassName=''
                                                     />
                                                 </p>
-                                                {/* <p>{row?.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row?.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row?.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.customer_order_number}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
@@ -185,15 +175,10 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row?.s_city}</p>
-                                                <p>{row?.s_pincode}</p>
-                                                <p>{row?.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className='width-eclipse'>{row?.order_products.product_name}</p> */}
                                                 <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -213,13 +198,11 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p>&#x20B9; {row?.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
-                                        {/* pickup adress */}
                                         <td className='align-middle'>
                                             <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                 <p>{row?.pickup_details?.p_warehouse_name}
@@ -237,21 +220,10 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
 
                                             </div>
                                         </td>
-                                        {/* shiping section here */}
-                                        {/* <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""}
-                                                    <span style={{right:'23px', width:'100px'}}>AWB Number</span>
-                                                </p>
-                                            </div>
-                                        </td> */}
                                         <td className='align-middle'>
-                                            {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button'>Edit Order</button>
                                                 <div className='action-options'>

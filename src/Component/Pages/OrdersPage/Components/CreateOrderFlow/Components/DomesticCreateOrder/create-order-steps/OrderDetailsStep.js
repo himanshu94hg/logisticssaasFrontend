@@ -9,6 +9,7 @@ import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-sol
 import { useLocation } from 'react-router';
 import { useDispatch,useSelector } from 'react-redux';
 import Select from 'react-select';
+import Cookies from "js-cookie"
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, seteditErrors }) => {
     const dispatch = useDispatch()
@@ -81,8 +82,12 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     }, [tagListData]);
     
 
+   const token=Cookies.get("access_token")
+
     useEffect(() => {
-        dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        if(token){
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
     },[])
 
     const validateFormData = () => {

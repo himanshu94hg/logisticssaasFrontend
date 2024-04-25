@@ -11,7 +11,7 @@ import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb,setbulkAwb,selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
