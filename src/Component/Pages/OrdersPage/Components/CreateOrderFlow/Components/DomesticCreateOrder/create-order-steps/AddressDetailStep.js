@@ -120,11 +120,15 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 shipping_details: {
                     ...prevData.shipping_details,
                     [field]: e.target.value
+                },
+                billing_details: {
+                    ...prevData.billing_details,
+                    [field]: e.target.value
                 }
             }));
         }
     };
-
+    
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -134,6 +138,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }
         }));
     };
+    
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -187,7 +192,24 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
-        if (!updatedIsChecked) {
+        if (updatedIsChecked) {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    customer_name: formData.shipping_details.recipient_name,
+                    contact_code: formData.shipping_details.contact_code,
+                    mobile_number: formData.shipping_details.mobile_number,
+                    email: formData.shipping_details.email,
+                    company_name: formData.shipping_details.company_name,
+                    address: formData.shipping_details.address,
+                    landmark: formData.shipping_details.landmark,
+                    pincode: formData.shipping_details.pincode,
+                    city: formData.shipping_details.city,
+                    state: formData.shipping_details.state,
+                    country: formData.shipping_details.country
+                }
+            }));
+        } else {
             setFormData(prevData => ({
                 ...prevData,
                 billing_details: {
@@ -206,6 +228,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }));
         }
     };
+     
 
 
     const pincodeRef = useRef(null);
