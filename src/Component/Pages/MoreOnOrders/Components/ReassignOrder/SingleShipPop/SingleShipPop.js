@@ -34,7 +34,6 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     };
 
     useEffect(() => {
-        console.log(shipingData,"All shipping Data Reflect",moreorderCard)
         if(shipingData === true)
         {
             if (moreorderCard?.status) {

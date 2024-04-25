@@ -25,7 +25,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 
-const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, bulkAwb,setbulkAwb,setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -45,7 +45,6 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
         }
     }, [activeTab])
 
-    console.log(orders, "setSelectedRows")
 
     const handleSelectAll = (data) => {
 
@@ -53,9 +52,11 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
             setSelectAll(!selectAll);
             if (!selectAll) {
                 setSelectedRows(orders.map(row => row?.id));
+                setbulkAwb(orders.map(row => row?.awb_number));
                 setBulkActionShow(true)
             } else {
                 setSelectedRows([]);
+                setbulkAwb([])
                 setBulkActionShow(false)
                 setSelectAll(false)
             }
@@ -64,9 +65,11 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
             setSelectAll(!selectAll);
             if (!selectAll) {
                 setSelectedRows(orders.map(row => row?.id));
+                setbulkAwb(orders.map(row => row?.id));
                 setBulkActionShow(true)
             } else {
                 setSelectedRows([]);
+                setbulkAwb([]);
                 setBulkActionShow(false)
                 setSelectAll(false)
             }
@@ -81,15 +84,20 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
     };
 
 
-    const handleSelectRow = (orderId) => {
+    const handleSelectRow = (orderId,awb) => {
         const isSelected = selectedRows.includes(orderId);
+        const isSelected1 = bulkAwb.includes(awb);
         let updatedSelectedRows;
-        if (isSelected) {
+        let updatedBulkAwb;
+        if (isSelected || isSelected1) {
             updatedSelectedRows = selectedRows.filter(id => id !== orderId);
+            updatedBulkAwb = bulkAwb.filter(id => id !== awb);
         } else {
             updatedSelectedRows = [...selectedRows, orderId];
+            updatedBulkAwb = [...bulkAwb, awb];
         }
         setSelectedRows(updatedSelectedRows);
+        setbulkAwb(updatedBulkAwb);
         if (updatedSelectedRows.length > 0) {
             setBulkActionShow(true);
         } else {
@@ -131,7 +139,6 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop handleSelectAll={handleSelectAll} BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
 
                                 </th>
@@ -155,7 +162,7 @@ const Processing = React.memo(({ orders, activeTab, setEditOrderSection, setClon
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows?.includes(row?.id)}
-                                                    onChange={() => handleSelectRow(row?.id)}
+                                                    onChange={() => handleSelectRow(row?.id,row.awb_number)}
                                                 />
                                             </td>
                                             <td>
