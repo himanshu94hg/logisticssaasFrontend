@@ -45,7 +45,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb,setbulkAwb,setEditOr
         }
     }, [activeTab])
 
-    console.log(bulkAwb, "setSelectedRows")
 
     const handleSelectAll = (data) => {
 

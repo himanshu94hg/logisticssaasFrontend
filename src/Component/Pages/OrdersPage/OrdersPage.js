@@ -79,6 +79,7 @@ const OrdersPage = () => {
             setQueryParamTemp({});
             setQueryParamSearch(null);
             setItemsPerPage(20)
+            setbulkAwb([])
         }
     }, [activeTab])
 
@@ -100,8 +101,9 @@ const OrdersPage = () => {
     }, [exportCard])
 
     useEffect(() => {
-        if (orderdelete) {
+        if (orderdelete||orderClone||orderCancelled||orderUpdateRes) {
             setSelectedRows([])
+            setbulkAwb([])
             setBulkActionShow(false)
         }
     }, [orderdelete])
@@ -201,9 +203,6 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-    console.log(queryParamTemp, "queryStringqueryString")
-
-
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
@@ -279,8 +278,6 @@ const OrdersPage = () => {
 
 
     const handleQueryfilter = (value) => {
-        // setSearchValue("")
-        // setHandleResetFrom(true)
         setQueryParamTemp({})
         axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
             === "All Orders" ? '' : activeTab}&${value}`, {
@@ -415,6 +412,8 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Pickup" ? "d-block" : "d-none"}`}>
                     <Pickups
                         orders={orders}
+                        bulkAwb={bulkAwb}
+                        setbulkAwb={setbulkAwb}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
