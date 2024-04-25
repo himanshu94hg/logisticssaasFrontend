@@ -229,8 +229,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }
     };
      
-
-
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
