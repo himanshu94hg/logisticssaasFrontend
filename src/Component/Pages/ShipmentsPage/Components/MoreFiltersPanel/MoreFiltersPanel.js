@@ -76,6 +76,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
     };
 
     const handleSubmit = e => {
@@ -423,7 +424,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     onChange={handleCheckboxChange}
                                 />
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                    <input className='input-field filter-name-ip' type="text"  value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>

@@ -7,6 +7,8 @@ import Select from 'react-select';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -65,6 +67,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [clearState, setClearState] = useState(false)
     const [saveFav, setSaveFav] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
+    const [favName, setFavName] = useState("");
+    const dispatch = useDispatch()
 
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
@@ -72,12 +76,40 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
     };
 
     const handleSubmit = e => {
         e.preventDefault();
+        const moment = require('moment');
+
+        const encodedParams = Object.entries(filterParams)
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/,'');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
+            .join('&');
+
+        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
         handleMoreFilter(filterParams)
         CloseSidePanel()
+        if (saveFav) {
+            dispatch({
+                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: { 
+                    filter_query: encodedParams,
+                    filter_name: favName
+                }
+            })
+        }
+        setSaveFilter(false)
+        setFavName("")
     };
 
     const [filterParams, setFilterParams] = useState({
@@ -394,7 +426,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     onChange={handleCheckboxChange}
                                 />
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                    <input className='input-field filter-name-ip' type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)}/>
                                 )}
                             </label>
                             <div>
