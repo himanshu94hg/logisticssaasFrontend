@@ -266,6 +266,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku_match_type: "",
             pickup_address: ""
         })
+        setErrors({})
     };
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;

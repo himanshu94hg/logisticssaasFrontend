@@ -263,6 +263,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         })
         setSaveFilter(false)
         setSaveFav(true)
+        setErrors({})
     };
 
     return (
