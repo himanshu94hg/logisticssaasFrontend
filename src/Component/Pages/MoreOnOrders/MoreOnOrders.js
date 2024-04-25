@@ -142,7 +142,6 @@ const MoreOnOrders = () => {
 
     useEffect(() => {
         let apiUrl = '';
-        if (pageStatus) {
             switch (activeTab) {
                 case "Reassign Order":
                     apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
@@ -182,7 +181,6 @@ const MoreOnOrders = () => {
                         toast.error("Api Call failed!")
                     });
             }
-        }
     }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage]);
 
     console.log( activeTab, queryParamTemp, currentPage, itemsPerPage,"this is involve data")
