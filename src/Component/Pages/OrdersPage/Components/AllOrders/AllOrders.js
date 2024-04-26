@@ -362,14 +362,15 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        {row.status !== "cancelled" ? <div className='action-list'>
+                                                        {/* {row.status !== "cancelled" ?  */}
+                                                        <div className='action-list'>
                                                             <ul>
-                                                                {row?.courier_partner != null && (
-                                                                    <>
+                                                                {/* {row?.courier_partner != null && (
+                                                                    <> */}
                                                                         <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                         <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                                    </>
-                                                                )}
+                                                                    {/* </>
+                                                                )} */}
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
@@ -378,11 +379,12 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 })}>Cancel Order</li>
                                                                     <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
-                                                                 {row?.status === "shipped" &&
+                                                                 {/* {row?.status === "shipped" && */}
                                                                     <li onClick={() => handleShipReassign(row?.id)}>Reassign</li>
-                                                                }
+                                                                {/* } */}
                                                             </ul>
-                                                        </div> : ""}
+                                                        </div>
+                                                         {/* : ""} */}
                                                     </div>
                                                 </div>
                                             </td>

@@ -25,7 +25,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 
-const Processing = React.memo(({ orders, activeTab, bulkAwb,setbulkAwb,setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -84,7 +84,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb,setbulkAwb,setEditOr
     };
 
 
-    const handleSelectRow = (orderId,awb) => {
+    const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
         const isSelected1 = bulkAwb.includes(awb);
         let updatedSelectedRows;
@@ -162,7 +162,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb,setbulkAwb,setEditOr
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows?.includes(row?.id)}
-                                                    onChange={() => handleSelectRow(row?.id,row.awb_number)}
+                                                    onChange={() => handleSelectRow(row?.id, row.awb_number)}
                                                 />
                                             </td>
                                             <td>
@@ -321,12 +321,13 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb,setbulkAwb,setEditOr
                                                                 }>Mark As Verified</li>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li className='action-hr'></li>
-                                                                <li onClick={() => dispatch({
-                                                                    type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                                                                        awb_numbers: [
-                                                                            row?.awb_number]
-                                                                    }
-                                                                })}>Cancel Order</li>
+                                                                <li onClick={() =>
+                                                                    dispatch({
+                                                                        type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                                                                            order_ids: [row?.id],
+                                                                        }
+                                                                    })
+                                                                }>Cancel Order</li>
                                                                 <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
                                                             </ul>
                                                         </div>
