@@ -205,6 +205,7 @@ const OrdersPage = () => {
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
+        setItemsPerPage(20)
         setQueryParamTemp({})
         axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '' : activeTab}`, {
             headers: {

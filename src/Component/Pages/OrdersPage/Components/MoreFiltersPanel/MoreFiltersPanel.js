@@ -177,7 +177,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         if (name === "sku_match_type") {
             setFilterParams(prev => ({
                 ...prev,
-                skuType: value
+                sku_match_type: value
             }))
         }
     };
@@ -404,7 +404,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     Single SKU
                                     <input
                                         type="radio"
-                                        name="skuType"
+                                        name="sku_match_type"
                                         id="singleSku"
                                         value="single"
                                         // checked={filterParams.skuType === "single"}
@@ -415,7 +415,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     Multi SKU
                                     <input
                                         type="radio"
-                                        name="skuType"
+                                        name="sku_match_type"
                                         id="multiSku"
                                         value="multi"
                                         // checked={filterParams.skuType === "multi"}
@@ -426,7 +426,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     Match Exact
                                     <input
                                         type="radio"
-                                        name="skuType"
+                                        name="sku_match_type"
                                         id="matchExact"
                                         value="exact"
                                         // checked={filterParams.skuType === "exact"}

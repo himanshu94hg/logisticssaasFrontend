@@ -240,7 +240,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')
