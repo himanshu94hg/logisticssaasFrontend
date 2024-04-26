@@ -337,6 +337,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className={`input-field ${errors.recipient_name || editErrors?.recipient_name ? 'input-field-error' : ''}`}
                                 placeholder='Enter Recipient Name'
+                                maxLength={100}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                     if (
@@ -397,6 +398,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's Company Name"
+                                maxLength={100}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                     if (

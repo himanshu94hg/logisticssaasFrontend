@@ -201,6 +201,18 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                             <input
                                 className={`input-field ${errors.recipient_name && 'input-field-error'}`}
                                 placeholder='Enter Recipient Name'
+                                maxLength={100}
+                                onKeyPress={(e) => {
+                                   const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                   if (
+                                       e.key === ' ' &&
+                                       e.target.value.endsWith(' ')
+                                   ) {
+                                       e.preventDefault();
+                                   } else if (!allowedCharacters.test(e.key)) {
+                                       e.preventDefault();
+                                   }
+                               }}
                                 type="text" value={formData.shipping_details.recipient_name} onChange={(e) => handleChangeShiping(e, 'recipient_name')} />
                             {errors.recipient_name && <div className="custom-error">{errors.recipient_name}</div>}
                         </label>
@@ -240,9 +252,23 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                         <label className='col'>
                             <span>Address <span className='mandatory'>*</span></span>
                             <input
+                                maxLength={100}
+                                onChange={(e) => handleChangeShiping(e, 'address')}
+                                type="text" value={formData.shipping_details.address} 
                                 className={`input-field ${errors.address && 'input-field-error'}`}
                                 placeholder="House/Floor No. Building Name or Street, Locality"
-                                type="text" value={formData.shipping_details.address} onChange={(e) => handleChangeShiping(e, 'address')} />
+                                onKeyPress={(e) => {
+                                   const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                   if (
+                                       e.key === ' ' &&
+                                       e.target.value.endsWith(' ')
+                                   ) {
+                                       e.preventDefault();
+                                   } else if (!allowedCharacters.test(e.key)) {
+                                       e.preventDefault();
+                                   }
+                               }}
+                                 />
                             {errors.address && <div className="custom-error">{errors.address}</div>}
                         </label>
                         {/* Pincode */}

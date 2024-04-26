@@ -7,7 +7,7 @@ import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import Cookies from "js-cookie"
 
@@ -70,25 +70,25 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
-                id:item.id,
+                id: item.id,
                 value: item.name,
                 label: item.name
             }));
-            console.log("All formattedData formattedData",formattedData);
+            console.log("All formattedData formattedData", formattedData);
             setOrderTag(formattedData);
         } else {
             setOrderTag([]);
         }
     }, [tagListData]);
-    
 
-   const token=Cookies.get("access_token")
+
+    const token = Cookies.get("access_token")
 
     useEffect(() => {
-        if(token){
+        if (token) {
             dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
         }
-    },[])
+    }, [])
 
     const validateFormData = () => {
         const newErrors = {};
@@ -108,7 +108,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
-   
+
     const handleChange = (selectedOptions, field) => {
         const selectedIds = selectedOptions ? selectedOptions.map(option => option.id) : [];
         const selectedNames = selectedOptions ? selectedOptions.map(option => option.value) : [];
@@ -120,7 +120,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             },
             order_tag_names: selectedNames || []
         }));
-    };      
+    };
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -239,6 +239,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
+                                maxLength={100}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
@@ -319,14 +320,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
                                 value={
                                     formData.order_details.order_tag
-                                    ? formData.order_tag_names
-                                        ? formData.order_details.order_tag.map(tagId => ({ 
-                                            id: tagId, 
-                                            value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)], 
-                                            label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)] 
-                                        }))
+                                        ? formData.order_tag_names
+                                            ? formData.order_details.order_tag.map(tagId => ({
+                                                id: tagId,
+                                                value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)],
+                                                label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)]
+                                            }))
+                                            : []
                                         : []
-                                    : []
                                 }
                                 styles={{
                                     control: styles => ({ ...styles, width: "325px" })
