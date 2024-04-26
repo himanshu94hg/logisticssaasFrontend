@@ -2,11 +2,11 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 
-const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setErrors,isChecked,setIsChecked }) => {
+const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors, isChecked, setIsChecked }) => {
     //const [isChecked, setIsChecked] = useState(true);
     const [BillingDetails, setBillingDetails] = useState(true);
 
-   // const [errors, setErrors] = useState({});
+    // const [errors, setErrors] = useState({});
 
 
 
@@ -21,12 +21,12 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                 shipping_details: {
                     ...prevData.shipping_details,
                     [field]: e.target.value,
-                    landmark:e.target.value
+                    landmark: e.target.value
                 },
                 billing_details: {
                     ...prevData.billing_details,
                     [field === "recipient_name" ? "customer_name" : field]: e.target.value,
-                    landmark:e.target.value
+                    landmark: e.target.value
                 }
             }));
         } else {
@@ -35,7 +35,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                 shipping_details: {
                     ...prevData.shipping_details,
                     [field]: e.target.value,
-                    landmark:e.target.value
+                    landmark: e.target.value
                 }
             }));
         }
@@ -47,7 +47,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
             billing_details: {
                 ...prevData.billing_details,
                 [field]: e.target.value,
-                landmark:e.target.value
+                landmark: e.target.value
             }
         }));
     };
@@ -312,7 +312,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData ,errors,setEr
                         <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
-                            <span>Recipient Name <span className='mandatory'>*</span></span>
+                                <span>Recipient Name <span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_customer_name && 'input-field-error'}`}
                                     placeholder='Enter Recipient Name'

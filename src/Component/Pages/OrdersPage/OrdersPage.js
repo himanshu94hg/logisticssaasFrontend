@@ -43,6 +43,7 @@ const OrdersPage = () => {
     let authToken = Cookies.get("access_token")
     const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
+    const [manifestOrders, setManifestOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
@@ -101,7 +102,7 @@ const OrdersPage = () => {
     }, [exportCard])
 
     useEffect(() => {
-        if (orderdelete||orderClone||orderCancelled||orderUpdateRes) {
+        if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
             setSelectedRows([])
             setbulkAwb([])
             setBulkActionShow(false)
@@ -273,6 +274,23 @@ const OrdersPage = () => {
         // }
     }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
+  useEffect(() => {
+   if (activeTab === "Manifest") {
+    axios.get(`https://dev.shipease.in/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
+    headers: {
+        Authorization: `Bearer ${authToken}`
+    }
+})
+    .then(response => {
+        setTotalItems(response?.data?.count)
+        setManifestOrders(response.data.results);
+    })
+    .catch(error => {
+        toast.error("Api Call failed!")
+    });
+   }
+  }, [activeTab ,itemsPerPage ,currentPage])
+    
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
@@ -290,6 +308,8 @@ const OrdersPage = () => {
                 toast.error("Api Call failed!")
             });
     }
+
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -302,7 +322,25 @@ const OrdersPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input
+                                type="search"
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                maxLength={50}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
+                                className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`}
+                            />
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
@@ -423,6 +461,8 @@ const OrdersPage = () => {
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest
+                        manifestOrders = {manifestOrders}
+                        setManifestOrders = {setManifestOrders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
