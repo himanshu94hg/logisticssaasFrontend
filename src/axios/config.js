@@ -91,6 +91,7 @@ export const API_URL = {
   GET_EXPORT_SHIPPING_URL :"/core-api/features/billing/shipping-charge-download/",
   GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
   GET_EXPORT_INVOICE_URL:"/core-api/features/billing/export-invoice/",
+  GET_EXPORT_WEIGHT_URL: "/orders-api/orders/export-weight-reconciliation/",
 
 
   //DASHBOARD OVERVIEW API'S 

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportWeightCard)
     console.log(exportCard, "Export Action Bulk")
 
     const handleExport = () => {
@@ -36,7 +36,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
             "global_type": "",
             "payment_type": ""
         };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+        dispatch({ type: "EXPORT_WEIGHT_DATA_ACTION", payload: requestData });
     };
 
     useEffect(() => {
