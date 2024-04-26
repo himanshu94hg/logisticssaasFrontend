@@ -103,6 +103,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
         console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
 
+        if ( SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            console.error(validationErrors,"Favorite name cannot be empty!");
+            return; 
+        }
+
         handleMoreFilter(filterParams)
         CloseSidePanel()
         if (saveFav) {
@@ -132,6 +142,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku_match_type: "",
                 pickup_address: ""
             })
+            setErrors({})
         }
     }, [activeTab])
 
@@ -237,6 +248,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setHandleResetFrom(false)
             setSaveFilter(false)
             setSaveFav(true)
+            setErrors({})
         }
     }, [handleResetFrom])
 
@@ -254,6 +266,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku_match_type: "",
             pickup_address: ""
         })
+        setErrors({})
     };
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;

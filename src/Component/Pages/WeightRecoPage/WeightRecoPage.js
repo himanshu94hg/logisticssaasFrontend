@@ -42,9 +42,10 @@ const WeightRecoPage = () => {
     const [searchValue, setSearchValue] = useState("")
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryName, setQueryName] = useState([])
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
 
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
     const { weightData, holdData, setteledData } = recoSectionReducer;
@@ -138,6 +139,22 @@ const WeightRecoPage = () => {
         }
     }
 
+    const handleQueryfilter = (value) => {
+        // setSearchValue("")
+        // setHandleResetFrom(true)
+        setQueryParamTemp({})
+    }
+
+    useEffect(() => {
+        if (favListData) {
+            let temp = [];
+            favListData.map((item) => {
+                temp.push(item)
+            })
+            setQueryName(temp)
+        }
+    }, [favListData])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -166,11 +183,14 @@ const WeightRecoPage = () => {
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
-                                <li>Filter 1</li>
-                                <li>Filter 2</li>
-                                <li>Filter 3</li>
-                                <li>Filter 4</li>
+                            <ul 
+                            className="dropdown-menu" 
+                            style={{
+                                 paddingInline: '12px', 
+                                 minWidth: '190px' 
+                            }}
+                            >
+                              {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
