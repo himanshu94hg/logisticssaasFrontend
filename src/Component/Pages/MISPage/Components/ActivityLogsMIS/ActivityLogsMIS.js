@@ -9,8 +9,8 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Pagination from '../../../../common/Pagination/Pagination';
 
-const ActivityLogsMIS = ({activeTab}) => {
-    const dispatch=useDispatch();
+const ActivityLogsMIS = ({ activeTab }) => {
+    const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
@@ -23,9 +23,9 @@ const ActivityLogsMIS = ({activeTab}) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
 
-    const {activitiesLog}=useSelector(state=>state?.misSectionReducer)
+    const { activitiesLog } = useSelector(state => state?.misSectionReducer)
 
-    console.log(activitiesLog?.results,"activitiesLogactivitiesLog")
+    console.log(activitiesLog?.results, "activitiesLogactivitiesLog")
 
     const TypeOptions = [
         { value: '', label: 'Select Type' },
@@ -122,15 +122,14 @@ const ActivityLogsMIS = ({activeTab}) => {
                     page: currentPage
                 }
             });
-    
+
             setActivitylog(activitiesLog?.results);
             setTotalItems(activitiesLog?.count);
         }
     };
 
     useEffect(() => {
-        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate)
-        {
+        if (activeTab === "ActivityLogsMIS" && firstSelectedOption && startDate && endDate) {
             dispatch({
                 type: "MIS_ACTIVITIES_LOG_ACTION",
                 payload: {
@@ -141,12 +140,11 @@ const ActivityLogsMIS = ({activeTab}) => {
                 }
             });
         }
-    }, [dispatch,itemsPerPage, currentPage]);
-    
+    }, [dispatch, itemsPerPage, currentPage]);
+
 
     useEffect(() => {
-        if(activitiesLog?.results !== null && activitiesLog !== undefined)
-        {
+        if (activitiesLog?.results !== null && activitiesLog !== undefined) {
             setActivitylog(activitiesLog?.results)
             setTotalItems(activitiesLog.count)
         }
@@ -155,12 +153,12 @@ const ActivityLogsMIS = ({activeTab}) => {
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;
         if (e.key === 'Backspace' || e.key === 'Delete') {
-          return;
+            return;
         }
         if (!allowedCharacters.test(e.key)) {
-          e.preventDefault();
+            e.preventDefault();
         }
-      }
+    }
 
     return (
         <section className='position-relative reports-mis'>
@@ -182,6 +180,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                             <div className='date-picker-container'>
                                 <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
                                 <DatePicker
+                                    maxDate={new Date()}
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
                                     selected={startDate}
@@ -195,6 +194,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                             <div className='date-picker-container'>
                                 <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
                                 <DatePicker
+                                    maxDate={new Date()}
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
                                     selected={endDate}
@@ -203,7 +203,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                                 />
                             </div>
                         </label>
-                        <button onClick={handleSubmit}  className='btn main-button'>Search</button>
+                        <button onClick={handleSubmit} className='btn main-button'>Search</button>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export Report</button>
@@ -213,7 +213,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                               {/* <th style={{ width: '1%' }}>
+                                {/* <th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
@@ -236,7 +236,7 @@ const ActivityLogsMIS = ({activeTab}) => {
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                       {/*} <td className='checkbox-cell'>
+                                        {/*} <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
@@ -297,12 +297,12 @@ const ActivityLogsMIS = ({activeTab}) => {
                 </div>
             </div>
             <Pagination
-                    totalItems={totalItems}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    setCurrentPage={setCurrentPage}
-                />
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 };

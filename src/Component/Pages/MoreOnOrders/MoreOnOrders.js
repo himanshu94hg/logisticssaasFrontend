@@ -33,7 +33,7 @@ const MoreOnOrders = () => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
-    const [pageStatus,pageStatusSet]=useState(true)
+    const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
@@ -61,13 +61,13 @@ const MoreOnOrders = () => {
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const apiEndpoint = "https://dev.shipease.in/";
     const activeTabValueSet =
-    activeTab === "Reassign Order"
-        ? "core-api/shipping/reassign/"
-        : activeTab === "Merge Order"
-        ? "orders-api/orders/merge-order/"
-        : activeTab === "Split Order"
-        ? "orders-api/orders/split-order/"
-        : "";
+        activeTab === "Reassign Order"
+            ? "core-api/shipping/reassign/"
+            : activeTab === "Merge Order"
+                ? "orders-api/orders/merge-order/"
+                : activeTab === "Split Order"
+                    ? "orders-api/orders/split-order/"
+                    : "";
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -93,11 +93,11 @@ const MoreOnOrders = () => {
             .catch(error => {
                 toast.error("Something went wrong!")
             });
-            setQueryParamTemp({
-                search_by:searchType,
-                q:searchValue
-            })
-            setCurrentPage(1)
+        setQueryParamTemp({
+            search_by: searchType,
+            q: searchValue
+        })
+        setCurrentPage(1)
     }
 
 
@@ -142,46 +142,46 @@ const MoreOnOrders = () => {
 
     useEffect(() => {
         let apiUrl = '';
-            switch (activeTab) {
-                case "Reassign Order":
-                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Merge Order":
-                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Split Order":
-                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                case "Reverse Order":
-                    apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
-                    break;
-                default:
-                    apiUrl = '';
+        switch (activeTab) {
+            case "Reassign Order":
+                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Merge Order":
+                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Split Order":
+                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            case "Reverse Order":
+                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                break;
+            default:
+                apiUrl = '';
+        }
+
+        if (apiUrl) {
+            const queryParams = { ...queryParamTemp };
+            const queryString = Object.keys(queryParams)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .join('&');
+
+            if (queryString) {
+                apiUrl += '&' + queryString;
             }
-
-            if (apiUrl) {
-                const queryParams = { ...queryParamTemp };
-                const queryString = Object.keys(queryParams)
-                    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-                    .join('&');
-
-                if (queryString) {
-                    apiUrl += '&' + queryString;
+            axios.get(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
                 }
-                axios.get(apiUrl, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
+            })
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setOrders(response.data.results);
                 })
-                    .then(response => {
-                        setTotalItems(response?.data?.count)
-                        setOrders(response.data.results);
-                    })
-                    .catch(error => {
-                        toast.error("Api Call failed!")
-                    });
-            }
-    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage,moreorderShipCardStatus]);
+                .catch(error => {
+                    toast.error("Api Call failed!")
+                });
+        }
+    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus]);
 
     const handleChange = (option) => {
         setSearchOption(option);
@@ -195,7 +195,7 @@ const MoreOnOrders = () => {
 
         }
     }, [activeTab])
-    
+
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
@@ -217,7 +217,7 @@ const MoreOnOrders = () => {
     const handleQueryfilter = (value) => {
         // setSearchValue("")
         // setHandleResetFrom(true)
-        setQueryParamTemp({})       
+        setQueryParamTemp({})
     }
 
     useEffect(() => {
@@ -233,7 +233,7 @@ const MoreOnOrders = () => {
             setQueryName(temp)
         }
     }, [favListData])
-    console.log(favListData,"this is fav list data")
+    console.log(favListData, "this is fav list data")
 
     return (
         <>
@@ -247,7 +247,25 @@ const MoreOnOrders = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input
+                                type="search"
+                                value={searchValue}
+                                className='input-field'
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                maxLength={50}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
+                            />
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
@@ -274,7 +292,7 @@ const MoreOnOrders = () => {
                                 {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
-                        <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |

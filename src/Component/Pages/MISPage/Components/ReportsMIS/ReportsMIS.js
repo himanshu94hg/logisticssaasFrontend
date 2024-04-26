@@ -28,9 +28,9 @@ const ReportsMIS = ({ activeTab }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
-    const {reportsOrderData}=useSelector(state=>state?.misSectionReducer)
-    const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
-    const {reportShipmentsData}=useSelector(state=>state?.misSectionReducer)
+    const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
+    const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
+    const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -101,53 +101,52 @@ const ReportsMIS = ({ activeTab }) => {
 
     useEffect(() => {
         // if(stateData){
-            if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_ORDERS_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD"),
-                        page_size: itemsPerPage,
-                        page: currentPage
-                    }
-                })
-            } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_BILLING_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD"),
-                        page_size: itemsPerPage,
-                        page: currentPage
-                    }
-                })
-            } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD"),
-                        page_size: itemsPerPage,
-                        page: currentPage
-                    }
-                })
-            } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_RETURNS_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD"),
-                        page_size: itemsPerPage,
-                        page: currentPage
-                    }
-                })
-            }
+        if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_ORDERS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_BILLING_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_RETURNS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
         // }
-    }, [showComponent,stateData1])
+    }, [showComponent, stateData1])
 
     useEffect(() => {
-        if(reportsOrderData?.count > 0)
-        {
+        if (reportsOrderData?.count > 0) {
             dispatch({
                 type: "MIS_REPORT_ORDERS_ACTION", payload: {
                     sub_type: secondSelectedOption?.value,
@@ -161,8 +160,7 @@ const ReportsMIS = ({ activeTab }) => {
     }, [itemsPerPage, currentPage]);
 
     useEffect(() => {
-        if(reportShipmentsData?.count > 0)
-        {
+        if (reportShipmentsData?.count > 0) {
             dispatch({
                 type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
                     sub_type: secondSelectedOption?.value,
@@ -176,8 +174,7 @@ const ReportsMIS = ({ activeTab }) => {
     }, [itemsPerPage, currentPage]);
 
     useEffect(() => {
-        if(reportsReturnsData?.count > 0)
-        {
+        if (reportsReturnsData?.count > 0) {
             dispatch({
                 type: "MIS_REPORT_RETURNS_ACTION", payload: {
                     sub_type: secondSelectedOption?.value,
@@ -215,12 +212,12 @@ const ReportsMIS = ({ activeTab }) => {
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;
         if (e.key === 'Backspace' || e.key === 'Delete') {
-          return;
+            return;
         }
         if (!allowedCharacters.test(e.key)) {
-          e.preventDefault();
+            e.preventDefault();
         }
-      }
+    }
 
 
     return (
@@ -256,9 +253,10 @@ const ReportsMIS = ({ activeTab }) => {
                                     className='input-field'
                                 /> */}
                                 <DatePicker
+                                    maxDate={new Date()}
+                                    selected={startDate}
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
-                                    selected={startDate}
                                     onKeyDown={(e) => handleKeyDown(e)}
                                     onChange={handleStartDateChange}
                                 />
@@ -269,9 +267,10 @@ const ReportsMIS = ({ activeTab }) => {
                             <div className='date-picker-container'>
                                 <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
                                 <DatePicker
+                                    selected={endDate}
+                                    maxDate={new Date()}
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
-                                    selected={endDate}
                                     onKeyDown={(e) => handleKeyDown(e)}
                                     onChange={handleEndDateChange}
                                 />
@@ -320,12 +319,12 @@ const ReportsMIS = ({ activeTab }) => {
                 </div>
             </div>
             <Pagination
-                    totalItems={totalItems}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    setCurrentPage={setCurrentPage}
-                />
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 };
