@@ -92,22 +92,22 @@ const ShopifyIntegrationForm = () => {
                 navigation('/channels-integration');
             } else {
                 const errorData = response.data;
-               /* console.error('API Error:', errorData);
+                console.error('API Error:', errorData);
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
                     text: 'Failed to add Channel. Please try again later.',
                     confirmButtonText: 'OK'
-                });*/
+                });
             }
         } catch (error) {
             console.error('Fetch Error:', error.message);
-            /*Swal.fire({
+            Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Failed to add Channel. Please try again later.',
                 confirmButtonText: 'OK'
-            });*/
+            });
         }
         console.log("Logs", formData);
        }
@@ -247,6 +247,7 @@ const ShopifyIntegrationForm = () => {
                                         value={selectedDate}
                                         onChange={handleDateChange}
                                         dateFormat='MM/dd/yyyy'
+                                        placeholderText='Enter Date'
                                         className={`input-field ${errors.selectedDate && "input-field-error"}`} 
                                     />
                                     {errors.selectedDate && <span className='error-text'>{errors.selectedDate}</span>}
