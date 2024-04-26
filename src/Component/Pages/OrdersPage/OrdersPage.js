@@ -101,7 +101,7 @@ const OrdersPage = () => {
     }, [exportCard])
 
     useEffect(() => {
-        if (orderdelete||orderClone||orderCancelled||orderUpdateRes) {
+        if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
             setSelectedRows([])
             setbulkAwb([])
             setBulkActionShow(false)
@@ -290,6 +290,8 @@ const OrdersPage = () => {
                 toast.error("Api Call failed!")
             });
     }
+
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -302,7 +304,25 @@ const OrdersPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input
+                                type="search"
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                maxLength={50}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
+                                className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`}
+                            />
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
