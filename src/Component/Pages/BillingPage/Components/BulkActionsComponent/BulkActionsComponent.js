@@ -43,6 +43,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
             setExportButtonClick(false);
         }
     }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportCard]);
+    
 
     return (
         <>
