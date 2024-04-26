@@ -5,7 +5,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const {exportPassbookCard,exportShippingCard,exportRechargeCard} = useSelector(state => state?.exportSectionReducer)
+    const {exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard} = useSelector(state => state?.exportSectionReducer)
     
     console.log(exportPassbookCard, "Export Action Bulk")
 
@@ -26,6 +26,10 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
         {
             dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
         }
+        else if(activeTab === "Invoices")
+        {
+            dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
+        }
         else{
             dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
         }
@@ -34,11 +38,11 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
-            var blob = new Blob([activeTab === "Passbook" ? exportPassbookCard : activeTab === "Shipping Charges" ? exportShippingCard : activeTab === "Recharge Logs" ? exportRechargeCard : exportCard], { type: 'application/ms-excel' });
+            var blob = new Blob([activeTab === "Passbook" ? exportPassbookCard : activeTab === "Shipping Charges" ? exportShippingCard : activeTab === "Recharge Logs" ? exportRechargeCard : activeTab === "Invoices" ? exportInvoiceCard : exportCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportCard]);
+    }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportCard]);
 
     return (
         <>

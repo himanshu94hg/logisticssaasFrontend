@@ -90,6 +90,7 @@ export const API_URL = {
   GET_EXPORT_PASSBOOK_URL :"/core-api/features/billing/passbook-download/",
   GET_EXPORT_SHIPPING_URL :"/core-api/features/billing/shipping-charge-download/",
   GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
+  GET_EXPORT_INVOICE_URL:"/core-api/features/billing/export-invoice/",
 
 
   //DASHBOARD OVERVIEW API'S 
