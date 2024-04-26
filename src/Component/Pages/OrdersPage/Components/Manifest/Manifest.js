@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 
-const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -21,7 +21,7 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
     const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
 
 
-    useEffect(()=>{
+   /* useEffect(()=>{
         if(manifestList){
             setTotalItems(manifestList?.length)
         }
@@ -38,7 +38,7 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
         }
     }, [activeTab])
 
-    console.log(manifestList, "manifestListmanifestList")
+    console.log(manifestList, "manifestListmanifestList")*/
 
     useEffect(() => {
         if (orderdelete) {
@@ -199,7 +199,7 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {manifestList?.map((row, index) => (
+                            {manifestOrders?.map((row, index) => (
                                 <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>

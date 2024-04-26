@@ -43,6 +43,7 @@ const OrdersPage = () => {
     let authToken = Cookies.get("access_token")
     const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
+    const [manifestOrders, setManifestOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
@@ -273,6 +274,23 @@ const OrdersPage = () => {
         // }
     }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
+  useEffect(() => {
+   if (activeTab === "Manifest") {
+    axios.get(`https://dev.shipease.in/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
+    headers: {
+        Authorization: `Bearer ${authToken}`
+    }
+})
+    .then(response => {
+        setTotalItems(response?.data?.count)
+        setManifestOrders(response.data.results);
+    })
+    .catch(error => {
+        toast.error("Api Call failed!")
+    });
+   }
+  }, [activeTab ,itemsPerPage ,currentPage])
+    
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
@@ -443,6 +461,8 @@ const OrdersPage = () => {
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest
+                        manifestOrders = {manifestOrders}
+                        setManifestOrders = {setManifestOrders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
