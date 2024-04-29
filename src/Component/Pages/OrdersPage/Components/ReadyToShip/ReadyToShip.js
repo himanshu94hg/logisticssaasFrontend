@@ -30,9 +30,10 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import SingleShipPop from './SingleShipPop';
 import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
 
 
-const ReadyToShip = ({ orders, activeTab, bulkAwb,setbulkAwb,BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -86,7 +87,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb,setbulkAwb,BulkActionShow, set
 
     };
 
-  
+
     const handleSelectRow = (orderId,awb) => {
         const isSelected = selectedRows?.includes(orderId);
         const isSelected1 = bulkAwb?.includes(awb);
@@ -209,6 +210,18 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb,setbulkAwb,BulkActionShow, set
         setSingleShip(true);
     };
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        console.log(orders, "this is orders");
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+      
+
+
+    const handleClickpartner = () => {
+        window.location.href = '';
+    }
 
     return (
         <section className='position-relative'>
@@ -378,11 +391,12 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb,setbulkAwb,BulkActionShow, set
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
+                                                  {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' /> */}
-                                                <p className='mt-1'>{row.courier_partner}</p>
+
+                                                  
+                                                <p className='mt-1' onClick={handleClickpartner}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -424,7 +438,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb,setbulkAwb,BulkActionShow, set
                             ))}
                         </tbody>
                     </table>
-                    {orders?.length === 0 && <NoData/>}
+                    {orders?.length === 0 && <NoData />}
                 </div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
             </div>
