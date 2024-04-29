@@ -219,9 +219,9 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
       
 
 
-    const handleClickpartner = () => {
+   /* const handleClickpartner = () => {
         window.location.href = '';
-    }
+    }*/
 
     return (
         <section className='position-relative'>
@@ -396,7 +396,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                 </p>
 
                                                   
-                                                <p className='mt-1' onClick={handleClickpartner}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row.courier_partner}</p>
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
