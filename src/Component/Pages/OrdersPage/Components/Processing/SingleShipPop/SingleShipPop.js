@@ -74,7 +74,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     };
 
 
-    console.log(SingleShip,"SingleShipSingleShipSingleShip")
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p10 align-items-center'>

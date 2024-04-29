@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA,ORDERS_DETAILS_CLONE_DATA, ORDERS_CLONE_RES_DATA,ORDER_SOURCE_DATA } from "../../../../constants/orders";
+import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA,ORDERS_DETAILS_CLONE_DATA, ORDERS_CLONE_RES_DATA,ORDER_SOURCE_DATA, ORDERS_DELETE_RES_DATA } from "../../../../constants/orders";
 import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION,ORDERS_DETAILS_CLONE_ACTION, CREATE_ORDERS_TAG_ACTION ,GET_ORDER_SOURCE_API_ACTION} from "../../../constant/orders";
 
 async function fetchOrderListDataApi(data) {
@@ -125,6 +125,7 @@ function* bulkShipOrdersAction(action) {
         let response = yield call(bulkShipOrderAPI, payload);
         if (response.status === 200) {
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
         }
 
     } catch (error) {

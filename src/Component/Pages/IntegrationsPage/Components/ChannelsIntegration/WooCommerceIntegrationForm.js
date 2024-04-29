@@ -185,9 +185,9 @@ const WooCommerceIntegrationForm = () => {
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>)
                             }
                         </ul>
-                        <video width="540" height="310" controls="">
+                        {/* <video width="540" height="310" controls="">
                             <source src="https://xb-files.s3.ap-south-1.amazonaws.com/xpressbees-video.mp4" type="video/mp4" />
-                        </video>
+                        </video> */}
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
                         <form onSubmit={handleSubmit}>

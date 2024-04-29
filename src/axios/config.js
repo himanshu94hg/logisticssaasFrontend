@@ -54,6 +54,7 @@ export const API_URL = {
   BULK_MARK_ORDER_VERIFY:"/orders-api/orders/bulk-action/mark-order-verify/",
   BULK_DELETE_ORDER:"/orders-api/orders/bulk-action/delete-order/",
   BULK_CANCEL_ORDER:"/core-api/shipping/cancel-order/",
+  BULK_CANCEL_ORDER_PROCESSING:"/orders-api/orders/bulk-action/cancel-order/",
   BULK_PICKUP_ADDRESS_UPDATE:"/orders-api/orders/bulk-action/pickup-address-update/",
   BULK_DIMENSION_DETAILS_UPDATE:"/orders-api/orders/bulk-action/dimension-detail-update/",
   BULK_ORDER_GENERATE_MENIFEST_API:"/orders-api/orders/generate-manifest/",
@@ -89,6 +90,8 @@ export const API_URL = {
   GET_EXPORT_PASSBOOK_URL :"/core-api/features/billing/passbook-download/",
   GET_EXPORT_SHIPPING_URL :"/core-api/features/billing/shipping-charge-download/",
   GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
+  GET_EXPORT_INVOICE_URL:"/core-api/features/billing/export-invoice/",
+  GET_EXPORT_WEIGHT_URL: "/orders-api/orders/export-weight-reconciliation/",
 
 
   //DASHBOARD OVERVIEW API'S 

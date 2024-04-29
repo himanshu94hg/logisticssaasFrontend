@@ -32,7 +32,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 
 
-const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -51,27 +51,52 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
         }
     }, [activeTab])
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-            setBulkActionShow(true)
+    const handleSelectAll = (data) => {
+        if (data === "selectAll") {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setbulkAwb(orders.map(row => row?.awb_number));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setbulkAwb([])
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
+
         } else {
-            setSelectedRows([]);
-            setBulkActionShow(false)
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setbulkAwb(orders.map(row => row?.awb_number));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setbulkAwb([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
         }
+
     };
 
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+  
+    const handleSelectRow = (orderId,awb) => {
+        const isSelected = selectedRows?.includes(orderId);
+        const isSelected1 = bulkAwb?.includes(awb);
         let updatedSelectedRows;
-        if (isSelected) {
-            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
+        let updatedBulkAwb;
+        if (isSelected || isSelected1) {
+            updatedSelectedRows = selectedRows?.filter(id => id !== orderId);
+            updatedBulkAwb = bulkAwb?.filter(id => id !== awb);
         } else {
             updatedSelectedRows = [...selectedRows, orderId];
+            updatedBulkAwb = [...bulkAwb, awb];
         }
         setSelectedRows(updatedSelectedRows);
-        if (updatedSelectedRows.length > 0) {
+        setbulkAwb(updatedBulkAwb);
+        if (updatedSelectedRows?.length > 0) {
             setBulkActionShow(true);
         } else {
             setBulkActionShow(false);
@@ -169,7 +194,6 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
                                 <th style={{ width: '20%' }}>Order Details</th>
@@ -192,8 +216,8 @@ const Pickups = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selecte
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows?.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id)}
+                                                checked={selectedRows?.includes(row?.id)||bulkAwb?.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id,row.awb_number)}
                                             />
                                         </td>
                                         <td>

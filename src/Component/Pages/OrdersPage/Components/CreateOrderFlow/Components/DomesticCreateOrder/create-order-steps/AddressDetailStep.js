@@ -120,11 +120,15 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 shipping_details: {
                     ...prevData.shipping_details,
                     [field]: e.target.value
+                },
+                billing_details: {
+                    ...prevData.billing_details,
+                    [field]: e.target.value
                 }
             }));
         }
     };
-
+    
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -134,6 +138,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }
         }));
     };
+    
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -187,7 +192,24 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
-        if (!updatedIsChecked) {
+        if (updatedIsChecked) {
+            setFormData(prevData => ({
+                ...prevData,
+                billing_details: {
+                    customer_name: formData.shipping_details.recipient_name,
+                    contact_code: formData.shipping_details.contact_code,
+                    mobile_number: formData.shipping_details.mobile_number,
+                    email: formData.shipping_details.email,
+                    company_name: formData.shipping_details.company_name,
+                    address: formData.shipping_details.address,
+                    landmark: formData.shipping_details.landmark,
+                    pincode: formData.shipping_details.pincode,
+                    city: formData.shipping_details.city,
+                    state: formData.shipping_details.state,
+                    country: formData.shipping_details.country
+                }
+            }));
+        } else {
             setFormData(prevData => ({
                 ...prevData,
                 billing_details: {
@@ -206,8 +228,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }));
         }
     };
-
-
+     
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
@@ -316,6 +337,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className={`input-field ${errors.recipient_name || editErrors?.recipient_name ? 'input-field-error' : ''}`}
                                 placeholder='Enter Recipient Name'
+                                maxLength={100}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                     if (
@@ -376,6 +398,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <input
                                 className='input-field'
                                 placeholder="Enter Recipient's Company Name"
+                                maxLength={100}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                     if (
@@ -404,7 +427,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 type="text" value={formData.shipping_details.address}
                                 onChange={(e) => handleChangeShiping(e, 'address')}
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')
@@ -429,7 +452,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 value={formData.shipping_details.landmark}
                                 onChange={(e) => handleChangeShiping(e, 'landmark')}
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')
@@ -532,9 +555,22 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <label className='col'>
                                 <span> Recipient Name <span className='mandatory'>*</span></span>
                                 <input
-                                    className={`input-field ${errors.billing_customer_name || editErrors?.billing_customer_name ? 'input-field-error' : ''}`}
                                     placeholder='Enter Recipient Name'
-                                    type="text" value={formData.billing_details.customer_name ?? formData.shipping_details.recipient_name} onChange={(e) => handleChangeBilling(e, 'customer_name')} />
+                                    onChange={(e) => handleChangeBilling(e, 'customer_name')}
+                                    className={`input-field ${errors.billing_customer_name || editErrors?.billing_customer_name ? 'input-field-error' : ''}`}
+                                    type="text" value={formData.billing_details.customer_name ?? formData.shipping_details.recipient_name}
+                                    onKeyPress={(e) => {
+                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                        if (
+                                            e.key === ' ' &&
+                                            e.target.value.endsWith(' ')
+                                        ) {
+                                            e.preventDefault();
+                                        } else if (!allowedCharacters.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
                             </label>
                             {(errors.billing_customer_name || editErrors?.billing_customer_name) && <div className="custom-error">{errors.billing_customer_name || editErrors?.billing_customer_name}</div>}
 
@@ -582,7 +618,20 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <input
                                     className='input-field'
                                     placeholder="Enter Recipient's Company Name"
-                                    type="email" value={formData.billing_details.company_name} onChange={(e) => handleChangeBilling(e, 'company_name')} />
+                                    type="email" value={formData.billing_details.company_name}
+                                    onChange={(e) => handleChangeBilling(e, 'company_name')}
+                                    onKeyPress={(e) => {
+                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                        if (
+                                            e.key === ' ' &&
+                                            e.target.value.endsWith(' ')
+                                        ) {
+                                            e.preventDefault();
+                                        } else if (!allowedCharacters.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
                             </label>
                         </div>
 
@@ -594,7 +643,20 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <input
                                     className={`input-field ${errors.billing_address || editErrors?.billing_address ? 'input-field-error' : ''}`}
                                     placeholder="House/Floor No. Building Name or Street, Locality"
-                                    type="text" value={formData.billing_details.address} onChange={(e) => handleChangeBilling(e, 'address')} />
+                                    type="text" value={formData.billing_details.address}
+                                    onChange={(e) => handleChangeBilling(e, 'address')}
+                                    onKeyPress={(e) => {
+                                        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                        if (
+                                            e.key === ' ' &&
+                                            e.target.value.endsWith(' ')
+                                        ) {
+                                            e.preventDefault();
+                                        } else if (!allowedCharacters.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
                                 {(errors.billing_address || editErrors?.billing_address) && <div className="custom-error">{errors.billing_address || editErrors?.billing_address}</div>}
                             </label>
                         </div>
@@ -605,7 +667,20 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <input
                                     className={`input-field ${errors.billing_landmark || editErrors?.billing_landmark ? 'input-field-error' : ''}`}
                                     placeholder="Any nearby post office, market, Hospital as the landmark"
-                                    type="text" value={formData.billing_details.landmark} onChange={(e) => handleChangeBilling(e, 'landmark')} />
+                                    type="text" value={formData.billing_details.landmark}
+                                    onChange={(e) => handleChangeBilling(e, 'landmark')}
+                                    onKeyPress={(e) => {
+                                        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                        if (
+                                            e.key === ' ' &&
+                                            e.target.value.endsWith(' ')
+                                        ) {
+                                            e.preventDefault();
+                                        } else if (!allowedCharacters.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
                                 {(errors.billing_landmark || editErrors?.billing_landmark) && <div className="custom-error">{errors.billing_landmark || editErrors?.billing_landmark}</div>}
                             </label>
                         </div>

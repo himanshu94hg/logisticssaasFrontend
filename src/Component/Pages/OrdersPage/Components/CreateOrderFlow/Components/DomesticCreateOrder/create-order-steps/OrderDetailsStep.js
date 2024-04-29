@@ -7,8 +7,9 @@ import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
+import Cookies from "js-cookie"
 
 export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, seteditErrors }) => {
     const dispatch = useDispatch()
@@ -69,21 +70,25 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
-                id:item.id,
+                id: item.id,
                 value: item.name,
                 label: item.name
             }));
-            console.log("All formattedData formattedData",formattedData);
+            console.log("All formattedData formattedData", formattedData);
             setOrderTag(formattedData);
         } else {
             setOrderTag([]);
         }
     }, [tagListData]);
-    
+
+
+    const token = Cookies.get("access_token")
 
     useEffect(() => {
-        dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
-    },[])
+        if (token) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [])
 
     const validateFormData = () => {
         const newErrors = {};
@@ -103,7 +108,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
-   
+
     const handleChange = (selectedOptions, field) => {
         const selectedIds = selectedOptions ? selectedOptions.map(option => option.id) : [];
         const selectedNames = selectedOptions ? selectedOptions.map(option => option.value) : [];
@@ -115,7 +120,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             },
             order_tag_names: selectedNames || []
         }));
-    };      
+    };
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -234,8 +239,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
+                                maxLength={100}
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')
@@ -314,14 +320,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
                                 value={
                                     formData.order_details.order_tag
-                                    ? formData.order_tag_names
-                                        ? formData.order_details.order_tag.map(tagId => ({ 
-                                            id: tagId, 
-                                            value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)], 
-                                            label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)] 
-                                        }))
+                                        ? formData.order_tag_names
+                                            ? formData.order_details.order_tag.map(tagId => ({
+                                                id: tagId,
+                                                value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)],
+                                                label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)]
+                                            }))
+                                            : []
                                         : []
-                                    : []
                                 }
                                 styles={{
                                     control: styles => ({ ...styles, width: "325px" })
@@ -378,7 +384,18 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                             <label style={{ height: '54px' }}>
                                 MPS
                                 <div className="toggle-switch mt-1">
-                                    <label className='col'>
+                                    {formData.order_details.order_type === "Reverse" ?(
+                                        <label className='col'>
+                                        <input
+                                            type="checkbox"
+                                            disabled={false}
+                                            checked={true}
+                                            onChange={(e) => handleToggleChange(e, 'is_mps')}
+                                        />
+                                        <span className="slider"></span>
+                                    </label>
+                                    ):(
+                                        <label className='col'>
                                         <input
                                             type="checkbox"
                                             disabled={orderStaus}
@@ -387,9 +404,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                         />
                                         <span className="slider"></span>
                                     </label>
+                                    )}
                                 </div>
                             </label>
-                            <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
+                            {formData.order_details.order_type === "Reverse" ?(
+                                <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? 'd-none' : ''}`}>
                                 Number of packets
                                 <input
                                     type="text"
@@ -405,6 +424,24 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 />
                                 {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
                             </label>
+                            ):(
+                                <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
+                                Number of packets
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    value={formData.other_details.number_of_packets}
+                                    onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
+                                    placeholder='Enter Number of Packets'
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
+                            </label>
+                            )}
 
                         </div>
                     </div>
