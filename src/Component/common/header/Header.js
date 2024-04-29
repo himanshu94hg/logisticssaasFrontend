@@ -72,7 +72,7 @@ export default function Header(props) {
                     Authorization: `Bearer ${authToken}`
                 }
             });
-            setUserData(response.data[0]); 
+            setUserData(response.data); 
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -163,7 +163,7 @@ export default function Header(props) {
                 className="user-image-container"
               >
                 <NavDropdown.Item eventKey="4.1">
-                  Hello, {userData?.company_name?userData?.company_name:"Seller"}
+                  Hello, {userData?.company_name?userData?.first_name:"Seller"}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">
