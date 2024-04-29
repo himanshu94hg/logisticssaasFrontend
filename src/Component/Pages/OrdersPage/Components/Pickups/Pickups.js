@@ -180,6 +180,13 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
         }
     };
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        console.log(orders, "this is orders");
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -345,11 +352,12 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
+                                                  {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' /> */}
-                                                <p className='mt-1'>{row.courier_partner}</p>
+
+                                                  
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
