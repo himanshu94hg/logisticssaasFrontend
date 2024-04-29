@@ -384,7 +384,18 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                             <label style={{ height: '54px' }}>
                                 MPS
                                 <div className="toggle-switch mt-1">
-                                    <label className='col'>
+                                    {formData.order_details.order_type === "Reverse" ?(
+                                        <label className='col'>
+                                        <input
+                                            type="checkbox"
+                                            disabled={false}
+                                            checked={true}
+                                            onChange={(e) => handleToggleChange(e, 'is_mps')}
+                                        />
+                                        <span className="slider"></span>
+                                    </label>
+                                    ):(
+                                        <label className='col'>
                                         <input
                                             type="checkbox"
                                             disabled={orderStaus}
@@ -393,9 +404,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                         />
                                         <span className="slider"></span>
                                     </label>
+                                    )}
                                 </div>
                             </label>
-                            <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
+                            {formData.order_details.order_type === "Reverse" ?(
+                                <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? 'd-none' : ''}`}>
                                 Number of packets
                                 <input
                                     type="text"
@@ -411,6 +424,24 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 />
                                 {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
                             </label>
+                            ):(
+                                <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
+                                Number of packets
+                                <input
+                                    type="text"
+                                    className='input-field'
+                                    value={formData.other_details.number_of_packets}
+                                    onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
+                                    placeholder='Enter Number of Packets'
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                />
+                                {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
+                            </label>
+                            )}
 
                         </div>
                     </div>
