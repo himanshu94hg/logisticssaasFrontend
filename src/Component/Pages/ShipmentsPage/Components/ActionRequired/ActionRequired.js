@@ -153,6 +153,13 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
 
     const handleClose = () => setShow(false);
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        console.log(orders, "this is orders");
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+
 
     return (
         <section className='position-relative'>
@@ -270,8 +277,8 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                                <p className=''>{row?.courier_partner ?? ""} </p>
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row?.awb_number ?? ""} </p>
+                                                <p className=''><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

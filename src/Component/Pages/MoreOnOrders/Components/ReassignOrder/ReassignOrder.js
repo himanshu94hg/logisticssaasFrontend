@@ -121,6 +121,13 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
         setSingleShip(true);
     };
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        console.log(orders, "this is orders");
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -250,9 +257,9 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
                                                 </p>
-                                                <p className='mt-1'>{row.courier_partner}</p>
+                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
