@@ -305,7 +305,8 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        {row.customer_order_number}
+                                                        {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
+                                                        <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
