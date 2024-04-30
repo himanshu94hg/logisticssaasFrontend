@@ -21,6 +21,12 @@
   cursor: pointer;
 }
 
+.anchor-error {
+  color: #1975C9;
+  position: relative;
+  cursor: pointer;
+}
+
 .orders-menu-header .form-select {
   width: 320px;
   color: rgba(0, 0, 0, .55);
