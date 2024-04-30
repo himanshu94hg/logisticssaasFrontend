@@ -24,6 +24,7 @@ import {toast} from "react-toastify";
 import { FaCheckSquare, FaTimes } from 'react-icons/fa';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -232,7 +233,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                                                             : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                             : row?.order.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row?.order?.customer_order_number}</span>
+                                                    &nbsp; <Link to={`/orderdetail`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row?.order.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
