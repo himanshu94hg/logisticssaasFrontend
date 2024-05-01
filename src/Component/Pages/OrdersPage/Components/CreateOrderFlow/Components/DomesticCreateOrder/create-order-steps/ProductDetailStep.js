@@ -119,6 +119,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-4'>Product Details</h3>
+                    {console.log("Product Details:", formData.product_details)}
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
@@ -181,7 +182,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
+                                        type="text" value={product.unit_price} onChange={(e) => handleChange(e, 'unit_price', index)}
                                         onKeyPress={(e) => {
                                             const allowedCharacters = /^[0-9\b.]+$/;
                                             if (!allowedCharacters.test(e.key)) {
