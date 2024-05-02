@@ -211,7 +211,7 @@ const SignUpPage = () => {
                                                 <input
                                                     autoComplete="off"
                                                     className='input-field'
-                                                    type='text'
+                                                    type='password'
                                                     id="password"
                                                     {...register("password", { required: true, minLength: 6 })}
                                                     required
