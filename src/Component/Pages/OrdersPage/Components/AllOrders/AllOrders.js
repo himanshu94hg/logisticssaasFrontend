@@ -364,7 +364,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                         </div>
                                                         {row.status !== "cancelled" ? <div className='action-list'>
                                                             <ul>
-                                                                {row?.courier_partner != null && (
+                                                                {row?.courier_partner != null || row.status !=="pending" && (
                                                                     <>
                                                                         <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                         <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
