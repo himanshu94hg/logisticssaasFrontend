@@ -64,10 +64,22 @@ const BulkCreateOrder = () => {
     };
 
     const handleDownloadlinkTemplate = () => {
+        const templateUrl = 'shipease_bulk_order_uploaded.xlsx';
+        const tempAnchor = document.createElement('a');
+        tempAnchor.setAttribute('download', 'shipease_bulk_order_uploaded.xlsx');
+        tempAnchor.setAttribute('href', templateUrl);
+        tempAnchor.click();
+        tempAnchor.remove();
       console.log("hit")
     };
 
     const handleDownloadError = () => {
+        const templateUrl = 'shipease_bulk_order_error.xlsx';
+        const tempAnchor = document.createElement('a');
+        tempAnchor.setAttribute('download', 'shipease_bulk_order_error.xlsx');
+        tempAnchor.setAttribute('href', templateUrl);
+        tempAnchor.click();
+        tempAnchor.remove();
         console.log("hit")
       };
 

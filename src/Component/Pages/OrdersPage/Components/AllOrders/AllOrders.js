@@ -382,7 +382,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row?.awb_number ?? ""} </p>
-                                                    <p className='' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner ?? ""} </p>
+                                                    <p className='details-on-hover' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner ?? ""} </p>
                                                 </div>
                                             </td>
                                             <td className='align-middle'>
