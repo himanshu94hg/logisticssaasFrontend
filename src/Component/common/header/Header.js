@@ -32,6 +32,8 @@ export default function Header(props) {
   const [userData,setUserData]=useState(null)
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
 
+  console.log("userDatauserDatauserData",userData?.first_name);
+
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -72,7 +74,7 @@ export default function Header(props) {
                     Authorization: `Bearer ${authToken}`
                 }
             });
-            setUserData(response.data[0]); 
+            setUserData(response.data); 
         } catch (error) {
             console.error("Error fetching data:", error);
         }
@@ -163,7 +165,7 @@ export default function Header(props) {
                 className="user-image-container"
               >
                 <NavDropdown.Item eventKey="4.1">
-                  Hello, {userData?.company_name?userData?.company_name:"Seller"}
+                  Hello, {userData?.first_name || "Seller"}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">
