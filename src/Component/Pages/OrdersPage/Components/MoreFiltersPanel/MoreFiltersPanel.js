@@ -83,8 +83,22 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFav(true)
     };
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!filterParams.start_date) {
+            newErrors.start_date = 'Start Date is required!';
+        }
+        if ( !filterParams.end_date) {
+            newErrors.end_date = 'End Date is required!';
+        }
+        setErrors(newErrors);
+        console.log(newErrors, "newErrorsnewErrorsnewErrorsnewErrors")
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = e => {
         e.preventDefault();
+       if(validateFormData()){
         const moment = require('moment');
 
         const encodedParams = Object.entries(filterParams)
@@ -125,6 +139,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
         setSaveFilter(false)
         setFavName("")
+       }
     };
 
     useEffect(() => {
@@ -299,12 +314,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
-                                            className='input-field'
+                                            className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
+                                            placeholderText='Select Start Date'
                                         />
+                                         {/*{(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}*/}
                                     </div>
                                 </label>
                                 <label>
@@ -313,12 +330,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
-                                            className='input-field'
+                                            className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.end_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("end_date", e)}
+                                            placeholderText='Select Start Date'
                                         />
+                                         {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
                                     </div>
                                 </label>
                             </div>
