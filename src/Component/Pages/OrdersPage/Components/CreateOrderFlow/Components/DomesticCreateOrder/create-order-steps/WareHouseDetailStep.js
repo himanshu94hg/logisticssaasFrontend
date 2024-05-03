@@ -50,6 +50,22 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
         }
     }, [warehouses])
 
+    useEffect(() => {
+        if (warehouses) {
+            const defaultWarehouse = warehouses.find(warehouse => warehouse.is_default);
+
+            if (defaultWarehouse) {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    order_details: {
+                        ...prevFormData.order_details,
+                        warehouse_id: defaultWarehouse.id
+                    }
+                }));
+            }
+        }
+    }, [warehouses]);
+
     const handleRadioChange = (e) => {
         const selectedWarehouseId = parseInt(e.target.value);
         setFormData(prevFormData => ({
@@ -81,7 +97,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
                                                 name="warehouse"
                                                 value={warehouse.id}
                                                 checked={formData.order_details.warehouse_id === warehouse.id}
-                                                onChange={handleRadioChange}
+                                                onChange={handleRadioChange}                                              
                                             />
                                             <div className='d-flex h-100 flex-column justify-content-between'>
                                                 <div>
