@@ -27,6 +27,7 @@ import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
 
 const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
 
@@ -91,6 +92,43 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
         setOrderId(id)
     }
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        console.log(orders, "this is orders");
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+
+      const handleClickpartner = (event, row) => {
+        event.preventDefault();
+        if (row.courier_partner === "bluedart") {
+            window.location.href = 'https://www.bluedart.com/web/guest/home';
+        } else if (row.courier_partner === "delhivery") {
+            window.location.href = 'https://www.delhivery.com/track/package';
+        } else if (row.courier_partner === "smartr") {
+            window.location.href = 'https://smartr.in/tracking';
+        } else if (row.courier_partner === "ekart" || row.courier_partner === "ekart_5kg") {
+            window.location.href = 'https://ekartlogistics.com/';
+        } else if (row.courier_partner === "shadowfax") {
+            window.location.href = 'https://tracker.shadowfax.in/#/';
+        } else if (row.courier_partner === "amazon_swa") {
+            window.location.href = 'https://track.amazon.in/';
+        } else if (row.courier_partner === "xpressbees") {
+            window.location.href = 'https://www.xpressbees.com/shipment/tracking';
+        } else if (row.courier_partner === "shree maruti") {
+            window.location.href = 'https://www.shreemaruti.com/';
+        } else if (row.courier_partner === "movin") {
+            window.location.href = 'https://www.movin.in/shipment/track';
+        } else if (row.courier_partner === "ecom express") {
+            window.location.href = 'https://ecomexpress.in/tracking/';
+        } else if (row.courier_partner === "professional") {
+            window.location.href = 'https://www.tpcindia.com/Default.aspx';
+        } else {
+            window.location.href = '';
+            console.log("Courier partner is not recognized");
+        }
+    }
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -142,7 +180,8 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        {row.customer_order_number}
+                                                         {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
+                                                         <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -243,8 +282,8 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                                <p className=''>{row?.courier_partner ?? ""} </p>
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB} >{row?.awb_number ?? ""} </p>
+                                                <p className='' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

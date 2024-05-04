@@ -4,6 +4,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { LuUploadCloud } from "react-icons/lu";
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const BulkCreateOrder = () => {
     const [bulkOrders, setBulkOrders] = useState([]);
@@ -62,6 +63,26 @@ const BulkCreateOrder = () => {
         tempAnchor.remove();
     };
 
+    const handleDownloadlinkTemplate = () => {
+        const templateUrl = 'shipease_bulk_order_uploaded.xlsx';
+        const tempAnchor = document.createElement('a');
+        tempAnchor.setAttribute('download', 'shipease_bulk_order_uploaded.xlsx');
+        tempAnchor.setAttribute('href', templateUrl);
+        tempAnchor.click();
+        tempAnchor.remove();
+      console.log("hit")
+    };
+
+    const handleDownloadError = () => {
+        const templateUrl = 'shipease_bulk_order_error.xlsx';
+        const tempAnchor = document.createElement('a');
+        tempAnchor.setAttribute('download', 'shipease_bulk_order_error.xlsx');
+        tempAnchor.setAttribute('href', templateUrl);
+        tempAnchor.click();
+        tempAnchor.remove();
+        console.log("hit")
+      };
+
     return (
         <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
             <section className='bulk-orders-head'>
@@ -100,11 +121,11 @@ const BulkCreateOrder = () => {
                         {bulkOrders?.slice(0, 10)?.map((item) => {
                             return (
                                 <tr>
-                                    <td>{item?.file_name}</td>
+                                    <td><Link className='anchor-order' onClick={() => handleDownloadlinkTemplate()}>{item?.file_name}</Link></td>
                                     <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
                                     <td>{item?.total_orders}</td>
                                     <td>{item?.success_orders}</td>
-                                    <td>{item?.failed_orders}</td>
+                                    <td><Link className='anchor-error' onClick={() => handleDownloadError()}>{item?.failed_orders}</Link></td>
                                 </tr>
                             )
                         })}

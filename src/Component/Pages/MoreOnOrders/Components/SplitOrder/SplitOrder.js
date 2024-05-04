@@ -19,6 +19,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
 import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { Link } from 'react-router-dom';
 
 const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -168,7 +169,7 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
+                                                    &nbsp; <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <OverlayTrigger

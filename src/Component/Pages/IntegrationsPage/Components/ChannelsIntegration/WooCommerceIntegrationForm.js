@@ -14,7 +14,7 @@ const WooCommerceIntegrationForm = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
-
+    const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         seller_id: sellerData,
         channel: {
@@ -45,48 +45,88 @@ const WooCommerceIntegrationForm = () => {
         send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
     };
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!formData.channel.channel_name) {
+            newErrors.channel_name = ' Channel Name is required!';
+        }
+        if (!formData.channel_configuration.store_url) {
+            newErrors.store_url = ' Store URL is required!';
+        }  
+        if (!formData.channel_configuration.woo_consumer_key) {
+            newErrors.woo_consumer_key = 'Woo Consumer Key is required!';
+        }
+        if (!formData.channel_configuration.woo_consumer_secret) {
+            newErrors.woo_consumer_secret = ' Woo Consumer Secret is required!';
+        }
+        if (selectedDate === null) {
+            newErrors.selectedDate = ' Date is required!';
+        }
+        if (!formData.channel_configuration.pickup_scheduled) {
+            newErrors.pickup_scheduled = ' Pickup Scheduled is required!';
+        }
+        if (!formData.channel_configuration.picked_up) {
+            newErrors.picked_up = ' Pickup Up is required!';
+        }
+        if (!formData.channel_configuration.in_transit) {
+            newErrors.in_transit = ' In Transit is required!';
+        }
+        if (!formData.channel_configuration.out_for_delivery) {
+            newErrors.out_for_delivery = ' Out for Delivery is required!';
+        }
+        if (!formData.channel_configuration.delivered) {
+            newErrors.delivered = 'delivered is required!';
+        }
+             
+        console.log(newErrors, "this is validate form data")
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
-                headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,
-                    'Content-Type': 'application/json'
+            if(validateFormData()){
+                try {
+                    const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
+                        headers: {
+                            'Authorization': `Bearer ${hardcodedToken}`,
+                            'Content-Type': 'application/json'
+                        }
+                    });
+        
+                    console.log('Response:', response);
+        
+                    if (response.status === 201) {
+                        const responseData = response.data;
+                        console.log('API Response:', responseData);
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Channel added successfully!',
+                            confirmButtonText: 'OK'
+                        });
+                        navigation('/channels-integration');
+                    } else {
+                        const errorData = response.data;
+                        console.error('API Error:', errorData);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Failed to add Channel. Please try again later.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                } catch (error) {
+                    console.error('Fetch Error:', error.message);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed to add Channel. Please try again later.',
+                        confirmButtonText: 'OK'
+                    });
                 }
-            });
-
-            console.log('Response:', response);
-
-            if (response.status === 201) {
-                const responseData = response.data;
-                console.log('API Response:', responseData);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Channel added successfully!',
-                    confirmButtonText: 'OK'
-                });
-                navigation('/channels-integration');
-            } else {
-                const errorData = response.data;
-                console.error('API Error:', errorData);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to add Channel. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
+                console.log("Logs", formData);
             }
-        } catch (error) {
-            console.error('Fetch Error:', error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to add Channel. Please try again later.',
-                confirmButtonText: 'OK'
-            });
-        }
-        console.log("Logs", formData);
     };
 
     const handleDateChange = (date) => {
@@ -153,16 +193,23 @@ const WooCommerceIntegrationForm = () => {
                         <form onSubmit={handleSubmit}>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Channel Name
-                                    <input className="input-field" type="text" 
+                                    <span>Channel Name <span className='mandatory'>*</span></span>
+                                    <input 
+                                    className={`input-field ${errors.channel_name && "input-field-error"}`}  
+                                    type="text" 
                                     name="channel.channel_name"
+                                    placeholder='Enter Channel Name'
                                     value={formData.channel.channel_name}
                                     onChange={handleChange}/>
+                                    {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
                                 </label>
                                 <label>
-                                    Store URL
-                                    <input className="input-field" type="text" 
+                                    <span>Store URL <span className='mandatory'>*</span></span>                                   
+                                    <input 
+                                    className={`input-field ${errors.store_url && "input-field-error"}`}   
+                                    type="text" 
                                     name="channel_configuration.store_url"
+                                    placeholder='Enter Store URL'
                                     value={formData.channel_configuration.store_url}
                                     onChange={handleChange}/>
                                     <span className='font13 text-sh-primary'>Store URL should be like https://yourstore.com</span>
@@ -170,30 +217,40 @@ const WooCommerceIntegrationForm = () => {
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Consumer Key
-                                    <input className="input-field" type="text"
+                                <span>Consumer Key <span className='mandatory'>*</span></span>                                  
+                                    <input
+                                    className={`input-field ${errors.woo_consumer_key && "input-field-error"}`}  
+                                    type="text"
                                     name="channel_configuration.woo_consumer_key"
+                                    placeholder='Enter Consumer Key'
                                     value={formData.channel_configuration.woo_consumer_key}
                                     onChange={handleChange}/>
+                                    {errors.woo_consumer_key && <span className='error-text'>{errors.woo_consumer_key}</span>}
                                 </label>
                                 <label>
-                                    Consumer Secret
-                                    <input className="input-field" type="text"
+                                <span>Consumer Secret <span className='mandatory'>*</span></span>                                   
+                                    <input 
+                                    className={`input-field ${errors.woo_consumer_secret && "input-field-error"}`}   
+                                    type="text"
                                     name="channel_configuration.woo_consumer_secret"
+                                    placeholder='Enter Consumer Secret'
                                     value={formData.channel_configuration.woo_consumer_secret}
                                     onChange={handleChange}/>
+                                    {errors.woo_consumer_secret && <span className='error-text'>{errors.woo_consumer_secret}</span>}
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
 
                                 <label>
-                                    Fetch Orders From
+                                <span>Fetch Orders From <span className='mandatory'>*</span></span>                                   
                                     <DatePicker
                                         selected={selectedDate}
                                         onChange={handleDateChange}
                                         dateFormat='MM/dd/yyyy'
-                                        className='input-field'
+                                        className={`input-field ${errors.selectedDate && "input-field-error"}`}  
+                                        placeholderText='Enter Date'
                                     />
+                                    {errors.selectedDate && <span className='error-text'>{errors.selectedDate}</span>}
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
@@ -201,43 +258,63 @@ const WooCommerceIntegrationForm = () => {
                             </div>
                             <div className='d-flex w-100 gap-5'>
                                 <label>
-                                    Pickup Scheduled
-                                    <input className="input-field" type="text" 
+                                    <span>Pickup Scheduled <span className='mandatory'>*</span></span>                                   
+                                    <input 
+                                    className={`input-field ${errors.pickup_scheduled && "input-field-error"}`}   
+                                    type="text" 
                                     name="channel_configuration.pickup_scheduled"
+                                    placeholder='Enter Pickup Scheduled'
                                     value={formData.channel_configuration.pickup_scheduled}
                                     onChange={handleChange}/>
+                                    {errors.pickup_scheduled && <span className='error-text'>{errors.pickup_scheduled}</span>}
                                 </label>
-                                <label>
-                                    Picked Up
-                                    <input className="input-field" type="text" 
+                                <label>                                 
+                                    <span>Picked Up <span className='mandatory'>*</span></span>  
+                                    <input 
+                                    className={`input-field ${errors.picked_up && "input-field-error"}`}   
+                                    type="text" 
                                     name="channel_configuration.picked_up"
+                                    placeholder='Enter Picked Up'
                                     value={formData.channel_configuration.picked_up}
                                     onChange={handleChange}/>
+                                    {errors.picked_up && <span className='error-text'>{errors.picked_up}</span>}
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
-                                    In Transit
-                                    <input className="input-field" type="text" 
+                                <label>                               
+                                    <span>In Transit <span className='mandatory'>*</span></span>  
+                                    <input 
+                                    className={`input-field ${errors.in_transit && "input-field-error"}`}   
+                                    type="text" 
                                     name="channel_configuration.in_transit"
+                                    placeholder='Enter In Transit'
                                     value={formData.channel_configuration.in_transit}
                                     onChange={handleChange}/>
+                                    {errors.in_transit && <span className='error-text'>{errors.in_transit}</span>}
                                 </label>
                                 <label>
-                                    Out For Delivery
-                                    <input className="input-field" type="text" 
+                                    <span>Out For Delivery <span className='mandatory'>*</span></span>  
+                                    <input 
+                                    className={`input-field ${errors.out_for_delivery && "input-field-error"}`}   
+                                    type="text" 
                                     name="channel_configuration.out_for_delivery"
+                                    placeholder='Enter Out For Delivery'
                                     value={formData.channel_configuration.out_for_delivery}
                                     onChange={handleChange}/>
+                                    {errors.out_for_delivery && <span className='error-text'>{errors.out_for_delivery}</span>}
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Delivered
-                                    <input className="input-field" type="text" 
+                                    <span>Delivered <span className='mandatory'>*</span></span>  
+                                    <input 
+                                    className={`input-field ${errors.delivered && "input-field-error"}`}  
+                                    type="text" 
                                     name="channel_configuration.delivered"
+                                    placeholder='Enter Delivered'
                                     value={formData.channel_configuration.delivered}
                                     onChange={handleChange}/>
+                                    {errors.delivered && <span className='error-text'>{errors.delivered}</span>}
                                 </label>
                                 <label className=''>
                                 </label>

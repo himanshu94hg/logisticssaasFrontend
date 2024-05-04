@@ -14,6 +14,7 @@ const StoreHippoIntegrationForm = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
+    const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
         seller_id: sellerData,
@@ -39,31 +40,57 @@ const StoreHippoIntegrationForm = () => {
         }
     });
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!formData.channel.channel_name) {
+            newErrors.channel_name = ' Channel Name is required!';
+        }
+        if (!formData.channel_configuration.store_hippo_access_key) {
+            newErrors.store_hippo_access_key = ' Storehippo Access key is required!';
+        }
+        if (!formData.channel_configuration.store_url) {
+            newErrors.store_url = 'Name or Store URL is required!';
+        }         
+        console.log(newErrors, "this is validate form data")
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        try {
-            const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
-                headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log('Response:', response);
-
-            if (response.status === 201) {
-                const responseData = response.data;
-                console.log('API Response:', responseData);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Channel added successfully!',
-                    confirmButtonText: 'OK'
+         if (validateFormData()){
+            try {
+                const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
+                    headers: {
+                        'Authorization': `Bearer ${hardcodedToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
-                navigation('/channels-integration');
-            } else {
-                const errorData = response.data;
-                console.error('API Error:', errorData);
+
+                console.log('Response:', response);
+
+                if (response.status === 201) {
+                    const responseData = response.data;
+                    console.log('API Response:', responseData);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Channel added successfully!',
+                        confirmButtonText: 'OK'
+                    });
+                    navigation('/channels-integration');
+                } else {
+                    const errorData = response.data;
+                    console.error('API Error:', errorData);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Failed to add Channel. Please try again later.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            } catch (error) {
+                console.error('Fetch Error:', error.message);
                 Swal.fire({
                     icon: 'error',
                     title: 'Oops...',
@@ -71,16 +98,8 @@ const StoreHippoIntegrationForm = () => {
                     confirmButtonText: 'OK'
                 });
             }
-        } catch (error) {
-            console.error('Fetch Error:', error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to add Channel. Please try again later.',
-                confirmButtonText: 'OK'
-            });
-        }
-        console.log("Logs", formData);
+            console.log("Logs", formData);
+         }
     };
 
     const handleChange = (e) => {
@@ -144,16 +163,23 @@ const StoreHippoIntegrationForm = () => {
                         <form onSubmit={handleSubmit}>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Channel Name
-                                    <input className="input-field" type="text" 
+                                    <span>Channel Name <span className='mandatory'>*</span></span>
+                                    <input 
+                                    className={`input-field ${errors.channel_name && "input-field-error"}`} 
+                                    type="text" 
                                     name="channel.channel_name"
+                                    placeholder='Enter Channel Name'
                                     value={formData.channel.channel_name}
                                     onChange={handleChange}/>
+                                    {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
                                 </label>
-                                <label>
-                                    Store Name or URL
-                                    <input className="input-field" type="text" 
+                                <label>                                 
+                                    <span>Store Name or URL <span className='mandatory'>*</span></span>
+                                    <input
+                                    className={`input-field ${errors.store_url && "input-field-error"}`}  
+                                    type="text" 
                                     name="channel_configuration.store_url"
+                                    placeholder='Enter Store Name or URL'
                                     value={formData.channel_configuration.store_url}
                                     onChange={handleChange}/>
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
@@ -161,11 +187,15 @@ const StoreHippoIntegrationForm = () => {
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Access Key
-                                    <input className="input-field" type="text" 
+                                    <span>Access Key <span className='mandatory'>*</span></span>
+                                    <input 
+                                    className={`input-field ${errors.store_hippo_access_key && "input-field-error"}`}  
+                                    type="text" 
                                     name="channel_configuration.store_hippo_access_key"
+                                    placeholder='Enter Access Key'
                                     value={formData.channel_configuration.store_hippo_access_key}
                                     onChange={handleChange}/>
+                                    {errors.store_hippo_access_key && <span className='error-text'>{errors.store_hippo_access_key}</span>}
                                 </label>
                             </div>
                             <div className='mt-3 d-flex justify-content-end'>

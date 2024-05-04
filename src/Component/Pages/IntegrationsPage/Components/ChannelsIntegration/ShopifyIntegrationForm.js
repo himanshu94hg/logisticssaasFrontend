@@ -13,6 +13,7 @@ const ShopifyIntegrationForm = () => {
     const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
+    const [errors, setErrors] = useState({});
 
     const [formData, setFormData] = useState({
         seller_id: sellerData,
@@ -40,8 +41,35 @@ const ShopifyIntegrationForm = () => {
         send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
     };
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!formData.channel.channel_name) {
+            newErrors.channel_name = ' Channel Name is required!';
+        }
+        if (!formData.channel_configuration.password) {
+            newErrors.password = ' Access token is required!';
+        }
+        if (!formData.channel_configuration.api_key) {
+            newErrors.api_key = ' API Key is required!';
+        }
+        if (!formData.channel_configuration.shared_secret) {
+            newErrors.shared_secret = ' API Secret key is required!';
+        }
+        if (!formData.channel_configuration.store_url) {
+            newErrors.store_url = ' Store URL is required!';
+        }     
+        if (selectedDate === null) {
+            newErrors.selectedDate = ' Date is required!';
+        }     
+        console.log(newErrors, "this is validate form data")
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+    
+
     const handleSubmit = async (event) => {
         event.preventDefault();
+       if(validateFormData()){
         try {
             const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
                 headers: {
@@ -82,6 +110,7 @@ const ShopifyIntegrationForm = () => {
             });
         }
         console.log("Logs", formData);
+       }
     };
 
     const handleDateChange = (date) => {
@@ -148,67 +177,80 @@ const ShopifyIntegrationForm = () => {
                         <form onSubmit={handleSubmit}>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
-                                    Channel Name
+                                    <span>Channel Name <span className='mandatory'>*</span></span>
                                     <input
-                                        className="input-field"
+                                        className={`input-field ${errors.channel_name && "input-field-error"}`} 
                                         type="text"
                                         name="channel.channel_name"
+                                        placeholder='Enter Channel Name'
                                         value={formData.channel.channel_name}
                                         onChange={handleChange}
                                     />
+                                    {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
                                 </label>
                                 <label>
-                                    Admin API access token
+                                    <span>Admin API access token <span className='mandatory'>*</span></span>
                                     <input
-                                        className="input-field"
+                                        className={`input-field ${errors.password && "input-field-error"}`} 
                                         type="text"
                                         name="channel_configuration.password"
+                                        placeholder='Enter Admin API access token'
                                         value={formData.channel_configuration.password}
                                         onChange={handleChange}
                                     />
+                                    {errors.password && <span className='error-text'>{errors.password}</span>}
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
-                                    API Key
+                                <label>  
+                                    <span>API Key <span className='mandatory'>*</span></span>
                                     <input
-                                        className="input-field"
+                                        className={`input-field ${errors.api_key && "input-field-error"}`} 
                                         type="text"
                                         name="channel_configuration.api_key"
+                                        placeholder='Enter API Key'
                                         value={formData.channel_configuration.api_key}
                                         onChange={handleChange}
                                     />
+                                    {errors.api_key && <span className='error-text'>{errors.api_key}</span>}
                                 </label>
-                                <label>
-                                    API Secret Key
+                                <label>                                  
+                                    <span>API Secret Key <span className='mandatory'>*</span></span>
                                     <input
-                                        className="input-field"
+                                        className={`input-field ${errors.shared_secret && "input-field-error"}`} 
                                         type="text"
                                         name="channel_configuration.shared_secret"
+                                        placeholder='Enter API Secret Key'
                                         value={formData.channel_configuration.shared_secret}
                                         onChange={handleChange}
                                     />
+                                    {errors.shared_secret && <span className='error-text'>{errors.shared_secret}</span>}
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
-                                    Store URL
+                                <label>                                  
+                                    <span>Store URL <span className='mandatory'>*</span></span>
                                     <input
-                                        className="input-field"
+                                        className={`input-field ${errors.store_url && "input-field-error"}`} 
                                         type="text"
                                         name="channel_configuration.store_url"
+                                        placeholder='Enter Store URL'
                                         value={formData.channel_configuration.store_url}
                                         onChange={handleChange}
                                     />
+                                {errors.store_url && <span className='error-text'>{errors.store_url}</span>}
                                 </label>
-                                <label>
-                                    Fetch Orders From
+                                <label>                                  
+                                    <span>Fetch Orders From <span className='mandatory'>*</span></span>
                                     <DatePicker
                                         selected={selectedDate}
+                                        value={selectedDate}
                                         onChange={handleDateChange}
                                         dateFormat='MM/dd/yyyy'
-                                        className='input-field'
+                                        placeholderText='Enter Date'
+                                        className={`input-field ${errors.selectedDate && "input-field-error"}`} 
                                     />
+                                    {errors.selectedDate && <span className='error-text'>{errors.selectedDate}</span>}
                                 </label>
                             </div>
                             <div className='int-checkbox mt-3'>
