@@ -90,7 +90,7 @@ function* generateManifestAction(action) {
     try {
         let response = yield call(generateManifestApi, payload);
         if (response.status === 200) {
-            // yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             toast.success("Manifest generated successfully!")
         }
 

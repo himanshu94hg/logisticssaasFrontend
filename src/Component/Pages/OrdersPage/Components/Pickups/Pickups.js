@@ -33,7 +33,7 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
 
-const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -82,8 +82,8 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
 
     };
 
-  
-    const handleSelectRow = (orderId,awb) => {
+
+    const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows?.includes(orderId);
         const isSelected1 = bulkAwb?.includes(awb);
         let updatedSelectedRows;
@@ -185,9 +185,9 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
         event.preventDefault();
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
-      };
+    };
 
-      const handleClickpartner = (event, row) => {
+    const handleClickpartner = (event, row) => {
         event.preventDefault();
         if (row.courier_partner === "bluedart") {
             window.location.href = 'https://www.bluedart.com/web/guest/home';
@@ -215,7 +215,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
             window.location.href = '';
         }
     }
-    
+
 
     return (
         <section className='position-relative'>
@@ -253,8 +253,8 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows?.includes(row?.id)||bulkAwb?.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id,row.awb_number)}
+                                                checked={selectedRows?.includes(row?.id) || bulkAwb?.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id, row.awb_number)}
                                             />
                                         </td>
                                         <td>
@@ -271,8 +271,8 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                         {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
-                                                         <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
+                                                        <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -317,7 +317,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
                                         <td>
                                             {/* customer detail */}
                                             <div className='cell-inside-box'>
-                                            <p>{row?.shipping_detail?.recipient_name}</p>
+                                                <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
@@ -384,16 +384,17 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb ' onClick={handleClickAWB}>{row.awb_number ?? ""}
-                                                  {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
+                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-
-                                                  
-                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row && row.courier_partner}</p>
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' width={30} className='me-2' />{row && row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                            <div className='d-flex flex-column gap-2 justify-content-center'>
+                                                <p className='order-Status-box'>{row?.status}</p>
+                                                <p className='text-success fw-bold' style={{ fontSize: 11}}>{row?.manifest_status ? "manifest_generated" : ""}</p>
+                                            </div>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
