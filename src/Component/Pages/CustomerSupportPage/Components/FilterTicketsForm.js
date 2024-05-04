@@ -15,6 +15,11 @@ const FilterTicketsForm = (props) => {
   const [createdDate, setCreatedDate] = useState();
   const [selectedSeverity, setSelectedSeverity] = useState('');
 
+  const [filterParams, setFilterParams] = useState({
+    status: '',
+    severity: '',
+  })
+
   const authToken = Cookies.get("access_token")
 
   useEffect(() => {
@@ -50,8 +55,13 @@ const FilterTicketsForm = (props) => {
     setSelectedCategories(selectedOption);
   };
 
-  const handleStatusChange = (selectedOption) => {
-    setSelectedStatus(selectedOption.value);
+  const handleStatusChange = (name, value) => {
+    if (name === "status" || name === "severity") {
+      setFilterParams(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSeverityChange = (selectedOption) => {
@@ -70,18 +80,25 @@ const FilterTicketsForm = (props) => {
 
 
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter", createdDate, selectedSeverity)
+    props.handleFormSubmit(selectedCategories, resolutionDate, endDate, "filter", createdDate, filterParams)
   };
 
+
+
   const handleReset = () => {
+    console.log("Reset button clicked");
     setSelectedCategories([]);
     setSelectedStatus('');
     setResolutionDate(null);
     setEndDate(null);
-    setCreatedDate(null)
-    setSelectedSeverity('')
-    // props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
+    setCreatedDate(null);
+    setSelectedSeverity('');
+    setFilterParams({
+      status: null,
+      severity: null,
+    })
   };
+
   const StatusOptions = [
     { value: 'All', label: 'All' },
     { value: 'Open', label: 'Open' },
@@ -114,15 +131,25 @@ const FilterTicketsForm = (props) => {
           value={selectedCategories}
           placeholder='Choose a Subcategory'
         />
+
         <Select
           options={StatusOptions}
-          onChange={handleStatusChange}
           placeholder='Select Status'
+          //defaultValue={null}
+          // defaultValue={filterParams?.payment_type}
+          onChange={(e) => handleStatusChange("status", e)}
+          value={filterParams.status !== null ? StatusOptions.find(option => option.value === filterParams.status) : null}
+
         />
-          <Select
+
+        <Select
           options={SeverityOptions}
-          onChange={handleSeverityChange}
           placeholder='Select Severity'
+          //defaultValue={null}
+          // defaultValue={filterParams?.payment_type}
+          onChange={(e) => handleStatusChange("severity", e)}
+          value={filterParams.severity !== null ? SeverityOptions.find(option => option.value === filterParams.severity) : null}
+
         />
       </div>
 
@@ -143,7 +170,7 @@ const FilterTicketsForm = (props) => {
               onChange={handleCreatedChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
-              strictParsing={true} 
+              strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
@@ -163,7 +190,7 @@ const FilterTicketsForm = (props) => {
               dateFormat='dd/MM/yyyy'
               className='input-field'
               maxDate={new Date()}
-              strictParsing={true} 
+              strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
@@ -183,7 +210,7 @@ const FilterTicketsForm = (props) => {
               dateFormat='dd/MM/yyyy'
               className='input-field'
               maxDate={new Date()}
-              strictParsing={true} 
+              strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>

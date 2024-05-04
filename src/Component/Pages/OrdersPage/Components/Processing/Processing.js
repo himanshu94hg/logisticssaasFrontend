@@ -24,6 +24,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
+
 
 const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
@@ -178,7 +180,8 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                                     : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                         : ""}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                            {row.customer_order_number}
+                                                             {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
+                                                        <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
                                                                 <CustomTooltip
                                                                     triggerComponent={<VerifiedOrderIcon />}
