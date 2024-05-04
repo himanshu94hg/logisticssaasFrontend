@@ -143,7 +143,7 @@ const RuleRow = ({ initialRows, setConditions }) => {
                         placeholder="Enter text"
                     />
                     <div className='add-rule-btns'>
-                        {rows.length > 1 && (
+                        {index > 0 && (
                             <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
                         )}
                         {index === rows.length - 1 && (
