@@ -20,10 +20,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setbulkAwb,selectedRows, seta
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
 
-
-    console.log(labelData,invoiceData,"labelData,invoiceData")
-
-
 useEffect(()=>{
        if(labelData){
         if(genaratelabel === true){
@@ -208,7 +204,6 @@ useEffect(()=>{
     };    
 
     useEffect(() => {
-        console.log("All Bulk Ship 1",shipButtonClicked);
         if (shipButtonClicked === true) {
             if (bulkShipData && Object.keys(bulkShipData).length > 0) {
                 const shippedCount = Object.values(bulkShipData).reduce((total, order) => {

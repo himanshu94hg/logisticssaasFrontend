@@ -27,7 +27,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         }
     },[manifestList])
 
-    console.log(manifestList.length,"manifestList")
 
 
 
@@ -38,7 +37,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         }
     }, [activeTab])
 
-    console.log(manifestList, "manifestListmanifestList")*/
+    */
 
     useEffect(() => {
         if (orderdelete) {
@@ -60,7 +59,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
     const handleSelectRow = (orderId) => {
         // const isSelected = selectedRows?.includes(orderId);
         // setBulkActions(true)
-        // console.log(BulkActions)
         // if (isSelected) {
         //     setSelectedRows(selectedRows.filter(id => id !== orderId));
         // } else {

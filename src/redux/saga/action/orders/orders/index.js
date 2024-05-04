@@ -58,14 +58,12 @@ function* updateOrderAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(updateOrderApi, payload);
-        console.log(response, "this is reponse data")
         if (response.status === 200) {
             yield put({ type: ORDERS_DETAILS_RES_DATA, payload: response?.status })
             toast.success("Order update successfully")
         }
 
     } catch (error) {
-        console.log(error, "this is oder id data")
         toast.error(`Please enter valid order id!`)
     }
 }
@@ -83,6 +81,7 @@ function* saveFavouriteOrdersAction(action) {
     try {
         let response = yield call(saveFavouriteOrderAPI, payload);
         if (response.status === 201) {
+            yield put({type:"GET_SAVE_FAVOURITE_ORDERS_ACTION"})
             toast.success("Filter added successfully!")
         }
 
@@ -175,7 +174,6 @@ function* cloneOrderAction(action) {
         }
 
     } catch (error) {
-        console.log(error, "this is oder id data")
         toast.error(`Please enter valid order id!`)
     }
 }

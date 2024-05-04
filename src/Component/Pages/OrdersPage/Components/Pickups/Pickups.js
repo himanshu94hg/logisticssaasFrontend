@@ -183,7 +183,6 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
 
     const handleClickAWB = (event, orders) => {
         event.preventDefault();
-        console.log(orders, "this is orders");
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
       };
@@ -214,7 +213,6 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
             window.location.href = 'https://www.tpcindia.com/Default.aspx';
         } else {
             window.location.href = '';
-            console.log("Courier partner is not recognized");
         }
     }
     
@@ -385,12 +383,12 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
+                                                <p className='details-on-hover anchor-awb ' onClick={handleClickAWB}>{row.awb_number ?? ""}
                                                   {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
 
                                                   
-                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row && row.courier_partner}</p>
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row && row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
