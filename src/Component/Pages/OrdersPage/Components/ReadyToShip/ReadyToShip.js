@@ -423,7 +423,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
 
-                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}>
                                                     <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' width={30} className='me-2' />
                                                     {row && row.courier_partner}
                                                 </p>
