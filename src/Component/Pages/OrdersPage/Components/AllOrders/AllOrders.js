@@ -391,7 +391,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                     <button className='btn main-button' style={{ width: '100%' }}>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
-                                                                : row?.status === "cancelled" ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span>
+                                                                : row?.status === "cancelled" ? <span onClick={() => openCloneSection(row?.id)}>Clone</span>
                                                                     : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
                                                                         : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
                                                     }</button>
@@ -407,14 +407,14 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                         <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                     </>
                                                                 )}
-                                                                <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
+                                                                <li onClick={() => openCloneSection(row?.id)}>Clone</li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
                                                                         awb_numbers: [
                                                                             row?.awb_number]
                                                                     }
                                                                 })}>Cancel Order</li>
-                                                                    <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                    <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete</li>
                                                                  {row?.status === "shipped" &&
                                                                     <li onClick={() => handleShipReassign(row?.id)}>Reassign</li>
                                                                 }

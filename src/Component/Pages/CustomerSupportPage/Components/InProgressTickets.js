@@ -62,20 +62,24 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
     };
 
     const handleCloseOpenTicket = (id, status) => {
-        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: {
-            status:status,
-            ticket_ids:[id]
-        } })
+        dispatch({
+            type: "UPDATE_TICKET_STATUS_ACTION", payload: {
+                status: status,
+                ticket_ids: [id]
+            }
+        })
     }
 
     const handleEscalateTicket = (id) => {
-        dispatch({ type: "TICKET_ESCALATE_ACTION", payload: {
-            ticket_ids:[id]
-        } })
+        dispatch({
+            type: "TICKET_ESCALATE_ACTION", payload: {
+                ticket_ids: [id]
+            }
+        })
     }
-  
 
-console.log(allTicket,"activeTab")
+
+    console.log(allTicket, "activeTab")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -95,9 +99,9 @@ console.log(allTicket,"activeTab")
                                 <th>Severity</th>
                                 <th>Subcategory</th>
                                 <th>Ticket Status</th>
-                                <th>Created at</th>
-                                <th>Resolution Due By</th>
-                                <th>Last Updated</th>
+                                <th>Due Date</th>
+                                <th>Created</th>
+                                <th>Updated</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
@@ -129,7 +133,7 @@ console.log(allTicket,"activeTab")
                                         <td>
                                             {/* AWB */}
                                             <div className='cell-inside-box'>
-                                            <span className={`fw-bold ${item?.severity==="critical"?"text-danger":item?.severity==="high"?"text-warning":item?.severity==="low"?"text-success":"text-info"}`}> {capatlize(item?.severity)}</span>
+                                                <span className={`fw-bold ${item?.severity === "critical" ? "text-danger" : item?.severity === "high" ? "text-warning" : item?.severity === "low" ? "text-success" : "text-info"}`}> {capatlize(item?.severity)}</span>
 
                                             </div>
                                         </td>
@@ -148,13 +152,13 @@ console.log(allTicket,"activeTab")
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {moment(item?.created_at).format("DD MMM YYYY")}
+                                                {moment(item?.resolution_due_by).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {moment(item?.resolution_due_by).format("DD MMM YYYY")}
+                                                {moment(item?.created_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>

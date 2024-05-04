@@ -158,7 +158,7 @@ useEffect(()=>{
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type": activeTab === "All Orders" ? "" : activeTab ,
+                "type": activeTab === "All" ? "" : activeTab ,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -233,7 +233,7 @@ useEffect(()=>{
                         </div>
                         <ul className='ba-actions'>
 
-                            {activeTab === "All Orders" &&
+                            {activeTab === "All" &&
                                 <>
                                     <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                     <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>

@@ -95,9 +95,9 @@ console.log(activeTab,"activeTab")
                                 <th>Severity</th>
                                 <th>Subcategory</th>
                                 <th>Ticket Status</th>
-                                <th>Created at</th>
-                                <th>Resolution Due By</th>
-                                <th>Last Updated</th>
+                                <th>Due Date</th>
+                                <th>Created</th>
+                                <th>Updated</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
@@ -148,15 +148,16 @@ console.log(activeTab,"activeTab")
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {moment(item?.created_at).format("DD MMM YYYY")}
+                                                {moment(item?.resolution_due_by).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
-                                                {moment(item?.resolution_due_by).format("DD MMM YYYY")}
+                                                {moment(item?.created_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
+                                      
                                         <td>
                                             {/* last Updated */}
                                             <div className='cell-inside-box'>

@@ -69,7 +69,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded }) => {
           {label === "Customer" && <CustomerIcon />}
           {label === "Tools" && <ToolsIcons />}
           {label === "MIS" && <MISIcon />}
-          {label === "Customer Support" && <CustomerSupportIcon />}
+          {label === "Support" && <CustomerSupportIcon />}
           {/* Add other icons based on the menu item */}
 
 
@@ -116,7 +116,7 @@ const SideNav = () => {
     { to: "/Customer", label: "Customer" },
     { to: "/Tools", label: "Tools" },
     { to: "/MIS", label: "MIS" },
-    { to: "/CustomerSupport", label: "Customer Support" },
+    { to: "/CustomerSupport", label: "Support" },
   ];
 
   return (

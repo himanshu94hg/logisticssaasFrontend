@@ -93,10 +93,10 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
           {label === "OMS" && <OMSIcon />}
           {label === "Billing" && <BillingIcon />}
           {label === "Weight Reco." && <WeightRecordsIcon />}
-          {label === "Customer" && <CustomerIcon />}
+          {label === "Onboard" && <CustomerIcon />}
           {label === "Tools" && <ToolsIcons />}
           {label === "MIS" && <MISIcon />}
-          {label === "Customer Support" && <CustomerSupportIcon />}
+          {label === "Support" && <CustomerSupportIcon />}
           {label === "Settings" && <SettingsIcon />}
           {/* Add other icons based on the menu item */}
 
@@ -181,7 +181,6 @@ const SideNav = (props) => {
     },
     { to: "/billing", label: "Billing" },
     { to: "/weight-reconciliation", label: "Weight Reco." },
-    { to: "/customer", label: "Customer" },
     {
       to: "/Tools", label: "Tools", hasDropdown: true, dropdownLinks: [
         { to: "/shipping-rates", label: "Rate Card" },
@@ -193,8 +192,10 @@ const SideNav = (props) => {
       ],
     },
     { to: "/MIS", label: "MIS" },
-    { to: "/customer-support", label: "Customer Support" },
+    { to: "/customer-support", label: "Support" },
     { to: "/settings", label: "Settings" },
+    { to: "/customer", label: "Onboard" },
+
   ];
 
   const handleMenuItemClick = () => {
