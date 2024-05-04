@@ -46,15 +46,15 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "All Orders" ? "active" : ""}`}
+            <Nav.Link className={`${props.activeTab === "All" ? "active" : ""}`}
               onClick={() => {
-                props.setActiveTab("All Orders");
+                props.setActiveTab("All");
                 props.pageStatusSet(true)
               }}
             >
               <div className="navItemsContainer">
                 {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                All Orders
+                All
               </div>
             </Nav.Link>
             <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}

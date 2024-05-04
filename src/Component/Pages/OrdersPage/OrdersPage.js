@@ -165,7 +165,7 @@ const OrdersPage = () => {
 
     const handleSearch = () => {
         if (validateData()) {
-            axios.get(`https://dev.shipease.in/orders-api/orders/?courier_status=${activeTab === "All Orders" ? "" : activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`https://dev.shipease.in/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -207,7 +207,7 @@ const OrdersPage = () => {
         setHandleResetFrom(true)
         setItemsPerPage(20)
         setQueryParamTemp({})
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '':activeTab === "Ready to Ship"?"Ready_to_ship":activeTab==="Pickup"?"manifest" : activeTab}`, {
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '':activeTab === "Ready to Ship"?"Ready_to_ship":activeTab==="Pickup"?"manifest" : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -224,7 +224,7 @@ const OrdersPage = () => {
     useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
-            case "All Orders":
+            case "All":
                 apiUrl = `https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Unprocessable":
@@ -294,7 +294,7 @@ const OrdersPage = () => {
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
         axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
-            === "All Orders" ? '' : activeTab}&${value}`, {
+            === "All" ? '' : activeTab}&${value}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -380,8 +380,8 @@ const OrdersPage = () => {
             </div>}
 
             <div className='orders-section-tabs'>
-                {/* All Orders */}
-                <div className={`${activeTab === "All Orders" ? "d-block" : "d-none"}`}>
+                {/* All */}
+                <div className={`${activeTab === "All" ? "d-block" : "d-none"}`}>
                     <AllOrders
                         orders={orders}
                         activeTab={activeTab}

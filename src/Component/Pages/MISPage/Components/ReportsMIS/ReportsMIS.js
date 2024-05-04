@@ -43,7 +43,7 @@ const ReportsMIS = ({ activeTab }) => {
     const secondOptionsMap = {
         Orders: [
             { value: '', label: 'Select Option' },
-            { value: 'all_orders', label: 'All Orders' },
+            { value: 'all_orders', label: 'All' },
             { value: 'processing_orders', label: 'Processing Order' },
             { value: 'shipped_orders', label: 'Shipped Order' },
             { value: 'delivered_orders', label: 'Delivered Order' },
