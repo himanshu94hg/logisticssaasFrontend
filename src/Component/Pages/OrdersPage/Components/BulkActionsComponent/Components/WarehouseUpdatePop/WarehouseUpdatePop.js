@@ -102,10 +102,6 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse 
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
-
-
-    console.log(formData, "warehouseswarehouseswarehouses")
-
     return (
         <>
             <div className={`ba-pop-show warehouse-update ${UpdateWarehouse ? 'open' : ''}`}>

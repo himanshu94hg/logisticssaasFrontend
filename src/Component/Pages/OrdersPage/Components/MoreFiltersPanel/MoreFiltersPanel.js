@@ -92,7 +92,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             newErrors.end_date = 'End Date is required!';
         }
         setErrors(newErrors);
-        console.log(newErrors, "newErrorsnewErrorsnewErrorsnewErrors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -115,7 +114,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             .join('&');
 
-        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
 
         if ( SaveFilter && favName.trim() === "") {
             const validationErrors = {};
@@ -129,7 +127,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        if (saveFav) {
+        if (saveFav && SaveFilter) {
             dispatch({
                 type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
                     filter_query: encodedParams,
@@ -160,8 +158,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setErrors({})
         }
     }, [activeTab])
-
-    console.log("clearStateclearState", filterParams)
 
     const handleChange = (name, value) => {
         if (name === "start_date" || name === "end_date") {

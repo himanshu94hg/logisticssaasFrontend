@@ -43,9 +43,6 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
 
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
-    console.log(bulkAwb, "datadatadatadata")
-
-
     useEffect(() => {
         if (orderdelete) {
             setSelectAll(false)
@@ -212,7 +209,6 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
 
     const handleClickAWB = (event, orders) => {
         event.preventDefault();
-        console.log(orders, "this is orders");
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
     };
@@ -245,7 +241,6 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
             window.location.href = 'https://www.tpcindia.com/Default.aspx';
         }  else {
             window.location.href = '';
-            console.log("Courier partner is not recognized");
         }
     }
     

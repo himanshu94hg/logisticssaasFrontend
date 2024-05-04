@@ -202,13 +202,12 @@ const OrdersPage = () => {
         });
         setQueryParamTemp(queryParams);
     };
-
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setItemsPerPage(20)
         setQueryParamTemp({})
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '' : activeTab}`, {
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '':activeTab === "Ready to Ship"?"Ready_to_ship":activeTab==="Pickup"?"manifest" : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

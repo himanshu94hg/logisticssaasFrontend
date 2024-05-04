@@ -77,7 +77,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             }
         }
 
-        console.log(data, "datadatadatadata")
     };
 
     const handleShipNow = (orderId) => {
@@ -312,7 +311,13 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                             <ul>
                                                                 <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
                                                                 <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) }}>Add Tag</li>
-                                                                <li>Verify Order</li>
+                                                                <li onClick={() =>
+                                                                    dispatch({
+                                                                        type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
+                                                                            order_ids:[row?.id],
+                                                                        }
+                                                                    })
+                                                                }>Verify Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
                                                                 <li onClick={() =>

@@ -183,7 +183,6 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
 
     const handleClickAWB = (event, orders) => {
         event.preventDefault();
-        console.log(orders, "this is orders");
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
       };
@@ -214,7 +213,6 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb,setbulkAwb, setBul
             window.location.href = 'https://www.tpcindia.com/Default.aspx';
         } else {
             window.location.href = '';
-            console.log("Courier partner is not recognized");
         }
     }
     
