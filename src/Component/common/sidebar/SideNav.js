@@ -93,7 +93,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
           {label === "OMS" && <OMSIcon />}
           {label === "Billing" && <BillingIcon />}
           {label === "Weight Reco." && <WeightRecordsIcon />}
-          {label === "Onboard" && <CustomerIcon />}
+          {label === "Onboarding" && <CustomerIcon />}
           {label === "Tools" && <ToolsIcons />}
           {label === "MIS" && <MISIcon />}
           {label === "Support" && <CustomerSupportIcon />}
@@ -194,7 +194,7 @@ const SideNav = (props) => {
     { to: "/MIS", label: "MIS" },
     { to: "/customer-support", label: "Support" },
     { to: "/settings", label: "Settings" },
-    { to: "/customer", label: "Onboard" },
+    { to: "/customer", label: "Onboarding" },
 
   ];
 
