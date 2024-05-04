@@ -5,16 +5,18 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch,useSelector } from 'react-redux';
 import PieChart from './PieChart';
 import StarRating from './StarRating';
-import './SingleShipPop';
-import {  toast } from 'react-toastify';
+//import './SingleShipPop';
 import 'react-toastify/dist/ReactToastify.css'; 
 
-const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
+
+
+const SingleShipPopReassign = ({ reassignCard,SingleShipReassign, setSingleShipReassign,orderId}) => {
     const navigation = useNavigate();
     const dispatch = useDispatch()
     const [currentDate, setCurrentDate] = useState(new Date());
     const [shipingData, setShipingData] = useState(false);
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
+
 
     const addDays = (date, days) => {
         const result = new Date(date);
@@ -28,26 +30,27 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     };
     const dateAfter2Days = addDays(currentDate, 2);
 
-    const handleSubmit = (option) => {
+     const handleSubmit = (option) => {
         dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: {"courier":option,"order_id":orderId} });
         setShipingData(true);
     };
 
     useEffect(() => {
+        console.log(shipingData,"All shipping Data Reflect",moreorderCard)
         if(shipingData === true)
         {
             if (moreorderCard?.status) {
-                setSingleShip(false);
+                setSingleShipReassign(false);
             }
             setShipingData(false);
         }
     }, [moreorderCard]);
     
     const handleClose = () => {
-        setSingleShip(false);
+        setSingleShipReassign(false);
     };
     return (
-        <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
+        <section className={`single-ship-container ${SingleShipReassign ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p10 align-items-center'>
                 <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
@@ -116,4 +119,4 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     );
 }
 
-export default SingleShipPop
+export default SingleShipPopReassign

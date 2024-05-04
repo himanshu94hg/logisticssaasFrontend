@@ -22,6 +22,7 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { toast } from 'react-toastify';
 import NoData from '../../../../common/noData';
+import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -123,47 +124,6 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                {/* <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button'>Export</button>
-                        <div className='action-options bulk-actions ms-2'>
-                            <div className='btn main-button'>
-                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
-                            </div>
-                            <div className='action-list'>
-                                <ul>
-                                    <li>Bulk Ship</li>
-                                    <li>Mark as Verified</li>
-                                    <li>Add Bulk Tag</li>
-                                    <li className='action-hr'></li>
-                                    <li>Bulk Weight/Dimension Update</li>
-                                    <li>Bulk Warehouse Update</li>
-                                    <li className='action-hr'></li>
-                                    <li>Bulk Delete Order</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
@@ -180,7 +140,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
@@ -245,7 +205,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -287,6 +247,13 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
 
                                                 </div>
                                             </td>
+                                        </td>
+                                        <td>
+                                            <div className='cell-inside-box'>
+                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
+                                                </p>
+                                                <p className='mt-1'>{row.courier_partner}</p>
+                                            </div>
                                         </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}

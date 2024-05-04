@@ -43,6 +43,7 @@ const OrdersPage = () => {
     let authToken = Cookies.get("access_token")
     const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
+    const [manifestOrders, setManifestOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [orderId, setOrderId] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
@@ -57,6 +58,7 @@ const OrdersPage = () => {
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [bulkAwb, setbulkAwb] = useState([]);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [resetValue, setResetValue] = useState(new Date());
@@ -78,6 +80,7 @@ const OrdersPage = () => {
             setQueryParamTemp({});
             setQueryParamSearch(null);
             setItemsPerPage(20)
+            setbulkAwb([])
         }
     }, [activeTab])
 
@@ -99,8 +102,9 @@ const OrdersPage = () => {
     }, [exportCard])
 
     useEffect(() => {
-        if (orderdelete) {
+        if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
             setSelectedRows([])
+            setbulkAwb([])
             setBulkActionShow(false)
         }
     }, [orderdelete])
@@ -151,7 +155,6 @@ const OrdersPage = () => {
         }
 
         setErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -200,12 +203,10 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-    console.log(queryParamTemp, "queryStringqueryString")
-
-
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
+        setItemsPerPage(20)
         setQueryParamTemp({})
         axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All Orders" ? '' : activeTab}`, {
             headers: {
@@ -254,9 +255,6 @@ const OrdersPage = () => {
 
             const decodedURL = decodeURIComponent(queryString);
 
-            console.log(decodedURL, "decodedURLdecodedURL");
-
-
             if (decodedURL) {
                 apiUrl += '&' + decodedURL;
             }
@@ -276,10 +274,25 @@ const OrdersPage = () => {
         // }
     }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
+  useEffect(() => {
+   if (activeTab === "Manifest") {
+    axios.get(`https://dev.shipease.in/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
+    headers: {
+        Authorization: `Bearer ${authToken}`
+    }
+})
+    .then(response => {
+        setTotalItems(response?.data?.count)
+        setManifestOrders(response.data.results);
+    })
+    .catch(error => {
+        toast.error("Api Call failed!")
+    });
+   }
+  }, [activeTab ,itemsPerPage ,currentPage])
+    
 
     const handleQueryfilter = (value) => {
-        // setSearchValue("")
-        // setHandleResetFrom(true)
         setQueryParamTemp({})
         axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
             === "All Orders" ? '' : activeTab}&${value}`, {
@@ -295,6 +308,8 @@ const OrdersPage = () => {
                 toast.error("Api Call failed!")
             });
     }
+
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -307,7 +322,25 @@ const OrdersPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input
+                                type="search"
+                                value={searchValue}
+                                onChange={(e) => setSearchValue(e.target.value)}
+                                maxLength={50}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
+                                className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`}
+                            />
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
@@ -380,6 +413,8 @@ const OrdersPage = () => {
                     <Processing
                         orders={orders}
                         activeTab={activeTab}
+                        bulkAwb={bulkAwb}
+                        setbulkAwb={setbulkAwb}
                         setOrderId={setOrderId}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
@@ -396,6 +431,8 @@ const OrdersPage = () => {
                 {/* ReadyToShip */}
                 <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
                     <ReadyToShip
+                        bulkAwb={bulkAwb}
+                        setbulkAwb={setbulkAwb}
                         orders={orders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
@@ -410,6 +447,8 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Pickup" ? "d-block" : "d-none"}`}>
                     <Pickups
                         orders={orders}
+                        bulkAwb={bulkAwb}
+                        setbulkAwb={setbulkAwb}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
@@ -422,6 +461,8 @@ const OrdersPage = () => {
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest
+                        manifestOrders = {manifestOrders}
+                        setManifestOrders = {setManifestOrders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
@@ -451,6 +492,8 @@ const OrdersPage = () => {
                 {BulkActionShow && (
                     <BulkActionsComponent
                         activeTab={activeTab}
+                        bulkAwb={bulkAwb}
+                        setbulkAwb={setbulkAwb}
                         selectedRows={selectedRows}
                         setaddTagShow={setaddTagShow}
                         setSelectedRows={setSelectedRows}

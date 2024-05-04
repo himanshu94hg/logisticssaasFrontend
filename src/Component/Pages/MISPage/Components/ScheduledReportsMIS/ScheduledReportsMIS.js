@@ -117,13 +117,13 @@ useEffect(() => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
+                               {/*} <th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
-                                </th>
+    </th>*/}
                                 <th style={{ width: '25%' }}>Report Title</th>
                                 <th>Report Type</th>
                                 <th>Created</th>
@@ -139,13 +139,13 @@ useEffect(() => {
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
+                                        {/*<td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
                                                 onChange={() => handleSelectRow(row.id)}
                                             />
-                                        </td>
+                            </td>*/}
                                         <td>
                                             <div className='cell-inside-box'>
                                                 {row?.report_title}

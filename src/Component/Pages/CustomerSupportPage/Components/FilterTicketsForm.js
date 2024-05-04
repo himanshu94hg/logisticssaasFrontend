@@ -13,6 +13,7 @@ const FilterTicketsForm = (props) => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [resolutionDate, setResolutionDate] = useState();
   const [createdDate, setCreatedDate] = useState();
+  const [selectedSeverity, setSelectedSeverity] = useState('');
 
   const authToken = Cookies.get("access_token")
 
@@ -53,6 +54,9 @@ const FilterTicketsForm = (props) => {
     setSelectedStatus(selectedOption.value);
   };
 
+  const handleSeverityChange = (selectedOption) => {
+    setSelectedSeverity(selectedOption.value);
+  };
 
   const handleCreatedChange = (date) => {
     setCreatedDate(date);
@@ -66,7 +70,7 @@ const FilterTicketsForm = (props) => {
 
 
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter", createdDate)
+    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter", createdDate, selectedSeverity)
   };
 
   const handleReset = () => {
@@ -75,6 +79,7 @@ const FilterTicketsForm = (props) => {
     setResolutionDate(null);
     setEndDate(null);
     setCreatedDate(null)
+    setSelectedSeverity('')
     // props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
   };
   const StatusOptions = [
@@ -84,6 +89,13 @@ const FilterTicketsForm = (props) => {
     { value: 'Closed', label: 'Closed' },
   ];
 
+  const SeverityOptions = [
+    { value: 'All', label: 'All' },
+    { value: 'Critical', label: 'Critical' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'High', label: 'High' },
+    { value: 'Low', label: 'Low' },
+  ];
   const handleKeyDown = (e) => {
     const allowedCharacters = /[0-9/]/;
     if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -106,6 +118,11 @@ const FilterTicketsForm = (props) => {
           options={StatusOptions}
           onChange={handleStatusChange}
           placeholder='Select Status'
+        />
+          <Select
+          options={SeverityOptions}
+          onChange={handleSeverityChange}
+          placeholder='Select Severity'
         />
       </div>
 

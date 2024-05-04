@@ -11,7 +11,7 @@ import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb,setbulkAwb,selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -96,11 +96,20 @@ useEffect(()=>{
         })
     }
     const bulkCancelled = () => {
-        dispatch({
-            type: "BULK_CANCEL_ORDER_ACTION", payload: {
-                awb_numbers: selectedRows,
-            }
-        })
+        if(activeTab==="Processing"||activeTab==="Pickups"){
+            dispatch({
+                type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                    order_ids: selectedRows,
+                }
+            })
+        }else{
+            dispatch({
+                type: "BULK_CANCEL_ORDER_ACTION", payload: {
+                    awb_numbers: bulkAwb,
+                }
+            })
+        }
+       
     }
     const generateManifest = () => {
         dispatch({
@@ -233,7 +242,7 @@ useEffect(()=>{
                                 <>
                                     <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                     <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    {/* <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li> */}
                                     <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={generateLabel}><span>Label</span></li>
                                     <li onClick={generateInvoice}><span>Invoice</span></li>

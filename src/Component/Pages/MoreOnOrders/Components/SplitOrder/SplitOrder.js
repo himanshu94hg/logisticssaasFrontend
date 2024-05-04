@@ -18,6 +18,7 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
+import { weightCalculation } from '../../../../../customFunction/functionLogic';
 
 const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -201,7 +202,7 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                                         {/* package  details */}
                                         <div className='cell-inside-box'>
                                             <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                            <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                            <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                 <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>

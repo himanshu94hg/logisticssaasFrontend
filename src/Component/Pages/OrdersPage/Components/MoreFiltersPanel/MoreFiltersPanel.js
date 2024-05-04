@@ -60,7 +60,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
-    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const { tagListData ,orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
 
@@ -83,8 +83,22 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFav(true)
     };
 
+    const validateFormData = () => {
+        const newErrors = {};
+        if (!filterParams.start_date) {
+            newErrors.start_date = 'Start Date is required!';
+        }
+        if ( !filterParams.end_date) {
+            newErrors.end_date = 'End Date is required!';
+        }
+        setErrors(newErrors);
+        console.log(newErrors, "newErrorsnewErrorsnewErrorsnewErrors")
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleSubmit = e => {
         e.preventDefault();
+       if(validateFormData()){
         const moment = require('moment');
 
         const encodedParams = Object.entries(filterParams)
@@ -103,6 +117,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
         console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
 
+        if ( SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            console.error(validationErrors,"Favorite name cannot be empty!");
+            return; 
+        }
+
         handleMoreFilter(filterParams)
         CloseSidePanel()
         if (saveFav) {
@@ -115,6 +139,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
         setSaveFilter(false)
         setFavName("")
+       }
     };
 
     useEffect(() => {
@@ -125,13 +150,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 status: "",
                 order_source: "",
                 courier_partner: "",
-                payment_type: "",
+                payment_type: null,
                 order_id: "",
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
                 pickup_address: ""
             })
+            setErrors({})
         }
     }, [activeTab])
 
@@ -144,20 +170,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
+        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag" || name === "payment_type") {
             let temp_data = ''
-            let temp = value.map((item) => {
-                temp_data += item.value + ","
+            let temp = value.map((item, index) => {
+                temp_data += item.value;
+                if (index !== value.length - 1) {
+                    temp_data += ",";
+                }
             })
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
-            }));
-        }
-        if (name === "payment_type") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value.value
             }));
         }
         if (name === "order_id" || name === "sku") {
@@ -169,7 +192,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         if (name === "sku_match_type") {
             setFilterParams(prev => ({
                 ...prev,
-                skuType: value
+                sku_match_type: value
             }))
         }
     };
@@ -205,6 +228,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [MoreFilters])
 
     useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "GET_ORDER_SOURCE_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
                 value: item.id,
@@ -224,7 +253,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 status: "",
                 order_source: "",
                 courier_partner: "",
-                payment_type: "",
+                payment_type: null,
                 order_id: "",
                 order_tag: "",
                 sku: "",
@@ -234,6 +263,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setHandleResetFrom(false)
             setSaveFilter(false)
             setSaveFav(true)
+            setErrors({})
         }
     }, [handleResetFrom])
 
@@ -251,6 +281,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             sku_match_type: "",
             pickup_address: ""
         })
+        setErrors({})
     };
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;
@@ -283,12 +314,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
-                                            className='input-field'
+                                            className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
+                                            placeholderText='Select Start Date'
                                         />
+                                         {/*{(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}*/}
                                     </div>
                                 </label>
                                 <label>
@@ -297,12 +330,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
                                             dateFormat='dd/MM/yyyy'
-                                            className='input-field'
+                                            className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.end_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("end_date", e)}
+                                            placeholderText='Select Start Date'
                                         />
+                                         {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
                                     </div>
                                 </label>
                             </div>
@@ -346,7 +381,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         defaultValue={null}
                                         // defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
-                                        value={paymentOptions.find(option => option.value === filterParams.payment_type)}
+                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
+                                        isMulti
                                     />
                                 </label>
                             </div>
@@ -387,7 +423,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     Single SKU
                                     <input
                                         type="radio"
-                                        name="skuType"
+                                        name="sku_match_type"
                                         id="singleSku"
                                         value="single"
                                         // checked={filterParams.skuType === "single"}
@@ -398,7 +434,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     Multi SKU
                                     <input
                                         type="radio"
-                                        name="skuType"
+                                        name="sku_match_type"
                                         id="multiSku"
                                         value="multi"
                                         // checked={filterParams.skuType === "multi"}
@@ -409,7 +445,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     Match Exact
                                     <input
                                         type="radio"
-                                        name="skuType"
+                                        name="sku_match_type"
                                         id="matchExact"
                                         value="exact"
                                         // checked={filterParams.skuType === "exact"}
@@ -441,7 +477,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
                                     <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
-                                
+
                                 {/*errors.favName && <span className='error-text'></span>*/}
                                
                             </label>

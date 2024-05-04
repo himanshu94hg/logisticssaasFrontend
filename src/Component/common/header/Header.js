@@ -22,13 +22,17 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import UserImageIcon from "./Icons/UserImageIcon";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
+import { useReactToPrint } from "react-to-print";
 
 export default function Header(props) {
   const navigate = useNavigate()
   const [inputValue, setInputValue] = useState('');
   const sellerData = Cookies.get("user_id")
   let authToken = Cookies.get("access_token")
+  const [userData,setUserData]=useState(null)
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+
+  console.log("userDatauserDatauserData",userData?.first_name);
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -49,10 +53,10 @@ export default function Header(props) {
     var1: null,
     var2: null,
   });
-  
+
   const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
   const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
-  
+
   useEffect(() => {
     setTemp(prev => ({
       ...prev,
@@ -60,8 +64,24 @@ export default function Header(props) {
       var2: paymentSetCard
     }));
   }, [paymentCard, paymentSetCard]);
+
+  useEffect(() => {
+    const authToken = Cookies.get("access_token");
+    const fetchData = async () => {
+        try {
+            const response = await axios.get(`https://dev.shipease.in/core-api/seller/get-seller-profile/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            });
+            setUserData(response.data); 
+        } catch (error) {
+            console.error("Error fetching data:", error);
+        }
+    };
+    fetchData();
+  }, [])
   
-  console.log(temp, "temptemp");
 
   return (
     <Navbar
@@ -145,7 +165,7 @@ export default function Header(props) {
                 className="user-image-container"
               >
                 <NavDropdown.Item eventKey="4.1">
-                  Hello, Himanshu
+                  Hello, {userData?.first_name || "Seller"}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">

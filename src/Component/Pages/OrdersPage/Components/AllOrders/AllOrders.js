@@ -29,11 +29,13 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
+import SingleShipPopReassign from './SingleShipPopReassign';
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
     useEffect(() => {
         if (orderdelete) {
@@ -132,12 +134,20 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
     };
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
+    const [SingleShipReassign, setSingleShipReassign] = useState(false)
 
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
         setSingleShip(true);
     };
+
+    const handleShipReassign = (orderId) => {
+        setSelectedOrderId(orderId);
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShipReassign(true);
+    };
+
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
@@ -190,7 +200,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 checked={selectAll}
                                                 onChange={handleSelectAll}
                                             />
-                                            <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                         </div>
                                     </th>
                                     <th style={{ width: '20%' }}>Order Details</th>
@@ -218,7 +227,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 />
                                             </td>
                                             <td>
-                                                {/* order detail */}
                                                 <div className='cell-inside-box'>
                                                     <p className=''>
                                                         {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -274,7 +282,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* customer detail */}
                                                 <div className='cell-inside-box'>
                                                     <p>{row?.shipping_detail?.recipient_name}</p>
                                                     <p>{row?.shipping_detail?.mobile_number ?? null}
@@ -288,9 +295,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* package  details */}
                                                 <div className='cell-inside-box'>
-                                                    {/* <p className='width-eclipse'>{row.order_products.product_name}</p> */}
                                                     <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
@@ -310,20 +315,17 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* payment section here */}
                                                 <div className='cell-inside-box'>
                                                     <p>&#x20B9; {row?.invoice_amount}</p>
                                                     <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                                 </div>
                                             </td>
-                                            {/* pickup adress */}
                                             <td className='align-middle'>
                                                 <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                     {row?.pickup_details ? (
                                                         <p>{row?.pickup_details?.p_warehouse_name}
                                                             <span className='details-on-hover ms-2'>
                                                                 <InfoIcon />
-                                                                {/* {!row?.pickup_details?.p_warehouse_name && ( */}
                                                                 <span style={{ width: '250px' }}>
                                                                     {row?.pickup_details?.p_address_line1},
                                                                     {row?.pickup_details?.p_address_line2},<br />
@@ -338,7 +340,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                     ) : ''}
                                                 </div>
                                             </td>
-                                            {/* shiping section here */}
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
@@ -346,7 +347,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 </div>
                                             </td>
                                             <td className='align-middle'>
-                                                {/*  Status section  */}
                                                 <p className='order-Status-box'>{row?.status || 'New'}</p>
                                             </td>
                                             <td className='align-middle'>
@@ -364,14 +364,12 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                         </div>
                                                         {row.status !== "cancelled" ? <div className='action-list'>
                                                             <ul>
-                                                                {row?.courier_partner != null && (
+                                                                {row?.courier_partner != null || row.status !=="pending" && (
                                                                     <>
                                                                         <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                         <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                     </>
                                                                 )}
-                                                                <li>Reassign</li>
-                                                                {/* <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li> */}
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
@@ -379,12 +377,12 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                             row?.awb_number]
                                                                     }
                                                                 })}>Cancel Order</li>
-                                                                {row?.status === "pending" &&
                                                                     <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                 {row?.status === "shipped" &&
+                                                                    <li onClick={() => handleShipReassign(row?.id)}>Reassign</li>
                                                                 }
                                                             </ul>
                                                         </div> : ""}
-
                                                     </div>
                                                 </div>
                                             </td>
@@ -396,6 +394,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                         {orders?.length === 0 && <NoData />}
                     </div>
                     <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                    <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
                 </div>
             </section>
         </>

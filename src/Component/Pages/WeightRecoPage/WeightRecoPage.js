@@ -41,9 +41,11 @@ const WeightRecoPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchValue, setSearchValue] = useState("")
     const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryName, setQueryName] = useState([])
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
 
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
     const { weightData, holdData, setteledData } = recoSectionReducer;
@@ -127,7 +129,31 @@ const WeightRecoPage = () => {
 
     const handleReset = () => {
         setSearchValue("")
+        setHandleResetFrom(true)
+        if(activeTab === "Weight Reconciliation"){
+            dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        } else if(activeTab === "Settled Reconciliation"){
+            dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        } else if(activeTab === "On Hold Reconciliation"){
+            dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        }
     }
+
+    const handleQueryfilter = (value) => {
+        // setSearchValue("")
+        // setHandleResetFrom(true)
+        setQueryParamTemp({})
+    }
+
+    useEffect(() => {
+        if (favListData) {
+            let temp = [];
+            favListData.map((item) => {
+                temp.push(item)
+            })
+            setQueryName(temp)
+        }
+    }, [favListData])
 
     return (
         <>
@@ -157,11 +183,14 @@ const WeightRecoPage = () => {
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
-                                <li>Filter 1</li>
-                                <li>Filter 2</li>
-                                <li>Filter 3</li>
-                                <li>Filter 4</li>
+                            <ul 
+                            className="dropdown-menu" 
+                            style={{
+                                 paddingInline: '12px', 
+                                 minWidth: '190px' 
+                            }}
+                            >
+                              {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
@@ -222,6 +251,8 @@ const WeightRecoPage = () => {
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
+                handleResetFrom={handleResetFrom}
+                setHandleResetFrom={setHandleResetFrom}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
         </>

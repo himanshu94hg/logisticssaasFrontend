@@ -8,6 +8,8 @@ import RazorpayImg from '../../../assets/image/logo/Razorpay.png';
 import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg'
+import Cookies from "js-cookie"
+
 
 const WalletRechargeComponent = (props) => {
     const dispatch = useDispatch()
@@ -15,10 +17,14 @@ const WalletRechargeComponent = (props) => {
     const [paymentMode, setPaymentMode] = useState('credit_card');
     const [couponCode, setCouponCode] = useState('');
     const [Razorpay, isLoaded] = useRazorpay();
+    const token = Cookies.get("access_token")
 
     useEffect(() => {
-        dispatch({ type: "PAYMENT_DATA_ACTION" });
-        dispatch({ type: "CONFIGURATION_DATA_ACTION" });
+        if (token) {
+            dispatch({ type: "PAYMENT_DATA_ACTION" });
+            dispatch({ type: "CONFIGURATION_DATA_ACTION" });
+        }
+
     }, [dispatch]);
 
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)

@@ -119,6 +119,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-4'>Product Details</h3>
+                    {console.log("Product Details:", formData.product_details)}
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
@@ -129,6 +130,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                          className={`input-field ${(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) ? 'input-field-error' : ''}`}
                                         placeholder="Enter your product name"
                                         type="text"
+                                        maxLength={100}
                                         value={product.product_name}
                                         onChange={(e) => handleProductNameChange(e, index)}
                                         onKeyPress={(e) => {
@@ -180,7 +182,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
+                                        type="text" value={product.unit_price} onChange={(e) => handleChange(e, 'unit_price', index)}
                                         onKeyPress={(e) => {
                                             const allowedCharacters = /^[0-9\b.]+$/;
                                             if (!allowedCharacters.test(e.key)) {
@@ -196,6 +198,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         className={`input-field ${(errors[`quantity_${index}`] || editErrors?.quantity) ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
+                                        maxLength={6}
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
                                         type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"}
                                         onKeyPress={(e) => {
@@ -212,6 +215,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         type="text"
                                         className={`input-field ${(errors[`sku_${index}`] || editErrors?.[`sku_${index}`]) ? 'input-field-error' : ''}`}
                                         value={product.sku}
+                                        maxLength={50}
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />

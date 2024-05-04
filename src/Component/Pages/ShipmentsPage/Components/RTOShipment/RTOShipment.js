@@ -205,11 +205,11 @@ const RTOShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionSho
                                                      {/* <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} /> */}
                                                      <InfoIcon onClick={() => handleShow(row)} />
                                                 </p>
-                                                {row?.ndr_details.length > 0 && (
+                                                {/* {row?.ndr_details.length > 0 && (
                                                     row.ndr_details.map((detail, index) => (
                                                         <p key={index}>NDR Reason: {detail.reason}</p>
                                                     ))
-                                                )}
+                                                )} */}
                                             </div>
                                         </td>
                                         <td>

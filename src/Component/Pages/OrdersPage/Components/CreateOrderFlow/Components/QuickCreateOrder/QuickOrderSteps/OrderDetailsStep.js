@@ -140,6 +140,18 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
+                                maxLength={100}
+                                 onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                             {errors.customer_order_number && <div className="custom-error">{errors.customer_order_number}</div>}
                         </label>

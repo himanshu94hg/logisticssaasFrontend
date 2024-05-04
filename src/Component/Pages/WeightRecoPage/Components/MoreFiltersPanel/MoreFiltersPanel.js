@@ -7,6 +7,8 @@ import Select from 'react-select';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -30,10 +32,6 @@ const OrderStatus = [
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "cod" },
-]
-
-const Ordertags = [
-    { label: "Tag 1", value: "Tag1" },
 ];
 
 const CourierPartner = [
@@ -44,16 +42,20 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
     const [location, setLocation] = useState('');
     const [SaveFilter, setSaveFilter] = useState(false)
     const [clearState, setClearState] = useState(false)
-    const [pickupAddresses, setPickupAddresses] = useState([
-
-    ]);
+    const [pickupAddresses, setPickupAddresses] = useState([]);
+    const dispatch = useDispatch()
+    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const [orderTag, setorderTag] = useState([]);
+    const [saveFav, setSaveFav] = useState(false);
+    const [favName, setFavName] = useState("");
+    const [errors, setErrors] = useState({})
 
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
@@ -61,14 +63,51 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleCheckboxChange = () => {
         setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
     };
 
     const handleSubmit = e => {
         e.preventDefault();
+        const moment = require('moment');
+
+        const encodedParams = Object.entries(filterParams)
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/,'');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
+            .join('&');
+
+        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
+
+        if ( SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            console.error(validationErrors,"Favorite name cannot be empty!");
+            return; 
+        }
+
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        setClearState(true)
-
+        if (saveFav) {
+            dispatch({
+                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                    filter_query: encodedParams,
+                    filter_name: favName
+                }
+            })
+        }
+        setSaveFilter(false)
+        setFavName("")
     };
 
     const [filterParams, setFilterParams] = useState({
@@ -79,7 +118,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         courier_partner: "",
         payment_type: "",
         order_id: "",
-        // order_tag: ""
+        order_tag: "",
+        sku: "",
+        sku_match_type: "",
+        pickup_address: ""
     })
 
     console.log(activeTab,"this is a activeTabactiveTabactiveTabactiveTab",filterParams)
@@ -94,8 +136,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 courier_partner: "",
                 payment_type: "",
                 order_id: "",
-                order_tag: ""
+                order_tag: "",
+                sku: "",
+                sku_match_type: "",
+                pickup_address: ""
             })
+            setErrors({})
         }
     }, [activeTab,clearState])
 
@@ -106,7 +152,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         }
-        if (name === "status") {
+        if (name === "status" || name === "order_tag" || name === "pickup_address") {
             let temp_data = ''
             let temp = value.map((item) => {
                 temp_data += item.value + ","
@@ -142,11 +188,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value.value
             }));
         }
-        if (name === "order_id") {
+        if (name === "order_id" || name === "sku") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
             }));
+        }
+        if (name === "sku_match_type") {
+            setFilterParams(prev => ({
+                ...prev,
+                skuType: value
+            }))
         }
     };
 
@@ -175,6 +227,28 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     }, [MoreFilters, sellerData, authToken]);
 
+    useEffect(() => {
+        if (handleResetFrom) {
+            setFilterParams({
+                start_date: null,
+                end_date: null,
+                status: "",
+                order_source: "",
+                courier_partner: "",
+                payment_type: null,
+                order_id: "",
+                order_tag: "",
+                sku: "",
+                sku_match_type: "",
+                pickup_address: ""
+            })
+            setHandleResetFrom(false)
+            setSaveFilter(false)
+            setSaveFav(true)
+            setErrors({})
+        }
+    }, [handleResetFrom])
+
     const handleReset = () => {
         setFilterParams({
             start_date: null,
@@ -182,11 +256,36 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             status: "",
             order_source: "",
             courier_partner: "",
-            payment_type: "",
+            payment_type: null,
             order_id: "",
-            order_tag: ""
-        })
+            order_tag: "",
+            sku: "",
+            sku_match_type: "",
+            pickup_address: ""
+        });
+        setFavName("")
+        setSaveFav(false)
+        setSaveFilter(false)
+        setErrors({})
     };
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setorderTag(formattedData);
+        } else {
+            setorderTag([]);
+        }
+    }, [tagListData]);
 
     return (
         <>
@@ -265,27 +364,34 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label>Payment Option
                                     <Select
+                                        isMulti
                                         options={paymentOptions}
                                         defaultValue={filterParams?.payment_type}
                                         onChange={(e) => handleChange("payment_type", e)}
-                                        value={paymentOptions.find(option => option.value === filterParams.payment_type)}
+                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
+                                        isMulti
+                                        isSearchable
                                         options={pickupAddresses}
+                                        onChange={(e) => handleChange("pickup_address", e)}                                     
+                                        value={filterParams.pickup_address ? pickupAddresses.filter(option => filterParams.pickup_address.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
                             <div className='filter-row'>
                                 <label>Order Tag
                                     <Select
-                                        options={Ordertags}
                                         // onChange={(e) => handleChange(e, "courier_partner")}
                                         isMulti
                                         isSearchable
+                                        options={orderTag}
+                                        onChange={(e) => handleChange("order_tag", e)}
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -295,7 +401,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <input
                                         className='input-field'
                                         type="text"
+                                        value={filterParams.sku}
                                         placeholder='Enter SKU'
+                                        onChange={(e) => handleChange("sku", e)}
                                     // onChange={(e) => handleChange(e, "order_id")}
                                     />
                                 </label>
@@ -332,10 +440,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 <input
                                     type="checkbox"
                                     checked={SaveFilter}
+                                    value={SaveFilter}
                                     onChange={handleCheckboxChange}
                                 />
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className='input-field filter-name-ip' type="text" placeholder='Enter name for filter' />
+                                    <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter'  onChange={(e) => setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>
