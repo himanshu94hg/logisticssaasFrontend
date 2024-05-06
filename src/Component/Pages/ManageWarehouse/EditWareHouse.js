@@ -19,6 +19,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     const stateRef1 = useRef(null);
     const countryRef1 = useRef(null);
     const [SameRTO, setSameRTO] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
     const [formData, setFormData] = useState({
         warehouse_name: "",
         address_line1: "",
@@ -97,15 +98,74 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         }
     }, [wareHouseId])
 
+    const validateForm = () => {
+        console.log(formData.contact_number.length, "formData.contact_number.length")
+        let valid = true;
+        let errors = {};
+        if (!formData.warehouse_name.trim()) {
+            valid = false;
+            errors.warehouse_name = 'Enter Warehouse Name!';
+        }
+        if (!formData.contact_name.trim()) {
+            valid = false;
+            errors.contact_name = 'Enter Contact Person name!';
+        }
+        if (!formData.contact_number.trim()) {
+            valid = false;
+            errors.contact_number = 'Enter Contact number !';
+        } else if (formData.contact_number.length !== 10) {
+            valid = false;
+            errors.contact_number = 'Mobile number must be 10 digits.';
+        }
+        if (!formData.gst_number.trim()) {
+            valid = false;
+            errors.gst_number = 'Enter GST number !';
+        }
+        else if (formData.gst_number.length !== 15) {
+            valid = false;
+            errors.gst_number = 'GST number must be 15 digits.';
+        }
+
+        if (!formData.address_line1.trim()) {
+            valid = false;
+            errors.address_line1 = 'Enter Address 1!';
+        }
+        if (!formData.address_line2.trim()) {
+            valid = false;
+            errors.address_line2 = 'Enter Address 2!';
+        }
+        if (!formData.pincode.trim()) {
+            valid = false;
+            errors.pincode = 'Enter pincode!';
+        }
+        if (!formData.city.trim()) {
+            valid = false;
+            errors.city = 'Enter city name!';
+        }
+        if (!formData.state.trim()) {
+            valid = false;
+            errors.state = 'Enter state name!';
+        }
+        if (!formData.country.trim()) {
+            valid = false;
+            errors.country = 'Enter country name!';
+        }
+
+        setFormErrors(errors);
+        return valid;
+    };
+
     const handleSubmit = async (event) => {
         event.preventDefault();
-        dispatch({
-            type: "EDIT_WAREHOUSE_ACTION", payload: {
-                wareHouseId: wareHouseId,
-                formData: formData
-            }
-        })
-        setEditWarehouse(false)
+        if (validateForm() ) {
+            dispatch({
+                type: "EDIT_WAREHOUSE_ACTION", payload: {
+                    wareHouseId: wareHouseId,
+                    formData: formData
+                }
+            });
+            setEditWarehouse(false);
+        }
     };
 
     const handlePincodeChange = async () => {
@@ -183,7 +243,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
 
     const handleInputChange = (e, section) => {
         const { name, value } = e.target;
-        console.log(name, value, 'this is action data')
+
         if (section === "rto_details") {
             setFormData(prevState => ({
                 ...prevState,
@@ -193,12 +253,40 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                 }
             }));
         } else {
-            setFormData({
-                ...formData,
+            setFormData(prevState => ({
+                ...prevState,
                 [name]: value
-            });
+            }));
+        }
+
+        if (name === 'contact_number') {
+            if (value.length !== 10) {
+                setFormErrors(prevErrors => ({
+                    ...prevErrors,
+                    [name]: 'Mobile number must be 10 digits.'
+                }));
+            } else {
+                setFormErrors(prevErrors => ({
+                    ...prevErrors,
+                    [name]: ''
+                }));
+            }
+        }
+        if (name === 'gst_number') {
+            if (value.length !== 15) {
+                setFormErrors(prevErrors => ({
+                    ...prevErrors,
+                    [name]: 'GST number must be 15 digits.'
+                }));
+            } else {
+                setFormErrors(prevErrors => ({
+                    ...prevErrors,
+                    [name]: ''
+                }));
+            }
         }
     };
+
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
         setFormData(prevState => ({
@@ -206,6 +294,20 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             is_rto_same: !SameRTO
         }));
     };
+
+    const handleKeyPress = (e) => {
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        if (
+            e.key === ' ' &&
+            e.target.value.endsWith(' ')
+        ) {
+            e.preventDefault();
+        } else if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
+    console.log(formErrors, "this is a testing data")
+
     return (
         <>
             <form id="formSubmit" onSubmit={handleSubmit}>
@@ -213,7 +315,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                     <div className='mx-auto mb-3'>
                         <div className='d-flex gap-3'>
                             <label>
-                                Warehouse Name
+                                <span>Warehouse Name <span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     value={formData.warehouse_name}
@@ -221,10 +323,13 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     className={`input-field`}
                                     name="warehouse_name"
                                     placeholder='Enter Warehouse Name'
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
+                                <br />
+                                <span className="custom-error">{formErrors.warehouse_name}</span>
                             </label>
                             <label>
-                                Contact Person Name
+                                <span>Contact Person Name<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     value={formData.contact_name}
@@ -232,12 +337,14 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     className={`input-field`}
                                     name="contact_name"
                                     placeholder='Enter Contact Person Name'
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
+                                <span className="custom-error">{formErrors.contact_name}</span>
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
                             <label>
-                                Contact Number
+                                <span>Contact Number<span className='mandatory'> *</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field '
@@ -247,11 +354,11 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     </select>
                                     <input
                                         type="text"
-                                        className={`input-field`}
+                                        maxLength={10}
                                         name="contact_number"
+                                        className={`input-field`}
                                         placeholder='XXXXXXXXXX'
                                         value={formData.contact_number || ''}
-                                        maxLength={10}
                                         onChange={(e) => handleInputChange(e, "")}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
@@ -260,23 +367,25 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         }}
                                     />
                                 </div>
+                                <span className="custom-error">{formErrors.contact_number}</span>
                             </label>
                             <label>
-                                GST Number
+                                <span>GST Number<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
-                                    className={`input-field`}
-                                    name="gst_number"
-                                    placeholder='Enter GST Number'
                                     maxLength={15}
+                                    name="gst_number"
+                                    className={`input-field`}
+                                    placeholder='Enter GST Number'
                                     value={formData.gst_number || ''}
                                     onChange={(e) => handleInputChange(e, "")}
                                 />
+                                <span className="custom-error">{formErrors.gst_number}</span>
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
                             <label>
-                                Warehouse Address 1
+                                <span>Warehouse Address 1<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className={`input-field`}
@@ -284,10 +393,12 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     placeholder='Enter Warehouse Address 1'
                                     value={formData.address_line1 || ''}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
+                                <span className="custom-error">{formErrors.address_line1}</span>
                             </label>
                             <label>
-                                Warehouse Address 2
+                                <span>Warehouse Address 2<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className={`input-field`}
@@ -295,12 +406,14 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     placeholder='Enter Warehouse Address 2'
                                     value={formData.address_line2 || ''}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
+                                <span className="custom-error">{formErrors.address_line2}</span>
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
                             <label>
-                                Pincode
+                                <span>Pincode<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className={`input-field`}
@@ -316,9 +429,10 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     }}
                                     onChange={(e) => handleInputChange(e, "")}
                                 />
+                                <span className="custom-error">{formErrors.pincode}</span>
                             </label>
                             <label>
-                                City
+                                <span>City<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className='input-field'
@@ -327,12 +441,14 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     disabled
                                     value={formData.city || ''}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
+                                <span className="custom-error">{formErrors.city}</span>
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
                             <label>
-                                State
+                                <span>State<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className='input-field'
@@ -342,9 +458,10 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     value={formData.state || ''}
                                     onChange={(e) => handleInputChange(e, "")}
                                 />
+                                <span className="custom-error">{formErrors.state}</span>
                             </label>
                             <label>
-                                Country
+                                <span>Country<span className='mandatory'> *</span></span>
                                 <input
                                     type="text"
                                     className='input-field'
@@ -354,6 +471,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     value={formData.country || ''}
                                     onChange={(e) => handleInputChange(e, "")}
                                 />
+                                <span className="custom-error">{formErrors.country}</span>
                             </label>
                         </div>
                         <div className='d-flex gap-3 mt-3'>
@@ -367,6 +485,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     value={formData.support_email || ''}
                                     onChange={(e) => handleInputChange(e, "")}
                                 />
+                                {/* <span className="custom-error">{formErrors.support_email}</span> */}
                             </label>
                             <label>
                                 Support Phone
@@ -378,6 +497,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     value={formData.support_phone || ''}
                                     onChange={(e) => handleInputChange(e, "")}
                                 />
+                                {/* <span className="custom-error">{formErrors.support_phone}</span> */}
                             </label>
                         </div>
                         <hr />
@@ -401,6 +521,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Warehouse Name'
                                         value={formData.rto_details.warehouse_name || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                 </label>
                                 <label>
@@ -412,6 +533,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Contact Person Name'
                                         value={formData.rto_details.contact_person_name}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                 </label>
                             </div>
