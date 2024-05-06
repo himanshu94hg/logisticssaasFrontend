@@ -99,6 +99,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     }, [wareHouseId])
 
     const validateForm = () => {
+        console.log(formData.contact_number.length, "formData.contact_number.length")
         let valid = true;
         let errors = {};
         if (!formData.warehouse_name.trim()) {
@@ -112,11 +113,19 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         if (!formData.contact_number.trim()) {
             valid = false;
             errors.contact_number = 'Enter Contact number !';
+        } else if (formData.contact_number.length !== 10) {
+            valid = false;
+            errors.contact_number = 'Mobile number must be 10 digits.';
         }
         if (!formData.gst_number.trim()) {
             valid = false;
             errors.gst_number = 'Enter GST number !';
         }
+        else if (formData.gst_number.length !== 15) {
+            valid = false;
+            errors.gst_number = 'GST number must be 15 digits.';
+        }
+
         if (!formData.address_line1.trim()) {
             valid = false;
             errors.address_line1 = 'Enter Address 1!';
@@ -148,7 +157,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (validateForm()) {
+        if (validateForm() ) {
             dispatch({
                 type: "EDIT_WAREHOUSE_ACTION", payload: {
                     wareHouseId: wareHouseId,
@@ -286,6 +295,17 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         }));
     };
 
+    const handleKeyPress = (e) => {
+        const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        if (
+            e.key === ' ' &&
+            e.target.value.endsWith(' ')
+        ) {
+            e.preventDefault();
+        } else if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
     console.log(formErrors, "this is a testing data")
 
     return (
@@ -303,6 +323,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     className={`input-field`}
                                     name="warehouse_name"
                                     placeholder='Enter Warehouse Name'
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
                                 <br />
                                 <span className="custom-error">{formErrors.warehouse_name}</span>
@@ -316,6 +337,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     className={`input-field`}
                                     name="contact_name"
                                     placeholder='Enter Contact Person Name'
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
                                 <span className="custom-error">{formErrors.contact_name}</span>
                             </label>
@@ -371,6 +393,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     placeholder='Enter Warehouse Address 1'
                                     value={formData.address_line1 || ''}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
                                 <span className="custom-error">{formErrors.address_line1}</span>
                             </label>
@@ -383,6 +406,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     placeholder='Enter Warehouse Address 2'
                                     value={formData.address_line2 || ''}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
                                 <span className="custom-error">{formErrors.address_line2}</span>
                             </label>
@@ -417,6 +441,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     disabled
                                     value={formData.city || ''}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => handleKeyPress(e)}
                                 />
                                 <span className="custom-error">{formErrors.city}</span>
                             </label>
@@ -496,6 +521,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Warehouse Name'
                                         value={formData.rto_details.warehouse_name || ''}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                 </label>
                                 <label>
@@ -507,6 +533,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Contact Person Name'
                                         value={formData.rto_details.contact_person_name}
                                         onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                 </label>
                             </div>

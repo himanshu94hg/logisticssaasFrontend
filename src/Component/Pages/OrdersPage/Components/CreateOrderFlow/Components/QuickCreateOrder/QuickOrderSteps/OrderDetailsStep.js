@@ -141,7 +141,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
                                 maxLength={100}
-                                 onKeyPress={(e) => {
+                                onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
                                         e.key === ' ' &&
