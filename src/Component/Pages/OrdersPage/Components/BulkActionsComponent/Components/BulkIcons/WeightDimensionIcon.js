@@ -3,7 +3,7 @@ import React from 'react'
 const WeightDimensionIcon = () => {
     return (
         <>
-            <svg
+            {/* <svg
                 width={24}
                 height={24}
                 viewBox="0 0 512 512"
@@ -21,6 +21,40 @@ const WeightDimensionIcon = () => {
                         <rect width={512} height={512} fill="white" />
                     </clipPath>
                 </defs>
+            </svg> */}
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                version="1.1"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                width={24}
+                height={24}
+                x={0}
+                y={0}
+                viewBox="0 0 24 24"
+                style={{ enableBackground: "new 0 0 512 512" }}
+                xmlSpace="preserve"
+                className="hovered-paths"
+            >
+                <g>
+                    <linearGradient
+                        id="a"
+                        x1="6.093"
+                        x2="18.354"
+                        y1="23.005"
+                        y2="1.767"
+                        gradientUnits="userSpaceOnUse"
+                    >
+                        <stop stopOpacity={1} stopColor="#5433ff" offset={0} />
+                        <stop stopOpacity={1} stopColor="#1975c9" offset={1} />
+                    </linearGradient>
+                    <path
+                        fill="url(#a)"
+                        d="m21.287 19.495-2.348-9.048a1.746 1.746 0 0 0-1.66-1.197H14.75v-1.5h3.469c.805 0 1.503-.545 1.698-1.326l.5-2a1.737 1.737 0 0 0-.319-1.501 1.736 1.736 0 0 0-1.379-.673H5.281c-.543 0-1.046.245-1.379.673a1.737 1.737 0 0 0-.319 1.501l.5 2A1.748 1.748 0 0 0 5.781 7.75H9.25v1.5H6.721c-.755 0-1.422.481-1.674 1.245l-2.32 8.951a1.754 1.754 0 0 0 1.661 2.304h15.225a1.75 1.75 0 0 0 1.42-.728c.328-.455.418-1.044.255-1.527zM16.5 17c0 .965-.785 1.75-1.75 1.75h-5.5c-.965 0-1.75-.785-1.75-1.75v-.25c0-2.481 2.019-4.5 4.5-4.5s4.5 2.019 4.5 4.5zm-1.5-.25V17c0 .136-.114.25-.25.25h-2V15a.75.75 0 0 0-1.5 0v2.25h-2A.253.253 0 0 1 9 17v-.25c0-1.654 1.346-3 3-3s3 1.346 3 3z"
+                        opacity={1}
+                        data-original="url(#a)"
+                        className="hovered-path"
+                    />
+                </g>
             </svg>
 
         </>
