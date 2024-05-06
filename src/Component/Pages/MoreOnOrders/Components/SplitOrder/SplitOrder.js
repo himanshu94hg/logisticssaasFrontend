@@ -188,7 +188,7 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
                                     <td>
                                         {/* customer detail */}
                                         <div className='cell-inside-box'>
-                                            <p>{row?.customer_order_number}</p>
+                                        <p>{row?.shipping_detail?.recipient_name}</p>
                                             <p>{row?.shipping_detail?.mobile_number}
                                                 <span className='details-on-hover ms-2'>
                                                         <InfoIcon />

@@ -35,7 +35,6 @@ const ServiceabilityPage = () => {
     delivery_pincode: ''
   });
   const { shipeaseServicePincode, courierPartnerName, serviceAbility, serviceCourierPincode } = useSelector(state => state?.toolsSectionReducer)
-  console.log(serviceCourierPincode, "selectedOptionsselectedOptions")
   const handleChange = (selected) => {
     setSelectedOptions(selected);
   };
@@ -76,7 +75,6 @@ const ServiceabilityPage = () => {
     }
   };
 
-  console.log(pincodeError, "this is pincode error data")
 
   const getCourierAvalibility = (value) => {
     if (!validatePincode(zipcode)) {
@@ -135,7 +133,7 @@ const ServiceabilityPage = () => {
         pickup_pincode: '',
         delivery_pincode: ''
       })
-      setZipcode('')
+      // setZipcode('')
     }
   }, [serviceAbility])
 

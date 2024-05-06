@@ -27,3 +27,13 @@
     color: red;
     font-size:12px;
 }
+
+.serviceability-data-card{
+    display: grid;
+    column-gap: 20px;
+    grid-template-columns: auto auto auto;
+
+}
+.serviceability-data-card-box{
+    /* margin-right: 20px; */
+}

@@ -343,6 +343,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.other_details.reseller_name}
                                 onChange={(e) => handleReSeller(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
+                                maxLength={100}
+                                minLength={2}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                     if (
