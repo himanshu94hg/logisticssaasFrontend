@@ -21,9 +21,73 @@
 
 .login-section .signin {
     height: 100vh;
+    position: relative;
+}
+
+/* .login-section .signin .login-lc-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+} */
+
+.login-section .signin .login-logo-container {
+    position: absolute;
+    background-color: #fff;
+    top: 0;
+    left: 0;
+    width: fit-content;
+}
+
+.login-section .signin .login-logo-container::before {
+    /* content: "";
+    display: flex;
+    position: fixed;
+    width: 22rem;
+    height: 22rem;
+    background: linear-gradient(135deg, var(--primary-10), var(--primary-0));
+    border-radius: 77px;
+    bottom: -11rem;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    z-index: -1; */
+    content: "";
+    display: flex;
+    position: fixed;
+    width: 22rem;
+    height: 22rem;
+    background: linear-gradient(135deg, var(--bs-white), var(--bs-white));
+    border-radius: 77px;
+    top: -225px;
+    left: 69px;
+    transform: translateX(-50%) rotate(306deg);
+    z-index: -1;
+}
+
+.login-section .signin .login-logo-container img {
+    height: 24px;
+    z-index: 2;
+    position: absolute;
+    top: 2.5rem;
+    left: 1.5rem;
 }
 
 .login-section .left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    height: 100%;
+}
+
+.login-section .left-side img {
+    width: 117%;
+    height: auto;
+    margin-right: -70px;
+}
+
+
+.login-section .right-side {
     display: flex;
     align-items: center;
     justify-content: flex-end;
@@ -31,8 +95,8 @@
 
 
 .login-section .signin .content {
-    padding: 40px 100px;
-    min-width: 610px;
+    padding: 40px 48px;
+    min-width: 470px;
     min-height: 62vh;
     background: #fff;
     position: relative;
@@ -40,7 +104,7 @@
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    gap: 40px;
+    gap: 34px;
     border: 1px solid #d3d3d3;
     border-radius: 20px;
     margin-right: 80px;
