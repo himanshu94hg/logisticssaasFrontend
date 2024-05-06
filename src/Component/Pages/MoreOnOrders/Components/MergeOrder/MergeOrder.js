@@ -35,7 +35,7 @@ const InfoMissing = () => {
     );
 }
 
-const MergeOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
+const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch()
     console.log(orders, "Headers");
     const [selectAll, setSelectAll] = useState(false);

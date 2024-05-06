@@ -179,8 +179,8 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                                     : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                         : ""}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                             {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
-                                                        <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                            {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
+                                                            <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
                                                                 <CustomTooltip
                                                                     triggerComponent={<VerifiedOrderIcon />}
@@ -256,7 +256,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                         </span>
                                                         <br />
                                                         LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}
-
                                                     </p>
                                                 </div>
                                             </td>
@@ -314,7 +313,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                 <li onClick={() =>
                                                                     dispatch({
                                                                         type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
-                                                                            order_ids:[row?.id],
+                                                                            order_ids: [row?.id],
                                                                         }
                                                                     })
                                                                 }>Verify Order</li>
