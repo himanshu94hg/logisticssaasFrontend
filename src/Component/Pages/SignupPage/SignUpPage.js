@@ -107,6 +107,7 @@ const SignUpPage = () => {
                                                     {...register("first_name", {
                                                         required: true,
                                                     })}
+                                                    maxLength={50}
                                                     onKeyPress={(e) => {
                                                         const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                                         if (
@@ -130,6 +131,7 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="last_name"
                                                     {...register("last_name", { required: true })}
+                                                    maxLength={50}
                                                     onKeyPress={(e) => {
                                                         const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                                         if (
@@ -155,6 +157,7 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="company_name"
                                                     {...register("company_name", { required: true })}
+                                                    maxLength={50}
                                                     onKeyPress={(e) => {
                                                         const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
                                                         if (
@@ -201,6 +204,7 @@ const SignUpPage = () => {
                                                     type='text'
                                                     className='input-field'
                                                     id="email"
+                                                    maxLength={50}
                                                     {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                                                     required
                                                 />
@@ -213,6 +217,7 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     type='password'
                                                     id="password"
+                                                    maxLength={50}
                                                     {...register("password", { required: true, minLength: 6 })}
                                                     required
                                                 />

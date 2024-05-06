@@ -476,6 +476,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     placeholder='Enter Pincode'
                                     ref={pincodeRef1}
                                     onBlur={handlePincodeChange1}
+                                    maxLength={6}
                                     value={formData.pincode || ''}
                                     onKeyPress={(e) => {
                                         if (!/\d/.test(e.key)) {
@@ -533,7 +534,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                             <label>
                                 Support Email
                                 <input
-                                    type="text"
+                                    type="email"
                                     className='input-field'
                                     name="support_email"
                                     maxLength={100}
@@ -642,7 +643,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                 <label>
                                 <span>Email<span className='mandatory'> *</span></span>
                                     <input
-                                        type="text"
+                                        type="email"
                                         className='input-field'
                                         name="email"
                                         placeholder='Enter Email'
@@ -661,6 +662,8 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Warehouse Address 1'
                                         value={formData.rto_details.address || ''}
                                         onChange={(e) => handleInputChange1(e)}
+                                        maxLength={100}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                     <span className="custom-error">{formErrors.address}</span>
                                 </label>
@@ -675,6 +678,8 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         placeholder='Enter Landmark'
                                         value={formData.rto_details.landmark || ''}
                                         onChange={(e) => handleInputChange1(e)}
+                                        maxLength={100}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                     <span className="custom-error">{formErrors.contact_number}</span>
                                 </label>
@@ -686,6 +691,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         name="pincode"
                                         placeholder='Enter Pincode'
                                         ref={pincodeRef}
+                                        maxLength={6}
                                         onBlur={handlePincodeChange}
                                         value={formData.rto_details.pincode || ''}
                                         onChange={(e) => handleInputChange1(e)}
@@ -704,6 +710,8 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         disabled
                                         value={formData.rto_details.city || ''}
                                         onChange={(e) => handleInputChange1(e)}
+                                        maxLength={100}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
                                     <span className="custom-error">{formErrors.city1}</span>
                                 </label>
@@ -716,6 +724,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         ref={stateRef}
                                         disabled
                                         value={formData.rto_details.state || ''}
+                                        maxLength={100}
                                         onChange={(e) => handleInputChange1(e)}
                                     />
                                     <span className="custom-error">{formErrors.state1}</span>
