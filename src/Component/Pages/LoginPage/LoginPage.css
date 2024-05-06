@@ -75,15 +75,15 @@
 .login-section .left-side {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     height: 100%;
 }
 
 .login-section .left-side img {
-    width: 117%;
+    width: 87%;
     height: auto;
-    margin-right: -70px;
+    /* margin-right: -70px; */
 }
 
 
