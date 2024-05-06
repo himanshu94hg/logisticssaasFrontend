@@ -151,6 +151,7 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
 const ManageWarehouse = () => {
   const navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
+  const [initialData, setInitialData] = useState([])
   const [searchQuery, setSearchQuery] = useState('');
   const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer);
   const authToken = Cookies.get("access_token");
@@ -169,11 +170,11 @@ const ManageWarehouse = () => {
         }
       });
       if (!response.data) {
-        throw new Error('Failed to fetch data');
+
       }
       setBoxes(response.data);
+      setInitialData(response.data)
     } catch (error) {
-      console.error('Error fetching data:', error);
     }
   };
 
@@ -181,15 +182,19 @@ const ManageWarehouse = () => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredBoxes = boxes.filter(box => {
-    const searchString = `${box.warehouse_name} ${box.address_line1} ${box.city} ${box.state} ${box.pincode}`.toLowerCase();
-    return searchString.includes(searchQuery.toLowerCase());
-  });
+  const searchWarehouse = () => {
+    const filteredBoxes = boxes.filter(box => {
+      const searchString = `${box.warehouse_name} ${box.address_line1} ${box.city} ${box.state} ${box.pincode}`.toLowerCase();
+      return searchString.includes(searchQuery.toLowerCase());
+    });
+    setInitialData(filteredBoxes)
+  }
 
   const handleEditWarehouse = (index) => {
     console.log("Editing warehouse at index:", index);
     setEditWarehouse(!editWarehouse);
   };
+
 
   return (
     <>
@@ -204,7 +209,7 @@ const ManageWarehouse = () => {
                 value={searchQuery}
                 onChange={handleSearch}
               />
-              <button>
+              <button onClick={searchWarehouse}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </label>
@@ -219,7 +224,7 @@ const ManageWarehouse = () => {
         <section className='warehouse-grid-container'>
           <div>
             <h4 className='mb-3'>Manage Pickup Addresses</h4>
-            <BoxGrid boxData={filteredBoxes} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
+            <BoxGrid boxData={initialData} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
           </div>
         </section>
       </div>
@@ -235,9 +240,6 @@ const ManageWarehouse = () => {
         <section className='ticket-slider-body'>
           <EditWareHouse wareHouseId={wareHouseId} setEditWarehouse={setEditWarehouse} />
         </section>
-        {/* <section className='ticket-slider-footer'>
-          <button className='btn main-button'>Submit</button>
-        </section> */}
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
     </>
