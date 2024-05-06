@@ -19,6 +19,7 @@ const OrderDetail = () => {
                             <button className='btn main-button'>Ship Now</button>
                         </div>
                     </div>
+                    <div></div>
                 </div>
                 <div className='mt-5'>
                     <h5>Order Details</h5>
