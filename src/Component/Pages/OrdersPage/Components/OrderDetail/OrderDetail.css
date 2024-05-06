@@ -1,0 +1,34 @@
+.od-row {
+    display: flex;
+    align-items: stretch;
+}
+
+.od-col {
+    background: #fff;
+    min-height: 100px;
+    /* border: 1px solid #ddd; */
+    border-radius: 0.5rem;
+    padding: 10px;
+    box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
+    height: 100%;
+}
+
+.od-col h6 {
+    font-weight: 700;
+}
+
+.od-status-lines p {
+    background-color: gainsboro;
+    padding: 4px 10px;
+    font-size: 12px !important;
+    width: -moz-fit-content;
+    width: fit-content;
+    border-radius: 10px;
+    text-transform: capitalize;
+    margin-bottom: 0;
+    font-weight: 700;
+}
+
+.od-list {
+    list-style: none;
+}
