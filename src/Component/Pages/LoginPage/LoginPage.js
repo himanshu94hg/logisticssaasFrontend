@@ -14,7 +14,7 @@ import PhoneIcon from './Icons/PhoneIcon';
 import GoogleIcon from './Icons/GoogleIcon';
 import EmailIcon from './Icons/EmailIcon';
 import SVGFigure from './Icons/SVGFigure';
-import loginBG from '../../../assets/image/login_bg.svg'
+import loginBG from '../../../assets/image/login_bg2.svg'
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
