@@ -151,13 +151,50 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             errors.country = 'Enter country name!';
         }
 
+        if (!formData.rto_details.warehouse_name.trim()) {
+            valid = false;
+            errors.warehouse_name1 = 'Enter Warehouse Name!';
+        }
+        if (!formData.rto_details.contact_person_name.trim()) {
+            valid = false;
+            errors.contact_person_name1 = 'Enter Contact Person name!';
+        }
+        if (!formData.rto_details.contact_number.trim()) {
+            valid = false;
+            errors.contact_number1 = 'Enter Contact number!';
+        }
+        if (!formData.rto_details.email.trim()) {
+            valid = false;
+            errors.email = 'Enter Email id!';
+        }
+        if (!formData.rto_details.address.trim()) {
+            valid = false;
+            errors.address = 'Enter Address details!';
+        }
+        if (!formData.rto_details.pincode.trim()) {
+            valid = false;
+            errors.pincode1 = 'Enter pincode!';
+        }
+        if (!formData.rto_details.city.trim()) {
+            valid = false;
+            errors.city1 = 'Enter city name!';
+        }
+        if (!formData.rto_details.state.trim()) {
+            valid = false;
+            errors.state1 = 'Enter state name!';
+        }
+        if (!formData.rto_details.country.trim()) {
+            valid = false;
+            errors.country1 = 'Enter country name!';
+        }
+
         setFormErrors(errors);
         return valid;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (validateForm() ) {
+        if (validateForm()) {
             dispatch({
                 type: "EDIT_WAREHOUSE_ACTION", payload: {
                     wareHouseId: wareHouseId,
@@ -243,21 +280,25 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
 
     const handleInputChange = (e, section) => {
         const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
 
-        if (section === "rto_details") {
-            setFormData(prevState => ({
-                ...prevState,
-                rto_details: {
-                    ...prevState.rto_details,
-                    [name]: value
-                }
-            }));
-        } else {
-            setFormData(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
-        }
+        // if (section === "rto_details") {
+        //     setFormData(prevState => ({
+        //         ...prevState,
+        //         rto_details: {
+        //             ...prevState.rto_details,
+        //             [name]: value
+        //         }
+        //     }));
+        // } else {
+        //     setFormData(prevState => ({
+        //         ...prevState,
+        //         [name]: value
+        //     }));
+        // }
 
         if (name === 'contact_number') {
             if (value.length !== 10) {
@@ -287,6 +328,16 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         }
     };
 
+    const handleInputChange1 = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            rto_details: {
+                ...prevState.rto_details,
+                [name]: value
+            }
+        }));
+    }
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
         setFormData(prevState => ({
@@ -322,6 +373,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     onChange={(e) => handleInputChange(e, "")}
                                     className={`input-field`}
                                     name="warehouse_name"
+                                    maxLength={100}
                                     placeholder='Enter Warehouse Name'
                                     onKeyPress={(e) => handleKeyPress(e)}
                                 />
@@ -336,6 +388,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     onChange={(e) => handleInputChange(e, "")}
                                     className={`input-field`}
                                     name="contact_name"
+                                    maxLength={100}
                                     placeholder='Enter Contact Person Name'
                                     onKeyPress={(e) => handleKeyPress(e)}
                                 />
@@ -390,6 +443,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     type="text"
                                     className={`input-field`}
                                     name="address_line1"
+                                    maxLength={100}
                                     placeholder='Enter Warehouse Address 1'
                                     value={formData.address_line1 || ''}
                                     onChange={(e) => handleInputChange(e, "")}
@@ -402,6 +456,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                 <input
                                     type="text"
                                     className={`input-field`}
+                                    maxLength={100}
                                     name="address_line2"
                                     placeholder='Enter Warehouse Address 2'
                                     value={formData.address_line2 || ''}
@@ -421,6 +476,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     placeholder='Enter Pincode'
                                     ref={pincodeRef1}
                                     onBlur={handlePincodeChange1}
+                                    maxLength={6}
                                     value={formData.pincode || ''}
                                     onKeyPress={(e) => {
                                         if (!/\d/.test(e.key)) {
@@ -478,9 +534,10 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                             <label>
                                 Support Email
                                 <input
-                                    type="text"
+                                    type="email"
                                     className='input-field'
                                     name="support_email"
+                                    maxLength={100}
                                     placeholder='Enter Support Email'
                                     value={formData.support_email || ''}
                                     onChange={(e) => handleInputChange(e, "")}
@@ -495,7 +552,13 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                     name="support_phone"
                                     placeholder='Enter Support Contact'
                                     value={formData.support_phone || ''}
+                                    maxLength={10}
                                     onChange={(e) => handleInputChange(e, "")}
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
                                 />
                                 {/* <span className="custom-error">{formErrors.support_phone}</span> */}
                             </label>
@@ -513,41 +576,50 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                             <h3 className='mt-3 mb-0'>Add RTO Address</h3>
                             <div className='d-flex gap-3'>
                                 <label>
-                                    Warehouse Name
+                                    <span>Warehouse Name <span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
                                         name="warehouse_name"
                                         placeholder='Enter Warehouse Name'
                                         value={formData.rto_details.warehouse_name || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
                                         onKeyPress={(e) => handleKeyPress(e)}
                                     />
+                                    <span className="custom-error">{formErrors.warehouse_name1}</span>
                                 </label>
                                 <label>
-                                    Contact Person Name
+                                    <span>Contact Person Name<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
                                         name="contact_person_name"
                                         placeholder='Enter Contact Person Name'
                                         value={formData.rto_details.contact_person_name}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
                                         onKeyPress={(e) => handleKeyPress(e)}
                                     />
+                                    <span className="custom-error">{formErrors.contact_person_name1}</span>
                                 </label>
                             </div>
                             <div className='d-flex gap-3 mt-3'>
                                 <label>
-                                    Contact Number
+                                    <span>Contact Number<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
                                         name="contact_number"
                                         placeholder='Enter Contact Person Number'
                                         value={formData.rto_details.contact_number || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
+                                        maxLength={10}
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
+                                    <span className="custom-error">{formErrors.contact_number1}</span>
                                 </label>
                                 <label>
                                     Alternate Number
@@ -557,32 +629,43 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         name="alternate_number"
                                         placeholder='Enter Alternate Contact'
                                         value={formData.rto_details.alternate_number || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
+                                        maxLength={10}
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                 </label>
                             </div>
                             <div className='d-flex gap-3 mt-3'>
                                 <label>
-                                    Email
+                                <span>Email<span className='mandatory'> *</span></span>
                                     <input
-                                        type="text"
+                                        type="email"
                                         className='input-field'
                                         name="email"
                                         placeholder='Enter Email'
                                         value={formData.rto_details.email || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
+
                                     />
+                                    <span className="custom-error">{formErrors.email}</span>
                                 </label>
                                 <label>
-                                    Address
+                                <span>Address<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
                                         name="address"
                                         placeholder='Enter Warehouse Address 1'
                                         value={formData.rto_details.address || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
+                                        maxLength={100}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
+                                    <span className="custom-error">{formErrors.address}</span>
                                 </label>
                             </div>
                             <div className='d-flex gap-3 mt-3'>
@@ -594,26 +677,31 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         name="landmark"
                                         placeholder='Enter Landmark'
                                         value={formData.rto_details.landmark || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
+                                        maxLength={100}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
+                                    <span className="custom-error">{formErrors.contact_number}</span>
                                 </label>
                                 <label>
-                                    Pincode
+                                <span>Pincode<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
                                         name="pincode"
                                         placeholder='Enter Pincode'
                                         ref={pincodeRef}
+                                        maxLength={6}
                                         onBlur={handlePincodeChange}
                                         value={formData.rto_details.pincode || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
                                     />
+                                    <span className="custom-error">{formErrors.pincode1}</span>
                                 </label>
                             </div>
                             <div className='d-flex gap-3 mt-3'>
                                 <label>
-                                    City
+                                <span>City<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
@@ -621,11 +709,14 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         ref={cityRef}
                                         disabled
                                         value={formData.rto_details.city || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
+                                        maxLength={100}
+                                        onKeyPress={(e) => handleKeyPress(e)}
                                     />
+                                    <span className="custom-error">{formErrors.city1}</span>
                                 </label>
                                 <label>
-                                    State
+                                <span>State<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
@@ -633,13 +724,15 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         ref={stateRef}
                                         disabled
                                         value={formData.rto_details.state || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        maxLength={100}
+                                        onChange={(e) => handleInputChange1(e)}
                                     />
+                                    <span className="custom-error">{formErrors.state1}</span>
                                 </label>
                             </div>
                             <div>
                                 <label>
-                                    Country
+                                <span>Country<span className='mandatory'> *</span></span>
                                     <input
                                         type="text"
                                         className='input-field'
@@ -647,8 +740,9 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                                         ref={countryRef}
                                         disabled
                                         value={formData.rto_details.country || ''}
-                                        onChange={(e) => handleInputChange(e, "rto_details")}
+                                        onChange={(e) => handleInputChange1(e)}
                                     />
+                                    <span className="custom-error">{formErrors.country1}</span>
                                 </label>
                             </div>
                         </div>
