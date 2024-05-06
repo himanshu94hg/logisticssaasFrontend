@@ -8,6 +8,8 @@ import { loginPattern } from '../../../Routes';
 import GoogleIcon from '../LoginPage/Icons/GoogleIcon';
 import FacebookIcon from '../LoginPage/Icons/FacebookIcon';
 import TrackYourOrder from '../../../assets/image/settingsBG/TrackYourOrder1.png'
+import loginBG from '../../../assets/image/login_bg2.svg'
+import Logo from '../../../assets/image/logo/logo.svg'
 
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
@@ -56,8 +58,18 @@ const SignUpPage = () => {
         <>
             <section className='signup-section'>
                 <div className="signup row">
-                    <div className='col-md-8 col-lg-6'></div>
-                    <div className='left-side col-md-4 col-lg-6'>
+                    <div className='signup-logo-container'>
+                        {/* <div className='login-lc-bg'>
+                            <SVGFigure />
+                        </div> */}
+                        <img src={Logo} alt="logo" />
+                    </div>
+                    <div className='col-md-8 col-lg-8'>
+                        <div className='left-side'>
+                            <img src={loginBG} alt="" />
+                        </div>
+                    </div>
+                    <div className='right-side col-md-4 col-lg-4'>
                         <div className="content">
                             <div className='user-role-select'>
                                 <label htmlFor="seller">
@@ -86,7 +98,7 @@ const SignUpPage = () => {
                             {
                                 UserRole === 'seller' &&
                                 <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                                    <h3 className='text-center'>Sign up with us today</h3>
+                                    <h3 className='text-center'>Sign Up With Us Today!</h3>
                                     <div className='signup-with-social'>
                                         <button type='button' className='btn'><GoogleIcon /><span>Signup using Google</span></button>
                                         <button type='button' className='btn'><FacebookIcon /><span>Signup using facebook</span></button>
