@@ -7,7 +7,7 @@ const OrderDetail = () => {
     return (
         <>
             <section className='box-shadow shadow-sm p10 order-detials-page h-100'>
-                <div className='d-flex flex-column'>
+                <div className='d-flex flex-column gap-3'>
                     <div className='d-flex justify-content-between align-items-center'>
                         <div className='d-flex flex-column'>
                             <h3>Order ID: #Order@1</h3>
@@ -19,7 +19,9 @@ const OrderDetail = () => {
                             <button className='btn main-button'>Ship Now</button>
                         </div>
                     </div>
-                    <div></div>
+                    <div className='d-flex gap-3'>
+
+                    </div>
                 </div>
                 <div className='mt-5'>
                     <h5>Order Details</h5>

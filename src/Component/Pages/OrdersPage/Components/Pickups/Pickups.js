@@ -393,7 +393,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                             {/*  Status section  */}
                                             <div className='d-flex flex-column gap-2 justify-content-center'>
                                                 <p className='order-Status-box'>{row?.status}</p>
-                                                <p className='text-success fw-bold' style={{ fontSize: 11}}>{row?.manifest_status ? "manifest_generated" : ""}</p>
+                                                <p className='text-success fw-bold' style={{ paddingInline: '10px', fontSize: 11 }}>{row?.manifest_status ? "Manifest Generated" : ""}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
