@@ -13,6 +13,8 @@ import FacebookIcon from './Icons/FacebookIcon';
 import PhoneIcon from './Icons/PhoneIcon';
 import GoogleIcon from './Icons/GoogleIcon';
 import EmailIcon from './Icons/EmailIcon';
+import SVGFigure from './Icons/SVGFigure';
+import loginBG from '../../../assets/image/login_bg.svg'
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
@@ -104,10 +106,21 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
     <>
       <section className='login-section'>
         <div className="signin row">
-          <div className='col-md-8 col-lg-6'></div>
-          <div className='left-side col-md-4 col-lg-6'>
+          <div className='login-logo-container'>
+            {/* <div className='login-lc-bg'>
+              <SVGFigure />
+            </div> */}
+            <img src={Logo} alt="logo" />
+          </div>
+          <div className='col-md-8 col-lg-8'>
+            <div className='left-side'>
+              <img src={loginBG} alt="" />
+            </div>
+          </div>
+          <div className='right-side col-md-4 col-lg-4'>
             <div className="content">
-              <img src={Logo} alt="Logo" height={25} />
+              {/* <img src={Logo} alt="Logo" height={25} /> */}
+              <h3 className='text-center mb-0'>Login</h3>
               {!OtpLogin ? <>
                 <form onSubmit={handleLogin} className="form">
                   <label className="inputBox">
