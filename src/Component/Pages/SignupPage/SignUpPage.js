@@ -64,12 +64,12 @@ const SignUpPage = () => {
                         </div> */}
                         <img src={Logo} alt="logo" />
                     </div>
-                    <div className='col-md-8 col-lg-8'>
-                        <div className='left-side'>
-                            <img src={loginBG} alt="" />
+                    <div className='col-md-10 col-lg-10 left-side'>
+                        <div className=''>
+                            {/* <img src={loginBG} alt="" /> */}
                         </div>
                     </div>
-                    <div className='right-side col-md-4 col-lg-4'>
+                    <div className='right-side col-md-2 col-lg-2'>
                         <div className="content">
                             <div className='user-role-select'>
                                 <label htmlFor="seller">
@@ -256,7 +256,7 @@ const SignUpPage = () => {
                             }
                             {
                                 UserRole === 'buyer' &&
-                                <form className="form gap-4 track-order" style={{ minHeight: '62vh' }}>
+                                <form className="form gap-4 track-order">
                                     <h4 className='m-0 text-center mt-3'>Trace Your Order's Progress</h4>
                                     <img src={TrackYourOrder} alt="TrackYourOrder" />
 
