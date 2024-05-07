@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editErrors , seteditErrors }) => {
+export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
     const [errors, setErrors] = useState({});
     const validateFormData = () => {
@@ -127,7 +127,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                 <label className='col'>
                                     <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
-                                         className={`input-field ${(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) ? 'input-field-error' : ''}`}
+                                        className={`input-field ${(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) ? 'input-field-error' : ''}`}
                                         placeholder="Enter your product name"
                                         type="text"
                                         maxLength={100}
@@ -171,7 +171,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         <option value="Sports & Outdoors">Sports & Outdoors </option>
                                         <option value="Tools & Home Improvement">Tools & Home Improvement</option>
                                         <option value="Toys & Games">Toys & Games</option>
-                                        <option value="Other">Other</option>
+                                        <option value="Other">Others</option>
                                     </select>
                                 </label>
                             </div>
@@ -188,7 +188,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                             if (!allowedCharacters.test(e.key)) {
                                                 e.preventDefault();
                                             }
-                                        }} 
+                                        }}
                                     />
                                 </label>
                                 {/* Quantity */}
