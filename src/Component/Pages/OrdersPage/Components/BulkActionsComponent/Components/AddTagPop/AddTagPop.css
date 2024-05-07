@@ -105,6 +105,7 @@
     border: 1px solid var(--sh-primary);
     /* border: none; */
     color: #fff;
+    white-space: nowrap;
 }
 
 .label-button-container .label-button {

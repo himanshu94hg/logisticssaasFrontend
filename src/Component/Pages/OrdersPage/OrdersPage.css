@@ -553,6 +553,12 @@ ul.order-label-list li {
   white-space: nowrap;
 }
 
+.cell-inside-box .Labels-pool {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
@@ -565,5 +571,5 @@ ul.order-label-list li {
   .orders-section-tabs .table-container.m-table-height {
     height: calc(100vh - 203px);
   }
-  
+
 }
