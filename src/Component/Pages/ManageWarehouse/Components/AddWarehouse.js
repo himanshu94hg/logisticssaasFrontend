@@ -476,13 +476,28 @@ const AddWarehouse = () => {
                             <div className='d-flex gap-3 mt-3'>
                                 <label>
                                     Contact Number
-                                    <input
+                                    {/* <input
                                         type="text"
                                         className='input-field'
                                         name="rto_contact_number"
-                                        plac0eholder='Enter Contact Person Number'
-                                    />
+                                        plac0eholder='Enter Contact Number'
+                                    /> */}
+                                    <div className='d-flex mobile-number-field'>
+                                        <select
+                                            className='input-field '
+                                            disabled
+                                        >
+                                            <option value="+91">+91</option>
+                                        </select>
+                                        <input
+                                            type="text"
+                                            className={`input-field`}
+                                            name="rto_contact_number"
+                                            placeholder='XXXXXXXXXX'
+                                        />
+                                    </div>
                                 </label>
+
                                 <label>
                                     Alternate Number
                                     <input
