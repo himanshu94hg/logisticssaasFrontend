@@ -180,7 +180,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                                         : ""}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
-                                                            <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                            <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
                                                                 <CustomTooltip
                                                                     triggerComponent={<VerifiedOrderIcon />}

@@ -214,9 +214,9 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
             window.location.href = 'https://www.movin.in/shipment/track';
         } else if (row.courier_partner === "ecom express") {
             window.location.href = 'https://ecomexpress.in/tracking/';
-        }else if (row.courier_partner === "professional") {
+        } else if (row.courier_partner === "professional") {
             window.location.href = 'https://www.tpcindia.com/Default.aspx';
-        }  else {
+        } else {
             window.location.href = '';
         }
     }
@@ -275,8 +275,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                                     : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                         : ""}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                            {/*<span className='anchor-order'>{row.customer_order_number}</span>*/}
-                                                        <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                            <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
                                                                 <CustomTooltip
                                                                     triggerComponent={<VerifiedOrderIcon />}
@@ -401,7 +400,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                         </div>
                                                         {row.status !== "cancelled" ? <div className='action-list'>
                                                             <ul>
-                                                                {row?.courier_partner != null || row.status !=="pending" && (
+                                                                {row?.courier_partner != null || row.status !== "pending" && (
                                                                     <>
                                                                         <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                         <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
@@ -414,8 +413,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                             row?.awb_number]
                                                                     }
                                                                 })}>Cancel Order</li>
-                                                                    <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete</li>
-                                                                 {row?.status === "shipped" &&
+                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete</li>
+                                                                {row?.status === "shipped" &&
                                                                     <li onClick={() => handleShipReassign(row?.id)}>Reassign</li>
                                                                 }
                                                             </ul>
