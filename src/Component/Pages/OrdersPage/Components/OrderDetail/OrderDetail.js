@@ -1,130 +1,169 @@
-import React from 'react';
+import axios from 'axios';
 import './OrderDetail.css'
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import React, { useEffect, useState } from 'react';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import moment from 'moment';
 
 const OrderDetail = () => {
+    const params = useParams();
+    const location = useLocation();
+    const navigate = useNavigate()
+    let authToken = Cookies.get("access_token")
+    const [orderDetails, setOrderDetails] = useState({})
+    const dd = params?.slug?.split('&')[0]
 
-    // Here you can fetch the order details using the orderId from your API
-    // For this example, I'll just display the orderId
+    useEffect(() => {
+        if (params?.slug && location) {
+            axios.get(`https://dev.shipease.in/orders-api/orders/get-order-by-id/${params?.slug}/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+                .then(response => {
+                    setOrderDetails(response?.data)
+                })
+                .catch(error => {
+                    toast.error("Api Call failed!")
+                });
+        }
+    }, [params])
+
+
     return (
         <>
-            <section className='order-detials-page'>
-                <div className='box-shadow shadow-sm p10 d-flex flex-column gap-3'>
-                    <div className='d-flex justify-content-between align-items-center'>
-                        <div className='d-flex flex-column'>
-                            <h3>Order ID: #Order@1</h3>
-                            <p className='order-Status-box'>Ready To Ship</p>
-                        </div>
-                        <div className='d-flex gap-2'>
-                            <button className='btn main-button-outline'>More</button>
-                            <button className='btn main-button-outline'>Export</button>
-                            <button className='btn main-button'>Ship Now</button>
-                        </div>
-                    </div>
-                    <div className='od-status-lines d-flex gap-3'>
-                        <p>Created at: 06 May 2024 || 5:00 PM</p>
-                        <p>Updated at: 06 May 2024 || 5:00 PM</p>
-                        <p>AWB Assigned at: 06 May 2024 || 5:00 PM</p>
-                    </div>
-                </div>
-                <div className='mt-4'>
-                    <div className='od-row row'>
-                        <div className='col-4'>
-                            <div className='od-col'>
-                                <div>
-                                    <h6>Order Details</h6>
-                                </div>
-                                <ul className='od-list'>
-                                    <li><span>Channel:</span><span>Custom</span></li>
-                                    <li><span>Pickup Address:</span><span>Custom</span></li>
-                                    <li><span>Payment:</span><span>Custom</span></li>
-                                </ul>
+            {orderDetails !== null &&
+                <section className='order-detials-page'>
+                    <div className='box-shadow shadow-sm p10 d-flex flex-column gap-3'>
+                        <div className='d-flex justify-content-between align-items-center'>
+                            <div className='d-flex flex-column'>
+                                <h3>Order ID: {orderDetails?.customer_order_number}</h3>
+                                <p className='order-Status-box'>{orderDetails?.status}</p>
+                            </div>
+                            <div className='d-flex gap-2'>
+                                <button className='btn main-button' onClick={() => navigate(-1)}>Go back</button>
+                                <button className='btn main-button-outline'>More</button>
+                                <button className='btn main-button-outline'>Export</button>
+                                <button className='btn main-button'>Ship Now</button>
                             </div>
                         </div>
-                        <div className='col-4'>
-                            <div className='od-col'>
-                                <div>
-                                    <h6>Package Details</h6>
-                                </div>
-                                <ul className='od-list od-pd-list'>
-                                    <li><span>Dead Weight (in Kg):</span><span>0.30KG</span></li>
-                                    <li><span>Dimensions (in cm):</span><span>10 x 10 x 10</span></li>
-                                    <li><span>Volumetric Weight (in Kg):</span><span>0.20KG</span></li>
-                                    <li><span>Applied Weight (in Kg):</span><span>0.30KG</span></li>
-                                </ul>
-                            </div>
+                        <div className='od-status-lines d-flex gap-3'>
+                            <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
+                            {/* <p>Updated at:  {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p> */}
+                            {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>}
                         </div>
-                        <div className='col-4'>
-                            <div className='od-col'>
-                                <div>
-                                    <h6>Customer Details</h6>
+                    </div>
+                    <div className='mt-4'>
+                        <div className='od-row row'>
+                            <div className='col-4'>
+                                <div className='od-col'>
+                                    <div>
+                                        <h6>Order Details</h6>
+                                    </div>
+                                    <ul className='od-list'>
+                                        <li><span>Channel:</span><span>{orderDetails?.channel}</span></li>
+                                        <li><span>Payment:</span><span>{orderDetails?.payment_type}</span></li>
+                                        <li><span>Pickup Address:</span><span>
+                                            {orderDetails?.pickup_details?.p_address_line1}
+                                            {orderDetails?.pickup_details?.p_address_line2},
+                                            {orderDetails?.pickup_details?.p_city},
+                                            {orderDetails?.pickup_details?.p_state},
+                                            ({orderDetails?.pickup_details?.p_pincode})
+                                        </span></li>
+                                    </ul>
                                 </div>
-                                <ul className='od-list'>
-                                    <li><span>Name:</span><span>Test User</span></li>
-                                    <li><span>Contact No.:</span><span>9874563210</span></li>
-                                    <li><span>Email:</span><span>test@gmail.com</span></li>
-                                    <li><span>Address:</span><span>test, Gurugram, Hariyana</span></li>
-                                </ul>
+                            </div>
+                            <div className='col-4'>
+                                <div className='od-col'>
+                                    <div>
+                                        <h6>Package Details</h6>
+                                    </div>
+                                    <ul className='od-list od-pd-list'>
+                                        <li><span>Dead Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.weight / 1000}</span></li>
+                                        <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length}x{orderDetails?.dimension_detail?.weight}x{orderDetails?.dimension_detail?.weight}</span></li>
+                                        <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${orderDetails.dimension_detail.vol_weight} Kg` : "NA"}</span></li>
+                                        <li><span>Applied Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.vol_weight } Kg</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className='col-4'>
+                                <div className='od-col'>
+                                    <div>
+                                        <h6>Customer Details</h6>
+                                    </div>
+                                    <ul className='od-list'>
+                                        <li><span>Name:</span><span>{orderDetails?.shipping_detail?.recipient_name}</span></li>
+                                        <li><span>Contact No.:</span><span>{orderDetails?.shipping_detail?.mobile_number}</span></li>
+                                        <li><span>Email:</span><span>{orderDetails?.shipping_detail?.mobile_number ? orderDetails?.shipping_detail?.mobile_number : "NA"}</span></li>
+                                        <li><span>Address:</span><span>{orderDetails?.shipping_detail?.address},{orderDetails?.shipping_detail?.city},{orderDetails?.shipping_detail?.state},({orderDetails?.shipping_detail?.pincode})</span></li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div className='od-col product-details-sec mt-4'>
-                    <div>
-                        <h6>Product Details</h6>
-                    </div>
-                    <div className='d-flex flex-column justify-content-between'>
-                        <div>
-                            <table className='w-100 mt-3'>
-                                <thead>
-                                    <tr>
-                                        <th style={{ width: '20%' }}>Name</th>
-                                        <th style={{ width: '10%' }}>Category</th>
-                                        <th style={{ width: '10%' }}>HSN</th>
-                                        <th style={{ width: '10%' }}>SKU</th>
-                                        <th style={{ width: '10%' }}>Qt.</th>
-                                        <th style={{ width: '10%' }}>Unit Price</th>
-                                        <th style={{ width: '10%' }}>Discount</th>
-                                        <th style={{ width: '10%' }}>Tax</th>
-                                        <th style={{ width: '10%' }}>Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>Zimmer Aufraumen Marble-Granite Cleaner 5lit Tiles Floor Cleaner 5lit</td>
-                                        <td></td>
-                                        <td></td>
-                                        <td>ZACOM-MARBLE5L+</td>
-                                        <td>1</td>
-                                        <td>₹1016.1</td>
-                                        <td>0.00</td>
-                                        <td>182.9</td>
-                                        <td>₹1,199.00</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <hr />
-                            <table className='w-100'>
-                                <tbody>
-                                    <tr>
-                                        <td style={{ width: '90%', paddingBottom: '20px' }}>Product Total (1 Item)</td>
-                                        <td style={{ width: '10%', paddingBottom: '20px' }}>₹ 0.00</td>
-                                    </tr>
-                                    <tr>
-                                        <td style={{ width: '90%' }}>Order Total</td>
-                                        <td style={{ width: '10%' }}>₹ 0.00</td>
-                                    </tr></tbody>
-                            </table>
-                        </div>
+                    {/* orderDetails?.order_products.length &&orderDetails?.order_products?.map((item)=> */}
 
-                        {/* <div className='d-flex justify-content-end'>
-                            <div className='pd-total'>
-                                <p><span>Product Total (1 Item)</span><span>₹ 0.00</span></p>
-                                <p><span>Order Total</span><span>₹ 1,199.00</span></p>
+
+                    <div className='od-col product-details-sec mt-4'>
+                        <div>
+                            <h6>Product Details</h6>
+                        </div>
+                        <div className='d-flex flex-column justify-content-between'>
+                            <div>
+                                <table className='w-100 mt-3'>
+                                    <thead>
+                                        <tr>
+                                            <th style={{ width: '5%' }}>s.no</th>
+                                            <th style={{ width: '20%' }}>Name</th>
+                                            <th style={{ width: '10%' }}>Category</th>
+                                            <th style={{ width: '10%' }}>HSN</th>
+                                            <th style={{ width: '10%' }}>SKU</th>
+                                            <th style={{ width: '5%' }}>Qt.</th>
+                                            <th style={{ width: '10%' }}>Unit Price</th>
+                                            <th style={{ width: '10%' }}>Discount</th>
+                                            <th style={{ width: '10%' }}>Tax</th>
+                                            <th style={{ width: '10%' }}>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {orderDetails?.order_products?.length > 0 && orderDetails?.order_products?.map((item, index) => {
+                                            return (
+                                                <tr>
+                                                    <td>{index + 1}</td>
+                                                    <td>{item?.product_name}</td>
+                                                    <td>{item?.product_category ? item?.product_category : ""}</td>
+                                                    <td>{item?.hsn_code ? item?.hsn_code : ""}</td>
+                                                    <td>{item?.sku ? item?.sku : ""}</td>
+                                                    <td>{item?.quantity ? item?.quantity : ""}</td>
+                                                    <td>{item?.unit_price ? item?.unit_price : ""}</td>
+                                                    <td>{item?.product_discount ? item?.product_discount : ""}</td>
+                                                    <td>{item?.tax_rate ? item?.tax_rate : ""}</td>
+                                                    <td>{item?.product_discount ? item?.product_discount : ""}</td>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+
+                                </table>
+                                <hr />
+                                <table className='w-100'>
+                                    <tbody>
+                                        <tr>
+                                            <td style={{ width: '90%', paddingBottom: '20px' }}>Product Total (1 Item)</td>
+                                            <td style={{ width: '10%', paddingBottom: '20px' }}>₹ 0.00</td>
+                                        </tr>
+                                        <tr>
+                                            <td style={{ width: '90%' }}>Order Total</td>
+                                            <td style={{ width: '10%' }}>₹ 0.00</td>
+                                        </tr></tbody>
+                                </table>
                             </div>
-                        </div> */}
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            }
+
         </>
     );
 };

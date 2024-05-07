@@ -23,9 +23,9 @@ const QuickCreateOrder = () => {
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
-    const authToken = Cookies.get("access_token")
     const currentDate = new Date();
     const [errors, setErrors] = useState({});
+    const authToken = Cookies.get("access_token")
     const [isChecked, setIsChecked] = useState(true);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)

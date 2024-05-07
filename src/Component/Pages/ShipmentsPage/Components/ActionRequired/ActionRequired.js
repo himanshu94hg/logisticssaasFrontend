@@ -56,8 +56,6 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
     const [orders, setAllOrders] = useState([]);
     const [allShipment, setAllShipment] = useState([]);
 
-    console.log("shipmentCardshipmentCardshipmentCardshipmentCardshipmentCardshipmentCard",shipmentCard)
-
     useEffect(() => {
         if (shipmentCard) {
             setAllShipment(shipmentCard);
@@ -239,7 +237,7 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <Link to={`/orderdetail`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                    &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <OverlayTrigger

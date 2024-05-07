@@ -17,7 +17,7 @@ export const ordersPattern = "/orders";
 export const getOrdersRoute = () => {
     return generatePath(ordersPattern);
 };
-export const orderdetailPattern = "/orderdetail";
+export const orderdetailPattern = "/orderdetail/:slug";
 export const getOrderdetailRoute = () => {
     return generatePath(orderdetailPattern);
 };
