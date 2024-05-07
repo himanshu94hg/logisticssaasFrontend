@@ -101,14 +101,25 @@ const OrderDetail = () => {
                                 </tbody>
                             </table>
                             <hr />
+                            <table className='w-100'>
+                                <tbody>
+                                    <tr>
+                                        <td style={{ width: '90%', paddingBottom: '20px' }}>Product Total (1 Item)</td>
+                                        <td style={{ width: '10%', paddingBottom: '20px' }}>₹ 0.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td style={{ width: '90%' }}>Order Total</td>
+                                        <td style={{ width: '10%' }}>₹ 0.00</td>
+                                    </tr></tbody>
+                            </table>
                         </div>
 
-                        <div className='d-flex justify-content-end'>
+                        {/* <div className='d-flex justify-content-end'>
                             <div className='pd-total'>
                                 <p><span>Product Total (1 Item)</span><span>₹ 0.00</span></p>
                                 <p><span>Order Total</span><span>₹ 1,199.00</span></p>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </section>
