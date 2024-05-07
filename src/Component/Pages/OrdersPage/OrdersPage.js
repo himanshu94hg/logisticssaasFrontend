@@ -207,7 +207,7 @@ const OrdersPage = () => {
         setHandleResetFrom(true)
         setItemsPerPage(20)
         setQueryParamTemp({})
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '':activeTab === "Ready to Ship"?"Ready_to_ship":activeTab==="Pickup"?"manifest" : activeTab}`, {
+        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -273,23 +273,23 @@ const OrdersPage = () => {
         // }
     }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
-  useEffect(() => {
-   if (activeTab === "Manifest") {
-    axios.get(`https://dev.shipease.in/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
-    headers: {
-        Authorization: `Bearer ${authToken}`
-    }
-})
-    .then(response => {
-        setTotalItems(response?.data?.count)
-        setManifestOrders(response.data.results);
-    })
-    .catch(error => {
-        toast.error("Api Call failed!")
-    });
-   }
-  }, [activeTab ,itemsPerPage ,currentPage])
-    
+    useEffect(() => {
+        if (activeTab === "Manifest") {
+            axios.get(`https://dev.shipease.in/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setManifestOrders(response.data.results);
+                })
+                .catch(error => {
+                    toast.error("Api Call failed!")
+                });
+        }
+    }, [activeTab, itemsPerPage, currentPage])
+
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
@@ -368,8 +368,8 @@ const OrdersPage = () => {
                         </div>
                         <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
-                    <p className='font10'>Most Popular Search by
-                        <span>COD</span> |
+                    <p className='font10 mt-1'>Most Popular Search by
+                        <span> COD</span> |
                         <span>Prepaid</span> |
                         <span>Yesterday</span> |
                         <span>One Week</span> |
@@ -460,8 +460,8 @@ const OrdersPage = () => {
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest
-                        manifestOrders = {manifestOrders}
-                        setManifestOrders = {setManifestOrders}
+                        manifestOrders={manifestOrders}
+                        setManifestOrders={setManifestOrders}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
