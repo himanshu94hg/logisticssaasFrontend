@@ -142,7 +142,6 @@ const AddWarehouse = () => {
                     country: rto_country
                 }
             };
-            console.log(formData, "formDataformDataformData")
 
             const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData, {
                 headers: {
@@ -181,7 +180,6 @@ const AddWarehouse = () => {
             toast.error(error?.response?.data?.detail)
         }
     };
-
 
 
     const times = [

@@ -22,7 +22,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import UserImageIcon from "./Icons/UserImageIcon";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
-import { useReactToPrint } from "react-to-print";
 
 export default function Header(props) {
   const navigate = useNavigate()
@@ -32,16 +31,16 @@ export default function Header(props) {
   const [userData, setUserData] = useState(null)
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
 
-  console.log("userDatauserDatauserData", userData?.first_name);
-
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      navigate(ordersPattern)
-      setInputValue('')
+      navigate(`/orderdetail/${inputValue}`);
     }
   }
 
+  const handleNavigate = () => {
+    navigate(`/orderdetail/${inputValue}`);
+  }
 
   const handleLogout = () => {
     localStorage.clear();
@@ -113,7 +112,7 @@ export default function Header(props) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress} />
-                <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                <button onClick={handleNavigate}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
               </div>
               <div className="quick-actions-container">
                 <div className="quick-action-text">
