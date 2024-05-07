@@ -22,6 +22,8 @@ const OrderDetail = () => {
                     </div>
                     <div className='od-status-lines d-flex gap-3'>
                         <p>Created at: 06 May 2024 || 5:00 PM</p>
+                        <p>Updated at: 06 May 2024 || 5:00 PM</p>
+                        <p>AWB Assigned at: 06 May 2024 || 5:00 PM</p>
                     </div>
                 </div>
                 <div className='mt-4'>
