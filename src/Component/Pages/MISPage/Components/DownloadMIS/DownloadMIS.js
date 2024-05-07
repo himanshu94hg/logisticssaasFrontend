@@ -9,6 +9,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import Pagination from '../../../../common/Pagination/Pagination';
+import { RxReset } from 'react-icons/rx';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -24,12 +25,11 @@ const DownloadMIS = ({ activeTab }) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
     useEffect(() => {
-        dispatch({ type: "MIS_DOWNLOAD_ACTION",payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-    }, [dispatch,activeTab,itemsPerPage,currentPage])
+        dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+    }, [dispatch, activeTab, itemsPerPage, currentPage])
 
     useEffect(() => {
-        if(misDownloadData?.results !== null && misDownloadData !== undefined)
-        {
+        if (misDownloadData?.results !== null && misDownloadData !== undefined) {
             setmisDownload(misDownloadData?.results)
             setTotalItems(misDownloadData?.count)
         }
@@ -88,7 +88,7 @@ const DownloadMIS = ({ activeTab }) => {
         }
     };
 
-    const handleSearch = () => {  
+    const handleSearch = () => {
         axios.get(`https://dev.shipease.in/orders-api/mis/downloads/?q=${searchValue}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
@@ -96,18 +96,24 @@ const DownloadMIS = ({ activeTab }) => {
         }).then(response => {
             console.log(response, "this is response")
             setmisDownload(response.data.results)
-           // setSearchValue("")
+            // setSearchValue("")
         })
             .catch(error => {
                 toast.error("Something went wrong!")
-            }); 
-};
+            });
+    };
 
-useEffect(() => {
-    if (activeTab) {
-        setSearchValue("");
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+        }
+    }, [activeTab])
+
+    const handleReset = () => {
+        setSearchValue("")
+        setItemsPerPage(20)
+        setmisDownload(misDownloadData?.results)
     }
-}, [activeTab])
 
     return (
         <section className='position-relative downloads-mis'>
@@ -120,6 +126,7 @@ useEffect(() => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
+                        <button className='btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export Report</button>
@@ -199,12 +206,12 @@ useEffect(() => {
                 </div>
             </div>
             <Pagination
-                    totalItems={totalItems}
-                    currentPage={currentPage}
-                    itemsPerPage={itemsPerPage}
-                    setItemsPerPage={setItemsPerPage}
-                    setCurrentPage={setCurrentPage}
-                />
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 };

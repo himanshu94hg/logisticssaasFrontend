@@ -8,14 +8,15 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { RxReset } from "react-icons/rx";
 import Pagination from '../../../../common/Pagination/Pagination';
 
 
-const ScheduledReportsMIS = ({activeTab}) => {
-    const dispatch=useDispatch()
+const ScheduledReportsMIS = ({ activeTab }) => {
+    const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const {scheduleReportsData}=useSelector(state=>state?.misSectionReducer)
+    const { scheduleReportsData } = useSelector(state => state?.misSectionReducer)
     const [searchValue, setSearchValue] = useState("")
     const [scheduledReport, setscheduledReport] = useState([]);
 
@@ -23,19 +24,18 @@ const ScheduledReportsMIS = ({activeTab}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
-    let authToken = Cookies.get("access_token")   
+    let authToken = Cookies.get("access_token")
 
 
-    console.log(scheduledReport,"scheduleReportsDatascheduleReportsData")
+    console.log(scheduledReport, "scheduleReportsDatascheduleReportsData")
 
 
     useEffect(() => {
-            dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION",payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-    }, [dispatch,activeTab,itemsPerPage,currentPage])
+        dispatch({ type: "MIS_SCHEDULED_REPEORTS_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+    }, [dispatch, activeTab, itemsPerPage, currentPage])
 
     useEffect(() => {
-        if(scheduleReportsData?.results !== null && scheduleReportsData !== undefined)
-        {
+        if (scheduleReportsData?.results !== null && scheduleReportsData !== undefined) {
             setscheduledReport(scheduleReportsData?.results)
             setTotalItems(scheduleReportsData.count)
         }
@@ -76,7 +76,7 @@ const ScheduledReportsMIS = ({activeTab}) => {
             setSelectAll(false);
         }
     };
-    const handleSearch = () => {  
+    const handleSearch = () => {
         axios.get(`https://dev.shipease.in/orders-api/mis/scheduled-reports/?q=${searchValue}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
@@ -84,18 +84,25 @@ const ScheduledReportsMIS = ({activeTab}) => {
         }).then(response => {
             console.log(response, "this is response")
             setscheduledReport(response.data.results)
-           // setSearchValue("")
+            // setSearchValue("")
         })
             .catch(error => {
                 toast.error("Something went wrong!")
-            }); 
-};
-    
-useEffect(() => {
-    if (activeTab) {
-        setSearchValue("");
+            });
+    };
+
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+        }
+    }, [activeTab])
+
+
+    const handleReset = () => {
+        setSearchValue("")
+        setItemsPerPage(20)
+        setscheduledReport(scheduleReportsData?.results)
     }
-}, [activeTab])
 
     return (
         <section className='position-relative reports-mis downloads-mis'>
@@ -108,6 +115,7 @@ useEffect(() => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
+                        <button className='btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export Report</button>
@@ -117,7 +125,7 @@ useEffect(() => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                               {/*} <th style={{ width: '1%' }}>
+                                {/*} <th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
