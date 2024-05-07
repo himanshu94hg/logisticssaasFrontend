@@ -11,6 +11,7 @@ import customImg from "../../../../../../assets/image/integration/Manual.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
 const OrdersTableMIS = ({setStateData,setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -106,7 +107,7 @@ const OrdersTableMIS = ({setStateData,setTotalItems}) => {
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                     : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
                                                                         : ""}
-                                        &nbsp; <span className=''>{row.customer_order_number}</span>
+                                        &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>
                                     <p className='ws-nowrap d-flex align-items-center'>
                                         <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />

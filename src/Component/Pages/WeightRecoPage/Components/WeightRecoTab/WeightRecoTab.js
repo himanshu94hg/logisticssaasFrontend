@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleInfo,faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo, faFilter } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import moment from 'moment';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
@@ -20,7 +20,7 @@ import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
-import {toast} from "react-toastify";
+import { toast } from "react-toastify";
 import { FaCheckSquare, FaTimes } from 'react-icons/fa';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
@@ -55,7 +55,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionShow}) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
@@ -64,7 +64,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
     const [data, setData] = useState([]);
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
-    
+
 
     //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
     console.log(acceptRecord, "weightRecoDataweightRecoDataweightRecoData")
@@ -158,18 +158,16 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
 
     const handleAccept = (row) => {
         const rowString = JSON.stringify(row);
-        dispatch({ type: "ACCEPT_ACTION", payload: {"ids":rowString} });
-        if(acceptRecord.status === true)
-        {
+        dispatch({ type: "ACCEPT_ACTION", payload: { "ids": rowString } });
+        if (acceptRecord.status === true) {
             toast.success("Thank you for accepting.")
         }
     };
 
     const handleDispute = (row) => {
         const rowString = JSON.stringify(row);
-        dispatch({ type: "DISPUTE_ACTION", payload: {"ids":rowString} });
-        if(disputeRecord.status === true)
-        {
+        dispatch({ type: "DISPUTE_ACTION", payload: { "ids": rowString } });
+        if (disputeRecord.status === true) {
             toast.success("Thank you for disputing.")
         }
     };
@@ -205,7 +203,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                 <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
                                 <th style={{ width: '12%' }}>Status </th>
                                 <th style={{ width: '12%' }}>Action</th>
-                               
+
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -231,9 +229,10 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                                                     : row?.order?.channel && row?.order?.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                            : row?.order.channel.toLowerCase() === "custom" ? <CustomIcon />
+                                                                                : row?.order.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <Link to={`/orderdetail`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
+                                                    &nbsp;
+                                                    <Link to={`/orderdetail/${row?.order?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row?.order.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
@@ -275,7 +274,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                                 <p className='mt-1'>
 
                                                     {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
-                                                    <span className=''>AWB : {row?.order?.awb_number}</span><br/>
+                                                    <span className=''>AWB : {row?.order?.awb_number}</span><br />
                                                     <span className='text-capitalize'>Courier : {row?.order?.courier_partner}</span>
                                                 </p>
                                             </div>
@@ -297,7 +296,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                                 {/* <p className=''>Charged Amount : {row?.charged_amount}</p> */}
                                             </div>
                                         </td>
-                                        
+
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
@@ -365,7 +364,7 @@ function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
 
-    console.log(historyRecord,"All data")
+    console.log(historyRecord, "All data")
     useEffect(() => {
         if (show && selectedRow) {
             dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
@@ -378,30 +377,30 @@ function Preview({ show, handleClose, selectedRow }) {
                 <Modal.Title>History Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <table className="table">
-                <tbody>
-                    <tr>
-                        <th>Weight Discrepancy Date</th>
-                        <th>Status</th>
-                        <th>Charged Weight (KG)</th>
-                        <th>Charged Dimension (CM)</th>
-                        <th>Action Taken by</th>
-                        <th>Applied Weight</th>
-                        <th>Remark</th>
-                    </tr>
-                    {historyRecord?.map((row, index) => (
-                        <tr key={index}>
-                            <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
-                            <td>{row?.status}</td>
-                            <td>{selectedRow?.c_weight}</td>
-                            <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
-                            <td>{row?.action_taken_by}</td>
-                            <td>{selectedRow?.e_weight}</td>
-                            <td>{row?.remark}</td>
+                <table className="table">
+                    <tbody>
+                        <tr>
+                            <th>Weight Discrepancy Date</th>
+                            <th>Status</th>
+                            <th>Charged Weight (KG)</th>
+                            <th>Charged Dimension (CM)</th>
+                            <th>Action Taken by</th>
+                            <th>Applied Weight</th>
+                            <th>Remark</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                        {historyRecord?.map((row, index) => (
+                            <tr key={index}>
+                                <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
+                                <td>{row?.status}</td>
+                                <td>{selectedRow?.c_weight}</td>
+                                <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
+                                <td>{row?.action_taken_by}</td>
+                                <td>{selectedRow?.e_weight}</td>
+                                <td>{row?.remark}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
             </Modal.Body>
         </Modal>
@@ -418,7 +417,7 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     });
     const commentRecord = useSelector(state => state?.weightRecoReducer?.commentData);
 
-    console.log("All Comment Data",commentRecord)
+    console.log("All Comment Data", commentRecord)
 
     const handleRemarkChange = (event) => {
         setRemark(event.target.value);
@@ -428,7 +427,7 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
         try {
             const file = event.target.files[0];
             const logoFileSize = parseFloat((file.size / (1024 * 1024)).toFixed(2));
-    
+
             console.log(logoFileSize, "logoFileSize");
             if (logoFileSize > 2) {
                 setLogoError("File shouldn't be greater than 2 MB");
@@ -443,40 +442,40 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     const uploadFile = async (e, type) => {
         const file = e.target.files[0];
         const logoFileSize = parseFloat((file.size / (1024 * 1024)).toFixed(2));
-    
-        console.log(logoFileSize,"logoFileSize")
+
+        console.log(logoFileSize, "logoFileSize")
         if (type === "image") {
-          if (logoFileSize > 2) {
-            setLogoError("File shouldn't be greater than 2 mb")
-          } else {
-            try {
-              // Handle file upload logic here
-              const responseData = await getFileData(`weightRecoData/${e.target.files[0].name.replace(/\s/g, "")}`);
-              const awsUrl = responseData.data.url.url
-              const formData = new FormData();
-              formData.append('key', responseData.data.url.fields.key);
-              formData.append('file', e.target.files[0]);
-              formData.append('AWSAccessKeyId', awsAccessKey);
-              formData.append('policy', responseData.data.url.fields.policy);
-              formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
-              const additionalData = await uploadImageData(awsUrl, formData);
-              if (additionalData?.status == 204) {
-                const imageUrl = responseData?.data?.url?.url + "weightRecoData/" + e.target.files[0]?.name.replace(/\s/g, "")
-                setFormData(prev => ({
-                  ...prev,
-                  company_logo: imageUrl
-                }));
-              }
-              setLogoError('');
-            } catch (error) {
-              console.error('Error handling file change:', error);
+            if (logoFileSize > 2) {
+                setLogoError("File shouldn't be greater than 2 mb")
+            } else {
+                try {
+                    // Handle file upload logic here
+                    const responseData = await getFileData(`weightRecoData/${e.target.files[0].name.replace(/\s/g, "")}`);
+                    const awsUrl = responseData.data.url.url
+                    const formData = new FormData();
+                    formData.append('key', responseData.data.url.fields.key);
+                    formData.append('file', e.target.files[0]);
+                    formData.append('AWSAccessKeyId', awsAccessKey);
+                    formData.append('policy', responseData.data.url.fields.policy);
+                    formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
+                    const additionalData = await uploadImageData(awsUrl, formData);
+                    if (additionalData?.status == 204) {
+                        const imageUrl = responseData?.data?.url?.url + "weightRecoData/" + e.target.files[0]?.name.replace(/\s/g, "")
+                        setFormData(prev => ({
+                            ...prev,
+                            company_logo: imageUrl
+                        }));
+                    }
+                    setLogoError('');
+                } catch (error) {
+                    console.error('Error handling file change:', error);
+                }
             }
-          }
         }
     };
 
     const handleSubmit = () => {
-        dispatch({ 
+        dispatch({
             type: "COMMENT_ACTION",
             payload: {
                 weight_rec_id: selectedRow,
@@ -499,20 +498,20 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
                 <Form>
                     <Form.Group controlId="remark">
                         <Form.Label>Remark</Form.Label>
-                        <Form.Control 
-                            as="textarea" 
-                            rows={3} 
-                            value={remark} 
-                            onChange={handleRemarkChange} 
-                            placeholder="Enter your remark here" 
+                        <Form.Control
+                            as="textarea"
+                            rows={3}
+                            value={remark}
+                            onChange={handleRemarkChange}
+                            placeholder="Enter your remark here"
                         />
                     </Form.Group>
                     <Form.Group controlId="image">
                         <Form.Label>Upload Image</Form.Label>
-                        <Form.Control 
-                            type="file" 
-                            accept="image/*" 
-                            onChange={handleImageChange} 
+                        <Form.Control
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageChange}
                         />
                         {logoError && <p className="text-danger">{logoError}</p>}
                     </Form.Group>
