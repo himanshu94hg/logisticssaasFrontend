@@ -25,7 +25,6 @@ const OrderDetail = () => {
                     </div>
                 </div>
                 <div className='mt-4'>
-                    {/* <h5>Order Details</h5> */}
                     <div className='od-row row'>
                         <div className='col-4'>
                             <div className='od-col'>
@@ -33,9 +32,9 @@ const OrderDetail = () => {
                                     <h6>Order Details</h6>
                                 </div>
                                 <ul className='od-list'>
-                                    <li>Channel</li>
-                                    <li>Pickup Address</li>
-                                    <li>Payment</li>
+                                    <li><span>Channel:</span><span>Custom</span></li>
+                                    <li><span>Pickup Address:</span><span>Custom</span></li>
+                                    <li><span>Payment:</span><span>Custom</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -44,11 +43,11 @@ const OrderDetail = () => {
                                 <div>
                                     <h6>Package Details</h6>
                                 </div>
-                                <ul className='od-list'>
-                                    <li>Dead Weight (in Kg)</li>
-                                    <li>Dimensions (in cm)</li>
-                                    <li>Volumetric Weight (in Kg)</li>
-                                    <li>Applied Weight (in Kg)</li>
+                                <ul className='od-list od-pd-list'>
+                                    <li><span>Dead Weight (in Kg):</span><span>0.30KG</span></li>
+                                    <li><span>Dimensions (in cm):</span><span>10 x 10 x 10</span></li>
+                                    <li><span>Volumetric Weight (in Kg):</span><span>0.20KG</span></li>
+                                    <li><span>Applied Weight (in Kg):</span><span>0.30KG</span></li>
                                 </ul>
                             </div>
                         </div>
@@ -58,21 +57,60 @@ const OrderDetail = () => {
                                     <h6>Customer Details</h6>
                                 </div>
                                 <ul className='od-list'>
-                                    <li>Name</li>
-                                    <li>Contact No.</li>
-                                    <li>Email</li>
-                                    <li>Address</li>
+                                    <li><span>Name:</span><span>Test User</span></li>
+                                    <li><span>Contact No.:</span><span>9874563210</span></li>
+                                    <li><span>Email:</span><span>test@gmail.com</span></li>
+                                    <li><span>Address:</span><span>test, Gurugram, Hariyana</span></li>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div className='od-col mt-4'>
+                </div>
+                <div className='od-col product-details-sec mt-4'>
+                    <div>
+                        <h6>Product Details</h6>
+                    </div>
+                    <div className='d-flex flex-column justify-content-between'>
                         <div>
-                            <h6>Product Details</h6>
+                            <table className='w-100 mt-3'>
+                                <thead>
+                                    <tr>
+                                        <th style={{ width: '20%' }}>Name</th>
+                                        <th style={{ width: '10%' }}>Category</th>
+                                        <th style={{ width: '10%' }}>HSN</th>
+                                        <th style={{ width: '10%' }}>SKU</th>
+                                        <th style={{ width: '10%' }}>Qt.</th>
+                                        <th style={{ width: '10%' }}>Unit Price</th>
+                                        <th style={{ width: '10%' }}>Discount</th>
+                                        <th style={{ width: '10%' }}>Tax</th>
+                                        <th style={{ width: '10%' }}>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Zimmer Aufraumen Marble-Granite Cleaner 5lit Tiles Floor Cleaner 5lit</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>ZACOM-MARBLE5L+</td>
+                                        <td>1</td>
+                                        <td>₹1016.1</td>
+                                        <td>0.00</td>
+                                        <td>182.9</td>
+                                        <td>₹1,199.00</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                        </div>
+
+                        <div className='d-flex justify-content-end'>
+                            <div className='pd-total'>
+                                <p><span>Product Total (1 Item)</span><span>₹ 0.00</span></p>
+                                <p><span>Order Total</span><span>₹ 1,199.00</span></p>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </section>
         </>
     );
