@@ -29,10 +29,10 @@ export default function Header(props) {
   const [inputValue, setInputValue] = useState('');
   const sellerData = Cookies.get("user_id")
   let authToken = Cookies.get("access_token")
-  const [userData,setUserData]=useState(null)
+  const [userData, setUserData] = useState(null)
   //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
 
-  console.log("userDatauserDatauserData",userData?.first_name);
+  console.log("userDatauserDatauserData", userData?.first_name);
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -68,20 +68,20 @@ export default function Header(props) {
   useEffect(() => {
     const authToken = Cookies.get("access_token");
     const fetchData = async () => {
-        try {
-            const response = await axios.get(`https://dev.shipease.in/core-api/seller/get-seller-profile/`, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            });
-            setUserData(response.data); 
-        } catch (error) {
-            console.error("Error fetching data:", error);
-        }
+      try {
+        const response = await axios.get(`https://dev.shipease.in/core-api/seller/get-seller-profile/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        setUserData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
     };
     fetchData();
   }, [])
-  
+
 
   return (
     <Navbar
@@ -125,7 +125,7 @@ export default function Header(props) {
                     <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
                     <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
                     <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
-                    <p><Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link></p>
+                    <Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link>
                   </div>
                 </div>
               </div>
