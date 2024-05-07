@@ -112,12 +112,12 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
             </div> */}
             <img src={Logo} alt="logo" />
           </div>
-          <div className='col-md-8 col-lg-8'>
-            <div className='left-side'>
-              <img src={loginBG} alt="" />
+          <div className='col-md-10 col-lg-10 left-side'>
+            <div className=''>
+              {/* <img src={loginBG} alt="" /> */}
             </div>
           </div>
-          <div className='right-side col-md-4 col-lg-4'>
+          <div className='col-md-2 col-lg-2 right-side'>
             <div className="content">
               {/* <img src={Logo} alt="Logo" height={25} /> */}
               <h3 className='text-center mb-0'>Login</h3>
