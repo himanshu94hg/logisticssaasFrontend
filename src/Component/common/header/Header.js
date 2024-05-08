@@ -16,7 +16,7 @@ import TrackingIcon from "./Icons/TrackingIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
-import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, ordersPattern, } from "../../../Routes";
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, ordersPattern, } from "../../../Routes";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -103,8 +103,8 @@ export default function Header(props) {
               </div>
               <div className="quick-actions-hover hl">
                 <div className="qa-hovered-content">
-                  <p><BusinessPlanIcon />Business Plan</p>
-                  <p><ReferEarnIcon />Refer to Earn Coins</p>
+                  <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plana</p>
+                  <p onClick={() => navigate(ReferAndEarnPattern)}><ReferEarnIcon />Refer to Earn Coins</p>
 
                 </div>
               </div>
