@@ -17,12 +17,11 @@ const BypassPage = () => {
             try {
                 const response = await axios.post('https://dev.shipease.in/core-api/accounts/switch-dashboard-token/', {
                     contact_number: mobile,
-                    token: token
+                    token: "2473874efsdjfhiu4y39857389"
                 });
 
                 if (response.status === 200) {
                     toast.success("User Logged in successfully!");
-                    //   setTokenExists(true);
                     navigate(indexPattern);
                     Cookies.set('user_id', response?.data?.user_id);
                     Cookies.set('access_token', response?.data?.access);
@@ -33,7 +32,7 @@ const BypassPage = () => {
             }
         };
         fetchApi();
-    }, []);
+    }, [mobile]);
     return (
         <div>
 
