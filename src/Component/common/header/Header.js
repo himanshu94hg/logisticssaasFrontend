@@ -1,36 +1,39 @@
 import "./header.css";
+import axios from "axios";
 import Cookies from "js-cookie";
-import WalletIcon from "./Icons/WalletIcon";
-import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import UserImage from '../../../assets/image/icons/UserImage.png'
-import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
-import CreateOrderIcon from "./Icons/CreateOrderIcon";
-import QuickShipIcon from "./Icons/QuickShipIcon";
-import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
-import TicketIcon from "./Icons/TicketIcon";
-import TrackingIcon from "./Icons/TrackingIcon";
-import EarnAndGrow from "./Icons/EarnAndGrow";
-import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
-import ReferEarnIcon from "./Icons/ReferEarnIcon";
-import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, ordersPattern, } from "../../../Routes";
+import WalletIcon from "./Icons/WalletIcon";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
+import TicketIcon from "./Icons/TicketIcon";
+import EarnAndGrow from "./Icons/EarnAndGrow";
+import TrackingIcon from "./Icons/TrackingIcon";
+import QuickShipIcon from "./Icons/QuickShipIcon";
 import UserImageIcon from "./Icons/UserImageIcon";
+import ReferEarnIcon from "./Icons/ReferEarnIcon";
+import { Link, useNavigate } from "react-router-dom";
+import CreateOrderIcon from "./Icons/CreateOrderIcon";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
+import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
+import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
+import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
 
 export default function Header(props) {
   const navigate = useNavigate()
-  const [inputValue, setInputValue] = useState('');
-  const sellerData = Cookies.get("user_id")
-  let authToken = Cookies.get("access_token")
+  let staticToken = Cookies.get("static_token")
   const [userData, setUserData] = useState(null)
-  //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+  const [inputValue, setInputValue] = useState('');
+  const [temp, setTemp] = useState({
+    var1: null,
+    var2: null,
+  });
 
+  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
+  
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
@@ -47,14 +50,6 @@ export default function Header(props) {
     Cookies.remove('access_token');
     window.location.reload()
   };
-
-  const [temp, setTemp] = useState({
-    var1: null,
-    var2: null,
-  });
-
-  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
-  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
 
   useEffect(() => {
     setTemp(prev => ({
@@ -82,10 +77,9 @@ export default function Header(props) {
 
 
   const handleSwitch = () => {
-    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${authToken}`
+    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`
     console.log("object")
   }
-
 
   return (
     <Navbar

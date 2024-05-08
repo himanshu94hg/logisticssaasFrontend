@@ -50,7 +50,6 @@ import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalcu
 import { ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
-import LowBalancePop from "./Component/Pages/WalletRechargeComponent/LowBalancePop.js/LowBalancePop";
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
 import ReferAndEarnPage from "./Component/Pages/EarnAndGrowPages/ReferAndEarnPage/ReferAndEarnPage";
 import BusinessPlanPage from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPage";
@@ -82,12 +81,10 @@ function App() {
   }, [tokenChecked, tokenExists, navigate]);
 
 
-
   useEffect(()=>{
     dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
     Cookies.set('pathName',window.location.pathname);
   },[ window.location.pathname])
-
 
 
   return (

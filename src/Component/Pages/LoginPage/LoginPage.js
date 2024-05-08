@@ -1,27 +1,25 @@
 import './LoginPage.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import { LOGIN_DATA } from '../../../redux/constants/auth';
-import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
 import { toast } from 'react-toastify';
-import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
-import Logo from '../../../assets/image/logo/logo.svg'
-import FacebookIcon from './Icons/FacebookIcon';
+import { useDispatch } from 'react-redux';
 import PhoneIcon from './Icons/PhoneIcon';
-import GoogleIcon from './Icons/GoogleIcon';
 import EmailIcon from './Icons/EmailIcon';
-import SVGFigure from './Icons/SVGFigure';
-import loginBG from '../../../assets/image/login_bg2.svg'
+import GoogleIcon from './Icons/GoogleIcon';
+import FacebookIcon from './Icons/FacebookIcon';
+import React, { useEffect, useState } from 'react';
+import Logo from '../../../assets/image/logo/logo.svg'
+import { LOGIN_DATA } from '../../../redux/constants/auth';
+import { indexPattern, signUpPattern } from '../../../Routes';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const pathname=useLocation()
-  const params=useParams()
+  const pathname = useLocation()
+  const params = useParams()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -55,7 +53,6 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
         setTokenExists(true)
         navigate(indexPattern);
         Cookies.set('access_token', response?.data?.access_token)
-        // localStorage.setItem('token', token);
         Cookies.set('user_id', response?.data?.user_id)
         dispatch({ type: LOGIN_DATA, payload: response })
         window.location.reload()
@@ -76,13 +73,12 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   }
 
   const handleOTPSubmit = (e) => {
-    //form for OTP Login
     e.preventDefault();
   }
 
   const handleSendOTP = () => {
     setSentOtp(true)
-    setTimer(20); // Reset the timer to 20 seconds
+    setTimer(20); 
     setIsTimerRunning(true);
   }
 
@@ -92,7 +88,6 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   }
 
   const handleResendOTP = () => {
-    //resend otp funtion after 20 seconds
   }
 
   useEffect(() => {
