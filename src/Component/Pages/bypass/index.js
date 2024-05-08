@@ -17,7 +17,7 @@ const BypassPage = () => {
             try {
                 const response = await axios.post('https://dev.shipease.in/core-api/accounts/switch-dashboard-token/', {
                     contact_number: mobile,
-                    token: token
+                    token: "2473874efsdjfhiu4y39857389"
                 });
 
                 if (response.status === 200) {
