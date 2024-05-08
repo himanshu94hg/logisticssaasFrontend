@@ -195,3 +195,13 @@ export const loginBypassPattern = "/bypass-login";
 export const loginBypassRoutes = () => {
     return generatePath(loginBypassPattern);
 };
+
+export const ReferAndEarnPattern = "/refer-and-earn";
+export const ReferAndEarnRoutes = () => {
+    return generatePath(ReferAndEarnPattern);
+};
+
+export const BusinessPlanPattern = "/business-plan";
+export const BusinessPlanRoutes = () => {
+    return generatePath(BusinessPlanPattern);
+};

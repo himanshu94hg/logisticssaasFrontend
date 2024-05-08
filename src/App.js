@@ -47,11 +47,13 @@ import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/Serviceab
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-import { AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern,orderdetailPattern } from "./Routes";
+import { ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
 import LowBalancePop from "./Component/Pages/WalletRechargeComponent/LowBalancePop.js/LowBalancePop";
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
+import ReferAndEarnPage from "./Component/Pages/EarnAndGrowPages/ReferAndEarnPage/ReferAndEarnPage";
+import BusinessPlanPage from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPage";
 
 
 function App() {
@@ -101,6 +103,8 @@ function App() {
             <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />
             {/* <Route path={mergeOrdersPattern} element={<MoreOnOrders />} />
             <Route path={splitOrdersPattern} element={<MoreOnOrders />} /> */}
+            <Route path={BusinessPlanPattern} element={<BusinessPlanPage />} />
+            <Route path={ReferAndEarnPattern} element={<ReferAndEarnPage />} />
             <Route path={ordersPattern} element={<OrdersPage />} />
             <Route path={shipmentsPattern} element={<ShipmentsPage />} />
             <Route path={dailyPrefrencesPattern} element={<DailyPrefrences />} />
