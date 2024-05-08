@@ -4,24 +4,22 @@ import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
 import WalletIcon from "./Icons/WalletIcon";
-import CreateOrderIcon from "./Icons/CreateOrderIcon";
-import QuickShipIcon from "./Icons/QuickShipIcon";
-
-import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, ordersPattern, } from "../../../Routes";
 import { useEffect, useState } from "react";
 import TicketIcon from "./Icons/TicketIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import TrackingIcon from "./Icons/TrackingIcon";
+import QuickShipIcon from "./Icons/QuickShipIcon";
 import UserImageIcon from "./Icons/UserImageIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
 import { Link, useNavigate } from "react-router-dom";
+import CreateOrderIcon from "./Icons/CreateOrderIcon";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
-// import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern,  } from "../../../Routes";
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
 
 export default function Header(props) {
   const navigate = useNavigate()
