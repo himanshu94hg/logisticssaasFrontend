@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import UserImage from '../../../assets/image/icons/UserImage.png'
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
 import CreateOrderIcon from "./Icons/CreateOrderIcon";
@@ -176,6 +176,12 @@ export default function Header(props) {
                   onClick={() => handleLogout()}
                 >
                   <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item
+                  eventKey="4.4"
+                >
+                  <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
                 </NavDropdown.Item>
               </NavDropdown>
             </div>
