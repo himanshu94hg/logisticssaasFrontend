@@ -362,7 +362,7 @@
     background: var(--sh-primary-light);
     background: #dfdfdf;
     border-radius: 0 .5rem .5rem 0;
-    bottom: 1px;
+    bottom: 0.08rem;
     display: flex;
     height: 34px;
     justify-content: center;
@@ -372,6 +372,17 @@
     font-weight: 400;
     font-size: 1rem;
 }
+
+/* 
+.create-order-flow-container label {
+    position: relative;
+}
+
+.create-order-flow-container label .custom-error {
+    position: absolute;
+    bottom: -17px;
+    left: 13px;
+} */
 
 /* Add responsiveness for smaller screens */
 
