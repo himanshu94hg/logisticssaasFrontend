@@ -4,26 +4,27 @@ import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
 import WalletIcon from "./Icons/WalletIcon";
+import CreateOrderIcon from "./Icons/CreateOrderIcon";
+import QuickShipIcon from "./Icons/QuickShipIcon";
+
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, ordersPattern, } from "../../../Routes";
 import { useEffect, useState } from "react";
 import TicketIcon from "./Icons/TicketIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import TrackingIcon from "./Icons/TrackingIcon";
-import QuickShipIcon from "./Icons/QuickShipIcon";
 import UserImageIcon from "./Icons/UserImageIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
 import { Link, useNavigate } from "react-router-dom";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
-import CreateOrderIcon from "./Icons/CreateOrderIcon";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
-import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern,  } from "../../../Routes";
+// import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern,  } from "../../../Routes";
 
 export default function Header(props) {
   const navigate = useNavigate()
-  const sellerData = Cookies.get("user_id")
   let staticToken = Cookies.get("static_token")
   const [userData, setUserData] = useState(null)
   const [inputValue, setInputValue] = useState('');
@@ -78,7 +79,7 @@ export default function Header(props) {
 
 
   const handleSwitch = () => {
-    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=7878868606&token=${staticToken}`
+    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`
     console.log("object")
   }
 
@@ -98,8 +99,8 @@ export default function Header(props) {
               </div>
               <div className="quick-actions-hover hl">
                 <div className="qa-hovered-content">
-                  <p><BusinessPlanIcon />Business Plan</p>
-                  <p><ReferEarnIcon />Refer to Earn Coins</p>
+                  <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plana</p>
+                  <p onClick={() => navigate(ReferAndEarnPattern)}><ReferEarnIcon />Refer to Earn Coins</p>
 
                 </div>
               </div>
