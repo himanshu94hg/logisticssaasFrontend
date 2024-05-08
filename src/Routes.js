@@ -190,3 +190,13 @@ export const CourierAllocationPattern = "/courier-allocation";
 export const CourierAllocationRoutes = () => {
     return generatePath(CourierAllocationPattern);
 };
+
+export const ReferAndEarnPattern = "/refer-and-earn";
+export const ReferAndEarnRoutes = () => {
+    return generatePath(ReferAndEarnPattern);
+};
+
+export const BusinessPlanPattern = "/business-plan";
+export const BusinessPlanRoutes = () => {
+    return generatePath(BusinessPlanPattern);
+};
