@@ -53,7 +53,6 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
         setTokenExists(true)
         navigate(indexPattern);
         Cookies.set('access_token', response?.data?.access_token)
-        // localStorage.setItem('token', token);
         Cookies.set('user_id', response?.data?.user_id)
         dispatch({ type: LOGIN_DATA, payload: response })
         window.location.reload()
