@@ -82,7 +82,7 @@ export default function Header(props) {
 
 
   const handleSwitch = () => {
-    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=7878868606&token=${authToken}`
+    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${authToken}`
     console.log("object")
   }
 
