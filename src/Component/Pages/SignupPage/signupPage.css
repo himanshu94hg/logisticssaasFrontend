@@ -87,7 +87,7 @@
   background: #fff;
   position: relative;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   flex-direction: column;
   gap: 25px;
