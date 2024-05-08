@@ -271,8 +271,8 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     <input
                                         type="number"
                                         className='input-field'
-                                        value={product.discount}
-                                        onChange={(e) => handleChange(e, 'discount', index)}
+                                        value={product.product_discount}
+                                        onChange={(e) => handleChange(e, 'product_discount', index)}
                                         placeholder='Enter Product Discount'
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {

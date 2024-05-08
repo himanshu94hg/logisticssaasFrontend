@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import Cookies from "js-cookie"
 
-export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, seteditErrors }) => {
+export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, tagData }) => {
     const dispatch = useDispatch()
     const location = useLocation();
     const [errors, setErrors] = useState({});
@@ -62,7 +62,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                     is_mps: false
                 },
                 other_details: {
-                    ...prevFormData.other_details, 
+                    ...prevFormData.other_details,
                     number_of_packets: 0
                 }
             }));
@@ -81,9 +81,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
-                id: item.id,
-                value: item.name,
-                label: item.name
+                label: item.name,
+                value: item.id
             }));
             setOrderTag(formattedData);
         } else {
@@ -103,31 +102,33 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             newErrors.customer_order_number = ' Order Number is required!';
         }
         if (!formData.order_details.order_type) {
-            newErrors.order_type = 'Order Type is required!';
+            newErrors.order_type = 'Select the Order Type!';
+        }
+        if (!formData.order_details.channel) {
+            newErrors.channel = 'Select the Channel !';
         }
         if (!formData.order_details.payment_type) {
-            newErrors.payment_type = 'Payment Type is required!';
+            newErrors.payment_type = 'Select the Payment Type!';
         }
         if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
             newErrors.number_of_packets = 'Packets is required!';
         }
         setErrors(newErrors);
-        console.log(newErrors, "this is new errors")
+
         return Object.keys(newErrors).length === 0;
     };
 
     const handleChange = (selectedOptions, field) => {
-        const selectedIds = selectedOptions ? selectedOptions.map(option => option.id) : [];
-        const selectedNames = selectedOptions ? selectedOptions.map(option => option.value) : [];
+        const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
         setFormData(prevData => ({
             ...prevData,
             order_details: {
                 ...prevData.order_details,
-                [field]: selectedIds
-            },
-            order_tag_names: selectedNames || []
+                [field]: selectedValues
+            }
         }));
     };
+
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -150,6 +151,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             }
         }));
     };
+
     const handleChangeCharge = (e, field) => {
         let value = e.target.value;
         if (field === 'is_gift_wrap') {
@@ -229,8 +231,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }
     }
 
-
-    console.log(formData.order_details.is_mps, "formData.order_details.is_mps")
+    console.log(tagData, "this is a tag data")
 
     return (
         <>
@@ -300,14 +301,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                         <label className='col'>
                             Order Channel
                             <select
-                                className={`select-field`}
-                                value={formData.order_details.Channel}
-                                onChange={(e) => handleSelectChange(e, 'Channel')}
+                                className={`select-field ${errors.channel || editErrors?.channel ? 'input-field-error' : ''}`}
+                                value={formData.order_details.channel}
+                                onChange={(e) => handleSelectChange(e, 'channel')}
                             >
                                 <option value="">Select Order Channel</option>
                                 <option value="custom">Custom</option>
                             </select>
-                            {/* {errors.Channel && <div className="custom-error">{errors.Channel}</div>} */}
+                            {(errors.channel || editErrors?.channel) && <div className="custom-error">{errors.channel || editErrors?.channel}</div>}
                         </label>
                     </div>
                     {/* Add Fields Section */}
@@ -326,18 +327,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 isMulti
                                 isSearchable
                                 options={orderTag}
-                                onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
-                                value={
-                                    formData.order_details.order_tag
-                                        ? formData.order_tag_names
-                                            ? formData.order_details.order_tag.map(tagId => ({
-                                                id: tagId,
-                                                value: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)],
-                                                label: formData.order_tag_names[formData.order_details.order_tag.indexOf(tagId)]
-                                            }))
-                                            : []
-                                        : []
-                                }
+                                onChange={(e) => handleChange(e, 'order_tag')}
+                                value={tagData}
                                 styles={{
                                     control: styles => ({ ...styles, width: "325px" })
                                 }}
