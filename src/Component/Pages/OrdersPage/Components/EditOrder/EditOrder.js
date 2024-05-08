@@ -118,10 +118,13 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             newErrors.customer_order_number = ' Order Number is required!';
         }
         if (!formData.order_details.order_type) {
-            newErrors.order_type = 'Order Type is required!';
+            newErrors.order_type = 'Select the Order Type!';
+        }
+        if (!formData.order_details.channel) {
+            newErrors.channel = 'Select the Channel !';
         }
         if (!formData.order_details.payment_type) {
-            newErrors.payment_type = 'Payment Type is required!';
+            newErrors.payment_type = 'Select the Payment Type!';
         }
         if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
             newErrors.number_of_packets = 'Packets is required!';
@@ -154,7 +157,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         if (!formData.shipping_details.country) {
             newErrors.country = 'Country is required!';
         }
-        if (!formData.order_details.invoice_amount){
+        if (!formData.order_details.invoice_amount) {
             newErrors.invoice_amount = 'Invoice amount is required!';
         }
         if (formData.order_details.payment_type === "COD") {
@@ -220,7 +223,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             if (!product?.product_name?.trim()) {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
-            if (!product?.quantity){
+            if (!product?.quantity) {
                 newErrors.quantity = 'Product Quantity is required!'
             }
             if (!product?.sku?.trim()) {
@@ -241,7 +244,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     orderId: orderId
                 }
             })
-            setEditOrderSection(false) 
+            setEditOrderSection(false)
         }
     };
 
@@ -252,9 +255,18 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderId])
 
+    const [tagData, setTagData] = useState([])
+
+
     useEffect(() => {
         if (orderDetailsData) {
-            const orderTagIds = orderDetailsData?.order_tag?.map(tag =>tag.id);
+            const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);
+            const orderTagTemp = orderDetailsData?.order_tag?.map(item => ({
+                label: item?.name,
+                value: item?.id,
+            }));
+            setTagData(orderTagTemp)
+
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
@@ -356,6 +368,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                             {activeSection === "Order Details" && (
                                 <div>
                                     <OrderDetailsStep
+                                        tagData={tagData}
                                         editStatus={"editStatus"}
                                         formData={formData}
                                         setFormData={setFormData}

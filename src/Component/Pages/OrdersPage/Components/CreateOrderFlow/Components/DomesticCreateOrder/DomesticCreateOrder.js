@@ -32,7 +32,7 @@ const DomesticCreateOrder = () => {
             payment_type: '',
             order_date: currentDate,
             order_type: "",
-            channel: "custom",
+            channel: "",
             channel_id: null
         },
         shipping_details: {

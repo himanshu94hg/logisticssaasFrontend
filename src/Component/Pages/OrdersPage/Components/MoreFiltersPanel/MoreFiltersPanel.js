@@ -83,23 +83,21 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFav(true)
     };
 
-    const validateFormData = () => {
-        const newErrors = {};
-        if (!filterParams.start_date) {
-            newErrors.start_date = 'Start Date is required!';
-        }
-        if ( !filterParams.end_date) {
-            newErrors.end_date = 'End Date is required!';
-        }
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+    // const validateFormData = () => {
+    //     const newErrors = {};
+    //     if (!filterParams.start_date) {
+    //         newErrors.start_date = 'Start Date is required!';
+    //     }
+    //     if ( !filterParams.end_date) {
+    //         newErrors.end_date = 'End Date is required!';
+    //     }
+    //     setErrors(newErrors);
+    //     return Object.keys(newErrors).length === 0;
+    // };
 
     const handleSubmit = e => {
         e.preventDefault();
-       if(validateFormData()){
-        const moment = require('moment');
-
+    //    if(validateFormData()){
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => {
@@ -113,8 +111,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 }
             })
             .join('&');
-
-
         if ( SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
@@ -137,7 +133,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
         setSaveFilter(false)
         setFavName("")
-       }
+    //    }
     };
 
     useEffect(() => {
@@ -288,7 +284,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             e.preventDefault();
         }
     }
-
+console.log(filterParams,"this is a dummy data")
 
     return (
         <>
