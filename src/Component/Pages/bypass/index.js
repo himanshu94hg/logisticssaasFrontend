@@ -7,13 +7,17 @@ import { useNavigate } from 'react-router-dom';
 
 const BypassPage = () => {
     const navigate = useNavigate();
+    const currentUrl = window.location.href;
+    const searchParams = new URLSearchParams(window.location.search);
+    const mobile = searchParams.get('mobile');
+    const token = searchParams.get('token');
 
     useEffect(() => {
         const fetchApi = async () => {
             try {
                 const response = await axios.post('https://dev.shipease.in/core-api/accounts/switch-dashboard-token/', {
-                    contact_number: "8090831663",
-                    token: "2473874efsdjfhiu4y39857389"
+                    contact_number: mobile,
+                    token: token
                 });
 
                 if (response.status === 200) {
@@ -28,9 +32,7 @@ const BypassPage = () => {
                 toast.error("Something went wrong!");
             }
         };
-
         fetchApi();
-
     }, []);
     return (
         <div>
