@@ -98,7 +98,7 @@ export default function Header(props) {
               </div>
               <div className="quick-actions-hover hl">
                 <div className="qa-hovered-content">
-                  <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plan</p>
+                  <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plana</p>
                   <p onClick={() => navigate(ReferAndEarnPattern)}><ReferEarnIcon />Refer to Earn Coins</p>
 
                 </div>
