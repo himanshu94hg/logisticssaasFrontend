@@ -2,7 +2,7 @@ import './LoginPage.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
@@ -20,6 +20,8 @@ import loginBG from '../../../assets/image/login_bg2.svg'
 const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const pathname=useLocation()
+  const params=useParams()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -60,7 +62,6 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       }
 
     } catch (error) {
-      console.log(error, "this is a error data")
       const errorType = typeof error?.response?.data.detail;
       if (errorType === "string") {
         errorHandlefirst(error?.response?.data.detail)
