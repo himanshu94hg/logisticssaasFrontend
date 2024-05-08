@@ -22,7 +22,6 @@ const BypassPage = () => {
 
                 if (response.status === 200) {
                     toast.success("User Logged in successfully!");
-                    //   setTokenExists(true);
                     navigate(indexPattern);
                     Cookies.set('user_id', response?.data?.user_id);
                     Cookies.set('access_token', response?.data?.access);
@@ -33,7 +32,7 @@ const BypassPage = () => {
             }
         };
         fetchApi();
-    }, []);
+    }, [mobile]);
     return (
         <div>
 
