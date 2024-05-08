@@ -8,9 +8,9 @@ import { useNavigate } from 'react-router-dom';
 const BypassPage = () => {
     const navigate = useNavigate();
     const searchParams = new URLSearchParams(window.location.search);
-    Cookies.set("static_token",token)
     const mobile = searchParams.get('mobile');
     const token = searchParams.get('token');
+    Cookies.set("static_token",token)
 
     useEffect(() => {
         const fetchApi = async () => {
@@ -21,10 +21,7 @@ const BypassPage = () => {
                 });
 
                 if (response.status === 200) {
-                    toast.success("User Logged in successfully!");
-                    //   setTokenExists(true);
                     navigate(indexPattern);
-                    Cookies.set('user_id', response?.data?.user_id);
                     Cookies.set('access_token', response?.data?.access);
                     window.location.reload();
                 }
