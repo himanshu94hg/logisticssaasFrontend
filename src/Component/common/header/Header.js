@@ -16,7 +16,7 @@ import TrackingIcon from "./Icons/TrackingIcon";
 import EarnAndGrow from "./Icons/EarnAndGrow";
 import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import ReferEarnIcon from "./Icons/ReferEarnIcon";
-import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, ordersPattern, } from "../../../Routes";
+import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, ordersPattern, } from "../../../Routes";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -75,11 +75,16 @@ export default function Header(props) {
         });
         setUserData(response.data);
       } catch (error) {
-        console.error("Error fetching data:", error);
       }
     };
     fetchData();
   }, [])
+
+
+  const handleSwitch = () => {
+    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=7878868606&token=${authToken}`
+    console.log("object")
+  }
 
 
   return (
@@ -171,17 +176,19 @@ export default function Header(props) {
                   <FontAwesomeIcon icon={faEdit} /><span className="ms-2">Edit Profile</span>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
+
+                <NavDropdown.Item
+                  eventKey="4.4"
+                  onClick={() => handleSwitch()}
+                >
+                  <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
                 <NavDropdown.Item
                   eventKey="4.3"
                   onClick={() => handleLogout()}
                 >
                   <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item
-                  eventKey="4.4"
-                >
-                  <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
                 </NavDropdown.Item>
               </NavDropdown>
             </div>

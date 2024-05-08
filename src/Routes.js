@@ -190,3 +190,8 @@ export const CourierAllocationPattern = "/courier-allocation";
 export const CourierAllocationRoutes = () => {
     return generatePath(CourierAllocationPattern);
 };
+
+export const loginBypassPattern = "/bypass-login";
+export const loginBypassRoutes = () => {
+    return generatePath(loginBypassPattern);
+};
