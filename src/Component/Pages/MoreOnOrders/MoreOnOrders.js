@@ -81,7 +81,7 @@ const MoreOnOrders = () => {
     }
 
     const handleSearch = () => {
-        axios.get(`${apiEndpoint}${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -145,16 +145,16 @@ const MoreOnOrders = () => {
         let apiUrl = '';
         switch (activeTab) {
             case "Reassign Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Merge Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Split Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Reverse Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             default:
                 apiUrl = '';
@@ -201,7 +201,7 @@ const MoreOnOrders = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setQueryParamTemp({})
-        axios.get(`${apiEndpoint}${activeTabValueSet}?page_size=${20}&page=${1}`, {
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

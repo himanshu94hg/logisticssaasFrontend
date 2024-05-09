@@ -12,13 +12,13 @@ import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import CustomIcon from '../../../../../common/Icons/CustomIcon'
 
 const ReturnsTableMIS = ({setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [returnsData, setReturnsData] = useState([]);
     const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
-    console.log(reportsReturnsData,"reportShipmentsDatareportShipmentsData")
 
     useEffect(()=>{
         if(reportsReturnsData && reportsReturnsData?.results !== null)
@@ -95,7 +95,7 @@ const ReturnsTableMIS = ({setTotalItems}) => {
                                                         : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                             : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "custom" ? <CustomIcon/>
                                                                         : ""}
                                         &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>

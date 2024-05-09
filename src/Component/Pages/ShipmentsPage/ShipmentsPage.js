@@ -80,16 +80,16 @@ const ShipmentsPage = () => {
         let apiUrl = '';
         switch (activeTab) {
             case "Action Required":
-                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Action Requested":
-                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "RTO":
-                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Delivered":
-                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             default:
                 apiUrl = '';
@@ -207,7 +207,7 @@ const ShipmentsPage = () => {
 
     const handleSearch = () => {
         if (validateData()) {
-            axios.get(`${apiEndpoint}orders-api/orders/shipment/?action=${tabData}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -241,7 +241,7 @@ const ShipmentsPage = () => {
         pageStatusSet(true);
         setHandleResetFrom(true)
         setQueryParamTemp({})
-        axios.get(`${apiEndpoint}orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}`, {
+        axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

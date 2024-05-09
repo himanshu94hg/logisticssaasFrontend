@@ -280,7 +280,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb' onClick={handleClickAWB} >{row?.awb_number ?? ""} </p>
-                                                <p className='' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row?.courier_partner ?? ""} </p>
+                                                <p className='' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
