@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 const FilterTicketsForm = (props) => {
   const [subcatList, setSubcategory] = useState([]);
@@ -35,7 +36,7 @@ const FilterTicketsForm = (props) => {
 
   useEffect(() => {
     if (props.filterClick) {
-      axios.get('https://dev.shipease.in/core-api/features/ticket-sub-category/', {
+      axios.get(`${BASE_URL_CORE}/core-api/features/ticket-sub-category/`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },

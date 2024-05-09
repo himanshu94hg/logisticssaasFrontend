@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 // Reusable FormInput component
 const FormInput = ({ label, placeholder, mandatory, type, value, onChange, onBlur, options, name, fileInput, customClass, selectFile, clearFile }) => (
@@ -65,7 +66,6 @@ const CreateTicketForm = (props) => {
     }
   }, [escalateAwbNumber]);
 
-  console.log(awbStatus, "Escalate Awb number ...................")
 
   const [ticketData, setTicketData] = useState({
     category: null,
@@ -87,7 +87,7 @@ const CreateTicketForm = (props) => {
 
   useEffect(() => {
     axios
-      .get('https://dev.shipease.in/core-api/features/ticket-category/', {
+      .get(`${BASE_URL_CORE}/core-api/features/ticket-category/`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -104,7 +104,7 @@ const CreateTicketForm = (props) => {
   useEffect(() => {
     if (ticketData.category) {
       axios
-        .get(`https://dev.shipease.in/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
+        .get(`${BASE_URL_CORE}/core-api/features/ticket-sub-category/?category=${ticketData.category}`, {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },
@@ -130,7 +130,7 @@ const CreateTicketForm = (props) => {
     if (ticketData.escalate_image !== "" && fileObj) {
       const postTicketData = async () => {
         try {
-          const response = await axios.post('https://dev.shipease.in/core-api/features/support-tickets/', ticketData, {
+          const response = await axios.post(`${BASE_URL_CORE}/core-api/features/support-tickets/`, ticketData, {
             headers: {
               'Authorization': `Bearer ${authToken}`,
               'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ const CreateTicketForm = (props) => {
     const authToken = Cookies.get("access_token");
 
     return axios.post(
-      'https://dev.shipease.in/core-api/shipping/validate-awb-number/',
+      `${BASE_URL_CORE}/core-api/shipping/validate-awb-number/`,
       {
         awb_numbers: awbNumbers
       },
@@ -274,7 +274,7 @@ const CreateTicketForm = (props) => {
       }
       else {
         try {
-          const response = await axios.post('https://dev.shipease.in/core-api/features/support-tickets/', ticketData, {
+          const response = await axios.post(`${BASE_URL_CORE}/core-api/features/support-tickets/`, ticketData, {
             headers: {
               'Authorization': `Bearer ${authToken}`,
               'Content-Type': 'application/json',

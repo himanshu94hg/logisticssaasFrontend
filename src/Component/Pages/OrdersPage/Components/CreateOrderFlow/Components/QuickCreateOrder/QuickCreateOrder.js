@@ -17,6 +17,7 @@ import WareHouseDetailStep from './QuickOrderSteps/WareHouseDetailStep';
 import './QuickCreateOrder.css'
 import { checkType, errorHandle, errorHandleSecond, errorHandlefirst } from '../../../../../../../customFunction/errorHandling';
 import SingleShipPop from '../../../Processing/SingleShipPop/SingleShipPop';
+import { BASE_URL_ORDER } from '../../../../../../../axios/config';
 
 
 const QuickCreateOrder = () => {
@@ -209,7 +210,7 @@ const QuickCreateOrder = () => {
     const handleFormSubmit = async () => {
         if (validatequickFormData()) {
             try {
-                const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
+                const response = await axios.post(`${BASE_URL_ORDER}/orders-api/orders/`, formData, {
                     headers: {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${authToken}`

@@ -1,14 +1,9 @@
-import React, { useEffect, useState } from "react";
-import {
-  Navbar,
-  Nav
-} from "react-bootstrap";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Swal from "sweetalert2";
-// import "./navTabs.css";
+import { Navbar, Nav } from "react-bootstrap";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { BASE_URL_CORE } from "../../../../../../axios/config";
 
 export default function NavTabs(props) {
   const navigation = useNavigate();
@@ -18,7 +13,7 @@ export default function NavTabs(props) {
   const handleSubmit = () => {
     let sellerData = 3;
 
-    const response = axios.get(`https://dev.shipease.in/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
+    const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     console.log("Data", response);
 
     if (response.status === 200) {
@@ -37,7 +32,7 @@ export default function NavTabs(props) {
     } else {
       const errorData = response.data;
       console.error('API Error:', errorData);
- 
+
     }
   };
 

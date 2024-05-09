@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { RxReset } from "react-icons/rx";
 import { useSelector } from 'react-redux';
 import AllTickets from './Components/AllTickets';
+import { BASE_URL_CORE } from '../../../axios/config';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -37,7 +38,7 @@ const CustomerSupportPage = () => {
   const [queryParamTemp, setQueryParamTemp] = useState({})
 
   const authToken = Cookies.get("access_token")
-  const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
+  const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
   const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
   console.log(ticketStatus, "ticketStatus")
@@ -160,7 +161,7 @@ const CustomerSupportPage = () => {
   }*/
   const handleSearch = () => {
     if (validateData()) {
-      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -183,7 +184,7 @@ const CustomerSupportPage = () => {
     setSearchValue("")
     setQueryParamTemp({})
     if(activeTab === 'allTickets'){
-      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -196,7 +197,7 @@ const CustomerSupportPage = () => {
           toast.error("Something went wrong!")
         }); 
     }else if (activeTab === 'openTickets') {
-      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -211,7 +212,7 @@ const CustomerSupportPage = () => {
 
     }
     else if (activeTab === "closedTickets") {
-      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab==="closedTickets" ?'':activeTab}`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab==="closedTickets" ?'':activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -225,7 +226,7 @@ const CustomerSupportPage = () => {
         });
 
     }else if(activeTab === "inProgressTickets"){
-      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab==="inProgressTickets" ?'':activeTab}`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab==="inProgressTickets" ?'':activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
