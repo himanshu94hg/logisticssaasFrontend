@@ -37,6 +37,10 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
+    const [genaratelabel, setGenaratelabel] = useState(false);
+    const [generateinvoice, setGenerateinvoice] = useState(false);
+
 
     useEffect(() => {
         if (orderdelete) {
@@ -85,53 +89,55 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
 
 
     const handleDownloadLabel = async (orderId) => {
-        try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/${orderId}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Something went wrong');
+        dispatch({
+            type: "BULK_ORDER_GENERATE_LABEL_ACTION",
+            payload: {
+                order_ids: `${orderId}`
             }
-
-            const data = await response.blob();
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-        }
+        });
+        setGenaratelabel(true)
+        // const data = await response.blob();
+        // const url = window.URL.createObjectURL(data);
+        // const a = document.createElement('a');
+        // a.style.display = 'none';
+        // a.href = url;
+        // a.download = 'label.pdf';
+        // document.body.appendChild(a);
+        // a.click();
+        // window.URL.revokeObjectURL(url);
+        // } catch (error) {
+        // }
     };
 
     const handleDownloadInvoice = async (orderId) => {
-        try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Something went wrong');
-            }
+        // try {
+        //     const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     });
+        //     if (!response.ok) {
+        //         throw new Error('Something went wrong');
+        //     }
 
-            const data = await response.blob();
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-        }
+        //     const data = await response.blob();
+        //     const url = window.URL.createObjectURL(data);
+        //     const a = document.createElement('a');
+        //     a.style.display = 'none';
+        //     a.href = url;
+        //     a.download = 'label.pdf';
+        //     document.body.appendChild(a);
+        //     a.click();
+        //     window.URL.revokeObjectURL(url);
+        // } catch (error) {
+        // }
+        dispatch({
+            type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
+                order_ids: `${orderId}`
+            }
+        });
+        setGenerateinvoice(true)
     };
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
@@ -220,6 +226,42 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
             window.location.href = '';
         }
     }
+
+    useEffect(() => {
+        if (labelData) {
+            if (genaratelabel === true) {
+                const blob = new Blob([labelData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'label.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenaratelabel(false)
+            }
+        }
+    }, [labelData])
+
+    useEffect(() => {
+        if (invoiceData) {
+            if (generateinvoice === true) {
+                const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Invoice.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenerateinvoice(false)
+            }
+        }
+    }, [invoiceData])
+
+    console.log(invoiceData, "invoiceDatainvoiceData")
 
     return (
         <>
@@ -390,35 +432,44 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                     <button className='btn main-button' style={{ width: '100%' }}>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
-                                                                : row?.status === "cancelled" ? <span onClick={() => openCloneSection(row?.id)}>Clone</span>
-                                                                    : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
-                                                                        : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
+                                                                : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
+                                                                    : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span>
+                                                                        : row?.status === "cancelled" || row?.status === "delivered" || row?.status === "picked_up" ||
+                                                                         row?.status === "out_for_delivery" || row?.status === "pickup_scheduled" || row?.status === "rto_initiated" 
+                                                                         || row?.status === "ndr" ||row?.status === "lost" ||row?.status === "damaged" 
+                                                                         ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span> : ""
                                                     }</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        {row.status !== "cancelled" ? <div className='action-list'>
+                                                        <div className='action-list'>
                                                             <ul>
-                                                                {row?.courier_partner != null || row.status !== "pending" && (
-                                                                    <>
-                                                                        <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
-                                                                        <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                                    </>
-                                                                )}
-                                                                <li onClick={() => openCloneSection(row?.id)}>Clone</li>
-                                                                <li onClick={() => dispatch({
-                                                                    type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                                                                        awb_numbers: [
-                                                                            row?.awb_number]
+                                                                <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
+                                                                <li onClick={() => {
+                                                                    if (row.status !== "pending") {
+                                                                        dispatch({
+                                                                            type: "ORDERS_DETAILS_CANCEL_ACTION",
+                                                                            payload: {
+                                                                                awb_numbers: [row?.awb_number]
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        dispatch({
+                                                                            type: "BULK_PROCESSING_ORDER_CANCEL_ACTION",
+                                                                            payload: {
+                                                                                order_ids: [row?.id],
+                                                                            }
+                                                                        });
                                                                     }
-                                                                })}>Cancel Order</li>
-                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete</li>
-                                                                {row?.status === "shipped" &&
-                                                                    <li onClick={() => handleShipReassign(row?.id)}>Reassign</li>
-                                                                }
+                                                                }}>Cancel Order</li>
+
+                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                <li onClick={() => handleShipReassign(row?.id)}>Reassign Order</li>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                             </ul>
-                                                        </div> : ""}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>

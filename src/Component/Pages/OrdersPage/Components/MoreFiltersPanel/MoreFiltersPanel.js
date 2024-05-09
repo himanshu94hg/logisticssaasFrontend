@@ -26,7 +26,6 @@ const OrderStatus = [
     { label: "Out of Delivery", value: "out_for_delivery" },
     { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
-    { label: "Manifested", value: "manifested" },
     { label: "RTO Initiated", value: "rto_initiated" },
     { label: "NDR", value: "ndr" },
     { label: "Lost", value: "lost" },
@@ -60,7 +59,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [SaveFilter, setSaveFilter] = useState(false);
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
-    const { tagListData ,orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
 
@@ -97,7 +96,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
     const handleSubmit = e => {
         e.preventDefault();
-    //    if(validateFormData()){
+        //    if(validateFormData()){
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => {
@@ -106,19 +105,19 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     return `${key}=${formattedDate}`;
                 }
                 else {
-                    const trimmedValue = value.replace(/,+$/,'');
+                    const trimmedValue = value.replace(/,+$/, '');
                     return `${key}=${trimmedValue}`;
                 }
             })
             .join('&');
-        if ( SaveFilter && favName.trim() === "") {
+        if (SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
                 validationErrors.favName = "Required";
             }
             setErrors(validationErrors);
-            console.error(validationErrors,"Favorite name cannot be empty!");
-            return; 
+            console.error(validationErrors, "Favorite name cannot be empty!");
+            return;
         }
 
         handleMoreFilter(filterParams)
@@ -133,7 +132,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
         setSaveFilter(false)
         setFavName("")
-    //    }
+        //    }
     };
 
     useEffect(() => {
@@ -284,7 +283,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             e.preventDefault();
         }
     }
-console.log(filterParams,"this is a dummy data")
+    console.log(filterParams, "this is a dummy data")
 
     return (
         <>
@@ -313,7 +312,7 @@ console.log(filterParams,"this is a dummy data")
                                             onChange={(e) => handleChange("start_date", e)}
                                             placeholderText='Select Start Date'
                                         />
-                                         {/*{(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}*/}
+                                        {/*{(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}*/}
                                     </div>
                                 </label>
                                 <label>
@@ -329,7 +328,7 @@ console.log(filterParams,"this is a dummy data")
                                             onChange={(e) => handleChange("end_date", e)}
                                             placeholderText='Select Start Date'
                                         />
-                                         {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
+                                        {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
                                     </div>
                                 </label>
                             </div>
@@ -471,7 +470,7 @@ console.log(filterParams,"this is a dummy data")
                                 )}
 
                                 {/*errors.favName && <span className='error-text'></span>*/}
-                               
+
                             </label>
                             <div>
                                 <button className='btn seconadary-button' type="button" onClick={handleReset}>
