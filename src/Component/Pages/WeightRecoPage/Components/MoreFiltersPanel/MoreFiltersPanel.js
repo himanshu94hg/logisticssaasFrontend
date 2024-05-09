@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -207,7 +208,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         const fetchData = async () => {
             try {
                 if (MoreFilters) {
-                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }

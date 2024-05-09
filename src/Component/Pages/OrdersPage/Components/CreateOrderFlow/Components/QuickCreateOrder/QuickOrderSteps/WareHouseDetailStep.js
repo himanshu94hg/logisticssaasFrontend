@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
 import SingleShipPop from '../../../../Processing/SingleShipPop/SingleShipPop';
+import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
 const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingleShip}) => {
     const [warehouses, setWarehouses] = useState([]);
@@ -21,7 +22,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingl
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/`, {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }

@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
 
 
@@ -21,7 +22,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }

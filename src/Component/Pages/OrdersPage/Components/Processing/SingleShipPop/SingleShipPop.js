@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import shipNowAction from '../../../../../../redux/action/orders/shipNow';
+import { BASE_URL_CORE } from '../../../../../../axios/config';
 
 
 const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
@@ -40,7 +41,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                 }
             };
 
-            axios.get(`https://dev.shipease.in/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                 }).catch((error) => {
@@ -49,7 +50,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     }, [orderId]);
 
     const handleSubmit = (courier) => {
-        axios.get(`https://dev.shipease.in/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
+        axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

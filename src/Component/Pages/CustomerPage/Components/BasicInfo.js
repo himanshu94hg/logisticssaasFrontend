@@ -12,6 +12,7 @@ import { awsAccessKey } from '../../../../config';
 import { toast } from 'react-toastify';
 import { Document, Page, pdfjs } from 'react-pdf';
 import Modal from "react-bootstrap/Modal";
+import { BASE_URL_CORE } from '../../../../axios/config';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 
@@ -156,7 +157,7 @@ const BasicInfo = ({ activeTab }) => {
   useEffect(() => {
     if (activeTab === "Basic Information") {
       axios
-          .get('https://dev.shipease.in/core-api/seller/basic-info/', {
+          .get(`${BASE_URL_CORE}/core-api/seller/basic-info/`, {
             headers: {
               'Authorization': `Bearer ${hardcodedToken}`,
             },
@@ -208,7 +209,7 @@ const BasicInfo = ({ activeTab }) => {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const response = await axios.post('https://dev.shipease.in/core-api/seller/basic-info/', formData, {
+        const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,
           },

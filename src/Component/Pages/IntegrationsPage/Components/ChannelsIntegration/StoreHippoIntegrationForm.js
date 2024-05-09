@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import Cookies from 'js-cookie';
 import moment from 'moment';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
 const StoreHippoIntegrationForm = () => {
 
@@ -60,7 +61,7 @@ const StoreHippoIntegrationForm = () => {
         event.preventDefault();
          if (validateFormData()){
             try {
-                const response = await axios.post('https://dev.shipease.in/core-api/channel/channel/', formData, {
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/channel/channel/`, formData, {
                     headers: {
                         'Authorization': `Bearer ${hardcodedToken}`,
                         'Content-Type': 'application/json'

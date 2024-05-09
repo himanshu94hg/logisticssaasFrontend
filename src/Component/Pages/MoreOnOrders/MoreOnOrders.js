@@ -18,6 +18,7 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
+import { BASE_URL_CORE } from '../../../axios/config';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -59,7 +60,7 @@ const MoreOnOrders = () => {
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryName, setQueryName] = useState([])
     const { favListData } = useSelector(state => state?.orderSectionReducer)
-    const apiEndpoint = "https://dev.shipease.in/";
+    const apiEndpoint = `${BASE_URL_CORE}`;
     const activeTabValueSet =
         activeTab === "Reassign Order"
             ? "core-api/shipping/reassign/"
