@@ -72,11 +72,13 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
     };
 
     const manifestDownload = (value) => {
-        dispatch({
-            type: "BULK_ORDER_DOWNLOAD_MANIFEST_ACTION", payload: {
-                manifest_id: value
-            }
-        })
+        if(activeTab === "Manifest"){
+            dispatch({
+                type: "BULK_ORDER_DOWNLOAD_MANIFEST_ACTION", payload: {
+                    manifest_id: value
+                }
+            })
+        }   
     }
 
     const handleDownloadLabel = async (data) => {
@@ -153,6 +155,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
 
     useEffect(() => {
         if (downloadManifest) {
+            if(activeTab === "Manifest"){   
             const blob = new Blob([downloadManifest], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -162,6 +165,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
+            }
         }
 
     }, [downloadManifest])
