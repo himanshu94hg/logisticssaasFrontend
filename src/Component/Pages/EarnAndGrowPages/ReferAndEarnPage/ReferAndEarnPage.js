@@ -6,7 +6,26 @@ const ReferAndEarnPage = () => {
         <>
             <section className='box-shadow shadow-sm p10 rae-page'>
                 <h2>Refer And Earn</h2>
-                {/* <p>Invite you friends. If they sign up, you and your friend will get 2 driving days for free! |</p> */}
+                <p>Invite you friends. If they Ship their first order, you and your friend will get coins to redeem!</p>
+
+                <div className='referal-steps'>
+                    <div className='step-content'>
+                        <h4>Send Invitation</h4>
+                        <p>Send your referral link to friends and tell them how cool Shipease is!</p>
+                    </div>
+                    <div className='step-content'>
+                        <h4>Registration</h4>
+                        <p>They register on Shipease</p>
+                    </div>
+                    <div className='step-content'>
+                        <h4>Recharge</h4>
+                        <p></p>
+                    </div>
+                    <div className='step-content'>
+                        <h4>Enjoy Free Cash!</h4>
+                        <p></p>
+                    </div>
+                </div>
             </section>
         </>
     )
