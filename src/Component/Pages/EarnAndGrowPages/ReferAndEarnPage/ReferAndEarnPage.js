@@ -25,14 +25,14 @@ const ReferAndEarnPage = () => {
                             <RegistrationIcon />
                         </div>
                         <h5>Register</h5>
-                        <p>They register on Shipease</p>
+                        <p>Let them register to our services using your referral link.</p>
                     </div>
                     <div className='step-content'>
                         <div className='step-image-sec'>
                             <RechargeIcon />
                         </div>
                         <h5>Recharge</h5>
-                        <p></p>
+                        <p>They will recharge their wallet.</p>
                     </div>
                     <div className='step-content'>
                         <div className='step-image-sec'>
