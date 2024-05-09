@@ -97,6 +97,7 @@
     background-color: #fff;
     background: url(../../../assets/image/leftSidePattern.svg);
     background-position: center;
+    background-size: contain;
 }
 
 
