@@ -442,7 +442,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                     {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download lab    el</li>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                 <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
