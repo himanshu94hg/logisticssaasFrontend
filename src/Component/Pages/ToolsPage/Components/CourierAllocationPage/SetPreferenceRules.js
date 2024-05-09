@@ -47,7 +47,7 @@ const SetPreferenceRules = () => {
             dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
         }
     }, [courierEditPostRules]);
-    
+
 
     const initializeIsActiveState = (rules) => {
         const initialActiveState = rules.map(rule => rule.status);
@@ -103,7 +103,7 @@ const SetPreferenceRules = () => {
             dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
         }
     };
-    
+
 
     const handleSubmit = () => {
         const requestData = {
@@ -148,7 +148,7 @@ const SetPreferenceRules = () => {
     const priorityOptions = Array.from({ length: allRules.length + 1 }, (_, index) => ({
         value: index + 1
     }));
-    
+
 
     return (
         <>
@@ -194,10 +194,10 @@ const SetPreferenceRules = () => {
                                 ))}
                             </div>
                             <div className='rule-preference text-capitalize'>
-                                <p>Preference 1: {rule?.priority_1}</p>
-                                <p>Preference 2: {rule?.priority_2}</p>
-                                <p>Preference 3: {rule?.priority_3}</p>
-                                <p>Preference 4: {rule?.priority_4}</p>
+                                <p>1: <img src={rule?.priority_1} alt="" /> {rule?.priority_1}</p>
+                                <p>2: <img src={rule?.priority_2} alt="" /> {rule?.priority_2}</p>
+                                <p>3: <img src={rule?.priority_3} alt="" /> {rule?.priority_3}</p>
+                                <p>4: <img src={rule?.priority_4} alt="" /> {rule?.priority_4}</p>
                             </div>
                             <div className='rules-action-btn'>
                                 <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
