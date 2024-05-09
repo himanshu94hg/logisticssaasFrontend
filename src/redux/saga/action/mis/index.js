@@ -8,7 +8,7 @@ import { ACTIVIES_LOG_DATA, GET_MIS_DOWNLOAD_DATA, GET_REPORTS_BILLING_DATA, GET
 async function misDownloadApi(data) {
     return axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.MIS_DOWNLOAD}`,
+        url: `${BASE_URL_ORDER}${API_URL.MIS_DOWNLOAD}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
 }
@@ -128,7 +128,7 @@ function* misReportsShipmentsAction(action) {
 async function misScheduledReportsApi(data) {
     return axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.MIS_SCHEDULED_REPEORTS}`,
+        url: `${BASE_URL_ORDER}${API_URL.MIS_SCHEDULED_REPEORTS}?page_size=${data?.itemsPerPage}&page=${data?.currentPage}`,
         data: data
     });
 }

@@ -51,22 +51,22 @@ const CreateOrderFlow = () => {
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             <div className='create-order-flow-container'>
-                {/* All Orders */}
+                {/* All */}
                 <div className={`${activeTab === "DomesticCreateOrder" ? "d-block" : "d-none"}`}>
                     <DomesticCreateOrder />
                 </div>
 
-                {/* All Orders */}
+                {/* All */}
                 <div className={`${activeTab === "InternationalCreateOrders" ? "d-block" : "d-none"}`}>
                     <InternationalCreateOrders />
                 </div>
 
-                {/* All Orders */}
+                {/* All */}
                 <div className={`${activeTab === "BulkCreateOrder" ? "d-block" : "d-none"}`}>
                     <BulkCreateOrder />
                 </div>
 
-                {/* All Orders */}
+                {/* All */}
                 <div className={`${activeTab === "QuickCreateOrder" ? "d-block" : "d-none"}`}>
                     <QuickCreateOrder />
                 </div>

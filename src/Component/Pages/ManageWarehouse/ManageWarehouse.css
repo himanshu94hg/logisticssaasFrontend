@@ -5,6 +5,10 @@
     /* Each row contains 4 boxes */
     gap: 50px;
     /* Gap between grid items */
+    max-height: calc(100vh - 201px);
+    overflow: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .box {
@@ -163,6 +167,36 @@
 .manage-warehouse .search-container .input-field {
     padding-left: 10px;
 }
+
+
+.warehouse-edit .ticket-slider-footer {
+    padding-inline: 30px 20px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* .warehouse-edit .add-warehouse-section .d-flex.justify-content-end.my-3 button {
+    display: none;
+} */
+
+.warehouse-edit .add-warehouse-section {
+    box-shadow: none !important;
+    padding: 0;
+    height: calc(100vh - 175px);
+}
+
+
+
+.ticket-slider-body .mobile-number-field input.input-field {
+    border-radius: 0.5rem;
+    padding-left: 72px;
+}
+
+.ticket-slider-body .mobile-number-field select.input-field {
+    width: 60px;
+    min-width: 60px;
+}
+
 
 @media (max-width: 768px) {
     .box-grid {

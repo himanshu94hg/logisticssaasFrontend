@@ -1,23 +1,25 @@
 import './LoginPage.css';
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import React, { useEffect, useState } from 'react';
-import { LOGIN_DATA } from '../../../redux/constants/auth';
-import { getIndexRoute, indexPattern, signUpPattern } from '../../../Routes';
 import { toast } from 'react-toastify';
-import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
-import Logo from '../../../assets/image/logo/logo.svg'
-import FacebookIcon from './Icons/FacebookIcon';
+import { useDispatch } from 'react-redux';
 import PhoneIcon from './Icons/PhoneIcon';
-import GoogleIcon from './Icons/GoogleIcon';
 import EmailIcon from './Icons/EmailIcon';
+import GoogleIcon from './Icons/GoogleIcon';
+import FacebookIcon from './Icons/FacebookIcon';
+import React, { useEffect, useState } from 'react';
+import Logo from '../../../assets/image/logo/logo.svg'
+import { LOGIN_DATA } from '../../../redux/constants/auth';
+import { indexPattern, signUpPattern } from '../../../Routes';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
+  const pathname = useLocation()
+  const params = useParams()
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
@@ -51,14 +53,12 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
         setTokenExists(true)
         navigate(indexPattern);
         Cookies.set('access_token', response?.data?.access_token)
-        // localStorage.setItem('token', token);
         Cookies.set('user_id', response?.data?.user_id)
         dispatch({ type: LOGIN_DATA, payload: response })
         window.location.reload()
       }
 
     } catch (error) {
-      console.log(error, "this is a error data")
       const errorType = typeof error?.response?.data.detail;
       if (errorType === "string") {
         errorHandlefirst(error?.response?.data.detail)
@@ -73,13 +73,12 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   }
 
   const handleOTPSubmit = (e) => {
-    //form for OTP Login
     e.preventDefault();
   }
 
   const handleSendOTP = () => {
     setSentOtp(true)
-    setTimer(20); // Reset the timer to 20 seconds
+    setTimer(20); 
     setIsTimerRunning(true);
   }
 
@@ -89,7 +88,6 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   }
 
   const handleResendOTP = () => {
-    //resend otp funtion after 20 seconds
   }
 
   useEffect(() => {
@@ -104,10 +102,21 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
     <>
       <section className='login-section'>
         <div className="signin row">
-          <div className='col-md-8 col-lg-6'></div>
-          <div className='left-side col-md-4 col-lg-6'>
+          <div className='login-logo-container'>
+            {/* <div className='login-lc-bg'>
+              <SVGFigure />
+            </div> */}
+            <img src={Logo} alt="logo" />
+          </div>
+          <div className='col-md-10 col-lg-10 left-side'>
+            <div className=''>
+              {/* <img src={loginBG} alt="" /> */}
+            </div>
+          </div>
+          <div className='col-md-2 col-lg-2 right-side'>
             <div className="content">
-              <img src={Logo} alt="Logo" height={25} />
+              {/* <img src={Logo} alt="Logo" height={25} /> */}
+              <h3 className='text-center mb-0'>Login</h3>
               {!OtpLogin ? <>
                 <form onSubmit={handleLogin} className="form">
                   <label className="inputBox">

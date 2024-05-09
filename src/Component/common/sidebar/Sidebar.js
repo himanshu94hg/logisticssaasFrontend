@@ -28,7 +28,7 @@ const sidebarItems = [
   { icon: CustomerIcon, to: "/Customer", label: "Customer" },
   { icon: ToolsIcons, to: "/Tools", label: "Tools" },
   { icon: MISIcon, to: "/MIS", label: "MIS" },
-  { icon: CustomerSupportIcon, to: "/CustomerSupport", label: "Customer Support" },
+  { icon: CustomerSupportIcon, to: "/CustomerSupport", label: "Support" },
 ];
 
 export default function Sidebar() {

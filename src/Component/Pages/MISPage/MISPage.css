@@ -19,7 +19,8 @@
     gap: 3rem;
 }
 
-.reports-mis .search-container {
+.reports-mis .search-container,
+.downloads-mis .search-container {
     display: flex;
     gap: 20px;
     align-items: flex-end;

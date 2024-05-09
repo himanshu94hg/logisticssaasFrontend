@@ -345,10 +345,13 @@
 .status-container-item {
     width: 100%;
     height: auto;
-    padding: 15px;
+    /* padding: 15px; */
     display: flex;
-    background-color: var(--sh-primary-light);
+    /* background-color: var(--sh-primary-light); */
     border-radius: 0.5rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
 }
 
 .status-container-item p {
@@ -356,50 +359,54 @@
 }
 
 .status-container-item .status-header {
-    background: #fff;
     display: inline-block;
-    height: 80px;
-    margin-right: 22px;
     position: relative;
-    width: 80px;
     display: flex;
     align-items: center;
-    border-radius: 0.5rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    gap: 15px;
+    width: 50%;
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    padding-block: 4px;
+    /* padding-inline: 8px; */
 }
 
 .status-container-item .status-header .header-polygon {
     display: block;
-    height: 55px;
-    width: 55px;
-    background-color: inherit;
+    height: 21px;
+    width: 21px;
+    background-color: #fff;
     border: inherit;
     position: absolute;
-    top: 13px;
-    right: -25px;
+    top: 4px;
+    right: -11px;
     clip-path: polygon(0% 0%, 100% 100%, 0% 100%);
-    transform: rotate(-135deg);
-    border-radius: 0 0 0 0.5rem;
+    transform: rotate(45deg);
+    /* border-radius: 0 0 0 0.5rem; */
 }
 
 .status-container-item .status-header p {
     margin: auto;
     text-align: center;
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 700;
+    padding: 0px;
 }
 
 .status-container-item .status-item {
     display: flex;
     width: 100%;
     align-items: center;
+    justify-content: space-around;
 }
 
 .status-container-item .status-item .status-counter {
     display: flex;
-    width: 100%;
+    width: auto;
     flex-direction: column;
     align-items: center;
-    height: 65%;
+    /* height: 65%; */
     flex-direction: column-reverse;
     justify-content: flex-end;
 }
@@ -409,17 +416,21 @@
 }
 
 .status-container-item .status-item .status-counter p:first-of-type {
-    font-size: 0.8rem;
-    display: inline-block;
-    width: 63%;
-    white-space: normal;
+    font-size: 0.9rem;
+    /* display: inline-block; */
+    /* width: 63%; */
+    white-space: nowrap;
+    color: gray;
 }
 
 
 .status-container-item .status-item .status-counter p:last-of-type {
-    font-size: 1rem;
-    color: var(--sh-primary);
-    font-weight: 700;
+    /* display: flex; */
+    /* width: 100%; */
+    /* align-items: center; */
+    /* justify-content: space-around; */
+    /* color: var(--sh-primary); */
+    font-size: 1.3rem;
 }
 
 .last-thirty-table {
@@ -438,6 +449,45 @@
     display: flex;
     align-items: center;
 } */
+
+.status-card-container .circle-blinker {
+    position: relative;
+    width: 15px;
+    height: 15px;
+    display: inline-flex;
+    background: var(--sh-primary);
+    border-radius: 50%;
+    /* vertical-align: -3px; */
+    align-items: center;
+    justify-content: center;
+}
+
+.status-card-container .circle-blinker span {
+    border-radius: 50%;
+    width: 50%;
+    height: 50%;
+    background: #fff;
+    /* margin-top: 0; */
+    /* animation: circleblinker 2s infinite; */
+}
+
+
+/* @keyframes circleblinker {
+    50% {
+        opacity: 70%;
+    }
+} */
+
+.dashboard-table .pa-tootltip {
+    width: auto;
+    min-width: unset;
+    max-width: unset;
+    max-height: unset;
+    min-height: unset;
+    white-space: nowrap;
+    left: 36px;
+    bottom: -2px;
+}
 
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {

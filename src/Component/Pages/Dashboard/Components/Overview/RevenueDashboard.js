@@ -47,7 +47,7 @@ function RevenueDashboard() {
         <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>Prepaid Revenue</p>
           <p className="">
-            <AiOutlineArrowUp className=" font15" />
+            {/* <AiOutlineArrowUp className=" font15" /> */}
             {/* {revenueData.prepade_revenue_data}% */}
           </p>
           <p className="cardvalue">{revenueCard?.prepaid_revenue || "NA"}</p>
@@ -56,16 +56,18 @@ function RevenueDashboard() {
         <li className={`bg-sh-primary-light text-sh-primary`}>
           <p>COD Revenue</p>
           <p>
-            <AiOutlineArrowUp className=" font15" />
+            {/* <AiOutlineArrowUp className=" font15" /> */}
             {/* {revenueData.cod_revenue_data}% */}
           </p>
           <p className="cardvalue">{revenueCard?.cod_revenue || "NA"}</p>
         </li>
         {/* Add other items based on your API response structure */}
         <li className={`bg-sh-primary-light text-sh-primary`}>
-          <p>Total Delivered Orders</p>
-          <AiOutlineArrowUp className=" font15" />
-          <p className="cardvalue">{revenueCard?.total_delivered_orders || "NA"}</p>
+          <p>Total Revenue</p>
+          <p>
+            {/* <AiOutlineArrowUp className=" font15" /> */}
+          </p>
+          <p className="cardvalue">{revenueCard?.prepaid_revenue + revenueCard?.cod_revenue}</p>
         </li>
       </ul>
     </div>

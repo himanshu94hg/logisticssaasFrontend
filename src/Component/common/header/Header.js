@@ -1,43 +1,49 @@
 import "./header.css";
+import axios from "axios";
 import Cookies from "js-cookie";
-import WalletIcon from "./Icons/WalletIcon";
-import { Link, useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import UserImage from '../../../assets/image/icons/UserImage.png'
-import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt, faIndianRupeeSign, faCalculator, faHandHoldingDollar, faSortDown, faMagnifyingGlass, faUser } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import QuickIcon from "./Icons/QuickIcon";
-import CreateOrderIcon from "./Icons/CreateOrderIcon";
-import QuickShipIcon from "./Icons/QuickShipIcon";
-import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
-import TicketIcon from "./Icons/TicketIcon";
-import TrackingIcon from "./Icons/TrackingIcon";
-import EarnAndGrow from "./Icons/EarnAndGrow";
-import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
-import ReferEarnIcon from "./Icons/ReferEarnIcon";
-import { RateCalculatorPattern, createOrderPattern, customerSupportPattern, ordersPattern, } from "../../../Routes";
+import WalletIcon from "./Icons/WalletIcon";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { toast } from "react-toastify";
+import TicketIcon from "./Icons/TicketIcon";
+import EarnAndGrow from "./Icons/EarnAndGrow";
+import TrackingIcon from "./Icons/TrackingIcon";
+import QuickShipIcon from "./Icons/QuickShipIcon";
 import UserImageIcon from "./Icons/UserImageIcon";
+import ReferEarnIcon from "./Icons/ReferEarnIcon";
+import { Link, useNavigate } from "react-router-dom";
+import CreateOrderIcon from "./Icons/CreateOrderIcon";
 import EmptyWalletIcon from "./Icons/EmptyWalletIcon";
+import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
+import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
+import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
 
 export default function Header(props) {
   const navigate = useNavigate()
+  let staticToken = Cookies.get("static_token")
+  const [userData, setUserData] = useState(null)
   const [inputValue, setInputValue] = useState('');
-  const sellerData = Cookies.get("user_id")
-  let authToken = Cookies.get("access_token")
-  //const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
+  const [temp, setTemp] = useState({
+    var1: null,
+    var2: null,
+  });
 
+  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
+  
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      navigate(ordersPattern)
-      setInputValue('')
+      navigate(`/orderdetail/${inputValue}`);
     }
   }
 
+  const handleNavigate = () => {
+    navigate(`/orderdetail/${inputValue}`);
+  }
 
   const handleLogout = () => {
     localStorage.clear();
@@ -45,14 +51,6 @@ export default function Header(props) {
     window.location.reload()
   };
 
-  const [temp, setTemp] = useState({
-    var1: null,
-    var2: null,
-  });
-  
-  const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
-  const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
-  
   useEffect(() => {
     setTemp(prev => ({
       ...prev,
@@ -60,8 +58,28 @@ export default function Header(props) {
       var2: paymentSetCard
     }));
   }, [paymentCard, paymentSetCard]);
-  
-  console.log(temp, "temptemp");
+
+  useEffect(() => {
+    const authToken = Cookies.get("access_token");
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`https://dev.shipease.in/core-api/seller/get-seller-profile/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`
+          }
+        });
+        setUserData(response.data);
+      } catch (error) {
+      }
+    };
+    fetchData();
+  }, [])
+
+
+  const handleSwitch = () => {
+    window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`
+    console.log("object")
+  }
 
   return (
     <Navbar
@@ -79,8 +97,8 @@ export default function Header(props) {
               </div>
               <div className="quick-actions-hover hl">
                 <div className="qa-hovered-content">
-                  <p><BusinessPlanIcon />Business Plan</p>
-                  <p><ReferEarnIcon />Refer to Earn Coins</p>
+                  <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plana</p>
+                  <p onClick={() => navigate(ReferAndEarnPattern)}><ReferEarnIcon />Refer to Earn Coins</p>
 
                 </div>
               </div>
@@ -93,7 +111,7 @@ export default function Header(props) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress} />
-                <button><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                <button onClick={handleNavigate}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
               </div>
               <div className="quick-actions-container">
                 <div className="quick-action-text">
@@ -105,7 +123,7 @@ export default function Header(props) {
                     <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
                     <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
                     <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
-                    <p><Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link></p>
+                    <Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link>
                   </div>
                 </div>
               </div>
@@ -145,11 +163,19 @@ export default function Header(props) {
                 className="user-image-container"
               >
                 <NavDropdown.Item eventKey="4.1">
-                  Hello, Himanshu
+                  Hello, {userData?.first_name || "Seller"}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">
                   <FontAwesomeIcon icon={faEdit} /><span className="ms-2">Edit Profile</span>
+                </NavDropdown.Item>
+                <NavDropdown.Divider />
+
+                <NavDropdown.Item
+                  eventKey="4.4"
+                  onClick={() => handleSwitch()}
+                >
+                  <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item

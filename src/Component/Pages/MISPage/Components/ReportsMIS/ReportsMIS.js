@@ -12,6 +12,7 @@ import ReturnsTableMIS from './Components/ReturnsTableMIS';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
+import Pagination from '../../../../common/Pagination/Pagination';
 
 const ReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -22,6 +23,14 @@ const ReportsMIS = ({ activeTab }) => {
     const [endDate, setEndDate] = useState(new Date());
     const [stateData, setStateData] = useState(false)
     const [stateData1, setStateData1] = useState(new Date())
+
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+
+    const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
+    const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
+    const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -34,7 +43,7 @@ const ReportsMIS = ({ activeTab }) => {
     const secondOptionsMap = {
         Orders: [
             { value: '', label: 'Select Option' },
-            { value: 'all_orders', label: 'All Orders' },
+            { value: 'all_orders', label: 'All' },
             { value: 'processing_orders', label: 'Processing Order' },
             { value: 'shipped_orders', label: 'Shipped Order' },
             { value: 'delivered_orders', label: 'Delivered Order' },
@@ -92,42 +101,91 @@ const ReportsMIS = ({ activeTab }) => {
 
     useEffect(() => {
         // if(stateData){
-            if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_ORDERS_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
-                    }
-                })
-            } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_BILLING_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
-                    }
-                })
-            } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
-                    }
-                })
-            } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
-                dispatch({
-                    type: "MIS_REPORT_RETURNS_ACTION", payload: {
-                        sub_type: secondSelectedOption?.value,
-                        start_date: moment(startDate).format("YYYY-MM-DD"),
-                        end_date: moment(endDate).format("YYYY-MM-DD")
-                    }
-                })
-            }
+        if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_ORDERS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_BILLING_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
+            dispatch({
+                type: "MIS_REPORT_RETURNS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
         // }
-    }, [showComponent,stateData1])
+    }, [showComponent, stateData1])
 
+    useEffect(() => {
+        if (reportsOrderData?.count > 0) {
+            dispatch({
+                type: "MIS_REPORT_ORDERS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
+    }, [itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if (reportShipmentsData?.count > 0) {
+            dispatch({
+                type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
+    }, [itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if (reportsReturnsData?.count > 0) {
+            dispatch({
+                type: "MIS_REPORT_RETURNS_ACTION", payload: {
+                    sub_type: secondSelectedOption?.value,
+                    start_date: moment(startDate).format("YYYY-MM-DD"),
+                    end_date: moment(endDate).format("YYYY-MM-DD"),
+                    page_size: itemsPerPage,
+                    page: currentPage
+                }
+            })
+        }
+    }, [itemsPerPage, currentPage]);
 
     // Handle form submit
     const handleSubmit = e => {
@@ -151,7 +209,15 @@ const ReportsMIS = ({ activeTab }) => {
             });
         }
     };
-
+    const handleKeyDown = (e) => {
+        const allowedCharacters = /[0-9/]/;
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+            return;
+        }
+        if (!allowedCharacters.test(e.key)) {
+            e.preventDefault();
+        }
+    }
 
 
     return (
@@ -187,9 +253,11 @@ const ReportsMIS = ({ activeTab }) => {
                                     className='input-field'
                                 /> */}
                                 <DatePicker
+                                    maxDate={new Date()}
+                                    selected={startDate}
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
-                                    selected={startDate}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                     onChange={handleStartDateChange}
                                 />
                             </div>
@@ -199,9 +267,11 @@ const ReportsMIS = ({ activeTab }) => {
                             <div className='date-picker-container'>
                                 <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
                                 <DatePicker
+                                    selected={endDate}
+                                    maxDate={new Date()}
                                     dateFormat='dd/MM/yyyy'
                                     className='input-field'
-                                    selected={endDate}
+                                    onKeyDown={(e) => handleKeyDown(e)}
                                     onChange={handleEndDateChange}
                                 />
                             </div>
@@ -221,29 +291,40 @@ const ReportsMIS = ({ activeTab }) => {
                                 startDate={startDate}
                                 endDate={endDate}
                                 setStateData={setStateData}
+                                setTotalItems={setTotalItems}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setTotalItems={setTotalItems}
                             />
                         ) : showComponent === 'Billing' ? (
                             <BillingTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setTotalItems={setTotalItems}
                             />
                         ) : showComponent === 'Returns' ? (
                             <ReturnsTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                setTotalItems={setTotalItems}
                             />
                         ) : ''
                     )}
                 </div>
             </div>
+            <Pagination
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 };

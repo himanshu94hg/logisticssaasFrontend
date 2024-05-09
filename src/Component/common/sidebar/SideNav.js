@@ -22,6 +22,7 @@ import pathAction from '../../../redux/action/pathname';
 import { indexPattern } from '../../../Routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
+import zonePathClearAction from '../../../redux/action/pathname/zonePath';
 
 
 
@@ -31,15 +32,18 @@ const Dropdown = ({ links, isOpen }) => {
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
-        <NavLink key={index} to={link.to} onClick={(e) => dispatch(pathAction(link.label))}>
+        <NavLink key={index} to={link.to}
+        onClick={(e) => {
+          dispatch(zonePathClearAction(link.label));
+          dispatch(pathAction(link.label));
+        }}
+        >
         <span className='submenu-icon'><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
         </NavLink>
       ))}
     </div>
   );
 };
-
-// dispatch({type:"PATHNAME_ACTION",payload: window.location.pathname})
 
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
@@ -89,10 +93,10 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
           {label === "OMS" && <OMSIcon />}
           {label === "Billing" && <BillingIcon />}
           {label === "Weight Reco." && <WeightRecordsIcon />}
-          {label === "Customer" && <CustomerIcon />}
+          {label === "Onboarding" && <CustomerIcon />}
           {label === "Tools" && <ToolsIcons />}
           {label === "MIS" && <MISIcon />}
-          {label === "Customer Support" && <CustomerSupportIcon />}
+          {label === "Support" && <CustomerSupportIcon />}
           {label === "Settings" && <SettingsIcon />}
           {/* Add other icons based on the menu item */}
 
@@ -137,7 +141,6 @@ const SideNav = (props) => {
 
   const handleMouseLeave = () => {
     setExpanded(false);
-    // Close all dropdowns when slider is closed
     setOpenDropdown(null);
   };
 
@@ -178,7 +181,6 @@ const SideNav = (props) => {
     },
     { to: "/billing", label: "Billing" },
     { to: "/weight-reconciliation", label: "Weight Reco." },
-    { to: "/customer", label: "Customer" },
     {
       to: "/Tools", label: "Tools", hasDropdown: true, dropdownLinks: [
         { to: "/shipping-rates", label: "Rate Card" },
@@ -190,8 +192,10 @@ const SideNav = (props) => {
       ],
     },
     { to: "/MIS", label: "MIS" },
-    { to: "/customer-support", label: "Customer Support" },
+    { to: "/customer-support", label: "Support" },
     { to: "/settings", label: "Settings" },
+    { to: "/customer", label: "Onboarding" },
+
   ];
 
   const handleMenuItemClick = () => {

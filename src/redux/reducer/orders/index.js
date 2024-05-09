@@ -1,4 +1,4 @@
-import { GET_ORDERS_DATA, GET_ORDERS_DETAILS_DATA, GET_ORDER_ID_DATA, ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, SHIP_NOW_DATA, MANIFEST_LIST_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA, ORDERS_LABEL_LIST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_PRODUCT_DIMENSION_DATA } from "../../constants/orders";
+import { GET_ORDERS_DATA, GET_ORDERS_DETAILS_DATA, GET_ORDER_ID_DATA, ORDERS_CANCEL_RES_DATA, ORDERS_CLONE_RES_DATA, ORDERS_DELETE_RES_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, SHIP_NOW_DATA, MANIFEST_LIST_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA, ORDERS_LABEL_LIST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_PRODUCT_DIMENSION_DATA,ORDERS_DETAILS_CLONE_DATA,ORDER_SOURCE_DATA } from "../../constants/orders";
 
 const initialState = {
     ordersData: [],
@@ -15,7 +15,9 @@ const initialState = {
     labelData:null,
     invoiceData:null,
     downloadManifest:null,
-    dimensionData:[]
+    dimensionData:[],
+    cloneData:[],
+    orderSourceListData:[],
 };
 
 export const orderSectionReducer = (state = initialState, action) => {
@@ -100,6 +102,19 @@ export const orderSectionReducer = (state = initialState, action) => {
                 ...state,
                 dimensionData: action?.payload
             };
+
+        case ORDERS_DETAILS_CLONE_DATA:
+            return {
+                ...state,
+                cloneData: action?.payload
+            };
+
+        case ORDER_SOURCE_DATA:
+            return {
+                ...state,
+                orderSourceListData: action?.payload
+            };
+            
         default:
             return state
     }

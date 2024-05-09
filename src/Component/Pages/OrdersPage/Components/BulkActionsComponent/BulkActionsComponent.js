@@ -10,67 +10,65 @@ import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
 import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
+import LabelIcon from './Components/BulkIcons/LabelIcon';
+import InvoiceIcon from './Components/BulkIcons/InvoiceIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { bulkShipData,labelData,invoiceData } = useSelector(state => state?.orderSectionReducer)
+    const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
 
-
-    console.log(labelData,invoiceData,"labelData,invoiceData")
-
-
-useEffect(()=>{
-       if(labelData){
-        if(genaratelabel === true){
-            const blob = new Blob([labelData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            setGenaratelabel(false)
-           }  
-       }
-    },[labelData])
-
-    useEffect(()=>{
-        if(invoiceData){
-         if(generateinvoice === true){
-            const blob = new Blob([invoiceData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Invoice.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-             setGenerateinvoice(false)
-            }  
+    useEffect(() => {
+        if (labelData) {
+            if (genaratelabel === true) {
+                const blob = new Blob([labelData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'label.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenaratelabel(false)
+            }
         }
-     },[invoiceData])
+    }, [labelData])
 
-   /* useEffect(()=>{
-        if(invoiceData){
-            const blob = new Blob([invoiceData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Invoice.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-           }
-    },[invoiceData])*/
+    useEffect(() => {
+        if (invoiceData) {
+            if (generateinvoice === true) {
+                const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Invoice.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenerateinvoice(false)
+            }
+        }
+    }, [invoiceData])
+
+    /* useEffect(()=>{
+         if(invoiceData){
+             const blob = new Blob([invoiceData], { type: 'application/pdf' });
+             const url = URL.createObjectURL(blob);
+             const a = document.createElement('a');
+             a.href = url;
+             a.download = 'Invoice.pdf';
+             document.body.appendChild(a);
+             a.click();
+             document.body.removeChild(a);
+             URL.revokeObjectURL(url);
+            }
+     },[invoiceData])*/
 
 
     const addTag = () => {
@@ -96,11 +94,20 @@ useEffect(()=>{
         })
     }
     const bulkCancelled = () => {
-        dispatch({
-            type: "BULK_CANCEL_ORDER_ACTION", payload: {
-                awb_numbers: selectedRows,
-            }
-        })
+        if (activeTab === "Processing" || activeTab === "Pickups") {
+            dispatch({
+                type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                    order_ids: selectedRows,
+                }
+            })
+        } else {
+            dispatch({
+                type: "BULK_CANCEL_ORDER_ACTION", payload: {
+                    awb_numbers: bulkAwb,
+                }
+            })
+        }
+
     }
     const generateManifest = () => {
         dispatch({
@@ -119,12 +126,12 @@ useEffect(()=>{
     }
     const generateLabel = () => {
         dispatch({
-            type: "BULK_ORDER_GENERATE_LABEL_ACTION", 
+            type: "BULK_ORDER_GENERATE_LABEL_ACTION",
             payload: {
                 order_ids: selectedRows.join(',')
             }
-        });    
-        setGenaratelabel(true)    
+        });
+        setGenaratelabel(true)
     }
     const generateInvoice = () => {
         dispatch({
@@ -153,11 +160,7 @@ useEffect(()=>{
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
-                "type":
-                    activeTab === "All Orders" || activeTab === "Unprocessable" ||
-                        activeTab === "Processing" || activeTab === "Ready to Ship" ||
-                        activeTab === "Pickup" || activeTab === "Returns"
-                        ? "" : activeTab,
+                "type": activeTab === "All" ? "" : activeTab,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
@@ -200,10 +203,9 @@ useEffect(()=>{
         };
         dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
         setShipButtonClicked(true);
-    };    
+    };
 
     useEffect(() => {
-        console.log("All Bulk Ship 1",shipButtonClicked);
         if (shipButtonClicked === true) {
             if (bulkShipData && Object.keys(bulkShipData).length > 0) {
                 const shippedCount = Object.values(bulkShipData).reduce((total, order) => {
@@ -214,6 +216,8 @@ useEffect(()=>{
                 }, 0);
                 toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
                 setShipButtonClicked(false);
+                setBulkActionShow(false)
+                setSelectedRows([])
             }
         }
     }, [shipButtonClicked, bulkShipData]);
@@ -231,14 +235,14 @@ useEffect(()=>{
                         </div>
                         <ul className='ba-actions'>
 
-                            {activeTab === "All Orders" &&
+                            {activeTab === "All" &&
                                 <>
                                     <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                     <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    {/* <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li> */}
                                     <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
-                                    <li onClick={generateLabel}><span>Label</span></li>
-                                    <li onClick={generateInvoice}><span>Invoice</span></li>
+                                    <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
+                                    <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                 </>
                             }
@@ -266,9 +270,9 @@ useEffect(()=>{
                             </>}
                             {activeTab === "Ready to Ship" &&
                                 <>
-                                    <li onClick={generatePickup}><span>Generate Pickup</span></li>
-                                    <li onClick={generateLabel}><span>Label</span></li>
-                                    <li onClick={generateInvoice}><span>Invoice</span></li>
+                                    <li onClick={generatePickup}><ShippingIcon /><span>Generate Pickup</span></li>
+                                    <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
+                                    <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
 
@@ -276,9 +280,9 @@ useEffect(()=>{
                             }
                             {activeTab === "Pickup" &&
                                 <>
-                                    <li onClick={generateManifest}><span>Generate Manifest</span></li>
-                                    <li onClick={generateLabel}><span>Label</span></li>
-                                    <li onClick={generateInvoice}><span>Invoice</span></li>
+                                    <li onClick={generateManifest}><ExportIcon /><span>Generate Manifest</span></li>
+                                    <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
+                                    <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
                                 </>
                             }

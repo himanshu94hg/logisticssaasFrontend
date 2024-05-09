@@ -5,6 +5,7 @@
 
 .weight-update .pop-content {
     padding-top: 10px;
+    overflow-y: auto;
 }
 
 .weight-update .pop-content .lbh-labels {

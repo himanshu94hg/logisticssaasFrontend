@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import SidePanel from './SidePanel/SidePanel';
 import { Modal } from 'react-bootstrap';
+import moment from 'moment';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -29,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActionShow }) => {
+const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -91,13 +92,15 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
 
     const handleClose = () => setShow(false);
 
+    console.log("Billing Count", billingCard);
+
 
     return (
         <section className='position-relative'>
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Freight Charges: <span>&#8377; {data?.Total_freight_charges||0}</span></p>
+                        <p>Total Freight Charges: <span>&#8377; {data?.Total_freight_charges || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
                         <p>Billed Freight Charges: <span>&#8377; 0</span></p>
@@ -125,7 +128,7 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
                                 </th>
                                 <th>AWB Number</th>
                                 <th>Courier Details</th>
-                                <th>AWB Assigned Date</th>
+                                <th style={{ width: '12%' }}>AWB Assigned Date</th>
                                 <th>Shipment Status</th>
                                 <th>Applied Weight Charges</th>
                                 <th>Excess Weight Charges</th>
@@ -167,7 +170,7 @@ const ShippingCharges = ({ billingCard,selectedRows,setSelectedRows,setBulkActio
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.datetime ? <DateFormatter dateTimeString={row.datetime} /> : ''}
+                                                    <span className=''>{`${moment(row?.datetime).format('DD MMM YYYY')} || ${moment(row?.datetime).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
                                         </td>

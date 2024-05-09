@@ -19,7 +19,7 @@ const DomesticCreateOrder = () => {
     const [step, setStep] = useState(1);
     const authToken = Cookies.get("access_token")
     const currentDate = new Date();
-    const [activeTab, setActiveTab] = useState("All Orders");
+    const [activeTab, setActiveTab] = useState("All");
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
     const [formData, setFormData] = useState({
@@ -32,7 +32,7 @@ const DomesticCreateOrder = () => {
             payment_type: '',
             order_date: currentDate,
             order_type: "",
-            channel: "custom",
+            channel: "",
             channel_id: null
         },
         shipping_details: {

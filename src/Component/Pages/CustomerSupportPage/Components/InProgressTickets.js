@@ -4,6 +4,8 @@ import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import { useDispatch } from 'react-redux';
+import { capatlize } from '../../../../customFunction/functionLogic';
+import NoData from '../../../common/noData';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -60,20 +62,24 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
     };
 
     const handleCloseOpenTicket = (id, status) => {
-        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: {
-            status:status,
-            ticket_ids:[id]
-        } })
+        dispatch({
+            type: "UPDATE_TICKET_STATUS_ACTION", payload: {
+                status: status,
+                ticket_ids: [id]
+            }
+        })
     }
 
     const handleEscalateTicket = (id) => {
-        dispatch({ type: "TICKET_ESCALATE_ACTION", payload: {
-            ticket_ids:[id]
-        } })
+        dispatch({
+            type: "TICKET_ESCALATE_ACTION", payload: {
+                ticket_ids: [id]
+            }
+        })
     }
-  
 
-console.log(activeTab,"activeTab")
+
+    console.log(allTicket, "activeTab")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -90,10 +96,12 @@ console.log(activeTab,"activeTab")
                                 </th>
                                 <th>Ticket ID</th>
                                 <th>AWB(s)</th>
+                                <th>Severity</th>
                                 <th>Subcategory</th>
                                 <th>Ticket Status</th>
-                                <th>Resolution Due By</th>
-                                <th>Last Updated</th>
+                                <th>Due Date</th>
+                                <th>Created</th>
+                                <th>Updated</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
@@ -123,6 +131,13 @@ console.log(activeTab,"activeTab")
                                             </div>
                                         </td>
                                         <td>
+                                            {/* AWB */}
+                                            <div className='cell-inside-box'>
+                                                <span className={`fw-bold ${item?.severity === "critical" ? "text-danger" : item?.severity === "high" ? "text-warning" : item?.severity === "low" ? "text-success" : "text-info"}`}> {capatlize(item?.severity)}</span>
+
+                                            </div>
+                                        </td>
+                                        <td>
                                             {/* subcategory */}
                                             <div className='cell-inside-box'>
                                                 {item?.sub_category}
@@ -138,6 +153,12 @@ console.log(activeTab,"activeTab")
                                             {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
                                                 {moment(item?.resolution_due_by).format("DD MMM YYYY")}
+                                            </div>
+                                        </td>
+                                        <td className='align-middle'>
+                                            {/* resolutionDueBy */}
+                                            <div className='cell-inside-box'>
+                                                {moment(item?.created_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>
@@ -175,6 +196,7 @@ console.log(activeTab,"activeTab")
                             ))}
                         </tbody>
                     </table>
+                    {allTicket?.length === 0 && <NoData />}
                 </div>
             </div>
         </section >

@@ -21,10 +21,14 @@ const RateCalculatorPage = () => {
   const [chargedWeight, setChargedWeight] = useState(0);
   const [errors, setErrors] = useState([]);
   const [isChecked, setIsChecked] = useState(false);
+  const [shipData, setShipData] = useState([])
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
+
   };
+
+  console.log(isChecked, "this is ischekced data")
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -37,6 +41,29 @@ const RateCalculatorPage = () => {
   });
 
   const { sellerData, reportSchedulerRes, ratePrefilledData, ratingCardData } = useSelector(state => state?.toolsSectionReducer)
+  const { zonePathName } = useSelector(state => state?.authDataReducer)
+
+
+  useEffect(() => {
+    if (sellerData) {
+      setShipData(sellerData)
+    }
+  }, [sellerData])
+
+  console.log(zonePathName, "zonePathNamezonePathNamezonePathNamezonePathName")
+  useEffect(() => {
+    if (zonePathName) {
+      setShipData([])
+      setFormData({
+        shipment_type: "Forward",
+        source_pincode: null,
+        destination_pincode: null,
+        weight: null,
+        volmetric_weight: 0,
+        is_cod: "No",
+      });
+    }
+  }, [zonePathName])
 
 
   useEffect(() => {
@@ -120,10 +147,11 @@ const RateCalculatorPage = () => {
 
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
-      setOrderField(true)
+      // setOrderField(true)
       setOrderId(e.target.value)
     } else {
-      setOrderField(false);
+      // setOrderField(false);
+      setOrderId('')
     }
   }
 
@@ -181,8 +209,8 @@ const RateCalculatorPage = () => {
   }, [formData.weight, formData.volmetric_weight]);
 
   const containerStyle = {
-    opacity: orderField ? 0.5 : 1,
-    pointerEvents: orderField ? 'none' : 'auto',
+    opacity: isChecked ? 0.5 : 1,
+    pointerEvents: isChecked ? 'none' : 'auto',
   };
 
   const orderIdApiCAll = () => {
@@ -191,6 +219,18 @@ const RateCalculatorPage = () => {
       payload: orderId
     });
   }
+
+  useEffect(() => {
+    setFormData ({
+      shipment_type: "Forward",
+      source_pincode: null,
+      destination_pincode: null,
+      weight: null,
+      volmetric_weight: 0,
+      is_cod: "No",
+    });
+    setOrderId("");
+  }, [])
 
   return (
     <>
@@ -210,7 +250,7 @@ const RateCalculatorPage = () => {
                 <input
                   type="search"
                   className="input-field"
-                  value={orderId}
+                  value={orderId ?? ""}
                   placeholder="Enter Order ID"
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
@@ -300,7 +340,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={formData.weight}
+                      value={ratePrefilledData ? formData.weight / 1000 : formData.weight}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
@@ -319,6 +359,7 @@ const RateCalculatorPage = () => {
                       className='input-field'
                       type="text"
                       name="length"
+                      value={formData.length}
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Length'
                       onKeyPress={(e) => {
@@ -336,6 +377,7 @@ const RateCalculatorPage = () => {
                       className='input-field'
                       type="text"
                       name="breadth"
+                      value={formData.breadth}
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Breadth'
                       onKeyPress={(e) => {
@@ -353,6 +395,7 @@ const RateCalculatorPage = () => {
                       className='input-field'
                       type="text"
                       name="height"
+                      value={formData.height}
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Height'
                       onKeyPress={(e) => {
@@ -373,7 +416,7 @@ const RateCalculatorPage = () => {
                 <div className=" d-flex gap-2 mt-3 charged-weight-sec">
                   <label>
                     <strong>Chargeable Weight:</strong>
-                    <input type="text" className='input-field' value={chargedWeight} />
+                    <input type="text" className='input-field' value={ratePrefilledData ? parseFloat(chargedWeight / 1000)?.toFixed(2) : parseFloat(chargedWeight)?.toFixed(2)} />
                     <span className='unit'>KG</span>
                   </label>
                   {/* <span>{chargedWeight}</span> */}
@@ -386,18 +429,20 @@ const RateCalculatorPage = () => {
               </div>
             </form>
           </section>
-          {sellerData && <section className='mt-5'>  {sellerData?.map((item) => {
+          {shipData.length && <section className='mt-5'>  {shipData?.map((item) => {
             return (
               <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
                 <section className=''>
                   <div className='ship-container-row box-shadow shadow-sm' >
-                    <div className='d-flex gap-2'>
-                      <div className='img-container'>
-                        <img src="" alt="" />
-                      </div>
-                      <div className='d-flex flex-column justify-content-center'>
+                    <div className='d-flex flex-column justify-content-center'>
+                      <div className='d-flex justify-content-center flex-column '>
+                        <img
+                          className='ms-3'
+                          style={{ border: "1px solid gray", borderRadius: "50%" }}
+                          width={"50px"}
+                          height={"50px"}
+                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvWc9wk8XH4WVN0EbuacoFQyXJNQuw2nuKrz-EjH5B0Q&s" alt="" />
                         <p>{item?.courier_partner}</p>
-                        {/* <p>partner_title</p> */}
                         <p>RTO Charges: ₹{item?.rate}</p>
                       </div>
                     </div>

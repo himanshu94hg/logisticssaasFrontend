@@ -21,6 +21,8 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
+import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -186,7 +188,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                                                             : row?.order?.channel && row?.order?.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row?.order.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row?.order?.customer_order_number}</span>
+                                                    &nbsp;  <Link to={`/orderdetail/${row?.order?.id}`} className='anchor-order'>{row?.order?.customer_order_number}</Link>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <img src={ForwardIcon} className={`${row?.order.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
@@ -270,6 +272,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                             ))}
                         </tbody>
                     </table>
+                    {weightRecoData?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>

@@ -21,6 +21,9 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { toast } from 'react-toastify';
+import NoData from '../../../../common/noData';
+import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { Link } from 'react-router-dom';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -119,50 +122,46 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
         setSingleShip(true);
     };
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        console.log(orders, "this is orders");
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+
+      const handleClickpartner = (event, row) => {
+        event.preventDefault();
+        if (row.courier_partner === "bluedart") {
+            window.location.href = 'https://www.bluedart.com/web/guest/home';
+        } else if (row.courier_partner === "delhivery") {
+            window.location.href = 'https://www.delhivery.com/track/package';
+        } else if (row.courier_partner === "smartr") {
+            window.location.href = 'https://smartr.in/tracking';
+        } else if (row.courier_partner === "ekart" || row.courier_partner === "ekart_5kg") {
+            window.location.href = 'https://ekartlogistics.com/';
+        } else if (row.courier_partner === "shadowfax") {
+            window.location.href = 'https://tracker.shadowfax.in/#/';
+        } else if (row.courier_partner === "amazon_swa") {
+            window.location.href = 'https://track.amazon.in/';
+        } else if (row.courier_partner === "xpressbees") {
+            window.location.href = 'https://www.xpressbees.com/shipment/tracking';
+        } else if (row.courier_partner === "shree maruti") {
+            window.location.href = 'https://www.shreemaruti.com/';
+        } else if (row.courier_partner === "movin") {
+            window.location.href = 'https://www.movin.in/shipment/track';
+        } else if (row.courier_partner === "ecom express") {
+            window.location.href = 'https://ecomexpress.in/tracking/';
+        }else if (row.courier_partner === "professional") {
+            window.location.href = 'https://www.tpcindia.com/Default.aspx';
+        }  else {
+            window.location.href = '';
+            console.log("Courier partner is not recognized");
+        }
+    }
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                {/* <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button'>Export</button>
-                        <div className='action-options bulk-actions ms-2'>
-                            <div className='btn main-button'>
-                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
-                            </div>
-                            <div className='action-list'>
-                                <ul>
-                                    <li>Bulk Ship</li>
-                                    <li>Mark as Verified</li>
-                                    <li>Add Bulk Tag</li>
-                                    <li className='action-hr'></li>
-                                    <li>Bulk Weight/Dimension Update</li>
-                                    <li>Bulk Warehouse Update</li>
-                                    <li className='action-hr'></li>
-                                    <li>Bulk Delete Order</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
@@ -179,7 +178,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
@@ -210,7 +209,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
-                                                    &nbsp; <span className=''>{row.customer_order_number}</span>
+                                                    &nbsp; <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <OverlayTrigger
@@ -244,7 +243,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -287,6 +286,13 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                                 </div>
                                             </td>
                                         </td>
+                                        <td>
+                                            <div className='cell-inside-box'>
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
+                                                </p>
+                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{ row && row.courier_partner}</p>
+                                            </div>
+                                        </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
@@ -320,6 +326,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>

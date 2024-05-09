@@ -5,21 +5,38 @@ import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import Cookies from 'js-cookie';
+import Pagination from '../../../../common/Pagination/Pagination';
+import { RxReset } from 'react-icons/rx';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const { misDownloadData } = useSelector(state => state?.misSectionReducer)
+    const [searchValue, setSearchValue] = useState("")
+    const [misDownload, setmisDownload] = useState([]);
+    let authToken = Cookies.get("access_token")
+
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
 
     useEffect(() => {
-        if (activeTab === "DownloadMIS") {
-            dispatch({ type: "MIS_DOWNLOAD_ACTION" })
+        dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+    }, [dispatch, activeTab, itemsPerPage, currentPage])
+
+    useEffect(() => {
+        if (misDownloadData?.results !== null && misDownloadData !== undefined) {
+            setmisDownload(misDownloadData?.results)
+            setTotalItems(misDownloadData?.count)
         }
-    }, [activeTab])
+    }, [misDownloadData])
 
 
-    console.log(misDownloadData?.results, "misDownloadDatamisDownloadData")
+    console.log(misDownloadData, "misDownloadDatamisDownloadData")
 
     const [orders, setAllOrders] = useState([
         {
@@ -47,7 +64,7 @@ const DownloadMIS = ({ activeTab }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(orders.map(row => row.id));
+            setSelectedRows(misDownload?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -64,12 +81,39 @@ const DownloadMIS = ({ activeTab }) => {
         }
 
         // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        if (selectedRows.length === misDownload.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
+
+    const handleSearch = () => {
+        axios.get(`https://dev.shipease.in/orders-api/mis/downloads/?q=${searchValue}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        }).then(response => {
+            console.log(response, "this is response")
+            setmisDownload(response.data.results)
+            // setSearchValue("")
+        })
+            .catch(error => {
+                toast.error("Something went wrong!")
+            });
+    };
+
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+        }
+    }, [activeTab])
+
+    const handleReset = () => {
+        setSearchValue("")
+        setItemsPerPage(20)
+        setmisDownload(misDownloadData?.results)
+    }
 
     return (
         <section className='position-relative downloads-mis'>
@@ -77,11 +121,12 @@ const DownloadMIS = ({ activeTab }) => {
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">
                         <label style={{ width: '500px' }}>
-                            <input className='input-field' type="text" placeholder="Search your downloads" />
-                            <button>
+                            <input className='input-field' type="text" placeholder="Search your downloads" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
+                            <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
+                        <button className='btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <div className='button-container'>
                         <button className='btn main-button'>Export Report</button>
@@ -91,13 +136,13 @@ const DownloadMIS = ({ activeTab }) => {
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
+                                {/*<th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
-                                </th>
+    </th>*/}
                                 <th style={{ width: '25%' }}>Name</th>
                                 <th>Type</th>
                                 <th>Status</th>
@@ -108,17 +153,17 @@ const DownloadMIS = ({ activeTab }) => {
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {misDownloadData?.results?.map((row, index) => (
+                            {misDownload?.map((row, index) => (
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
+                                        {/*<td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
                                                 onChange={() => handleSelectRow(row.id)}
                                             />
-                                        </td>
+                            </td>*/}
                                         <td>
                                             {/* Name */}
                                             <div className='cell-inside-box'>
@@ -160,6 +205,13 @@ const DownloadMIS = ({ activeTab }) => {
                     </table>
                 </div>
             </div>
+            <Pagination
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
         </section>
     );
 };

@@ -248,7 +248,8 @@
   width: 100%;
 }
 
-.quick-actions-hover .qa-hovered-content p {
+.quick-actions-hover .qa-hovered-content p,
+.quick-actions-hover .qa-hovered-content a {
   margin-bottom: 0;
   padding: 8px;
   border-radius: 0.5rem;

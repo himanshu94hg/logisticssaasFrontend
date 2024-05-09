@@ -19,7 +19,7 @@
     box-shadow: rgba(0, 0, 0, 0.3) 0 2px 10px;
     filter: drop-shadow(rgba(0, 0, 0, 0.3) 0 2px 10px);
     width: auto;
-    min-width: 382px;
+    /* min-width: 382px; */
     max-width: 500px;
     z-index: 6;
     min-height: 39px;

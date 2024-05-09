@@ -17,7 +17,6 @@ import orderIdAction from '../../../../../redux/action/orders/orderId';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
-    const [wareHouses, setWarehouses] = useState([])
     const currentDate = new Date();
     const [wareHouseName, setWareHouseName] = useState("")
     const authToken = Cookies.get("access_token");
@@ -33,7 +32,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             invoice_amount: '',
             is_mps: false,
             warehouse_id: '',
-            order_tag: '',
+            order_tag: [],
             payment_type: '',
             order_date: currentDate,
             order_type: "",
@@ -119,10 +118,13 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             newErrors.customer_order_number = ' Order Number is required!';
         }
         if (!formData.order_details.order_type) {
-            newErrors.order_type = 'Order Type is required!';
+            newErrors.order_type = 'Select the Order Type!';
+        }
+        if (!formData.order_details.channel) {
+            newErrors.channel = 'Select the Channel !';
         }
         if (!formData.order_details.payment_type) {
-            newErrors.payment_type = 'Payment Type is required!';
+            newErrors.payment_type = 'Select the Payment Type!';
         }
         if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
             newErrors.number_of_packets = 'Packets is required!';
@@ -155,7 +157,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         if (!formData.shipping_details.country) {
             newErrors.country = 'Country is required!';
         }
-        if (!formData.order_details.invoice_amount){
+        if (!formData.order_details.invoice_amount) {
             newErrors.invoice_amount = 'Invoice amount is required!';
         }
         if (formData.order_details.payment_type === "COD") {
@@ -163,14 +165,26 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 newErrors.cod_charges = 'COD Charges is required!';
             }
         }
+        if (formData.dimension_details.weight == 0) {
+            newErrors.weight = 'Dead Weight should be greater than 0!';
+        }
         if (!formData.dimension_details.weight) {
             newErrors.weight = 'Dead Weight is required!';
+        }
+        if (formData.dimension_details.height == 0) {
+            newErrors.height = 'Height should be greater than 0!';
         }
         if (!formData.dimension_details.height) {
             newErrors.height = 'Height is required!';
         }
+        if (formData.dimension_details.length == 0) {
+            newErrors.length = 'Length should be greater than 0!';
+        }
         if (!formData.dimension_details.length) {
             newErrors.length = 'Length is required!';
+        }
+        if (formData.dimension_details.breadth == 0) {
+            newErrors.breadth = 'Breadth should be greater than 0!';
         }
         if (!formData.dimension_details.breadth) {
             newErrors.breadth = 'Breadth is required!';
@@ -209,7 +223,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             if (!product?.product_name?.trim()) {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
-            if (!product?.quantity){
+            if (!product?.quantity) {
                 newErrors.quantity = 'Product Quantity is required!'
             }
             if (!product?.sku?.trim()) {
@@ -218,7 +232,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         });
 
         seteditErrors(newErrors);
-        console.log(newErrors, "this is new errors")
         return Object.keys(newErrors).length === 0;
     };
 
@@ -231,9 +244,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     orderId: orderId
                 }
             })
-            setEditOrderSection(false) 
+            setEditOrderSection(false)
         }
-       
     };
 
     useEffect(() => {
@@ -243,18 +255,26 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderId])
 
-    console.log(new Date(orderDetailsData?.order_date), "this is a data dtaa", new Date())
+    const [tagData, setTagData] = useState([])
+
 
     useEffect(() => {
         if (orderDetailsData) {
+            const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);
+            const orderTagTemp = orderDetailsData?.order_tag?.map(item => ({
+                label: item?.name,
+                value: item?.id,
+            }));
+            setTagData(orderTagTemp)
+
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
                     customer_order_number: orderDetailsData?.customer_order_number,
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
-                    // warehouse_id: orderDetailsData,
-                    order_tag: orderDetailsData?.order_tag,
+                    warehouse_id: orderDetailsData?.warehouse_id,
+                    order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
                     order_type: orderDetailsData?.order_type,
@@ -298,7 +318,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     is_gift_wrap: orderDetailsData?.charge_detail?.is_gift_wrap ? "Yes" : "No"
                 },
                 dimension_details: {
-                    weight: orderDetailsData?.dimension_detail?.weight,
+                    weight: orderDetailsData?.dimension_detail?.weight / 1000,
                     length: orderDetailsData?.dimension_detail?.length,
                     breadth: orderDetailsData?.dimension_detail?.breadth,
                     height: orderDetailsData?.dimension_detail?.height,
@@ -319,42 +339,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             setWareHouseName(orderDetailsData?.pickup_details?.p_warehouse_name)
         }
     }, [orderDetailsData])
-
-
-
-    useEffect(() => {
-        if (orderId) {
-            const fetchWarehouses = async () => {
-                try {
-                    const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
-                        headers: {
-                            Authorization: `Bearer ${authToken}`
-                        }
-                    });
-                    setWarehouses(response.data);
-                } catch (error) {
-                }
-            };
-            fetchWarehouses();
-        }
-    }, [orderId]);
-
-    useEffect(() => {
-        if (wareHouses) {
-            let data = wareHouses.filter(item => item?.warehouse_name === wareHouseName)
-            setFormData(prevFormData => ({
-                ...prevFormData,
-                order_details: {
-                    ...prevFormData.order_details,
-                    warehouse_id: data[0]?.id
-                }
-            }));
-        }
-    }, [wareHouses])
-
-    // const {orderId}=useSelector(state=>state?.orderSectionReducer)
-    // console.log(orderId,"this is orderId data")
-
 
     return (
         <>
@@ -384,6 +368,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                             {activeSection === "Order Details" && (
                                 <div>
                                     <OrderDetailsStep
+                                        tagData={tagData}
                                         editStatus={"editStatus"}
                                         formData={formData}
                                         setFormData={setFormData}
@@ -438,8 +423,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}
                                         setWareHouseName={setWareHouseName}
-                                        wareHouses={wareHouses}
-                                        setWarehouses={setWarehouses}
                                     />
                                 </div>
                             )}

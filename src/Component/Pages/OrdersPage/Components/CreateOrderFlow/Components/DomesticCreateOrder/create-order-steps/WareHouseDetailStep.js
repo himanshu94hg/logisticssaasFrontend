@@ -9,7 +9,7 @@ import { useSelector } from 'react-redux';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wareHouseName,wareHouses }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wareHouseName }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -38,8 +38,8 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
     }, []);
 
     useEffect(() => {
-        if (wareHouses) {
-            let data = wareHouses.filter(item => item?.warehouse_name === wareHouseName)
+        if (warehouses) {
+            let data = warehouses?.filter(item => item?.warehouse_name === wareHouseName)
             setFormData(prevFormData => ({
                 ...prevFormData,
                 order_details: {
@@ -48,7 +48,23 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
                 }
             }));
         }
-    }, [wareHouses])
+    }, [warehouses])
+
+    useEffect(() => {
+        if (warehouses) {
+            const defaultWarehouse = warehouses.find(warehouse => warehouse.is_default);
+
+            if (defaultWarehouse) {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    order_details: {
+                        ...prevFormData.order_details,
+                        warehouse_id: defaultWarehouse.id
+                    }
+                }));
+            }
+        }
+    }, [warehouses]);
 
     const handleRadioChange = (e) => {
         const selectedWarehouseId = parseInt(e.target.value);
@@ -81,7 +97,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
                                                 name="warehouse"
                                                 value={warehouse.id}
                                                 checked={formData.order_details.warehouse_id === warehouse.id}
-                                                onChange={handleRadioChange}
+                                                onChange={handleRadioChange}                                              
                                             />
                                             <div className='d-flex h-100 flex-column justify-content-between'>
                                                 <div>

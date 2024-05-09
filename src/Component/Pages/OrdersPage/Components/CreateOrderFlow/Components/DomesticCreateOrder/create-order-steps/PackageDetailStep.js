@@ -15,22 +15,35 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
 
         if (!invoice_amount) {
             errorsObj.invoice_amount = "Invoice Amount is required!";
+
         }
         // if (formData.order_details.payment_type === "COD") {
         //     if (!cod_charges) {
         //         errorsObj.cod_charges = "COD Charges is required!";
         //     }
         // }
-        if (!weight || weight <= 0) {
+        if (weight <= 0) {
+            errorsObj.weight = "Dead Weight should be greater than 0!";
+        }
+        if (!weight) {
             errorsObj.weight = "Dead Weight is required!";
         }
-        if (!length || length <= 0) {
+        if (length <= 0) {
+            errorsObj.length = "Length should be greater than 0!";
+        }
+        if (!length) {
             errorsObj.length = "Length is required!";
         }
-        if (!breadth || breadth <= 0) {
+        if (breadth <= 0) {
+            errorsObj.breadth = "Breadth should be greater than 0!";
+        }
+        if (!breadth) {
             errorsObj.breadth = "Breadth is required!";
         }
-        if (!height || height <= 0) {
+        if (height <= 0) {
+            errorsObj.height = "Height should be greater than 0!";
+        }
+        if (!height) {
             errorsObj.height = "Height is required!";
         }
         setErrors(errorsObj);
@@ -79,6 +92,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     };
 
     const [finalWeight, setFinalWeight] = useState(0)
+    
+
 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
     const chargedWeight = formData?.dimension_details.weight;
@@ -128,6 +143,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         e.preventDefault();
                                     }
                                 }}
+                                placeholder='Enter invoice amount'
                             />
                             {(errors.invoice_amount || editErrors?.invoice_amount) && <span className="custom-error">{errors.invoice_amount || editErrors?.invoice_amount}</span>}
                         </label>
@@ -143,6 +159,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         e.preventDefault();
                                     }
                                 }}
+                                placeholder='Enter COD charges'
                             />
                             {/* {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>} */}
                         </label>
@@ -163,7 +180,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         if (!allowedCharacters.test(e.key)) {
                                             e.preventDefault();
                                         }
-                                    }} />
+                                    }}
+                                    placeholder='Enter dead weight'
+                                />
                                 <span class="unit">KG</span>
                                 {(errors.weight || editErrors?.weight) && <span className="custom-error">{errors.weight || editErrors?.weight}</span>}
                             </label>
@@ -195,7 +214,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter length'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {(errors.length || editErrors?.length) && <span className="custom-error">{errors.length || editErrors?.length}</span>}
 
@@ -212,7 +233,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter breadth'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {(errors.breadth || editErrors?.breadth) && <span className="custom-error">{errors.breadth || editErrors?.breadth}</span>}
                         </label>
@@ -228,7 +251,9 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
-                                }} />
+                                }}
+                                placeholder='Enter height'
+                            />
                             <span class="unit pd-lbh">CM</span>
                             {(errors.height || editErrors?.height) && <span className="custom-error">{errors.height || editErrors?.height}</span>}
                         </label>
@@ -236,7 +261,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     <div className="volumetric-weight">
                         <label>
                             Chargeable Weight
-                            <input className='input-field' type="text" value={finalWeight} />
+                            <input className='input-field' type="text" value={parseFloat(finalWeight)?.toFixed(2)} />
                             <span class="unit">KG</span>
                         </label>
                     </div>

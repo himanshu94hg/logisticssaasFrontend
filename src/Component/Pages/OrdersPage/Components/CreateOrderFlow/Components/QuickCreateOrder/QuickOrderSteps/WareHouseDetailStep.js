@@ -4,8 +4,9 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useRef, useState } from 'react';
 import Swal from 'sweetalert2';
+import SingleShipPop from '../../../../Processing/SingleShipPop/SingleShipPop';
 
-const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
+const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingleShip}) => {
     const [warehouses, setWarehouses] = useState([]);
     const [filteredWarehouses, setFilteredWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -14,12 +15,13 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData }) => {
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const dropdownRef = useRef(null);
+  
 
     useEffect(() => {
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }

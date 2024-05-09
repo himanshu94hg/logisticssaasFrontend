@@ -7,36 +7,36 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
-import { useLocation,useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 // Reusable FormInput component
-const FormInput = ({ label, mandatory, type, value, onChange, onBlur, options, name, fileInput, customClass, selectFile, clearFile }) => (
-    <div className='ticket-form-row'>
-      <label>{label} <span className='text-danger'>{mandatory}</span></label>
-      {type === 'select' ? (
-          <select className={`select-field ${customClass}`} name={name} value={value} onChange={onChange}>
-            <option value="" >Select {label}</option>
-            {options.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-            ))}
-          </select>
-      ) : type === 'textarea' ? (
-          <textarea className={`input-field text-field ${customClass}`} rows="4" value={value} name={name} onChange={onChange} onBlur={onBlur} />
-      ) : type === 'file' ? (
-          <div className="file-input-container">
-            <input className='input-field choose-file-container' type={type} onChange={onChange} onBlur={onBlur} name={name} id={fileInput} />
-            {selectFile && (
-                <span style={{ position: "relative", right: "-95%", top: "-30px", cursor: "pointer" }}>
+const FormInput = ({ label, placeholder, mandatory, type, value, onChange, onBlur, options, name, fileInput, customClass, selectFile, clearFile }) => (
+  <div className='ticket-form-row'>
+    <label>{label} <span className='text-danger'>{mandatory}</span></label>
+    {type === 'select' ? (
+      <select className={`select-field ${customClass}`} name={name} value={value} onChange={onChange}>
+        <option value="" >Select {label}</option>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.label}
+          </option>
+        ))}
+      </select>
+    ) : type === 'textarea' ? (
+      <textarea placeholder={placeholder} className={`input-field text-field ${customClass}`} rows="4" value={value} name={name} onChange={onChange} onBlur={onBlur} />
+    ) : type === 'file' ? (
+      <div className="file-input-container">
+        <input placeholder={placeholder} className='input-field choose-file-container' type={type} onChange={onChange} onBlur={onBlur} name={name} id={fileInput} />
+        {selectFile && (
+          <span style={{ position: "relative", right: "-95%", top: "-30px", cursor: "pointer" }}>
             <FontAwesomeIcon icon={faTimesCircle} className="clear-file-icon" onClick={clearFile} size="lg" /> {/* Using size="2x" for extra-large */}
           </span>
-            )}
-          </div>
-      ) : (
-          <input className={`input-field x ${customClass}`} type={type} value={value} onChange={onChange} onBlur={onBlur} name={name} />
-      )}
-    </div>
+        )}
+      </div>
+    ) : (
+      <input placeholder={placeholder} className={`input-field x ${customClass}`} type={type} value={value} onChange={onChange} onBlur={onBlur} name={name} />
+    )}
+  </div>
 );
 
 const CreateTicketForm = (props) => {
@@ -56,18 +56,16 @@ const CreateTicketForm = (props) => {
   const searchParams = new URLSearchParams(location.search);
   const escalateAwbNumber = searchParams.get('awb_number');
 
-  useEffect(()=>{
-    if(escalateAwbNumber !== null)
-    {
+  useEffect(() => {
+    if (escalateAwbNumber !== null) {
       props.setNewTicket(true)
     }
-    else
-    {
+    else {
       props.setNewTicket(false)
     }
-  },[escalateAwbNumber]);
+  }, [escalateAwbNumber]);
 
-  console.log(awbStatus,"Escalate Awb number ...................")
+  console.log(awbStatus, "Escalate Awb number ...................")
 
   const [ticketData, setTicketData] = useState({
     category: null,
@@ -178,7 +176,7 @@ const CreateTicketForm = (props) => {
       [name]: name === 'awb_number' && escalateAwbNumber ? escalateAwbNumber : value
     }));
   };
-  
+
 
   const handleBlurAWB = (e) => {
     const { name, value } = e.target;
@@ -192,16 +190,16 @@ const CreateTicketForm = (props) => {
     const authToken = Cookies.get("access_token");
 
     return axios.post(
-        'https://dev.shipease.in/core-api/shipping/validate-awb-number/',
-        {
-          awb_numbers: awbNumbers
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'application/json'
-          }
+      'https://dev.shipease.in/core-api/shipping/validate-awb-number/',
+      {
+        awb_numbers: awbNumbers
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json'
         }
+      }
     ).then(response => {
       console.warn(response, "Response")
       setAwbStatus(false);
@@ -233,7 +231,7 @@ const CreateTicketForm = (props) => {
     }
   };
 
-  console.log(fileObj,"this is file obj data")
+  console.log(fileObj, "this is file obj data")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -305,8 +303,7 @@ const CreateTicketForm = (props) => {
     }
 
   };
-  const handleEscalateTicket = () =>
-  {
+  const handleEscalateTicket = () => {
     navigate('/customer-support');
   }
   const handleCancel = () => {
@@ -330,13 +327,14 @@ const CreateTicketForm = (props) => {
   return (
     <form onSubmit={handleSubmit}>
       <div className='slider-scroll-body'>
-      {escalateAwbNumber ? (
+        {escalateAwbNumber ? (
           <FormInput
             label="AWB Numbers (Comma Separated)"
             type="text"
             name={"awb_number"}
             value={escalateAwbNumber}
             onChange={(e) => handleCreateTicket(e)}
+            placeholder='Enter AWB number(s)'
           />
         ) : (
           <FormInput
@@ -346,6 +344,7 @@ const CreateTicketForm = (props) => {
             value={ticketData.awb_number}
             onChange={(e) => handleCreateTicket(e)}
             onBlur={(e) => handleBlurAWB(e)}
+            placeholder='Enter AWB number(s)'
           />
         )}
         {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
@@ -377,6 +376,7 @@ const CreateTicketForm = (props) => {
           value={ticketData.description}
           onChange={(e) => handleCreateTicket(e)}
           customClass={`${errors.description && "custom-input"}`}
+          placeholder='Enter your remarks'
         />
         {errors.description && <span className='error-text'>{errors.description}</span>}
         <FormInput

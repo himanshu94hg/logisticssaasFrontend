@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editErrors , seteditErrors }) => {
+export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
     const [errors, setErrors] = useState({});
     const validateFormData = () => {
@@ -119,6 +119,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-4'>Product Details</h3>
+                    {console.log("Product Details:", formData.product_details)}
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
@@ -126,11 +127,23 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                 <label className='col'>
                                     <span>Product Name <span className='mandatory'>*</span></span>
                                     <input
-                                         className={`input-field ${(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) ? 'input-field-error' : ''}`}
+                                        className={`input-field ${(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) ? 'input-field-error' : ''}`}
                                         placeholder="Enter your product name"
                                         type="text"
+                                        maxLength={100}
                                         value={product.product_name}
                                         onChange={(e) => handleProductNameChange(e, index)}
+                                        onKeyPress={(e) => {
+                                            const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                            if (
+                                                e.key === ' ' &&
+                                                e.target.value.endsWith(' ')
+                                            ) {
+                                                e.preventDefault();
+                                            } else if (!allowedCharacters.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
                                     />
                                     {(errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]) && <span className="custom-error">{errors[`product_name_${index}`] || editErrors?.[`product_name_${index}`]}</span>}
                                 </label>
@@ -138,8 +151,8 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                     <span>Product Category <span className='text-gray'>(Optional)</span></span>
                                     <select
                                         className='select-field'
-                                        value={product.order_type}
-                                        onChange={(e) => handleChange(e, 'order_type', index)}
+                                        value={product.product_category}
+                                        onChange={(e) => handleChange(e, 'product_category', index)}
                                     >
                                         <option value="">Select</option>
                                         <option value="Arts, Crafts & Sewing">Arts, Crafts & Sewing</option>
@@ -158,7 +171,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         <option value="Sports & Outdoors">Sports & Outdoors </option>
                                         <option value="Tools & Home Improvement">Tools & Home Improvement</option>
                                         <option value="Toys & Games">Toys & Games</option>
-                                        <option value="Other">Other</option>
+                                        <option value="Other">Others</option>
                                     </select>
                                 </label>
                             </div>
@@ -169,13 +182,13 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="text" value={product.price} onChange={(e) => handleChange(e, 'price', index)}
+                                        type="text" value={product.unit_price} onChange={(e) => handleChange(e, 'unit_price', index)}
                                         onKeyPress={(e) => {
                                             const allowedCharacters = /^[0-9\b.]+$/;
                                             if (!allowedCharacters.test(e.key)) {
                                                 e.preventDefault();
                                             }
-                                        }} 
+                                        }}
                                     />
                                 </label>
                                 {/* Quantity */}
@@ -185,6 +198,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         className={`input-field ${(errors[`quantity_${index}`] || editErrors?.quantity) ? 'input-field-error' : ''}`}
                                         placeholder='Enter Product Quantity'
                                         pattern="[0-9]{4}"
+                                        maxLength={6}
                                         onBlur={(e) => handlePriceValidation(e.target.value, index)}
                                         type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"}
                                         onKeyPress={(e) => {
@@ -201,6 +215,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                         type="text"
                                         className={`input-field ${(errors[`sku_${index}`] || editErrors?.[`sku_${index}`]) ? 'input-field-error' : ''}`}
                                         value={product.sku}
+                                        maxLength={50}
                                         onChange={(e) => handleChange(e, 'sku', index)}
                                         placeholder='Enter SKU'
                                     />
@@ -256,8 +271,8 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData,editEr
                                     <input
                                         type="number"
                                         className='input-field'
-                                        value={product.discount}
-                                        onChange={(e) => handleChange(e, 'discount', index)}
+                                        value={product.product_discount}
+                                        onChange={(e) => handleChange(e, 'product_discount', index)}
                                         placeholder='Enter Product Discount'
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {

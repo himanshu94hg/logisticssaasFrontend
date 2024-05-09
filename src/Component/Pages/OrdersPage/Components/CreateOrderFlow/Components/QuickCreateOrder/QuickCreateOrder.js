@@ -16,16 +16,19 @@ import PackageDetailStep from './QuickOrderSteps/PackageDetailStep';
 import WareHouseDetailStep from './QuickOrderSteps/WareHouseDetailStep';
 import './QuickCreateOrder.css'
 import { checkType, errorHandle, errorHandleSecond, errorHandlefirst } from '../../../../../../../customFunction/errorHandling';
+import SingleShipPop from '../../../Processing/SingleShipPop/SingleShipPop';
 
 
 const QuickCreateOrder = () => {
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
-    const authToken = Cookies.get("access_token")
     const currentDate = new Date();
     const [errors, setErrors] = useState({});
+    const authToken = Cookies.get("access_token")
     const [isChecked, setIsChecked] = useState(true);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [SingleShip, setSingleShip] = useState(false)
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -100,7 +103,7 @@ const QuickCreateOrder = () => {
         ],
     })
 
-    console.log(formData, "this is quick ship data")
+    console.log(selectedOrderId, "this is quick ship data")
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -137,14 +140,26 @@ const QuickCreateOrder = () => {
                 newErrors.cod_charges = 'COD Charges is required!';
             }
         }
+        if (formData.dimension_details.weight == 0) {
+            newErrors.weight = 'Dead Weight should be greater than 0!';
+        }
         if (!formData.dimension_details.weight) {
             newErrors.weight = 'Dead Weight is required!';
+        }
+        if (formData.dimension_details.height == 0) {
+            newErrors.height = 'Height should be greater than 0!';
         }
         if (!formData.dimension_details.height) {
             newErrors.height = 'Height is required!';
         }
+        if (formData.dimension_details.length == 0) {
+            newErrors.length = 'Length should be greater than 0!';
+        }
         if (!formData.dimension_details.length) {
             newErrors.length = 'Length is required!';
+        }
+        if (formData.dimension_details.breadth == 0) {
+            newErrors.breadth = 'Breadth should be greater than 0!';
         }
         if (!formData.dimension_details.breadth) {
             newErrors.breadth = 'Breadth is required!';
@@ -203,8 +218,10 @@ const QuickCreateOrder = () => {
                 if (response !== null) {
                     if (response.status === 201) {
                         const responseData = response.data;
-                        toast.success("Order Created successfully!")
-                        navigation('/Orders');
+                        // toast.success("Order Created successfully!")
+                        // navigation('/Orders');
+                        console.log(response)
+                        setSelectedOrderId(response?.data?.id)
                     } else {
                         //    console.log(object)
                         toast.error("Something went wrong!")
@@ -218,8 +235,8 @@ const QuickCreateOrder = () => {
                     errorHandleSecond(error?.response?.data)
                 }
             }
+            setSingleShip(true)
         }
-
     };
 
     return (
@@ -274,13 +291,15 @@ const QuickCreateOrder = () => {
                         onPrev={handlePrev}
                         onSubmit={handleFormSubmit}
                         formData={formData}
-                        setFormData={setFormData}
+                        setFormData={setFormData} 
                     />
                 </div>
                 {/* <div className='d-flex justify-content-end my-3 cof-btn-container'>
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
+            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+
         </div>
     );
 };

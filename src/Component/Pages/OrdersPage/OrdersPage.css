@@ -14,6 +14,19 @@
   align-items: center;
 }
 
+.anchor-order {
+  text-decoration: underline;
+  color: #1975C9;
+  position: relative;
+  cursor: pointer;
+}
+
+.anchor-error {
+  color: #1975C9;
+  position: relative;
+  cursor: pointer;
+}
+
 .orders-menu-header .form-select {
   width: 320px;
   color: rgba(0, 0, 0, .55);
@@ -354,6 +367,7 @@
   display: block;
 }
 
+
 .cell-inside-box .details-on-hover.extra span {
   padding: 13px;
   text-decoration: none;
@@ -539,6 +553,12 @@ ul.order-label-list li {
   white-space: nowrap;
 }
 
+.cell-inside-box .Labels-pool {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
@@ -551,4 +571,5 @@ ul.order-label-list li {
   .orders-section-tabs .table-container.m-table-height {
     height: calc(100vh - 203px);
   }
+
 }

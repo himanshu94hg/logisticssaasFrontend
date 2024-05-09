@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect   } from 'react'
 import moment from 'moment'
 import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
@@ -11,17 +11,27 @@ import customImg from "../../../../../../assets/image/integration/Manual.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const ReturnsTableMIS = () => {
+const ReturnsTableMIS = ({setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [returnsData, setReturnsData] = useState([]);
     const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
     console.log(reportsReturnsData,"reportShipmentsDatareportShipmentsData")
+
+    useEffect(()=>{
+        if(reportsReturnsData && reportsReturnsData?.results !== null)
+        {
+            setReturnsData(reportsReturnsData?.results);
+            setTotalItems(reportsReturnsData?.count)
+        }
+    },[reportsReturnsData])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(reportsReturnsData?.map(row => row.id));
+            setSelectedRows(returnsData?.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
@@ -45,13 +55,13 @@ const ReturnsTableMIS = () => {
         <table className=" w-100">
             <thead className="sticky-header">
                 <tr className="table-row box-shadow">
-                    <th style={{ width: '1%' }}>
+                    {/*<th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
                             onChange={handleSelectAll}
                         />
-                    </th>
+    </th>*/}
                     <th style={{ width: '25%' }}>Order Details</th>
                     <th>Customer Details</th>
                     <th>Package Details</th>
@@ -63,17 +73,17 @@ const ReturnsTableMIS = () => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {reportsReturnsData?.results?.length&&reportsReturnsData?.results?.map((row, index) => (
+                {returnsData?.length&&returnsData?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                            <td className='checkbox-cell'>
+                            {/*<td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                            </td>
+                </td>*/}
                             <td>
                                 {/* User Details */}
                                 <div className='cell-inside-box'>
@@ -87,7 +97,7 @@ const ReturnsTableMIS = () => {
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                     : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
                                                                         : ""}
-                                        &nbsp; <span className=''>{row.customer_order_number}</span>
+                                        &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>
                                     <p className='ws-nowrap d-flex align-items-center'>
                                         <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />

@@ -7,15 +7,21 @@ import { alphaNumReg } from '../../../../../../../../regex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt, faChevronUp, faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Select from 'react-select';
+import Cookies from "js-cookie"
 
-export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, seteditErrors }) => {
+export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, tagData }) => {
+    const dispatch = useDispatch()
     const location = useLocation();
     const [errors, setErrors] = useState({});
+    const token = Cookies.get("access_token")
     const [AddFields, SetAddFields] = useState(false);
     const [AddPayFields, SetAddPayFields] = useState(false);
     const [orderStaus, setOrderStatus] = useState(false)
     const { pathName } = useSelector(state => state?.authDataReducer)
+    const { tagListData } = useSelector(state => state?.orderSectionReducer);
+    const [orderTag, setOrderTag] = useState([]);
 
     useEffect(() => {
         if (location.pathname === "/create-orders") {
@@ -27,7 +33,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                         ...prevFormData.order_details,
                         order_type: "Reverse",
                         payment_type: "Prepaid",
-
+                        is_mps: false
+                    },
+                    other_details: {
+                        number_of_packets: 0
                     }
                 }));
             } else if (pathName === "Quick Order" || location.state && (location.state.orderType === "normalOrder")) {
@@ -42,25 +51,50 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                 });
             }
         }
-    }, [location, pathName, editStatus]);
+    }, [location, pathName, editStatus, formData]);
 
+    useEffect(() => {
+        if (formData.order_details.order_type === "Reverse") {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                order_details: {
+                    ...prevFormData.order_details,
+                    is_mps: false
+                },
+                other_details: {
+                    ...prevFormData.other_details,
+                    number_of_packets: 0
+                }
+            }));
+        }
 
+    }, [formData.order_details.order_type])
 
     useEffect(() => {
         if (location?.state) {
             if (location.state.orderType === "BulkCreateOrder" || location.state.orderType === "quickOrder" || location.state.orderType === "normalOrder") {
                 setOrderStatus(false);
-                // setFormData(prevFormData => ({
-                //     ...prevFormData,
-                //     order_details: {
-                //         ...prevFormData.order_details,
-                //         order_type: "",
-                //         payment_type: ""
-                //     }
-                // }));
             }
         }
     }, [location?.state?.orderType]);
+
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                label: item.name,
+                value: item.id
+            }));
+            setOrderTag(formattedData);
+        } else {
+            setOrderTag([]);
+        }
+    }, [tagListData]);
+
+    useEffect(() => {
+        if (token) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [])
 
     const validateFormData = () => {
         const newErrors = {};
@@ -68,30 +102,33 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             newErrors.customer_order_number = ' Order Number is required!';
         }
         if (!formData.order_details.order_type) {
-            newErrors.order_type = 'Order Type is required!';
+            newErrors.order_type = 'Select the Order Type!';
+        }
+        if (!formData.order_details.channel) {
+            newErrors.channel = 'Select the Channel !';
         }
         if (!formData.order_details.payment_type) {
-            newErrors.payment_type = 'Payment Type is required!';
+            newErrors.payment_type = 'Select the Payment Type!';
         }
         if (formData.order_details.is_mps && formData.other_details.number_of_packets == null || "") {
             newErrors.number_of_packets = 'Packets is required!';
         }
         setErrors(newErrors);
-        console.log(newErrors, "this is new errors")
+
         return Object.keys(newErrors).length === 0;
     };
 
-
-    const handleChange = (e, field) => {
-        const value = e.target.value === '' ? null : e.target.value;
+    const handleChange = (selectedOptions, field) => {
+        const selectedValues = selectedOptions ? selectedOptions.map(option => option.value) : [];
         setFormData(prevData => ({
             ...prevData,
             order_details: {
                 ...prevData.order_details,
-                [field]: value
+                [field]: selectedValues
             }
         }));
     };
+
 
     const handleReSeller = (e, field) => {
         const value = e.target.value === '' ? null : e.target.value;
@@ -114,10 +151,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             }
         }));
     };
+
     const handleChangeCharge = (e, field) => {
         let value = e.target.value;
         if (field === 'is_gift_wrap') {
-            value = value === 'true'; 
+            value = value === 'true';
         }
         setFormData(prevData => ({
             ...prevData,
@@ -127,7 +165,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             }
         }));
     };
-    
+
 
     const handleSelectChange = (e, field) => {
         setFormData({
@@ -192,6 +230,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
             e.preventDefault();
         }
     }
+
+    console.log(tagData, "this is a tag data")
+
     return (
         <>
             {/* Order Details Section */}
@@ -208,6 +249,18 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.order_details.customer_order_number}
                                 onChange={(e) => handleCustomerOrderNumberChange(e, 'customer_order_number')}
                                 placeholder='Enter Customer Order Number'
+                                maxLength={100}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                             {(errors.customer_order_number || editErrors?.customer_order_number) && <div className="custom-error">{errors.customer_order_number || editErrors?.customer_order_number}</div>}
                         </label>
@@ -248,14 +301,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                         <label className='col'>
                             Order Channel
                             <select
-                                className={`select-field`}
-                                value={formData.order_details.Channel}
-                                onChange={(e) => handleSelectChange(e, 'Channel')}
+                                className={`select-field ${errors.channel || editErrors?.channel ? 'input-field-error' : ''}`}
+                                value={formData.order_details.channel}
+                                onChange={(e) => handleSelectChange(e, 'channel')}
                             >
                                 <option value="">Select Order Channel</option>
                                 <option value="custom">Custom</option>
                             </select>
-                            {/* {errors.Channel && <div className="custom-error">{errors.Channel}</div>} */}
+                            {(errors.channel || editErrors?.channel) && <div className="custom-error">{errors.channel || editErrors?.channel}</div>}
                         </label>
                     </div>
                     {/* Add Fields Section */}
@@ -268,15 +321,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
 
                     {/* Additional Fields */}
                     <div className={`row gap-2 ${!AddFields ? 'd-none' : ''}`}>
-                        <label className='col'>
+                        <label className='col' >
                             Order Tag
-                            <input
-                                type="text"
-                                className='input-field'
-                                value={formData.order_details.order_tag}
+                            <Select
+                                isMulti
+                                isSearchable
+                                options={orderTag}
                                 onChange={(e) => handleChange(e, 'order_tag')}
-                                placeholder='Enter Customer Order Tag'
+                                value={tagData}
+                                styles={{
+                                    control: styles => ({ ...styles, width: "325px" })
+                                }}
                             />
+
                         </label>
                         <label className='col'>
                             Reseller Name
@@ -286,6 +343,19 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 value={formData.other_details.reseller_name}
                                 onChange={(e) => handleReSeller(e, 'reseller_name')}
                                 placeholder='Enter Reseller Name'
+                                maxLength={100}
+                                minLength={2}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                         </label>
                     </div>
@@ -301,43 +371,52 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 disabled={orderStaus}
                             >
                                 <option value="">Select Payment Type</option>
-                                <option value="Prepaid">Prepaid</option>
-                                <option value="COD">COD</option>
+                                {formData.order_details.order_type === "Reverse" ? (
+                                    <option value="Prepaid">Prepaid</option>
+                                ) : (
+                                    <>
+                                        <option value="Prepaid">Prepaid</option>
+                                        <option value="COD">COD</option>
+                                    </>
+                                )}
                             </select>
                             {(errors.payment_type || editErrors?.payment_type) && <div className="custom-error">{errors.payment_type || editErrors?.payment_type}</div>}
                         </label>
                         <div className='col d-flex gap-4'>
-                            <label style={{ height: '54px' }}>
-                                MPS
-                                <div className="toggle-switch mt-1">
-                                    <label className='col'>
-                                        <input
-                                            type="checkbox"
-                                            disabled={orderStaus}
-                                            checked={formData.order_details.is_mps}
-                                            onChange={(e) => handleToggleChange(e, 'is_mps')}
-                                        />
-                                        <span className="slider"></span>
-                                    </label>
-                                </div>
-                            </label>
-                            <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
-                                Number of packets
-                                <input
-                                    type="text"
-                                    className='input-field'
-                                    value={formData.other_details.number_of_packets}
-                                    onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
-                                    placeholder='Enter Number of Packets'
-                                    onKeyPress={(e) => {
-                                        if (!/\d/.test(e.key)) {
-                                            e.preventDefault();
-                                        }
-                                    }}
-                                />
-                                {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
-                            </label>
-
+                            {formData.order_details.order_type !== "Reverse" &&
+                                <label style={{ height: '54px' }}>
+                                    MPS
+                                    <div className="toggle-switch mt-1">
+                                        <label className='col'>
+                                            <input
+                                                type="checkbox"
+                                                disabled={orderStaus}
+                                                checked={formData.order_details.is_mps}
+                                                onChange={(e) => handleToggleChange(e, 'is_mps')}
+                                            />
+                                            <span className="slider"></span>
+                                        </label>
+                                    </div>
+                                </label>
+                            }
+                            {(formData.order_details.is_mps && formData.order_details.order_type !== "Reverse") &&
+                                <label style={{ width: '100%' }} className={`${formData.order_details.is_mps ? '' : 'd-none'}`}>
+                                    Number of packets
+                                    <input
+                                        type="text"
+                                        className='input-field'
+                                        value={formData.other_details.number_of_packets}
+                                        onChange={(e) => handleChangeReseller(e, 'number_of_packets')}
+                                        placeholder='Enter Number of Packets'
+                                        onKeyPress={(e) => {
+                                            if (!/\d/.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
+                                    {(errors.number_of_packets || editErrors?.number_of_packets) && <div className="custom-error">{errors.number_of_packets || editErrors?.number_of_packets}</div>}
+                                </label>
+                            }
                         </div>
                     </div>
                     {/* Add Payment Fields Section */}
@@ -373,16 +452,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 onChange={(e) => handleChangeCharge(e, 'is_gift_wrap')}
                                 value={formData.charge_details.is_gift_wrap}
                             >
-                                <option value={true}>Yes</option> 
+                                <option value={true}>Yes</option>
                                 <option value={false}>No</option>
                             </select>
-                            {/* <input
-                                type="text"
-                                className='input-field'
-                                value={formData.charge_details.gift_wrap}
-                                onChange={(e) => handleChangeCharge(e, 'gift_wrap')}
-                                placeholder='Yes / NO'
-                            /> */}
                         </label>
                         <label className='col'>
                             Transaction fee
@@ -402,7 +474,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                     </div>
                 </div>
             </div>
-            {/* Next Button */}
             <div className='d-flex justify-content-end my-3 cof-btn-container'>
                 <button className='btn main-button' onClick={onNextClicked}>
                     Next

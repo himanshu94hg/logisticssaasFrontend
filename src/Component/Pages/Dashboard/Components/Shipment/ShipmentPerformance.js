@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FaAngleDown, FaAngleUp } from 'react-icons/fa';
 import { useSelector } from 'react-redux';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 
 const ShipmentPerformance = () => {
   const [data, setData] = useState([]);
@@ -11,26 +12,22 @@ const ShipmentPerformance = () => {
     return data.map((zoneData, i) => ({
       week: i,
       FAD: {
-        tooltip: 'FAD',
         total: zoneData.fad_orders.fad_orders,
         prepaid: zoneData.fad_orders.prepaid_fad_orders,
         cod: zoneData.fad_orders.cod_fad_orders
       },
       FAT: {
-        tooltip: 'FAD',
         total: zoneData.fat_orders.fat_orders,
         prepaid: zoneData.fat_orders.prepaid_fat_orders,
         cod: zoneData.fat_orders.cod_fat_orders
       },
 
       SAD: {
-        tooltip: 'FAD',
         total: zoneData.sad_orders.sad_orders,
         prepaid: zoneData.sad_orders.prepaid_sad_orders,
         cod: zoneData.sad_orders.cod_sad_orders
       },
       TAD: {
-        tooltip: 'FAD',
         total: zoneData.tad_orders.tad_orders,
         prepaid: zoneData.tad_orders.prepaid_tad_orders,
         cod: zoneData.tad_orders.cod_tad_orders
@@ -61,6 +58,13 @@ const ShipmentPerformance = () => {
     }
   }, [performanceMetrix]);
 
+  const tooltipTexts = {
+    FAD: 'First Attempt Delivery',
+    FAT: 'First Attempt TAT',
+    SAD: 'Second Attempt Delivery',
+    TAD: 'Third Attempt Delivery'
+  };
+
 
   return (
     <div className="box-shadow shadow-sm p10 dashboard-table">
@@ -81,9 +85,13 @@ const ShipmentPerformance = () => {
                 {keyName?.map((counter, counterIndex) => (
                   <React.Fragment key={counterIndex}>
                     <tr onClick={() => handleRowClick(counterIndex)}>
-                      <td>
+                      <td style={{ overflow: 'visible' }}>
                         {expandedRow === counterIndex ? <FaAngleUp /> : <FaAngleDown />}
-                        <span className='ms-2'>{counter}</span>
+                        <CustomTooltip
+                          triggerComponent={<span className='ms-2'>{counter}</span>}
+                          tooltipComponent={tooltipTexts[counter]}
+                          addClassName='pa-tootltip'
+                        />
                       </td>
                       {data?.map((weekData, weekIndex) => (
                         <td key={weekData.week}>

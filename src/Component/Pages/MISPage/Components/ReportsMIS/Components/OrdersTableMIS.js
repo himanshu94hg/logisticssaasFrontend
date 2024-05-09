@@ -11,17 +11,28 @@ import customImg from "../../../../../../assets/image/integration/Manual.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const OrdersTableMIS = ({setStateData}) => {
+const OrdersTableMIS = ({setStateData,setTotalItems}) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
+    const [ordersData, setOrdersData] = useState([]);
     const {reportsOrderData}=useSelector(state=>state?.misSectionReducer)
 
-    console.log(reportsOrderData,"reportsOrderDatareportsOrderData")
+    console.log(reportsOrderData,"setStateDatasetStateDatasetStateDatasetStateData")
+
+    useEffect(()=>{
+        if(reportsOrderData && reportsOrderData?.results !== null)
+        {
+            setOrdersData(reportsOrderData?.results);
+            setTotalItems(reportsOrderData?.count)
+        }
+    },[reportsOrderData])
 
     useEffect(()=>{
         if(reportsOrderData){
             setStateData(false)
+            setTotalItems(reportsOrderData?.count)
         }
     },[reportsOrderData])
 
@@ -29,13 +40,12 @@ const OrdersTableMIS = ({setStateData}) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(reportsOrderData.map(row => row.id));
+            setSelectedRows(ordersData.map(row => row.id));
         } else {
             setSelectedRows([]);
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
 
@@ -45,7 +55,6 @@ const OrdersTableMIS = ({setStateData}) => {
             setSelectedRows([...selectedRows, orderId]);
         }
 
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === reportsOrderData?.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -56,13 +65,13 @@ const OrdersTableMIS = ({setStateData}) => {
         <table className=" w-100">
             <thead className="sticky-header">
                 <tr className="table-row box-shadow">
-                    <th style={{ width: '1%' }}>
+                   {/*} <th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
                             onChange={handleSelectAll}
                         />
-                    </th>
+    </th>*/}
                     <th style={{ width: '25%' }}>Order Details</th>
                     <th>Customer Details</th>
                     <th>Package Details</th>
@@ -74,17 +83,17 @@ const OrdersTableMIS = ({setStateData}) => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {reportsOrderData?.results?.map((row, index) => (
+                {ordersData?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                            <td className='checkbox-cell'>
+                           {/*} <td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                            </td>
+                </td>*/}
                             <td>
                                 {/* User Details */}
                                 <div className='cell-inside-box'>
@@ -98,7 +107,7 @@ const OrdersTableMIS = ({setStateData}) => {
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
                                                                     : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
                                                                         : ""}
-                                        &nbsp; <span className=''>{row.customer_order_number}</span>
+                                        &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>
                                     <p className='ws-nowrap d-flex align-items-center'>
                                         <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />

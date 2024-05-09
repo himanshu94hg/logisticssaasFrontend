@@ -8,6 +8,8 @@ import { loginPattern } from '../../../Routes';
 import GoogleIcon from '../LoginPage/Icons/GoogleIcon';
 import FacebookIcon from '../LoginPage/Icons/FacebookIcon';
 import TrackYourOrder from '../../../assets/image/settingsBG/TrackYourOrder1.png'
+import loginBG from '../../../assets/image/login_bg2.svg'
+import Logo from '../../../assets/image/logo/logo.svg'
 
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
@@ -42,13 +44,32 @@ const SignUpPage = () => {
 
     console.log(numberOfOrders, 'this is user role')
 
+    const onInputChange = e => {
+        const { value } = e.target;
+        console.log('Input value: ', value);
+
+        const re = /^[A-Za-z]+$/;
+        if (value === "" || re.test(value)) {
+            //   setTxt(value);
+        }
+    }
 
     return (
         <>
             <section className='signup-section'>
                 <div className="signup row">
-                    <div className='col-md-8 col-lg-6'></div>
-                    <div className='left-side col-md-4 col-lg-6'>
+                    <div className='signup-logo-container'>
+                        {/* <div className='login-lc-bg'>
+                            <SVGFigure />
+                        </div> */}
+                        <img src={Logo} alt="logo" />
+                    </div>
+                    <div className='col-md-10 col-lg-10 left-side'>
+                        <div className=''>
+                            {/* <img src={loginBG} alt="" /> */}
+                        </div>
+                    </div>
+                    <div className='right-side col-md-2 col-lg-2'>
                         <div className="content">
                             <div className='user-role-select'>
                                 <label htmlFor="seller">
@@ -77,10 +98,9 @@ const SignUpPage = () => {
                             {
                                 UserRole === 'seller' &&
                                 <form className="form" onSubmit={handleSubmit(onSubmit)}>
-                                    <h3 className='text-center'>Sign up with us today</h3>
+                                    <h3 className='text-center'>Sign Up With Us Today!</h3>
                                     <div className='signup-with-social'>
                                         <button type='button' className='btn'><GoogleIcon /><span>Signup using Google</span></button>
-                                        {/* <div className='v-line'></div> */}
                                         <button type='button' className='btn'><FacebookIcon /><span>Signup using facebook</span></button>
                                     </div>
                                     <div className='signup-division'>
@@ -95,7 +115,22 @@ const SignUpPage = () => {
                                                     type='text'
                                                     className='input-field'
                                                     id="first_name"
-                                                    {...register("first_name", { required: true })}
+                                                    onChange={onInputChange}
+                                                    {...register("first_name", {
+                                                        required: true,
+                                                    })}
+                                                    maxLength={50}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                                        if (
+                                                            e.key === ' ' &&
+                                                            e.target.value.endsWith(' ')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        } else if (!allowedCharacters.test(e.key)) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>First name</i>
@@ -108,6 +143,18 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="last_name"
                                                     {...register("last_name", { required: true })}
+                                                    maxLength={50}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                                        if (
+                                                            e.key === ' ' &&
+                                                            e.target.value.endsWith(' ')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        } else if (!allowedCharacters.test(e.key)) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>Last name</i>
@@ -122,6 +169,18 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="company_name"
                                                     {...register("company_name", { required: true })}
+                                                    maxLength={50}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[a-zA-Z0-9\s]*$/;
+                                                        if (
+                                                            e.key === ' ' &&
+                                                            e.target.value.endsWith(' ')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        } else if (!allowedCharacters.test(e.key)) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>Company Name</i>
@@ -134,6 +193,16 @@ const SignUpPage = () => {
                                                     className='input-field'
                                                     id="contact_number"
                                                     {...register("contact_number", { required: true })}
+                                                    onKeyPress={(e) => {
+                                                        const allowedCharacters = /^[0-9\s]*$/;
+                                                        if (
+                                                            (e.key === ' ' && e.target.value.endsWith(' ')) ||
+                                                            (!allowedCharacters.test(e.key)) ||
+                                                            (e.target.value.length >= 10 && e.key !== 'Backspace' && e.key !== 'Delete')
+                                                        ) {
+                                                            e.preventDefault();
+                                                        }
+                                                    }}
                                                     required
                                                 />
                                                 <i>Contact Number</i>
@@ -147,6 +216,7 @@ const SignUpPage = () => {
                                                     type='text'
                                                     className='input-field'
                                                     id="email"
+                                                    maxLength={50}
                                                     {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
                                                     required
                                                 />
@@ -157,8 +227,9 @@ const SignUpPage = () => {
                                                 <input
                                                     autoComplete="off"
                                                     className='input-field'
-                                                    type='text'
+                                                    type='password'
                                                     id="password"
+                                                    maxLength={50}
                                                     {...register("password", { required: true, minLength: 6 })}
                                                     required
                                                 />
@@ -185,7 +256,7 @@ const SignUpPage = () => {
                             }
                             {
                                 UserRole === 'buyer' &&
-                                <form className="form gap-4 track-order" style={{ minHeight: '62vh' }}>
+                                <form className="form gap-4 track-order">
                                     <h4 className='m-0 text-center mt-3'>Trace Your Order's Progress</h4>
                                     <img src={TrackYourOrder} alt="TrackYourOrder" />
 

@@ -13,15 +13,19 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 
 const SearchOptions = [
-    { value: 'awb', label: 'AWB' },
-    { value: 'order_id', label: 'Order ID' },
-    { value: 'mobile', label: 'Mobile' },
-    { value: 'email', label: 'Email' },
-    { value: 'name', label: 'Name' },
-    { value: 'sku', label: 'SKU' },
-    { value: 'picup_address', label: 'Pickup Address' },
+    { value: 'awb_number', label: 'AWB' },
+    { value: 'customer_order_number', label: 'Order ID' },
+    { value: 'shipping_detail__mobile_number', label: 'Mobile' },
+    { value: 'shipping_detail__email', label: 'Email' },
+    { value: 'shipping_detail__recipient_name', label: 'Name' },
+    { value: 'shipping_detail__pincode', label: 'Pincode' },
+    { value: 'shipping_detail__city', label: 'City' },
 ];
 
 
@@ -39,11 +43,18 @@ const ShipmentsPage = () => {
     const [searchValue, setSearchValue] = useState("")
     const reattemptOrderIds = selectedRows.join(',');
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [BulkActionShow, setBulkActionShow] = useState(false)
-
-
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const [errors, setErrors] = useState({});
+    let authToken = Cookies.get("access_token")
+    const [pageStatus, pageStatusSet] = useState(true)
+    const [queryName, setQueryName] = useState([])
+    const [shipmentCard, setShipment] = useState([])
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [queryParamSearch, setQueryParamSearch] = useState(null)
+    const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
+    const apiEndpoint = "https://dev.shipease.in/";
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -65,37 +76,93 @@ const ShipmentsPage = () => {
     };
 
     useEffect(() => {
-        let param = '';
+        let apiUrl = '';
         switch (activeTab) {
             case "Action Required":
-                param = "pending";
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=pending&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Action Requested":
-                param = "requested";
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=requested&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "RTO":
-                param = "rto";
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=rto&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Delivered":
-                param = "delivered";
+                apiUrl = `${apiEndpoint}orders-api/orders/shipment/?action=delivered&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             default:
-                param = '';
+                apiUrl = '';
         }
 
-        dispatch({ type: "SHIPMENT_DATA_ACTION", payload: param });
-    }, [dispatch, activeTab]);
+        if (apiUrl) {
+            const queryParams = { ...queryParamTemp };
+            const queryString = Object.keys(queryParams)
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .join('&');
 
+            if (queryString) {
+                apiUrl += '&' + queryString;
+            }
+            axios.get(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setShipment(response.data.results);
+                })
+                .catch(error => {
+                    toast.error("Api Call failed!")
+                });
+        }
+    }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
+    //     if (pageStatus)
+    //     {
+    //         let apiUrl = '';
+    //         switch (activeTab) {
+    //             case "Action Required":
+    //                 apiUrl = "pending" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
+    //                 break;
+    //             case "Action Requested":
+    //                 apiUrl = "requested" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
+    //                 break;
+    //             case "RTO":
+    //                 apiUrl = "rto" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
+    //                 break;
+    //             case "Delivered":
+    //                 apiUrl = "delivered"+ `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
+    //                 break;
+    //             default:
+    //                 apiUrl = '';
+    //         }
 
-    const { shipmentCard } = useSelector(state => state?.shipmentSectionReducer)
+    //         if (apiUrl) {
+    //             const queryParams = { ...queryParamTemp };
+    //             const queryString = Object.keys(queryParams)
+    //                 .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+    //                 .join('&');
+
+    //             if (queryString) {
+    //                 apiUrl += '&' + queryString;
+    //             }
+    //             dispatch({ type: "SHIPMENT_DATA_ACTION", payload: apiUrl });
+    //             console.log("apiUrlapiUrlapiUrlapiUrl",apiUrl)
+    //         }
+    //     }
+    // }, [dispatch, activeTab, pageStatus, itemsPerPage, currentPage,queryParamTemp]);
+    
+
+    const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
 
     console.log(shipmentCard.length, "Active Tab DADA")
 
     useEffect(() => {
-        if (shipmentCard && shipmentCard.length) {
-            setTotalItems(shipmentCard.length);
+        if (shipmentCardData && shipmentCardData.length) {
+            setShipment(shipmentCardData);
+            setTotalItems(shipmentCardData.length);
         }
-    }, [shipmentCard]);
+    }, [shipmentCardData]);
 
 
     console.log(activeTab, "Active Tab")
@@ -108,11 +175,57 @@ const ShipmentsPage = () => {
         dispatch({ type: "SHIPMENT_RTO_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
     });
 
-    const handleChange = (SearchOption) => {
-        setSearchOption(SearchOption);
+    const validateData = () => {
+        const newErrors = {};
+        if (searchType === 'customer_order_number' && !searchValue) {
+            newErrors.customer_order_number = 'Order Number is required!';
+        }
+        if (searchType === 'shipping_detail__mobile_number' && !searchValue) {
+            newErrors.customer_order_number = 'Mobile Number is required!';
+        }
+        if (searchType === 'shipping_detail__email' && !searchValue) {
+            newErrors.shipping_detail__email = 'Email is required!';
+        }
+        if (searchType === 'shipping_detail__recipient_name' && !searchValue) {
+            newErrors.shipping_detail__recipient_name = 'Name is required!';
+        }
+        if (searchType === 'shipping_detail__pincode' && !searchValue) {
+            newErrors.customer_order_number = 'Pincode Number is required!';
+        }
+        if (searchType === 'shipping_detail__city' && !searchValue) {
+            newErrors.customer_order_number = 'City is required!';
+        }
+        if (searchType === 'awb_number' && !searchValue) {
+            newErrors.customer_order_number = 'AWB is required!';
+        }
+
+        setErrors(newErrors);
+        console.log(newErrors, "this is new errors")
+        return Object.keys(newErrors).length === 0;
     };
 
-    const handleSearch = () => { }
+    const handleSearch = () => {
+        if (validateData()) {
+            axios.get(`${apiEndpoint}orders-api/orders/shipment/?action=${tabData}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            })
+                .then(response => {
+                    setTotalItems(response?.data?.count)
+                    setShipment(response.data?.results);
+                    pageStatusSet(false)
+                })
+                .catch(error => {
+                    toast.error("Something went wrong!")
+                });
+                setQueryParamTemp({
+                    search_by:searchType,
+                    q:searchValue
+                })
+                setCurrentPage(1)
+        }
+    };
 
     useEffect(() => {
         if (BulkActionShow) {
@@ -124,12 +237,56 @@ const ShipmentsPage = () => {
 
     const handleReset = () => {
         setSearchValue("")
-        // setHandleResetFrom(true)
+        pageStatusSet(true);
+        setHandleResetFrom(true)
+        setQueryParamTemp({})
+        axios.get(`${apiEndpoint}orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setShipment(response?.data?.results);
+            })
+            .catch(error => {
+                toast.error("Api Call failed!")
+            });
     }
+
+    const handleChange = (option) => {
+        setSearchOption(option);
+        setsearchType(option.value)
+    };
+
+    useEffect(() => {
+        if (activeTab) {
+            setSearchValue("");
+            setQueryParamTemp({});
+            setQueryParamSearch(null);
+        }
+    }, [activeTab])
+
+    const handleMoreFilter = (data) => {
+        setItemsPerPage(20)
+        setCurrentPage(1)
+
+        const queryParams = {};
+        Object.keys(data).forEach(key => {
+            if (data[key] !== '' && data[key] !== null) {
+                if (key === 'start_date' || key === 'end_date') {
+                    queryParams[key] = moment(data[key]).format('YYYY-MM-DD');
+                } else {
+                    queryParams[key] = data[key];
+                }
+            }
+        });
+        setQueryParamTemp(queryParams);
+    };
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
@@ -139,7 +296,7 @@ const ShipmentsPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
                             <button onClick={() => handleSearch()}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
@@ -152,17 +309,27 @@ const ShipmentsPage = () => {
                             >
                                 <HiOutlineFilter className='align-text-bottom' /> More Filters
                             </button>
-                            <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span className="visually-hidden">Toggle Dropdown</span>
+                            <button className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                <span className="visually-hidden" >Toggle Dropdown</span>
                             </button>
-                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
-                                <li>Filter 1</li>
-                                <li>Filter 2</li>
-                                <li>Filter 3</li>
-                                <li>Filter 4</li>
+                            <ul
+                                className="dropdown-menu"
+                                type="button"
+                                style={{
+                                    paddingInline: '0px',
+                                    minWidth: '110px',
+                                }}
+                            >
+                                {queryName?.map((item) => {
+                                    return (
+                                        <>
+                                            <li>{item?.filter_name}</li>
+                                        </>
+                                    )
+                                })}
                             </ul>
                         </div>
-                        <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
@@ -224,7 +391,9 @@ const ShipmentsPage = () => {
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
-            //handleMoreFilter={handleMoreFilter}
+                handleMoreFilter={handleMoreFilter}
+                handleResetFrom={handleResetFrom}
+                setHandleResetFrom={setHandleResetFrom}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 

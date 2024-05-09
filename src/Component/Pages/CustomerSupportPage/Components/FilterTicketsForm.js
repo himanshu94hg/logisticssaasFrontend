@@ -12,8 +12,26 @@ const FilterTicketsForm = (props) => {
   const [selectedStatus, setSelectedStatus] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [resolutionDate, setResolutionDate] = useState();
+  const [createdDate, setCreatedDate] = useState();
+  const [selectedSeverity, setSelectedSeverity] = useState('');
+
+  const [filterParams, setFilterParams] = useState({
+    status: '',
+    severity: '',
+  })
 
   const authToken = Cookies.get("access_token")
+
+  useEffect(() => {
+    if (props?.clearTicket) {
+      setSelectedCategories([]);
+      setSelectedStatus('');
+      setResolutionDate(null);
+      setEndDate(null);
+      setCreatedDate(null)
+    }
+    props?.setClearTicket(false)
+  }, [props?.clearTicket])
 
   useEffect(() => {
     if (props.filterClick) {
@@ -37,29 +55,50 @@ const FilterTicketsForm = (props) => {
     setSelectedCategories(selectedOption);
   };
 
-  const handleStatusChange = (selectedOption) => {
-    setSelectedStatus(selectedOption.value);
+  const handleStatusChange = (name, value) => {
+    if (name === "status" || name === "severity") {
+      setFilterParams(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
+  const handleSeverityChange = (selectedOption) => {
+    setSelectedSeverity(selectedOption.value);
+  };
+
+  const handleCreatedChange = (date) => {
+    setCreatedDate(date);
+  };
   const handleResolutionDateChange = (date) => {
     setResolutionDate(date);
   };
-
   const handleEndDateChange = (date) => {
     setEndDate(date);
   };
 
+
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
+    props.handleFormSubmit(selectedCategories, resolutionDate, endDate, "filter", createdDate, filterParams)
   };
 
+
+
   const handleReset = () => {
+    console.log("Reset button clicked");
     setSelectedCategories([]);
     setSelectedStatus('');
     setResolutionDate(null);
     setEndDate(null);
-    // props.handleFormSubmit(selectedCategories, selectedStatus, resolutionDate, endDate, "filter")
+    setCreatedDate(null);
+    setSelectedSeverity('');
+    setFilterParams({
+      status: null,
+      severity: null,
+    })
   };
+
   const StatusOptions = [
     { value: 'All', label: 'All' },
     { value: 'Open', label: 'Open' },
@@ -67,7 +106,22 @@ const FilterTicketsForm = (props) => {
     { value: 'Closed', label: 'Closed' },
   ];
 
-
+  const SeverityOptions = [
+    { value: 'All', label: 'All' },
+    { value: 'Critical', label: 'Critical' },
+    { value: 'Medium', label: 'Medium' },
+    { value: 'High', label: 'High' },
+    { value: 'Low', label: 'Low' },
+  ];
+  const handleKeyDown = (e) => {
+    const allowedCharacters = /[0-9/]/;
+    if (e.key === 'Backspace' || e.key === 'Delete') {
+      return;
+    }
+    if (!allowedCharacters.test(e.key)) {
+      e.preventDefault();
+    }
+  }
   return (
     <section className='ticket-slider-body'>
       <div className='ticket-filter-inputs'>
@@ -77,10 +131,25 @@ const FilterTicketsForm = (props) => {
           value={selectedCategories}
           placeholder='Choose a Subcategory'
         />
+
         <Select
           options={StatusOptions}
-          onChange={handleStatusChange}
           placeholder='Select Status'
+          //defaultValue={null}
+          // defaultValue={filterParams?.payment_type}
+          onChange={(e) => handleStatusChange("status", e)}
+          value={filterParams.status !== null ? StatusOptions.find(option => option.value === filterParams.status) : null}
+
+        />
+
+        <Select
+          options={SeverityOptions}
+          placeholder='Select Severity'
+          //defaultValue={null}
+          // defaultValue={filterParams?.payment_type}
+          onChange={(e) => handleStatusChange("severity", e)}
+          value={filterParams.severity !== null ? SeverityOptions.find(option => option.value === filterParams.severity) : null}
+
         />
       </div>
 
@@ -88,11 +157,30 @@ const FilterTicketsForm = (props) => {
 
       <div className='ticket-filter-inputs'>
         <div>
+          <h6>Created At</h6>
+          <div className='date-picker-container'>
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className='calendar-icon'
+              onClick={() => document.getElementById("createdDate").focus()}
+            />
+            <DatePicker
+              id="createdDate"
+              selected={createdDate}
+              onChange={handleCreatedChange}
+              dateFormat='dd/MM/yyyy'
+              className='input-field'
+              strictParsing={true}
+              onKeyDown={(e) => handleKeyDown(e)}
+            />
+          </div>
+        </div>
+        <div>
           <h6>Resolution Due By</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon 
-              icon={faCalendarAlt} 
-              className='calendar-icon' 
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className='calendar-icon'
               onClick={() => document.getElementById("resolutionDate").focus()}
             />
             <DatePicker
@@ -101,15 +189,18 @@ const FilterTicketsForm = (props) => {
               onChange={handleResolutionDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              maxDate={new Date()}
+              strictParsing={true}
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>
         <div>
           <h6>Last Updated</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon 
-              icon={faCalendarAlt} 
-              className='calendar-icon' 
+            <FontAwesomeIcon
+              icon={faCalendarAlt}
+              className='calendar-icon'
               onClick={() => document.getElementById("endDate").focus()}
             />
             <DatePicker
@@ -118,6 +209,9 @@ const FilterTicketsForm = (props) => {
               onChange={handleEndDateChange}
               dateFormat='dd/MM/yyyy'
               className='input-field'
+              maxDate={new Date()}
+              strictParsing={true}
+              onKeyDown={(e) => handleKeyDown(e)}
             />
           </div>
         </div>

@@ -11,38 +11,31 @@ import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import EditWareHouse from './EditWareHouse';
 
-const BoxGrid = ({ boxData, editWarehouse }) => {
-  const [isOpen, setIsOpen] = useState(null);
+const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
-
-  
-  
-  
+  const [isOpen, setIsOpen] = useState(null);
   const [defaultWarehouseIndex, setDefaultWarehouseIndex] = useState(null);
-  
+
   useEffect(() => {
     if (boxData) {
       let temp = null;
       boxData.map((item) => {
-        if (item.is_default){
-          temp=item.id
+        if (item.is_default) {
+          temp = item.id
         }
       })
       setDefaultWarehouseIndex(temp)
     }
   }, [boxData])
-  console.log(defaultWarehouseIndex, "this is a box data ")    
 
   const handleToggle = (index, id) => {
     setIsOpen(isOpen === index ? null : index);
   };
 
 
-
-  // Inside BoxGrid component
   const handleSetDefault = (index, id) => {
-    // Check if the current warehouse is already marked as default
     if (defaultWarehouseIndex === index) {
       Swal.fire({
         title: 'Already Default',
@@ -81,7 +74,6 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
   }
 
 
-
   return (
     <div className="box-grid">
       {boxData.map((box, index) => (
@@ -89,11 +81,9 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
-              {console.log(defaultWarehouseIndex, index, "defaultWarehouseIndexdefaultWarehouseIndex")}
               <button
                 onClick={() => handleSetDefault(index, box.id)}
                 className={`btn mark-as-default-btn  ${box?.is_default ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
-                {/* {defaultWarehouseIndex === index ? 'Default' : <span>Mark as Default</span>} */}
                 {box?.is_default ? <span className=''>Default</span> : <span>Mark as Default</span>}
               </button>
               <div>
@@ -118,9 +108,12 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
               <div className='d-flex justify-content-between'>
                 <button className='btn main-button-outline' onClick={() => handleToggle(index)}>Show RTO Address</button>
                 <div className='d-flex gap-2'>
-                  <button className='btn edit-btn' onClick={() => editWarehouse(index)}><FontAwesomeIcon icon={faPenToSquare} /></button>
-                  <button className='btn delete-btn' 
-                  onClick={()=>dispatch({type:"DELETE_WAREHOUSE_ACTION",payload:box?.id})}
+                  <button className='btn edit-btn' onClick={() => {
+                    editWarehouse(index);
+                    setWareHouseId(box.id)
+                  }}><FontAwesomeIcon icon={faPenToSquare} /></button>
+                  <button className='btn delete-btn'
+                    onClick={() => dispatch({ type: "DELETE_WAREHOUSE_ACTION", payload: box?.id })}
                   ><FontAwesomeIcon icon={faTrashCan} /></button>
                 </div>
               </div>
@@ -156,12 +149,14 @@ const BoxGrid = ({ boxData, editWarehouse }) => {
 };
 
 const ManageWarehouse = () => {
-  let navigate = useNavigate();
+  const navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
-  let sellerData = Cookies.get("user_id")
-  let authToken = Cookies.get("access_token");
+  const [initialData, setInitialData] = useState([])
+  const [searchQuery, setSearchQuery] = useState('');
+  const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer);
+  const authToken = Cookies.get("access_token");
+  const [wareHouseId, setWareHouseId] = useState(null);
   const [editWarehouse, setEditWarehouse] = useState(false);
-  const {defaultWarehouseRes}=useSelector(state=>state?.settingsSectionReducer)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -175,18 +170,31 @@ const ManageWarehouse = () => {
         }
       });
       if (!response.data) {
-        throw new Error('Failed to fetch data');
+
       }
       setBoxes(response.data);
+      setInitialData(response.data)
     } catch (error) {
-      console.error('Error fetching data:', error);
     }
   };
+
+  const handleSearch = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const searchWarehouse = () => {
+    const filteredBoxes = boxes.filter(box => {
+      const searchString = `${box.warehouse_name} ${box.address_line1} ${box.city} ${box.state} ${box.pincode}`.toLowerCase();
+      return searchString.includes(searchQuery.toLowerCase());
+    });
+    setInitialData(filteredBoxes)
+  }
 
   const handleEditWarehouse = (index) => {
     console.log("Editing warehouse at index:", index);
     setEditWarehouse(!editWarehouse);
   };
+
 
   return (
     <>
@@ -194,15 +202,21 @@ const ManageWarehouse = () => {
         <section className="box-shadow shadow-sm p7 mb-3 filter-container">
           <div className="search-container">
             <label>
-              <input className='input-field' type="text" placeholder="Search by Location || Address || City || State || Pincode" />
-              <button>
+              <input
+                className='input-field'
+                type="text"
+                placeholder="Search by Location || Address || City || State || Pincode"
+                value={searchQuery}
+                onChange={handleSearch}
+              />
+              <button onClick={searchWarehouse}>
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </label>
           </div>
           <div className='button-container'>
-            <button className='btn main-button me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
-            <button className='btn main-button me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
+            <button className='btn main-button-outline me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
+            <button className='btn main-button-outline me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
             <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
           </div>
         </section>
@@ -210,18 +224,21 @@ const ManageWarehouse = () => {
         <section className='warehouse-grid-container'>
           <div>
             <h4 className='mb-3'>Manage Pickup Addresses</h4>
-            <BoxGrid boxData={boxes} editWarehouse={handleEditWarehouse} />
+            <BoxGrid boxData={initialData} editWarehouse={handleEditWarehouse} setWareHouseId={setWareHouseId} />
           </div>
         </section>
       </div>
 
       {/* Edit Slider */}
-      <section className={`ticket-slider ${editWarehouse ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => setEditWarehouse(!editWarehouse)}>
+      <section className={`ticket-slider warehouse-edit ${editWarehouse ? 'open' : ''}`}>
+        <div id='sidepanel-closer' onClick={() => setEditWarehouse(false)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>
           <h2 className='mb-0'>Edit Warehouse</h2>
+        </section>
+        <section className='ticket-slider-body'>
+          <EditWareHouse wareHouseId={wareHouseId} setEditWarehouse={setEditWarehouse} />
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
@@ -229,4 +246,4 @@ const ManageWarehouse = () => {
   );
 };
 
-export default ManageWarehouse
+export default ManageWarehouse;

@@ -47,12 +47,14 @@ export const API_URL = {
   MANIFEST_LIST_API:"/orders-api/orders/manifest/",
   ORDER_TAGS_LIST_API:"/orders-api/orders/order-tags/",
   ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/",
+  ORDER_CLONE_API: "/orders-api/orders/",
   
   //BULK ACTION ACTION SECTION
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",
   BULK_MARK_ORDER_VERIFY:"/orders-api/orders/bulk-action/mark-order-verify/",
   BULK_DELETE_ORDER:"/orders-api/orders/bulk-action/delete-order/",
   BULK_CANCEL_ORDER:"/core-api/shipping/cancel-order/",
+  BULK_CANCEL_ORDER_PROCESSING:"/orders-api/orders/bulk-action/cancel-order/",
   BULK_PICKUP_ADDRESS_UPDATE:"/orders-api/orders/bulk-action/pickup-address-update/",
   BULK_DIMENSION_DETAILS_UPDATE:"/orders-api/orders/bulk-action/dimension-detail-update/",
   BULK_ORDER_GENERATE_MENIFEST_API:"/orders-api/orders/generate-manifest/",
@@ -72,6 +74,8 @@ export const API_URL = {
   DELETE_ORDERS_API: "/orders-api/orders/order-complete-detail/",
   CLONE_ORDERS_API: "/orders-api/orders/clone-order/",
   GENERATE_MANIFEST_API: "/orders-api/orders/generate-manifest/",
+  ORDER_TAG_CREATED_API: "/orders-api/orders/order-tags/",
+  GET_ORDER_SOURCE_API: "/orders-api/orders/order-sources/",
 
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
@@ -83,6 +87,11 @@ export const API_URL = {
 
   //EXPORTS
   GET_EXPORT_URL: "/orders-api/orders/export-order/",
+  GET_EXPORT_PASSBOOK_URL :"/core-api/features/billing/passbook-download/",
+  GET_EXPORT_SHIPPING_URL :"/core-api/features/billing/shipping-charge-download/",
+  GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
+  GET_EXPORT_INVOICE_URL:"/core-api/features/billing/export-invoice/",
+  GET_EXPORT_WEIGHT_URL: "/orders-api/orders/export-weight-reconciliation/",
 
 
   //DASHBOARD OVERVIEW API'S 
@@ -165,5 +174,11 @@ export const API_URL = {
 
   //SETTINGS API
    SETTINGS_MAKE_WAREHOUSE_DEFAULT_API:"/core-api/features/make-warehouse-default/",
-   SETTINGS_DELETE_WAREHOUSE_API:"/core-api/features/warehouse-detail/"
+   SETTINGS_DELETE_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
+   SETTINGS_GET_WAREHOUSE_DETAILS_API:"/core-api/features/warehouse-detail/",
+   SETTINGS_EDIT_WAREHOUSE_API:"/core-api/features/warehouse-detail/",
+
+
+   //CHANNEL
+   GET_CHANNEL_URL: "/core-api/channel/channel/",
 };

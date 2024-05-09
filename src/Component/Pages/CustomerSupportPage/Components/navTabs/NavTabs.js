@@ -9,7 +9,6 @@ import { Link } from "react-router-dom";
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { RiFilterLine } from "react-icons/ri";
 import { RxReset } from "react-icons/rx";
-
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -25,9 +24,11 @@ export default function NavTabs(props) {
     setIsOpen(!isOpen);
   };
 
-  const handleReset = () => {
-    props.setSearchValue('')
-  }
+   const handlereset = () => {
+     props.setSearchValue('')
+     props.setClearTicket(true)
+     props.handleReset();
+   }
 
   return (
     <Navbar
@@ -91,9 +92,11 @@ export default function NavTabs(props) {
             <input
               placeholder="Search by Ticket ID || AWB || Pickup ID"
               type="search" value={props.searchValue}
-              className="input-field"
+              className={`input-field ${props.errors.searchValue ? 'input-field-error' : ''}`}
               onChange={(e) => props.setSearchValue(e.target.value)}
             />
+             {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
+
             <button onClick={() => props.handleSearch()}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </label>
         </div>
@@ -102,7 +105,7 @@ export default function NavTabs(props) {
           className="btn main-button-outline">
           <RiFilterLine /> More Filters
         </button>
-        <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+        <button className='btn main-button-outline ms-2'  onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</button>
         <button
           onClick={() => props.setNewTicket(!props.NewTicket)}
           className="btn main-button">

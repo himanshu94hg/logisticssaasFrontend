@@ -17,6 +17,10 @@ export const ordersPattern = "/orders";
 export const getOrdersRoute = () => {
     return generatePath(ordersPattern);
 };
+export const orderdetailPattern = "/orderdetail/:slug";
+export const getOrderdetailRoute = () => {
+    return generatePath(orderdetailPattern);
+};
 export const reassignOrdersPattern = "/more-on-orders";
 export const getReassignRoute = () => {
     return generatePath(reassignOrdersPattern);
@@ -185,4 +189,23 @@ export const ReportSchedulerRoutes = () => {
 export const CourierAllocationPattern = "/courier-allocation";
 export const CourierAllocationRoutes = () => {
     return generatePath(CourierAllocationPattern);
+};
+
+export const bypassPattern = "/bypass";
+export const bypassPatternRoutes = () => {
+    return generatePath(bypassPattern);
+};
+export const loginBypassPattern = "/bypass-login";
+export const loginBypassRoutes = () => {
+    return generatePath(loginBypassPattern);
+};
+
+export const ReferAndEarnPattern = "/refer-and-earn";
+export const ReferAndEarnRoutes = () => {
+    return generatePath(ReferAndEarnPattern);
+};
+
+export const BusinessPlanPattern = "/business-plan";
+export const BusinessPlanRoutes = () => {
+    return generatePath(BusinessPlanPattern);
 };

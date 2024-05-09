@@ -22,7 +22,7 @@ const InternationalCreateOrders = () => {
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
     console.log("&&&&&&&&&&&&", formData)
 
-    const [activeTab, setActiveTab] = useState("All Orders");
+    const [activeTab, setActiveTab] = useState("All");
 
 
     useEffect(() => {

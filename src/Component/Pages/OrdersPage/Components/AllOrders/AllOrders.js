@@ -28,11 +28,19 @@ import Cookies from 'js-cookie';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import NoData from '../../../../common/noData';
+import SingleShipPopReassign from './SingleShipPopReassign';
+import { Link } from 'react-router-dom';
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows }) => {
+const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
+    const [genaratelabel, setGenaratelabel] = useState(false);
+    const [generateinvoice, setGenerateinvoice] = useState(false);
+
 
     useEffect(() => {
         if (orderdelete) {
@@ -81,62 +89,72 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
 
 
     const handleDownloadLabel = async (orderId) => {
-        try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/${orderId}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Something went wrong');
+        dispatch({
+            type: "BULK_ORDER_GENERATE_LABEL_ACTION",
+            payload: {
+                order_ids: `${orderId}`
             }
-
-            const data = await response.blob();
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-        }
+        });
+        setGenaratelabel(true)
+        // const data = await response.blob();
+        // const url = window.URL.createObjectURL(data);
+        // const a = document.createElement('a');
+        // a.style.display = 'none';
+        // a.href = url;
+        // a.download = 'label.pdf';
+        // document.body.appendChild(a);
+        // a.click();
+        // window.URL.revokeObjectURL(url);
+        // } catch (error) {
+        // }
     };
 
     const handleDownloadInvoice = async (orderId) => {
-        try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Something went wrong');
-            }
+        // try {
+        //     const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //     });
+        //     if (!response.ok) {
+        //         throw new Error('Something went wrong');
+        //     }
 
-            const data = await response.blob();
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-        }
+        //     const data = await response.blob();
+        //     const url = window.URL.createObjectURL(data);
+        //     const a = document.createElement('a');
+        //     a.style.display = 'none';
+        //     a.href = url;
+        //     a.download = 'label.pdf';
+        //     document.body.appendChild(a);
+        //     a.click();
+        //     window.URL.revokeObjectURL(url);
+        // } catch (error) {
+        // }
+        dispatch({
+            type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
+                order_ids: `${orderId}`
+            }
+        });
+        setGenerateinvoice(true)
     };
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
+    const [SingleShipReassign, setSingleShipReassign] = useState(false)
 
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
         setSingleShip(true);
     };
+
+    const handleShipReassign = (orderId) => {
+        setSelectedOrderId(orderId);
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShipReassign(true);
+    };
+
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
@@ -169,6 +187,82 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
         })
     }
 
+    const openCloneSection = (id) => {
+        setCloneOrderSection(true)
+        setOrderId(id)
+    }
+
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+    };
+
+    const handleClickpartner = (event, row) => {
+        event.preventDefault();
+        if (row.courier_partner === "bluedart") {
+            window.location.href = 'https://www.bluedart.com/web/guest/home';
+        } else if (row.courier_partner === "delhivery") {
+            window.location.href = 'https://www.delhivery.com/track/package';
+        } else if (row.courier_partner === "smartr") {
+            window.location.href = 'https://smartr.in/tracking';
+        } else if (row.courier_partner === "ekart" || row.courier_partner === "ekart_5kg") {
+            window.location.href = 'https://ekartlogistics.com/';
+        } else if (row.courier_partner === "shadowfax") {
+            window.location.href = 'https://tracker.shadowfax.in/#/';
+        } else if (row.courier_partner === "amazon_swa") {
+            window.location.href = 'https://track.amazon.in/';
+        } else if (row.courier_partner === "xpressbees") {
+            window.location.href = 'https://www.xpressbees.com/shipment/tracking';
+        } else if (row.courier_partner === "shree maruti") {
+            window.location.href = 'https://www.shreemaruti.com/';
+        } else if (row.courier_partner === "movin") {
+            window.location.href = 'https://www.movin.in/shipment/track';
+        } else if (row.courier_partner === "ecom express") {
+            window.location.href = 'https://ecomexpress.in/tracking/';
+        } else if (row.courier_partner === "professional") {
+            window.location.href = 'https://www.tpcindia.com/Default.aspx';
+        } else {
+            window.location.href = '';
+        }
+    }
+
+    useEffect(() => {
+        if (labelData) {
+            if (genaratelabel === true) {
+                const blob = new Blob([labelData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'label.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenaratelabel(false)
+            }
+        }
+    }, [labelData])
+
+    useEffect(() => {
+        if (invoiceData) {
+            if (generateinvoice === true) {
+                const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Invoice.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenerateinvoice(false)
+            }
+        }
+    }, [invoiceData])
+
+    console.log(invoiceData, "invoiceDatainvoiceData")
+
     return (
         <>
             <section className='position-relative'>
@@ -184,17 +278,16 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 checked={selectAll}
                                                 onChange={handleSelectAll}
                                             />
-                                            <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                         </div>
                                     </th>
-                                    <th style={{ width: '24%' }}>Order Details</th>
+                                    <th style={{ width: '20%' }}>Order Details</th>
                                     <th style={{ width: '12.5%' }}>Customer details</th>
-                                    <th style={{ width: '16%' }}>Package Details</th>
-                                    <th style={{ width: '8%' }}>Payment</th>
+                                    <th style={{ width: '21%' }}>Package Details</th>
+                                    <th style={{ width: '5%' }}>Payment</th>
                                     <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                    <th style={{ width: '10.5%' }}>Shipping Details</th>
-                                    <th style={{ width: '6%' }}>Status</th>
-                                    <th style={{ width: '6%' }}>Action</th>
+                                    <th style={{ width: '12.5%' }}>Shipping Details</th>
+                                    <th style={{ width: '5%' }}>Status</th>
+                                    <th style={{ width: '5%' }}>Action</th>
 
                                 </tr>
                                 <tr className="blank-row"><td></td></tr>
@@ -212,7 +305,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 />
                                             </td>
                                             <td>
-                                                {/* order detail */}
                                                 <div className='cell-inside-box'>
                                                     <p className=''>
                                                         {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -225,13 +317,14 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                                     : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                         : ""}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                            {row.customer_order_number}
-                                                            <CustomTooltip
-                                                                triggerComponent={<VerifiedOrderIcon />}
-                                                                tooltipComponent='Verified'
-                                                                addClassName='verified-hover'
-                                                            />
-                                                            {/* <VerifiedOrderIcon /> */}
+                                                            <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                            {row?.other_details?.is_verified &&
+                                                                <CustomTooltip
+                                                                    triggerComponent={<VerifiedOrderIcon />}
+                                                                    tooltipComponent='Verified'
+                                                                    addClassName='verified-hover'
+                                                                />
+                                                            }
                                                         </span>
                                                     </p>
                                                     <p className='ws-nowrap d-flex align-items-center'>
@@ -248,26 +341,25 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                             addClassName='verified-hover'
                                                         />
                                                         <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-
-                                                        <CustomTooltip
+                                                        {row?.order_tag.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />
                                                             </span>}
                                                             tooltipComponent={
                                                                 <div className='Labels-pool'>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                    <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                    {row?.order_tag?.map((item) => {
+                                                                        return (
+                                                                            <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+
+                                                                        )
+                                                                    })}
                                                                 </div>
                                                             }
-                                                            addClassName=''
-                                                        />
+                                                        />}
                                                     </p>
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* customer detail */}
                                                 <div className='cell-inside-box'>
                                                     <p>{row?.shipping_detail?.recipient_name}</p>
                                                     <p>{row?.shipping_detail?.mobile_number ?? null}
@@ -281,11 +373,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* package  details */}
                                                 <div className='cell-inside-box'>
-                                                    <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                    <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg <br />
-                                                        <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                                    <p>Wt:{weightCalculation(row?.dimension_detail?.weight)} kg
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
@@ -298,24 +387,23 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                 ))}
                                                             </span>
                                                         </span>
+                                                        <br />
+                                                        <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     </p>
                                                 </div>
                                             </td>
                                             <td>
-                                                {/* payment section here */}
                                                 <div className='cell-inside-box'>
                                                     <p>&#x20B9; {row?.invoice_amount}</p>
                                                     <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                                 </div>
                                             </td>
-                                            {/* pickup adress */}
                                             <td className='align-middle'>
                                                 <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                     {row?.pickup_details ? (
                                                         <p>{row?.pickup_details?.p_warehouse_name}
                                                             <span className='details-on-hover ms-2'>
                                                                 <InfoIcon />
-                                                                {/* {!row?.pickup_details?.p_warehouse_name && ( */}
                                                                 <span style={{ width: '250px' }}>
                                                                     {row?.pickup_details?.p_address_line1},
                                                                     {row?.pickup_details?.p_address_line2},<br />
@@ -330,49 +418,58 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                     ) : ''}
                                                 </div>
                                             </td>
-                                            {/* shiping section here */}
                                             <td>
                                                 <div className='cell-inside-box'>
-                                                    <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                                    <p className=''>{row?.courier_partner ?? ""} </p>
+                                                    <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row?.awb_number ?? ""} </p>
+                                                    <p className='details-on-hover' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner ?? ""} </p>
                                                 </div>
                                             </td>
                                             <td className='align-middle'>
-                                                {/*  Status section  */}
                                                 <p className='order-Status-box'>{row?.status || 'New'}</p>
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
-                                                    <button className='btn main-button'>{
+                                                    <button className='btn main-button' style={{ width: '100%' }}>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
                                                             : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
-                                                                : row?.status === "cancelled" ? <span>Clone Order</span>
-                                                                    : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
-                                                                        : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span> : ""
+                                                                : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
+                                                                    : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span>
+                                                                        : row?.status === "cancelled" || row?.status === "delivered" || row?.status === "picked_up" ||
+                                                                         row?.status === "out_for_delivery" || row?.status === "pickup_scheduled" || row?.status === "rto_initiated" 
+                                                                         || row?.status === "ndr" ||row?.status === "lost" ||row?.status === "damaged" 
+                                                                         ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span> : ""
                                                     }</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
                                                             <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                         </div>
-                                                        {row.status !== "cancelled" ? <div className='action-list'>
+                                                        <div className='action-list'>
                                                             <ul>
-                                                                {row?.courier_partner != null && (
-                                                                    <>
-                                                                        <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
-                                                                        <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                                    </>
-                                                                )}
-                                                                <li>Reassign</li>
-                                                                <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION", payload: row?.id })}>Clone Order</li>
-                                                                <li onClick={() => dispatch({
-                                                                    type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                                                                        awb_numbers: [
-                                                                            row?.awb_number]
+                                                                <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
+                                                                <li onClick={() => {
+                                                                    if (row.status !== "pending") {
+                                                                        dispatch({
+                                                                            type: "ORDERS_DETAILS_CANCEL_ACTION",
+                                                                            payload: {
+                                                                                awb_numbers: [row?.awb_number]
+                                                                            }
+                                                                        });
+                                                                    } else {
+                                                                        dispatch({
+                                                                            type: "BULK_PROCESSING_ORDER_CANCEL_ACTION",
+                                                                            payload: {
+                                                                                order_ids: [row?.id],
+                                                                            }
+                                                                        });
                                                                     }
-                                                                })}>Cancel Order</li>
-                                                            </ul>
-                                                        </div> : ""}
+                                                                }}>Cancel Order</li>
 
+                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                <li onClick={() => handleShipReassign(row?.id)}>Reassign Order</li>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                            </ul>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
@@ -381,8 +478,10 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                 ))}
                             </tbody>
                         </table>
+                        {orders?.length === 0 && <NoData />}
                     </div>
                     <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                    <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
                 </div>
             </section>
         </>

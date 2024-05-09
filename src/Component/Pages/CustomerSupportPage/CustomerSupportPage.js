@@ -15,6 +15,7 @@ import Pagination from '../../common/Pagination/Pagination';
 import { toast } from 'react-toastify';
 import { RxReset } from "react-icons/rx";
 import { useSelector } from 'react-redux';
+import AllTickets from './Components/AllTickets';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -31,12 +32,15 @@ const CustomerSupportPage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(20);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState("");
+  const [errors, setErrors] = useState({});
+  const [clearTicket, setClearTicket] = useState(false)
+  const [queryParamTemp, setQueryParamTemp] = useState({})
 
   const authToken = Cookies.get("access_token")
   const apiUrl = "https://dev.shipease.in/core-api/features/support-tickets/";
-  const {ticketStatus}=useSelector(state=>state?.customerSupportReducer)
+  const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
-  console.log(ticketStatus,"ticketStatus")
+  console.log(ticketStatus, "ticketStatus")
 
   useEffect(() => {
     let url = apiUrl;
@@ -58,25 +62,39 @@ const CustomerSupportPage = () => {
     }
 
     if (url) {
+      const queryParams = { ...queryParamTemp };
+      const queryString = Object.keys(queryParams)
+          .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+          .join('&');
+
+          console.log(queryString,"queryStringqueryString")
+
+      if (queryString) {
+        url += '&' + queryString;
+      }
       axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
+          headers: {
+              Authorization: `Bearer ${authToken}`
+          }
       })
-        .then((response) => {
-          setAllTicket(response?.data?.results);
-          setTotalItems(response?.data?.count);
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-        });
+          .then(response => {
+              setAllTicket(response?.data?.results);
+              setTotalItems(response?.data?.count);
+          })
+          .catch(error => {
+              toast.error("Api Call failed!")
+          });
     }
 
-  }, [activeTab, status, currentPage,ticketStatus, itemsPerPage]);
-  
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter) => {
-    const queryParams = new URLSearchParams();
-    if (categories != []) {
+
+  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage,queryParamTemp]);
+
+  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate,Severity) => {
+    const queryParams = new URLSearchParams(); 
+    /*if (Array.isArray(categories) && categories.length > 0) {
+      queryParams.append('sub_category', categories.value);
+    }*/
+    if (categories != "") {
       queryParams.append('sub_category', categories.value);
     }
     if (status != "") {
@@ -88,6 +106,12 @@ const CustomerSupportPage = () => {
     if (endDt != null || undefined) {
       queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
     }
+    if (createdDate != null || undefined) {
+      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));  
+    }
+    if (Severity != null || undefined) {
+      queryParams.append('Severity', Severity);  
+    }
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
     axios
       .get(apiUrlWithParams, {
@@ -98,12 +122,14 @@ const CustomerSupportPage = () => {
       .then(response => {
         setAllTicket(response?.data?.results)
         setFilterTickets(false)
-
+        setTotalItems(response?.data?.count);
       })
       .catch(error => {
         console.error('Error:', error);
       });
-
+      /*setQueryParamTemp({
+        sub_category: categories.value        
+      })*/
   };
 
   const handleViewButtonClick = (ticketId) => {
@@ -113,33 +139,107 @@ const CustomerSupportPage = () => {
   useEffect(() => {
     setSearchValue('')
   }, [activeTab])
-  console.log(activeTab, "activeTabactiveTabactiveTab")
 
   useEffect(() => {
     setAllTicket(allTicket)
   }, [allTicket])
 
 
+  const validateData = () => {
+    const newErrors = {};
+    if (!searchValue) {
+      newErrors.searchValue = 'Field is required!';
+    }
+    setErrors(newErrors);
+    console.log(newErrors, "this is new errors")
+    return Object.keys(newErrors).length === 0;
+  };
+
   /*const handleSearch = (value) => {
     setSearchValue(value)
   }*/
   const handleSearch = () => {
-    axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
+    if (validateData()) {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
         headers: {
-            Authorization: `Bearer ${authToken}`
+          Authorization: `Bearer ${authToken}`
         }
-    })
+      })
         .then(response => {
-            setTotalItems(response?.data?.count)
-            setAllTicket(response.data.results);
-            setSearchValue('');
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
         })
         .catch(error => {
-            toast.error("Something went wrong!")
+          toast.error("Something went wrong!")
         });
-        setSearchValue('');
-}
+        setQueryParamTemp({
+          q:searchValue
+      })
+      setCurrentPage(1)
+    }
+  }
 
+  const handleReset = () => {
+    setSearchValue("")
+    setQueryParamTemp({})
+    if(activeTab === 'allTickets'){
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        }); 
+    }else if (activeTab === 'openTickets') {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+
+    }
+    else if (activeTab === "closedTickets") {
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab==="closedTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+
+    }else if(activeTab === "inProgressTickets"){
+      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab==="inProgressTickets" ?'':activeTab}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          setTotalItems(response?.data?.count)
+          setAllTicket(response.data.results);
+        })
+        .catch(error => {
+          toast.error("Something went wrong!")
+        });
+    }
+   
+  }
 
 
   return (
@@ -164,9 +264,19 @@ const CustomerSupportPage = () => {
           searchValue={searchValue}
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
+          errors={errors}
+          setClearTicket={setClearTicket}
+          handleReset={handleReset}
         />
         <div className='row mt-3'>
-          <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+          {activeTab === "allTickets" &&
+            <AllTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+
+          }
+          {
+            (activeTab === "openTickets" || activeTab === "closedTickets" || activeTab === "inProgressTickets") &&
+            <InProgressTickets activeTab={activeTab} allTicket={allTicket} setTicketId={setTicketId} setViewTicketInfo={setViewTicketInfo} handleViewButtonClick={handleViewButtonClick} />
+          }
         </div>
         <Pagination
           totalItems={totalItems}
@@ -185,9 +295,9 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'> More Filters</h2>
           <p className='mb-0'>Filter tickets with our Expanded Filter Options!</p>
         </section>
-        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} />
+        <FilterTicketsForm handleFormSubmit={handleFormSubmit} filterClick={FilterTickets} clearTicket={clearTicket} setClearTicket={setClearTicket} />
       </div>
-      
+
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
           <FontAwesomeIcon icon={faChevronRight} />

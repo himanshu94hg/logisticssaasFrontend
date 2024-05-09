@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
 const ApexChart = () => {
-    const ndrDelivery =useSelector(state=>state?.dashboardNdrReducer?.deliveryStatus)
+    const ndrDelivery = useSelector(state => state?.dashboardNdrReducer?.deliveryStatus);
     const [chartData, setChartData] = useState({
         series: [],
         options: {
@@ -22,6 +22,18 @@ const ApexChart = () => {
                 }
             }],
             labels: [],
+            dataLabels: {
+                enabled: true,
+                enabledOnSeries: undefined,
+                formatter(val, opts) {
+                   // const name = opts.w.globals.labels[opts.seriesIndex];
+                    return [ val.toFixed(1) + '%'];
+                },
+                style: {
+                    fontWeight: "Medium",
+                    colors: ["#000000"] 
+                }
+            }
         }
     });
 

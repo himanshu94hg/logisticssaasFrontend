@@ -10,6 +10,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { useSelector } from 'react-redux';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -202,6 +203,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                             ))}
                         </tbody>
                     </table>
+                    {weightRecoData?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>

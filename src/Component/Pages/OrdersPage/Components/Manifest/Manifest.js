@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 
 
-const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -21,13 +21,12 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
     const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
 
 
-    useEffect(()=>{
+   /* useEffect(()=>{
         if(manifestList){
             setTotalItems(manifestList?.length)
         }
     },[manifestList])
 
-    console.log(manifestList.length,"manifestList")
 
 
 
@@ -38,7 +37,7 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
         }
     }, [activeTab])
 
-    console.log(manifestList, "manifestListmanifestList")
+    */
 
     useEffect(() => {
         if (orderdelete) {
@@ -60,7 +59,6 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
     const handleSelectRow = (orderId) => {
         // const isSelected = selectedRows?.includes(orderId);
         // setBulkActions(true)
-        // console.log(BulkActions)
         // if (isSelected) {
         //     setSelectedRows(selectedRows.filter(id => id !== orderId));
         // } else {
@@ -186,19 +184,20 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
                                         <SelectAllDrop />
                                     </div> */}
                                 </th>
-                                <th style={{ width: '24%' }}>Manifest Id</th>
+                                <th style={{ width: '10%' }}>Manifest Id</th>
                                 <th style={{ width: '12.5%' }}>Created</th>
-                                <th style={{ width: '16%' }}>Created By</th>
-                                <th style={{ width: '8%' }}>Courier</th>
-                                <th style={{ width: '12.5%' }}>Number of Order</th>
-                                <th style={{ width: '10.5%' }}>Pickup Reference Number</th>
-                                <th style={{ width: '6%' }}>Download</th>
+                                <th style={{ width: '12%' }}>Created By</th>
+                                <th style={{ width: '14%' }}>Courier</th>
+                                <th style={{ width: '16%' }}>Number of Order(s)</th>
+                                <th style={{ width: '20%' }}>Pickup Reference Number</th>
+                                {/* <th style={{ width: '10%' }}>Status</th> */}
+                                <th style={{ width: '15%' }}>Download</th>
 
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                            {manifestList?.map((row, index) => (
+                            {manifestOrders?.map((row, index) => (
                                 <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -242,6 +241,7 @@ const Manifest = ({ orders, activeTab,setTotalItems, setEditOrderSection, setOrd
                                                 <p className=''>{row?.p_ref_no} </p>
                                             </div>
                                         </td>
+                                    
 
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>

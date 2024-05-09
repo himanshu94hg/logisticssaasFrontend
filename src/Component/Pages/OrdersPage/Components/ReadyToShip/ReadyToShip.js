@@ -28,13 +28,20 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import SingleShipPop from './SingleShipPop';
+import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
 
 
-const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const token = Cookies.get("access_token")
+    const [SingleShip, setSingleShip] = useState(false)
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
     useEffect(() => {
         if (orderdelete) {
@@ -47,32 +54,57 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
         }
     }, [activeTab])
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-            setBulkActionShow(true)
+    const handleSelectAll = (data) => {
+        if (data === "selectAll") {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setbulkAwb(orders.map(row => row?.awb_number));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setbulkAwb([])
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
+
         } else {
-            setSelectedRows([]);
-            setBulkActionShow(false)
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setbulkAwb(orders.map(row => row?.awb_number));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setbulkAwb([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
         }
+
     };
 
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
+
+    const handleSelectRow = (orderId,awb) => {
+        const isSelected = selectedRows?.includes(orderId);
+        const isSelected1 = bulkAwb?.includes(awb);
         let updatedSelectedRows;
-        if (isSelected) {
+        let updatedBulkAwb;
+        if (isSelected || isSelected1) {
             updatedSelectedRows = selectedRows.filter(id => id !== orderId);
+            updatedBulkAwb = bulkAwb.filter(id => id !== awb);
         } else {
             updatedSelectedRows = [...selectedRows, orderId];
-            setBulkActionShow(false)
+            updatedBulkAwb = [...bulkAwb, awb];
         }
         setSelectedRows(updatedSelectedRows);
+        setbulkAwb(updatedBulkAwb);
         if (updatedSelectedRows.length > 0) {
             setBulkActionShow(true);
         } else {
             setBulkActionShow(false);
         }
+
         if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -169,6 +201,49 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
         }
     };
 
+    const handleShipNow = (orderId) => {
+        setSelectedOrderId(orderId);
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShip(true);
+    };
+
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+    };
+
+
+
+    const handleClickpartner = (event, row) => {
+        event.preventDefault();
+        if (row.courier_partner === "bluedart") {
+            window.location.href = 'https://www.bluedart.com/web/guest/home';
+        } else if (row.courier_partner === "delhivery") {
+            window.location.href = 'https://www.delhivery.com/track/package';
+        } else if (row.courier_partner === "smartr") {
+            window.location.href = 'https://smartr.in/tracking';
+        } else if (row.courier_partner === "ekart" || row.courier_partner === "ekart_5kg") {
+            window.location.href = 'https://ekartlogistics.com/';
+        } else if (row.courier_partner === "shadowfax") {
+            window.location.href = 'https://tracker.shadowfax.in/#/';
+        } else if (row.courier_partner === "amazon_swa") {
+            window.location.href = 'https://track.amazon.in/';
+        } else if (row.courier_partner === "xpressbees") {
+            window.location.href = 'https://www.xpressbees.com/shipment/tracking';
+        } else if (row.courier_partner === "shree maruti") {
+            window.location.href = 'https://www.shreemaruti.com/';
+        } else if (row.courier_partner === "movin") {
+            window.location.href = 'https://www.movin.in/shipment/track';
+        } else if (row.courier_partner === "ecom express") {
+            window.location.href = 'https://ecomexpress.in/tracking/';
+        }else if (row.courier_partner === "professional") {
+            window.location.href = 'https://www.tpcindia.com/Default.aspx';
+        }  else {
+            window.location.href = '';
+        }
+    }
+    
 
     return (
         <section className='position-relative'>
@@ -184,15 +259,14 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '20%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '20%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                <th style={{ width: '10.5%' }}>Shipping Details</th>
+                                <th style={{ width: '12.5%' }}>Shipping Details</th>
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
 
@@ -207,8 +281,9 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                         <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
-                                                checked={selectedRows?.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id)}
+                                                checked={selectedRows?.includes(row?.id) || bulkAwb?.includes(row?.id)}
+                                                onChange={() => handleSelectRow(row?.id, row.awb_number)}
+
                                             />
                                         </td>
                                         <td>
@@ -225,13 +300,14 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        {row.customer_order_number}
-                                                        <CustomTooltip
-                                                            triggerComponent={<VerifiedOrderIcon />}
-                                                            tooltipComponent='Verified'
-                                                            addClassName='verified-hover'
-                                                        />
-                                                        {/* <VerifiedOrderIcon /> */}
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        {row?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -250,24 +326,22 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    <CustomTooltip
+                                                    {row?.order_tag.length > 0 && <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
                                                             <OrderTagsIcon />
                                                         </span>}
                                                         tooltipComponent={
                                                             <div className='Labels-pool'>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                {row?.order_tag?.map((item) => {
+                                                                    return (
+                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+
+                                                                    )
+                                                                })}
                                                             </div>
                                                         }
-                                                        addClassName=''
-                                                    />
+                                                    />}
                                                 </p>
-                                                {/* <p>{row.channel}</p> */}
-                                                {/* <img src={ForwardIcon} className={`${row.o_type === 'forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} /> */}
-                                                {/* <p>W {row.p_warehouse_name}</p> */}
                                             </div>
                                         </td>
                                         <td>
@@ -290,8 +364,8 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -304,6 +378,8 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span> LBH(cm): {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
@@ -337,11 +413,14 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>{row.awb_number ?? ""}
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' /> */}
-                                                <p className='mt-1'>{row.courier_partner}</p>
+
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}>
+                                                    {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' width={30} className='me-2' /> */}
+                                                    {row && row.courier_partner}
+                                                </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -362,9 +441,9 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                                                     {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download lab    el</li>
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
-                                                                <li>Reassign</li>
+                                                                <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() => dispatch({
                                                                     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
@@ -383,7 +462,9 @@ const ReadyToShip = ({ orders, activeTab, BulkActionShow, setBulkActionShow, sel
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData />}
                 </div>
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
             </div>
         </section>
     );

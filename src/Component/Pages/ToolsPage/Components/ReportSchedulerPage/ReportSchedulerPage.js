@@ -29,14 +29,17 @@ const ReportSchedulerPage = () => {
   const [totalItems, setTotalItems] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(20);
+  const [reportSchedular, setReportSchedular] = useState([]);
 
 
+console.log(reportSchedular, "reportSchedularData")
 
   const reportType = [
     { value: 'Order', label: 'Order' },
     { value: 'Non-order', label: 'Non-order' },
   ];
   const orderType = [
+    { value: 'both', label: 'Both' },
     { value: 'Prepaid', label: 'Prepaid' },
     { value: 'COD', label: 'COD' },
   ];
@@ -90,8 +93,17 @@ const ReportSchedulerPage = () => {
   };
 
   useEffect(() => {
-    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" })
-  }, [])
+    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" ,payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+  }, [dispatch,itemsPerPage,currentPage])
+
+  
+  useEffect(() => {
+    if(reportSchedularData && reportSchedularData !== undefined)
+    {
+      setReportSchedular(reportSchedularData)
+        setTotalItems(reportSchedularData?.length)
+    }
+}, [reportSchedularData])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -149,42 +161,55 @@ const ReportSchedulerPage = () => {
               <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-              {reportSchedularData?.map(report => (
-                <>
-                  <tr className='table-row box-shadow' key={report.id}>
-                    <td>{report.report_title}</td>
-                    <td>{report.report_type}</td>
-                    <td>
-                      {/* Toggle switch for status */}
-                      <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" checked={report.enabled} onChange={() => {
-                          // Handle toggle status
-                          const updatedReports = reports.map(rep => {
-                            if (rep.id === report.id) {
-                              return { ...rep, status: !rep.status };
-                            }
-                            return rep;
-                          });
-                          setReports(updatedReports);
-                        }} />
-                      </div>
-                    </td>
-                    <td>{report.recipients}</td>
-                    <td>{report.recurrence}</td>
-                    <td>{report.order_type}</td>
-                    <td>{report.order_status}</td>
-                    <td>{report.order_sub_status}</td>
-                    <td className='align-middle'>
-                      <div className='d-flex align-items-center gap-3'>
-                        <button className='btn edit-btn' ><FontAwesomeIcon icon={faPenToSquare} /></button>
-                        <button className='btn delete-btn' onClick={() => handleDelete(report.id)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                      </div>
-                    </td>
-                  </tr>
-                  <tr className="blank-row"><td></td></tr>
-                </>
-              ))}
-            </tbody>
+  {reportSchedular?.map(report => (
+    <React.Fragment key={report.id}>
+      <tr className='table-row box-shadow'>
+        <td>{report.report_title}</td>
+        <td>{report.report_type}</td>
+        <td>
+          {/* Toggle switch for status */}
+          <div className="form-check form-switch">
+            <input
+              className="form-check-input"
+              type="checkbox"
+              checked={report.enabled}
+              onChange={() => {
+                // Handle toggle status
+                const updatedReports = reportSchedular?.map(rep => {
+                  if (rep.id === report.id) {
+                    return { ...rep, status: !rep.status };
+                  }
+                  return rep;
+                });
+                setReportSchedular(updatedReports);
+              }}
+            />
+          </div>
+        </td>
+        <td>{report.recipients}</td>
+        <td>{report.recurrence}</td>
+        <td>{report.order_type}</td>
+        <td>{report.order_status}</td>
+        <td>{report.order_sub_status}</td>
+        <td className='align-middle'>
+          <div className='d-flex align-items-center gap-3'>
+            <button className='btn edit-btn'>
+              <FontAwesomeIcon icon={faPenToSquare} />
+            </button>
+            <button
+              className='btn delete-btn'
+              onClick={() => handleDelete(report.id)}
+            >
+              <FontAwesomeIcon icon={faTrashCan} />
+            </button>
+          </div>
+        </td>
+      </tr>
+      <tr className="blank-row"><td></td></tr>
+    </React.Fragment>
+  ))}
+</tbody>
+
           </table>
         </div>
         <Pagination
@@ -250,16 +275,19 @@ const ReportSchedulerPage = () => {
               <div class="grid-item component-2">
                 <h5>Frequency Details</h5>
                 <div className='d-flex flex-column gap-4'>
-                  <label>
-                    Send Reports
-                    <label>Every Month
+                  <label className='d-flex gap-5 align-items-center'>
+                    Send Reports:
+                    <label className='d-flex gap-2 align-items-center'>
                       <input type="radio" name="Send_Reports" id="" />
+                      Every Month
                     </label>
-                    <label>Every Week
+                    <label className='d-flex gap-2 align-items-center'>
                       <input type="radio" name="Send_Reports" id="" />
+                      Every Week
                     </label>
-                    <label>Every Day
+                    <label className='d-flex gap-2 align-items-center'>
                       <input type="radio" name="Send_Reports" id="" />
+                      Every Day
                     </label>
                   </label>
                   <label>

@@ -41,9 +41,11 @@ const WeightRecoPage = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchValue, setSearchValue] = useState("")
     const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryName, setQueryName] = useState([])
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone } = useSelector(state => state?.orderSectionReducer)
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
 
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
     const { weightData, holdData, setteledData } = recoSectionReducer;
@@ -80,21 +82,12 @@ const WeightRecoPage = () => {
             switch (activeTab) {
                 case "Weight Reconciliation":
                     await dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                    if (weightData && Array.isArray(weightData)) {
-                        setTotalItems(weightData.length);
-                    }
                     break;
                 case "Settled Reconciliation":
                     await dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                    if (setteledData && Array.isArray(setteledData)) {
-                        setTotalItems(setteledData.length);
-                    }
                     break;
                 case "On Hold Reconciliation":
                     await dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-                    if (holdData && Array.isArray(holdData)) {
-                        setTotalItems(holdData.length);
-                    }
                     break;
                 default:
                     break;
@@ -103,6 +96,24 @@ const WeightRecoPage = () => {
 
         fetchData();
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
+
+    useEffect(() => {
+        if (weightData && weightData?.count !== undefined) {
+            setTotalItems(weightData?.count);
+        }
+    }, [weightData]);
+
+    useEffect(() => {
+        if (holdData && holdData?.count !== undefined) {
+            setTotalItems(holdData?.count);
+        }
+    }, [holdData]);
+
+    useEffect(() => {
+        if (setteledData && setteledData?.count !== undefined) {
+            setTotalItems(setteledData?.count);
+        }
+    }, [setteledData]);
 
     const handleChange = (SearchOption) => {
         setSearchOption(SearchOption);
@@ -118,8 +129,31 @@ const WeightRecoPage = () => {
 
     const handleReset = () => {
         setSearchValue("")
-        // setHandleResetFrom(true)
+        setHandleResetFrom(true)
+        if(activeTab === "Weight Reconciliation"){
+            dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        } else if(activeTab === "Settled Reconciliation"){
+            dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        } else if(activeTab === "On Hold Reconciliation"){
+            dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+        }
     }
+
+    const handleQueryfilter = (value) => {
+        // setSearchValue("")
+        // setHandleResetFrom(true)
+        setQueryParamTemp({})
+    }
+
+    useEffect(() => {
+        if (favListData) {
+            let temp = [];
+            favListData.map((item) => {
+                temp.push(item)
+            })
+            setQueryName(temp)
+        }
+    }, [favListData])
 
     return (
         <>
@@ -149,11 +183,14 @@ const WeightRecoPage = () => {
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            <ul className="dropdown-menu" style={{ paddingInline: '12px', minWidth: '190px' }}>
-                                <li>Filter 1</li>
-                                <li>Filter 2</li>
-                                <li>Filter 3</li>
-                                <li>Filter 4</li>
+                            <ul 
+                            className="dropdown-menu" 
+                            style={{
+                                 paddingInline: '12px', 
+                                 minWidth: '190px' 
+                            }}
+                            >
+                              {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
@@ -171,7 +208,7 @@ const WeightRecoPage = () => {
             <div className='wt-page-container'>
                 {/* Weight Reconciliation */}
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
-                    <WeightRecoTab weightRecoData={weightData} 
+                    <WeightRecoTab weightRecoData={weightData?.results} 
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}/>
@@ -179,7 +216,7 @@ const WeightRecoPage = () => {
 
                 {/* Settled Reco */}
                 <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
-                    <SettledReco weightRecoData={setteledData} 
+                    <SettledReco weightRecoData={setteledData?.results} 
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}/>
@@ -187,7 +224,7 @@ const WeightRecoPage = () => {
 
                 {/* On-Hold Reco */}
                 <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
-                    <OnHoldReco weightRecoData={holdData} 
+                    <OnHoldReco weightRecoData={holdData?.results} 
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}/>
@@ -214,6 +251,8 @@ const WeightRecoPage = () => {
                 activeTab={activeTab}
                 CloseSidePanel={CloseSidePanel}
                 handleMoreFilter={handleMoreFilter}
+                handleResetFrom={handleResetFrom}
+                setHandleResetFrom={setHandleResetFrom}
             />
             <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
         </>

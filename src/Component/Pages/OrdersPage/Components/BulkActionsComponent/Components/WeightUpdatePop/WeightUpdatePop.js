@@ -14,27 +14,38 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
         }
     }, [dispatch, selectedRows]);
 
-    useEffect(()=>{
-        if(dimensionData){
-            setDimension(dimensionData) 
+    useEffect(() => {
+        if (dimensionData) {
+            const convertedData = dimensionData.map(item => ({
+                ...item,
+                weight: parseFloat(item.weight / 1000)
+            }));
+            setDimension(convertedData)
         }
-    },[dimensionData])
+    }, [dimensionData])
 
 
     const handleInputChange = (index, field, value) => {
+        console.log(value, "index, field, value")
         const newData = [...dimension];
-        newData[index][field] = value;
-        setDimension(newData);
+        if (!isNaN(parseFloat(value)) && isFinite(value)) {
+            if (field === 'weight') {
+                newData[index][field] = parseFloat(value);
+            } else {
+                newData[index][field] = parseFloat(value);
+            }
+            setDimension(newData);
+        }
     };
 
-    const handleDimension=()=>{
+    const handleDimension = () => {
         setUpdateWeight(false)
         dispatch({ type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: dimension });
 
     }
 
+    console.log(dimension, "this is a dimension data")
 
-    console.log(dimension,"dimension")
     return (
         <>
             <div className={`ba-pop-show weight-update ${UpdateWeight ? 'open' : ''}`}>
@@ -92,7 +103,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                     </div>
                     <div className='d-flex justify-content-end w-100 my-2 pe-2'>
                         <button onClick={() => setUpdateWeight(false)} className='btn cancel-button me-2'>Cancel</button>
-                        <button onClick={() => handleDimension() } className='btn main-button'>Apply</button>
+                        <button onClick={() => handleDimension()} className='btn main-button'>Apply</button>
                     </div>
                 </div>
             </div>

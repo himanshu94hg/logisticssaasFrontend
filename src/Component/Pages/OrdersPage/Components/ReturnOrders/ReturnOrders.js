@@ -26,6 +26,8 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import NoData from '../../../../common/noData';
+import { Link } from 'react-router-dom';
 
 const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
 
@@ -90,6 +92,41 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
         setOrderId(id)
     }
 
+    const handleClickAWB = (event, orders) => {
+        event.preventDefault();
+        const url = `https://shipease.in/order-tracking/`;
+        window.open(url, '_blank');
+      };
+
+      const handleClickpartner = (event, row) => {
+        event.preventDefault();
+        if (row.courier_partner === "bluedart") {
+            window.location.href = 'https://www.bluedart.com/web/guest/home';
+        } else if (row.courier_partner === "delhivery") {
+            window.location.href = 'https://www.delhivery.com/track/package';
+        } else if (row.courier_partner === "smartr") {
+            window.location.href = 'https://smartr.in/tracking';
+        } else if (row.courier_partner === "ekart" || row.courier_partner === "ekart_5kg") {
+            window.location.href = 'https://ekartlogistics.com/';
+        } else if (row.courier_partner === "shadowfax") {
+            window.location.href = 'https://tracker.shadowfax.in/#/';
+        } else if (row.courier_partner === "amazon_swa") {
+            window.location.href = 'https://track.amazon.in/';
+        } else if (row.courier_partner === "xpressbees") {
+            window.location.href = 'https://www.xpressbees.com/shipment/tracking';
+        } else if (row.courier_partner === "shree maruti") {
+            window.location.href = 'https://www.shreemaruti.com/';
+        } else if (row.courier_partner === "movin") {
+            window.location.href = 'https://www.movin.in/shipment/track';
+        } else if (row.courier_partner === "ecom express") {
+            window.location.href = 'https://ecomexpress.in/tracking/';
+        } else if (row.courier_partner === "professional") {
+            window.location.href = 'https://www.tpcindia.com/Default.aspx';
+        } else {
+            window.location.href = '';
+        }
+    }
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -104,17 +141,15 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             checked={selectAll}
                                             onChange={handleSelectAll}
                                         />
-                                        <SelectAllDrop BulkActionShow={BulkActionShow} setBulkActionShow={setBulkActionShow} />
                                     </div>
                                 </th>
-                                <th style={{ width: '24%' }}>Order Details</th>
+                                <th style={{ width: '26%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
-                                <th style={{ width: '16%' }}>Package Details</th>
+                                <th style={{ width: '20%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
                                 <th style={{ width: '12.5%' }}>Shipping Details</th>
-                                <th style={{ width: '6%' }}>Status</th>
-                                {/* <th style={{ width: '6%' }}>Action</th> */}
+                                <th style={{ width: '8%' }}>Status</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -131,7 +166,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -144,13 +178,14 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                        {row.customer_order_number}
-                                                        <CustomTooltip
-                                                            triggerComponent={<VerifiedOrderIcon />}
-                                                            tooltipComponent='Verified'
-                                                            addClassName='verified-hover'
-                                                        />
-                                                        {/* <VerifiedOrderIcon /> */}
+                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        {row?.other_details?.is_verified &&
+                                                            <CustomTooltip
+                                                                triggerComponent={<VerifiedOrderIcon />}
+                                                                tooltipComponent='Verified'
+                                                                addClassName='verified-hover'
+                                                            />
+                                                        }
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
@@ -168,25 +203,25 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                                     />
 
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
-                                                    <CustomTooltip
+                                                    {row?.order_tag.length > 0 && <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
                                                             <OrderTagsIcon />
                                                         </span>}
                                                         tooltipComponent={
                                                             <div className='Labels-pool'>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Shopify</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Amazon</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Custom</button></div>
-                                                                <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />Woocommerce</button></div>
+                                                                {row?.order_tag?.map((item) => {
+                                                                    return (
+                                                                        <div className="label-button-container active"><button className='label-button'><FontAwesomeIcon icon={faCircle} className='me-2' />{item.name}</button></div>
+
+                                                                    )
+                                                                })}
                                                             </div>
                                                         }
-                                                        addClassName=''
-                                                    />
+                                                    />}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* customer detail */}
                                             <div className='cell-inside-box'>
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number}
@@ -200,10 +235,8 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg <span className='text-blue'>||</span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -216,17 +249,17 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* payment section here */}
                                             <div className='cell-inside-box'>
                                                 <p>&#x20B9; {row?.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row?.payment_type}</p>
                                             </div>
                                         </td>
-                                        {/* pickup adress */}
                                         <td className='align-middle'>
                                             <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
                                                 <p>{row?.pickup_details?.p_warehouse_name}
@@ -246,49 +279,21 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                {/* <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p> */}
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                                <p className=''>{row?.courier_partner ?? ""} </p>
+                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB} >{row?.awb_number ?? ""} </p>
+                                                <p className='' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{row?.courier_partner ?? ""} </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status || 'New'}</p>
                                         </td>
-                                        {/* <td className='align-middle'>
-                                            <div className='d-flex align-items-center gap-3'>
-                                                <button onClick={() => handleShipNow(row?.id)} className='btn main-button'>Ship Now</button>
-                                                <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li onClick={()=>openEditingSection(row?.id)}>Edit Order</li>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Call Buyer</li>
-                                                            <li>Mark As Verified</li>
-                                                            <li>Clone Order</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Cancel Order</li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td> */}
                                     </tr>
                                 </React.Fragment>
                             ))}
                         </tbody>
                     </table>
+                    {orders?.length === 0 && <NoData />}
                 </div>
-
-
             </div>
-
-
         </section>
     );
 };

@@ -1,8 +1,8 @@
 .signup-section {
   position: fixed;
-  background-image: url(../../../assets/image/loginBg.png);
+  /* background-image: url(../../../assets/image/loginBg.png);
   background-repeat: repeat-y;
-  background-size: contain;
+  background-size: contain; */
   height: 100vh;
   width: 100vw;
   position: fixed;
@@ -12,22 +12,82 @@
 
 .signup-section .signup {
   height: 100vh;
+  position: relative;
+}
+
+.signup-section .signup .signup-logo-container {
+  position: absolute;
+  background-color: #fff;
+  top: 0;
+  left: 0;
+  width: fit-content;
+}
+
+.signup-section .signup .signup-logo-container::before {
+  /* content: "";
+  display: flex;
+  position: fixed;
+  width: 22rem;
+  height: 22rem;
+  background: linear-gradient(135deg, var(--primary-10), var(--primary-0));
+  border-radius: 77px;
+  bottom: -11rem;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  z-index: -1; */
+  content: "";
+  display: flex;
+  position: fixed;
+  width: 22rem;
+  height: 22rem;
+  background: linear-gradient(135deg, var(--bs-white), var(--bs-white));
+  border-radius: 77px;
+  top: -225px;
+  left: 69px;
+  transform: translateX(-50%) rotate(306deg);
+  z-index: 0;
+}
+
+.signup-section .signup .signup-logo-container img {
+  height: 24px;
+  z-index: 2;
+  position: absolute;
+  top: 2.5rem;
+  left: 1.5rem;
 }
 
 .signup-section .left-side {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background: url('../../../assets/image/bg_login.png');
+  background-size: cover;
+  background-position: center;
+}
+
+.signup-section .left-side img {
+  width: 87%;
+  height: auto;
+  /* margin-right: -70px; */
+}
+
+.signup-section .right-side {
+  display: flex;
   align-items: center;
   justify-content: flex-end;
+  background: #fff;
 }
 
 .signup-section .signup .content {
-  padding: 20px 50px;
-  min-width: 610px;
-  /* min-height: 62vh; */
+  padding: 20px 48px;
+  min-width: 35.6rem;
+  min-height: 63vh;
   background: #fff;
   position: relative;
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: center;
   flex-direction: column;
   gap: 25px;

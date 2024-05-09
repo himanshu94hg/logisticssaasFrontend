@@ -1,7 +1,7 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const RuleRow = ({ initialRows, setConditions }) => {
     const [rows, setRows] = useState([]);
@@ -20,13 +20,13 @@ const RuleRow = ({ initialRows, setConditions }) => {
         setRows(newRows);
         setConditions(newRows);
     };
-    
+
     const handleInputChange = (index, value) => {
         const newRows = [...rows];
         newRows[index].match_value = value;
         setRows(newRows);
         setConditions(newRows);
-    };    
+    };
 
     const handleAddRow = () => {
         setRows([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
@@ -40,8 +40,8 @@ const RuleRow = ({ initialRows, setConditions }) => {
     };
 
 
-    console.log("Hit Editing Initilize",initialRows);
-    
+    console.log("Hit Editing Initilize", initialRows);
+
     return (
         <>
             {rows.map((row, index) => (
@@ -78,11 +78,62 @@ const RuleRow = ({ initialRows, setConditions }) => {
                         onChange={(e) => handleSelectChange(index, 'match_type', e.target.value)}
                     >
                         <option value="">Select Match Type</option>
+                        {row.condition_type === "order_amount" && (
+                            <>
+                                <option value="greater_than">Greater than</option>
+                                <option value="less_than">Less than</option>
+                            </>
+                        )}
+                        {row.condition_type === "payment_type" && (
+                            <>
+                                <option value="is">Is</option>
+                                <option value="is_not">Is not</option>
+                            </>
+                        )}
+                        {row.condition_type === "pickup_pincode" && (
+                            <>
+                                <option value="is">Is</option>
+                                <option value="is_not">Is not</option>
+                            </>
+                        )}
+                        {row.condition_type === "delivery_pincode" && (
+                            <>
+                                <option value="is">Is</option>
+                                <option value="is_not">Is not</option>
+                                <option value="starts_with">Starts with</option>
+                            </>
+                        )}
+                        {row.condition_type === "weight" && (
+                            <>
+                                <option value="greater_than">GT - Greater than</option>
+                                <option value="less_than">LE - Less than Equal to</option>
+                            </>
+                        )}
+                        {row.condition_type === "product_name" && (
+                            <>
+                                <option value="is">Is</option>
+                                <option value="is_not">Is not</option>
+                                <option value="starts_with">Starts with</option>
+                            </>
+                        )}
+                        {row.condition_type === "product_sku" && (
+                            <>
+                                 <option value="is">Is</option>
+                                <option value="is_not">Is not</option>
+                                <option value="starts_with">Starts with</option>
+                            </>
+                        )}
+                        {row.condition_type === "order_type" && (
+                            <>
+                                <option value="is">Is</option>
+                            </>
+                        )}
+                        {/*<option value="">Select Match Type</option>
                         <option value="is">Is</option>
                         <option value="is_not">Is not</option>
                         <option value="starts_with">Starts with</option>
                         <option value="greater_than">GT - Greater than</option>
-                        <option value="less_than">LE - Less than Equal to</option>
+                        <option value="less_than">LE - Less than Equal to</option> */}
                     </select>
                     <input
                         className='input-field'
@@ -92,7 +143,7 @@ const RuleRow = ({ initialRows, setConditions }) => {
                         placeholder="Enter text"
                     />
                     <div className='add-rule-btns'>
-                        {rows.length > 1 && (
+                        {index > 0 && (
                             <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
                         )}
                         {index === rows.length - 1 && (

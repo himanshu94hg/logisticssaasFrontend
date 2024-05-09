@@ -10,6 +10,10 @@ import iconRTO from '../../../../../assets/image/icons/RTO_icon.png'
 import iconDelivery from '../../../../../assets/image/icons/delivery_icon.png'
 import NDRicon from '../../../../../assets/image/icons/NDRicon.png'
 import NDRdelivered from '../../../../../assets/image/icons/NDRdelivered.png'
+import NdrIcon from "../../../../common/Icons/InfoCardsIcons/NdrIcon";
+import ActionRequiredIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequiredIcon";
+import ActionRequestedIcon from "../../../../common/Icons/InfoCardsIcons/ActionRequestedIcon";
+import NdrDeliveredIcon from "../../../../common/Icons/InfoCardsIcons/NdrDeliveredIcon";
 
 function WhatsAppTotalInfo() {
   const [totalNdr, setTotalNdr] = useState(null);
@@ -53,8 +57,8 @@ function WhatsAppTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={NDRicon} alt="iconOrders" width={24} />
+                    <div className="infoCardIconContainer bg-green-light">
+                      <NdrIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total Orders</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{totalNdr?.total_ndr_count}</h3>
@@ -78,9 +82,8 @@ function WhatsAppTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={iconDelivery} alt="iconDelivery" width={24} />
-
+                    <div className="infoCardIconContainer bg-orange-light">
+                      <ActionRequiredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Total Message Sent</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{actionReq?.total_ndr_count}</h3>
@@ -104,8 +107,8 @@ function WhatsAppTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={iconDelivery} alt="iconDelivery" width={24} />
+                    <div className="infoCardIconContainer bg-blue-light">
+                      <ActionRequestedIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Message read rate</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{actionRequested?.total_ndr_count}</h3>
@@ -129,8 +132,8 @@ function WhatsAppTotalInfo() {
               <div className="col-12">
                 <div className="row align-items-center">
                   <div className="col-10 left-text">
-                    <div className="CardIconContainer icon-bg">
-                      <img src={NDRdelivered} alt="iconRTO" width={24} />
+                    <div className="infoCardIconContainer bg-red-light">
+                      <NdrDeliveredIcon />
                     </div>
                     <p className="font14 text-gray m-0 ws-nowrap">Queries resolved</p>
                     <h3 className="font20 title-text p-y bold-600 m0">{ndrdeleverd?.total_delivered_ndr_count}</h3>
