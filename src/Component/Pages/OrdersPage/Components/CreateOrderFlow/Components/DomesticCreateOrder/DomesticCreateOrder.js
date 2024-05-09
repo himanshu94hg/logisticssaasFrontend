@@ -12,6 +12,7 @@ import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
 import { useSelector } from 'react-redux';
+import { BASE_URL_ORDER } from '../../../../../../../axios/config';
 
 const DomesticCreateOrder = () => {
     const totalSteps = 5;
@@ -117,7 +118,7 @@ const DomesticCreateOrder = () => {
 
     const handleFormSubmit = async () => {
         try {
-            const response = await axios.post('https://dev.shipease.in/orders-api/orders/', formData, {
+            const response = await axios.post(`${BASE_URL_ORDER}/orders-api/orders/`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${authToken}`

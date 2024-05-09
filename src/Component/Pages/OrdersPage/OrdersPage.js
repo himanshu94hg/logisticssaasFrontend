@@ -26,6 +26,7 @@ import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/Ad
 import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WarehouseUpdatePop/WarehouseUpdatePop';
 import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
 import CloneOrder from './Components/CloneOrder/CloneOrder';
+import { BASE_URL_ORDER } from '../../../axios/config';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -165,7 +166,7 @@ const OrdersPage = () => {
 
     const handleSearch = () => {
         if (validateData()) {
-            axios.get(`https://dev.shipease.in/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -207,7 +208,7 @@ const OrdersPage = () => {
         setHandleResetFrom(true)
         setItemsPerPage(20)
         setQueryParamTemp({})
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
+        axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -225,22 +226,22 @@ const OrdersPage = () => {
         let apiUrl = '';
         switch (activeTab) {
             case "All":
-                apiUrl = `https://dev.shipease.in/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Unprocessable":
-                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Unprocessable&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Processing":
-                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Ready to Ship":
-                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Pickup":
-                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Returns":
-                apiUrl = `https://dev.shipease.in/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             default:
                 apiUrl = '';
@@ -275,7 +276,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         if (activeTab === "Manifest") {
-            axios.get(`https://dev.shipease.in/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -293,7 +294,7 @@ const OrdersPage = () => {
 
     const handleQueryfilter = (value) => {
         setQueryParamTemp({})
-        axios.get(`https://dev.shipease.in/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
+        axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab
             === "All" ? '' : activeTab}&${value}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`

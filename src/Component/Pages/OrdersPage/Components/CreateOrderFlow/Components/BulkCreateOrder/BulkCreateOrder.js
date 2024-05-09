@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import { LuUploadCloud } from "react-icons/lu";
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { BASE_URL_ORDER } from '../../../../../../../axios/config';
 
 const BulkCreateOrder = () => {
     const [bulkOrders, setBulkOrders] = useState([]);
@@ -20,7 +21,7 @@ const BulkCreateOrder = () => {
         formData.append('order_file', event.target.files[0]);
         formData.append('seller_id', sellerId);
         try {
-            const response = await axios.post('https://dev.shipease.in/orders-api/orders/order-bulk-upload/', formData, {
+            const response = await axios.post(`${BASE_URL_ORDER}/orders-api/orders/order-bulk-upload/`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${authToken}`
@@ -41,7 +42,7 @@ const BulkCreateOrder = () => {
 
     useEffect(() => {
         axios
-            .get(`https://dev.shipease.in/orders-api/orders/order-bulk-upload/`, {
+            .get(`${BASE_URL_ORDER}/orders-api/orders/order-bulk-upload/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

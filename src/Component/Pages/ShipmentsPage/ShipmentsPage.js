@@ -17,6 +17,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import moment from 'moment';
+import { BASE_URL_ORDER } from '../../../axios/config';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -54,7 +55,7 @@ const ShipmentsPage = () => {
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [queryParamSearch, setQueryParamSearch] = useState(null)
     const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
-    const apiEndpoint = "https://dev.shipease.in/";
+    const apiEndpoint =`${BASE_URL_ORDER}`;
 
     const handleSidePanel = () => {
         setMoreFilters(true);

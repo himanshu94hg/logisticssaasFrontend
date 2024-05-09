@@ -3,6 +3,7 @@ import Cookies from "js-cookie";
 import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
+import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../../../axios/config";
 
 function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
     const [warehouseData, setWarehouseData] = useState([]);
@@ -14,7 +15,7 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
             const Token = Cookies.get("access_token");
             let userId = Cookies.get("user_id");
             setLoading(true);
-            axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${userId}`, {
+            axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${userId}`, {
                 headers: {
                     Authorization: `Bearer ${Token}`
                 }
@@ -44,7 +45,7 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
         };
 
         const Token = Cookies.get("access_token");
-        axios.post("https://dev.shipease.in/orders-api/orders/split-order/", requestData, {
+        axios.post(`${BASE_URL_ORDER}/orders-api/orders/split-order/`, requestData, {
             headers: {
                 Authorization: `Bearer ${Token}`,
                 "Content-Type": "application/json"

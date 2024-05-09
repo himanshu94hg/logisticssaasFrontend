@@ -8,6 +8,7 @@ import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 const KYCInfo = ({ activeTab }) => {
   const [hardcodedToken] = useState(Cookies.get('access_token'));
@@ -30,7 +31,7 @@ const KYCInfo = ({ activeTab }) => {
 
   const fetchKYCData = async () => {
     try {
-      const response = await axios.get('https://dev.shipease.in/core-api/seller/kyc-info/', {
+      const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/kyc-info/`, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`
         }
@@ -89,38 +90,6 @@ const KYCInfo = ({ activeTab }) => {
     });
   };
 
-  console.log(formData, "this is dummay data")
-
-  /* const handleSubmit = async (e) => {
-     e.preventDefault();
-     try {
-       const response = await axios.post(
-           'https://dev.shipease.in/core-api/seller/kyc-info/',
-           formData,
-           {
-             headers: {
-               Authorization: `Bearer ${hardcodedToken}`,
-               'Content-Type': 'application/json',
-             },
-           }
-       );
-       if (response.status == 201) {
-         fetchKYCData();
-         toast.success("KYC Details updated successfully");
-         setFormData({
-           company_type: '',
-           document_type: '',
-           document_id: '',
-           document_name: '',
-           document_upload: '',
-         });
-       }
-     } catch (error) {
-       console.error('Error:', error);
-     }
-   };*/
-   
-
    const handleSubmit = async (e) => {
     e.preventDefault(); 
     const newErrors = Object.keys(formData).reduce((errors, key) => {
@@ -141,7 +110,7 @@ const KYCInfo = ({ activeTab }) => {
   
     try {
       const response = await axios.post(
-        'https://dev.shipease.in/core-api/seller/kyc-info/',
+        `${BASE_URL_CORE}/core-api/seller/kyc-info/`,
         formData,
         {
           headers: {
@@ -172,7 +141,7 @@ const KYCInfo = ({ activeTab }) => {
   const handleDelete = async (id) => {
     console.log(id, "Deleted Id");
     try {
-      const response = await fetch(`https://dev.shipease.in/core-api/seller/kyc-info-detail/${id}`, {
+      const response = await fetch(`${BASE_URL_CORE}/core-api/seller/kyc-info-detail/${id}`, {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
