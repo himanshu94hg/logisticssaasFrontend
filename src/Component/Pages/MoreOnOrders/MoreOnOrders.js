@@ -18,6 +18,7 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
+import { BASE_URL_CORE } from '../../../axios/config';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -59,7 +60,7 @@ const MoreOnOrders = () => {
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryName, setQueryName] = useState([])
     const { favListData } = useSelector(state => state?.orderSectionReducer)
-    const apiEndpoint = "https://dev.shipease.in/";
+    const apiEndpoint = `${BASE_URL_CORE}`;
     const activeTabValueSet =
         activeTab === "Reassign Order"
             ? "core-api/shipping/reassign/"
@@ -80,7 +81,7 @@ const MoreOnOrders = () => {
     }
 
     const handleSearch = () => {
-        axios.get(`${apiEndpoint}${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -144,16 +145,16 @@ const MoreOnOrders = () => {
         let apiUrl = '';
         switch (activeTab) {
             case "Reassign Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Merge Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Split Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Reverse Order":
-                apiUrl = `${apiEndpoint}${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
+                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             default:
                 apiUrl = '';
@@ -200,7 +201,7 @@ const MoreOnOrders = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setQueryParamTemp({})
-        axios.get(`${apiEndpoint}${activeTabValueSet}?page_size=${20}&page=${1}`, {
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

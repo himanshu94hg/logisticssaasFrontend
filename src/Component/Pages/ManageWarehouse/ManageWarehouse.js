@@ -12,6 +12,7 @@ import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import EditWareHouse from './EditWareHouse';
+import { BASE_URL_CORE } from '../../../axios/config';
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -164,7 +165,7 @@ const ManageWarehouse = () => {
 
   const fetchDataFromApi = async () => {
     try {
-      const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/`, {
+      const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }

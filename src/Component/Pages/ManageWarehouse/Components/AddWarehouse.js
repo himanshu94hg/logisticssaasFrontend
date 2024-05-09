@@ -10,6 +10,7 @@ import "./AddWarehouse.css";
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom/dist';
 import { manageWarehousesPattern } from '../../../../Routes';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
@@ -143,7 +144,7 @@ const AddWarehouse = () => {
                 }
             };
 
-            const response = await axios.post('https://dev.shipease.in/core-api/features/warehouse/', formData, {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/features/warehouse/`, formData, {
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,
                     'Content-Type': 'application/json'

@@ -88,16 +88,12 @@ const ReportsMIS = ({ activeTab }) => {
 
     // Handle date picker change
     const handleStartDateChange = (date) => {
-        console.log(date, "this is date data")
         setStartDate(date);
     };
 
     const handleEndDateChange = (date) => {
         setEndDate(date);
     };
-
-    console.log(startDate, endDate, "this is start date and end date")
-
 
     useEffect(() => {
         // if(stateData){
@@ -192,7 +188,6 @@ const ReportsMIS = ({ activeTab }) => {
         e.preventDefault();
         setStateData(true)
         setStateData1(new Date())
-        console.log(showComponent, "showComponentshowComponent")
         if (firstSelectedOption && secondSelectedOption) {
             setShowComponent(firstSelectedOption.value);
         } else if (!firstSelectedOption) {

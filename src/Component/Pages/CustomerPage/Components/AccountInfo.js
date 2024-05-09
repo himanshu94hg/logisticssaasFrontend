@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import Modal from "react-bootstrap/Modal";
 import {Document, Page} from "react-pdf";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -27,7 +28,7 @@ const AccountInfo = ({ activeTab }) => {
 
   const fetchAccountData = async () => {
     try {
-      const response = await axios.get('https://dev.shipease.in/core-api/seller/bank-info/', {
+      const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/bank-info/`, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`
         }
@@ -92,7 +93,7 @@ const AccountInfo = ({ activeTab }) => {
           formData.append('cheque_image', account.chequeImage);
 
           if (!account.id) {
-            return axios.post('https://dev.shipease.in/core-api/seller/bank-info/', formData, {
+            return axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
               headers: {
                 'Authorization': `Bearer ${hardcodedToken}`,
                 'Content-Type': 'multipart/form-data'
@@ -133,7 +134,7 @@ const AccountInfo = ({ activeTab }) => {
     console.log(accountToDelete.is_primary,"Delete Account")
     if (!accountToDelete.is_primary) {
       try {
-        const response = await fetch(`https://dev.shipease.in/core-api/seller/bank-info-details/${accountToDelete.id}`, {
+        const response = await fetch(`${BASE_URL_CORE}/core-api/seller/bank-info-details/${accountToDelete.id}`, {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${hardcodedToken}`,

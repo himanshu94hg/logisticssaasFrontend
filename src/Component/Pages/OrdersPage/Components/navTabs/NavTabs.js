@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { AiOutlineImport } from "react-icons/ai";
 import { IoMdSync } from "react-icons/io";
+import { BASE_URL_CORE } from "../../../../../axios/config";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -19,7 +20,7 @@ export default function NavTabs(props) {
   const sellerData = Cookies.get("user_id");
 
   const handleSubmit = () => {
-    const response = axios.get(`https://dev.shipease.in/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
+    const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
       .then((response) => {
         toast.success('Order Fetch Successfully');
       }).catch((error) => {

@@ -8,8 +8,6 @@ const InvoiceMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const {reportsBillingData}=useSelector(state=>state?.misSectionReducer)
-
-    console.log(reportsBillingData,"reportsBillingDatareportsBillingData")
     
     const [orders, setAllOrders] = useState([
         {

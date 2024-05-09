@@ -5,6 +5,7 @@ import {
 } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { BASE_URL_CORE } from "../../../../../../axios/config";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -15,7 +16,7 @@ export default function NavTabs(props) {
   const handleSubmit = () => {
     let sellerData = 3;
 
-    const response = axios.get(`https://dev.shipease.in/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
+    const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`);
     if (response.status === 200) {
 
     } else {

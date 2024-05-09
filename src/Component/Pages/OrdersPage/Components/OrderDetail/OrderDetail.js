@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
+import { BASE_URL_ORDER } from '../../../../../axios/config';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -16,7 +17,7 @@ const OrderDetail = () => {
 
     useEffect(() => {
         if (params?.slug && location) {
-            axios.get(`https://dev.shipease.in/orders-api/orders/get-order-by-id/${params?.slug}/`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${params?.slug}/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

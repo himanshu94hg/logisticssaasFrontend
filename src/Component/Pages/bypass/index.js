@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import { BASE_URL_CORE } from '../../../axios/config';
 
 const BypassPage = () => {
     const navigate = useNavigate();
@@ -15,7 +16,7 @@ const BypassPage = () => {
     useEffect(() => {
         const fetchApi = async () => {
             try {
-                const response = await axios.post('https://dev.shipease.in/core-api/accounts/switch-dashboard-token/', {
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/switch-dashboard-token/`, {
                     contact_number: mobile,
                     token: token
                 });

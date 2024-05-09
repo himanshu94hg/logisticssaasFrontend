@@ -31,6 +31,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import SingleShipPop from './SingleShipPop';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
 
 const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -120,7 +121,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                 order_ids: `${orderId}`
             };
 
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -151,7 +152,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-pickup/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-pickup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -176,7 +177,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
             order_ids: `${orderId}`
         };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-invoice/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -441,7 +442,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                     {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download lab    el</li>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                 <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
