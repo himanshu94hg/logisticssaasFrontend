@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import Pagination from '../../../../common/Pagination/Pagination';
 import { RxReset } from 'react-icons/rx';
+import { BASE_URL_ORDER } from '../../../../../axios/config';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -89,7 +90,7 @@ const DownloadMIS = ({ activeTab }) => {
     };
 
     const handleSearch = () => {
-        axios.get(`https://dev.shipease.in/orders-api/mis/downloads/?q=${searchValue}`, {
+        axios.get(`${BASE_URL_ORDER}/orders-api/mis/downloads/?q=${searchValue}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }

@@ -13,6 +13,7 @@ import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { indexPattern, signUpPattern } from '../../../Routes';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
+import { BASE_URL_CORE } from '../../../axios/config';
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
@@ -44,7 +45,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
     setStatus(true)
     e.preventDefault();
     try {
-      const response = await axios.post('https://dev.shipease.in/core-api/accounts/user-sign/', {
+      const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/user-sign/`, {
         contact_number: username,
         password: password,
       });
@@ -108,12 +109,12 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
             </div> */}
             <img src={Logo} alt="logo" />
           </div>
-          <div className='col-md-10 col-lg-10 left-side'>
+          <div className='col-md-9 col-lg-9 left-side'>
             <div className=''>
               {/* <img src={loginBG} alt="" /> */}
             </div>
           </div>
-          <div className='col-md-2 col-lg-2 right-side'>
+          <div className='col-md-3 col-lg-3 right-side'>
             <div className="content">
               {/* <img src={Logo} alt="Logo" height={25} /> */}
               <h3 className='text-center mb-0'>Login</h3>

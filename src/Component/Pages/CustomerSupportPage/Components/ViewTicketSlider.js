@@ -8,6 +8,7 @@ import moment from 'moment';
 import Modal from "react-bootstrap/Modal";
 import {Document, Page} from "react-pdf";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
+import { BASE_URL_CORE } from '../../../../axios/config';
 
 
 const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
@@ -22,7 +23,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
 
   useEffect(() => {
     if (ViewTicketInfo) {
-      axios.get(`https://dev.shipease.in/core-api/features/support-tickets/${viewId}/`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/${viewId}/`, {
         headers: {
           Authorization: `Bearer ${authToken}`,
         },
@@ -60,7 +61,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
   const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('https://dev.shipease.in/core-api/features/ticket-comments/',
+      const response = await axios.post(`${BASE_URL_CORE}/core-api/features/ticket-comments/`,
         {
           ticket: viewId,
           comment: newComment,

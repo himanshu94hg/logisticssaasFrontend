@@ -31,6 +31,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import SingleShipPopReassign from './SingleShipPopReassign';
 import { Link } from 'react-router-dom';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
@@ -158,7 +159,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
     const handleGeneratePickup = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-pickup/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-pickup/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

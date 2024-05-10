@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
+import { BASE_URL_CORE } from "../../../axios/config";
 
 export default function Header(props) {
   const navigate = useNavigate()
@@ -63,7 +64,7 @@ export default function Header(props) {
     const authToken = Cookies.get("access_token");
     const fetchData = async () => {
       try {
-        const response = await axios.get(`https://dev.shipease.in/core-api/seller/get-seller-profile/`, {
+        const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/get-seller-profile/`, {
           headers: {
             Authorization: `Bearer ${authToken}`
           }

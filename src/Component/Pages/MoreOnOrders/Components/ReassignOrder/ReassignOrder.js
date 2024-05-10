@@ -306,7 +306,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
                                                 </p>
-                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png'  width={30}  className='me-2' />{ row && row.courier_partner}</p>
+                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{ row && row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

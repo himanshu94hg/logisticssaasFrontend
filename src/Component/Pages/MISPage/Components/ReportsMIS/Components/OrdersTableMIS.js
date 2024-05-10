@@ -12,29 +12,27 @@ import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import CustomIcon from '../../../../../common/Icons/CustomIcon'
 
-const OrdersTableMIS = ({setStateData,setTotalItems}) => {
+const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [ordersData, setOrdersData] = useState([]);
-    const {reportsOrderData}=useSelector(state=>state?.misSectionReducer)
+    const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
 
-    console.log(reportsOrderData,"setStateDatasetStateDatasetStateDatasetStateData")
-
-    useEffect(()=>{
-        if(reportsOrderData && reportsOrderData?.results !== null)
-        {
+    useEffect(() => {
+        if (reportsOrderData && reportsOrderData?.results !== null) {
             setOrdersData(reportsOrderData?.results);
             setTotalItems(reportsOrderData?.count)
         }
-    },[reportsOrderData])
+    }, [reportsOrderData])
 
-    useEffect(()=>{
-        if(reportsOrderData){
+    useEffect(() => {
+        if (reportsOrderData) {
             setStateData(false)
             setTotalItems(reportsOrderData?.count)
         }
-    },[reportsOrderData])
+    }, [reportsOrderData])
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -65,7 +63,7 @@ const OrdersTableMIS = ({setStateData,setTotalItems}) => {
         <table className=" w-100">
             <thead className="sticky-header">
                 <tr className="table-row box-shadow">
-                   {/*} <th style={{ width: '1%' }}>
+                    {/*} <th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
@@ -87,7 +85,7 @@ const OrdersTableMIS = ({setStateData,setTotalItems}) => {
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                           {/*} <td className='checkbox-cell'>
+                            {/*} <td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
@@ -105,7 +103,7 @@ const OrdersTableMIS = ({setStateData,setTotalItems}) => {
                                                         : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                             : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "custom" ? <img src={customImg} alt="Manual" width="20" />
+                                                                    : row.channel.toLowerCase() === "custom" ?<CustomIcon />
                                                                         : ""}
                                         &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>

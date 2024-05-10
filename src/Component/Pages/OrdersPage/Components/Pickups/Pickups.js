@@ -31,6 +31,7 @@ import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
 
 const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -124,7 +125,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
             order_ids: `${orderId}`
         };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -155,7 +156,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
             order_ids: `${orderId}`
         };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-invoice/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -401,7 +402,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                                 <p className='details-on-hover anchor-awb ' onClick={handleClickAWB}>{row.awb_number ?? ""}
                                                     {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
                                                 </p>
-                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' width={30} className='me-2' />{row && row.courier_partner}</p>
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

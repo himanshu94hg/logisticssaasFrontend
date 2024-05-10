@@ -9,6 +9,7 @@ import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
 
 const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -91,7 +92,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         };
 
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-label/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-label/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
             order_ids: `${temp.join(",")}`
         };
         try {
-            const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/`, {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-invoice/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

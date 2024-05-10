@@ -6,6 +6,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
+import { BASE_URL_CORE } from '../../../../../../../axios/config';
 
 const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse }) => {
     const dispatch = useDispatch()
@@ -36,7 +37,7 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse 
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`https://dev.shipease.in/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }

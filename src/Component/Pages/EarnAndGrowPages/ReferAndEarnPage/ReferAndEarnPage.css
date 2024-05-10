@@ -1,3 +1,32 @@
 .rae-page {
     height: 100%;
 }
+
+.referal-steps {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+}
+
+.step-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.step-content p {
+    text-align: center;
+}
+
+.step-content .step-image-sec {
+    width: 80px;
+    height: 80px;
+    background-color: var(--sh-primary-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 25px;
+}

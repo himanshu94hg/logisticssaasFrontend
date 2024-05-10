@@ -64,12 +64,12 @@ const SignUpPage = () => {
                         </div> */}
                         <img src={Logo} alt="logo" />
                     </div>
-                    <div className='col-md-10 col-lg-10 left-side'>
+                    <div className='col-md-9 col-lg-9 left-side'>
                         <div className=''>
                             {/* <img src={loginBG} alt="" /> */}
                         </div>
                     </div>
-                    <div className='right-side col-md-2 col-lg-2'>
+                    <div className='right-side col-md-3 col-lg-3'>
                         <div className="content">
                             <div className='user-role-select'>
                                 <label htmlFor="seller">

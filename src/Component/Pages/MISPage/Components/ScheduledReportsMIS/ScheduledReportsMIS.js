@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { RxReset } from "react-icons/rx";
 import Pagination from '../../../../common/Pagination/Pagination';
+import { BASE_URL_ORDER } from '../../../../../axios/config';
 
 
 const ScheduledReportsMIS = ({ activeTab }) => {
@@ -77,7 +78,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         }
     };
     const handleSearch = () => {
-        axios.get(`https://dev.shipease.in/orders-api/mis/scheduled-reports/?q=${searchValue}`, {
+        axios.get(`${BASE_URL_ORDER}/orders-api/mis/scheduled-reports/?q=${searchValue}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
