@@ -189,30 +189,46 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        if (row.courier_partner === "bluedart") {
-            window.location.href = 'https://www.bluedart.com/web/guest/home';
-        } else if (row.courier_partner === "delhivery") {
-            window.location.href = 'https://www.delhivery.com/track/package';
-        } else if (row.courier_partner === "smartr") {
-            window.location.href = 'https://smartr.in/tracking';
-        } else if (row.courier_partner === "ekart" || row.courier_partner === "ekart_5kg") {
-            window.location.href = 'https://ekartlogistics.com/';
-        } else if (row.courier_partner === "shadowfax") {
-            window.location.href = 'https://tracker.shadowfax.in/#/';
-        } else if (row.courier_partner === "amazon_swa") {
-            window.location.href = 'https://track.amazon.in/';
-        } else if (row.courier_partner === "xpressbees") {
-            window.location.href = 'https://www.xpressbees.com/shipment/tracking';
-        } else if (row.courier_partner === "shree maruti") {
-            window.location.href = 'https://www.shreemaruti.com/';
-        } else if (row.courier_partner === "movin") {
-            window.location.href = 'https://www.movin.in/shipment/track';
-        } else if (row.courier_partner === "ecom express") {
-            window.location.href = 'https://ecomexpress.in/tracking/';
-        } else if (row.courier_partner === "professional") {
-            window.location.href = 'https://www.tpcindia.com/Default.aspx';
-        } else {
-            window.location.href = '';
+        const courierPartner = row.courier_partner.toLowerCase(); 
+    
+        switch (courierPartner) {
+            case "bluedart":
+                window.open('https://www.bluedart.com/web/guest/home', '_blank');
+                break;
+            case "delhivery":
+                window.open('https://www.delhivery.com/track/package', '_blank');
+                break;
+            case "smartr":
+                window.open('https://smartr.in/tracking', '_blank');
+                break;
+            case "ekart":
+            case "ekart_5kg":
+                window.open('https://ekartlogistics.com/', '_blank');
+                break;
+            case "shadowfax":
+                window.open('https://tracker.shadowfax.in/#/', '_blank');
+                break;
+            case "amazon_swa":
+                window.open('https://track.amazon.in/', '_blank');
+                break;
+            case "xpressbees":
+                window.open('https://www.xpressbees.com/shipment/tracking', '_blank');
+                break;
+            case "shree maruti":
+                window.open('https://www.shreemaruti.com/', '_blank');
+                break;
+            case "movin":
+                window.open('https://www.movin.in/shipment/track', '_blank');
+                break;
+            case "ecom express":
+                window.open('https://ecomexpress.in/tracking/', '_blank');
+                break;
+            case "professional":
+                window.open('https://www.tpcindia.com/Default.aspx', '_blank');
+                break;
+            default:
+                console.error("Courier partner not recognized");
+                break;
         }
     }
 
