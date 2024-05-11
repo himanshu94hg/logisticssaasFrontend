@@ -30,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow,setSelectedOrderRows }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -42,22 +42,26 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(billingCard.map(row => row.id));
+            setSelectedOrderRows(billingCard.map(row => row.order_id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setSelectedOrderRows([]);
             setBulkActionShow(false)
         }
     };
 
     // Handler for individual checkbox
-    const handleSelectRow = (orderId) => {
+    const handleSelectRow = (orderId,order_id) => {
         const isSelected = selectedRows.includes(orderId);
 
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
+            setSelectedOrderRows(selectedRows.filter(id => id !== order_id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
+            setSelectedOrderRows([...selectedRows, order_id]);
         }
 
         if (setSelectedRows !== ([])) {
@@ -147,7 +151,7 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id)}
+                                                onChange={() => handleSelectRow(row.id, row.order_id)}
                                             />
                                         </td>
                                         <td>

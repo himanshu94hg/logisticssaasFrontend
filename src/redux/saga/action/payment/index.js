@@ -1,6 +1,6 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
+import { API_URL, BASE_URL_CORE, BASE_URL_DUMMY } from "../../../../axios/config";
 import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION,CONFIGURATION_DATA_ACTION } from "../../constant/payment";
 import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA } from "../../../constants/payment";
 
@@ -9,7 +9,7 @@ import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA } from "../../
 async function paymentFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_PAYMENT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_PAYMENT_URL}`,
         //data: data
     });
     return listData;
@@ -18,7 +18,7 @@ async function paymentFileAPI(data) {
 async function paymentSetFileAPI(data) {
     let listData = axios.request({
         method: "POST",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_PAYMENT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_PAYMENT_URL}`,
         data: data
     });
     return listData;
@@ -27,7 +27,7 @@ async function paymentSetFileAPI(data) {
 async function configurationFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_CONFIGURATION_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_CONFIGURATION_URL}`,
         //data: data
     });
     return listData;

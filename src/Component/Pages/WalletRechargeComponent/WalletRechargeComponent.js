@@ -62,6 +62,7 @@ const WalletRechargeComponent = (props) => {
     };
 
     const handleRecharge = useCallback(async () => {
+        console.log("object")
         try {
             const options = {
                 key: razorpayKey,

@@ -21,6 +21,7 @@ const BillingPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
+    const [selectedOrderRows, setSelectedOrderRows] = useState([]);
     
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard,billingShipingCard ,billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
@@ -119,7 +120,8 @@ const BillingPage = () => {
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results} 
                 selectedRows={selectedRows}
                 setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}/>}
+                setBulkActionShow={setBulkActionShow}
+                setSelectedOrderRows={setSelectedOrderRows}/>}
 
                 {/* Remittance Logs */}
                 {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard.results} 
@@ -163,6 +165,8 @@ const BillingPage = () => {
                         activeTab={activeTab}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        selectedOrderRows={selectedOrderRows}
+                        setSelectedOrderRows={setSelectedOrderRows}
                     />
                 )
                 }
