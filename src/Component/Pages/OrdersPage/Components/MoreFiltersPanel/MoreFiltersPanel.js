@@ -193,7 +193,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         const fetchData = async () => {
             try {
                 if (MoreFilters) {
-                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                         headers: {
                             Authorization: `Bearer ${authToken}`
                         }
@@ -224,6 +224,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             dispatch({ type: "GET_ORDER_SOURCE_API_ACTION" })
         }
     }, [MoreFilters])
+
+    console.log(MoreFilters,"MoreFiltersMoreFilters")
 
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {

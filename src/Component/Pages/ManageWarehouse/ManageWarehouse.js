@@ -176,6 +176,7 @@ const ManageWarehouse = () => {
       setBoxes(response.data);
       setInitialData(response.data)
     } catch (error) {
+
     }
   };
 
