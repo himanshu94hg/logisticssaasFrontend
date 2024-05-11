@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-const BulkActionsComponent = ({ activeTab, selectedRows }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows,selectedOrderRows }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const {exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard} = useSelector(state => state?.exportSectionReducer)
     
-    console.log(exportPassbookCard, "Export Action Bulk")
+    console.log(selectedRows,selectedOrderRows, "Export Action Bulk")
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
-            "ids": `${selectedRows.join(',')}`
+            "ids": `${activeTab === "Shipping Charges" ? selectedOrderRows.join(',') : selectedRows.join(',')}`
         };
         if(activeTab === "Passbook")
         {
