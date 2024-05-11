@@ -53,6 +53,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }
     }, [location, pathName, editStatus, formData]);
 
+    console.log(location.pathname,"this is a pathname daata")
+
     useEffect(() => {
         if (formData.order_details.order_type === "Reverse") {
             setFormData(prevFormData => ({
@@ -91,10 +93,10 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     }, [tagListData]);
 
     useEffect(() => {
-        if (token) {
+        if (location.pathname==="/create-order") {
             dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
         }
-    }, [])
+    }, [location])
 
     const validateFormData = () => {
         const newErrors = {};
