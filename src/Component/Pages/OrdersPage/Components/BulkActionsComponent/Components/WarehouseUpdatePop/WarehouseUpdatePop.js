@@ -7,6 +7,7 @@ import Cookies from 'js-cookie';
 import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../../../axios/config';
+import { toast } from 'react-toastify';
 
 const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse }) => {
     const dispatch = useDispatch()
@@ -37,7 +38,7 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse 
         const fetchWarehouses = async () => {
             setLoading(true);
             try {
-                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/?seller_id=${sellerData}`, {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/features/warehouse/`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
@@ -45,18 +46,13 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse 
                 setWarehouses(response.data);
                 setFilteredWarehouses(response.data);
             } catch (error) {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: error.response ? error.response.data.message : 'Failed to fetch warehouses. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
+                toast.error("Failed to fetch warehouses. Please try again later")
             } finally {
                 setLoading(false);
             }
         };
         fetchWarehouses();
-    }, [authToken, sellerData]);
+    }, [authToken]);
 
     useEffect(() => {
         const filtered = warehouses.filter(warehouse =>
