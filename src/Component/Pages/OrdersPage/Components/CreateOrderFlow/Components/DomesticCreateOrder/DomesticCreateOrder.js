@@ -1,18 +1,17 @@
 import axios from 'axios';
-import moment from 'moment';
 import 'react-toggle/style.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
-import { OrderDetailsStep, OrderStep } from './create-order-steps/OrderDetailsStep';
+import { OrderDetailsStep } from './create-order-steps/OrderDetailsStep';
 import { AddressDetailStep } from './create-order-steps/AddressDetailStep';
 import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
-import { useSelector } from 'react-redux';
 import { BASE_URL_ORDER } from '../../../../../../../axios/config';
+import { errorFunction, } from '../../../../../../../customFunction/errorHandling';
 
 const DomesticCreateOrder = () => {
     const totalSteps = 5;
@@ -20,7 +19,6 @@ const DomesticCreateOrder = () => {
     const [step, setStep] = useState(1);
     const authToken = Cookies.get("access_token")
     const currentDate = new Date();
-    const [activeTab, setActiveTab] = useState("All");
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
     const [formData, setFormData] = useState({
@@ -96,7 +94,7 @@ const DomesticCreateOrder = () => {
         ],
     })
 
-    console.log(formData,"this is a form data")
+    console.log(formData, "this is a form data")
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;
@@ -109,11 +107,11 @@ const DomesticCreateOrder = () => {
         setStep(step + 1);
     };
 
-    const handlePrev = () => {  
+    const handlePrev = () => {
         setStep(step - 1);
     };
 
-    
+
 
 
     const handleFormSubmit = async () => {
@@ -126,16 +124,12 @@ const DomesticCreateOrder = () => {
             });
             if (response !== null) {
                 if (response.status === 201) {
-                    const responseData = response.data;
                     toast.success("Order Created successfully!")
                     navigation('/Orders');
-                } else {
-                    const errorData = response.data;
-                    toast.error("Something went wrong!", errorData)
                 }
             }
         } catch (error) {
-            toast.error('something went wrong!')
+            errorFunction(error)
         }
     };
 

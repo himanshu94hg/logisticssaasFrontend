@@ -6,6 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
+import { errorFunction } from '../../../../../customFunction/errorHandling';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -13,7 +14,6 @@ const OrderDetail = () => {
     const navigate = useNavigate()
     let authToken = Cookies.get("access_token")
     const [orderDetails, setOrderDetails] = useState({})
-    const dd = params?.slug?.split('&')[0]
 
     useEffect(() => {
         if (params?.slug && location) {
@@ -26,7 +26,7 @@ const OrderDetail = () => {
                     setOrderDetails(response?.data)
                 })
                 .catch(error => {
-                    toast.error("Api Call failed!")
+                    errorFunction(error)
                 });
         }
     }, [params])

@@ -15,10 +15,9 @@ import Pagination from '../../common/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import Pickups from './Components/Pickups/Pickups';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
-import { toast } from 'react-toastify';
 import moment from 'moment';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, faTrash, faTrashCan, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
@@ -27,6 +26,7 @@ import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/War
 import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
 import CloneOrder from './Components/CloneOrder/CloneOrder';
 import { BASE_URL_ORDER } from '../../../axios/config';
+import { errorFunction } from '../../../customFunction/errorHandling';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -40,9 +40,7 @@ const SearchOptions = [
 
 const OrdersPage = () => {
     const dispatch = useDispatch()
-    const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
-    const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
     const [manifestOrders, setManifestOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
@@ -51,7 +49,6 @@ const OrdersPage = () => {
     const [totalItems, setTotalItems] = useState("");
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [queryParamTemp, setQueryParamTemp] = useState({})
-    const [queryParamSearch, setQueryParamSearch] = useState(null)
     const [activeTab, setActiveTab] = useState("Processing");
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [CloneOrderSection, setCloneOrderSection] = useState(false)
@@ -62,7 +59,6 @@ const OrdersPage = () => {
     const [bulkAwb, setbulkAwb] = useState([]);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
-    const [resetValue, setResetValue] = useState(new Date());
     const [addTagShow, setaddTagShow] = useState(false)
     const [errors, setErrors] = useState({});
     const [handleResetFrom, setHandleResetFrom] = useState(false);
@@ -73,13 +69,11 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
-    // const {exportCard}=useSelector(state=>state?.billingSectionReducer)
 
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
             setQueryParamTemp({});
-            setQueryParamSearch(null);
             setItemsPerPage(20)
             setbulkAwb([])
         }
@@ -174,10 +168,9 @@ const OrdersPage = () => {
                 .then(response => {
                     setTotalItems(response?.data?.count)
                     setOrders(response.data.results);
-                    pageStatusSet(false)
                 })
                 .catch(error => {
-                    toast.error("Something went wrong!")
+                    errorFunction(error)
                 });
             setQueryParamTemp({
                 search_by: searchType,
@@ -218,7 +211,7 @@ const OrdersPage = () => {
                 setOrders(response.data.results);
             })
             .catch(error => {
-                toast.error("Api Call failed!")
+                errorFunction(error)
             });
     }
 
@@ -268,7 +261,7 @@ const OrdersPage = () => {
                     setOrders(response.data.results);
                 })
                 .catch(error => {
-                    toast.error("Api Call failed!")
+                    errorFunction(error)
                 });
         }
         // }
@@ -286,7 +279,7 @@ const OrdersPage = () => {
                     setManifestOrders(response.data.results);
                 })
                 .catch(error => {
-                    toast.error("Api Call failed!")
+                    errorFunction(error)
                 });
         }
     }, [activeTab, itemsPerPage, currentPage])
@@ -305,14 +298,14 @@ const OrdersPage = () => {
                 setOrders(response.data.results);
             })
             .catch(error => {
-                toast.error("Api Call failed!")
+                errorFunction(error)
             });
     }
 
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>

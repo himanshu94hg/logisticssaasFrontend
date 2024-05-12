@@ -219,6 +219,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     const handleClickpartner = (event, row) => {
         event.preventDefault();
         const courierPartner = row.courier_partner.toLowerCase(); 
+        console.log(row,"this is a order page data")
     
         switch (courierPartner) {
             case "bluedart":
@@ -232,7 +233,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                 break;
             case "ekart":
             case "ekart_5kg":
-                window.open('https://ekartlogistics.com/', '_blank');
+                window.open(`https://ekartlogistics.com/shipmenttrack/${row?.awb_number}`, '_blank');
                 break;
             case "shadowfax":
                 window.open('https://tracker.shadowfax.in/#/', '_blank');
@@ -241,7 +242,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                 window.open('https://track.amazon.in/', '_blank');
                 break;
             case "xpressbees":
-                window.open('https://www.xpressbees.com/shipment/tracking', '_blank');
+                window.open(`https://www.xpressbees.com/shipment/tracking?awbNo=${row?.awb_number}`, '_blank');
                 break;
             case "shree maruti":
                 window.open('https://www.shreemaruti.com/', '_blank');

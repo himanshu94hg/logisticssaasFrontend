@@ -1,9 +1,10 @@
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE, BASE_URL_ORDER } from "../../../../axios/config";
 import axios from "../../../../axios/index"
-import {  RATE_CALCULATOR_ACTION, RATE_CALCULATOR_ACTION_ORDER_ID } from "../../constant/tools";
+import { RATE_CALCULATOR_ACTION, RATE_CALCULATOR_ACTION_ORDER_ID } from "../../constant/tools";
 import { GET_RATE_CALCULATOR_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../../constants/tools";
 import { toast } from "react-toastify";
+import { errorFunction } from "../../../../customFunction/errorHandling";
 
 
 
@@ -12,7 +13,7 @@ async function rateCalcultorAPI(data) {
 
     let listData = axios.request({
         method: "GET",
-        url:  `${BASE_URL_CORE}${API_URL.GET_RATE_CALCULATOR}?${queryParams}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_RATE_CALCULATOR}?${queryParams}`,
         data: data
     });
     return listData
@@ -21,7 +22,7 @@ async function rateCalcultorAPI(data) {
 async function rateCalcultorAPIOrderId(data) {
     let listData = axios.request({
         method: "GET",
-        url:  `${BASE_URL_ORDER}${API_URL.GET_RATE_THROUGH_ORDERID}${data}/`,
+        url: `${BASE_URL_ORDER}${API_URL.GET_RATE_THROUGH_ORDERID}${data}/`,
         data: data
     });
     return listData
@@ -34,8 +35,12 @@ function* rateCalculatorAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_RATE_CALCULATOR_DATA, payload: response })
         }
-       
+        else {
+
+        }
+
     } catch (error) {
+        errorFunction(error)
     }
 }
 
@@ -46,10 +51,10 @@ function* rateCalculatorActionByOrderId(action) {
         if (response.status === 200) {
             yield put({ type: RATE_CALCULATOR_PREFILLED_DATA, payload: response?.data })
         }
-        
+
     } catch (error) {
-        console.log(error?.response?.data?.detail,"this is oder id data")
-       toast.error(`Please enter valid order id!`)
+        console.log(error?.response?.data?.detail, "this is oder id data")
+        toast.error(`Please enter valid order id!`)
     }
 }
 
