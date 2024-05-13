@@ -12,7 +12,7 @@ import Logo from '../../../assets/image/logo/logo.svg'
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { indexPattern, signUpPattern } from '../../../Routes';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { errorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../axios/config';
 
 
@@ -60,7 +60,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       }
 
     } catch (error) {
-      errorFunction(error)
+      customErrorFunction(error)
     }
   }
 

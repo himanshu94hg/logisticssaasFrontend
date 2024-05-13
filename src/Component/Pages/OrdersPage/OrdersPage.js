@@ -26,7 +26,7 @@ import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/War
 import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
 import CloneOrder from './Components/CloneOrder/CloneOrder';
 import { BASE_URL_ORDER } from '../../../axios/config';
-import { errorFunction } from '../../../customFunction/errorHandling';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -170,7 +170,7 @@ const OrdersPage = () => {
                     setOrders(response.data.results);
                 })
                 .catch(error => {
-                    errorFunction(error)
+                    customErrorFunction(error)
                 });
             setQueryParamTemp({
                 search_by: searchType,
@@ -211,7 +211,7 @@ const OrdersPage = () => {
                 setOrders(response.data.results);
             })
             .catch(error => {
-                errorFunction(error)
+                customErrorFunction(error)
             });
     }
 
@@ -261,7 +261,7 @@ const OrdersPage = () => {
                     setOrders(response.data.results);
                 })
                 .catch(error => {
-                    errorFunction(error)
+                    customErrorFunction(error)
                 });
         }
         // }
@@ -279,7 +279,7 @@ const OrdersPage = () => {
                     setManifestOrders(response.data.results);
                 })
                 .catch(error => {
-                    errorFunction(error)
+                    customErrorFunction(error)
                 });
         }
     }, [activeTab, itemsPerPage, currentPage])
@@ -298,7 +298,7 @@ const OrdersPage = () => {
                 setOrders(response.data.results);
             })
             .catch(error => {
-                errorFunction(error)
+                customErrorFunction(error)
             });
     }
 

@@ -11,7 +11,7 @@ import { ProductDetailStep } from './create-order-steps/ProductDetailStep';
 import { PackageDetailStep } from './create-order-steps/PackageDetailStep';
 import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
 import { BASE_URL_ORDER } from '../../../../../../../axios/config';
-import { errorFunction, } from '../../../../../../../customFunction/errorHandling';
+import { customErrorFunction, } from '../../../../../../../customFunction/errorHandling';
 
 const DomesticCreateOrder = () => {
     const totalSteps = 5;
@@ -129,7 +129,7 @@ const DomesticCreateOrder = () => {
                 }
             }
         } catch (error) {
-            errorFunction(error)
+            customErrorFunction(error)
         }
     };
 

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
-import { errorFunction } from '../../../../../customFunction/errorHandling';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -26,7 +26,7 @@ const OrderDetail = () => {
                     setOrderDetails(response?.data)
                 })
                 .catch(error => {
-                    errorFunction(error)
+                    customErrorFunction(error)
                 });
         }
     }, [params])

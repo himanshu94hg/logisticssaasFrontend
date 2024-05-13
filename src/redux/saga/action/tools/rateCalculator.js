@@ -4,7 +4,7 @@ import axios from "../../../../axios/index"
 import { RATE_CALCULATOR_ACTION, RATE_CALCULATOR_ACTION_ORDER_ID } from "../../constant/tools";
 import { GET_RATE_CALCULATOR_DATA, RATE_CALCULATOR_PREFILLED_DATA } from "../../../constants/tools";
 import { toast } from "react-toastify";
-import { errorFunction } from "../../../../customFunction/errorHandling";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 
@@ -40,7 +40,7 @@ function* rateCalculatorAction(action) {
         }
 
     } catch (error) {
-        errorFunction(error)
+        customErrorFunction(error)
     }
 }
 

@@ -25,7 +25,7 @@ export const errorHandleSecond = (res) => {
     });
 }
 
-export const errorFunction = (error) => {
+export const customErrorFunction = (error) => {
     const errorType = typeof error?.response?.data.detail;
     if (errorType === "string") {
         errorHandlefirst(error?.response?.data.detail)
