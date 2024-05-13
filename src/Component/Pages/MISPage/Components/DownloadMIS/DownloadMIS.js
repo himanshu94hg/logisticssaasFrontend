@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 import Pagination from '../../../../common/Pagination/Pagination';
 import { RxReset } from 'react-icons/rx';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -35,9 +36,6 @@ const DownloadMIS = ({ activeTab }) => {
             setTotalItems(misDownloadData?.count)
         }
     }, [misDownloadData])
-
-
-    console.log(misDownloadData, "misDownloadDatamisDownloadData")
 
     const [orders, setAllOrders] = useState([
         {
@@ -100,7 +98,7 @@ const DownloadMIS = ({ activeTab }) => {
             // setSearchValue("")
         })
             .catch(error => {
-                toast.error("Something went wrong!")
+                customErrorFunction(error)
             });
     };
 

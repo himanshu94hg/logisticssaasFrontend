@@ -32,8 +32,6 @@ const ReportSchedulerPage = () => {
   const [reportSchedular, setReportSchedular] = useState([]);
 
 
-console.log(reportSchedular, "reportSchedularData")
-
   const reportType = [
     { value: 'Order', label: 'Order' },
     { value: 'Non-order', label: 'Non-order' },

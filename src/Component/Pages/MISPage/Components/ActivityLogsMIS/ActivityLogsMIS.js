@@ -25,8 +25,6 @@ const ActivityLogsMIS = ({ activeTab }) => {
 
     const { activitiesLog } = useSelector(state => state?.misSectionReducer)
 
-    console.log(activitiesLog?.results, "activitiesLogactivitiesLog")
-
     const TypeOptions = [
         { value: '', label: 'Select Type' },
         { value: 'Orders Import', label: 'Orders Import' },
