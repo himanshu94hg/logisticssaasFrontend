@@ -55,7 +55,7 @@ const ReferAndEarnPage = () => {
                     </label>
                 </div>
 
-                <h4 className='mt-5'>Share The Referal Link</h4>
+                {/* <h4 className='mt-5'>Share The Referal Link</h4>
                 <p>You can also share your referral link by copying and sending it or sharing it on your social media.</p>
 
                 <div className='rae-social-sec'>
@@ -64,7 +64,7 @@ const ReferAndEarnPage = () => {
                         <button>Copy</button>
                     </label>
                     <button></button>
-                </div>
+                </div> */}
             </section>
         </>
     )
