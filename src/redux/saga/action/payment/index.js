@@ -3,6 +3,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE, BASE_URL_DUMMY } from "../../../../axios/config";
 import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION,CONFIGURATION_DATA_ACTION } from "../../constant/payment";
 import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA } from "../../../constants/payment";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 
@@ -57,7 +58,7 @@ function* paymentSetFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
