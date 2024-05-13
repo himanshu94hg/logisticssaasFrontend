@@ -18,6 +18,7 @@ import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../axios/config';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -114,45 +115,11 @@ const ShipmentsPage = () => {
                     setShipment(response.data.results);
                 })
                 .catch(error => {
-                    toast.error("Api Call failed!")
+                    customErrorFunction(error);
                 });
         }
     }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
-    //     if (pageStatus)
-    //     {
-    //         let apiUrl = '';
-    //         switch (activeTab) {
-    //             case "Action Required":
-    //                 apiUrl = "pending" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
-    //                 break;
-    //             case "Action Requested":
-    //                 apiUrl = "requested" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
-    //                 break;
-    //             case "RTO":
-    //                 apiUrl = "rto" + `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
-    //                 break;
-    //             case "Delivered":
-    //                 apiUrl = "delivered"+ `&page_size=${itemsPerPage}` + `&page=${currentPage}`;
-    //                 break;
-    //             default:
-    //                 apiUrl = '';
-    //         }
-
-    //         if (apiUrl) {
-    //             const queryParams = { ...queryParamTemp };
-    //             const queryString = Object.keys(queryParams)
-    //                 .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-    //                 .join('&');
-
-    //             if (queryString) {
-    //                 apiUrl += '&' + queryString;
-    //             }
-    //             dispatch({ type: "SHIPMENT_DATA_ACTION", payload: apiUrl });
-    //             console.log("apiUrlapiUrlapiUrlapiUrl",apiUrl)
-    //         }
-    //     }
-    // }, [dispatch, activeTab, pageStatus, itemsPerPage, currentPage,queryParamTemp]);
-    
+      
 
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
 
@@ -218,7 +185,7 @@ const ShipmentsPage = () => {
                     pageStatusSet(false)
                 })
                 .catch(error => {
-                    toast.error("Something went wrong!")
+                    customErrorFunction(error);
                 });
                 setQueryParamTemp({
                     search_by:searchType,
@@ -251,7 +218,7 @@ const ShipmentsPage = () => {
                 setShipment(response?.data?.results);
             })
             .catch(error => {
-                toast.error("Api Call failed!")
+                customErrorFunction(error);
             });
     }
 

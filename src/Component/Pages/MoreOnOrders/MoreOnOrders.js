@@ -19,6 +19,7 @@ import { RxReset } from "react-icons/rx";
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { BASE_URL_CORE } from '../../../axios/config';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -92,7 +93,7 @@ const MoreOnOrders = () => {
                 pageStatusSet(false)
             })
             .catch(error => {
-                toast.error("Something went wrong!")
+                customErrorFunction(error)
             });
         setQueryParamTemp({
             search_by: searchType,
@@ -179,7 +180,7 @@ const MoreOnOrders = () => {
                     setOrders(response.data.results);
                 })
                 .catch(error => {
-                    toast.error("Api Call failed!")
+                    customErrorFunction(error)
                 });
         }
     }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus]);
@@ -211,7 +212,7 @@ const MoreOnOrders = () => {
                 setOrders(response.data.results);
             })
             .catch(error => {
-                toast.error("Api Call failed!")
+                customErrorFunction(error)
             });
     }
 

@@ -31,7 +31,7 @@ export const customErrorFunction = (error) => {
         errorHandlefirst(error?.response?.data.detail)
     }
     else if (error?.response?.status === 500) {
-        toast.error("Internl Server error!")
+        toast.error("Internal Server error!")
     }
     else if (error?.response?.status <= 400 && error?.response?.status <= 499) {
         errorHandleSecond(error?.response?.data)

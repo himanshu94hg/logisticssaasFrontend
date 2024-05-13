@@ -6,6 +6,7 @@ import { LuUploadCloud } from "react-icons/lu";
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BASE_URL_ORDER } from '../../../../../../../axios/config';
+import { customErrorFunction } from '../../../../../../../customFunction/errorHandling';
 
 const BulkCreateOrder = () => {
     const [bulkOrders, setBulkOrders] = useState([]);
@@ -36,7 +37,7 @@ const BulkCreateOrder = () => {
                 // toast.error(error?.response?.data?.detail);
             }
         } catch (error) {
-            toast.error(error?.response?.data?.detail);
+            customErrorFunction(error);
         }
     };
 
@@ -51,7 +52,7 @@ const BulkCreateOrder = () => {
                 setBulkOrders(response.data.results);
             })
             .catch(error => {
-                console.error('Error:', error);
+                customErrorFunction(error);
             });
     }, [bulkOrdersStatus])
 

@@ -4,6 +4,7 @@ import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
 import { SHIPMENT_DATA_ACTION,SHIPMENT_REATTEMPT_DATA_ACTION,SHIPMENT_RTO_DATA_ACTION } from "../../constant/shipment";
 import { GET_SHIPMENT_DATA,GET_SHIPMENT_REATTEMPT_DATA,GET_SHIPMENT_RTO_DATA } from "../../../constants/shipment";
 import { toast } from "react-toastify";
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 
 async function shipmentFileAPI(data) {
@@ -46,11 +47,8 @@ function* shipmentReattemptFilesAction(action) {
             toast.success("Order Reattempt successfully")
             yield put({ type: GET_SHIPMENT_REATTEMPT_DATA, payload: response?.data })
         }
-        else {
-            toast.error("Something went wrong!")
-        }
     } catch (error) {
-        toast.error(error.message)
+        customErrorFunction(error);
     }
 }
 
@@ -71,11 +69,8 @@ function* shipmentRtoFilesAction(action) {
             toast.success("Order RTO successfully")
             yield put({ type: GET_SHIPMENT_RTO_DATA, payload: response?.data })
         }
-        else {
-            toast.error("Something went wrong!")
-        }
     } catch (error) {
-        toast.error(error.message)
+        customErrorFunction(error);
     }
 }
 

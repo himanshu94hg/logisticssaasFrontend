@@ -4,6 +4,7 @@ import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
 import { REASSIGN_DATA_ACTION,REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
 import { GET_REASSIGN_DATA,GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
 import {  toast } from 'react-toastify';
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 
 async function moreorderFileAPI(data) {
@@ -31,10 +32,8 @@ function* moreorderFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_REASSIGN_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -46,12 +45,9 @@ function* moreorderShipFilesAction(action) {
             yield put({ type: GET_REASSIGN_SHIP_DATA, payload: response?.data });
             yield put({ type: GET_REASSIGN_SHIP_DATA_STATUS, payload: response?.status });
             toast.success(response?.data?.message);
-        } else {
-            toast.error(response?.data?.message);
         }
     } catch (error) {
-        toast.error(error?.message);
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 

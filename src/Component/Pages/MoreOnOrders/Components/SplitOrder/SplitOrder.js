@@ -81,47 +81,6 @@ const SplitOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulk
     return (
         <section className='position-relative'>
             <div className="position-relative">
-                {/* <div className="box-shadow shadow-sm p7 mb-3 filter-container">
-                    <div className="search-container">
-                        <div className='d-flex'>
-                            <label>
-                                <input type="search" placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e)=>handleSearch(e.target.value)} />
-                                <button>
-                                    <img src={SearchIcon} alt="Search" />
-                                </button>
-                            </label>
-                            <button className='btn main-button ms-2' onClick={handleSidePanel}>More Filters</button>
-                        </div>
-                        <p className='font10'>Most Popular Search by
-                            <span>COD</span> |
-                            <span>Prepaid</span> |
-                            <span>Yesterday</span> |
-                            <span>One Week</span> |
-                            <span>Last Month</span> |
-                            <span>Delivered</span> |
-                            <span>Cancel order</span> </p>
-                    </div>
-                    <div className='button-container'>
-                        <button className='btn main-button'>Export</button>
-                        <div className='action-options bulk-actions ms-2'>
-                            <div className='btn main-button'>
-                                <span className='me-2'>Bulk Actions</span><FontAwesomeIcon icon={faEllipsisVertical} />
-                            </div>
-                            <div className='action-list'>
-                                <ul>
-                                    <li>Bulk Ship</li>
-                                    <li>Mark as Verified</li>
-                                    <li>Add Bulk Tag</li>
-                                    <li className='action-hr'></li>
-                                    <li>Bulk Weight/Dimension Update</li>
-                                    <li>Bulk Warehouse Update</li>
-                                    <li className='action-hr'></li>
-                                    <li>Bulk Delete Order</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className='table-container'>
                     <table className="w-100">
                         <thead className="sticky-header">
