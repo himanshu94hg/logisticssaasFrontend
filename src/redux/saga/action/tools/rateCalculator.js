@@ -35,9 +35,6 @@ function* rateCalculatorAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_RATE_CALCULATOR_DATA, payload: response })
         }
-        else {
-
-        }
 
     } catch (error) {
         customErrorFunction(error)
@@ -53,8 +50,7 @@ function* rateCalculatorActionByOrderId(action) {
         }
 
     } catch (error) {
-        console.log(error?.response?.data?.detail, "this is oder id data")
-        toast.error(`Please enter valid order id!`)
+        customErrorFunction(error);
     }
 }
 

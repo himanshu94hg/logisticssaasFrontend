@@ -4,6 +4,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_COURIER } from "../../../../axios/config";
 import { GET_COURIER_PARTNER_NAME_DATA, GET_COURIER_SERVICEABLE_PINCODE_DATA, GET_SERVICE_ABILITY_DATA, GET_SHIPEASE_SERVICE_PINCODE } from "../../../constants/tools";
 import { GET_COURIER_PATNER_NAME_ACTION, GET_COURIER_SERVICE_ABILITY_FILTER_ACTION, GET_SHIPEASE_SERVICE_ABILITY_ACTION, SERVICE_ABILITY_PAIR_ACTION, SERVICE_ABILITY_SINGLE_ACTION } from "../../constant/tools";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 //CHECK SERVICEABILITY PAIR PINCODE SEARCH API
 async function serviceAbilityPairAPI(data) {
@@ -23,7 +24,7 @@ function* serviceAbilityPairAction(action) {
             yield put({ type: GET_SERVICE_ABILITY_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -45,7 +46,7 @@ function* serviceAbilitySingleAction(action) {
             yield put({ type: GET_SERVICE_ABILITY_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -67,8 +68,7 @@ function* serviceAbilityShipeaseAction(action) {
             yield put({ type: GET_SHIPEASE_SERVICE_PINCODE, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
-        toast.error("Something went wrong!")
+        customErrorFunction(error);
     }
 }
 
@@ -89,7 +89,7 @@ function* serviceAbilityCourierPartnernNameAction(action) {
             yield put({ type: GET_COURIER_PARTNER_NAME_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -112,7 +112,7 @@ function* serviceAbilityCourierPartnerFilterAction(action) {
             yield put({ type: GET_COURIER_SERVICEABLE_PINCODE_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
