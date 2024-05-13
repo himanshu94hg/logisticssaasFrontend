@@ -96,7 +96,7 @@ const OrderDetail = () => {
                                     <ul className='od-list'>
                                         <li><span>Name:</span><span>{orderDetails?.shipping_detail?.recipient_name}</span></li>
                                         <li><span>Contact No.:</span><span>{orderDetails?.shipping_detail?.mobile_number}</span></li>
-                                        <li><span>Email:</span><span>{orderDetails?.shipping_detail?.mobile_number ? orderDetails?.shipping_detail?.mobile_number : "NA"}</span></li>
+                                        <li><span>Email:</span><span>{orderDetails?.shipping_detail?.email ? orderDetails?.shipping_detail?.email : "NA"}</span></li>
                                         <li><span>Address:</span><span>{orderDetails?.shipping_detail?.address},{orderDetails?.shipping_detail?.city},{orderDetails?.shipping_detail?.state},({orderDetails?.shipping_detail?.pincode})</span></li>
                                     </ul>
                                 </div>
