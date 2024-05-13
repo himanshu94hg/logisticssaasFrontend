@@ -4,6 +4,7 @@ import { PiExport } from 'react-icons/pi';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const ZoneMappingPop = ({ setZoneMapping }) => {
   const dispatch = useDispatch();
@@ -46,7 +47,7 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
     try {
       const response = await dispatch({ type: 'ZONE_MAPPING_ACTION', payload: pincode });
     } catch (error) {
-      toast.error('Error exporting data: ' + error.message);
+      customErrorFunction(error)
     }
   };
 
