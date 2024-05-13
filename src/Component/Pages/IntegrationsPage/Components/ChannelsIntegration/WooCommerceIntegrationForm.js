@@ -8,6 +8,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../../customFunction/errorHandling';
 
 const WooCommerceIntegrationForm = () => {
 
@@ -107,26 +108,10 @@ const WooCommerceIntegrationForm = () => {
                             confirmButtonText: 'OK'
                         });
                         navigation('/channels-integration');
-                    } else {
-                        const errorData = response.data;
-                        console.error('API Error:', errorData);
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Oops...',
-                            text: 'Failed to add Channel. Please try again later.',
-                            confirmButtonText: 'OK'
-                        });
-                    }
+                    } 
                 } catch (error) {
-                    console.error('Fetch Error:', error.message);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Oops...',
-                        text: 'Failed to add Channel. Please try again later.',
-                        confirmButtonText: 'OK'
-                    });
+                    customErrorFunction(error)
                 }
-                console.log("Logs", formData);
             }
     };
 

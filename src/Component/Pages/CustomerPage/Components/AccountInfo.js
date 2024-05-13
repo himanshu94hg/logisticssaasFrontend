@@ -11,6 +11,7 @@ import Modal from "react-bootstrap/Modal";
 import {Document, Page} from "react-pdf";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { BASE_URL_CORE } from '../../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../customFunction/errorHandling';
 
 
 const AccountInfo = ({ activeTab }) => {
@@ -45,7 +46,7 @@ const AccountInfo = ({ activeTab }) => {
       setPdfPreviews(Array(response.data.length).fill(null));
       setErrors(Array(response.data.length).fill({}));
     } catch (error) {
-      console.error('Error fetching account data:', error);
+      customErrorFunction(error)
     }
   };
 
@@ -107,7 +108,7 @@ const AccountInfo = ({ activeTab }) => {
           }
         }
       } catch (error) {
-        console.error('Error:', error);
+        customErrorFunction(error)
       }
     }
   };
@@ -161,7 +162,7 @@ const AccountInfo = ({ activeTab }) => {
         setPdfPreviews(updatedPdfPreviews);
         setErrors(updatedErrors);
       } catch (error) {
-        console.error('Error:', error);
+        customErrorFunction(error)
       }
     }
   };
@@ -193,7 +194,7 @@ const AccountInfo = ({ activeTab }) => {
         });
       }
     } catch (error) {
-      console.error('Error handling file change:', error);
+      customErrorFunction(error)
     }
 
   };
@@ -218,11 +219,7 @@ const AccountInfo = ({ activeTab }) => {
         toast.error('Failed to fetch branch and bank details.');
       }
     } catch (error) {
-      if (error.response && error.response.status === 400 && error.response.data === "Not Found") {
-        toast.error('Invalid IFSC code. Please enter a valid IFSC code.');
-      } else {
-        toast.error('Error fetching branch and bank details.');
-      }
+      customErrorFunction(error)
     }
   };
 
@@ -241,11 +238,10 @@ const AccountInfo = ({ activeTab }) => {
       setShow(true);
       setPreviewImage(objectUrl);
     } catch (error) {
-      console.error('Error fetching PDF:', error);
+      customErrorFunction(error)
     }
   }
 
-  console.log("handelAWSImage",handelAWSImage)
 
   return (
       <>

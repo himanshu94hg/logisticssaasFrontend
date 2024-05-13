@@ -9,6 +9,7 @@ import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { BASE_URL_CORE } from '../../../../axios/config';
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 const KYCInfo = ({ activeTab }) => {
   const [hardcodedToken] = useState(Cookies.get('access_token'));
@@ -50,13 +51,11 @@ const KYCInfo = ({ activeTab }) => {
         previewImg: item.document_upload
       })));
     } catch (error) {
-      toast.error('Error fetching KYC data:', error);
+      customErrorFunction(error)
     }
   };
 
   const handleChange = async (e) => {
-
-    console.log(e,"select type dfata")
 
     const { name, value, type, files } = e.target;
     let updatedValue;
@@ -132,7 +131,7 @@ const KYCInfo = ({ activeTab }) => {
         e.target.reset(); 
       }
     } catch (error) {
-      console.error('Error:', error);
+      customErrorFunction(error)
     }
   };
   
@@ -157,7 +156,7 @@ const KYCInfo = ({ activeTab }) => {
         setFormList(prevFormList => prevFormList.filter(item => item.id !== id));
       }
     } catch (error) {
-      console.error('Error:', error);
+      customErrorFunction(error)
     }
   };
 
