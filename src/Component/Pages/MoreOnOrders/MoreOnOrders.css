@@ -185,7 +185,7 @@
 
 .backdrop {
   position: fixed;
-  background-color: rgb(17 17 17 / 37%);
+  background-color: #111111b8;
   width: 100vw;
   height: 100vh;
   top: 0;
