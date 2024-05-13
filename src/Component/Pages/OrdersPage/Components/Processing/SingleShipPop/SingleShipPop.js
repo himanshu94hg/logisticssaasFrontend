@@ -6,7 +6,7 @@ import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop.css';
 import axios from "axios";
-import {  toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
@@ -16,7 +16,7 @@ import { BASE_URL_CORE } from '../../../../../../axios/config';
 
 const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     const navigation = useNavigate();
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
     const [shipingResponse, setShipingResponse] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -78,13 +78,13 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p10 align-items-center'>
-                <h4 className='mb-0'>Choose Shipping Partner</h4>
+                {/* <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
                     onClick={handleClose}
                     className='btn close-button'
                 >
                     <FontAwesomeIcon icon={faTimes} />
-                </button>
+                </button> */}
             </div>
             <div className='ss-container-main'>
                 {/* Iterate over ship options and render details */}
@@ -95,7 +95,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                                 <img src={option.partner_image} alt={option.partner_title} />
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
-                                <p>{option.partner_title}</p>
+                                <p className='fw-bold fs-large'>{option.partner_title}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
                                 <p>RTO Charges: ₹{0}</p>
                             </div>
