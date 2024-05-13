@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { useDispatch } from 'react-redux';
 import { BASE_URL_CORE } from '../../../../../../../axios/config';
 import { toast } from 'react-toastify';
+import { customErrorFunction } from '../../../../../../../customFunction/errorHandling';
 
 const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse }) => {
     const dispatch = useDispatch()
@@ -46,7 +47,7 @@ const WarehouseUpdatePop = ({ setUpdateWarehouse, selectedRows, UpdateWarehouse 
                 setWarehouses(response.data);
                 setFilteredWarehouses(response.data);
             } catch (error) {
-                toast.error("Failed to fetch warehouses. Please try again later")
+                customErrorFunction(error);
             } finally {
                 setLoading(false);
             }
