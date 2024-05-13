@@ -4,7 +4,7 @@ import { API_URL, BASE_URL_CORE, BASE_URL_DUMMY } from "../../../../axios/config
 import { DELETE_WAREHOUSE_ACTION, EDIT_WAREHOUSE_ACTION, GET_WAREHOUSE_DETAILS_ACTION, MAKE_WAREHOUSE_DEFAULT_ACTION } from "../../constant/settings";
 import { GET_DEFAULT_WAREHOUSE_UPDATE, GET_WAREHOUSE_DETAILS_DATA } from "../../../constants/settings";
 import { toast } from "react-toastify";
-
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../customFunction/errorHandling';
 
 // SETTINGS_MAKE_WAREHOUSE_DEFAULT_API
 async function makeWareHouseDefaultApi(data) {
@@ -22,10 +22,8 @@ function* makeWareHouseDefaultAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_DEFAULT_WAREHOUSE_UPDATE, payload: response?.status })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -46,10 +44,8 @@ function* deleteWarehouseAction(action) {
             toast("Warehouse Deleted successfully!")
             yield put({ type: GET_DEFAULT_WAREHOUSE_UPDATE, payload: response?.status })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -73,10 +69,8 @@ function* warehouseDetailsAction(action) {
             yield put({ type: GET_WAREHOUSE_DETAILS_DATA, payload: response?.data })
             
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -95,13 +89,11 @@ function* editWarehouseAction(action) {
     try {
         let response = yield call(editWarehouseApi, payload);
         if (response.status === 200) {
-            toast("Warehouse Edited successfully!")
+            toast.success("Warehouse Updated successfully!")
             yield put({ type: GET_DEFAULT_WAREHOUSE_UPDATE, payload: response?.status })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 

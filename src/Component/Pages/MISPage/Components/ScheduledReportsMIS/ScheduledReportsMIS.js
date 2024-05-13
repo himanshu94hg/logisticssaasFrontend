@@ -11,6 +11,7 @@ import Cookies from 'js-cookie';
 import { RxReset } from "react-icons/rx";
 import Pagination from '../../../../common/Pagination/Pagination';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
 const ScheduledReportsMIS = ({ activeTab }) => {
@@ -26,9 +27,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
     let authToken = Cookies.get("access_token")
-
-
-    console.log(scheduledReport, "scheduleReportsDatascheduleReportsData")
 
 
     useEffect(() => {
@@ -88,7 +86,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
             // setSearchValue("")
         })
             .catch(error => {
-                toast.error("Something went wrong!")
+                customErrorFunction(error)
             });
     };
 

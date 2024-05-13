@@ -13,7 +13,9 @@ import { toast } from 'react-toastify';
 import { Document, Page, pdfjs } from 'react-pdf';
 import Modal from "react-bootstrap/Modal";
 import { BASE_URL_CORE } from '../../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../customFunction/errorHandling';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 
 
 const BasicInfo = ({ activeTab }) => {
@@ -146,8 +148,7 @@ const BasicInfo = ({ activeTab }) => {
           throw new Error('No data found for the given pincode.');
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-
+        customErrorFunction(error)
       }
     }
   };
@@ -183,7 +184,7 @@ const BasicInfo = ({ activeTab }) => {
             }));
           })
           .catch(error => {
-            console.error('Error fetching basic info:', error);
+            customErrorFunction(error)
           });
     }
   }, [activeTab]);
@@ -215,26 +216,21 @@ const BasicInfo = ({ activeTab }) => {
           },
         });
 
-        console.log(response,"response")
-        if(response?.status===201){
+        if(response?.status===201){ 
           toast.success("Details update successfully")
         }
          // Handle successful form submission
       } catch (error) {
-        console.error('Error during form submission:', error);
+        customErrorFunction(error)
       }
     }
   };
-
-
-  console.log(errors,"this is errors data")
 
 
   const uploadFile = async (e, type) => {
     const file = e.target.files[0];
     const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
 
-    console.log(logoFileSize,"logoFileSize")
     if (type === "company_logo") {
       if (logoFileSize > 2) {
         setLogoError("File shouldn't be greater than 2 mb")
@@ -257,7 +253,7 @@ const BasicInfo = ({ activeTab }) => {
             }));
           }
         } catch (error) {
-          console.error('Error handling file change:', error);
+         customErrorFunction(error)
         }
       }
     }
@@ -285,7 +281,7 @@ const BasicInfo = ({ activeTab }) => {
             }));
           }
         } catch (error) {
-          console.error('Error handling file change:', error);
+          customErrorFunction(error)
         }
       }
     }
@@ -345,7 +341,7 @@ const BasicInfo = ({ activeTab }) => {
       setShow(true);
       setPreviewImage(objectUrl);
     } catch (error) {
-      console.error('Error fetching PDF:', error);
+      customErrorFunction(error)
     }
   }
   

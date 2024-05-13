@@ -4,6 +4,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE, } from "../../../../axios/config";
 import { GET_ZONE_MAPPING_DATA } from "../../../constants/tools";
 import { toast } from "react-toastify";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 async function zoneMappingAPI(data) {
@@ -26,7 +27,7 @@ function* zoneMappingAction(action) {
             yield put({ type: GET_ZONE_MAPPING_DATA, payload: response?.data })
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 

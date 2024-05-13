@@ -39,9 +39,6 @@ const RuleRow = ({ initialRows, setConditions }) => {
         setConditions(newRows);
     };
 
-
-    console.log("Hit Editing Initilize", initialRows);
-
     return (
         <>
             {rows.map((row, index) => (
@@ -128,12 +125,6 @@ const RuleRow = ({ initialRows, setConditions }) => {
                                 <option value="is">Is</option>
                             </>
                         )}
-                        {/*<option value="">Select Match Type</option>
-                        <option value="is">Is</option>
-                        <option value="is_not">Is not</option>
-                        <option value="starts_with">Starts with</option>
-                        <option value="greater_than">GT - Greater than</option>
-                        <option value="less_than">LE - Less than Equal to</option> */}
                     </select>
                     <input
                         className='input-field'

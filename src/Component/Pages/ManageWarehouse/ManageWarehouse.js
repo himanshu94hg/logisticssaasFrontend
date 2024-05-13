@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import EditWareHouse from './EditWareHouse';
 import { BASE_URL_CORE } from '../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -176,7 +177,7 @@ const ManageWarehouse = () => {
       setBoxes(response.data);
       setInitialData(response.data)
     } catch (error) {
-
+      customErrorFunction(error)
     }
   };
 

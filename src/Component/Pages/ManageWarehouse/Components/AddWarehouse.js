@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom/dist';
 import { manageWarehousesPattern } from '../../../../Routes';
 import { BASE_URL_CORE } from '../../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../customFunction/errorHandling';
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
@@ -164,21 +165,9 @@ const AddWarehouse = () => {
                     SetAddFields(false);
                     setSameRTO(false);
                 }
-                // Swal.fire({
-                //     icon: 'success',
-                //     title: 'Success',
-                //     text: '',
-                //     confirmButtonText: 'OK'
-                // }).then(() => {
-
-                // });
-            } else {
-                const errorData = response.data;
-                console.error('API Error:', errorData);
-            }
+            } 
         } catch (error) {
-            console.error('Fetch Error:', error);
-            toast.error(error?.response?.data?.detail)
+            customErrorFunction(error)
         }
     };
 
@@ -215,13 +204,7 @@ const AddWarehouse = () => {
                 throw new Error('No data found for the given pincode.');
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Invalid pincode! Please enter a valid pincode.',
-                confirmButtonText: 'OK'
-            });
+           customErrorFunction(error)
         }
     };
 
@@ -250,7 +233,7 @@ const AddWarehouse = () => {
                 throw new Error('No data found for the given pincode.');
             }
         } catch (error) {
-            console.error('Error fetching data:', error);
+            customErrorFunction(error)
 
         }
     };

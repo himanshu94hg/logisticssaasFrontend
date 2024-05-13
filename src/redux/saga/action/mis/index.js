@@ -3,6 +3,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../axios/config";
 import { MIS_ACTIVITIES_LOG_ACTION, MIS_DOWNLOAD_ACTION, MIS_REPORT_BILLING_ACTION, MIS_REPORT_ORDERS_ACTION, MIS_REPORT_RETURNS_ACTION, MIS_REPORT_SHIPMENTS_ACTION, MIS_SCHEDULED_REPEORTS_ACTION } from "../../constant/mis";
 import { ACTIVIES_LOG_DATA, GET_MIS_DOWNLOAD_DATA, GET_REPORTS_BILLING_DATA, GET_REPORTS_ORDERS_DATA, GET_REPORTS_RETURNS_DATA, GET_REPORTS_SHIPMENTS_DATA, GET_SCHEDULE_REPORTS_DATA } from "../../../constants/mis";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 //MIS_DOWNLOAD_ACTION
 async function misDownloadApi(data) {
@@ -23,7 +24,7 @@ function* misDownloadAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -44,10 +45,8 @@ function* misReportBillingAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_REPORTS_BILLING_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -68,10 +67,8 @@ function* misReportsOrdersAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_REPORTS_ORDERS_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -92,10 +89,8 @@ function* misReportReturnsAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_REPORTS_RETURNS_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -117,10 +112,8 @@ function* misReportsShipmentsAction(action) {
             yield put({ type: GET_REPORTS_SHIPMENTS_DATA, payload: response?.data })
 
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -139,10 +132,8 @@ function* misScheduledReportsAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_SCHEDULE_REPORTS_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -162,10 +153,8 @@ function* misActivitiesLogAction(action) {
         if (response.status === 200) {
             yield put({ type: ACTIVIES_LOG_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 

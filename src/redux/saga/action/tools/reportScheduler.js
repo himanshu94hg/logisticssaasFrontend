@@ -5,6 +5,7 @@ import { API_URL, BASE_URL_ORDER } from "../../../../axios/config";
 import { GET_REPORT_SCHEDULER_DATA,  } from "../../../constants/tools";
 import { POST_REPORT_SCHEDULER_RESPONSE, REPORT_SCHEDULER_DELETE_ACTION, REPORT_SCHEDULER_GET_ACTION, REPORT_SCHEDULER_POST_ACTION } from "../../constant/tools";
 import { toast } from "react-toastify";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 //GET REPORT SCHEDULER LIST API
@@ -40,10 +41,8 @@ function* getReportSchedulerAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_REPORT_SCHEDULER_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -66,7 +65,7 @@ function* postReportSchedulerAction(action) {
             yield call(getReportSchedulerAction);
         }
     } catch (error) {
-        console.log(error)
+        customErrorFunction(error)
     }
 }
 
@@ -89,7 +88,7 @@ function* deleteReportSchedulerAction(action) {
         yield call(getReportSchedulerAction);
     }
     } catch (error) {
-        console.log(error)
+        customErrorFunction(error)
     }
 }
 
