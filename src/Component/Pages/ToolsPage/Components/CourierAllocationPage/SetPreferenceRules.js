@@ -16,6 +16,7 @@ const SetPreferenceRules = () => {
     const [isActive, setIsActive] = useState([]);
     const [allRules, setAllRules] = useState([]);
     const [trigger, setTrigger] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
@@ -33,6 +34,7 @@ const SetPreferenceRules = () => {
     useEffect(() => {
         if (courierPostRules && courierPostRules.data && courierPostRules.data.status === true) {
             dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            resetForm();
         }
     }, [courierPostRules]);
 
@@ -45,6 +47,7 @@ const SetPreferenceRules = () => {
     useEffect(() => {
         if (courierEditPostRules && courierEditPostRules.data && courierEditPostRules.data.status === true) {
             dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            resetForm();
         }
     }, [courierEditPostRules]);
 
@@ -104,8 +107,38 @@ const SetPreferenceRules = () => {
         }
     };
 
-
     const handleSubmit = () => {
+        let errors = {};
+        let formIsValid = true;
+
+        if (!ruleName) {
+            formIsValid = false;
+            errors["ruleName"] = "Rule Name cannot be empty";
+        }
+
+        if (!priority) {
+            formIsValid = false;
+            errors["priority"] = "Priority cannot be empty";
+        }
+
+        for (let i = 0; i < selectedPartners.length; i++) {
+            if (!selectedPartners[i]) {
+                formIsValid = false;
+                errors["selectedPartners"] = "Partner should be selected for each priority";
+                break;
+            }
+        }
+
+        if (conditions.length === 0) {
+            formIsValid = false;
+            errors["conditions"] = "At least one condition should be added";
+        }
+
+        if (!formIsValid) {
+            setFormErrors(errors);
+            return;
+        }
+
         const requestData = {
             rule_name: ruleName,
             priority: priority,
@@ -128,6 +161,15 @@ const SetPreferenceRules = () => {
             setTrigger(true)
         }
         setRulePanel(false);
+        resetForm();
+    };
+
+    const resetForm = () => {
+        setFormErrors({});
+        setRuleName('');
+        setPriority('');
+        setSelectedPartners(Array(4).fill(''));
+        setConditions([]);
     };
 
     useEffect(() => {
@@ -227,6 +269,7 @@ const SetPreferenceRules = () => {
                         <label>
                             Rule Name
                             <input placeholder='Enter the rule name' className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
+                            <div className="text-danger">{formErrors["ruleName"]}</div>
                         </label>
 
                         <label>
@@ -237,6 +280,7 @@ const SetPreferenceRules = () => {
                                     <option key={option?.value} value={option?.value}>{option?.value}</option>
                                 ))}
                             </select>
+                            <div className="text-danger">{formErrors["priority"]}</div>
                         </label>
                     </div>
 
@@ -293,12 +337,14 @@ const SetPreferenceRules = () => {
                                         <option value="tpc_1kg">The Professional Courier 1KG</option>
                                         <option value="pick_del">Pikndel</option>
                                     </select>
+                                    <div className="text-danger">{formErrors["selectedPartners"]}</div>
                                 </label>
                             ))}
                         </div>
                     </div>
                     <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
                         <RuleRow initialRows={conditions} setConditions={setConditions} />
+                        <div className="text-danger mt-2">{formErrors["conditions"]}</div>
                     </div>
                     <div className='d-flex justify-content-end'>
                         <button onClick={handleSubmit} className='btn main-button'>Submit</button>
