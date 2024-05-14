@@ -1,34 +1,29 @@
+import "./basicInfo.css"
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { BsCloudUpload } from "react-icons/bs";
-import React, { useState, useEffect } from 'react';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
-import { alphaNum, alphabetic, emailRegx, gstRegx, numericRegex, panRegex, webUrlRegx } from '../../../../regex';
-import "./basicInfo.css"
-import { getFileData, uploadImageData } from '../../../../awsUploadFile';
-import { awsAccessKey } from '../../../../config';
 import { toast } from 'react-toastify';
-import { Document, Page, pdfjs } from 'react-pdf';
 import Modal from "react-bootstrap/Modal";
+import { BsCloudUpload } from "react-icons/bs";
+import { awsAccessKey } from '../../../../config';
+import { Document, Page, pdfjs } from 'react-pdf';
+import React, { useState, useEffect } from 'react';
 import { BASE_URL_CORE } from '../../../../axios/config';
-import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../customFunction/errorHandling';
+import { numericRegex, webUrlRegx } from '../../../../regex';
+import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
+import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
-
 
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
+  const [show, setShow] = useState(false);
   const [logoError, setLogoError] = useState("");
   const [docsError, setDocsError] = useState("");
   const hardcodedToken = Cookies.get("access_token");
   const [pdfPreview, setPdfPreview] = useState(null);
-  const [basicInfoList, setBasicInfoList] = useState([]);
+  const [previewImage, setPreviewImage] = useState("");
   const [logoPreview, setLogoPreview] = useState(dummyLogo);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [show, setShow] = useState(false);
   const [formData, setFormData] = useState({
     company_name: '',
     email: '',
@@ -51,30 +46,23 @@ const BasicInfo = ({ activeTab }) => {
       ...prev,
       [name]: value
     }))
-
     if (name === "pincode" && value.length === 6) {
       try {
         const response = await axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`);
-        console.log(response, "this is response")
         if (response.data && response.data.length > 0) {
-
           const district = response.data[0]?.PostOffice[0]?.District;
           const state = response.data[0]?.PostOffice[0]?.State;
-
           setFormData(prev => ({
             ...prev,
             city: district || '',
             state: state || '',
           }));
-        } else {
-          throw new Error('No data found for the given pincode.');
         }
       } catch (error) {
-        customErrorFunction(error)
+        customErrorPincode()
       }
     }
   };
-
 
   useEffect(() => {
     if (activeTab === "Basic Information") {
@@ -85,7 +73,6 @@ const BasicInfo = ({ activeTab }) => {
           },
         })
         .then(response => {
-          setBasicInfoList(response.data);
           const basicInfoData = response.data[0] || {};
           setFormData(prevState => ({
             ...prevState,
@@ -105,7 +92,7 @@ const BasicInfo = ({ activeTab }) => {
           }));
         })
         .catch(error => {
-          console.error('Error fetching basic info:', error);
+          customErrorFunction(error)
         });
     }
   }, [activeTab]);
@@ -127,9 +114,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       return errors;
     }, {});
-
     setErrors(newErrors);
-
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
@@ -137,12 +122,9 @@ const BasicInfo = ({ activeTab }) => {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
         });
-
-        console.log(response, "response")
         if (response?.status === 201) {
           toast.success("Details update successfully")
         }
-        // Handle successful form submission
       } catch (error) {
         customErrorFunction(error)
       }
@@ -174,7 +156,7 @@ const BasicInfo = ({ activeTab }) => {
             }));
           }
         } catch (error) {
-         customErrorFunction(error)
+          customErrorFunction(error)
         }
       }
     }
@@ -337,7 +319,6 @@ const BasicInfo = ({ activeTab }) => {
                     maxLength={50}
                     value={formData.email}
                     onChange={handleChange}
-                    onKeyUp={handleRegex}
                     placeholder='i.e. abc@gmail.com'
                   />
                   {errors.email && <span className="custom-error">{errors.email}</span>}
@@ -425,7 +406,7 @@ const BasicInfo = ({ activeTab }) => {
                   </label>
                   <label>
                     <span>Country<span className='custom-error'> *</span></span>
-                    <input placeholder="Enter your country"  maxLength={20} className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
+                    <input placeholder="Enter your country" maxLength={20} className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
                     {errors.country && <span className="custom-error">{errors.country}</span>}
                   </label>
                 </div>

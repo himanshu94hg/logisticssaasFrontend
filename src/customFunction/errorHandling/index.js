@@ -40,3 +40,7 @@ export const customErrorFunction = (error) => {
         toast.error("Something went wrong!")
     }
 }
+
+export const customErrorPincode = () => {
+    toast.error("No data found for the given pincode!")
+}
