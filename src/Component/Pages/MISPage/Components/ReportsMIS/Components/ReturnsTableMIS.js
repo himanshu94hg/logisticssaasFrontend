@@ -73,7 +73,7 @@ const ReturnsTableMIS = ({setTotalItems}) => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                {returnsData?.length&&returnsData?.map((row, index) => (
+                {returnsData?.length > 0 && returnsData?.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
