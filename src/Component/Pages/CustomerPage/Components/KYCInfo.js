@@ -1,17 +1,19 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
+import Modal from 'react-bootstrap/Modal';
 import { awsAccessKey } from '../../../../config';
 import React, { useState, useEffect } from 'react';
+import { BASE_URL_CORE } from '../../../../axios/config';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import { BASE_URL_CORE } from '../../../../axios/config';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 const KYCInfo = ({ activeTab }) => {
+  const [errors, setErrors] = useState([]);
+  const [resData, setResData] = useState("");
+  const [formList, setFormList] = useState([]);
   const [hardcodedToken] = useState(Cookies.get('access_token'));
   const [formData, setFormData] = useState({
     company_type: "",
@@ -20,10 +22,6 @@ const KYCInfo = ({ activeTab }) => {
     document_name: "",
     document_upload: "",
   });
-
-  const [formList, setFormList] = useState([]);
-  const [errors, setErrors] = useState([]);
-  const [resData, setResData] = useState("");
 
   useEffect(() => {
     if (activeTab === "KYC Information")
@@ -43,7 +41,7 @@ const KYCInfo = ({ activeTab }) => {
         company_type: response?.data[0]?.company_type
       }))
       setFormList(response.data.map(item => ({
-        id:item?.id,
+        id: item?.id,
         documentType: item.document_type,
         documentName: item.document_name,
         documentNumber: item.document_id,
@@ -55,13 +53,16 @@ const KYCInfo = ({ activeTab }) => {
     }
   };
 
-  const handleChange = async (e) => {
+  const [ss,setss]=useState('')
 
+  const handleChange = async (e) => {
     const { name, value, type, files } = e.target;
+    setss(name)
+    const fileUploadName = value.split(" ").join("_").toLowerCase()
     let updatedValue;
-    if (type === 'file') {
+    if (type === 'file' && ss === "document_type") {
       try {
-        const responseData = await getFileData(`customerData/${files[0].name.replace(/\s/g, "")}`);
+        const responseData = await getFileData(`${fileUploadName}/${files[0].name.replace(/\s/g, "")}`);
         const awsUrl = responseData.data.url.url;
         const formData = new FormData();
         formData.append('key', responseData.data.url.fields.key);
@@ -89,8 +90,8 @@ const KYCInfo = ({ activeTab }) => {
     });
   };
 
-   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const newErrors = Object.keys(formData).reduce((errors, key) => {
       if (key !== 'document_upload' && !formData[key]) {
         errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
@@ -102,11 +103,11 @@ const KYCInfo = ({ activeTab }) => {
       return errors;
     }, {});
     setErrors(newErrors);
-  
+
     if (Object.keys(newErrors).length !== 0) {
       return;
     }
-  
+
     try {
       const response = await axios.post(
         `${BASE_URL_CORE}/core-api/seller/kyc-info/`,
@@ -128,14 +129,12 @@ const KYCInfo = ({ activeTab }) => {
           document_name: '',
           document_upload: '',
         });
-        e.target.reset(); 
+        e.target.reset();
       }
     } catch (error) {
       customErrorFunction(error)
     }
   };
-  
-
 
   const handleDelete = async (id) => {
     console.log(id, "Deleted Id");
@@ -169,6 +168,15 @@ const KYCInfo = ({ activeTab }) => {
     setPreviewImage(image)
   }
 
+  const handleKeyPress = (e, field) => {
+    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),-_.?":{}|<>]*$/;
+    if (e.key === ' ' && e.target.value.endsWith(' ')) {
+      e.preventDefault();
+    }
+    else if (!allowedCharacters.test(e.key)) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <>
@@ -238,6 +246,8 @@ const KYCInfo = ({ activeTab }) => {
                       name="document_name"
                       value={formData.document_name}
                       onChange={handleChange}
+                      maxLength={55}
+                      onKeyDown={(e) => handleKeyPress(e)}
                     />
                     {errors.document_name && <span className="error-text">{errors.document_name}</span>}
                   </label>
@@ -247,8 +257,10 @@ const KYCInfo = ({ activeTab }) => {
                       className={`input-field ${errors.document_id && "input-field-error"}`}
                       type="text"
                       name="document_id"
+                      maxLength={55}
                       value={formData.document_id}
                       onChange={handleChange}
+                      onKeyDown={(e) => handleKeyPress(e)}
                     />
                     {errors.document_id && <span className="error-text">{errors.document_id}</span>}
                   </label>
