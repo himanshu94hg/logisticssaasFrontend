@@ -53,16 +53,12 @@ const KYCInfo = ({ activeTab }) => {
     }
   };
 
-  const [ss,setss]=useState('')
-
   const handleChange = async (e) => {
     const { name, value, type, files } = e.target;
-    setss(name)
-    const fileUploadName = value.split(" ").join("_").toLowerCase()
     let updatedValue;
-    if (type === 'file' && ss === "document_type") {
+    if (type === 'file') {
       try {
-        const responseData = await getFileData(`${fileUploadName}/${files[0].name.replace(/\s/g, "")}`);
+        const responseData = await getFileData(`customerData/${files[0].name.replace(/\s/g, "")}`);
         const awsUrl = responseData.data.url.url;
         const formData = new FormData();
         formData.append('key', responseData.data.url.fields.key);
