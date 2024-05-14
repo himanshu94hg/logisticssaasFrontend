@@ -8,6 +8,7 @@ import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
 import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../../customFunction/errorHandling';
 
 const ShopifyIntegrationForm = () => {
     const navigation = useNavigate();
@@ -62,7 +63,6 @@ const ShopifyIntegrationForm = () => {
         if (selectedDate === null) {
             newErrors.selectedDate = ' Date is required!';
         }     
-        console.log(newErrors, "this is validate form data")
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -91,26 +91,11 @@ const ShopifyIntegrationForm = () => {
                     confirmButtonText: 'OK'
                 });
                 navigation('/channels-integration');
-            } else {
-                const errorData = response.data;
-                console.error('API Error:', errorData);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Failed to add Channel. Please try again later.',
-                    confirmButtonText: 'OK'
-                });
-            }
+            } 
         } catch (error) {
-            console.error('Fetch Error:', error.message);
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Failed to add Channel. Please try again later.',
-                confirmButtonText: 'OK'
-            });
+            customErrorFunction(error);
         }
-        console.log("Logs", formData);
+
        }
     };
 

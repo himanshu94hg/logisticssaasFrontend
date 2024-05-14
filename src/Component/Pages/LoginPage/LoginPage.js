@@ -12,7 +12,7 @@ import Logo from '../../../assets/image/logo/logo.svg'
 import { LOGIN_DATA } from '../../../redux/constants/auth';
 import { indexPattern, signUpPattern } from '../../../Routes';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../axios/config';
 
 
@@ -60,16 +60,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       }
 
     } catch (error) {
-      const errorType = typeof error?.response?.data.detail;
-      if (errorType === "string") {
-        errorHandlefirst(error?.response?.data.detail)
-      }
-      else if (error?.response?.status === 500) {
-        errorinApi()
-      }
-      else {
-        errorHandleSecond(error?.response?.data)
-      }
+      customErrorFunction(error)
     }
   }
 
@@ -79,7 +70,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
 
   const handleSendOTP = () => {
     setSentOtp(true)
-    setTimer(20); 
+    setTimer(20);
     setIsTimerRunning(true);
   }
 

@@ -99,7 +99,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     }, [wareHouseId])
 
     const validateForm = () => {
-        console.log(formData.contact_number.length, "formData.contact_number.length")
         let valid = true;
         let errors = {};
         if (!formData.warehouse_name.trim()) {
@@ -189,6 +188,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
         }
 
         setFormErrors(errors);
+        console.log(errors, "this is errors")
         return valid;
     };
 
@@ -285,21 +285,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             [name]: value
         }));
 
-        // if (section === "rto_details") {
-        //     setFormData(prevState => ({
-        //         ...prevState,
-        //         rto_details: {
-        //             ...prevState.rto_details,
-        //             [name]: value
-        //         }
-        //     }));
-        // } else {
-        //     setFormData(prevState => ({
-        //         ...prevState,
-        //         [name]: value
-        //     }));
-        // }
-
         if (name === 'contact_number') {
             if (value.length !== 10) {
                 setFormErrors(prevErrors => ({
@@ -357,7 +342,6 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             e.preventDefault();
         }
     }
-    console.log(formErrors, "this is a testing data")
 
     return (
         <>

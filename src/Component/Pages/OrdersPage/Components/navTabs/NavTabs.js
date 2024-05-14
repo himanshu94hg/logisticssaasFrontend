@@ -50,7 +50,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "All" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("All");
-                props.pageStatusSet(true)
+                
               }}
             >
               <div className="navItemsContainer">
@@ -61,7 +61,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Unprocessable");
-                props.pageStatusSet(true)
+                
               }}
             >
               {" "}
@@ -73,7 +73,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Processing" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Processing");
-                props.pageStatusSet(true)
+                
               }}
             >
               {" "}
@@ -85,7 +85,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Ready to Ship" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Ready to Ship");
-                props.pageStatusSet(true)
+                
               }}
             >
               {" "}
@@ -106,7 +106,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Manifest");
-                props.pageStatusSet(true)
+                
               }}
             >
               <div className="navItemsContainer">
@@ -116,7 +116,6 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Returns");
-                props.pageStatusSet(true)
               }}
             >
               <div className="navItemsContainer">

@@ -5,6 +5,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
 import { BULK_ADD_ORDER_TAG_ACTION, BULK_CANCEL_ORDER_ACTION, BULK_DELETE_ORDER_ACTION, BULK_DIMESION_DETAILS_UPDATE_ACTION, BULK_GENERATE_MENIFEST_ACTION, BULK_GET_DIMENSION_DETAILS_ACTION, BULK_MARK_ORDER_VERIFY_ACTION, BULK_ORDER_DOWNLOAD_MANIFEST_ACTION, BULK_ORDER_GENERATE_INVOICE_ACTION, BULK_ORDER_GENERATE_LABEL_ACTION, BULK_ORDER_GENERATE_PICKUP_ACTION, BULK_PICKUP_ADDRESS_UPDATE_ACTION, BULK_PROCESSING_ORDER_CANCEL_ACTION } from "../../../constant/orders/bulkAction";
 import { ORDERS_DELETE_RES_DATA, ORDERS_DOWNLOAD_MANIFEST_DATA, ORDERS_INVOICE_LIST_DATA, ORDERS_LABEL_LIST_DATA, ORDERS_PRODUCT_DIMENSION_DATA } from "../../../../constants/orders";
+import { customErrorFunction } from "../../../../../customFunction/errorHandling";
 
 // BULK_ADD_ORDER_TAG
 async function bulkAddOrderTagApi(data) {
@@ -25,7 +26,7 @@ function* bulkAddOrderTagAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        customErrorFunction(error);
     }
 }
 
@@ -48,7 +49,7 @@ function* bulkMarkOrderVerifyAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        customErrorFunction(error);
     }
 }
 
@@ -71,7 +72,7 @@ function* bulkDeleteOrderAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        customErrorFunction(error);
     }
 }
 
@@ -94,7 +95,7 @@ function* bulkCancelOrderAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        customErrorFunction(error);
     }
 }
 
@@ -117,7 +118,7 @@ function* bulkPickupAddressUpdateAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        customErrorFunction(error);
     }
 }
 
@@ -140,7 +141,7 @@ function* bulkDimensionDetailUpdateAction(action) {
         }
 
     } catch (error) {
-        toast.error(error?.response?.data?.detail)
+        customErrorFunction(error);
     }
 }
 
@@ -161,7 +162,7 @@ function* bulkGenerateManifestAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 async function bulkGeneratePickupApi(data) {
@@ -181,7 +182,7 @@ function* bulkGeneratePickupAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -203,7 +204,7 @@ function* bulkGenerateLabelAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -226,7 +227,7 @@ function* bulkGenerateInvoiceAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -249,7 +250,7 @@ function* bulkDownloadManifestAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -270,7 +271,7 @@ function* bulkOrderDimensionAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -294,7 +295,7 @@ function* bulkCancelOrderProcessingAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 

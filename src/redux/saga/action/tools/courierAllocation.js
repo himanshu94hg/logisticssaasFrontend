@@ -4,6 +4,7 @@ import { call,put,takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import {GET_COURIER_ALLOCATION_DATA,GET_COURIER_ALLOCATION_POST_DATA,GET_COURIER_ALLOCATION_RULE_DATA,GET_COURIER_ALLOCATION_RULE_POST_DATA,GET_COURIER_ALLOCATION_RULE_DELETE_DATA,GET_COURIER_ALLOCATION_RULE_EDIT_DATA,GET_COURIER_ALLOCATION_RULE_EDIT_POST_DATA,GET_COURIER_ALLOCATION_RULE_STATUS_DATA} from "../../../constants/tools";
 import { toast } from "react-toastify";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 async function courierAllocationAPI(data) {
     let listData = axios.request({
@@ -66,7 +67,7 @@ function* courierAllocationPostAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_POST_DATA, payload: response });
         }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -86,7 +87,7 @@ function* courierAllocationRuleAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_DATA, payload: response });
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -108,11 +109,8 @@ function* courierAllocationRulePostAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_POST_DATA, payload: response });
             toast.success(response.data.message);
         }
-        else{
-            toast.success(response.data.message);
-        }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -133,11 +131,8 @@ function* courierAllocationRuleDeleteAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_DELETE_DATA, payload: response });
             toast.success(response.data.message);
         }
-        else{
-            toast.success(response.data.message);
-        }
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
     }
 }
 
@@ -158,7 +153,7 @@ function* courierAllocationRuleEditAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_EDIT_DATA, payload: response });
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -180,13 +175,8 @@ function* courierAllocationRuleEditPostAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_EDIT_POST_DATA, payload: response });
             toast.success(response.data.message);
         }
-        else
-        {
-            toast.success(response.data.message);
-        }
     } catch (error) {
-        toast.error(error.message);
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -208,11 +198,8 @@ function* courierAllocationRuleStatusAction(action) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_STATUS_DATA, payload: response });
             toast.success(response.data.message);
         }
-        else{
-            toast.success(response.data.message);
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 

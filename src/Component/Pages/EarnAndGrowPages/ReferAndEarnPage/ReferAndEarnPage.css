@@ -30,3 +30,29 @@
     justify-content: center;
     margin-bottom: 25px;
 }
+
+.rae-invite-sec {
+    width: 100%;
+}
+
+.rae-social-sec label,
+.rae-invite-sec label {
+    min-width: 500px;
+    width: auto;
+    position: relative;
+}
+
+.rae-invite-sec label input {
+    width: 100%;
+}
+
+.rae-invite-sec label button {
+    position: absolute;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+    color: #fff;
+    border: none;
+    padding-inline: 20px;
+    border-radius: 0 0.5rem 0.5rem 0;
+}

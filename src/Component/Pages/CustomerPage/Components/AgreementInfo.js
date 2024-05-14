@@ -6,6 +6,7 @@ import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import moment from 'moment';
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 const AgreementInfo = () => {
   const [Basicinfo, setBasicinfo] = useState([]);
@@ -24,29 +25,30 @@ const AgreementInfo = () => {
   });
 
   const updateContent = () => {
-
-    Swal.fire({
-      title: 'Are you sure?',
-      text: 'You are about to update the content!',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: 'Yes, update it!',
-      cancelButtonText: 'No, cancel!',
-    }).then((result) => {
-      if (result.isConfirmed) {
-        const newDate = moment(new Date()).format("DD MMM YYYY")
-        const newPlace = 'New Dynamic Place';
-        setDynamicContent({
-          name: 'Seller',
-          place: 'Gurugram',
-          date: newDate,
-        });
-
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-
-      }
-    });
+    try {
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You are about to update the content!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, update it!',
+        cancelButtonText: 'No, cancel!',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const newDate = moment(new Date()).format("DD MMM YYYY");
+          const newPlace = 'New Dynamic Place';
+          setDynamicContent({
+            name: 'Seller',
+            place: 'Gurugram',
+            date: newDate,
+          });
+        }
+      });
+    } catch (error) {
+     customErrorFunction(error)
+    }
   };
+  
 
   return (
     <>

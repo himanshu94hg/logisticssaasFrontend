@@ -110,7 +110,7 @@ const BillingPage = () => {
             setBulkActionShow(false)
             setSelectedRows([])
         }
-    }, [activeTab])
+    }, [activeTab]);
 
     return (
         <>

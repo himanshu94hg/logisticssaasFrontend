@@ -4,6 +4,7 @@ import { API_URL, BASE_URL_DUMMY,BASE_URL_BILLING } from "../../../../axios/conf
 import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION } from "../../constant/billing";
 import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA } from "../../../constants/billing";
 import {toast} from "react-toastify";
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 
 async function billingFileAPI(data) {
@@ -87,10 +88,8 @@ function* billingFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -101,10 +100,8 @@ function* billingShipingFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -115,10 +112,8 @@ function* billingShipingRemitanceFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_REMITANCE_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -129,10 +124,8 @@ function* billingShipingRechargeFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_RECHARGE_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -143,10 +136,8 @@ function* billingShipingInvoiceFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_INVOICE_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -157,10 +148,9 @@ function* billingShipingReceiptFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_RECEIPT_DATA, payload: response?.data })
         }
-        else {
-        }
+        
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -171,10 +161,8 @@ function* billingShipingReceiptExportFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -190,7 +178,7 @@ function* billingShipingRemitanceDownloadFilesAction(action) {
             toast.error("Failed to Export Sheet!");
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 

@@ -4,6 +4,7 @@ import axios from "axios";
 import Modal from "react-bootstrap/Modal";
 import { toast } from "react-toastify";
 import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../../../axios/config";
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
     const [warehouseData, setWarehouseData] = useState([]);
@@ -29,7 +30,7 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
                 setLoading(false);
             }).catch(error => {
                 setLoading(false);
-                console.error("Error fetching warehouse data:", error);
+                customErrorFunction(error);
             });
         }
     }, [show, orderDetails]);
@@ -57,7 +58,7 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
             handleSubmit();
         }).catch(error => {
             console.error("Error splitting order:", error);
-            toast.error('Error splitting order.');
+            customErrorFunction(error);
         });
     };
 

@@ -17,6 +17,7 @@ import { RxReset } from "react-icons/rx";
 import { useSelector } from 'react-redux';
 import AllTickets from './Components/AllTickets';
 import { BASE_URL_CORE } from '../../../axios/config';
+import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -83,7 +84,7 @@ const CustomerSupportPage = () => {
               setTotalItems(response?.data?.count);
           })
           .catch(error => {
-              toast.error("Api Call failed!")
+              customErrorFunction(error)
           });
     }
 
@@ -126,7 +127,7 @@ const CustomerSupportPage = () => {
         setTotalItems(response?.data?.count);
       })
       .catch(error => {
-        console.error('Error:', error);
+        customErrorFunction(error)
       });
       /*setQueryParamTemp({
         sub_category: categories.value        
@@ -171,7 +172,7 @@ const CustomerSupportPage = () => {
           setAllTicket(response.data.results);
         })
         .catch(error => {
-          toast.error("Something went wrong!")
+          customErrorFunction(error)
         });
         setQueryParamTemp({
           q:searchValue
@@ -194,7 +195,7 @@ const CustomerSupportPage = () => {
           setAllTicket(response.data.results);
         })
         .catch(error => {
-          toast.error("Something went wrong!")
+          customErrorFunction(error)
         }); 
     }else if (activeTab === 'openTickets') {
       axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
@@ -207,7 +208,7 @@ const CustomerSupportPage = () => {
           setAllTicket(response.data.results);
         })
         .catch(error => {
-          toast.error("Something went wrong!")
+          customErrorFunction(error)
         });
 
     }
@@ -222,7 +223,7 @@ const CustomerSupportPage = () => {
           setAllTicket(response.data.results);
         })
         .catch(error => {
-          toast.error("Something went wrong!")
+          customErrorFunction(error)
         });
 
     }else if(activeTab === "inProgressTickets"){
@@ -236,7 +237,7 @@ const CustomerSupportPage = () => {
           setAllTicket(response.data.results);
         })
         .catch(error => {
-          toast.error("Something went wrong!")
+          customErrorFunction(error)
         });
     }
    
@@ -303,7 +304,7 @@ const CustomerSupportPage = () => {
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
-        <section className='ticket-slider-header'>
+        <section className='ticket-slider-header'>  
           <h2 className='mb-0'>Create a new Ticket!</h2>
         </section>
         <section className='ticket-slider-body'>

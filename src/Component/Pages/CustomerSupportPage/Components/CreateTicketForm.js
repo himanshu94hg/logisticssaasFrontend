@@ -9,6 +9,7 @@ import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../axios/config';
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 // Reusable FormInput component
 const FormInput = ({ label, placeholder, mandatory, type, value, onChange, onBlur, options, name, fileInput, customClass, selectFile, clearFile }) => (
@@ -97,7 +98,7 @@ const CreateTicketForm = (props) => {
         setCategoryStatus(false)
       })
       .catch(error => {
-        toast.error('Error :', error)
+        customErrorFunction(error)
       });
   }, [categoryStatus]);
 
@@ -119,7 +120,7 @@ const CreateTicketForm = (props) => {
           }
         })
         .catch(error => {
-          toast.error('Error fetching subcategories:', error)
+          customErrorFunction(error)
         });
     } else {
       setAllSubCatagry([]);
@@ -154,20 +155,13 @@ const CreateTicketForm = (props) => {
             document.getElementById("fileInput").value = "";
           }
         } catch (error) {
-          toast.error(error?.response?.data?.detail)
+          customErrorFunction(error)
         }
       };
       postTicketData();
     }
   }, [ticketData.escalate_image, fileObj]);
 
-  // const handleCreateTicket = (e) => {
-  //   const { name, value } = e.target;
-  //   setTicketData(prev => ({
-  //     ...prev,
-  //     [name]: value
-  //   }));
-  // };
 
   const handleCreateTicket = (e) => {
     const { name, value } = e.target;
@@ -204,7 +198,7 @@ const CreateTicketForm = (props) => {
       console.warn(response, "Response")
       setAwbStatus(false);
     }).catch(error => {
-      toast.error("One of these AWB numbers is invalid.");
+      customErrorFunction(error)
       setAwbStatus(true);
     });
   };
@@ -231,7 +225,6 @@ const CreateTicketForm = (props) => {
     }
   };
 
-  console.log(fileObj, "this is file obj data")
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -269,7 +262,7 @@ const CreateTicketForm = (props) => {
           }));
         }
         catch (error) {
-          toast.error(error?.response?.data?.detail)
+          customErrorFunction(error)
         }
       }
       else {
@@ -297,7 +290,7 @@ const CreateTicketForm = (props) => {
           }
 
         } catch (error) {
-          toast.error(error?.response?.data?.detail)
+          customErrorFunction(error)
         }
       }
     }
@@ -307,7 +300,6 @@ const CreateTicketForm = (props) => {
     navigate('/customer-support');
   }
   const handleCancel = () => {
-    console.log("hit")
     setTicketData({
       category: null,
       sub_category: null,

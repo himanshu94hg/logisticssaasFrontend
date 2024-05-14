@@ -86,7 +86,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     };
 
 
-    const handleSelectRow = (orderId,awb) => {
+    const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows?.includes(orderId);
         const isSelected1 = bulkAwb?.includes(awb);
         let updatedSelectedRows;
@@ -208,8 +208,8 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
         setSingleShip(true);
     };
 
-    const handleClickAWB = (event, orders) => {
-        event.preventDefault();
+    const handleClickAWB = (e,awb) => {
+        e.preventDefault();
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
     };
@@ -218,8 +218,9 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase(); 
-    
+        const courierPartner = row.courier_partner.toLowerCase();
+        console.log(row, "this is a order page data")
+
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -232,7 +233,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                 break;
             case "ekart":
             case "ekart_5kg":
-                window.open('https://ekartlogistics.com/', '_blank');
+                window.open(`https://ekartlogistics.com/shipmenttrack/${row?.awb_number}`, '_blank');
                 break;
             case "shadowfax":
                 window.open('https://tracker.shadowfax.in/#/', '_blank');
@@ -241,7 +242,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                 window.open('https://track.amazon.in/', '_blank');
                 break;
             case "xpressbees":
-                window.open('https://www.xpressbees.com/shipment/tracking', '_blank');
+                window.open(`https://www.xpressbees.com/shipment/tracking?awbNo=${row?.awb_number}`, '_blank');
                 break;
             case "shree maruti":
                 window.open('https://www.shreemaruti.com/', '_blank');
@@ -260,8 +261,8 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                 break;
         }
     }
-    
-    
+
+
 
     return (
         <section className='position-relative'>
@@ -431,10 +432,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
-
+                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e,row.awb_number)}>{row.awb_number}</p>
                                                 <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}>
                                                     {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' width={30} className='me-2' /> */}
                                                     {row && row.courier_partner}

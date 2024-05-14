@@ -3,6 +3,7 @@ import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,GET_WEIGHT } from "../../../../axios/config";
 import { COURIER_WEIGHT_RECO_ACTION,WEIGHT_ACTION,HOLD_ACTION,SETTELED_ACTION,HISTORY_ACTION,ACCEPT_ACTION,COMMENT_ACTION,DISPUTE_ACTION } from "../../constant/weightReco";
 import { GET_WEIGHT_RECO_DATA,GET_WEIGHT_DATA,GET_HOLD_DATA,GET_SETTELED_DATA,GET_HISTORY_DATA,GET_ACCEPT_DATA,GET_COMMENT_DATA,GET_DISPUTE_DATA } from "../../../constants/weightReco";
+import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 async function weightRecoApi(data) {
     let getData = axios.request({
@@ -19,10 +20,8 @@ function* weightRecoAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_WEIGHT_RECO_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -42,10 +41,8 @@ function* weightAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_WEIGHT_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -64,10 +61,8 @@ function* holdAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_HOLD_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -86,10 +81,8 @@ function* setteledAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_SETTELED_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -108,10 +101,8 @@ function* historyAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_HISTORY_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -131,10 +122,8 @@ function* acceptAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_ACCEPT_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -154,10 +143,8 @@ function* commentAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_COMMENT_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 
@@ -177,10 +164,8 @@ function* disputeAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_DISPUTE_DATA, payload: response?.data })
         }
-        else {
-        }
     } catch (error) {
-
+        customErrorFunction(error);
     }
 }
 

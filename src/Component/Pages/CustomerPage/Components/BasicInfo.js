@@ -1,28 +1,27 @@
+import "./basicInfo.css"
 import axios from 'axios';
 import Cookies from 'js-cookie';
-import { BsCloudUpload } from "react-icons/bs";
-import React, { useState, useEffect } from 'react';
-import { faEye } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
-import { alphaNum, alphabetic, emailRegx, gstRegx, panRegex, webUrlRegx } from '../../../../regex';
-import "./basicInfo.css"
-import { getFileData, uploadImageData } from '../../../../awsUploadFile';
-import { awsAccessKey } from '../../../../config';
 import { toast } from 'react-toastify';
-import { Document, Page, pdfjs } from 'react-pdf';
 import Modal from "react-bootstrap/Modal";
+import { BsCloudUpload } from "react-icons/bs";
+import { awsAccessKey } from '../../../../config';
+import { Document, Page, pdfjs } from 'react-pdf';
+import React, { useState, useEffect } from 'react';
 import { BASE_URL_CORE } from '../../../../axios/config';
+import { numericRegex, webUrlRegx } from '../../../../regex';
+import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
+import { getFileData, uploadImageData } from '../../../../awsUploadFile';
+import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
-
 
 const BasicInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState({});
+  const [show, setShow] = useState(false);
   const [logoError, setLogoError] = useState("");
   const [docsError, setDocsError] = useState("");
   const hardcodedToken = Cookies.get("access_token");
   const [pdfPreview, setPdfPreview] = useState(null);
-  const [basicInfoList, setBasicInfoList] = useState([]);
+  const [previewImage, setPreviewImage] = useState("");
   const [logoPreview, setLogoPreview] = useState(dummyLogo);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
   const [formData, setFormData] = useState({
@@ -43,148 +42,58 @@ const BasicInfo = ({ activeTab }) => {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-    let error = '';
-    switch (name) {
-      case 'company_name':
-        if (alphaNum.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      case 'email':
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }))
-        break;
-      case 'street':
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }))
-        break;
-      case 'website_url':
-        setFormData(prev => ({
-          ...prev,
-          [name]: value
-        }))
-        break;
-      case 'mobile':
-        const mobilePattern = /^\d{0,10}$/;
-        if (mobilePattern.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      case 'pincode':
-        const pincodePattern = /^[0-9]{0,6}$/;
-        if (pincodePattern.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      case 'city':
-        const al = /^[0-9]{0,6}$/;
-        if (alphabetic.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      case 'state':
-        if (alphabetic.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      case 'pan_number':
-        const panPattern = /^[a-zA-Z0-9]{0,10}$/;
-        //if (panRegex.test(value)) {
-        if (panPattern.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      case 'gst_number':
-        if (gstRegx.test(value)) {
-          setFormData(prev => ({
-            ...prev,
-            [name]: value
-          }))
-        }
-        break;
-      default:
-        break;
-    }
-
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
     if (name === "pincode" && value.length === 6) {
       try {
         const response = await axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`);
-        console.log(response, "this is response")
         if (response.data && response.data.length > 0) {
-
           const district = response.data[0]?.PostOffice[0]?.District;
           const state = response.data[0]?.PostOffice[0]?.State;
-
           setFormData(prev => ({
             ...prev,
             city: district || '',
             state: state || '',
           }));
-        } else {
-          throw new Error('No data found for the given pincode.');
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
-
+        customErrorPincode()
       }
     }
   };
 
-  console.log(formData,"this is formData")
-
   useEffect(() => {
     if (activeTab === "Basic Information") {
       axios
-          .get(`${BASE_URL_CORE}/core-api/seller/basic-info/`, {
-            headers: {
-              'Authorization': `Bearer ${hardcodedToken}`,
-            },
-          })
-          .then(response => {
-            setBasicInfoList(response.data);
-            const basicInfoData = response.data[0] || {};
-            setFormData(prevState => ({
-              ...prevState,
-              company_name: basicInfoData.company_name || '',
-              email: basicInfoData.email || '',
-              pan_number: basicInfoData.pan_number || '',
-              gst_number: basicInfoData.gst_number || '',
-              street: basicInfoData.street || '',
-              pincode: basicInfoData.pincode || '',
-              city: basicInfoData.city || '',
-              country: 'India',
-              state: basicInfoData.state || '',
-              website_url: basicInfoData.website_url || '',
-              mobile: basicInfoData.mobile || '',
-              gst_certificate: basicInfoData.gst_certificate || '',
-              company_logo: basicInfoData.company_logo || '',
-            }));
-          })
-          .catch(error => {
-            console.error('Error fetching basic info:', error);
-          });
+        .get(`${BASE_URL_CORE}/core-api/seller/basic-info/`, {
+          headers: {
+            'Authorization': `Bearer ${hardcodedToken}`,
+          },
+        })
+        .then(response => {
+          const basicInfoData = response.data[0] || {};
+          setFormData(prevState => ({
+            ...prevState,
+            company_name: basicInfoData.company_name || '',
+            email: basicInfoData.email || '',
+            pan_number: basicInfoData.pan_number || '',
+            gst_number: basicInfoData.gst_number || '',
+            street: basicInfoData.street || '',
+            pincode: basicInfoData.pincode || '',
+            city: basicInfoData.city || '',
+            country: 'India',
+            state: basicInfoData.state || '',
+            website_url: basicInfoData.website_url || '',
+            mobile: basicInfoData.mobile || '',
+            gst_certificate: basicInfoData.gst_certificate || '',
+            company_logo: basicInfoData.company_logo || '',
+          }));
+        })
+        .catch(error => {
+          customErrorFunction(error)
+        });
     }
   }, [activeTab]);
 
@@ -194,6 +103,8 @@ const BasicInfo = ({ activeTab }) => {
     const newErrors = Object.keys(formData).reduce((errors, key) => {
       if (!formData[key]) {
         errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      } else if (key === 'mobile' && formData[key].length !== 10) {
+        errors[key] = "Mobile no should be 10 digits!.";
       } else if (key === 'pan_number' && formData[key].length !== 10) {
         errors[key] = "PAN number must consist of exactly 10 characters.";
       } else if (key === 'gst_number' && formData[key].length !== 15) {
@@ -203,10 +114,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       return errors;
     }, {});
-    
     setErrors(newErrors);
-    console.log("Error Data",Object.keys(newErrors).length)
-
     if (Object.keys(newErrors).length === 0) {
       try {
         const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
@@ -214,27 +122,18 @@ const BasicInfo = ({ activeTab }) => {
             'Authorization': `Bearer ${hardcodedToken}`,
           },
         });
-
-        console.log(response,"response")
-        if(response?.status===201){
+        if (response?.status === 201) {
           toast.success("Details update successfully")
         }
-         // Handle successful form submission
       } catch (error) {
-        console.error('Error during form submission:', error);
+        customErrorFunction(error)
       }
     }
   };
 
-
-  console.log(errors,"this is errors data")
-
-
   const uploadFile = async (e, type) => {
     const file = e.target.files[0];
     const logoFileSize = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
-
-    console.log(logoFileSize,"logoFileSize")
     if (type === "company_logo") {
       if (logoFileSize > 2) {
         setLogoError("File shouldn't be greater than 2 mb")
@@ -257,7 +156,7 @@ const BasicInfo = ({ activeTab }) => {
             }));
           }
         } catch (error) {
-          console.error('Error handling file change:', error);
+          customErrorFunction(error)
         }
       }
     }
@@ -285,7 +184,7 @@ const BasicInfo = ({ activeTab }) => {
             }));
           }
         } catch (error) {
-          console.error('Error handling file change:', error);
+          customErrorFunction(error)
         }
       }
     }
@@ -298,14 +197,6 @@ const BasicInfo = ({ activeTab }) => {
     }
   };
 
-  const handlePreview = () => {
-    if (pdfPreview === null) {
-      setViewAttachmentContent(false);
-    } else {
-      setViewAttachmentContent(!viewAttachmentContent);
-    }
-  };
-
   const handleRegex = (e) => {
     const { name, value } = e.target
     if (!webUrlRegx.test(value)) {
@@ -313,27 +204,9 @@ const BasicInfo = ({ activeTab }) => {
         ...prevErrors,
         [name]: `follow https://www.abc.com`,
       }));
-    } else {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        [name]: '',
-      }));
-    }
-    if (!emailRegx.test(value)) {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        [name]: ``,
-      }));
-    } else {
-      setErrors(prevErrors => ({
-        ...prevErrors,
-        [name]: '',
-      }));
     }
   }
 
-  const [previewImage, setPreviewImage] = useState("");
-  const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = async (pdfUrl) => {
     try {
@@ -345,179 +218,275 @@ const BasicInfo = ({ activeTab }) => {
       setShow(true);
       setPreviewImage(objectUrl);
     } catch (error) {
-      console.error('Error fetching PDF:', error);
+      customErrorFunction(error)
     }
   }
-  
+
+  const handleKeyPress = (e, field) => {
+    const allowedCharacters = field === "company_name" ? /^[a-zA-Z0-9\s]*$/ : field === "pincode" ? numericRegex : /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+    if (e.key === ' ' && e.target.value.endsWith(' ')) {
+      e.preventDefault();
+    }
+    else if (!allowedCharacters.test(e.key)) {
+      e.preventDefault();
+    }
+  };
 
   return (
-      <>
-        <form onSubmit={handleSubmit}>
-          <div className='customer-details-container mb-2'>
-            <div className='customer-details-form'>
-              <div className='details-form-row row'>
-                <h5 className='col-3'>Primary Details</h5>
-                <div className='col-9'>
-                  <label className='logo-file-upload'>
-                    <input className="input-field" type="file" onChange={(e) => uploadFile(e, 'company_logo')} />
-                    <div className='upload-logo-input'>
-                      <div className='d-flex flex-column align-items-center'>
-                        <div className='logo-img-cont'>
-                          <img src={formData.company_logo ? formData.company_logo : logoPreview} alt="Logo Preview" height={50} />
-                        </div>
-                        <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
+    <>
+      <form onSubmit={handleSubmit}>
+        <div className='customer-details-container mb-2'>
+          <div className='customer-details-form'>
+            <div className='details-form-row row'>
+              <h5 className='col-3'>Primary Details</h5>
+              <div className='col-9'>
+                <label className='logo-file-upload'>
+                  <input className="input-field" type="file" onChange={(e) => uploadFile(e, 'company_logo')} />
+                  <div className='upload-logo-input'>
+                    <div className='d-flex flex-column align-items-center'>
+                      <div className='logo-img-cont'>
+                        <img src={formData.company_logo ? formData.company_logo : logoPreview} alt="Logo Preview" height={50} />
                       </div>
+                      <span className='font20 fw-bold'><BsCloudUpload className='font30' /> Upload your Company Logo</span>
                     </div>
-                  </label>
-                  {logoError && <span className="custom-error">{logoError}</span>}
-                  <div className='d-flex w-100 gap-3 mt-4'>
-                    <label>
-                      <span>Company Name <span className='custom-error'>*</span></span>
-                      <input placeholder="Enter your company name" className={`input-field ${errors.company_name && "input-field-error"}`} type="text" name="company_name" value={formData.company_name} onChange={handleChange} />
-                      {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
-                    </label>
-                    <label>
-                      <span> Website URL<span className='custom-error'>*</span></span>
-                      <input
-                          placeholder='Enter your website URL'
-                          className={`input-field ${errors.website_url && "input-field-error"}`}
-                          type="text" name="website_url" value={formData.website_url}
-                          onChange={handleChange}
-                          onKeyUp={handleRegex}
-                      />
-                      {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
-                    </label>
                   </div>
-                </div>
-              </div>
-              <hr />
-              <div className='details-form-row row'>
-                <h5 className='col-3'>Contact Details</h5>
-                <div className='col-9 d-flex gap-3'>
+                </label>
+                {logoError && <span className="custom-error">{logoError}</span>}
+                <div className='d-flex w-100 gap-3 mt-4'>
                   <label>
-                    <span>Mobile Number <span className='custom-error'> *</span></span>
-                    <div className='d-flex mobile-number-field'>
-                      <select
-                          className='input-field '
-                          disabled
-                      >
-                        <option value="+91">+91</option>
-                      </select>
-                      <input
-                          className={`input-field ${errors.mobile && "input-field-error"}`}
-                          type="text"
-                          name="mobile"
-                          value={formData.mobile}
-                          onChange={handleChange}
-                          placeholder='XXXXXXXXXX'
-                      />
-                    </div>
-                    {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
+                    <span>Company Name <span className='custom-error'>*</span></span>
+                    <input placeholder="Enter your company name"
+                      type="text"
+                      maxLength={80}
+                      name="company_name"
+                      onChange={handleChange}
+                      value={formData.company_name}
+                      onKeyDown={(e) => handleKeyPress(e, "company_name")}
+                      className={`input-field ${errors.company_name && "input-field-error"}`}
+                    />
+                    {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
                   </label>
                   <label>
-                    <span>Email<span className='custom-error'> *</span></span>
+                    <span> Website URL<span className='custom-error'>*</span></span>
                     <input
-                        className={`input-field ${errors.email && "input-field-error"}`}
-                        type="text"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        onKeyUp={handleRegex}
-                        placeholder='i.e. abc@gmail.com' />
-                    {errors.email && <span className="custom-error">{errors.email}</span>}
+                      onKeyUp={handleRegex}
+                      onChange={handleChange}
+                      placeholder='Enter your website URL'
+                      type="text" name="website_url" value={formData.website_url}
+                      className={`input-field ${errors.website_url && "input-field-error"}`}
+                    />
+                    {errors.website_url && <span className="custom-error">{errors.website_url}</span>}
                   </label>
                 </div>
               </div>
-              <hr />
-              <div className='details-form-row row'>
-                <h5 className='col-3'>Address Details</h5>
-                <div className='col-9'>
-                  <div className='d-flex gap-3'>
-                    <label>
-                      <span>Address<span className='custom-error'>*</span></span>
-                      <input placeholder="House/Floor No. Building Name or Street, Locality" className={`input-field`} type="text" name="street" value={formData.street} onChange={handleChange}  />
-                      {errors.street && <span className="custom-error">{errors.street}</span>}
-                    </label>
-                    <label>
-                      Landmark
-                      <input placeholder="Any nearby post office, market, Hospital as the landmark" className={`input-field`} type="text" name="landmark" value={formData.landmark} onChange={handleChange} />
-                    </label>
+            </div>
+            <hr />
+            <div className='details-form-row row'>
+              <h5 className='col-3'>Contact Details</h5>
+              <div className='col-9 d-flex gap-3'>
+                <label>
+                  <span>Mobile Number <span className='custom-error'> *</span></span>
+                  <div className='d-flex mobile-number-field'>
+                    <select
+                      className='input-field '
+                      disabled
+                    >
+                      <option value="+91">+91</option>
+                    </select>
+                    <input
+                      className={`input-field ${errors.mobile && "input-field-error"}`}
+                      type="text"
+                      name="mobile"
+                      maxLength={10}
+                      value={formData.mobile}
+                      onChange={handleChange}
+                      placeholder='XXXXXXXXXX'
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
                   </div>
-                  <div className='d-flex gap-3 mt-3'>
-                    <label>
-                      <span>Pincode<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your Pincode" className={`input-field ${errors.pincode && "input-field-error"}`} type="text" name="pincode" value={formData.pincode} onChange={handleChange}  />
-                      {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
-                    </label>
-                    <label>
-                      <span>City<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your city" className={`input-field ${errors.city && "input-field-error"}`} type="text" name="city" value={formData.city} onChange={handleChange} />
-                      {errors.city && <span className="custom-error">{errors.city}</span>}
-                    </label>
-                    <label>
-                      <span>State<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your state" className={`input-field ${errors.state && "input-field-error"}`} type="text" name="state" value={formData.state} onChange={handleChange}  />
-                      {errors.state && <span className="custom-error">{errors.state}</span>}
-                    </label>
-                    <label>
-                      <span>Country<span className='custom-error'> *</span></span>
-                      <input placeholder="Enter your country" className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange}  />
-                      {errors.country && <span className="custom-error">{errors.country}</span>}
-                    </label>
-                  </div>
+                  {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
+                </label>
+                <label>
+                  <span>Email<span className='custom-error'> *</span></span>
+                  <input
+                    className={`input-field ${errors.email && "input-field-error"}`}
+                    type="text"
+                    name="email"
+                    maxLength={50}
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder='i.e. abc@gmail.com'
+                  />
+                  {errors.email && <span className="custom-error">{errors.email}</span>}
+                </label>
+              </div>
+            </div>
+            <hr />
+            <div className='details-form-row row'>
+              <h5 className='col-3'>Address Details</h5>
+              <div className='col-9'>
+                <div className='d-flex gap-3'>
+                  <label>
+                    <span>Address<span className='custom-error'>*</span></span>
+                    <input
+                      type="text"
+                      name="street"
+                      maxLength={150}
+                      value={formData.street}
+                      onChange={handleChange}
+                      className={`input-field`}
+                      onKeyDown={(e) => handleKeyPress(e, "street")}
+                      placeholder="House/Floor No. Building Name or Street, Locality"
+                    />
+                    {errors.street && <span className="custom-error">{errors.street}</span>}
+                  </label>
+                  <label>
+                    Landmark
+                    <input
+                      type="text"
+                      name="landmark"
+                      maxLength={80}
+                      onChange={handleChange}
+                      className={`input-field`}
+                      value={formData.landmark}
+                      onKeyDown={(e) => handleKeyPress(e, "landmark")}
+                      placeholder="Any nearby post office, market, Hospital as the landmark"
+                    />
+                  </label>
+                </div>
+                <div className='d-flex gap-3 mt-3'>
+                  <label>
+                    <span>Pincode<span className='custom-error'> *</span></span>
+                    <input
+                      placeholder="Enter your Pincode"
+                      maxLength={6}
+                      type="text"
+                      name="pincode"
+                      value={formData.pincode} onChange={handleChange}
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      className={`input-field ${errors.pincode && "input-field-error"}`}
+                    />
+                    {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
+                  </label>
+                  <label>
+                    <span>City<span className='custom-error'> *</span></span>
+                    <input
+                      value={formData.city}
+                      type="text"
+                      name="city"
+                      maxLength={20}
+                      onChange={handleChange}
+                      placeholder="Enter your city"
+                      onKeyDown={(e) => handleKeyPress(e, "city")}
+                      className={`input-field ${errors.city && "input-field-error"}`}
+                    />
+                    {errors.city && <span className="custom-error">{errors.city}</span>}
+                  </label>
+                  <label>
+                    <span>State<span className='custom-error'> *</span></span>
+                    <input
+                      type="text"
+                      name="state"
+                      value={formData.state}
+                      maxLength={20}
+                      onChange={handleChange}
+                      placeholder="Enter your state"
+                      onKeyDown={(e) => handleKeyPress(e, "state")}
+                      className={`input-field ${errors.state && "input-field-error"}`}
+                    />
+                    {errors.state && <span className="custom-error">{errors.state}</span>}
+                  </label>
+                  <label>
+                    <span>Country<span className='custom-error'> *</span></span>
+                    <input placeholder="Enter your country" maxLength={20} className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
+                    {errors.country && <span className="custom-error">{errors.country}</span>}
+                  </label>
                 </div>
               </div>
-              <hr />
-              <div className="details-form-row row">
-                <h5 className='col-3'>Taxation Details</h5>
-                <div className='col-9'>
-                  <div className='d-flex gap-3 mt-3'>
-                    <label>
-                      <span>PAN Number<span className='custom-error'> *</span></span>
-                      <input className={`input-field ${errors.pan_number && "input-field-error"}`} type="text" name="pan_number" value={formData.pan_number} onChange={handleChange}  />
-                      {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
-                    </label>
-                    <label>
-                      <span>GST Number<span className='custom-error'> *</span></span>
-                      <input className={`input-field ${errors.gst_number && "input-field-error"}`} type="text" name="gst_number" value={formData.gst_number} onChange={handleChange} />
-                      {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
-                    </label>
-                    <label className='position-relative'>
-                      <span>GST Certificate<span className='custom-error'> *</span></span>
-                      <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
-                      {docsError && <span className="custom-error">{docsError}</span>}
-                    </label>
-                  </div>
-                </div>
-              </div>
-              {formData.gst_certificate && (
-                  <button
-                      type="button"
-                      style={{ float: 'right' }}
-                      className="btn preview-btn"
-                      onClick={() => handleShow(formData.gst_certificate)}
-                  >
-                    View File
-                  </button>
-              )}
-              {/* Add other form sections here */}
             </div>
-            <div className='d-flex justify-content-end mt-4'>
-              <button className='btn main-button' type="submit">Save</button>
-            </div>
-          </div>
-        </form>
-        <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
-          {pdfPreview && (
-              <embed src={pdfPreview} type="application/pdf" width="100%" height="100%" />
-          )}
-        </section>
-        <div
-            onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
-            className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
+            <hr />
+            <div className="details-form-row row">
+              <h5 className='col-3'>Taxation Details</h5>
+              <div className='col-9'>
+                <div className='d-flex gap-3 mt-3'>
+                  <label>
+                    <span>PAN Number<span className='custom-error'> *</span></span>
+                    <input
+                      onChange={handleChange}
+                      maxLength={10} type="text"
+                      name="pan_number" value={formData.pan_number}
+                      className={`input-field ${errors.pan_number && "input-field-error"}`}
+                      onKeyDown={(e) => {
+                        const allowedCharacters = /^[a-zA-Z0-9]*$/;
+                        if (e.key === ' ' || !allowedCharacters.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
 
-        <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
-      </>
+                    />
+                    {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
+                  </label>
+                  <label>
+                    <span>GST Number<span className='custom-error'> *</span></span>
+                    <input
+                      maxLength={15}
+                      type="text"
+                      name="gst_number"
+                      value={formData.gst_number} onChange={handleChange}
+                      className={`input-field ${errors.gst_number && "input-field-error"}`}
+                      onKeyPress={(e) => {
+                        const allowedCharacters = /^[a-zA-Z0-9]*$/;
+                        if (e.key === ' ' || !allowedCharacters.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                    />
+                    {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
+                  </label>
+                  <label className='position-relative'>
+                    <span>GST Certificate<span className='custom-error'> *</span></span>
+                    <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
+                    {docsError && <span className="custom-error">{docsError}</span>}
+                  </label>
+                </div>
+              </div>
+            </div>
+            {formData.gst_certificate && (
+              <button
+                type="button"
+                style={{ float: 'right' }}
+                className="btn preview-btn"
+                onClick={() => handleShow(formData.gst_certificate)}
+              >
+                View File
+              </button>
+            )}
+            {/* Add other form sections here */}
+          </div>
+          <div className='d-flex justify-content-end mt-4'>
+            <button className='btn main-button' type="submit">Save</button>
+          </div>
+        </div>
+      </form>
+      <section className={`pdf-preview-section ${viewAttachmentContent ? 'd-block' : 'd-none'}`}>
+        {pdfPreview && (
+          <embed src={pdfPreview} type="application/pdf" width="100%" height="100%" />
+        )}
+      </section>
+      <div
+        onClick={() => setViewAttachmentContent(!viewAttachmentContent)}
+        className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
+
+      <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
+    </>
   );
 };
 
@@ -525,17 +494,17 @@ export default BasicInfo;
 
 function Preview({ show, handleClose, previewImage }) {
   return (
-      <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '650px',overflow: 'hidden' }} centered>
-        <Modal.Header closeButton>
-          <Modal.Title>PDF Preview</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          {previewImage && (
-              <Document file={previewImage}>
-                <Page pageNumber={1} width={400} height={300} />
-              </Document>
-          )}
-        </Modal.Body>
-      </Modal>
+    <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '650px', overflow: 'hidden' }} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>PDF Preview</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        {previewImage && (
+          <Document file={previewImage}>
+            <Page pageNumber={1} width={400} height={300} />
+          </Document>
+        )}
+      </Modal.Body>
+    </Modal>
   );
 }

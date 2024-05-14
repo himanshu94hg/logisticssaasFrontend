@@ -350,6 +350,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                     {orders?.length === 0 && <NoData />}
                 </div>
                 <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
         </section>
     );
