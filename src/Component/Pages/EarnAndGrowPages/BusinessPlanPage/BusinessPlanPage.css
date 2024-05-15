@@ -1,0 +1,59 @@
+.business-plan-page .plans-container {
+    display: flex;
+    /* height: calc(100vh - 310px); */
+    height: auto;
+    justify-content: center;
+    gap: 10px;
+    margin-inline: 2rem;
+}
+
+.business-plan-page .plans-container .plan-item {
+    flex: 1 1;
+    width: auto;
+    /* background: var(--sh-primary-light); */
+    height: 100%;
+    border-radius: 0.5rem;
+    /* border: 1px solid var(--sh-primary); */
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 15px;
+}
+
+.business-plan-page .plan-item p {
+    text-align: center;
+}
+
+.business-plan-page .plans-container .plan-item:nth-of-type(1),
+.business-plan-page .plans-container .plan-item:nth-of-type(3) {
+    margin-top: 25px;
+    z-index: 1;
+}
+
+.business-plan-page .plans-container .plan-item:nth-of-type(2) {
+    /* margin-inline: -35px; */
+    z-index: 2;
+}
+
+.business-plan-page .plan-price {
+    display: flex;
+    gap: 10px;
+    position: relative;
+}
+
+.business-plan-page .plan-price p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--sh-primary);
+    margin-bottom: 0;
+    margin-left: 14px;
+}
+
+.business-plan-page .plan-price p::before {
+    content: '₹';
+    position: absolute;
+    top: 4px;
+    left: 0;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
