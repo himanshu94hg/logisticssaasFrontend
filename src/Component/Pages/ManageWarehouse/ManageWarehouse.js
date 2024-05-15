@@ -78,8 +78,7 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
 
   return (
     <div className="box-grid">
-      {boxData.map((box, index) => (
-
+      {boxData?.length&&boxData?.map((box, index) => (
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
@@ -194,9 +193,9 @@ const ManageWarehouse = () => {
   }
 
   const handleEditWarehouse = (index) => {
-    console.log("Editing warehouse at index:", index);
     setEditWarehouse(!editWarehouse);
   };
+  console.log("Editing warehouse at index:", initialData,boxes);
 
 
   return (
