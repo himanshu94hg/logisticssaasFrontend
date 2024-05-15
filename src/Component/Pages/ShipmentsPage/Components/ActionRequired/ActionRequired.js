@@ -21,6 +21,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { Modal } from 'react-bootstrap';
 import NoData from '../../../../common/noData';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -287,7 +288,7 @@ const ActionRequired = ({shipmentCard,selectedRows,setSelectedRows,setBulkAction
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <br />
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
                                                     <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />

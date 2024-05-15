@@ -16,12 +16,16 @@ const SetPreferenceRules = () => {
     const [isActive, setIsActive] = useState([]);
     const [allRules, setAllRules] = useState([]);
     const [trigger, setTrigger] = useState(false);
+    const [formErrors, setFormErrors] = useState({});
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
     const courierPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRulePostData);
     const courierDeleteRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleDeleteData);
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
+    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
+
+    console.log("courierPartnerData", courierPartnerData);
 
     useEffect(() => {
         if (courierRules?.data) {
@@ -33,6 +37,7 @@ const SetPreferenceRules = () => {
     useEffect(() => {
         if (courierPostRules && courierPostRules.data && courierPostRules.data.status === true) {
             dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            resetForm();
         }
     }, [courierPostRules]);
 
@@ -45,8 +50,13 @@ const SetPreferenceRules = () => {
     useEffect(() => {
         if (courierEditPostRules && courierEditPostRules.data && courierEditPostRules.data.status === true) {
             dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            resetForm();
         }
     }, [courierEditPostRules]);
+
+    useEffect(() => {
+        dispatch({ type: "COURIER_PARTNER_ACTION" });
+    }, [dispatch]);
 
 
     const initializeIsActiveState = (rules) => {
@@ -104,8 +114,38 @@ const SetPreferenceRules = () => {
         }
     };
 
-
     const handleSubmit = () => {
+        let errors = {};
+        let formIsValid = true;
+
+        if (!ruleName) {
+            formIsValid = false;
+            errors["ruleName"] = "Rule Name cannot be empty";
+        }
+
+        if (!priority) {
+            formIsValid = false;
+            errors["priority"] = "Priority cannot be empty";
+        }
+
+        for (let i = 0; i < selectedPartners.length; i++) {
+            if (!selectedPartners[i]) {
+                formIsValid = false;
+                errors["selectedPartners"] = "Partner should be selected for each priority";
+                break;
+            }
+        }
+
+        if (conditions.length === 0) {
+            formIsValid = false;
+            errors["conditions"] = "At least one condition should be added";
+        }
+
+        if (!formIsValid) {
+            setFormErrors(errors);
+            return;
+        }
+
         const requestData = {
             rule_name: ruleName,
             priority: priority,
@@ -128,6 +168,15 @@ const SetPreferenceRules = () => {
             setTrigger(true)
         }
         setRulePanel(false);
+        resetForm();
+    };
+
+    const resetForm = () => {
+        setFormErrors({});
+        setRuleName('');
+        setPriority('');
+        setSelectedPartners(Array(4).fill(''));
+        setConditions([]);
     };
 
     useEffect(() => {
@@ -227,6 +276,7 @@ const SetPreferenceRules = () => {
                         <label>
                             Rule Name
                             <input placeholder='Enter the rule name' className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
+                            <div className="text-danger">{formErrors["ruleName"]}</div>
                         </label>
 
                         <label>
@@ -237,9 +287,9 @@ const SetPreferenceRules = () => {
                                     <option key={option?.value} value={option?.value}>{option?.value}</option>
                                 ))}
                             </select>
+                            <div className="text-danger">{formErrors["priority"]}</div>
                         </label>
                     </div>
-
                     <div style={{ width: '100%' }} className='mb-5'>
                         <div className='priority-container'>
                             {[1, 2, 3, 4].map((priority, index) => (
@@ -251,54 +301,17 @@ const SetPreferenceRules = () => {
                                         onChange={(e) => handlePartnerChange(index, e.target.value)}
                                     >
                                         <option value="">Select Partner</option>
-                                        <option value="shadow_fax">Shadowfax</option>
-                                        <option value="delhivery_surface">Delhivery</option>
-                                        <option value="dtdc_surface">DTDC</option>
-                                        <option value="xpressbees_surface">Xpressbees A</option>
-                                        <option value="xpressbees_surface_1kg">XpressBees 1 KG</option>
-                                        <option value="xpressbees_surface_10kg">XpressBees 10 KG</option>
-                                        <option value="xpressbees_surface_3kg">XpressBees 3 KG</option>
-                                        <option value="xpressbees_surface_5kg">XpressBees 5 KG</option>
-                                        <option value="xpressbees_sfc">XpressBees</option>
-                                        <option value="dtdc_10kg">DTDC 10 KG</option>
-                                        <option value="ecom_express">Ecom Express</option>
-                                        <option value="amazon_swa_1kg">Amazon SWA Surface</option>
-                                        <option value="amazon_swa_3kg">Amazon SWA 3 KG</option>
-                                        <option value="amazon_swa_5kg">Amazon SWA 5 KG</option>
-                                        <option value="amazon_swa_10kg">Amazon SWA 10 KG</option>
-                                        <option value="delhivery_surface_2kg">Delhivery 2 KG</option>
-                                        <option value="delhivery_surface_5kg">Delhivery_5KG</option>
-                                        <option value="delhivery_surface_10kg">Delhivery 5 KG</option>
-                                        <option value="delhivery_surface_20kg">Delhivery 10 KG</option>
-                                        <option value="ecom_express_3kg">Ecom Express 3 KG</option>
-                                        <option value="dtdc_3kg">DTDC 3 KG</option>
-                                        <option value="dtdc_5kg">DTDC 5 KG</option>
-                                        <option value="bluedart">BlueDart Air</option>
-                                        <option value="smartr">Smartrlogistics</option>
-                                        <option value="ekart">Ekart Logistics</option>
-                                        <option value="ekart_2kg">Ekart 2KG</option>
-                                        <option value="dtdc_1kg">DTDC 1KG</option>
-                                        <option value="shree_maruti_ecom">SMC</option>
-                                        <option value="ekart_1kg">Ekart 1KG</option>
-                                        <option value="delhivery_air">Delhivery A</option>
-                                        <option value="xindus">ShipEase Cross Border</option>
-                                        <option value="shree_maruti_ecom_1kg">SMC 1KG</option>
-                                        <option value="movin">Movin 10 KG</option>
-                                        <option value="movin_a">Movin A 2 KG</option>
-                                        <option value="bluedart_surface">BlueDart Surface</option>
-                                        <option value="delhivery_lite">Delhivery Lite</option>
-                                        <option value="ecom_express_rvp">EcomEx ROS</option>
-                                        <option value="ecom_express_3kg_rvp">EcomEx 3KG ROS</option>
-                                        <option value="tpc_surface">The Professional Courier</option>
-                                        <option value="tpc_1kg">The Professional Courier 1KG</option>
-                                        <option value="pick_del">Pikndel</option>
+                                        {courierPartnerData?.data?.map((partner) => (
+                                            <option key={partner.id} value={partner.keyword}>{partner.title}</option>
+                                        ))}
                                     </select>
+                                    <div className="text-danger">{formErrors["selectedPartners"]}</div>
                                 </label>
                             ))}
                         </div>
                     </div>
                     <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
-                        <RuleRow initialRows={conditions} setConditions={setConditions} />
+                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors}/>
                     </div>
                     <div className='d-flex justify-content-end'>
                         <button onClick={handleSubmit} className='btn main-button'>Submit</button>
