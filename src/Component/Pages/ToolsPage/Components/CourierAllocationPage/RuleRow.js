@@ -3,7 +3,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react'
 
-const RuleRow = ({ initialRows, setConditions }) => {
+const RuleRow = ({ initialRows, setConditions ,formErrors }) => {
+
+    console.log(formErrors,"formErrorsformErrorsformErrors")
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
@@ -141,9 +143,10 @@ const RuleRow = ({ initialRows, setConditions }) => {
                             <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                         )}
                     </div>
-
                 </div>
+                
             ))}
+            <div className="text-danger mt-2">{formErrors["conditions"]}</div>
         </>
     )
 }
