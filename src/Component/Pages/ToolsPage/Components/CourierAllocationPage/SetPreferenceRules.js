@@ -343,8 +343,8 @@ const SetPreferenceRules = () => {
                         </div>
                     </div>
                     <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
-                        <RuleRow initialRows={conditions} setConditions={setConditions} />
-                        <div className="text-danger mt-2">{formErrors["conditions"]}</div>
+                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors}/>
+                        {/* <div className="text-danger mt-2">{formErrors["conditions"]}</div> */}
                     </div>
                     <div className='d-flex justify-content-end'>
                         <button onClick={handleSubmit} className='btn main-button'>Submit</button>
