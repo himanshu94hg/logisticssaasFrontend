@@ -8,19 +8,31 @@ export const capatlize = (value) => {
 
 export function formatNumber(number) {
   if (number < 1000) {
-      return number;
+    return number;
   } else if (number < 100000) {
-      return (number / 1000).toFixed(1) + 'K' ;
+    return (number / 1000).toFixed(1) + 'K';
   } else if (number < 10000000) {
-      return (number / 100000).toFixed(1) + 'L';
+    return (number / 100000).toFixed(1) + 'L';
   } else if (number < 1000000000) {
-      return (number / 10000000).toFixed(1) + 'Cr';
+    return (number / 10000000).toFixed(1) + 'Cr';
   } else {
-      return (number / 100000000).toFixed(1) + 'B';
+    return (number / 100000000).toFixed(1) + 'B';
   }
 }
 
 
-export const  weightCalculation=(res)=>{
-    return res/1000
+export const weightCalculation = (res) => {
+  return res / 1000
+}
+
+export const weightGreater = (args1, args2) => {
+  const data1=parseFloat(args1/1000)
+  const data2=parseFloat(args2)
+  if (data1 > data2) {
+    return `${parseFloat(data1)}`;
+  } else if (data1 < data2) {
+    return `${parseFloat(data2)}`;
+  } else {
+    return `${parseFloat(data1)}`;
+  }
 }

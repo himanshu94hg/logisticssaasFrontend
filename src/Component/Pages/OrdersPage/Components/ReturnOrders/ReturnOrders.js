@@ -19,7 +19,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
@@ -253,7 +253,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
+                                            <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
