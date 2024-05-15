@@ -81,13 +81,13 @@ const DomesticCreateOrder = () => {
             {
                 product_name: "",
                 quantity: '',
-                unit_price: 0,
+                unit_price: '',
                 product_category: "",
                 weight: 0,
                 sku: "",
                 hsn_code: "",
                 tax_rate: null,
-                product_discount: 0,
+                product_discount: '',
                 hts_number: "",
                 export_reference_number: ""
             }

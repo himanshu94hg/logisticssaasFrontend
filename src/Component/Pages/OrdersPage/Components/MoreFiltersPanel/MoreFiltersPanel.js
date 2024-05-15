@@ -61,6 +61,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
     const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
     const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
 
@@ -286,7 +287,26 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             e.preventDefault();
         }
     }
-    console.log(filterParams, "this is a dummy data")
+
+    useEffect(() => {
+        dispatch({ type: "COURIER_PARTNER_ACTION" });
+    }, [dispatch]);
+
+    const [courierPartners, setCourierPartners] = useState([]);
+
+    useEffect(() => {
+        if (courierPartnerData?.data?.length) {
+            const formattedData = courierPartnerData?.data.map(item => ({
+                value: item.keyword,
+                label: item.title
+            }));
+            setCourierPartners(formattedData);
+        } else {
+            setCourierPartners([]);
+        }
+    },[courierPartnerData])
+
+    console.log(courierPartners, "courierPartnerscourierPartnerscourierPartnerscourierPartners",courierPartnerData)
 
     return (
         <>
@@ -360,11 +380,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
-                                        options={CourierPartner}
+                                        options={courierPartners}
                                         onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.courier_partner ? CourierPartner.filter(option => filterParams.courier_partner.includes(option.value)) : null}
+                                        value={courierPartners?.value}
                                     />
                                 </label>
                             </div>
@@ -380,6 +400,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
+                            {/* <div className='filter-row'>
+                                <label>Courier Partner
+                                    <Select
+                                        options={courierPartners}
+                                        onChange={(e) => handleChange("courier_partner", e)}
+                                        isMulti
+                                        isSearchable
+                                        value={filterParams.courier_partner ? courierPartners.filter(option => filterParams.courier_partner.includes(option.value)) : null}
+                                    />
+                                </label>
+                            </div> */}
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
