@@ -295,7 +295,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [courierPartners, setCourierPartners] = useState([]);
 
     useEffect(() => {
-        if (courierPartnerData) {
+        if (courierPartnerData?.data?.length) {
             const formattedData = courierPartnerData?.data.map(item => ({
                 value: item.keyword,
                 label: item.title
@@ -380,7 +380,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
-                                        options={courierPartners?.label}
+                                        options={courierPartners}
                                         onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
@@ -388,7 +388,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
+                            {/* <div className='filter-row'>
                                 <label>Courier Partner
                                     <Select
                                         options={courierPartners}
@@ -398,7 +398,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         value={filterParams.courier_partner ? courierPartners.filter(option => filterParams.courier_partner.includes(option.value)) : null}
                                     />
                                 </label>
-                            </div>
+                            </div> */}
                             <div className='filter-row'>
                                 <label>Pickup Address
                                     <Select
