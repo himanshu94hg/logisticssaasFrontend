@@ -21,7 +21,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
@@ -384,7 +384,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>

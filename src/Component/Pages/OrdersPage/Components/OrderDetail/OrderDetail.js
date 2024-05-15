@@ -7,6 +7,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -82,9 +83,9 @@ const OrderDetail = () => {
                                     </div>
                                     <ul className='od-list od-pd-list'>
                                         <li><span>Dead Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.weight / 1000}</span></li>
-                                        <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length}x{orderDetails?.dimension_detail?.weight}x{orderDetails?.dimension_detail?.weight}</span></li>
+                                        <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length}x{orderDetails?.dimension_detail?.breadth}x{orderDetails?.dimension_detail?.height}</span></li>
                                         <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${orderDetails.dimension_detail.vol_weight} Kg` : "NA"}</span></li>
-                                        <li><span>Applied Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.vol_weight } Kg</span></li>
+                                        <li><span>Applied Weight (in Kg):</span><span> {weightGreater(orderDetails?.dimension_detail?.weight,orderDetails?.dimension_detail?.vol_weight)} Kg</span></li>
                                     </ul>
                                 </div>
                             </div>

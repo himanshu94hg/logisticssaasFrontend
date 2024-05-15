@@ -20,7 +20,7 @@ import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png
 import customImg from "../../../../../assets/image/integration/Manual.png"
 import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
 import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation } from '../../../../../customFunction/functionLogic';
+import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
@@ -351,7 +351,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
-                                                <p>Wt:  {weightCalculation(row?.dimension_detail?.weight)} kg
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
