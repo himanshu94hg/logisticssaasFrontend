@@ -383,7 +383,7 @@ const AddWarehouse = () => {
                             <label>
                                 Support Email
                                 <input
-                                    type="text"
+                                    type="email"
                                     className='input-field'
                                     name="support_email"
                                     placeholder='Enter Support Email'
