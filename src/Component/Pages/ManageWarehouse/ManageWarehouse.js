@@ -83,28 +83,28 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
               <button
-                onClick={() => handleSetDefault(index, box.id)}
+                onClick={() => handleSetDefault(index, box?.id)}
                 className={`btn mark-as-default-btn  ${box?.is_default ? 'bg-sh-primary text-white' : ''} ${isOpen === index ? 'd-none' : ''}`}>
                 {box?.is_default ? <span className=''>Default</span> : <span>Mark as Default</span>}
               </button>
               <div>
                 <div className='warehouse-heading mb-2'>
                   <TbBuildingWarehouse fontSize={25} />
-                  <h4 className='mb-0'>{box.warehouse_name}</h4>
+                  <h4 className='mb-0'>{box?.warehouse_name}</h4>
                 </div>
-                <p>{box.contact_name}</p>
+                <p>{box?.contact_name}</p>
               </div>
               <hr />
               <div>
-                <p>{box.gst_number}</p>
-                <p>{box.contact_name}</p>
-                <p>{box.contact_number}</p>
+                <p>{box?.gst_number}</p>
+                <p>{box?.contact_name}</p>
+                <p>{box?.contact_number}</p>
               </div>
               <hr />
               <div>
-                <p>{box.address_line1}, {box.address_line2}, {box.city}, {box.state}, PIN:{box.pincode}</p>
-                <p>{box.support_email}</p>
-                <p>Ph. {box.support_phone}</p>
+                <p>{box?.address_line1}, {box?.address_line2}, {box?.city}, {box?.state}, PIN:{box?.pincode}</p>
+                <p>{box?.support_email}</p>
+                <p>Ph. {box?.support_phone}</p>
               </div>
               <div className='d-flex justify-content-between'>
                 <button className='btn main-button-outline' onClick={() => handleToggle(index)}>Show RTO Address</button>
@@ -125,21 +125,21 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
                 <div className='rto-pin-title'>RTO Address</div>
                 <div className='warehouse-heading mb-2'>
                   <TbBuildingWarehouse fontSize={25} />
-                  <h4 className='mb-0'>{box.rto_details.warehouse_name}</h4>
+                  <h4 className='mb-0'>{box?.rto_details?.warehouse_name}</h4>
                 </div>
-                <p>{box.rto_details.contact_person_name}</p>
+                <p>{box?.rto_details?.contact_person_name}</p>
               </div>
               <hr />
               <div>
-                <p>GST no. {box.rto_details.gst_number}</p>
-                <p>{box.rto_details.contact_person_name}</p>
-                <p>Ph. {box.rto_details.contact_number}</p>
+                <p>GST no. {box?.rto_details?.gst_number}</p>
+                <p>{box?.rto_details?.contact_person_name}</p>
+                <p>Ph. {box?.rto_details?.contact_number}</p>
               </div>
               <hr />
               <div>
-                <p>{box.rto_details.address}, {box.rto_details.landmark}, {box.rto_details.city}, {box.rto_details.state}, PIN:{box.rto_details.pincode}</p>
-                <p>{box.rto_details.email}</p>
-                <p>Alt. Ph. {box.rto_details.contact_number}</p>
+                <p>{box?.rto_details?.address}, {box?.rto_details?.landmark}, {box?.rto_details?.city}, {box?.rto_details?.state}, PIN:{box?.rto_details?.pincode}</p>
+                <p>{box?.rto_details?.email}</p>
+                <p>Alt. Ph. {box?.rto_details?.contact_number}</p>
               </div>
             </div>
           </div>
@@ -173,8 +173,8 @@ const ManageWarehouse = () => {
       if (!response.data) {
 
       }
-      setBoxes(response.data);
-      setInitialData(response.data)
+      setBoxes(response?.data);
+      setInitialData(response?.data)
     } catch (error) {
       customErrorFunction(error)
     }
@@ -185,9 +185,9 @@ const ManageWarehouse = () => {
   };
 
   const searchWarehouse = () => {
-    const filteredBoxes = boxes.filter(box => {
-      const searchString = `${box.warehouse_name} ${box.address_line1} ${box.city} ${box.state} ${box.pincode}`.toLowerCase();
-      return searchString.includes(searchQuery.toLowerCase());
+    const filteredBoxes = boxes?.filter(box => {
+      const searchString = `${box?.warehouse_name} ${box?.address_line1} ${box?.city} ${box?.state} ${box?.pincode}`.toLowerCase();
+      return searchString?.includes(searchQuery?.toLowerCase());
     });
     setInitialData(filteredBoxes)
   }

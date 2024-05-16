@@ -49,7 +49,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
 
 
     const handleSelectAll = (data) => {
-
         if (data === "selectAll") {
             setSelectAll(!selectAll);
             if (!selectAll) {

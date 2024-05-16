@@ -25,8 +25,8 @@ const MISPage = () => {
     const toggleOptions = () => {
         setIsOpen(!isOpen);
     };
-
-
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [BulkActionShow, setBulkActionShow] = useState(false)
 
 
     return (
@@ -35,22 +35,22 @@ const MISPage = () => {
             <div className='mis-page-container'>
                 {/* OrdersMIS */}
                 <div className={`${activeTab === "ActivityLogsMIS" ? "d-block" : "d-none"}`}>
-                    <ActivityLogsMIS activeTab={activeTab} />
+                    <ActivityLogsMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
 
                 {/* ShipmentsMIS */}
                 <div className={`${activeTab === "ScheduledReportsMIS" ? "d-block" : "d-none"}`}>
-                    <ScheduledReportsMIS activeTab={activeTab} />
+                    <ScheduledReportsMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow}  selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
 
                 {/* BillingMIS */}
                 <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
-                    <ReportsMIS activeTab={activeTab} />
+                    <ReportsMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow}  selectedRows={selectedRows} setSelectedRows={setSelectedRows}  />
                 </div>
 
                 {/* ReturnsMIS */}
                 <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
-                    <DownloadMIS activeTab={activeTab} />
+                    <DownloadMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow}  selectedRows={selectedRows} setSelectedRows={setSelectedRows}  />
                 </div>
 
                 {/* <Pagination
