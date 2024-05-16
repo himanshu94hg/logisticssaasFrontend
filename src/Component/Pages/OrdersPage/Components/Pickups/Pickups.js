@@ -190,8 +190,8 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase(); 
-    
+        const courierPartner = row.courier_partner.toLowerCase();
+
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -351,7 +351,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
-                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -376,25 +376,23 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                                 <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className=''>
                                             {/* pickup adress */}
-                                            <td className='align-middle'>
-                                                <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
-                                                    <p>{row?.pickup_details?.p_warehouse_name}
-                                                        <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.pickup_details?.p_address_line1},
-                                                                {row?.pickup_details?.p_address_line2},<br />
-                                                                {row?.pickup_details?.p_city},
-                                                                {row?.pickup_details?.p_state},
-                                                                {row?.pickup_details?.p_pincode}
-                                                            </span>
+                                            <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1},
+                                                            {row?.pickup_details?.p_address_line2},<br />
+                                                            {row?.pickup_details?.p_city},
+                                                            {row?.pickup_details?.p_state},
+                                                            {row?.pickup_details?.p_pincode}
                                                         </span>
-                                                    </p>
+                                                    </span>
+                                                </p>
 
-                                                </div>
-                                            </td>
+                                            </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
