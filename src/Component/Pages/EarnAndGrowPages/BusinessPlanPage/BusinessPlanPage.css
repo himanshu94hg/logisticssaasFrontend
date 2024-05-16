@@ -53,6 +53,7 @@
 .business-plan-page .plans-container .plan-item:nth-of-type(3) {
     margin-top: 25px;
     z-index: 1;
+    margin-bottom: -25px;
 }
 
 .business-plan-page .plans-container .plan-item:nth-of-type(2) {
