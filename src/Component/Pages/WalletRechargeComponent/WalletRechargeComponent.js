@@ -30,6 +30,7 @@ const WalletRechargeComponent = (props) => {
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard)
     const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard)
     const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
+    const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
 
     const razorpayKey = configurationCard?.[0]?.razorpay_key;
 
@@ -72,9 +73,9 @@ const WalletRechargeComponent = (props) => {
                 description: "Wallet Recharge",
                 image: ShipeaseLogo,
                 prefill: {
-                    name: "Shipease",
-                    email: "nitesh.singh@shipease.in",
-                    contact: "6352256974",
+                    name: userData?.company_name || "Shipease",
+                    email: userData?.email || "info@shipease.in",
+                    contact: userData?.contact_number,
                 },
                 notes: {
                     address: "Testing Address",

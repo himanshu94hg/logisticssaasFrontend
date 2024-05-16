@@ -116,9 +116,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                         </label>
                         <button className='btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
-                    <div className='button-container'>
-                        <button className='btn main-button'>Export Report</button>
-                    </div>
                 </div>
                 <div className='table-container'>
                     <table className=" w-100">

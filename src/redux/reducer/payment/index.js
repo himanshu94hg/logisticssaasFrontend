@@ -1,9 +1,10 @@
-import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA } from "../../constants/payment";
+import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA,GET_SELLER_PROFILE_DATA } from "../../constants/payment";
 
 const initialState = {
     paymentCard:null,
     paymentSetCard:[],
     configurationCard:null,
+    sellerProfileCard:[]
 };
 
 export const paymentSectionReducer = (state = initialState, action) => {
@@ -22,6 +23,11 @@ export const paymentSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 configurationCard: action?.payload
+            };
+        case GET_SELLER_PROFILE_DATA:
+            return {
+                ...state,
+                sellerProfileCard: action?.payload
             };
        
         default:

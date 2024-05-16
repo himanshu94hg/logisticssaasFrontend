@@ -16,9 +16,13 @@ import TrackingBG from '../../../assets/image/settingsBG/TrackingBG.png'
 import ReturnBG from '../../../assets/image/settingsBG/codBG.png'
 import ApiBG from '../../../assets/image/settingsBG/ApiBG.png'
 import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
-import { Link } from 'react-router-dom'
+import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
+import { Link, useNavigate } from 'react-router-dom'
 
 const SettingsPage = () => {
+
+    let Navigate = useNavigate()
+
     return (
         <>
             <section className='row settings-page-container'>
@@ -133,6 +137,72 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <img src={BillingBG} alt="CompanyBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Sub Accounts Management</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li onClick={() => Navigate('/manage-sub-accounts')}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Manage Sub Accounts
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={SubAccountBG} alt="SubAccountBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Panel Customization</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Theme
+                                    </li>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Customization
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={PanelCustomizationBG} alt="SubAccountBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>User Role Management</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li onClick={() => Navigate('/manage-user-role')}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Manage Users
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={UserRoleBG} alt="CompanyBG" />
                 </div>
                 <div className="col main-container">
                     <div className='tile'>
@@ -298,26 +368,6 @@ const SettingsPage = () => {
                     <div className='tile'>
                         <div className="tile-content">
                             <div className='tile-heading'>
-                                <h3>User Role Management</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Manage Users
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={UserRoleBG} alt="CompanyBG" />
-                </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
                                 <h3>Tracking Page</h3>
                             </div>
                             <div className='tile-body'>
@@ -421,26 +471,6 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <img src={ApiBG} alt="CompanyBG" />
-                </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Sub Accounts Management</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Manage Sub Accounts
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={SubAccountBG} alt="SubAccountBG" />
                 </div>
             </section>
         </>
