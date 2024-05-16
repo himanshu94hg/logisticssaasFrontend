@@ -274,9 +274,7 @@ const ReportsMIS = ({ activeTab }) => {
                         <button onClick={handleSubmit} className='btn main-button'>Search</button>
 
                     </div>
-                    <div className='button-container'>
-                        <button className='btn main-button'>Export Report</button>
-                    </div>
+                  
                 </div>
                 <div className='table-container'>
                     {showComponent !== null && ( // Conditional rendering only if showComponent is true and selectOption is truthy
