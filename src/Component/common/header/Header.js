@@ -21,11 +21,13 @@ import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
 import { BASE_URL_CORE } from "../../../axios/config";
+import { useDispatch } from "react-redux";
 
 export default function Header(props) {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   let staticToken = Cookies.get("static_token")
-  const [userData, setUserData] = useState(null)
+  // const [userData, setUserData] = useState(null)
   const [inputValue, setInputValue] = useState('');
   const [temp, setTemp] = useState({
     var1: null,
@@ -34,6 +36,8 @@ export default function Header(props) {
 
   const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
   const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+  console.log(userData,"sellerProfileCardsellerProfileCard")
   
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -61,21 +65,8 @@ export default function Header(props) {
   }, [paymentCard, paymentSetCard]);
 
   useEffect(() => {
-    const authToken = Cookies.get("access_token");
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/get-seller-profile/`, {
-          headers: {
-            Authorization: `Bearer ${authToken}`
-          }
-        });
-        setUserData(response.data);
-      } catch (error) {
-      }
-    };
-    fetchData();
-  }, [])
-
+    dispatch({ type: "SELLER_PROFILE_DATA_ACTION" });
+  }, [dispatch])
 
   const handleSwitch = () => {
     window.location.href = `http://www.shipease.in${loginBypassPattern}?mobile=${userData?.contact_number}&token=${staticToken}`

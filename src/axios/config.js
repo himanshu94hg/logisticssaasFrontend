@@ -80,6 +80,7 @@ export const API_URL = {
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
   GET_CONFIGURATION_URL: "/core-api/seller/general-configuration/",
+  GET_PROFILE_URL:"/core-api/seller/get-seller-profile/",
 
   //MOREONORDER REASSIGN
   GET_REASSIGN_URL: "/core-api/shipping/ship-rate-card-reassign/",
