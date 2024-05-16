@@ -429,7 +429,7 @@ const RateCalculatorPage = () => {
               </div>
             </form>
           </section>
-          {shipData.length && <section className='mt-5'>  {shipData?.map((item) => {
+          {shipData.length > 0 && <section className='mt-5'>  {shipData?.map((item) => {
             return (
               <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
                 <section className=''>

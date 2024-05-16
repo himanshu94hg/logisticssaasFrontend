@@ -8,6 +8,9 @@ import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
+import { FiEdit } from "react-icons/fi";
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import { AiOutlineExport } from 'react-icons/ai';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -44,10 +47,14 @@ const OrderDetail = () => {
                                 <p className='order-Status-box'>{orderDetails?.status}</p>
                             </div>
                             <div className='d-flex gap-2'>
-                                <button className='btn main-button' onClick={() => navigate(-1)}>Go back</button>
-                                <button className='btn main-button-outline'>More</button>
-                                <button className='btn main-button-outline'>Export</button>
-                                <button className='btn main-button'>Ship Now</button>
+                                <button className='btn main-button-outline' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
+                                <button className='btn main-button-outline'><AiOutlineExport className='align-text-bottom' /> Export</button>
+                                {orderDetails?.status === 'pending' &&
+                                    <>
+                                        <button className='btn main-button-outline'><FiEdit className='align-text-bottom' /> Edit</button>
+                                        <button className='btn main-button'>Ship Now</button>
+                                    </>
+                                }
                             </div>
                         </div>
                         <div className='od-status-lines d-flex gap-3'>
@@ -67,11 +74,7 @@ const OrderDetail = () => {
                                         <li><span>Channel:</span><span>{orderDetails?.channel}</span></li>
                                         <li><span>Payment:</span><span>{orderDetails?.payment_type}</span></li>
                                         <li><span>Pickup Address:</span><span>
-                                            {orderDetails?.pickup_details?.p_address_line1}
-                                            {orderDetails?.pickup_details?.p_address_line2},
-                                            {orderDetails?.pickup_details?.p_city},
-                                            {orderDetails?.pickup_details?.p_state},
-                                            ({orderDetails?.pickup_details?.p_pincode})
+                                            {orderDetails?.pickup_details?.p_address_line1}, {orderDetails?.pickup_details?.p_address_line2}, {orderDetails?.pickup_details?.p_city}, {orderDetails?.pickup_details?.p_state}, ({orderDetails?.pickup_details?.p_pincode})
                                         </span></li>
                                     </ul>
                                 </div>
@@ -83,9 +86,9 @@ const OrderDetail = () => {
                                     </div>
                                     <ul className='od-list od-pd-list'>
                                         <li><span>Dead Weight (in Kg):</span><span>{orderDetails?.dimension_detail?.weight / 1000}</span></li>
-                                        <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length}x{orderDetails?.dimension_detail?.breadth}x{orderDetails?.dimension_detail?.height}</span></li>
+                                        <li><span>Dimensions (in cm):</span><span>{orderDetails?.dimension_detail?.length} x {orderDetails?.dimension_detail?.breadth} x {orderDetails?.dimension_detail?.height}</span></li>
                                         <li><span>Volumetric Weight (in Kg):</span><span> {orderDetails?.dimension_detail?.vol_weight ? `${orderDetails.dimension_detail.vol_weight} Kg` : "NA"}</span></li>
-                                        <li><span>Applied Weight (in Kg):</span><span> {weightGreater(orderDetails?.dimension_detail?.weight,orderDetails?.dimension_detail?.vol_weight)} Kg</span></li>
+                                        <li><span>Applied Weight (in Kg):</span><span> {weightGreater(orderDetails?.dimension_detail?.weight, orderDetails?.dimension_detail?.vol_weight)} Kg</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -98,7 +101,7 @@ const OrderDetail = () => {
                                         <li><span>Name:</span><span>{orderDetails?.shipping_detail?.recipient_name}</span></li>
                                         <li><span>Contact No.:</span><span>{orderDetails?.shipping_detail?.mobile_number}</span></li>
                                         <li><span>Email:</span><span>{orderDetails?.shipping_detail?.email ? orderDetails?.shipping_detail?.email : "NA"}</span></li>
-                                        <li><span>Address:</span><span>{orderDetails?.shipping_detail?.address},{orderDetails?.shipping_detail?.city},{orderDetails?.shipping_detail?.state},({orderDetails?.shipping_detail?.pincode})</span></li>
+                                        <li><span>Address:</span><span>{orderDetails?.shipping_detail?.address}, {orderDetails?.shipping_detail?.city}, {orderDetails?.shipping_detail?.state}, ({orderDetails?.shipping_detail?.pincode})</span></li>
                                     </ul>
                                 </div>
                             </div>
@@ -122,10 +125,10 @@ const OrderDetail = () => {
                                             <th style={{ width: '10%' }}>HSN</th>
                                             <th style={{ width: '10%' }}>SKU</th>
                                             <th style={{ width: '5%' }}>Qt.</th>
-                                            <th style={{ width: '10%' }}>Unit Price</th>
-                                            <th style={{ width: '10%' }}>Discount</th>
-                                            <th style={{ width: '10%' }}>Tax</th>
-                                            <th style={{ width: '10%' }}>Total</th>
+                                            {/* <th style={{ width: '10%' }}>Unit Price</th> */}
+                                            {/* <th style={{ width: '10%' }}>Discount</th> */}
+                                            {/* <th style={{ width: '10%' }}>Tax</th> */}
+                                            {/* <th style={{ width: '10%' }}>Total</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -138,10 +141,10 @@ const OrderDetail = () => {
                                                     <td>{item?.hsn_code ? item?.hsn_code : ""}</td>
                                                     <td>{item?.sku ? item?.sku : ""}</td>
                                                     <td>{item?.quantity ? item?.quantity : ""}</td>
-                                                    <td>{item?.unit_price ? item?.unit_price : ""}</td>
-                                                    <td>{item?.product_discount ? item?.product_discount : ""}</td>
-                                                    <td>{item?.tax_rate ? item?.tax_rate : ""}</td>
-                                                    <td>{item?.product_discount ? item?.product_discount : ""}</td>
+                                                    {/* <td>{item?.unit_price ? item?.unit_price : ""}</td> */}
+                                                    {/* <td>{item?.product_discount ? item?.product_discount : ""}</td> */}
+                                                    {/* <td>{item?.tax_rate ? item?.tax_rate : ""}</td> */}
+                                                    {/* <td>{item?.quantity * item?.unit_price}</td> */}
                                                 </tr>
                                             )
                                         })}
@@ -152,14 +155,14 @@ const OrderDetail = () => {
                                 <table className='w-100'>
                                     <tbody>
                                         <tr>
-                                            <td style={{ width: '90%', paddingBottom: '20px' }}>Product Total (1 Item)</td>
-                                            <td style={{ width: '10%', paddingBottom: '20px' }}>₹ 0.00</td>
+                                            <td style={{ width: '90%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Product Total ({orderDetails?.order_products?.length} Item)</td>
+                                            <td style={{ width: '10%', paddingBottom: '20px' }}>₹ {orderDetails?.invoice_amount || 0.00}</td>
                                         </tr>
                                         <tr>
-                                            <td style={{ width: '90%' }}>Order Total</td>
+                                            <td style={{ width: '90%', textAlign: 'end', paddingRight: '25px' }}>Order Total</td>
                                             <td style={{ width: '10%' }}>₹ {orderDetails?.invoice_amount || 0.00}</td>
                                         </tr>
-                                       </tbody>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>

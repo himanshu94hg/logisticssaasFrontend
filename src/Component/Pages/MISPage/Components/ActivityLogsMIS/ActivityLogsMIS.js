@@ -9,10 +9,9 @@ import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Pagination from '../../../../common/Pagination/Pagination';
 
-const ActivityLogsMIS = ({ activeTab }) => {
+const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
@@ -80,28 +79,48 @@ const ActivityLogsMIS = ({ activeTab }) => {
         // Add more dummy data as needed
     ]);
 
-    // Handler for "Select All" checkbox
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(activitylog.map(row => row.id));
+    const handleSelectAll = (data) => {
+        if (data === "selectAll") {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
+
         } else {
-            setSelectedRows([]);
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setBulkActionShow(false)
+                setSelectAll(false)
+            }
         }
+
     };
 
-    // Handler for individual checkbox
-    const handleSelectRow = (orderId) => {
+
+    const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
-
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            updatedSelectedRows = [...selectedRows, orderId];
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
+        }
+        if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -158,6 +177,8 @@ const ActivityLogsMIS = ({ activeTab }) => {
         }
     }
 
+    console.log(selectedRows,"selectedRowsselectedRowsselectedRows")
+
     return (
         <section className='position-relative reports-mis'>
             <div className="position-relative">
@@ -203,21 +224,19 @@ const ActivityLogsMIS = ({ activeTab }) => {
                         </label>
                         <button onClick={handleSubmit} className='btn main-button'>Search</button>
                     </div>
-                    <div className='button-container'>
-                        <button className='btn main-button'>Export Report</button>
-                    </div>
+
                 </div>
                 <div className='table-container'>
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                {/* <th style={{ width: '1%' }}>
+                                <th style={{ width: '1%' }}>
                                     <input
                                         type="checkbox"
                                         checked={selectAll}
                                         onChange={handleSelectAll}
                                     />
-    </th>*/}
+                                </th>
                                 <th style={{ width: '25%' }}>Activity</th>
                                 <th>Start Time</th>
                                 <th>End Time</th>
@@ -234,13 +253,13 @@ const ActivityLogsMIS = ({ activeTab }) => {
                                 <React.Fragment key={row.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        {/*} <td className='checkbox-cell'>
+                                        <td className='checkbox-cell'>
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
                                                 onChange={() => handleSelectRow(row.id)}
                                             />
-                            </td>*/}
+                                        </td>
                                         <td>
                                             {/* Activity */}
                                             <div className='cell-inside-box'>

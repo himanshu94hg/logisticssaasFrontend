@@ -208,7 +208,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
         setSingleShip(true);
     };
 
-    const handleClickAWB = (e,awb) => {
+    const handleClickAWB = (e, awb) => {
         e.preventDefault();
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
@@ -384,7 +384,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
-                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -398,7 +398,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                         </span>
                                                     </span>
                                                     <br />
-                                                    <span> LBH(cm): {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}</span>
+                                                    <span> LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
@@ -409,30 +409,25 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                 <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className=''>
                                             {/* pickup adress */}
-                                            <td className='align-middle'>
-                                                <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
-                                                    <p>{row?.pickup_details?.p_warehouse_name}
-                                                        <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.pickup_details?.p_address_line1},
-                                                                {row?.pickup_details?.p_address_line2},<br />
-                                                                {row?.pickup_details?.p_city},
-                                                                {row?.pickup_details?.p_state},
-                                                                {row?.pickup_details?.p_pincode}
-                                                            </span>
+                                            <div className='cell-inside-box' style={{ maxWidth: '70%' }}>
+                                                <p>{row?.pickup_details?.p_warehouse_name}
+                                                    <span className='details-on-hover ms-2'>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.pickup_details?.p_address_line1}, {row?.pickup_details?.p_address_line2},<br />
+                                                            {row?.pickup_details?.p_city}, {row?.pickup_details?.p_state}, {row?.pickup_details?.p_pincode}
                                                         </span>
-                                                    </p>
+                                                    </span>
+                                                </p>
 
-                                                </div>
-                                            </td>
+                                            </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e,row.awb_number)}>{row.awb_number}</p>
+                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>{row.awb_number}</p>
                                                 <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}>
                                                     {/* <img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' width={30} className='me-2' /> */}
                                                     {row && row.courier_partner}
