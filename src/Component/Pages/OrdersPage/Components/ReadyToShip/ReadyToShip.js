@@ -398,7 +398,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                         </span>
                                                     </span>
                                                     <br />
-                                                    <span> LBH(cm): {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}</span>
+                                                    <span> LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
@@ -416,11 +416,8 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                     <span className='details-on-hover ms-2'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
-                                                            {row?.pickup_details?.p_address_line1},
-                                                            {row?.pickup_details?.p_address_line2},<br />
-                                                            {row?.pickup_details?.p_city},
-                                                            {row?.pickup_details?.p_state},
-                                                            {row?.pickup_details?.p_pincode}
+                                                            {row?.pickup_details?.p_address_line1}, {row?.pickup_details?.p_address_line2},<br />
+                                                            {row?.pickup_details?.p_city}, {row?.pickup_details?.p_state}, {row?.pickup_details?.p_pincode}
                                                         </span>
                                                     </span>
                                                 </p>
