@@ -108,7 +108,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
           <div className='col-md-3 col-lg-3 right-side'>
             <div className="content">
               {/* <img src={Logo} alt="Logo" height={25} /> */}
-              <h3 className='text-center mb-0'>Login</h3>
+              <h3 className='text-center mb-0'>Login To Shipease</h3>
               {!OtpLogin ? <>
                 <form onSubmit={handleLogin} className="form">
                   <label className="inputBox">
@@ -190,7 +190,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
               }
 
               <div className='other-signin-options'>
-                <p>or Signup using</p>
+                <p>or login using</p>
                 <div className='login-options-buttons'>
                   <button className='btn' onClick={handleLoginOptions}>
                     {!OtpLogin ?
