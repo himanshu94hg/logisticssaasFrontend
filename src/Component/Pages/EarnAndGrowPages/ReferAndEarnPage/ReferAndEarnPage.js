@@ -7,11 +7,14 @@ import FreeCashIcon from './Icons/FreeCashIcon'
 import BookOrder from './Icons/BookOrder'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons'
+import FacebookIcon from './Icons/FacebookIcon'
+import WhatsAppIcon from './Icons/WhatsAppIcon'
+import TwitterIcon from './Icons/TwitterIcon'
 
 const ReferAndEarnPage = () => {
     return (
         <>
-            <section className='box-shadow shadow-sm p10 rae-page'>
+            <section className='box-shadow shadow-sm rae-page'>
                 <h3>Refer And Earn</h3>
                 <p>Invite you friends. If they Ship their first order, you and your friend will get coins to redeem!</p>
 
@@ -55,16 +58,18 @@ const ReferAndEarnPage = () => {
                     </label>
                 </div>
 
-                {/* <h4 className='mt-5'>Share The Referal Link</h4>
+                <h4 className='mt-5'>Share The Referal Link</h4>
                 <p>You can also share your referral link by copying and sending it or sharing it on your social media.</p>
 
                 <div className='rae-social-sec'>
-                    <label htmlFor="">
-                        <input type="text" value="shipease.in/relento-8724669673" />
-                        <button>Copy</button>
+                    <label className='rae-link-input' htmlFor="">
+                        <input type="text" value="https://www.shipease.in/referral?code=DUMMYREFERRAL123" />
+                        <button className='btn rae-copy-btn'>Copy</button>
                     </label>
-                    <button></button>
-                </div> */}
+                    <button className='btn rae-social-btn'><FacebookIcon /></button>
+                    <button className='btn rae-social-btn'><WhatsAppIcon /></button>
+                    <button className='btn rae-social-btn'><TwitterIcon /></button>
+                </div>
             </section>
         </>
     )

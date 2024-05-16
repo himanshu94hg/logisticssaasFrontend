@@ -1,3 +1,8 @@
+.business-plan-page {
+    overflow: auto;
+    height: 100vh;
+}
+
 .business-plan-page .plans-container {
     display: flex;
     /* height: calc(100vh - 310px); */
@@ -6,14 +11,15 @@
     gap: 30px;
     margin-inline: 3rem;
     margin-top: 25px;
-    height: calc(100% - 191px);
+    /* height: calc(100% - 191px); */
+    margin-bottom: 30px;
 }
 
 .business-plan-page .plans-container .plan-item {
     flex: 1 1;
     width: auto;
     /* background: var(--sh-primary-light); */
-    height: 100%;
+    height: auto;
     border-radius: 0.5rem;
     /* border: 1px solid var(--sh-primary); */
     display: flex;
@@ -24,6 +30,7 @@
     text-align: center;
     justify-content: space-between;
     position: relative;
+    max-width: 380px;
 }
 
 .business-plan-page .plans-container .plan-item h4 {
@@ -103,4 +110,31 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
+}
+
+.book-demo-sec {
+    width: 70%;
+    margin-inline: auto;
+    background: var(--sh-primary-middle);
+    display: flex;
+    padding-block: 10px;
+    border-radius: 15px;
+    padding-inline: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 80px 40px;
+    color: #fff;
+}
+
+.book-demo-sec button {
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+.book-demo-sec button:hover {
+    background: var(--sh-primary);
+    color: #fff;
 }
