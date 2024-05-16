@@ -121,10 +121,10 @@ const OrderDetail = () => {
                                             <th style={{ width: '10%' }}>HSN</th>
                                             <th style={{ width: '10%' }}>SKU</th>
                                             <th style={{ width: '5%' }}>Qt.</th>
-                                            <th style={{ width: '10%' }}>Unit Price</th>
-                                            <th style={{ width: '10%' }}>Discount</th>
-                                            <th style={{ width: '10%' }}>Tax</th>
-                                            <th style={{ width: '10%' }}>Total</th>
+                                            {/* <th style={{ width: '10%' }}>Unit Price</th> */}
+                                            {/* <th style={{ width: '10%' }}>Discount</th> */}
+                                            {/* <th style={{ width: '10%' }}>Tax</th> */}
+                                            {/* <th style={{ width: '10%' }}>Total</th> */}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,10 +137,10 @@ const OrderDetail = () => {
                                                     <td>{item?.hsn_code ? item?.hsn_code : ""}</td>
                                                     <td>{item?.sku ? item?.sku : ""}</td>
                                                     <td>{item?.quantity ? item?.quantity : ""}</td>
-                                                    <td>{item?.unit_price ? item?.unit_price : ""}</td>
-                                                    <td>{item?.product_discount ? item?.product_discount : ""}</td>
-                                                    <td>{item?.tax_rate ? item?.tax_rate : ""}</td>
-                                                    <td>{item?.quantity * item?.unit_price}</td>
+                                                    {/* <td>{item?.unit_price ? item?.unit_price : ""}</td> */}
+                                                    {/* <td>{item?.product_discount ? item?.product_discount : ""}</td> */}
+                                                    {/* <td>{item?.tax_rate ? item?.tax_rate : ""}</td> */}
+                                                    {/* <td>{item?.quantity * item?.unit_price}</td> */}
                                                 </tr>
                                             )
                                         })}
