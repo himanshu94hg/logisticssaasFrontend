@@ -84,21 +84,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFav(true)
     };
 
-    // const validateFormData = () => {
-    //     const newErrors = {};
-    //     if (!filterParams.start_date) {
-    //         newErrors.start_date = 'Start Date is required!';
-    //     }
-    //     if ( !filterParams.end_date) {
-    //         newErrors.end_date = 'End Date is required!';
-    //     }
-    //     setErrors(newErrors);
-    //     return Object.keys(newErrors).length === 0;
-    // };
-
     const handleSubmit = e => {
         e.preventDefault();
-        //    if(validateFormData()){
+
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => {
@@ -112,14 +100,21 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 }
             })
             .join('&');
+
         if (SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
                 validationErrors.favName = "Required";
             }
             setErrors(validationErrors);
-            console.error(validationErrors, "Favorite name cannot be empty!");
             return;
+        }
+
+        if ((!filterParams.start_date && filterParams.end_date) || (filterParams.start_date && !filterParams.end_date)) {
+            setErrors({ ...errors, start_date: 'Please select both start and end dates', end_date: 'Please select both start and end dates' });
+            return;
+        } else {
+            setErrors({}); 
         }
 
         handleMoreFilter(filterParams)
@@ -134,7 +129,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
         setSaveFilter(false)
         setFavName("")
-        //    }
     };
 
     useEffect(() => {
@@ -335,7 +329,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             onChange={(e) => handleChange("start_date", e)}
                                             placeholderText='Select Start Date'
                                         />
-                                        {/*{(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}*/}
+                                        {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}
                                     </div>
                                 </label>
                                 <label>
