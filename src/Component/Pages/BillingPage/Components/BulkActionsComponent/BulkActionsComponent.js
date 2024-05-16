@@ -30,6 +30,10 @@ const BulkActionsComponent = ({ activeTab, selectedRows,selectedOrderRows }) => 
         {
             dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
         }
+        else if(activeTab === "Remittance Logs")
+            {
+                dispatch({ type: "EXPORT_REMITANCE_DATA_ACTION", payload: requestData });
+            }
         else{
             dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
         }

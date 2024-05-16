@@ -1,4 +1,4 @@
-import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA } from "../../constants/exports";
+import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA } from "../../constants/exports";
 
 const initialState = {
     exportCard:[],
@@ -6,7 +6,8 @@ const initialState = {
     exportShippingCard:[],
     exportRechargeCard:[],
     exportInvoiceCard:[],
-    exportWeightCard:[]
+    exportWeightCard:[],
+    exportRemitanceCard:[]
 };
 
 export const exportSectionReducer = (state = initialState, action) => {
@@ -40,6 +41,11 @@ export const exportSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 exportWeightCard: action?.payload
+            };
+        case GET_EXPORT_REMITANCE_DATA:
+            return {
+                ...state,
+                exportRemitanceCard: action?.payload
             };
         default:
             return state
