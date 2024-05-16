@@ -14,7 +14,7 @@ import TwitterIcon from './Icons/TwitterIcon'
 const ReferAndEarnPage = () => {
     return (
         <>
-            <section className='box-shadow shadow-sm p10 rae-page'>
+            <section className='box-shadow shadow-sm rae-page'>
                 <h3>Refer And Earn</h3>
                 <p>Invite you friends. If they Ship their first order, you and your friend will get coins to redeem!</p>
 

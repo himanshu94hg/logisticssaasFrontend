@@ -63,7 +63,7 @@ const BusinessPlanPage = () => {
                     </div>
                 </div>
                 <div className='book-demo-sec'>
-                    <p className='mb-0'>Grab It Fast to Get Special Price</p>
+                    <p className='mb-0'>Grab It Fast to Get Special Price!</p>
                     <button className='btn'>Book Demo Now!</button>
                 </div>
             </section>
