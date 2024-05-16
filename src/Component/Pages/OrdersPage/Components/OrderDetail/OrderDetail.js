@@ -157,8 +157,9 @@ const OrderDetail = () => {
                                         </tr>
                                         <tr>
                                             <td style={{ width: '90%' }}>Order Total</td>
-                                            <td style={{ width: '10%' }}>₹ 0.00</td>
-                                        </tr></tbody>
+                                            <td style={{ width: '10%' }}>₹ {orderDetails?.invoice_amount || 0.00}</td>
+                                        </tr>
+                                       </tbody>
                                 </table>
                             </div>
                         </div>

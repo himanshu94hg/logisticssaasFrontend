@@ -1,0 +1,140 @@
+.business-plan-page {
+    overflow: auto;
+    height: 100vh;
+}
+
+.business-plan-page .plans-container {
+    display: flex;
+    /* height: calc(100vh - 310px); */
+    height: auto;
+    justify-content: center;
+    gap: 30px;
+    margin-inline: 3rem;
+    margin-top: 25px;
+    /* height: calc(100% - 191px); */
+    margin-bottom: 30px;
+}
+
+.business-plan-page .plans-container .plan-item {
+    flex: 1 1;
+    width: auto;
+    /* background: var(--sh-primary-light); */
+    height: auto;
+    border-radius: 0.5rem;
+    /* border: 1px solid var(--sh-primary); */
+    display: flex;
+    /* align-items: center; */
+    flex-direction: column;
+    padding: 15px;
+    box-shadow: 0px 0px 19px 11px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    justify-content: space-between;
+    position: relative;
+    max-width: 380px;
+}
+
+.business-plan-page .plans-container .plan-item h4 {
+    position: absolute;
+    top: -10px;
+    left: 30%;
+    background: var(--sh-primary-light);
+    padding-block: 5px;
+    font-size: 1rem;
+    border-radius: 15px;
+    font-weight: 600;
+    width: 40%;
+}
+
+.business-plan-page .plan-item p {
+    text-align: center;
+}
+
+.business-plan-page .plans-container .plan-item:nth-of-type(1),
+.business-plan-page .plans-container .plan-item:nth-of-type(3) {
+    margin-top: 25px;
+    z-index: 1;
+}
+
+.business-plan-page .plans-container .plan-item:nth-of-type(2) {
+    /* margin-inline: -35px; */
+    z-index: 2;
+}
+
+.business-plan-page .plan-price {
+    display: flex;
+    gap: 10px;
+    position: relative;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.business-plan-page .plan-price p {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--sh-primary);
+    margin-bottom: 0;
+    /* margin-inline: 14px 40px; */
+    text-align: center;
+    position: relative;
+}
+
+.business-plan-page .plan-price p::before {
+    content: '₹';
+    position: absolute;
+    top: 4px;
+    left: -14px;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.business-plan-page .plan-price p::after {
+    content: 'gms';
+    position: absolute;
+    bottom: 4px;
+    right: -40px;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.business-plan-page .plans-features {
+    margin-left: 10%;
+    text-align: start;
+}
+
+.business-plan-page .plans-features ul {
+    list-style: none;
+    padding-left: 0;
+    margin-left: -1rem;
+    margin-bottom: 0;
+    margin-block: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.book-demo-sec {
+    width: 70%;
+    margin-inline: auto;
+    background: var(--sh-primary-middle);
+    display: flex;
+    padding-block: 10px;
+    border-radius: 15px;
+    padding-inline: 15px;
+    justify-content: space-between;
+    align-items: center;
+    margin-block: 80px 40px;
+    color: #fff;
+}
+
+.book-demo-sec button {
+    background: var(--sh-primary-light);
+    color: var(--sh-primary);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+.book-demo-sec button:hover {
+    background: var(--sh-primary);
+    color: #fff;
+}
