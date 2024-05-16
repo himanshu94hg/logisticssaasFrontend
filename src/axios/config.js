@@ -80,6 +80,7 @@ export const API_URL = {
   //PAYMENT
   GET_PAYMENT_URL: "/core-api/seller/get-seller-balance/",
   GET_CONFIGURATION_URL: "/core-api/seller/general-configuration/",
+  GET_PROFILE_URL:"/core-api/seller/get-seller-profile/",
 
   //MOREONORDER REASSIGN
   GET_REASSIGN_URL: "/core-api/shipping/ship-rate-card-reassign/",
@@ -92,6 +93,7 @@ export const API_URL = {
   GET_EXPORT_RECHARGE_URL:"/core-api/features/billing/recharge-log-download/",
   GET_EXPORT_INVOICE_URL:"/core-api/features/billing/export-invoice/",
   GET_EXPORT_WEIGHT_URL: "/orders-api/orders/export-weight-reconciliation/",
+  GET_EXPORT_REMITANCE_URL:"/core-api/shipease-admin/export-cod-remittance-logs/",
 
 
   //DASHBOARD OVERVIEW API'S 
