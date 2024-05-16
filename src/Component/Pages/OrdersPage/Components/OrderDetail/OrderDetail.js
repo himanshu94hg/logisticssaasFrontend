@@ -47,11 +47,11 @@ const OrderDetail = () => {
                                 <p className='order-Status-box'>{orderDetails?.status}</p>
                             </div>
                             <div className='d-flex gap-2'>
-                                <button className='btn main-button-outline' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace /> Go back</button>
-                                <button className='btn main-button-outline'><AiOutlineExport /> Export</button>
+                                <button className='btn main-button-outline' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
+                                <button className='btn main-button-outline'><AiOutlineExport className='align-text-bottom' /> Export</button>
                                 {orderDetails?.status === 'pending' &&
                                     <>
-                                        <button className='btn main-button-outline'><FiEdit /> Edit</button>
+                                        <button className='btn main-button-outline'><FiEdit className='align-text-bottom' /> Edit</button>
                                         <button className='btn main-button'>Ship Now</button>
                                     </>
                                 }
