@@ -47,6 +47,7 @@
     flex-grow: 1;
     flex-shrink: 1;
     flex-basis: 35%;
+    color: gray;
 }
 
 .od-list li span:last-of-type {
