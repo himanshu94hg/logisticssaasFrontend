@@ -5,7 +5,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows,selectedOrderRows }) => 
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const {exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard} = useSelector(state => state?.exportSectionReducer)
+    const {exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportRemitanceCard,exportReceiptCard} = useSelector(state => state?.exportSectionReducer)
     
     console.log(selectedRows,selectedOrderRows, "Export Action Bulk")
 
@@ -31,22 +31,22 @@ const BulkActionsComponent = ({ activeTab, selectedRows,selectedOrderRows }) => 
             dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
         }
         else if(activeTab === "Remittance Logs")
-            {
-                dispatch({ type: "EXPORT_REMITANCE_DATA_ACTION", payload: requestData });
-            }
+        {
+            dispatch({ type: "EXPORT_REMITANCE_DATA_ACTION", payload: requestData });
+        }
         else{
-            dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
+            dispatch({ type: "EXPORT_RECEIPT_DATA_ACTION", payload: requestData });
         }
     };
 
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
-            var blob = new Blob([activeTab === "Passbook" ? exportPassbookCard : activeTab === "Shipping Charges" ? exportShippingCard : activeTab === "Recharge Logs" ? exportRechargeCard : activeTab === "Invoices" ? exportInvoiceCard : exportCard], { type: 'application/ms-excel' });
+            var blob = new Blob([activeTab === "Passbook" ? exportPassbookCard : activeTab === "Shipping Charges" ? exportShippingCard : activeTab === "Recharge Logs" ? exportRechargeCard : activeTab === "Invoices" ? exportInvoiceCard : activeTab === "Credit Receipt" ? exportReceiptCard : ""], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportCard]);
+    }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportRemitanceCard,exportReceiptCard,exportCard]);
     
 
     return (

@@ -295,9 +295,15 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             </div>
                                         </td>
                                         <td>
+                                            {/* shiping section here */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB} >{row?.awb_number ?? ""} </p>
-                                                <p className='' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner ?? ""} </p>
+                                                <p className='details-on-hover' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                    {row?.courier_image && <img src={row.courier_image} title='partner' width={30} className='me-2' />}
+                                                    {row.awb_number}
+                                                </p>
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)} style={{ paddingLeft: row?.courier_image ? "35px" : "0px" }}>
+                                                    {row && row.courier_partner}
+                                                </p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
