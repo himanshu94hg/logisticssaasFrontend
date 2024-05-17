@@ -6,11 +6,13 @@ import { useReactToPrint } from 'react-to-print';
 import Swal from 'sweetalert2';
 import Cookies from 'js-cookie';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
 const AgreementInfo = () => {
   const [Basicinfo, setBasicinfo] = useState([]);
   const [hardcodedToken] = useState(Cookies.get("access_token"));
+  const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
   const [dynamicContent, setDynamicContent] = useState({
     name: '',
     place: '',
@@ -38,8 +40,8 @@ const AgreementInfo = () => {
           const newDate = moment(new Date()).format("DD MMM YYYY");
           const newPlace = 'New Dynamic Place';
           setDynamicContent({
-            name: 'Seller',
-            place: 'Gurugram',
+            name: userData?.first_name + ' ' + userData?.last_name,
+            place: userData?.city || 'Gurugram',
             date: newDate,
           });
         }

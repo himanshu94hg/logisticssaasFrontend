@@ -29,6 +29,12 @@ const AccountInfo = ({ activeTab }) => {
     }
   }, [activeTab]);
 
+  useEffect(() => {
+    if (accounts.length === 0) {
+      addAnotherAccount();
+    }
+  }, [accounts]);
+
   const fetchAccountData = async () => {
     try {
       const response = await axios.get(`${BASE_URL_CORE}/core-api/seller/bank-info/`, {
@@ -36,15 +42,17 @@ const AccountInfo = ({ activeTab }) => {
           'Authorization': `Bearer ${hardcodedToken}`
         }
       });
-      setAccounts(response.data.map(account => ({
-        ...account,
-        accountHolderName: account.account_holder_name,
-        accountNumber: account.account_number,
-        ifscCode: account.ifsc_code,
-        bankName: account.bank_name,
-        branchName: account.bank_branch,
-        chequeImage: "https://www.google.com"
-      })));
+      if (response.data.length > 0) {
+        setAccounts(response.data.map(account => ({
+          ...account,
+          accountHolderName: account.account_holder_name,
+          accountNumber: account.account_number,
+          ifscCode: account.ifsc_code,
+          bankName: account.bank_name,
+          branchName: account.bank_branch,
+          chequeImage: "https://www.google.com"
+        })));
+      }
       setPdfPreviews(Array(response.data.length).fill(null));
       setErrors(Array(response.data.length).fill({}));
     } catch (error) {
@@ -52,7 +60,7 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
     const newErrors = accounts.map(account => {
@@ -92,7 +100,7 @@ const AccountInfo = ({ activeTab }) => {
           formData.append('cheque_image', account.chequeImage);
 
           if (!account.id) {
-            return axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
+            await axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
               headers: {
                 'Authorization': `Bearer ${hardcodedToken}`,
                 'Content-Type': 'multipart/form-data'
