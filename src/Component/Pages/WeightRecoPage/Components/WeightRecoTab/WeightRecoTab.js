@@ -195,14 +195,14 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '12%' }}>Order Details</th>
-                                <th style={{ width: '12%' }}>Product Details</th>
-                                <th style={{ width: '12%' }}>Order Total</th>
+                                <th style={{ width: '14%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Product Details</th>
+                                <th style={{ width: '6%' }}>Order Total</th>
                                 <th style={{ width: '12%' }}>Shipping Details</th>
-                                <th style={{ width: '12%' }}>Entered Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Status </th>
-                                <th style={{ width: '12%' }}>Action</th>
+                                <th style={{ width: '14%' }}>Entered Weight & Dimensions (CM)</th>
+                                <th style={{ width: '14%' }}>Charged Weight & Dimensions (CM)</th>
+                                <th style={{ width: '6%' }}>Status </th>
+                                <th style={{ width: '6%' }}>Action</th>
 
                             </tr>
                             <tr className="blank-row"><td></td></tr>
@@ -284,7 +284,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.e_weight} kg</p>
-                                                <p>LBH: {row?.e_length}cm x {row?.e_breadth}cm x {row?.e_height}</p>
+                                                <p>LBH(cm): {row?.e_length} x {row?.e_breadth} x {row?.e_height}</p>
                                                 {/* <p className=''>Applied Amount : {row?.applied_amount}</p> */}
                                             </div>
                                         </td>
@@ -292,7 +292,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.c_weight} kg</p>
-                                                <p>LBH: {row?.c_length}cm x {row?.c_breadth}cm x {row?.c_height}</p>
+                                                <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
                                                 {/* <p className=''>Charged Amount : {row?.charged_amount}</p> */}
                                             </div>
                                         </td>
