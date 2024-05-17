@@ -61,7 +61,7 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
+const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
@@ -127,12 +127,12 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
         console.log(orders, "this is orders");
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
-      };
+    };
 
-      const handleClickpartner = (event, row) => {
+    const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase(); 
-    
+        const courierPartner = row.courier_partner.toLowerCase();
+
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -173,7 +173,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                 break;
         }
     }
-    
+
 
     return (
         <section className='position-relative'>
@@ -259,7 +259,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg <span className='text-blue'><br/></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -272,6 +272,8 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
@@ -306,7 +308,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                                             <div className='cell-inside-box'>
                                                 <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
                                                 </p>
-                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{ row && row.courier_partner}</p>
+                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -347,7 +349,7 @@ const ReassignOrder = ({ orders,handleSearch,selectedRows, setSelectedRows,setBu
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
-                
+
             </div>
         </section >
     );
