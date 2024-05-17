@@ -146,7 +146,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate('/manage-sub-accounts')}>
+                                    <li onClick={() => Navigate(-1)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -203,26 +203,6 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <img src={UserRoleBG} alt="CompanyBG" />
-                </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Courier</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Courier Selection
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={CourierBG} alt="CompanyBG" />
                 </div>
                 <div className="col main-container">
                     <div className='tile'>
@@ -342,32 +322,6 @@ const SettingsPage = () => {
                     <div className='tile'>
                         <div className="tile-content">
                             <div className='tile-heading'>
-                                <h3>International Settings</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        KYC International
-                                    </li>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        International Order Preference
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={InternationalBG} alt="CompanyBG" />
-                </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
                                 <h3>Tracking Page</h3>
                             </div>
                             <div className='tile-body'>
@@ -471,6 +425,52 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <img src={ApiBG} alt="CompanyBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>International Settings</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        KYC International
+                                    </li>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        International Order Preference
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={InternationalBG} alt="CompanyBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Courier</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Courier Selection
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={CourierBG} alt="CompanyBG" />
                 </div>
             </section>
         </>
