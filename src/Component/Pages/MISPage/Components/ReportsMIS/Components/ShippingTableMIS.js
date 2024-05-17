@@ -3,20 +3,19 @@ import moment from 'moment'
 import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 
-const ShippingTableMIS = ({setTotalItems}) => {
+const ShippingTableMIS = ({ setTotalItems }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [shipmentData, setShipmentData] = useState([]);
-    const {reportShipmentsData}=useSelector(state=>state?.misSectionReducer)
+    const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
 
-    useEffect(()=>{
-        if(reportShipmentsData && reportShipmentsData?.results !== null)
-        {
+    useEffect(() => {
+        if (reportShipmentsData && reportShipmentsData?.results !== null) {
             setShipmentData(reportShipmentsData?.results);
             setTotalItems(reportShipmentsData?.count)
         }
-    },[reportShipmentsData])
+    }, [reportShipmentsData])
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -66,11 +65,11 @@ const ShippingTableMIS = ({setTotalItems}) => {
                 <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-                { shipmentData?.length &&shipmentData.map((row, index) => (
+                {shipmentData?.length && shipmentData.map((row, index) => (
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                           {/*} <td className='checkbox-cell'>
+                            {/*} <td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
@@ -95,8 +94,7 @@ const ShippingTableMIS = ({setTotalItems}) => {
                             <td>
                                 <div className='cell-inside-box'>
                                     <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                    <p>Wt:  {row?.dimension_detail?.weight} kg <br />
-                                        <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                    <p>Wt:  {row?.dimension_detail?.weight} kg
                                         <span className='details-on-hover ms-2 align-middle'>
                                             <InfoIcon />
                                             <span style={{ width: '250px' }}>
@@ -109,6 +107,8 @@ const ShippingTableMIS = ({setTotalItems}) => {
                                                 ))}
                                             </span>
                                         </span>
+                                        <br />
+                                        <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                     </p>
                                 </div>
                             </td>

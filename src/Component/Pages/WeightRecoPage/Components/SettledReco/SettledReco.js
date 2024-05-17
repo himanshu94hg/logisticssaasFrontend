@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo,faFilter } from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight, faCircleInfo, faFilter } from '@fortawesome/free-solid-svg-icons';
 import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import moment from 'moment';
@@ -51,7 +51,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionShow}) => {
+const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -61,26 +61,26 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
 
     const reasons = [
         { count: "Dabur Hingoli Gas Par Asar Zabardast 90N Tablets Unique B0BKSVZG23", data: "dtdc_surface" },
-       
+
         { count: "Bru Green Label Ground Coffee, 500g Pouch,Bag B075MN16MZ", data: "dtdc_surface" },
-       
-        { count: "UNIQUE FORTUNE KACHI GHANI PURE MUSTARD OIL 1lt  4V-7JZR-OL83", data:  "dtdc_surface"},
-       
-      ];
-    
-      const getRandomCount = (reasons) => {
+
+        { count: "UNIQUE FORTUNE KACHI GHANI PURE MUSTARD OIL 1lt  4V-7JZR-OL83", data: "dtdc_surface" },
+
+    ];
+
+    const getRandomCount = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].count;
-      };
-    
-      const getRandomReason = (reasons) => {
+    };
+
+    const getRandomReason = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].data;
-      };
+    };
 
 
 
-    
+
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -151,20 +151,20 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                         onChange={handleSelectAll}
                                     />
                                 </th>
-                                <th style={{ width: '12%' }}>Order Details</th>
-                                <th style={{ width: '12%' }}>Product Details</th>
-                                <th style={{ width: '12%' }}>Order Total</th>
+                                <th style={{ width: '14%' }}>Order Details</th>
+                                <th style={{ width: '10%' }}>Product Details</th>
+                                <th style={{ width: '8%' }}>Order Total</th>
                                 <th style={{ width: '12%' }}>Shipping Details</th>
-                                <th style={{ width: '12%' }}>Entered Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Charged Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Settled Weight & Dimensions (CM)</th>
-                                <th style={{ width: '12%' }}>Status </th>
-                                <th style={{ width: '12%' }}>Action</th>
+                                <th style={{ width: '14%' }}>Entered Weight & Dimensions (CM)</th>
+                                <th style={{ width: '14%' }}>Charged Weight & Dimensions (CM)</th>
+                                <th style={{ width: '14%' }}>Settled Weight & Dimensions (CM)</th>
+                                <th style={{ width: '4%' }}>Status </th>
+                                <th style={{ width: '6%' }}>Action</th>
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
                         <tbody>
-                        {weightRecoData?.map((row, index) => (
+                            {weightRecoData?.map((row, index) => (
                                 <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
@@ -228,7 +228,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                                 <p className='mt-1'>
 
                                                     {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
-                                                    <span className=''>AWB : {row?.order?.awb_number}</span><br/>
+                                                    <span className=''>AWB : {row?.order?.awb_number}</span><br />
                                                     <span className='text-capitalize'>Courier : {row?.order?.courier_partner}</span>
                                                 </p>
                                             </div>
@@ -238,7 +238,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.e_weight} kg</p>
-                                                <p>LBH: {row?.e_length}cm x {row?.e_breadth}cm x {row?.e_height}</p>
+                                                <p>LBH(cm): {row?.e_length} x {row?.e_breadth} x {row?.e_height}</p>
                                                 <p className=''>Applied Amount : {row?.applied_amount}</p>
                                             </div>
                                         </td>
@@ -246,7 +246,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.c_weight} kg</p>
-                                                <p>LBH: {row?.c_length}cm x {row?.c_breadth}cm x {row?.c_height}</p>
+                                                <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
                                                 <p className=''>Charged Amount : {row?.charged_amount}</p>
                                             </div>
                                         </td>
@@ -254,7 +254,7 @@ const SettledReco = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionS
                                             {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.s_weight} kg</p>
-                                                <p>LBH: {row?.s_length}cm x {row?.s_breadth}cm x {row?.s_height}</p>
+                                                <p>LBH(cm): {row?.s_length} x {row?.s_breadth} x {row?.s_height}</p>
                                                 <p className=''>Settled Amount : {row?.settled_amount}</p>
                                             </div>
                                         </td>
@@ -289,7 +289,7 @@ function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
 
-    console.log(historyRecord,"All data")
+    console.log(historyRecord, "All data")
     useEffect(() => {
         if (show && selectedRow) {
             dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
@@ -302,30 +302,30 @@ function Preview({ show, handleClose, selectedRow }) {
                 <Modal.Title>History Details</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <table className="table">
-                <tbody>
-                    <tr>
-                        <th>Weight Discrepancy Date</th>
-                        <th>Status</th>
-                        <th>Charged Weight (KG)</th>
-                        <th>Charged Dimension (CM)</th>
-                        <th>Action Taken by</th>
-                        <th>Applied Weight</th>
-                        <th>Remark</th>
-                    </tr>
-                    {historyRecord?.map((row, index) => (
-                        <tr key={index}>
-                            <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
-                            <td>{row?.status}</td>
-                            <td>{selectedRow?.c_weight}</td>
-                            <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
-                            <td>{row?.action_taken_by}</td>
-                            <td>{selectedRow?.e_weight}</td>
-                            <td>{row?.remark}</td>
+                <table className="table">
+                    <tbody>
+                        <tr>
+                            <th>Weight Discrepancy Date</th>
+                            <th>Status</th>
+                            <th>Charged Weight (KG)</th>
+                            <th>Charged Dimension (CM)</th>
+                            <th>Action Taken by</th>
+                            <th>Applied Weight</th>
+                            <th>Remark</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                        {historyRecord?.map((row, index) => (
+                            <tr key={index}>
+                                <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
+                                <td>{row?.status}</td>
+                                <td>{selectedRow?.c_weight}</td>
+                                <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>
+                                <td>{row?.action_taken_by}</td>
+                                <td>{selectedRow?.e_weight}</td>
+                                <td>{row?.remark}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
             </Modal.Body>
         </Modal>
