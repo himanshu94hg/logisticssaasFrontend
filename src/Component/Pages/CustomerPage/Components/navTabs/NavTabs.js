@@ -90,23 +90,23 @@ export default function NavTabs(props) {
           >
             Parent Account
           </div>
-          <div
+          {/* <div
             className={`option ${selectedOption === "Sub Acount One" ? "selected" : ""}`}
             onClick={() => handleOptionSelect("Sub Acount One")}
           >
             Sub Acount One
-          </div>
-          <div
+          </div> */}
+          {/* <div
             className={`option ${selectedOption === "Sub Acount Two" ? "selected" : ""}`}
             onClick={() => handleOptionSelect("Sub Acount Two")}
           >
             Sub Acount Two
-          </div>
+          </div> */}
         </div>
 
       </div>
       <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button-outline">Sub Acount: <strong>2</strong></button>
+        <button className="btn main-button-outline">Sub Acount: <strong>0</strong></button>
       </div>
     </Navbar>
   );

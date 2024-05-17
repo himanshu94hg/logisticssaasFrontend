@@ -101,7 +101,7 @@ const BasicInfo = ({ activeTab }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = Object.keys(formData).reduce((errors, key) => {
-      if (!formData[key]) {
+      if (!formData[key] && key !== "company_logo") {
         errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
       } else if (key === 'mobile' && formData[key].length !== 10) {
         errors[key] = "Mobile no should be 10 digits!.";
@@ -114,6 +114,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       return errors;
     }, {});
+    console.log(newErrors,"newErrorsnewErrorsnewErrors")
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       try {
