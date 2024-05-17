@@ -321,13 +321,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <div className="date-picker-container">
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
-                                            dateFormat="MM/dd/yyyy h:mm aa"
                                             className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
                                             placeholderText='Select Start Date'
+                                            dateFormat="MM/dd/yyyy h:mm aa"
                                             isClearable
                                             closeOnScroll={(e) => e.target === document}
                                             showTimeInput

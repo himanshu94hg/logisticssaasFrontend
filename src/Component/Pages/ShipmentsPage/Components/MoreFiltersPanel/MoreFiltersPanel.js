@@ -59,7 +59,7 @@ const CourierPartner = [
 ];
 
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter,handleResetFrom, setHandleResetFrom }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [name, setName] = useState('');
@@ -84,30 +84,30 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const handleSubmit = e => {
         e.preventDefault();
         const encodedParams = Object.entries(filterParams)
-        .filter(([key, value]) => value !== null && value !== '')
-        .map(([key, value]) => {
-            if (key === 'start_date' || key === 'end_date') {
-                const formattedDate = moment(value).format('YYYY-MM-DD');
-                return `${key}=${formattedDate}`;
-            }
-            else {
-                const trimmedValue = value.replace(/,+$/,'');
-                return `${key}=${trimmedValue}`;
-            }
-        })
-        .join('&');
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/, '');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
+            .join('&');
 
-    console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
+        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
 
-    if ( SaveFilter && favName.trim() === "") {
-        const validationErrors = {};
-        if (!favName.trim() & favName !== null) {
-            validationErrors.favName = "Required";
+        if (SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            console.error(validationErrors, "Favorite name cannot be empty!");
+            return;
         }
-        setErrors(validationErrors);
-        console.error(validationErrors,"Favorite name cannot be empty!");
-        return; 
-    }
 
         handleMoreFilter(filterParams)
         CloseSidePanel()
@@ -140,7 +140,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     console.log(pickupAddresses, "this is a activeTabactiveTabactiveTabactiveTab", filterParams)
 
     useEffect(() => {
-        if (activeTab ) {
+        if (activeTab) {
             setFilterParams({
                 start_date: null,
                 end_date: null,
@@ -283,11 +283,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <div className="date-picker-container">
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
-                                            dateFormat='dd/MM/yyyy'
                                             className='input-field'
                                             selected={filterParams?.start_date}
                                             onChange={(e) => handleChange("start_date", e)}
                                             maxDate={new Date()}
+                                            dateFormat="MM/dd/yyyy h:mm aa"
+                                            isClearable
+                                            closeOnScroll={(e) => e.target === document}
+                                            showTimeInput
+                                            showMonthDropdown
+                                            showYearDropdown
                                         />
                                     </div>
                                 </label>
@@ -296,11 +301,16 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <div className="date-picker-container">
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
-                                            dateFormat='dd/MM/yyyy'
                                             className='input-field'
                                             selected={filterParams?.end_date}
                                             onChange={(e) => handleChange("end_date", e)}
                                             maxDate={new Date()}
+                                            dateFormat="MM/dd/yyyy h:mm aa"
+                                            isClearable
+                                            closeOnScroll={(e) => e.target === document}
+                                            showTimeInput
+                                            showMonthDropdown
+                                            showYearDropdown
                                         />
                                     </div>
                                 </label>
@@ -438,7 +448,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     onChange={handleCheckboxChange}
                                 />
                                 {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text"  value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
+                                    <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
                             </label>
                             <div>
