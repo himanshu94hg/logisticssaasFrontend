@@ -26,25 +26,19 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
 
 
     const handleInputChange = (index, field, value) => {
-        console.log(value, "index, field, value")
         const newData = [...dimension];
-        if (!isNaN(parseFloat(value)) && isFinite(value)) {
-            if (field === 'weight') {
-                newData[index][field] = parseFloat(value);
-            } else {
-                newData[index][field] = parseFloat(value);
-            }
-            setDimension(newData);
+        if (field === 'weight') {
+            newData[index][field] = value;
+        } else {
+            newData[index][field] = value;
         }
+        setDimension(newData);
     };
 
     const handleDimension = () => {
-        setUpdateWeight(false)
+        setUpdateWeight(false);
         dispatch({ type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: dimension });
-
-    }
-
-    console.log(dimension, "this is a dimension data")
+    };
 
     return (
         <>
