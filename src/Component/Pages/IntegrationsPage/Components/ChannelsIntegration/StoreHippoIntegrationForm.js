@@ -155,6 +155,7 @@ const StoreHippoIntegrationForm = () => {
                                     name="channel.channel_name"
                                     placeholder='Enter Channel Name'
                                     value={formData.channel.channel_name}
+                                    maxLength={50}
                                     onChange={handleChange}/>
                                     {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
                                 </label>
@@ -166,6 +167,7 @@ const StoreHippoIntegrationForm = () => {
                                     name="channel_configuration.store_url"
                                     placeholder='Enter Store Name or URL'
                                     value={formData.channel_configuration.store_url}
+                                    maxLength={100}
                                     onChange={handleChange}/>
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
@@ -179,6 +181,7 @@ const StoreHippoIntegrationForm = () => {
                                     name="channel_configuration.store_hippo_access_key"
                                     placeholder='Enter Access Key'
                                     value={formData.channel_configuration.store_hippo_access_key}
+                                    maxLength={100}
                                     onChange={handleChange}/>
                                     {errors.store_hippo_access_key && <span className='error-text'>{errors.store_hippo_access_key}</span>}
                                 </label>
