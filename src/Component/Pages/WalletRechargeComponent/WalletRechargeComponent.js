@@ -117,7 +117,7 @@ const WalletRechargeComponent = (props) => {
                         <div className='balance-container'>
                             <h4 className='my-3'>Your Wallet</h4>
                             <div className='balance-amount'>
-                                <p>₹</p>
+                                <p>₹ss</p>
                                 <p className='fw-bold font30'>{paymentSetCard?.balance ?? paymentCard?.balance}</p>
                             </div>
                             <p className='font13'>Current Wallet Amount</p>
