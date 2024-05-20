@@ -4,7 +4,6 @@ import ReactApexChart from 'react-apexcharts';
 
 const NDRPieChart = () => {
     const ndrSplit =useSelector(state=>state?.dashboardNdrReducer?.splitStatus)
-    console.log("NDR RESPONSE Data",ndrSplit)
     const seriesData = ndrSplit?.map(item => item?.count) || [];
     const reasonsLabels = ndrSplit?.map(item => item?.reason) || [];
 

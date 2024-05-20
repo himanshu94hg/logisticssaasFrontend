@@ -196,6 +196,7 @@ const OrdersPage = () => {
         });
         setQueryParamTemp(queryParams);
     };
+    
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)

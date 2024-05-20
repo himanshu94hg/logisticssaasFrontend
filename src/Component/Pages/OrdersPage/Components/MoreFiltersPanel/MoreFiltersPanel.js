@@ -13,7 +13,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
-    { label: "Custom", value: "Custom" },
+    { label: "Custom", value: "custom" },
     { label: "Shopify", value: "shopify" },
 ];
 
