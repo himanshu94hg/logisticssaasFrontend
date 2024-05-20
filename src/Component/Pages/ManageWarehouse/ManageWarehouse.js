@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
-import SearchIcon from '../../../assets/image/icons/search-icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircleXmark, faMagnifyingGlass, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
-import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import { TbBuildingWarehouse } from "react-icons/tb";
 import './ManageWarehouse.css';
 import { useNavigate } from 'react-router';
@@ -13,7 +10,11 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import EditWareHouse from './EditWareHouse';
 import { BASE_URL_CORE } from '../../../axios/config';
-import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
+import { Modal, Form, Button } from 'react-bootstrap';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
+import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
+import { faChevronRight, faCircleXmark, faMagnifyingGlass, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { toast } from 'react-toastify';
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -78,7 +79,7 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
 
   return (
     <div className="box-grid">
-      {boxData?.length&&boxData?.map((box, index) => (
+      {boxData?.length && boxData?.map((box, index) => (
         <div key={index} className={`box`}>
           <div className={`box-card-outer ${isOpen === index ? 'card-flip' : ''}`}>
             <div className='warehouse-details'>
@@ -152,16 +153,18 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
 const ManageWarehouse = () => {
   const navigate = useNavigate();
   const [boxes, setBoxes] = useState([]);
+  const [show, setShow] = useState(false);
   const [initialData, setInitialData] = useState([])
   const [searchQuery, setSearchQuery] = useState('');
   const { defaultWarehouseRes } = useSelector(state => state?.settingsSectionReducer);
   const authToken = Cookies.get("access_token");
   const [wareHouseId, setWareHouseId] = useState(null);
   const [editWarehouse, setEditWarehouse] = useState(false);
+  const [bulkReset, setBulkReset] = useState(new Date())
 
   useEffect(() => {
     fetchDataFromApi();
-  }, [defaultWarehouseRes]);
+  }, [defaultWarehouseRes, bulkReset]);
 
   const fetchDataFromApi = async () => {
     try {
@@ -170,9 +173,6 @@ const ManageWarehouse = () => {
           Authorization: `Bearer ${authToken}`
         }
       });
-      if (!response.data) {
-
-      }
       setBoxes(response?.data);
       setInitialData(response?.data)
     } catch (error) {
@@ -195,8 +195,64 @@ const ManageWarehouse = () => {
   const handleEditWarehouse = (index) => {
     setEditWarehouse(!editWarehouse);
   };
-  console.log("Editing warehouse at index:", initialData,boxes);
+  const [selectedFile, setSelectedFile] = useState(null);
 
+  const handleClose = () => {
+    setShow(false)
+    setSelectedFile(null)
+  };
+
+  const handleShow = () => setShow(true);
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+
+  };
+
+  const handleUpload = async () => {
+    handleClose();
+    try {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      const response = await axios.post(
+        `${BASE_URL_CORE}/core-api/features/import-warehouse/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      if (response.status === 201) {
+        toast.success('Warehouse created successfully!');
+        setBulkReset(response?.status + new Date())
+      }
+    } catch (error) {
+      customErrorFunction(error);
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      const response = await axios.get(`${BASE_URL_CORE}/core-api/features/export-warehouse/`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+
+      });
+
+      if (response.status === 200) {
+        toast.success('file exported succesfully successfully!');
+        var FileSaver = require('file-saver');
+        var blob = new Blob([response?.data], { type: 'application/ms-excel' });
+        FileSaver.saveAs(blob, `warehouse.xlsx`);
+        // setExportButtonClick(false);
+      }
+    } catch (error) {
+      customErrorFunction(error)
+    }
+
+  }
 
   return (
     <>
@@ -217,8 +273,8 @@ const ManageWarehouse = () => {
             </label>
           </div>
           <div className='button-container'>
-            <button className='btn main-button-outline me-2'><AiOutlineCloudUpload fontSize={25} /> Import</button>
-            <button className='btn main-button-outline me-2'><AiOutlineCloudDownload fontSize={25} /> Export</button>
+            <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
+            <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25}  /> Export</button>
             <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
           </div>
         </section>
@@ -244,6 +300,28 @@ const ManageWarehouse = () => {
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Upload Bulk Warehouse</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="bulk-upload-container">
+
+            <Form.Control
+              type="file"
+              onChange={handleFileChange}
+            />
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleUpload} disabled={!selectedFile}>
+            Upload
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

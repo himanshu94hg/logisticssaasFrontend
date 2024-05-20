@@ -64,8 +64,8 @@ const ForwardReverseOrder = () => {
             const categories = [];
             const assignedData = [];
             const pickedData = [];
-            assignPick.forEach(item => {
-                categories.push("Week "+item.week_number);
+            assignPick.forEach((item,index) => {
+                categories.push(`Week ${index+1}`);
                 assignedData.push(item.assigned);
                 pickedData.push(item.picked);
             });
