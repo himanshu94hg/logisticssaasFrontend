@@ -2,16 +2,16 @@ import React, { useEffect, useState } from 'react';
 import ReactApexChart from 'react-apexcharts';
 import { useSelector } from 'react-redux';
 
-const CanceledOrdersChart = ({}) => {
+const CanceledOrdersChart = ({ }) => {
     const [canceledOrdersData, setCanceledOrdersData] = useState([])
     const { orderCancel } = useSelector(state => state?.dashboardOrderReducer)
 
     useEffect(() => {
         if (orderCancel) {
             let temp = []
-            orderCancel?.map((item) => {
+            orderCancel?.map((item,index) => {
                 temp.push({
-                    week: "Week " + item.week,
+                    week: `Week ${index+1}`,
                     count: item?.total_orders
                 })
             })
@@ -69,7 +69,7 @@ function CancelOrder() {
             <div className="row">
                 <div className="col">
                     <h4 className="title">Cancelled Orders</h4>
-                    <CanceledOrdersChart  />
+                    <CanceledOrdersChart />
                 </div>
             </div>
         </div>

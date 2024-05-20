@@ -20,7 +20,7 @@ const OrderDetail = () => {
     const [orderDetails, setOrderDetails] = useState({})
 
     useEffect(() => {
-        if (params?.slug && location) {
+        if (params?.slug && location && location?.state?.path!="searchOrderData") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${params?.slug}/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
@@ -32,6 +32,8 @@ const OrderDetail = () => {
                 .catch(error => {
                     customErrorFunction(error)
                 });
+        }else{
+            setOrderDetails(location?.state?.orderData)
         }
     }, [params])
 

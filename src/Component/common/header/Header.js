@@ -39,19 +39,18 @@ export default function Header(props) {
   const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
   const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-  console.log(userData, "sellerProfileCardsellerProfileCard")
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${inputValue}/`, {
+      axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${inputValue}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
       })
         .then(response => {
           if(response.status===200){
-            navigate(`/orderdetail/${inputValue}`);
+            navigate(`/orderdetail/${inputValue}`, { state: { orderData:response.data ,path:"searchOrderData"} });
           }
         })
         .catch(error => {
@@ -61,15 +60,14 @@ export default function Header(props) {
   }
 
   const handleNavigate = () => {
-    axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${inputValue}/`, {
+    axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${inputValue}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
     })
     .then(response => {
-      console.log(response,"this is a response data")
       if(response.status===200){
-          navigate(`/orderdetail/${inputValue}`);
+        navigate(`/orderdetail/${inputValue}`, { state: { orderData:response.data,path:"searchOrderData" } });
         }
       })
       .catch(error => {
