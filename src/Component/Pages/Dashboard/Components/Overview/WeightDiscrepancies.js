@@ -10,29 +10,29 @@ const MixedWeightChart = () => {
     {
       name: 'Total Orders',
       type: 'column',
-      data: deliveryData?.map(item=>item.total_order), // Total orders for the last 5 weeks
+      data: deliveryData?.map(item=>item.total_order),
     },
     {
       name: 'Orders with Discrepancies',
       type: 'line',
-      data: deliveryData?.map(item=>item.disputed_order), // Orders with discrepancies for the last 5 weeks
+      data: deliveryData?.map(item=>item.disputed_order), 
     },
   ];
 
   const optionsData = {
     chart: {
-      height: '100%', // Set height to 100% to make it responsive
+      height: '100%', 
       type: 'line',
       toolbar: {
-        show: false, // Removing the toolbar (including panning option)
+        show: false, 
       },
     },
-    colors: ['#008FFB', '#FF4560'], // Specify custom colors for the series
+    colors: ['#008FFB', '#FF4560'], 
     stroke: {
       width: [0, 4],
     },
     title: {
-      text: '', // Set title text to empty string to remove the title
+      text: '', 
     },
     dataLabels: {
       enabled: true,
@@ -40,9 +40,9 @@ const MixedWeightChart = () => {
     },
     xaxis: {
       type: 'category',
-      categories: deliveryData?.map(item=>`Week ${item.week}`),
+      categories: deliveryData?.map((item,index)=>`Week ${index+1}`),
       labels: {
-        rotateAlways: true, // Rotate labels always
+        rotateAlways: true, 
         rotate: -45,
       },
     },
@@ -50,15 +50,15 @@ const MixedWeightChart = () => {
       title: {
         text: 'Orders',
       },
-      min: 0, // Setting minimum value for y-axis
+      min: 0, 
     },
     responsive: [
       {
-        // Making the chart responsive
-        breakpoint: 1366, // Breakpoint for screen width of 1366
+      
+        breakpoint: 1366, 
         options: {
           chart: {
-            height: 400, // Adjust height for screen width of 1366
+            height: 400, 
           },
         },
       },
@@ -81,8 +81,6 @@ const WeightDiscrepancies = () => {
       <div className="row">
         <div className="col">
           <h4 className="title">Weight Discrepancies</h4>
-          {/* <MixedChart labels={labels} totalOrders={totalOrders} ordersWithDiscrepancies={ordersWithDiscrepancies} /> */}
-          {/* <CombinedChart /> */}
           <MixedWeightChart />
         </div>
       </div>

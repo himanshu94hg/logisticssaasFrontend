@@ -314,8 +314,9 @@
   font-size: 14px;
 }
 
-.cell-inside-box .anchor-awb {
-  border-bottom-style: dotted;
+.cell-inside-box .details-on-hover.anchor-awb {
+  text-decoration: none;
+  border-bottom: 2px dashed var(--sh-primary);
   width: fit-content;
 }
 
@@ -557,6 +558,18 @@ ul.order-label-list li {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
+}
+
+.cell-inside-box.shipping-details {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+}
+
+.cell-inside-box.shipping-details img {
+  height: 35px;
+  width: 35px;
 }
 
 @media screen and (max-width:1366px) {
