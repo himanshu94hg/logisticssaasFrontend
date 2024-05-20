@@ -293,6 +293,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             showTimeInput
                                             showMonthDropdown
                                             showYearDropdown
+                                            placeholderText='select start date'
                                         />
                                     </div>
                                 </label>
@@ -311,6 +312,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             showTimeInput
                                             showMonthDropdown
                                             showYearDropdown
+                                            placeholderText='select end date'
                                         />
                                     </div>
                                 </label>

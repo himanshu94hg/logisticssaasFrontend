@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import axios from "axios";
 import Cookies from "js-cookie";
+import DeleteIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/DeleteIcon'
+import MergeIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/MergeIcon';
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse }) => {
     const dispatch = useDispatch();
@@ -175,8 +177,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
                                 {/* <li onClick={() => addTag()}><span>Add Tag</span></li>
                                 <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
                                 <li onClick={() => bulkCancelled()}><span>Cancel</span></li> */}
-                                <li onClick={() => bulkDeleted()}><span>Delete</span></li>
-                                <li onClick={() => handleMergeOrders()}><span>Merge</span></li>
+                                <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
+                                <li onClick={() => handleMergeOrders()}><MergeIcon /><span>Merge</span></li>
                                 {/* <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
                                 <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
                                 <li onClick={handelBulkShip}><span>Ship</span></li>

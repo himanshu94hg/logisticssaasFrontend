@@ -186,6 +186,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel.channel_name"
                                     placeholder='Enter Channel Name'
                                     value={formData.channel.channel_name}
+                                    maxLength={50}
                                     onChange={handleChange}/>
                                     {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
                                 </label>
@@ -197,6 +198,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.store_url"
                                     placeholder='Enter Store URL'
                                     value={formData.channel_configuration.store_url}
+                                    maxLength={100}
                                     onChange={handleChange}/>
                                     <span className='font13 text-sh-primary'>Store URL should be like https://yourstore.com</span>
                                 </label>
@@ -210,6 +212,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.woo_consumer_key"
                                     placeholder='Enter Consumer Key'
                                     value={formData.channel_configuration.woo_consumer_key}
+                                    maxLength={100}
                                     onChange={handleChange}/>
                                     {errors.woo_consumer_key && <span className='error-text'>{errors.woo_consumer_key}</span>}
                                 </label>
@@ -221,6 +224,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.woo_consumer_secret"
                                     placeholder='Enter Consumer Secret'
                                     value={formData.channel_configuration.woo_consumer_secret}
+                                    maxLength={100}
                                     onChange={handleChange}/>
                                     {errors.woo_consumer_secret && <span className='error-text'>{errors.woo_consumer_secret}</span>}
                                 </label>
@@ -251,6 +255,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.pickup_scheduled"
                                     placeholder='Enter Pickup Scheduled'
                                     value={formData.channel_configuration.pickup_scheduled}
+                                    maxLength={30}
                                     onChange={handleChange}/>
                                     {errors.pickup_scheduled && <span className='error-text'>{errors.pickup_scheduled}</span>}
                                 </label>
@@ -262,6 +267,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.picked_up"
                                     placeholder='Enter Picked Up'
                                     value={formData.channel_configuration.picked_up}
+                                    maxLength={30}
                                     onChange={handleChange}/>
                                     {errors.picked_up && <span className='error-text'>{errors.picked_up}</span>}
                                 </label>
@@ -275,6 +281,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.in_transit"
                                     placeholder='Enter In Transit'
                                     value={formData.channel_configuration.in_transit}
+                                    maxLength={30}
                                     onChange={handleChange}/>
                                     {errors.in_transit && <span className='error-text'>{errors.in_transit}</span>}
                                 </label>
@@ -286,6 +293,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.out_for_delivery"
                                     placeholder='Enter Out For Delivery'
                                     value={formData.channel_configuration.out_for_delivery}
+                                    maxLength={30}
                                     onChange={handleChange}/>
                                     {errors.out_for_delivery && <span className='error-text'>{errors.out_for_delivery}</span>}
                                 </label>
@@ -299,6 +307,7 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.delivered"
                                     placeholder='Enter Delivered'
                                     value={formData.channel_configuration.delivered}
+                                    maxLength={30}
                                     onChange={handleChange}/>
                                     {errors.delivered && <span className='error-text'>{errors.delivered}</span>}
                                 </label>
