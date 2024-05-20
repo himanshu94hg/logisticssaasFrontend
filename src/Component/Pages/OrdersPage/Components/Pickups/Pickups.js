@@ -399,7 +399,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_image && <img src={row.courier_image} title='Partner' />}
                                                 <div>
-                                                    <p className='details-on-hover ' onClick={handleClickAWB}>
+                                                    <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>
                                                         {row.awb_number ?? ""}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
