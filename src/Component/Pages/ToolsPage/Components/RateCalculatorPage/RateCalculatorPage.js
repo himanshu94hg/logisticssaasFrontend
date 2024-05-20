@@ -441,7 +441,7 @@ const RateCalculatorPage = () => {
                           style={{ border: "1px solid gray", borderRadius: "50%" }}
                           width={"50px"}
                           height={"50px"}
-                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvWc9wk8XH4WVN0EbuacoFQyXJNQuw2nuKrz-EjH5B0Q&s" alt="" />
+                          src={item?.partner_image} alt="" />
                         <p>{item?.courier_partner}</p>
                         <p>RTO Charges: ₹{item?.rate}</p>
                       </div>
@@ -483,7 +483,7 @@ const RateCalculatorPage = () => {
                       <button className='btn main-button'>Ship Now</button>
                       <p><span>EDD: <strong></strong></span></p>
                     </div>
-                    <span className={`recommended ${true ? '' : 'd-none'}`}></span>
+                    <span className={`${item?.is_recommended?"recommended":""} ${true ? '' : 'd-none'}`}></span>
                   </div>
                 </section>
               </div>
