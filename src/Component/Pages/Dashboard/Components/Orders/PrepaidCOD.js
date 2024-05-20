@@ -59,10 +59,10 @@ const ApexChart = () => {
       const codValues = [];
       const prepaidValues = [];
       const weekValues = [];
-      orderPrepaidData?.forEach(item => {
+      orderPrepaidData?.forEach((item,index) => {
         codValues.push(item.cod);
         prepaidValues.push(item.prepaid);
-        weekValues.push("Week " + item.week_number);
+        weekValues.push("Week " + index+1);
       });
       setChartData(prevState => ({
         ...prevState,

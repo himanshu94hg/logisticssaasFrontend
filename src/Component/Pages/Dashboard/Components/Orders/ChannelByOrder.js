@@ -36,7 +36,7 @@ const ChannelByOrder = () => {
   return (
     <div className="box-shadow shadow-sm p10">
       <h4 className="title">Store Based Orders</h4>
-      {storeBasedData && storeBasedData.length > 0 ? (
+      {storeBasedData && storeBasedData.length > 0 && (
         <div className="">
           <div className="row">
             <div className="col">
@@ -71,9 +71,7 @@ const ChannelByOrder = () => {
             </div>
           </div>
         </div>
-      ) : (
-        <p>Loading...</p>
-      )}
+      ) }
     </div>
   );
 }
