@@ -426,14 +426,16 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                         </td>
                                         <td>
                                             {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover' onClick={(e) => handleClickAWB(e, row.awb_number)}>
-                                                    {row?.courier_image && <img src={row.courier_image} title='partner' width={30} className='me-2' />}
-                                                    {row.awb_number}
-                                                </p>
-                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)} style={{ paddingLeft: row?.courier_image ? "35px" : "0px" }}>
-                                                    {row && row.courier_partner}
-                                                </p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.courier_image && <img src={row.courier_image} title='Partner' />}
+                                                <div>
+                                                    <p className='details-on-hover' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                        {row.awb_number}
+                                                    </p>
+                                                    <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
+                                                        {row && row.courier_partner}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

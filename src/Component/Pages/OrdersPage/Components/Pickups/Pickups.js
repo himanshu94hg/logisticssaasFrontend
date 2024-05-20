@@ -396,11 +396,14 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                         </td>
                                         <td>
                                             {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb ' onClick={handleClickAWB}>{row.awb_number ?? ""}
-                                                    {/* <span style={{right:'23px', width:'100px'}}>AWB Number</span> */}
-                                                </p>
-                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.courier_image && <img src={row.courier_image} title='Partner' />}
+                                                <div>
+                                                    <p className='details-on-hover ' onClick={handleClickAWB}>
+                                                        {row.awb_number ?? ""}
+                                                    </p>
+                                                    <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
+                                                </div>
                                             </div>
                                         </td>
                                         <td className='align-middle'>

@@ -559,6 +559,18 @@ ul.order-label-list li {
   gap: 10px;
 }
 
+.cell-inside-box.shipping-details {
+  display: flex;
+  flex-direction: row;
+  gap: 3px;
+  align-items: center;
+}
+
+.cell-inside-box.shipping-details img {
+  height: 35px;
+  width: 35px;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;
