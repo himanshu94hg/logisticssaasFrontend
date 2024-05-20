@@ -43,3 +43,15 @@
     font-weight: 400;
     font-size: 1rem;
 }
+
+.pop-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.pop-heading label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

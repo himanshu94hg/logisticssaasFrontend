@@ -44,6 +44,17 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
 
     }
 
+    const handleCancel = () => {
+        setUpdateWeight(false)
+        if (dimensionData) {
+            const convertedData = dimensionData.map(item => ({
+                ...item,
+                weight: parseFloat(item.weight / 1000)
+            }));
+            setDimension(convertedData)
+        }
+    }
+
     console.log(dimension, "this is a dimension data")
 
     return (
@@ -52,11 +63,19 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                 <div style={{ width: '100%', height: '400px' }} className='d-flex flex-column ws-nowrap '>
                     <div className="pop-heading">
                         <h4>Update Weight & Dimension</h4>
+                        <label htmlFor="">
+                            <input type="checkbox" checked />
+                            Copy To All
+                        </label>
                     </div>
                     <div className='pop-content'>
                         <div className='d-flex flex-column'>
                             {dimension && dimension.length > 0 && dimension.map((data, index) => (
                                 <div key={index} className='lbh-labels'>
+                                    <label>
+                                        Order Number
+                                        <input className='input-field' value={dimension[index].order} />
+                                    </label>
                                     <label>
                                         Dead Weight
                                         <input
@@ -102,7 +121,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                         </div>
                     </div>
                     <div className='d-flex justify-content-end w-100 my-2 pe-2'>
-                        <button onClick={() => setUpdateWeight(false)} className='btn cancel-button me-2'>Cancel</button>
+                        <button onClick={handleCancel} className='btn cancel-button me-2'>Cancel</button>
                         <button onClick={() => handleDimension()} className='btn main-button'>Apply</button>
                     </div>
                 </div>
