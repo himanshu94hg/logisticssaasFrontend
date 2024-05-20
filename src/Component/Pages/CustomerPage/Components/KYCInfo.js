@@ -225,7 +225,7 @@ const KYCInfo = ({ activeTab }) => {
                   <label>
                     Upload Document:
                     <input
-                      className="input-field"
+                      className="form-control input-field"
                       type="file"
                       fileinput="fileinput"
                       name="document_upload"
