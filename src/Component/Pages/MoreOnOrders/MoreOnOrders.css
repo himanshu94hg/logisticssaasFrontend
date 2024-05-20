@@ -276,6 +276,8 @@
   text-transform: capitalize;
   margin-bottom: 0;
   font-weight: 700;
+  width: 100%;
+  text-align: center;
 }
 
 .icon-rotate {

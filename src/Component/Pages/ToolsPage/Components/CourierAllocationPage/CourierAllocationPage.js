@@ -71,7 +71,8 @@ const CourierAllocationPage = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <FontAwesomeIcon icon={faEllipsisVertical} /><img src={partner.title} alt="" />{partner.title}
+                              <FontAwesomeIcon icon={faEllipsisVertical} /><img style={{ border: "1px solid #E3E3E3", borderRadius: "50%" }}
+                                src={partner.image} alt="" />{partner.title}
 
                             </li>
                           )}
