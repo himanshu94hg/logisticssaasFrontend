@@ -417,6 +417,8 @@
   text-transform: capitalize;
   margin-bottom: 0;
   font-weight: 700;
+  width: 100%;
+  text-align: center;
 }
 
 .icon-rotate {
@@ -563,7 +565,7 @@ ul.order-label-list li {
 .cell-inside-box.shipping-details {
   display: flex;
   flex-direction: row;
-  gap: 3px;
+  gap: 0.25rem;
   align-items: center;
 }
 
