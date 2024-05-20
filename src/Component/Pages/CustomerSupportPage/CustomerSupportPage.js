@@ -267,6 +267,7 @@ const CustomerSupportPage = () => {
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
           errors={errors}
+          
           setClearTicket={setClearTicket}
           handleReset={handleReset}
         />

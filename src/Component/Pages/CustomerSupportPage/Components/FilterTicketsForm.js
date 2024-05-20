@@ -158,7 +158,7 @@ const FilterTicketsForm = (props) => {
 
       <div className='ticket-filter-inputs'>
         <div>
-          <h6>Created At</h6>
+          <h6>Created</h6>
           <div className='date-picker-container'>
             <FontAwesomeIcon
               icon={faCalendarAlt}
@@ -177,7 +177,7 @@ const FilterTicketsForm = (props) => {
           </div>
         </div>
         <div>
-          <h6>Resolution Due By</h6>
+          <h6>Due Date</h6>
           <div className='date-picker-container'>
             <FontAwesomeIcon
               icon={faCalendarAlt}
@@ -197,7 +197,7 @@ const FilterTicketsForm = (props) => {
           </div>
         </div>
         <div>
-          <h6>Last Updated</h6>
+          <h6>Updated</h6>
           <div className='date-picker-container'>
             <FontAwesomeIcon
               icon={faCalendarAlt}
