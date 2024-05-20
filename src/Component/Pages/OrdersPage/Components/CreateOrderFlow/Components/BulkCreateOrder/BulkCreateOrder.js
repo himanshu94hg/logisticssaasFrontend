@@ -72,7 +72,7 @@ const BulkCreateOrder = () => {
         tempAnchor.setAttribute('href', templateUrl);
         tempAnchor.click();
         tempAnchor.remove();
-      console.log("hit")
+        console.log("hit")
     };
 
     const handleDownloadError = (fileLink) => {
@@ -83,7 +83,7 @@ const BulkCreateOrder = () => {
         tempAnchor.click();
         tempAnchor.remove();
         console.log("hit")
-      };
+    };
 
     return (
         <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
@@ -98,10 +98,11 @@ const BulkCreateOrder = () => {
                 <div className='mid-text-container'>
                     <input key={inputKey} type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
                     <LuUploadCloud className='font30 mb-3' />
-                    <p>Drag And Drop to upload the files here.</p>
+                    <p>Drag And Drop to upload the file here.</p>
                     <p className='bo-or-text'>OR</p>
                     <p className='upload-click ml-5'>Click to Upload File</p>
-                    <p className='accepted-note'>Only csv, xls & xlsx file format will be accepted.</p>
+                    {/* <p className='accepted-note'>Only csv, xls & xlsx file format will be accepted.</p> */}
+                    <p className='accepted-note'>Only .xls & .xlsx file format will be accepted.</p>
                 </div>
             </section>
             <section className='bo-upload-data'>
