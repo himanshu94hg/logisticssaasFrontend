@@ -3,7 +3,7 @@
     background: #fff;
     box-shadow: var(--bs-box-shadow-sm) !important;
     padding: 30px 15px;
-    min-height: calc(100vh - 200px);    
+    min-height: calc(100vh - 200px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -33,10 +33,9 @@
 } */
 
 .customer-details-form input[type="file"] {
-    text-align: left; 
-    padding-left: 3px;
-    padding-top: 4px;
-
+    text-align: left;
+    padding-left: 5px;
+    padding-top: 7px;
 }
 
 .customer-details-form hr {
@@ -93,20 +92,20 @@
     height: 70%;
 }
 
-.add-account-text{
+.add-account-text {
     color: var(--sh-primary);
 }
 
-.upload-doc-list{
+.upload-doc-list {
     list-style: none;
 }
 
-.upload-doc-list li{
+.upload-doc-list li {
     display: flex;
     align-items: center;
 }
 
-.upload-doc-list li .delete-btn{
+.upload-doc-list li .delete-btn {
     display: flex;
     align-items: center;
     background-color: #F31429;
@@ -115,12 +114,12 @@
     padding: 5px 10px;
 }
 
-.upload-doc-list li .delete-btn:hover{
+.upload-doc-list li .delete-btn:hover {
     background-color: #F31429;
     color: #fff;
 }
 
-.agreement-section{
+.agreement-section {
     width: 95%;
     margin-inline: auto;
     display: flex;
@@ -130,22 +129,29 @@
 }
 
 
-.Sign-section{
+.Sign-section {
     display: flex;
     justify-content: flex-start;
     flex-direction: column;
     width: 100%;
 }
 
-.Sign-section span{
+.Sign-section span {
     min-width: 5rem;
     border-bottom: 1px solid;
     display: inline-block;
 }
 
 
-.agreement-buttons{
+.agreement-buttons {
     display: flex;
     justify-content: space-between;
     margin-top: 1.5rem;
+}
+
+.customer-details-form .preview-btn {
+    position: absolute;
+    right: 1px;
+    bottom: 2px;
+    padding: 0.3125rem;
 }

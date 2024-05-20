@@ -28,7 +28,7 @@ const FormInput = ({ label, placeholder, mandatory, type, value, onChange, onBlu
       <textarea placeholder={placeholder} className={`input-field text-field ${customClass}`} rows="4" value={value} name={name} onChange={onChange} onBlur={onBlur} />
     ) : type === 'file' ? (
       <div className="file-input-container">
-        <input placeholder={placeholder} className='input-field choose-file-container' type={type} onChange={onChange} onBlur={onBlur} name={name} id={fileInput} />
+        <input placeholder={placeholder} className='form-control input-field choose-file-container' type={type} onChange={onChange} onBlur={onBlur} name={name} id={fileInput} />
         {selectFile && (
           <span style={{ position: "relative", right: "-95%", top: "-30px", cursor: "pointer" }}>
             <FontAwesomeIcon icon={faTimesCircle} className="clear-file-icon" onClick={clearFile} size="lg" /> {/* Using size="2x" for extra-large */}

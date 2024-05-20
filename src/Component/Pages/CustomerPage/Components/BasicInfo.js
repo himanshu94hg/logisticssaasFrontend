@@ -12,6 +12,8 @@ import { numericRegex, webUrlRegx } from '../../../../regex';
 import dummyLogo from '../../../../assets/image/logo/dummyLogo.png';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
@@ -114,7 +116,7 @@ const BasicInfo = ({ activeTab }) => {
       }
       return errors;
     }, {});
-    console.log(newErrors,"newErrorsnewErrorsnewErrors")
+    console.log(newErrors, "newErrorsnewErrorsnewErrors")
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       try {
@@ -454,22 +456,23 @@ const BasicInfo = ({ activeTab }) => {
                   </label>
                   <label className='position-relative'>
                     <span>GST Certificate<span className='custom-error'> *</span></span>
-                    <input className="input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
+                    <input className="form-control input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
+                    {formData.gst_certificate && (
+                      <button
+                        type="button"
+                        // style={{ float: 'right' }}
+                        className="btn preview-btn"
+                        onClick={() => handleShow(formData.gst_certificate)}
+                      >
+                        <FontAwesomeIcon icon={faEye} />
+                      </button>
+                    )}
                   </label>
                 </div>
               </div>
             </div>
-            {formData.gst_certificate && (
-              <button
-                type="button"
-                style={{ float: 'right' }}
-                className="btn preview-btn"
-                onClick={() => handleShow(formData.gst_certificate)}
-              >
-                View File
-              </button>
-            )}
+
             {/* Add other form sections here */}
           </div>
           <div className='d-flex justify-content-end mt-4'>
