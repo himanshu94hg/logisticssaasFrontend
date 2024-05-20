@@ -556,6 +556,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <span> Recipient Name <span className='mandatory'>*</span></span>
                                 <input
                                     placeholder='Enter Recipient Name'
+                                    maxLength={100}
                                     onChange={(e) => handleChangeBilling(e, 'customer_name')}
                                     className={`input-field ${errors.billing_customer_name || editErrors?.billing_customer_name ? 'input-field-error' : ''}`}
                                     type="text" value={formData.billing_details.customer_name ?? formData.shipping_details.recipient_name}
@@ -617,6 +618,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <span>Company Name <span className='text-gray'>(optional)</span></span>
                                 <input
                                     className='input-field'
+                                    maxLength={100}
                                     placeholder="Enter Recipient's Company Name"
                                     type="email" value={formData.billing_details.company_name}
                                     onChange={(e) => handleChangeBilling(e, 'company_name')}
@@ -645,6 +647,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     placeholder="House/Floor No. Building Name or Street, Locality"
                                     type="text" value={formData.billing_details.address}
                                     onChange={(e) => handleChangeBilling(e, 'address')}
+                                    maxLength={100}
                                     onKeyPress={(e) => {
                                         const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                         if (
@@ -668,6 +671,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     className={`input-field ${errors.billing_landmark || editErrors?.billing_landmark ? 'input-field-error' : ''}`}
                                     placeholder="Any nearby post office, market, Hospital as the landmark"
                                     type="text" value={formData.billing_details.landmark}
+                                    maxLength={100}
                                     onChange={(e) => handleChangeBilling(e, 'landmark')}
                                     onKeyPress={(e) => {
                                         const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;

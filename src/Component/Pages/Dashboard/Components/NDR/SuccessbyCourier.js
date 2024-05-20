@@ -59,12 +59,12 @@ const CourierNDRChart = () => {
         if (successByCourier && successByCourier?.length > 0) {
             const seriesData = [{
                 name: 'NDR Raised',
-                data: successByCourier.map(courier => courier.ndr_raised)
+                data: successByCourier?.slice(0,6)?.map(courier => courier.ndr_raised)
             }, {
                 name: 'NDR Delivered',
-                data: successByCourier.map(courier => courier.ndr_delivered)
+                data: successByCourier?.slice(0,6)?.map(courier => courier.ndr_delivered)
             }];
-            const categories = successByCourier?.map(courier => capatlize(courier.courier_partner));
+            const categories = successByCourier?.slice(0,6)?.map(courier => capatlize(courier.courier_partner));
             setChartData(prevState => ({
                 ...prevState,
                 series: seriesData,
