@@ -101,88 +101,88 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     const validateForm = () => {
         let valid = true;
         let errors = {};
-        if (!formData.warehouse_name.trim()) {
+        if (!formData?.warehouse_name?.trim()) {
             valid = false;
             errors.warehouse_name = 'Enter Warehouse Name!';
         }
-        if (!formData.contact_name.trim()) {
+        if (!formData?.contact_name?.trim()) {
             valid = false;
             errors.contact_name = 'Enter Contact Person name!';
         }
-        if (!formData.contact_number.trim()) {
+        if (!formData?.contact_number?.trim()) {
             valid = false;
             errors.contact_number = 'Enter Contact number !';
-        } else if (formData.contact_number.length !== 10) {
+        } else if (formData?.contact_number?.length !== 10) {
             valid = false;
             errors.contact_number = 'Mobile number must be 10 digits.';
         }
-        if (!formData.gst_number.trim()) {
+        if (!formData?.gst_number.trim()) {
             valid = false;
             errors.gst_number = 'Enter GST number !';
         }
-        else if (formData.gst_number.length !== 15) {
+        else if (formData?.gst_number?.length !== 15) {
             valid = false;
             errors.gst_number = 'GST number must be 15 digits.';
         }
 
-        if (!formData.address_line1.trim()) {
+        if (!formData?.address_line1?.trim()) {
             valid = false;
             errors.address_line1 = 'Enter Address 1!';
         }
-        if (!formData.address_line2.trim()) {
+        if (!formData?.address_line2?.trim()) {
             valid = false;
             errors.address_line2 = 'Enter Address 2!';
         }
-        if (!formData.pincode.trim()) {
+        if (!formData?.pincode?.trim()) {
             valid = false;
             errors.pincode = 'Enter pincode!';
         }
-        if (!formData.city.trim()) {
+        if (!formData?.city?.trim()) {
             valid = false;
             errors.city = 'Enter city name!';
         }
-        if (!formData.state.trim()) {
+        if (!formData?.state?.trim()) {
             valid = false;
             errors.state = 'Enter state name!';
         }
-        if (!formData.country.trim()) {
+        if (!formData?.country?.trim()) {
             valid = false;
             errors.country = 'Enter country name!';
         }
 
-        if (!formData.rto_details.warehouse_name.trim()) {
+        if (!formData?.rto_details?.warehouse_name?.trim()) {
             valid = false;
             errors.warehouse_name1 = 'Enter Warehouse Name!';
         }
-        if (!formData.rto_details.contact_person_name.trim()) {
+        if (!formData?.rto_details?.contact_person_name?.trim()) {
             valid = false;
             errors.contact_person_name1 = 'Enter Contact Person name!';
         }
-        if (!formData.rto_details.contact_number.trim()) {
+        if (!formData?.rto_details?.contact_number?.trim()) {
             valid = false;
             errors.contact_number1 = 'Enter Contact number!';
         }
-        if (!formData.rto_details.email.trim()) {
+        if (!formData?.rto_details?.email?.trim()) {
             valid = false;
             errors.email = 'Enter Email id!';
         }
-        if (!formData.rto_details.address.trim()) {
+        if (!formData?.rto_details?.address?.trim()) {
             valid = false;
             errors.address = 'Enter Address details!';
         }
-        if (!formData.rto_details.pincode.trim()) {
+        if (!formData?.rto_details?.pincode?.trim()) {
             valid = false;
             errors.pincode1 = 'Enter pincode!';
         }
-        if (!formData.rto_details.city.trim()) {
+        if (!formData?.rto_details?.city?.trim()) {
             valid = false;
             errors.city1 = 'Enter city name!';
         }
-        if (!formData.rto_details.state.trim()) {
+        if (!formData?.rto_details?.state?.trim()) {
             valid = false;
             errors.state1 = 'Enter state name!';
         }
-        if (!formData.rto_details.country.trim()) {
+        if (!formData?.rto_details?.country?.trim()) {
             valid = false;
             errors.country1 = 'Enter country name!';
         }
