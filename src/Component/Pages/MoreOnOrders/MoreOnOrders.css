@@ -276,6 +276,9 @@
   text-transform: capitalize;
   margin-bottom: 0;
   font-weight: 700;
+}
+
+.status-box .order-Status-box {
   width: 100%;
   text-align: center;
 }

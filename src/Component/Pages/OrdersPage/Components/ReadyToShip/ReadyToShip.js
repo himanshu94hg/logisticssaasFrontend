@@ -438,7 +438,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className='align-middle status-box'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>

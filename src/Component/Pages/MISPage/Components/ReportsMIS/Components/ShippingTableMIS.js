@@ -69,13 +69,13 @@ const ShippingTableMIS = ({ setTotalItems }) => {
                     <React.Fragment key={row.id}>
                         {index > 0 && <tr className="blank-row"><td></td></tr>}
                         <tr className='table-row box-shadow'>
-                            {/*} <td className='checkbox-cell'>
+                            {/* <td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                </td>*/}
+                            </td> */}
                             <td>
                                 <div className='cell-inside-box'>
                                     <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
@@ -126,9 +126,12 @@ const ShippingTableMIS = ({ setTotalItems }) => {
                                 </div>
                             </td>
                             <td>
-                                <div className='cell-inside-box'>
-                                    <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                    <p className=''>{row?.courier_partner ?? ""} </p>
+                                <div className='cell-inside-box shipping-details'>
+                                    {row?.courier_image && <img src={row?.courier_image} title='partner' />}
+                                    <div>
+                                        <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                        <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
+                                    </div>
                                 </div>
                             </td>
                             <td className='align-middle'>

@@ -450,7 +450,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className='align-middle'>
+                                            <td className='align-middle status-box'>
                                                 <p className='order-Status-box'>{row?.status || 'New'}</p>
                                             </td>
                                             <td className='align-middle'>
