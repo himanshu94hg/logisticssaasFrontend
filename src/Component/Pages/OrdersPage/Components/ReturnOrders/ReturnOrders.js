@@ -308,7 +308,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className='align-middle status-box'>
                                             <p className='order-Status-box'>{row?.status || 'New'}</p>
                                         </td>
                                     </tr>

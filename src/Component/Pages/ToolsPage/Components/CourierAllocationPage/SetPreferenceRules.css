@@ -18,7 +18,7 @@
 }
 
 .ar-items-scroll {
-    height: calc(100vh - 555px);
+    height: calc(100vh - 448px);
     overflow-y: auto;
     overflow-x: clip;
     counter-reset: section;

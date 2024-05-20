@@ -126,7 +126,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                    <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         <CustomTooltip
                                                             triggerComponent={<VerifiedOrderIcon />}
                                                             tooltipComponent='Verified'
@@ -221,7 +221,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
 
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className='align-middle status-box'>
                                             <p className='order-Status-box'>{row?.status}</p>
                                         </td>
                                         <td className='align-middle'>
@@ -251,7 +251,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                             ))}
                         </tbody>
                     </table>
-                    {orders?.length === 0 && <NoData/>}
+                    {orders?.length === 0 && <NoData />}
                 </div>
             </div>
         </section>
