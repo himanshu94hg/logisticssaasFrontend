@@ -372,7 +372,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                         <td>
                                             {/* payment section here */}
                                             <div className='cell-inside-box'>
-                                                <p>&#x20B9; {row.invoice_amount}</p>
+                                                <p className=''>₹ {row.invoice_amount}</p>
                                                 <p className='order-Status-box mt-1'>{row.payment_type}</p>
                                             </div>
                                         </td>
