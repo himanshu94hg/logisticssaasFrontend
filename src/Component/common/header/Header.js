@@ -125,7 +125,7 @@ export default function Header(props) {
                   <span className={`walletIcon px-2 ${(temp.var2?.balance || temp.var1?.balance) < 1000 ? 'empty' : ''}`}>
                     {(temp.var2?.balance || temp.var1?.balance) < 1000 ? <EmptyWalletIcon /> : <WalletIcon />}
                     <div className="walletBalance">
-                      ₹ {temp.var2?.balance ?? temp.var1?.balance}
+                      ₹ {temp.var2?.balance ?? temp.var1?.balance ?? '0.00'}
                     </div>
                     {(temp.var2?.balance || temp.var1?.balance) < 1000 &&
                       <span className="low-balance">!Low Balance</span>

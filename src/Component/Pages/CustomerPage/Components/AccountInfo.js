@@ -147,7 +147,7 @@ const AccountInfo = ({ activeTab }) => {
           },
         });
         if (!response.ok) {
-          toast.error('Failed to delete the account');
+          //toast.error('Failed to delete the account');
         }
         else {
           toast.success('Account deleted successfully.');

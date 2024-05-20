@@ -208,7 +208,7 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg <span className='text-blue'><br /></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -221,6 +221,8 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>
@@ -265,7 +267,7 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                 <SidePanel CloseSidePanel={CloseSidePanel} />
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
             </div>
-        </section >
+        </section>
     );
 };
 

@@ -103,7 +103,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
                                                         : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                             : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "custom" ?<CustomIcon />
+                                                                    : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                         : ""}
                                         &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>
@@ -131,8 +131,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
                                 {/* Package Details */}
                                 <div className='cell-inside-box'>
                                     <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                    <p>Wt:  {row?.dimension_detail?.weight} kg <br />
-                                        <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                    <p>Wt:  {row?.dimension_detail?.weight} kg
                                         <span className='details-on-hover ms-2 align-middle'>
                                             <InfoIcon />
                                             <span style={{ width: '250px' }}>
@@ -145,6 +144,9 @@ const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
                                                 ))}
                                             </span>
                                         </span>
+                                        <br />
+                                        <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+
                                     </p>
                                 </div>
                             </td>

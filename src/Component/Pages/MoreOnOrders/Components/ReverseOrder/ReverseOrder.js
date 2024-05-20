@@ -47,7 +47,7 @@ const InfoMissing = () => {
     );
 }
 
-const ReverseOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBulkActionShow }) => {
+const ReverseOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -56,7 +56,7 @@ const ReverseOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBu
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
-        setSelectAll(!selectAll);   
+        setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(orders.map(row => row?.id));
             setBulkActionShow(true)
@@ -224,7 +224,7 @@ const ReverseOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBu
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                <p>Wt:  {row?.dimension_detail?.weight} kg <span className='text-blue'><br /></span> LBH: {row?.dimension_detail?.length}x{row?.dimension_detail?.breadth}x{row?.dimension_detail?.height}
+                                                <p>Wt:  {row?.dimension_detail?.weight} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -237,6 +237,8 @@ const ReverseOrder = ({ orders, handleSearch,selectedRows, setSelectedRows,setBu
                                                             ))}
                                                         </span>
                                                     </span>
+                                                    <br />
+                                                    <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
                                                 </p>
                                             </div>
                                         </td>

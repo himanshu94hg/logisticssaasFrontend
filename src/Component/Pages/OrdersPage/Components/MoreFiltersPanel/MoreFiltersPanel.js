@@ -114,7 +114,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setErrors({ ...errors, start_date: 'Please select both start and end dates', end_date: 'Please select both start and end dates' });
             return;
         } else {
-            setErrors({}); 
+            setErrors({});
         }
 
         handleMoreFilter(filterParams)
@@ -220,7 +220,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [MoreFilters])
 
-    console.log(MoreFilters,"MoreFiltersMoreFilters")
+    console.log(MoreFilters, "MoreFiltersMoreFilters")
 
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
@@ -298,9 +298,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         } else {
             setCourierPartners([]);
         }
-    },[courierPartnerData])
+    }, [courierPartnerData])
 
-    console.log(courierPartners, "courierPartnerscourierPartnerscourierPartnerscourierPartners",courierPartnerData)
+    console.log(courierPartners, "courierPartnerscourierPartnerscourierPartnerscourierPartners", courierPartnerData)
 
     return (
         <>
@@ -321,13 +321,19 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <div className="date-picker-container">
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
-                                            dateFormat='dd/MM/yyyy'
                                             className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.start_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("start_date", e)}
                                             placeholderText='Select Start Date'
+                                            dateFormat="MM/dd/yyyy h:mm aa"
+                                            isClearable
+                                            closeOnScroll={(e) => e.target === document}
+                                            showTimeInput
+                                            showMonthDropdown
+                                            showYearDropdown
+                                        // dropdownMode="select"
                                         />
                                         {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}
                                     </div>
@@ -337,13 +343,19 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <div className="date-picker-container">
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                         <DatePicker
-                                            dateFormat='dd/MM/yyyy'
+                                            dateFormat="MM/dd/yyyy h:mm aa"
                                             className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
                                             selected={filterParams?.end_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("end_date", e)}
                                             placeholderText='Select Start Date'
+                                            isClearable
+                                            closeOnScroll={(e) => e.target === document}
+                                            showTimeInput
+                                            showMonthDropdown
+                                            showYearDropdown
+                                        // dropdownMode="select"
                                         />
                                         {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
                                     </div>

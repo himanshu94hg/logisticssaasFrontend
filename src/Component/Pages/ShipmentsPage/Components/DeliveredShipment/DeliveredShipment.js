@@ -50,7 +50,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
+const DeliveredShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -68,17 +68,17 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
         { count: 2, data: "NETWORK DELAY, WILL IMPACT DELIVERY" },
         { count: 4, data: "Reattempt Requested" },
         { count: 3, data: "Reattempt Requested" },
-      ];
-    
-      const getRandomCount = (reasons) => {
+    ];
+
+    const getRandomCount = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].count;
-      };
-    
-      const getRandomReason = (reasons) => {
+    };
+
+    const getRandomReason = (reasons) => {
         const randomIndex = Math.floor(Math.random() * reasons.length);
         return reasons[randomIndex].data;
-      };
+    };
 
 
     // Handler for "Select All" checkbox
@@ -130,7 +130,7 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
     const [selectedData, setSelectedData] = useState(null);
 
     const handleShow = (row) => {
-        console.log("Modal",row);
+        console.log("Modal", row);
         setSelectedData(row);
         setShow(true);
     };
@@ -142,12 +142,12 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
         console.log(orders, "this is orders");
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
-      };
+    };
 
-      const handleClickpartner = (event, row) => {
+    const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase(); 
-    
+        const courierPartner = row.courier_partner.toLowerCase();
+
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -188,7 +188,7 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
                 break;
         }
     }
-    
+
 
     return (
         <section className='position-relative'>
@@ -259,8 +259,8 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
                                                 <p ><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
-                                                     {/* <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} /> */}
-                                                     <InfoIcon onClick={() => handleShow(row)} />
+                                                    {/* <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} /> */}
+                                                    <InfoIcon onClick={() => handleShow(row)} />
                                                 </p>
                                                 {/* {row?.ndr_details.length > 0 && (
                                                     row.ndr_details.map((detail, index) => (
@@ -273,20 +273,22 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                                <p>Wt:   {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)}kg <br />
-                                                    <span>LBH: {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+                                                <p>Wt:   {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)}kg
                                                     <span className='details-on-hover ms-2 align-middle'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.order_products.map((product, index) => (
-                                                                    <React.Fragment key={index}>
-                                                                        <strong>Product:</strong> {product.product_name}<br />
-                                                                        <strong>SKU:</strong> {product.sku}<br />
-                                                                        <strong>Qt.:</strong> {product.quantity}<br />
-                                                                    </React.Fragment>
-                                                                ))}
-                                                            </span>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.order_products.map((product, index) => (
+                                                                <React.Fragment key={index}>
+                                                                    <strong>Product:</strong> {product.product_name}<br />
+                                                                    <strong>SKU:</strong> {product.sku}<br />
+                                                                    <strong>Qt.:</strong> {product.quantity}<br />
+                                                                </React.Fragment>
+                                                            ))}
                                                         </span>
+                                                    </span>
+                                                    <br />
+                                                    <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
+
                                                 </p>
                                             </div>
                                         </td>
@@ -296,26 +298,26 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
                                                 <p>{row?.shipping_detail?.recipient_name}</p>
                                                 <p>{row?.shipping_detail?.mobile_number ?? null}
                                                     <span className='details-on-hover ms-2'>
-                                                            <InfoIcon />
-                                                            <span style={{ width: '250px' }}>
-                                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
-                                                            </span>
+                                                        <InfoIcon />
+                                                        <span style={{ width: '250px' }}>
+                                                            {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
                                                         </span>
+                                                    </span>
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* shiping section here */}
-                                                <div className='cell-inside-box'>
-                                                    <p className='details-on-hover' onClick={(e) => handleClickAWB(e, row.awb_number)}>
-                                                        {row?.courier_image && <img src={row.courier_image} title='partner' width={30} className='me-2' />}
-                                                        {row.awb_number}
-                                                    </p>
-                                                    <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)} style={{ paddingLeft: row?.courier_image ? "35px" : "0px" }}>
-                                                        {row && row.courier_partner}
-                                                    </p>
-                                                </div>
-                                            </td>
+                                            <div className='cell-inside-box'>
+                                                <p className='details-on-hover' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                    {row?.courier_image && <img src={row.courier_image} title='partner' width={30} className='me-2' />}
+                                                    {row.awb_number}
+                                                </p>
+                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)} style={{ paddingLeft: row?.courier_image ? "35px" : "0px" }}>
+                                                    {row && row.courier_partner}
+                                                </p>
+                                            </div>
+                                        </td>
                                         <td className='align-middle'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{row.status}</p>
@@ -345,33 +347,33 @@ const DeliveredShipment = ({shipmentCard,selectedRows,setSelectedRows,setBulkAct
 export default DeliveredShipment;
 
 function Preview({ show, handleClose, selectedData }) {
-    console.log("All Select",selectedData);
+    console.log("All Select", selectedData);
     return (
         <Modal show={show} onHide={handleClose} size="lg">
             <Modal.Header closeButton>
                 <Modal.Title>NDR Attempt History</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-            <table className="table">
-                <tbody>
-                    <tr>
-                        <th>Raised Date</th>
-                        <th>Action By</th>
-                        <th>Reason</th>
-                        <th>Remark</th>
-                        <th>Status</th>
-                    </tr>
-                    {selectedData?.ndr_details?.map((row, index) => (
-                        <tr key={index}>
-                            <td>{row?.raised_date ? <DateFormatter dateTimeString={row?.raised_date} /> : ''}</td>
-                            <td>{row?.action_by}</td>
-                            <td>{row?.reason}</td>
-                            <td>{row?.remark}</td>
-                            <td>{row?.action_status}</td>
+                <table className="table">
+                    <tbody>
+                        <tr>
+                            <th>Raised Date</th>
+                            <th>Action By</th>
+                            <th>Reason</th>
+                            <th>Remark</th>
+                            <th>Status</th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                        {selectedData?.ndr_details?.map((row, index) => (
+                            <tr key={index}>
+                                <td>{row?.raised_date ? <DateFormatter dateTimeString={row?.raised_date} /> : ''}</td>
+                                <td>{row?.action_by}</td>
+                                <td>{row?.reason}</td>
+                                <td>{row?.remark}</td>
+                                <td>{row?.action_status}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
 
             </Modal.Body>
         </Modal>

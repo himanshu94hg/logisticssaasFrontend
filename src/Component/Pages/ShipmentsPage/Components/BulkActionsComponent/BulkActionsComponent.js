@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
+import RtoIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/RTOAddressIcon';
+import IvrIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/IvrIcon';
+import ReAttemptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ReAttemptIcon';
 // import './BulkActionsComponent.css'
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows }) => {
@@ -68,21 +72,21 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows }) => {
                     <span>Rows Selected</span>
                 </div>
                 <ul className='ba-actions'>
-                    <li><span>IVR</span></li>
+                    <li><IvrIcon /><span>IVR</span></li>
                     {(activeTab !== "Delivered" || activeTab !== "RTO") && (
                         <>
                             {activeTab === "Action Required" && (
                                 <>
-                                    <li onClick={handleReattemptOrder}><span>Re-Attempt</span></li>
-                                    <li onClick={handleRtoOrder}><span>RTO</span></li>
+                                    <li onClick={handleReattemptOrder}><ReAttemptIcon /><span>Re-Attempt</span></li>
+                                    <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
                                 </>
                             )}
                             {activeTab === "Action Requested" && (
-                                <li onClick={handleRtoOrder}><span>RTO</span></li>
+                                <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
                             )}
                         </>
                     )}
-                    <li onClick={handleExport}><span>Export</span></li>
+                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                 </ul>
 
                 <div className='ba-close'></div>

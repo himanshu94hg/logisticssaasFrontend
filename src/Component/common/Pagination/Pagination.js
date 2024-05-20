@@ -62,7 +62,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
                     <div className="pagination">
                         <p onClick={handleFirstPage} disabled={currentPage === 1}><FirstIcon /></p>
                         <p onClick={handlePrevious} disabled={currentPage === 1}><PreviousIcon /></p>
-                        <p>{currentPage} of {totalPages}</p>
+                        <p>{currentPage} of {totalPages || 1}</p>
                         <p onClick={handleNext} disabled={currentPage === totalPages}><NextIcon /></p>
                         <p onClick={handleLastPage} disabled={currentPage === totalPages}><LastIcon /></p>
                     </div>
