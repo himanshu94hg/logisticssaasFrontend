@@ -408,7 +408,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className='align-middle status-box'>
                                             {/*  Status section  */}
                                             <div className='d-flex flex-column gap-2 justify-content-center'>
                                                 <p className='order-Status-box'>{row?.status}</p>

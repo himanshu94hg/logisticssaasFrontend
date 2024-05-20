@@ -239,7 +239,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                             <td>
                                                 <div className='cell-inside-box'>
                                                     <p className='width-eclipse'>{row?.order_products.product_name}</p>
-                                                    <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
+                                                    <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                         <span className='details-on-hover ms-2 align-middle'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
@@ -293,7 +293,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                     }
                                                 </div>
                                             </td>
-                                            <td className='align-middle'>
+                                            <td className='align-middle status-box'>
                                                 {/*  Status section  */}
                                                 <p className='order-Status-box'>{row?.status || 'New'}</p>
                                             </td>
