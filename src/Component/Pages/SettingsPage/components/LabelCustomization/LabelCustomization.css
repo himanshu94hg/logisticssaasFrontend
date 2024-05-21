@@ -1,0 +1,39 @@
+.label-customize-page table,
+.label-customize-page td,
+.label-customize-page th {
+    text-align: left;
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.label-customize-page .tableInner {
+    border: 0;
+}
+
+.label-customize-page table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.label-customize-page .page-break {
+    display: block;
+    page-break-after: always;
+}
+
+/* @page {
+    size: A6;
+    margin: 10px;
+} */
+
+.label-customize-page .no_row {
+    border: 0;
+}
+
+.label-customize-page .noPadding {
+    padding: 0;
+}
+
+.label-customize-page th,
+.label-customize-page td {
+    padding: 3px;
+}
