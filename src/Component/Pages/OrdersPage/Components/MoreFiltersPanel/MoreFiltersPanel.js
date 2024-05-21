@@ -64,6 +64,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
     const [orderTag, setorderTag] = useState([]);
+    const [orderSource, setOrderSource] = useState([]);
     const [errors, setErrors] = useState({})
 
     const [filterParams, setFilterParams] = useState({
@@ -84,6 +85,21 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFilter(prevState => !prevState);
         setSaveFav(true)
     };
+
+
+    useEffect(() => {
+        if (orderSourceListData && orderSourceListData.length > 0) {
+            const formattedData = orderSourceListData
+                .filter(item => item?.order_source) 
+                .map(item => ({
+                    value: item.order_source,
+                    label: item.order_source
+                }));
+            setOrderSource(formattedData);
+        } else {
+            setOrderSource([]);
+        }
+    }, [orderSourceListData]);
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -205,7 +221,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }
         };
 
-        fetchData(); 
+        fetchData();
 
     }, [MoreFilters, sellerData, authToken]);
 
@@ -373,11 +389,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                             <div className='filter-row'>
                                 <label >Order Source
                                     <Select
-                                        options={SourceOptions}
+                                        options={orderSource}
                                         onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
-                                        value={filterParams.order_source ? SourceOptions.filter(option => filterParams.order_source.includes(option.value)) : null}
+                                        value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
