@@ -212,17 +212,17 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate('/label-customize')}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        Label Preferences
+                                        Customize Label
                                     </li>
                                     <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        Invoice Preferences
+                                        Customize Invoice
                                     </li>
                                     <li>
                                         <span className='icon-container'>
