@@ -19,7 +19,7 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
         setCurrentPage("1");
     }, [itemsPerPage, totalItemsCount]);
 
-    const totalPages =itemsPerPage==="All"?totalItems: Math.ceil(totalItemsCount / itemsPerPage);
+    const totalPages = itemsPerPage === "All" ? 1 : Math.ceil(totalItemsCount / itemsPerPage);
 
     const handleFirstPage = () => {
         setCurrentPage(1);

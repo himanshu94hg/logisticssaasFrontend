@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
     const dispatch = useDispatch();
     const [dimension, setDimension] = useState([]);
+    const [copyToAll, setCopyToAll] = useState(false);
     const { dimensionData } = useSelector(state => state?.orderSectionReducer);
     const [errors, setErrors] = useState([]);
 
@@ -26,13 +27,27 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
     }, [dimensionData])
 
 
+    // const handleInputChange = (index, field, value) => {
+    //     const newData = [...dimension];
+    //     if (field === 'weight') {
+    //         newData[index][field] = value;
+    //     } else {
+    //         newData[index][field] = value;
+    //     }
+    //     setDimension(newData);
+    // };
     const handleInputChange = (index, field, value) => {
         const newData = [...dimension];
-        if (field === 'weight') {
-            newData[index][field] = value;
-        } else {
-            newData[index][field] = value;
+        newData[index][field] = value;
+
+        // If "Copy to All" is checked, update all rows with the same value from the first row
+        if (copyToAll) {
+            const firstRow = newData[0];
+            for (let i = 0; i < newData.length; i++) {
+                newData[i][field] = firstRow[field];
+            }
         }
+
         setDimension(newData);
     };
 
@@ -62,14 +77,16 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
     };
 
     const handleDimension = () => {
-       if(validateFormData()){
-        setUpdateWeight(false);
-        dispatch({ type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: dimension });
-       }
+        if (validateFormData()) {
+            setUpdateWeight(false);
+            setCopyToAll(false)
+            dispatch({ type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: dimension });
+        }
     };
 
     const handleCancel = () => {
         setUpdateWeight(false)
+        setCopyToAll(false)
         if (dimensionData) {
             const convertedData = dimensionData.map(item => ({
                 ...item,
@@ -79,6 +96,25 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
         }
     }
 
+    const handleCopyData = (e) => {
+        const isChecked = e.target.checked;
+        setCopyToAll(isChecked);
+
+        if (isChecked && dimension.length > 0) {
+            const firstRow = dimension[0];
+            const newData = dimension.map((item, index) => index === 0 ? item : {
+                ...item,
+                weight: firstRow.weight,
+                length: firstRow.length,
+                breadth: firstRow.breadth,
+                height: firstRow.height,
+            });
+            setDimension(newData);
+        }
+    };
+
+    console.log(dimension,"dimensiondimensiondimension")
+
     return (
         <>
             <div className={`ba-pop-show weight-update ${UpdateWeight ? 'open' : ''}`}>
@@ -86,7 +122,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                     <div className="pop-heading">
                         <h4>Update Weight & Dimension</h4>
                         <label htmlFor="">
-                            <input type="checkbox" checked />
+                            <input type="checkbox" checked={copyToAll} onChange={handleCopyData} />
                             Copy To All
                         </label>
                     </div>
@@ -107,7 +143,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             onChange={(e) => handleInputChange(index, 'weight', e.target.value)}
                                         />
                                         {/*(errors[index]?.weight) && <div className="custom-error">{errors[index]?.weight}</div>*/}
-                                        <span className='unit'>KG</span>  
+                                        <span className='unit'>KG</span>
                                     </label>
                                     <label>
                                         Length

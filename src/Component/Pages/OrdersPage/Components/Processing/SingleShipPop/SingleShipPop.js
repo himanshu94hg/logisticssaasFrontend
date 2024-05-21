@@ -137,7 +137,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                             <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword)}>Ship Now</button>
                             <p><span>EDD: <strong>{formatDate(dateAfter2Days)}</strong></span></p>
                         </div>
-                        <span className={`recommended ${true ? '' : 'd-none'}`}></span>
+                        <span className={`${option?.is_recommended?"recommended":""} ${true ? '' : 'd-none'}`}></span>
+
                     </div>
                 ))}
             </div>

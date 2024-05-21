@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -200,11 +201,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     setPickupAddresses(temp)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
+                customErrorFunction(error)
             }
         };
 
-        fetchData(); // Call the fetchData function
+        fetchData(); 
 
     }, [MoreFilters, sellerData, authToken]);
 
@@ -220,7 +221,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [MoreFilters])
 
-    console.log(MoreFilters, "MoreFiltersMoreFilters")
 
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
@@ -299,8 +299,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setCourierPartners([]);
         }
     }, [courierPartnerData])
-
-    console.log(courierPartners, "courierPartnerscourierPartnerscourierPartnerscourierPartners", courierPartnerData)
 
     return (
         <>
