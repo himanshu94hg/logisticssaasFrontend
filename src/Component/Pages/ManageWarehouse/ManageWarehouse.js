@@ -15,6 +15,7 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import { faChevronRight, faCircleXmark, faMagnifyingGlass, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
+import FileSaver from 'file-saver';
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -232,27 +233,28 @@ const ManageWarehouse = () => {
     }
   };
 
+
   const handleExport = async () => {
     try {
       const response = await axios.get(`${BASE_URL_CORE}/core-api/features/export-warehouse/`, {
         headers: {
           Authorization: `Bearer ${authToken}`
-        }
-
+        },
+        responseType: 'blob'
       });
-
+  
       if (response.status === 200) {
-        toast.success('file exported succesfully successfully!');
-        var FileSaver = require('file-saver');
-        var blob = new Blob([response?.data], { type: 'application/ms-excel' });
-        FileSaver.saveAs(blob, `warehouse.xlsx`);
-        // setExportButtonClick(false);
+        toast.success('File exported successfully!');
+        const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        FileSaver.saveAs(blob, 'warehouse.xlsx');
+      } else {
+        toast.error('Failed to export the file.');
       }
     } catch (error) {
-      customErrorFunction(error)
+      console.error('Error during file export: ', error);
+      customErrorFunction(error);
     }
-
-  }
+  };
 
   return (
     <>

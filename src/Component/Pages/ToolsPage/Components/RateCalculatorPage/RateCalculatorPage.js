@@ -50,7 +50,6 @@ const RateCalculatorPage = () => {
     }
   }, [sellerData])
 
-  console.log(zonePathName, "zonePathNamezonePathNamezonePathNamezonePathName")
   useEffect(() => {
     if (zonePathName) {
       setShipData([])
@@ -68,9 +67,20 @@ const RateCalculatorPage = () => {
 
   useEffect(() => {
     if (ratePrefilledData) {
-      setFormData(ratePrefilledData);
-    }
+      setFormData(prev => ({
+        ...prev,
+        shipment_type: ratePrefilledData?.shipment_type,
+        source_pincode:ratePrefilledData?.source_pincode,
+        destination_pincode: ratePrefilledData?.destination_pincode,
+        weight: ratePrefilledData?.weight/1000,
+        volmetric_weight: ratePrefilledData?.volmetric_weight,
+        is_cod: ratePrefilledData?.is_cod,
+        invoice_amount:ratePrefilledData?.invoice_amount,
+      }))
+    } 
   }, [ratePrefilledData]);
+
+  console.log(ratePrefilledData, "ratePrefilledDataratePrefilledData")
 
   useEffect(() => {
     if (reportSchedulerRes) {
@@ -221,7 +231,7 @@ const RateCalculatorPage = () => {
   }
 
   useEffect(() => {
-    setFormData ({
+    setFormData({
       shipment_type: "Forward",
       source_pincode: null,
       destination_pincode: null,
@@ -340,7 +350,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={ratePrefilledData ? formData.weight / 1000 : formData.weight}
+                      value={ formData.weight}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
@@ -416,7 +426,7 @@ const RateCalculatorPage = () => {
                 <div className=" d-flex gap-2 mt-3 charged-weight-sec">
                   <label>
                     <strong>Chargeable Weight:</strong>
-                    <input type="text" className='input-field' value={ratePrefilledData ? parseFloat(chargedWeight / 1000)?.toFixed(2) : parseFloat(chargedWeight)?.toFixed(2)} />
+                    <input type="text" className='input-field' value={ratePrefilledData ? parseFloat(ratePrefilledData?.volmetric_weight)?.toFixed(2) : parseFloat(chargedWeight)?.toFixed(2)} />
                     <span className='unit'>KG</span>
                   </label>
                   {/* <span>{chargedWeight}</span> */}
@@ -483,7 +493,7 @@ const RateCalculatorPage = () => {
                       <button className='btn main-button'>Ship Now</button>
                       <p><span>EDD: <strong></strong></span></p>
                     </div>
-                    <span className={`${item?.is_recommended?"recommended":""} ${true ? '' : 'd-none'}`}></span>
+                    <span className={`${item?.is_recommended ? "recommended" : ""} ${true ? '' : 'd-none'}`}></span>
                   </div>
                 </section>
               </div>

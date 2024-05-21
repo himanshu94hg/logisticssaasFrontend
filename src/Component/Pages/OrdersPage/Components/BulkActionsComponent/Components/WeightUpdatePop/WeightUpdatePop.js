@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './WeightUpdatePop.css';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
     const dispatch = useDispatch();
@@ -22,33 +21,24 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                 ...item,
                 weight: parseFloat(item.weight / 1000)
             }));
-            setDimension(convertedData)
+            setDimension(convertedData);
         }
-    }, [dimensionData])
+    }, [dimensionData]);
 
-
-    // const handleInputChange = (index, field, value) => {
-    //     const newData = [...dimension];
-    //     if (field === 'weight') {
-    //         newData[index][field] = value;
-    //     } else {
-    //         newData[index][field] = value;
-    //     }
-    //     setDimension(newData);
-    // };
     const handleInputChange = (index, field, value) => {
-        const newData = [...dimension];
-        newData[index][field] = value;
+        setDimension(prevDimension => {
+            const newData = [...prevDimension];
+            newData[index][field] = value;
 
-        // If "Copy to All" is checked, update all rows with the same value from the first row
-        if (copyToAll) {
-            const firstRow = newData[0];
-            for (let i = 0; i < newData.length; i++) {
-                newData[i][field] = firstRow[field];
+            if (copyToAll) {
+                const firstRow = newData[0];
+                for (let i = 0; i < newData.length; i++) {
+                    newData[i][field] = firstRow[field];
+                }
             }
-        }
 
-        setDimension(newData);
+            return newData;
+        });
     };
 
     const validateFormData = () => {
@@ -79,22 +69,22 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
     const handleDimension = () => {
         if (validateFormData()) {
             setUpdateWeight(false);
-            setCopyToAll(false)
+            setCopyToAll(false);
             dispatch({ type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: dimension });
         }
     };
 
     const handleCancel = () => {
-        setUpdateWeight(false)
-        setCopyToAll(false)
+        setUpdateWeight(false);
+        setCopyToAll(false);
         if (dimensionData) {
             const convertedData = dimensionData.map(item => ({
                 ...item,
                 weight: parseFloat(item.weight / 1000)
             }));
-            setDimension(convertedData)
+            setDimension(convertedData);
         }
-    }
+    };
 
     const handleCopyData = (e) => {
         const isChecked = e.target.checked;
@@ -113,15 +103,13 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
         }
     };
 
-    console.log(dimension,"dimensiondimensiondimension")
-
     return (
         <>
             <div className={`ba-pop-show weight-update ${UpdateWeight ? 'open' : ''}`}>
                 <div style={{ width: '100%', height: '400px' }} className='d-flex flex-column ws-nowrap '>
                     <div className="pop-heading">
                         <h4>Update Weight & Dimension</h4>
-                        <label htmlFor="">
+                        <label>
                             <input type="checkbox" checked={copyToAll} onChange={handleCopyData} />
                             Copy To All
                         </label>
@@ -132,7 +120,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                 <div key={index} className='lbh-labels'>
                                     <label>
                                         Order Number
-                                        <input className='input-field' value={dimension[index].order} />
+                                        <input className='input-field' value={dimension[index].order} readOnly />
                                     </label>
                                     <label>
                                         Dead Weight
@@ -142,7 +130,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             value={dimension[index].weight}
                                             onChange={(e) => handleInputChange(index, 'weight', e.target.value)}
                                         />
-                                        {/*(errors[index]?.weight) && <div className="custom-error">{errors[index]?.weight}</div>*/}
+                                        {errors[index]?.weight && <div className="custom-error">{errors[index]?.weight}</div>}
                                         <span className='unit'>KG</span>
                                     </label>
                                     <label>
@@ -153,6 +141,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             value={dimension[index].length}
                                             onChange={(e) => handleInputChange(index, 'length', e.target.value)}
                                         />
+                                        {errors[index]?.length && <div className="custom-error">{errors[index]?.length}</div>}
                                         <span className='unit'>CM</span>
                                     </label>
                                     <label>
@@ -163,6 +152,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             value={dimension[index].breadth}
                                             onChange={(e) => handleInputChange(index, 'breadth', e.target.value)}
                                         />
+                                        {errors[index]?.breadth && <div className="custom-error">{errors[index]?.breadth}</div>}
                                         <span className='unit'>CM</span>
                                     </label>
                                     <label>
@@ -173,6 +163,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             value={dimension[index].height}
                                             onChange={(e) => handleInputChange(index, 'height', e.target.value)}
                                         />
+                                        {errors[index]?.height && <div className="custom-error">{errors[index]?.height}</div>}
                                         <span className='unit'>CM</span>
                                     </label>
                                 </div>
@@ -181,7 +172,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                     </div>
                     <div className='d-flex justify-content-end w-100 my-2 pe-2'>
                         <button onClick={handleCancel} className='btn cancel-button me-2'>Cancel</button>
-                        <button onClick={() => handleDimension()} className='btn main-button'>Apply</button>
+                        <button onClick={handleDimension} className='btn main-button'>Apply</button>
                     </div>
                 </div>
             </div>
