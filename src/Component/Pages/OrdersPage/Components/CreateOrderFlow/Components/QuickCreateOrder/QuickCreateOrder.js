@@ -15,9 +15,9 @@ import ProductDetailStep from './QuickOrderSteps/ProductDetailStep';
 import PackageDetailStep from './QuickOrderSteps/PackageDetailStep';
 import WareHouseDetailStep from './QuickOrderSteps/WareHouseDetailStep';
 import './QuickCreateOrder.css'
-import { checkType, errorHandle, errorHandleSecond, errorHandlefirst } from '../../../../../../../customFunction/errorHandling';
+import { checkType, customErrorFunction } from '../../../../../../../customFunction/errorHandling';
 import SingleShipPop from '../../../Processing/SingleShipPop/SingleShipPop';
-import { BASE_URL_ORDER } from '../../../../../../../axios/config';
+import { BASE_URL_CORE, BASE_URL_ORDER } from '../../../../../../../axios/config';
 
 
 const QuickCreateOrder = () => {
@@ -30,6 +30,8 @@ const QuickCreateOrder = () => {
     const [isChecked, setIsChecked] = useState(true);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
+    const [shipingResponse, setShipingResponse] = useState(null);
+
 
     const [formData, setFormData] = useState({
         order_details: {
@@ -104,7 +106,6 @@ const QuickCreateOrder = () => {
         ],
     })
 
-    console.log(selectedOrderId, "this is quick ship data")
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -229,16 +230,29 @@ const QuickCreateOrder = () => {
                     }
                 }
             } catch (error) {
-                let typecheck = checkType(error?.response?.data)
-                if (typecheck === "string") {
-                    errorHandlefirst(error?.response?.data)
-                } else {
-                    errorHandleSecond(error?.response?.data)
-                }
+               customErrorFunction(error)
             }
-            setSingleShip(true)
         }
     };
+
+
+    useEffect(() => {
+        if (selectedOrderId !== null) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            };
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${selectedOrderId}`, config)
+                .then((response) => {
+                    setShipingResponse(response.data);
+                    setSingleShip(true);
+
+                }).catch((error) => {
+                    customErrorFunction(error)
+                });
+        }
+    }, [selectedOrderId]);
 
     return (
         <div className="stepper-form-container">
@@ -299,7 +313,7 @@ const QuickCreateOrder = () => {
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
 
         </div>
     );

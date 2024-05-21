@@ -32,6 +32,9 @@ import NoData from '../../../../common/noData';
 import SingleShipPopReassign from './SingleShipPopReassign';
 import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import axios from 'axios';
+
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
     const dispatch = useDispatch()
@@ -41,6 +44,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
+    const token = Cookies.get("access_token")
 
 
     useEffect(() => {
@@ -143,12 +147,32 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
     const [SingleShipReassign, setSingleShipReassign] = useState(false)
+    const [shipingResponse, setShipingResponse] = useState(null);
 
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        setSingleShip(true);
+        // setSingleShip(true);
     };
+
+
+    useEffect(() => {
+        if (selectedOrderId !== null) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            };
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${selectedOrderId}`, config)
+                .then((response) => {
+                    setShipingResponse(response.data);
+                    setSingleShip(true);
+
+                }).catch((error) => {
+                    customErrorFunction(error)
+                });
+        }
+    }, [selectedOrderId]);
 
     const handleShipReassign = (orderId) => {
         setSelectedOrderId(orderId);
@@ -506,8 +530,9 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                         </table>
                         {orders?.length === 0 && <NoData />}
                     </div>
-                    <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                    <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                     <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
+                    <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
                 </div>
             </section>
         </>

@@ -257,7 +257,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleDownloadLabel(row.manifest_order)}>Download label</li>
+                                                            <li onClick={() => handleDownloadLabel(row.manifest_order)}>Download Label</li>
                                                             <li onClick={() => handleDownloadInvoice(row.manifest_order)}>Download Invoice</li>
                                                         </ul>
                                                     </div>

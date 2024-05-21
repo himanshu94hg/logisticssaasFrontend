@@ -35,16 +35,15 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
         setShipingData(true);
     };
 
-    useEffect(() => {
-        console.log(shipingData,"All shipping Data Reflect",moreorderCard)
-        if(shipingData === true)
-        {
-            if (moreorderCard?.status) {
-                setSingleShip(false);
-            }
-            setShipingData(false);
-        }
-    }, [moreorderCard]);
+    // useEffect(() => {
+    //     if(shipingData === true)
+    //     {
+    //         if (moreorderCard?.status) {
+    //             setSingleShip(false);
+    //         }
+    //         setShipingData(false);
+    //     }
+    // }, [moreorderCard]);
     
     const handleClose = () => {
         setSingleShip(false);

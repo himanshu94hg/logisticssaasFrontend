@@ -2,10 +2,12 @@ import { toast } from "react-toastify";
 
 
 export const checkType = (res) => {
-    for (let key in res) {
-        if (res.hasOwnProperty(key)) {
-            const keyType = typeof res[key];
-            return keyType
+    if (res) {
+        for (let key in res) {
+            if (res.hasOwnProperty(key)) {
+                const keyType = typeof res[key];
+                return keyType
+            }
         }
     }
 }
@@ -18,11 +20,14 @@ export const errorinApi = (res) => {
 }
 
 export const errorHandleSecond = (res) => {
-    Object.keys(res)?.map(key => {
-        res[key].map(value => {
-            toast.error(`${key.split("_").join(" ")}:${value}`)
+    console.log(res,"this is error handle data")
+    if (res) {
+        Object.keys(res)?.map(key => {
+            res[key]?.map(value => {
+                toast.error(`${key?.split("_").join(" ")}:${value}`)
+            });
         });
-    });
+    }
 }
 
 export const customErrorFunction = (error) => {

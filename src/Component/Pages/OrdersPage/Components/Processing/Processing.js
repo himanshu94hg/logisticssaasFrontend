@@ -1,4 +1,8 @@
+import axios from "axios";
+import Cookies from 'js-cookie';
 import moment from 'moment/moment';
+import { Link } from 'react-router-dom';
+import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
@@ -23,18 +27,18 @@ import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import NoData from '../../../../common/noData';
-import { Link } from 'react-router-dom';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
 const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
+    let authToken = Cookies.get("access_token") 
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
-    const [openPopup, setOpenPopup] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-
 
     useEffect(() => {
         if (orderdelete) {
@@ -76,25 +80,11 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                 setSelectAll(false)
             }
         }
-
     };
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        // if(openPopup){
-            setSingleShip(true);
-        // }
-        
     };
-
-    useEffect(()=>{
-        
-    })
-
-
-
-    console.log(openPopup,"openPopupopenPopupopenPopup")
-
 
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
@@ -128,14 +118,30 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         setEditOrderSection(true)
         setOrderId(id)
     }
-    const markedVerified = () => {
-
-    }
 
     const openCloneSection = (id) => {
         setCloneOrderSection(true)
         setOrderId(id)
     }
+
+    useEffect(() => {
+        if (selectedOrderId !== null) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            };
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${selectedOrderId}`, config)
+                .then((response) => {
+                    setShipingResponse(response.data);
+                    setSingleShip(true);
+
+                }).catch((error) => {
+                    customErrorFunction(error)
+                });
+        }
+    }, [selectedOrderId]);
+
 
     return (
         <section className='position-relative'>
@@ -360,7 +366,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} setOpenPopup={setOpenPopup}/>
+                <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
         </section>
