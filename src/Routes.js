@@ -209,3 +209,8 @@ export const BusinessPlanPattern = "/business-plan";
 export const BusinessPlanRoutes = () => {
     return generatePath(BusinessPlanPattern);
 };
+
+export const LabelCustomizationPattern = "/label-customize";
+export const LabelCustomizationRoutes = () => {
+    return generatePath(LabelCustomizationPattern);
+};
