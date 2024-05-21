@@ -20,6 +20,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     const countryRef1 = useRef(null);
     const [SameRTO, setSameRTO] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+    const popRef = useRef(null);
     const [formData, setFormData] = useState({
         warehouse_name: "",
         address_line1: "",
@@ -342,9 +343,24 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             e.preventDefault();
         }
     }
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+          if (popRef.current && !popRef.current.contains(event.target)) {
+            setEditWarehouse(false);
+          }
+        };
+      
+        document.addEventListener('mousedown', handleClickOutside);
+        
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, [setEditWarehouse]);
+      
 
     return (
         <>
+            <div className="modal-content" ref={popRef}>
             <form id="formSubmit" onSubmit={handleSubmit}>
                 <div className='box-shadow shadow-sm p10 w-100 add-warehouse-section'>
                     <div className='mx-auto mb-3'>
@@ -741,6 +757,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
                     </button>
                 </div>
             </form>
+            </div>
         </>
     );
 }
