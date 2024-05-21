@@ -325,7 +325,7 @@ const AccountInfo = ({ activeTab }) => {
                       </label>
                       <label className='position-relative'>
                         Please Upload Cheque Image
-                        <input className="input-field" accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
+                        <input className="form-control input-field" accept=".pdf,image/*" type="file" onChange={(e) => handleFileChange(e, index)} />
                         {account.cheque_image && (
                           <button
                             className='eye-button'

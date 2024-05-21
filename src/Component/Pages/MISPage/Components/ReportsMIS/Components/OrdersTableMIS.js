@@ -181,9 +181,12 @@ const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
                             </td>
                             <td>
                                 {/* Shipping Details */}
-                                <div className='cell-inside-box'>
-                                    <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                    <p className=''>{row?.courier_partner ?? ""} </p>
+                                <div className='cell-inside-box shipping-details'>
+                                    {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                    <div>
+                                        <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                        <p className='text-capitalize'>{row?.courier_partner ?? ""}</p>
+                                    </div>
                                 </div>
                             </td>
                             <td className='align-middle'>

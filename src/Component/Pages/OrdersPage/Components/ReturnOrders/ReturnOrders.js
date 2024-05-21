@@ -96,12 +96,12 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
         event.preventDefault();
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
-      };
+    };
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
-        const courierPartner = row.courier_partner.toLowerCase(); 
-    
+        const courierPartner = row.courier_partner.toLowerCase();
+
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -195,7 +195,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                                                                 : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                                     : ""}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
-                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
+                                                        <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
                                                             <CustomTooltip
                                                                 triggerComponent={<VerifiedOrderIcon />}
@@ -253,7 +253,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                            <p>Wt:  {weightGreater(row?.dimension_detail?.weight,row?.dimension_detail?.vol_weight)} kg
+                                                <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
                                                         <span style={{ width: '250px' }}>
@@ -296,17 +296,19 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                         </td>
                                         <td>
                                             {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover' onClick={(e) => handleClickAWB(e, row.awb_number)}>
-                                                    {row?.courier_image && <img src={row.courier_image} title='partner' width={30} className='me-2' />}
-                                                    {row.awb_number}
-                                                </p>
-                                                <p className='mt-1 cursor-pointer' onClick={(event) => handleClickpartner(event, row)} style={{ paddingLeft: row?.courier_image ? "35px" : "0px" }}>
-                                                    {row && row.courier_partner}
-                                                </p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                                <div>
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                        {row.awb_number}
+                                                    </p>
+                                                    <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
+                                                        {row && row.courier_partner}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
+                                        <td className='align-middle status-box'>
                                             <p className='order-Status-box'>{row?.status || 'New'}</p>
                                         </td>
                                     </tr>

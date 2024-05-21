@@ -7,6 +7,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
     const dispatch = useDispatch();
     const [dimension, setDimension] = useState([]);
     const { dimensionData } = useSelector(state => state?.orderSectionReducer);
+    const [errors, setErrors] = useState([]);
 
     useEffect(() => {
         if (selectedRows?.length > 0) {
@@ -35,9 +36,36 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
         setDimension(newData);
     };
 
+    const validateFormData = () => {
+        const newErrors = dimension.map(item => ({}));
+
+        dimension.forEach((item, index) => {
+            const errorsAtIndex = {};
+
+            if (!item.weight) {
+                errorsAtIndex.weight = 'Weight is required!';
+            }
+            if (!item.length) {
+                errorsAtIndex.length = 'Length is required!';
+            }
+            if (!item.breadth) {
+                errorsAtIndex.breadth = 'Breadth is required!';
+            }
+            if (!item.height) {
+                errorsAtIndex.height = 'Height is required!';
+            }
+            newErrors[index] = errorsAtIndex;
+        });
+
+        setErrors(newErrors);
+        return newErrors.every(error => Object.keys(error).length === 0);
+    };
+
     const handleDimension = () => {
+       if(validateFormData()){
         setUpdateWeight(false);
         dispatch({ type: "BULK_DIMESION_DETAILS_UPDATE_ACTION", payload: dimension });
+       }
     };
 
     const handleCancel = () => {
@@ -73,17 +101,18 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                     <label>
                                         Dead Weight
                                         <input
-                                            className='input-field'
+                                            className={`input-field ${errors[index]?.weight && "input-field-error"} `}
                                             type="text"
                                             value={dimension[index].weight}
                                             onChange={(e) => handleInputChange(index, 'weight', e.target.value)}
                                         />
-                                        <span className='unit'>KG</span>
+                                        {/*(errors[index]?.weight) && <div className="custom-error">{errors[index]?.weight}</div>*/}
+                                        <span className='unit'>KG</span>  
                                     </label>
                                     <label>
                                         Length
                                         <input
-                                            className='input-field'
+                                            className={`input-field ${errors[index]?.length && "input-field-error"} `}
                                             type="text"
                                             value={dimension[index].length}
                                             onChange={(e) => handleInputChange(index, 'length', e.target.value)}
@@ -93,7 +122,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                     <label>
                                         Breadth
                                         <input
-                                            className='input-field'
+                                            className={`input-field ${errors[index]?.breadth && "input-field-error"} `}
                                             type="text"
                                             value={dimension[index].breadth}
                                             onChange={(e) => handleInputChange(index, 'breadth', e.target.value)}
@@ -103,7 +132,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                     <label>
                                         Height
                                         <input
-                                            className='input-field'
+                                            className={`input-field ${errors[index]?.height && "input-field-error"} `}
                                             type="text"
                                             value={dimension[index].height}
                                             onChange={(e) => handleInputChange(index, 'height', e.target.value)}

@@ -15,11 +15,8 @@ const FilterTicketsForm = (props) => {
   const [resolutionDate, setResolutionDate] = useState();
   const [createdDate, setCreatedDate] = useState();
   const [selectedSeverity, setSelectedSeverity] = useState('');
-
-  const [filterParams, setFilterParams] = useState({
-    status: '',
-    severity: '',
-  })
+  const [severty, setSeverty] = useState([]);
+  const [statusData, setStatusData] = useState([]);
 
   const authToken = Cookies.get("access_token")
 
@@ -56,17 +53,12 @@ const FilterTicketsForm = (props) => {
     setSelectedCategories(selectedOption);
   };
 
-  const handleStatusChange = (name, value) => {
-    if (name === "status" || name === "severity") {
-      setFilterParams(prev => ({
-        ...prev,
-        [name]: value
-      }));
-    }
+  const handleStatusChange = (selectedOption) => {
+    setSelectedStatus(selectedOption);
   };
 
   const handleSeverityChange = (selectedOption) => {
-    setSelectedSeverity(selectedOption.value);
+    setSelectedSeverity(selectedOption);
   };
 
   const handleCreatedChange = (date) => {
@@ -81,7 +73,9 @@ const FilterTicketsForm = (props) => {
 
 
   const handleApply = () => {
-    props.handleFormSubmit(selectedCategories, resolutionDate, endDate, "filter", createdDate, filterParams)
+    const severityValue = selectedSeverity ? selectedSeverity.value : '';
+    const statusValue = selectedStatus ? selectedStatus.value : '';
+    props.handleFormSubmit(selectedCategories, statusValue, resolutionDate, endDate, "filter", createdDate, severityValue);
   };
 
 
@@ -94,11 +88,13 @@ const FilterTicketsForm = (props) => {
     setEndDate(null);
     setCreatedDate(null);
     setSelectedSeverity('');
-    setFilterParams({
-      status: null,
-      severity: null,
-    })
   };
+
+  useEffect(() => {
+    StatusOptions.forEach((item) => {
+      setStatusData((prev) => [...prev, { label: item.label, value: item.value }]);
+    });
+  }, []);
 
   const StatusOptions = [
     { value: 'All', label: 'All' },
@@ -106,6 +102,13 @@ const FilterTicketsForm = (props) => {
     { value: 'In-progess', label: 'In-progess' },
     { value: 'Closed', label: 'Closed' },
   ];
+
+  
+  useEffect(() => {
+    SeverityOptions.forEach((item) => {
+      setSeverty((prev) => [...prev, { label: item.label, value: item.value }]);
+    });
+  }, []);
 
   const SeverityOptions = [
     { value: 'All', label: 'All' },
@@ -134,23 +137,19 @@ const FilterTicketsForm = (props) => {
         />
 
         <Select
-          options={StatusOptions}
+          options={statusData}
+          onChange={handleStatusChange}
+          value={selectedStatus}
           placeholder='Select Status'
-          //defaultValue={null}
-          // defaultValue={filterParams?.payment_type}
-          onChange={(e) => handleStatusChange("status", e)}
-          value={filterParams.status !== null ? StatusOptions.find(option => option.value === filterParams.status) : null}
-
+          isClearable={true}
         />
 
         <Select
-          options={SeverityOptions}
+          options={severty}
+          value={selectedSeverity}
+          onChange={handleSeverityChange}
           placeholder='Select Severity'
-          //defaultValue={null}
-          // defaultValue={filterParams?.payment_type}
-          onChange={(e) => handleStatusChange("severity", e)}
-          value={filterParams.severity !== null ? SeverityOptions.find(option => option.value === filterParams.severity) : null}
-
+          isClearable={true}
         />
       </div>
 

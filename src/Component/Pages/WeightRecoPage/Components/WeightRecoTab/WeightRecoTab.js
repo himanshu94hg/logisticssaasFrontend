@@ -270,13 +270,12 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td>
                                             {/* shiping section here */}
-                                            <div className='cell-inside-box'>
-                                                <p className='mt-1'>
-
-                                                    {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
-                                                    <span className=''>AWB : {row?.order?.awb_number}</span><br />
-                                                    <span className='text-capitalize'>Courier : {row?.order?.courier_partner}</span>
-                                                </p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.order?.courier_image && <img src={row?.order?.courier_image} title='partner' />}
+                                                <div>
+                                                    <p className='details-on-hover anchor-awb'>{row?.order?.awb_number}</p>
+                                                    <p className='text-capitalize'>{row?.order?.courier_partner}</p>
+                                                </div>
                                             </div>
 
                                         </td>
