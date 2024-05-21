@@ -1,3 +1,13 @@
+.order-detials-page .od-bg {
+    /* background: url("../../../../../assets/image/od-bg-1.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: bottom; */
+    background: rgb(25, 117, 201);
+    background: linear-gradient(261deg, rgba(25, 117, 201, 1) 0%, rgba(96, 169, 235, 1) 41%);
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+}
+
 .od-row {
     display: flex;
     align-items: stretch;
@@ -91,4 +101,30 @@
 
 .product-details-sec .pd-total p span:last-of-type {
     flex-basis: 20%;
+}
+
+.order-detials-page .anchor-awb {
+    text-decoration: none;
+    border-bottom: 2px dashed var(--sh-primary);
+    width: fit-content;
+    color: var(--sh-primary);
+}
+
+.order-detials-page .partner-image {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    padding: 0.5px;
+    box-shadow: 8px 8px 7px rgba(0, 0, 0, 0.1) !important;
+}
+
+.order-detials-page .od-courier-details {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.order-detials-page .od-courier-details p {
+    margin-bottom: 0;
+    font-weight: 700;
 }
