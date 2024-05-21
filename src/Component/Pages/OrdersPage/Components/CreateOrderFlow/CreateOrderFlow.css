@@ -373,6 +373,13 @@
     font-size: 1rem;
 }
 
+.create-order-flow-container .sku-checkbox {
+    position: absolute;
+    top: 1px;
+    right: 15px;
+    font-size: 0.8rem;
+}
+
 /* 
 .create-order-flow-container label {
     position: relative;

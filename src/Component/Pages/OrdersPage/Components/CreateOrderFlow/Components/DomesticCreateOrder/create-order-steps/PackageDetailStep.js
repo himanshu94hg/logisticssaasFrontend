@@ -92,7 +92,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     };
 
     const [finalWeight, setFinalWeight] = useState(0)
-    
+
 
 
     const vol_data = formData.dimension_details.length * formData.dimension_details.breadth * formData.dimension_details.height / 5000;
@@ -166,8 +166,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     </div>
                     <hr />
                     <div className=''>
-                        <div className='fw-bold lh-base'>Dead Weight <span className='mandatory'>*</span><br />
-                            {errors.weight && <span className="custom-error">{errors.weight}</span>}
+                        <div className='fw-bold lh-base'>Dead Weight <span className='mandatory'>*</span>
+                            {/* {errors.weight && <span className="custom-error">{errors.weight}</span>} */}
                             <label>
                                 <input
                                     // className='input-field'
@@ -200,8 +200,7 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             </span>
                         </p>
                     </div>
-                    <div className="row gap-2">
-
+                    <div className="row gap-2 row-gap-4">
                         {/* Length (cm) */}
                         <label className='col'>
                             Length

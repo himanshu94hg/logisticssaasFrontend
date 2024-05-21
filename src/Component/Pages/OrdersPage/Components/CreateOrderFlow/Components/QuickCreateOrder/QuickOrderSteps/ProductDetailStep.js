@@ -5,14 +5,14 @@ import React, { useEffect, useState } from 'react'
 const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
 
-   
-   /* const onNextClicked = () => {
-        if (validateFormData()) {
-            if (formData.product_details && formData.product_details.length > 0) {
-                onNext();
-            }
-        }
-    };*/
+
+    /* const onNextClicked = () => {
+         if (validateFormData()) {
+             if (formData.product_details && formData.product_details.length > 0) {
+                 onNext();
+             }
+         }
+     };*/
 
     const handleChange = (e, field, index) => {
         const updatedProducts = [...formData.product_details];
@@ -145,7 +145,7 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                         placeholder='Enter SKU'
                                     />
                                     {errors[`sku_${index}`] && <span className="custom-error" style={{ display: "block" }}>{errors[`sku_${index}`]}</span>}
-                                    <span>
+                                    <span className='sku-checkbox'>
                                         <input
                                             type="checkbox"
                                             checked={product.skuCheckboxChecked}
@@ -167,14 +167,14 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                                 </button>
                                             </div>
                                         )}
-                                        <hr className='mt-2' />
+                                        <hr className='mt-4' />
                                     </>
                                 )}
                             </div>
                         </div>
                     ))}
                     {
-                        formData.product_details.length === 1 ? (<hr />) : ''
+                        formData.product_details.length === 1 ? (<hr className='mt-5' />) : ''
                     }
                     <div className='d-flex justify-content-end mt-4'>
                         <div className='add-product-onclick' onClick={handleAddProduct}>

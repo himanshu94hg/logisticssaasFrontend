@@ -772,3 +772,8 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.custom-error {
+  position: absolute;
+  bottom: -19px;
+}
