@@ -7,31 +7,35 @@ import AttendanceandPunctuality from '../Components/EmployeeDash/AttendanceandPu
 import QualityMetrics from '../Components/EmployeeDash/QualityMetrics'
 import ProductivityMetrics from '../Components/EmployeeDash/ProductivityMetrics'
 import TaskCompletionRates from '../Components/EmployeeDash/TaskCompletionRates'
+import NonActiveService from '../Components/NonActiveService/NonActiveService'
 
 const EmployeeDash = () => {
   return (
     <>
-      <Row className='mb-3'>
-        <Col className="col-3 cardsSpace">
-          <EmployeesPerformance />
-          <AttendanceandPunctuality />
-        </Col>
-        <Col className="col-6 cardsSpace">
-          <EmpTotalInfo />
-          <QualityMetrics />
-        </Col>
-        <Col className="col-3 cardsSpace">
-          <TaskCompletionRates />
-          <ProductivityMetrics />
-        </Col>
-      </Row>
+      <div className='position-relative'>
+        <NonActiveService />
+        <Row className='mb-3'>
+          <Col className="col-3 cardsSpace">
+            <EmployeesPerformance />
+            <AttendanceandPunctuality />
+          </Col>
+          <Col className="col-6 cardsSpace">
+            <EmpTotalInfo />
+            <QualityMetrics />
+          </Col>
+          <Col className="col-3 cardsSpace">
+            <TaskCompletionRates />
+            <ProductivityMetrics />
+          </Col>
+        </Row>
 
-      <Row className='mb-3'>
-        <Col className="col-12 cardsSpace">
-          <TeamDash />
-        </Col>
+        <Row className='mb-3'>
+          <Col className="col-12 cardsSpace">
+            <TeamDash />
+          </Col>
 
-      </Row>
+        </Row>
+      </div>
     </>
   )
 }

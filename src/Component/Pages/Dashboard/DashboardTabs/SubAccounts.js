@@ -7,35 +7,39 @@ import PerformanceSubAccounts from '../Components/SubAccounts/PerformanceSubAcco
 import PerformanceRefAccounts from '../Components/SubAccounts/PerformanceRefAccounts'
 import CODSubAccounts from '../Components/SubAccounts/CODSubAccounts'
 import CODRefAccounts from '../Components/SubAccounts/CODRefAccounts'
+import NonActiveService from '../Components/NonActiveService/NonActiveService'
 
 const SubAccounts = () => {
   return (
     <>
-      <Row className='cardsSpace'>
-        <Col className='col-12'>
-          <Row>
-            <Col className='col-3 cardsSpace'>
-              <CODSubAccounts />
-            </Col>
-            <Col className='col-6 cardsSpace'>
-              <SubAccountsInfo />
-            </Col>
-            <Col className='col-3 cardsSpace'>
-              <CODRefAccounts />
-            </Col>
-          </Row>
-        </Col>
-        <Col className='col-12'>
-          <Row>
-            <Col className='col-6 cardsSpace'>
-              <PerformanceSubAccounts />
-            </Col>
-            <Col className='col-6 cardsSpace'>
-              <PerformanceRefAccounts />
-            </Col>
-          </Row>
-        </Col>
-      </Row>
+      <div className='position-relative'>
+        <NonActiveService />
+        <Row className='cardsSpace'>
+          <Col className='col-12'>
+            <Row>
+              <Col className='col-3 cardsSpace'>
+                <CODSubAccounts />
+              </Col>
+              <Col className='col-6 cardsSpace'>
+                <SubAccountsInfo />
+              </Col>
+              <Col className='col-3 cardsSpace'>
+                <CODRefAccounts />
+              </Col>
+            </Row>
+          </Col>
+          <Col className='col-12'>
+            <Row>
+              <Col className='col-6 cardsSpace'>
+                <PerformanceSubAccounts />
+              </Col>
+              <Col className='col-6 cardsSpace'>
+                <PerformanceRefAccounts />
+              </Col>
+            </Row>
+          </Col>
+        </Row>
+      </div>
     </>
   )
 }
