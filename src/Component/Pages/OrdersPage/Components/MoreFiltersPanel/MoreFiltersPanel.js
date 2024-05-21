@@ -88,16 +88,18 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
 
     useEffect(() => {
-        if (orderSourceListData && orderSourceListData?.length > 0) {
-            const formattedData = orderSourceListData?.map(item => ({
-                value: item?.order_source,
-                label: item?.order_source
-            }));
+        if (orderSourceListData && orderSourceListData.length > 0) {
+            const formattedData = orderSourceListData
+                .filter(item => item?.order_source) 
+                .map(item => ({
+                    value: item.order_source,
+                    label: item.order_source
+                }));
             setOrderSource(formattedData);
         } else {
             setOrderSource([]);
         }
-    }, [orderSourceListData])
+    }, [orderSourceListData]);
 
     const handleSubmit = e => {
         e.preventDefault();
