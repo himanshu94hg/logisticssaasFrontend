@@ -98,7 +98,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                     </div>
                     <div className='mt-3'>
                         <div className='fw-bold lh-base'>Dead Weight <span className='mandatory'>*</span><br />
-                            {errors.weight && <span className="custom-error">{errors.weight}</span>}
+                            {/* {errors.weight && <span className="custom-error">{errors.weight}</span>} */}
                             <label>
                                 <input
                                     // className='input-field'
@@ -114,6 +114,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     }}
                                     placeholder='Enter dead weight' />
                                 <span class="unit">KG</span>
+                                {errors.weight && <span className="custom-error">{errors.weight}</span>}
                             </label>
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight
