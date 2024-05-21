@@ -2,6 +2,7 @@
   --sh-primary: #1975C9;
   --sh-primary-middle: #60a9eb;
   --sh-primary-light: #c5dcf1;
+  --sh-ddd: #dddddd;
 }
 
 
@@ -101,6 +102,10 @@ p {
 
 .text-gray {
   color: #727986;
+}
+
+.text-ddd {
+  color: var(--sh-ddd);
 }
 
 .text-gray-light {
@@ -589,21 +594,26 @@ p {
   color: #fff;
 }
 
-.cancel-button {
+.cancel-button,
+.cancel-button:hover {
   padding: 5px 10px;
   white-space: nowrap;
   background-color: rgb(240, 240, 240);
 }
 
-.delete-btn {
-  background-color: #fddcdf;
-  color: #f31429;
-  padding: 5px 10px;
-}
-
+.delete-btn,
 .delete-btn:hover {
   background-color: #fddcdf;
   color: #f31429;
+  padding: 5px 10px;
+
+}
+
+.white-btn,
+.white-btn:hover {
+  background-color: #fff;
+  color: var(--sh-primary);
+  padding: 5px 10px;
 }
 
 .edit-btn {

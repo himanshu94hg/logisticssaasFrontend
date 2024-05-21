@@ -40,27 +40,41 @@ const OrderDetail = () => {
         <>
             {orderDetails !== null &&
                 <section className='order-detials-page'>
-                    <div className='box-shadow shadow-sm p10 d-flex flex-column gap-3'>
+                    <div className='box-shadow shadow-sm p10 d-flex flex-column gap-3 od-bg'>
                         <div className='d-flex justify-content-between align-items-center'>
-                            <div className='d-flex flex-column'>
-                                <h3>Order ID: {orderDetails?.customer_order_number}</h3>
-                                <p className='order-Status-box'>{orderDetails?.status}</p>
-                            </div>
+                            <h3 className='text-white'>Order ID: {orderDetails?.customer_order_number}</h3>
                             <div className='d-flex gap-2'>
-                                <button className='btn main-button-outline' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
-                                <button className='btn main-button-outline'><AiOutlineExport className='align-text-bottom' /> Export</button>
+                                <button className='btn white-btn' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
+                                <button className='btn white-btn'><AiOutlineExport className='align-text-bottom' /> Export</button>
                                 {orderDetails?.status === 'pending' &&
                                     <>
-                                        <button className='btn main-button-outline'><FiEdit className='align-text-bottom' /> Edit</button>
-                                        <button className='btn main-button'>Ship Now</button>
+                                        <button className='btn white-btn'><FiEdit className='align-text-bottom' /> Edit</button>
+                                        <button className='btn white-btn'>Ship Now</button>
                                     </>
                                 }
                             </div>
                         </div>
-                        <div className='od-status-lines d-flex gap-3'>
-                            <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
-                            {/* <p>Updated at:  {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p> */}
-                            {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>}
+                        <div className='d-flex justify-content-between'>
+                            <div className='d-flex gap-2 flex-column'>
+                                <div className='d-flex gap-2'>
+                                    <p className='order-Status-box'>{orderDetails?.status}</p>
+                                    <p className='order-Status-box'>AWB: {orderDetails?.awb_number}</p>
+                                </div>
+                                <div className='od-status-lines d-flex gap-2'>
+                                    <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
+                                    {/* <p>Updated at:  {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p> */}
+                                    {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>}
+                                </div>
+                            </div>
+                            <div className='od-courier-details'>
+                                {orderDetails?.awb_number &&
+                                    <>
+                                        <p className='text-ddd text-capitalize'>{orderDetails?.courier_partner}</p>
+                                        <img className='partner-image' src={orderDetails?.courier_image} alt="Partner" />
+                                    </>
+                                }
+
+                            </div>
                         </div>
                     </div>
                     <div className='mt-4'>
@@ -76,6 +90,8 @@ const OrderDetail = () => {
                                         <li><span>Pickup Address:</span><span>
                                             {orderDetails?.pickup_details?.p_address_line1}, {orderDetails?.pickup_details?.p_address_line2}, {orderDetails?.pickup_details?.p_city}, {orderDetails?.pickup_details?.p_state}, ({orderDetails?.pickup_details?.p_pincode})
                                         </span></li>
+                                        <li><span>AWB:</span><span>{orderDetails?.awb_number}</span></li>
+                                        <li><span>Courier Partner:</span><span className='text-capitalize'>{orderDetails?.courier_partner}</span></li>
                                     </ul>
                                 </div>
                             </div>
