@@ -15,10 +15,10 @@ import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip, orderId, setOpenPopup }) => {
+const SingleShipPop = ({ SingleShip, setSingleShip, orderId,shipingResponse }) => {
     const navigation = useNavigate();
     const dispatch = useDispatch()
-    const [shipingResponse, setShipingResponse] = useState(null);
+    // const [shipingResponse, setShipingResponse] = useState(null);
     const [currentDate, setCurrentDate] = useState(new Date());
 
     const addDays = (date, days) => {
@@ -34,26 +34,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId, setOpenPopup }) => 
     const dateAfter2Days = addDays(currentDate, 2);
     let authToken = Cookies.get("access_token")
 
-    useEffect(() => {
-        if (orderId !== null) {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            };
-
-            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
-                .then((response) => {
-                    setShipingResponse(response.data);
-                    if (response.status === 200) {
-                        setOpenPopup(true)
-                    }
-                }).catch((error) => {
-                    setOpenPopup(false)
-                    customErrorFunction(error)
-                });
-        }
-    }, [orderId]);
+ 
 
     const handleSubmit = (courier) => {
         axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {

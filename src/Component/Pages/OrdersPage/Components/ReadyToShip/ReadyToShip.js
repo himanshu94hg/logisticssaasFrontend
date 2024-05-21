@@ -41,8 +41,17 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     const token = Cookies.get("access_token")
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-
+    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+
+    useEffect(() => {
+        if (moreorderCard?.status) {
+            setSingleShip(true);
+        }
+    }, [moreorderCard])
+
+
+    console.log(SingleShip, "moreorderCardmoreorderCardmoreorderCardmoreorderCard")
 
     useEffect(() => {
         if (orderdelete) {
@@ -205,7 +214,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
         dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
-        setSingleShip(true);
+
     };
 
     const handleClickAWB = (e, awb) => {
@@ -456,7 +465,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
                                                     {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
                                                         <div className='action-list'>
                                                             <ul>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
+                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                 <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
