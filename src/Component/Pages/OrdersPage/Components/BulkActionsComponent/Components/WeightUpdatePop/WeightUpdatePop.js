@@ -58,7 +58,7 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                     <div className="pop-heading">
                         <h4>Update Weight & Dimension</h4>
                         <label htmlFor="">
-                            <input type="checkbox" checked />
+                            <input type="checkbox"  />
                             Copy To All
                         </label>
                     </div>
