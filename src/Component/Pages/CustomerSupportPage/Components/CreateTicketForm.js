@@ -52,6 +52,7 @@ const CreateTicketForm = (props) => {
   const [fileObj, setFileObj] = useState(null)
   const [categoryStatus, setCategoryStatus] = useState(false)
   const [awbStatus, setAwbStatus] = useState(false)
+  const [awbErrorMessage, setAwbErrorMessage] = useState("")
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -66,7 +67,6 @@ const CreateTicketForm = (props) => {
       props.setNewTicket(false)
     }
   }, [escalateAwbNumber]);
-
 
   const [ticketData, setTicketData] = useState({
     category: null,
@@ -162,7 +162,6 @@ const CreateTicketForm = (props) => {
     }
   }, [ticketData.escalate_image, fileObj]);
 
-
   const handleCreateTicket = (e) => {
     const { name, value } = e.target;
     setTicketData(prev => ({
@@ -171,10 +170,9 @@ const CreateTicketForm = (props) => {
     }));
   };
 
-
   const handleBlurAWB = (e) => {
     const { name, value } = e.target;
-    if (name === 'awb_number') {
+    if (name === 'awb_number' && value.trim()) {
       const awbNumbers = value.split(',').map(number => number.trim());
       validateAWBNumbers(awbNumbers);
     }
@@ -198,11 +196,11 @@ const CreateTicketForm = (props) => {
       console.warn(response, "Response")
       setAwbStatus(false);
     }).catch(error => {
-      customErrorFunction(error)
+      setAwbErrorMessage(error?.response?.data?.detail);
+      //customErrorFunction(error)
       setAwbStatus(true);
     });
   };
-
 
   const clearFile = () => {
     setSelectFile(false);
@@ -210,6 +208,7 @@ const CreateTicketForm = (props) => {
     setFileObj(null)
     document.getElementById("fileInput").value = "";
   };
+  
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
@@ -225,7 +224,6 @@ const CreateTicketForm = (props) => {
     }
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = {};
@@ -239,7 +237,7 @@ const CreateTicketForm = (props) => {
       validationErrors.sub_category = "Sub category is required!";
     }
     if (awbStatus === true) {
-      validationErrors.awb_number = "One of these AWB numbers is invalid.";
+      validationErrors.awb_number = awbErrorMessage || "One of these AWB numbers is invalid.";
     }
     setErrors(validationErrors)
 
@@ -294,8 +292,8 @@ const CreateTicketForm = (props) => {
         }
       }
     }
-
   };
+
   const handleEscalateTicket = () => {
     navigate('/customer-support');
   }
