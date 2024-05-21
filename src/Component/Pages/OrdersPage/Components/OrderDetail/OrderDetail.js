@@ -20,7 +20,7 @@ const OrderDetail = () => {
     const [orderDetails, setOrderDetails] = useState({})
 
     useEffect(() => {
-        if (params?.slug && location && location?.state?.path!="searchOrderData") {
+        if (params?.slug && location && location?.state?.path != "searchOrderData") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${params?.slug}/`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
@@ -32,7 +32,7 @@ const OrderDetail = () => {
                 .catch(error => {
                     customErrorFunction(error)
                 });
-        }else{
+        } else {
             setOrderDetails(location?.state?.orderData)
         }
     }, [params])
@@ -60,7 +60,9 @@ const OrderDetail = () => {
                             <div className='d-flex gap-2 flex-column'>
                                 <div className='d-flex gap-2'>
                                     <p className='order-Status-box'>{orderDetails?.status}</p>
-                                    <p className='order-Status-box'>AWB: {orderDetails?.awb_number}</p>
+                                    {orderDetails?.awb_number &&
+                                        <p className='order-Status-box'>AWB: {orderDetails?.awb_number}</p>
+                                    }
                                 </div>
                                 <div className='od-status-lines d-flex gap-2'>
                                     <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
