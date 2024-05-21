@@ -5,6 +5,7 @@
     background-position: bottom; */
     background: rgb(25, 117, 201);
     background: linear-gradient(261deg, rgba(25, 117, 201, 1) 0%, rgba(96, 169, 235, 1) 41%);
+    background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
 }
 
 .od-row {
