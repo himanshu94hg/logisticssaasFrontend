@@ -91,30 +91,33 @@ const CustomerSupportPage = () => {
 
   }, [activeTab, status, currentPage, ticketStatus, itemsPerPage,queryParamTemp]);
 
-  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate,Severity) => {
+  const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate, Severity) => {
     const queryParams = new URLSearchParams(); 
-    /*if (Array.isArray(categories) && categories.length > 0) {
-      queryParams.append('sub_category', categories.value);
-    }*/
-    if (categories != "") {
+
+    if (categories && categories.value) {
       queryParams.append('sub_category', categories.value);
     }
-    if (status != "") {
+    if (status) {
       queryParams.append('status', status);
     }
-    if (resDate != null || undefined) {
-      queryParams.append('resolution_due_by', moment(resDate).format("YYYY-MM-DD"));
+    if (resDate) {
+      const formattedResDate = moment(resDate).isValid() ? moment(resDate).format("YYYY-MM-DD") : null;
+      if (formattedResDate) queryParams.append('resolution_due_by', formattedResDate);
     }
-    if (endDt != null || undefined) {
-      queryParams.append('last_updated', moment(endDt).format("YYYY-MM-DD"));
+    if (endDt) {
+      const formattedEndDt = moment(endDt).isValid() ? moment(endDt).format("YYYY-MM-DD") : null;
+      if (formattedEndDt) queryParams.append('last_updated', formattedEndDt);
     }
-    if (createdDate != null || undefined) {
-      queryParams.append('created_at', moment(endDt).format("YYYY-MM-DD"));  
+    if (createdDate) {
+      const formattedCreatedDate = moment(createdDate).isValid() ? moment(createdDate).format("YYYY-MM-DD") : null;
+      if (formattedCreatedDate) queryParams.append('created_at', formattedCreatedDate);
     }
-    if (Severity != null || undefined) {
-      queryParams.append('Severity', Severity);  
+    if (Severity) {
+      queryParams.append('Severity', Severity);
     }
+
     const apiUrlWithParams = `${apiUrl}?${queryParams.toString()}`;
+
     axios
       .get(apiUrlWithParams, {
         headers: {
@@ -122,17 +125,18 @@ const CustomerSupportPage = () => {
         }
       })
       .then(response => {
-        setAllTicket(response?.data?.results)
-        setFilterTickets(false)
+        setAllTicket(response?.data?.results);
+        setFilterTickets(false);
         setTotalItems(response?.data?.count);
       })
       .catch(error => {
-        customErrorFunction(error)
+        console.error("API request failed: ", error);
+        customErrorFunction(error);
       });
-      /*setQueryParamTemp({
-        sub_category: categories.value        
-      })*/
-  };
+    /*setQueryParamTemp({
+      sub_category: categories.value        
+    })*/
+};
 
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
@@ -267,6 +271,7 @@ const CustomerSupportPage = () => {
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
           errors={errors}
+          
           setClearTicket={setClearTicket}
           handleReset={handleReset}
         />

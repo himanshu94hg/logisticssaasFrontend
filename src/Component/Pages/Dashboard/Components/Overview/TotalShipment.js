@@ -40,7 +40,7 @@ function TotalShipment() {
   return (
     <>
       <div className="box-shadow shadow-sm p10">
-        {data ? (
+        {data && (
           <div className="">
             <div className="row">
               <div className="col-8">
@@ -228,9 +228,7 @@ function TotalShipment() {
               </div>
             </div>
           </div>
-        ) : (
-          <p>Loading...</p>
-        )}
+        ) }
       </div>
     </>
   );

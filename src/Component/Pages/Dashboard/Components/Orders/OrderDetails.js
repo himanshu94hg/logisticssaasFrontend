@@ -50,10 +50,11 @@ const OrdersChart = () => {
             const mpsValues = [];
             const spsValues = [];
             const weekValues = [];
-            mpsData.forEach(item => {
+            mpsData.forEach((item,index) => {
                 mpsValues.push(item.mps);
                 spsValues.push(item.sps);
-                weekValues.push("Week " + item.week);
+                weekValues.push(`Week ${index+1}`);
+               
             });
             setChartData(prevState => ({
                 ...prevState,

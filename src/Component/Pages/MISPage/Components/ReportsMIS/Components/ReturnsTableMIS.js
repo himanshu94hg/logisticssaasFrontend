@@ -1,4 +1,4 @@
-import React, { useState,useEffect   } from 'react'
+import React, { useState, useEffect } from 'react'
 import moment from 'moment'
 import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
@@ -14,19 +14,18 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 
-const ReturnsTableMIS = ({setTotalItems}) => {
+const ReturnsTableMIS = ({ setTotalItems }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [returnsData, setReturnsData] = useState([]);
-    const {reportsReturnsData}=useSelector(state=>state?.misSectionReducer)
+    const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
 
-    useEffect(()=>{
-        if(reportsReturnsData && reportsReturnsData?.results !== null)
-        {
+    useEffect(() => {
+        if (reportsReturnsData && reportsReturnsData?.results !== null) {
             setReturnsData(reportsReturnsData?.results);
             setTotalItems(reportsReturnsData?.count)
         }
-    },[reportsReturnsData])
+    }, [reportsReturnsData])
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -95,7 +94,7 @@ const ReturnsTableMIS = ({setTotalItems}) => {
                                                         : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                             : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                    : row.channel.toLowerCase() === "custom" ? <CustomIcon/>
+                                                                    : row.channel.toLowerCase() === "custom" ? <CustomIcon />
                                                                         : ""}
                                         &nbsp;  <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                     </p>
@@ -173,9 +172,12 @@ const ReturnsTableMIS = ({setTotalItems}) => {
                             </td>
                             <td>
                                 {/* Shipping Details */}
-                                <div className='cell-inside-box'>
-                                    <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
-                                    <p className=''>{row?.courier_partner ?? ""} </p>
+                                <div className='cell-inside-box shipping-details'>
+                                    {row?.courier_image && <img src={row?.courier_image} title='partner' />}
+                                    <div>
+                                        <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                        <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
+                                    </div>
                                 </div>
                             </td>
                             <td className='align-middle'>

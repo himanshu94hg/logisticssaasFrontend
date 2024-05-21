@@ -18,14 +18,16 @@ import BusinessPlanIcon from "./Icons/BusinessPlanIcon";
 import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
-import { faBell, faEdit, faSignOutAlt,  faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faEdit, faSignOutAlt, faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
 import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
-import { BASE_URL_CORE } from "../../../axios/config";
+import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../axios/config";
 import { useDispatch } from "react-redux";
+import { customErrorFunction } from "../../../customFunction/errorHandling";
 
 export default function Header(props) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  let authToken = Cookies.get("access_token")
   let staticToken = Cookies.get("static_token")
   // const [userData, setUserData] = useState(null)
   const [inputValue, setInputValue] = useState('');
@@ -37,17 +39,40 @@ export default function Header(props) {
   const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
   const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
-  console.log(userData,"sellerProfileCardsellerProfileCard")
-  
+
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      navigate(`/orderdetail/${inputValue}`);
+      axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${inputValue}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
+      })
+        .then(response => {
+          if(response.status===200){
+            navigate(`/orderdetail/${inputValue}`, { state: { orderData:response.data ,path:"searchOrderData"} });
+          }
+        })
+        .catch(error => {
+          customErrorFunction(error)
+        });
     }
   }
 
   const handleNavigate = () => {
-    navigate(`/orderdetail/${inputValue}`);
+    axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${inputValue}`, {
+      headers: {
+        Authorization: `Bearer ${authToken}`
+      }
+    })
+    .then(response => {
+      if(response.status===200){
+        navigate(`/orderdetail/${inputValue}`, { state: { orderData:response.data,path:"searchOrderData" } });
+        }
+      })
+      .catch(error => {
+        customErrorFunction(error)
+      });
   }
 
   const handleLogout = () => {
