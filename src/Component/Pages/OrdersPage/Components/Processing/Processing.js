@@ -31,6 +31,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
+    const [openPopup, setOpenPopup] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -80,8 +81,19 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        setSingleShip(true);
+        // if(openPopup){
+            setSingleShip(true);
+        // }
+        
     };
+
+    useEffect(()=>{
+        
+    })
+
+
+
+    console.log(openPopup,"openPopupopenPopupopenPopup")
 
 
     const handleSelectRow = (orderId, awb) => {
@@ -348,7 +360,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} />
+                <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} setOpenPopup={setOpenPopup}/>
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
         </section>

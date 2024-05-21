@@ -12,9 +12,10 @@ import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
+import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
+const SingleShipPop = ({ SingleShip, setSingleShip, orderId, setOpenPopup }) => {
     const navigation = useNavigate();
     const dispatch = useDispatch()
     const [shipingResponse, setShipingResponse] = useState(null);
@@ -44,7 +45,12 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
             axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
+                    if (response.status === 200) {
+                        setOpenPopup(true)
+                    }
                 }).catch((error) => {
+                    setOpenPopup(false)
+                    customErrorFunction(error)
                 });
         }
     }, [orderId]);
@@ -61,13 +67,14 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     navigation('/Orders');
                     toast.success('Order successfully shipped!');
                     dispatch(shipNowAction(new Date()))
+                    dispatch({ type: "PAYMENT_DATA_ACTION" });
                 }
                 else {
                     setSingleShip(true);
                     toast.error(response.data.message);
                 }
             }).catch((error) => {
-                toast.error("Pincode is not serviceable! ")
+                customErrorFunction(error)
             });
     };
     const handleClose = () => {
@@ -92,10 +99,10 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
-                                <img src={option.partner_image} alt={option.partner_title} />
+                                <img src={option?.partner_image} alt={option?.partner_title} />
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
-                                <p className='fw-bold fs-large'>{option.partner_title}</p>
+                                <p className='fw-bold fs-large'>{option?.partner_title}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
                                 <p>RTO Charges: ₹{0}</p>
                             </div>
@@ -137,7 +144,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId }) => {
                             <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword)}>Ship Now</button>
                             <p><span>EDD: <strong>{formatDate(dateAfter2Days)}</strong></span></p>
                         </div>
-                        <span className={`${option?.is_recommended?"recommended":""} ${true ? '' : 'd-none'}`}></span>
+                        <span className={`${option?.is_recommended ? "recommended" : ""} ${true ? '' : 'd-none'}`}></span>
 
                     </div>
                 ))}
