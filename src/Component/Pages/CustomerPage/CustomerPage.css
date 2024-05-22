@@ -19,6 +19,7 @@
     display: flex;
     flex-direction: column;
     width: 100%;
+    position: relative;
 }
 
 /* .customer-details-form label input,
@@ -35,7 +36,7 @@
 .customer-details-form input[type="file"] {
     text-align: left;
     padding-left: 5px;
-    padding-top: 7px;
+    padding-top: 6px;
 }
 
 .customer-details-form hr {
@@ -152,6 +153,6 @@
 .customer-details-form .preview-btn {
     position: absolute;
     right: 1px;
-    bottom: 2px;
+    bottom: 0px;
     padding: 0.3125rem;
 }

@@ -65,23 +65,23 @@ const AccountInfo = ({ activeTab }) => {
     let isValid = true;
     const newErrors = accounts.map(account => {
       const error = {};
-      if (!account.accountHolderName.trim()) {
+      if (!account?.accountHolderName?.trim()) {
         error.accountHolderName = "Account Holder Name is required";
         isValid = false;
       }
-      if (!account.accountNumber.trim()) {
+      if (!account?.accountNumber?.trim()) {
         error.accountNumber = "Account Number is required";
         isValid = false;
       }
-      if (!account.ifscCode.trim()) {
+      if (!account?.ifscCode?.trim()) {
         error.ifscCode = "IFSC Code is required";
         isValid = false;
       }
-      if (!account.bankName.trim()) {
+      if (!account?.bankName?.trim()) {
         error.bankName = "Bank Name is required";
         isValid = false;
       }
-      if (!account.branchName.trim()) {
+      if (!account?.branchName?.trim()) {
         error.branchName = "Branch Name is required";
         isValid = false;
       }
@@ -258,7 +258,7 @@ const AccountInfo = ({ activeTab }) => {
                   <div className='col-9'>
                     <div className='d-flex w-100 gap-3 mt-4'>
                       <label>
-                        <span> Account Holder Name<span className='custom-error'> *</span></span>
+                        <span> Account Holder Name<span className='mandatory'> *</span></span>
                         <input
                           type="text"
                           maxLength={100}
@@ -266,10 +266,10 @@ const AccountInfo = ({ activeTab }) => {
                           onKeyDown={(e) => handleKeyPress(e)}
                           className={`input-field ${errors[index]?.accountHolderName && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountHolderName: e.target.value } : acc))} />
-                        {errors[index]?.accountHolderName && <span className="error-text">{errors[index].accountHolderName}</span>}
+                        {errors[index]?.accountHolderName && <span className="custom-error">{errors[index].accountHolderName}</span>}
                       </label>
                       <label>
-                        <span>  Account Number<span className='custom-error'> *</span></span>
+                        <span>  Account Number<span className='mandatory'> *</span></span>
                         <input
                           type="text"
                           maxLength={50}
@@ -281,12 +281,12 @@ const AccountInfo = ({ activeTab }) => {
                           }}
                           className={`input-field ${errors[index]?.accountNumber && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountNumber: e.target.value } : acc))} />
-                        {errors[index]?.accountNumber && <span className="error-text">{errors[index].accountNumber}</span>}
+                        {errors[index]?.accountNumber && <span className="custom-error">{errors[index].accountNumber}</span>}
                       </label>
                     </div>
                     <div className='d-flex w-100 gap-3 mt-4'>
                       <label>
-                        <span>IFSC Code<span className='custom-error'> *</span></span>
+                        <span>IFSC Code<span className='mandatory'> *</span></span>
                         <input
                           type="text"
                           value={account.ifscCode}
@@ -296,10 +296,10 @@ const AccountInfo = ({ activeTab }) => {
                           className={`input-field ${errors[index]?.ifscCode && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, ifscCode: e.target.value } : acc))}
                         />
-                        {errors[index]?.ifscCode && <span className="error-text">{errors[index].ifscCode}</span>}
+                        {errors[index]?.ifscCode && <span className="custom-error">{errors[index].ifscCode}</span>}
                       </label>
                       <label>
-                        <span> Bank Name<span className='custom-error'> *</span></span>
+                        <span> Bank Name<span className='mandatory'> *</span></span>
                         <input
                           type="text"
                           maxLength={55}
@@ -307,12 +307,12 @@ const AccountInfo = ({ activeTab }) => {
                           onKeyDown={(e) => handleKeyPress(e)}
                           className={`input-field ${errors[index]?.bankName && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, bankName: e.target.value } : acc))} />
-                        {errors[index]?.bankName && <span className="error-text">{errors[index].bankName}</span>}
+                        {errors[index]?.bankName && <span className="custom-error">{errors[index].bankName}</span>}
                       </label>
                     </div>
                     <div className='d-flex w-100 gap-3 mt-4'>
                       <label>
-                        <span> Branch Name<span className='custom-error'> *</span></span>
+                        <span> Branch Name<span className='mandatory'> *</span></span>
                         <input
                           type="text"
                           maxLength={55}
@@ -321,7 +321,7 @@ const AccountInfo = ({ activeTab }) => {
                           className={`input-field ${errors[index]?.branchName && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, branchName: e.target.value } : acc))}
                         />
-                        {errors[index]?.branchName && <span className="error-text">{errors[index].branchName}</span>}
+                        {errors[index]?.branchName && <span className="custom-error">{errors[index].branchName}</span>}
                       </label>
                       <label className='position-relative'>
                         Please Upload Cheque Image

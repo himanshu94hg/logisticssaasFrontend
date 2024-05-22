@@ -5,6 +5,7 @@
 
 .add-warehouse-section label {
     width: 100%;
+    position: relative;
 }
 
 .error {
