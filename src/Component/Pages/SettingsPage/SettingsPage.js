@@ -1,7 +1,7 @@
 import React from 'react'
 import './SettingsPage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faAnglesRight } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesRight, faCrown } from '@fortawesome/free-solid-svg-icons'
 import CompanyBG from '../../../assets/image/settingsBG/CompanyBG.png'
 import AdressBG from '../../../assets/image/settingsBG/AdressBG.png'
 import codBG from '../../../assets/image/settingsBG/codBG.png'
@@ -217,12 +217,14 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Customize Label
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
                                     <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Customize Invoice
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
                                     <li>
                                         <span className='icon-container'>
