@@ -26,7 +26,7 @@ const PopularOrdersLocation = () => {
 
 // Helper function to get color based on index
 const getColor = (index) => {
-  const colors = ['red', 'green', 'blue', 'purple', 'sky'];
+  const colors = ['blue', 'blue', 'blue', 'blue', 'blue'];
   return colors[index % colors.length];
 };
 
