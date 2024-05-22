@@ -257,7 +257,7 @@ const BasicInfo = ({ activeTab }) => {
                 {logoError && <span className="custom-error">{logoError}</span>}
                 <div className='d-flex w-100 gap-3 mt-4'>
                   <label>
-                    <span>Company Name <span className='custom-error'>*</span></span>
+                    <span>Company Name <span className='mandatory'>*</span></span>
                     <input placeholder="Enter your company name"
                       type="text"
                       maxLength={80}
@@ -270,7 +270,7 @@ const BasicInfo = ({ activeTab }) => {
                     {errors.company_name && <span className="custom-error">{errors.company_name}</span>}
                   </label>
                   <label>
-                    <span> Website URL<span className='custom-error'>*</span></span>
+                    <span> Website URL <span className='mandatory'>*</span></span>
                     <input
                       onKeyUp={handleRegex}
                       onChange={handleChange}
@@ -288,7 +288,7 @@ const BasicInfo = ({ activeTab }) => {
               <h5 className='col-3'>Contact Details</h5>
               <div className='col-9 d-flex gap-3'>
                 <label>
-                  <span>Mobile Number <span className='custom-error'> *</span></span>
+                  <span>Mobile Number <span className='mandatory'>*</span></span>
                   <div className='d-flex mobile-number-field'>
                     <select
                       className='input-field '
@@ -314,7 +314,7 @@ const BasicInfo = ({ activeTab }) => {
                   {errors.mobile && <span className="custom-error">{errors.mobile}</span>}
                 </label>
                 <label>
-                  <span>Email<span className='custom-error'> *</span></span>
+                  <span>Email <span className='mandatory'>*</span></span>
                   <input
                     className={`input-field ${errors.email && "input-field-error"}`}
                     type="text"
@@ -334,7 +334,7 @@ const BasicInfo = ({ activeTab }) => {
               <div className='col-9'>
                 <div className='d-flex gap-3'>
                   <label>
-                    <span>Address<span className='custom-error'>*</span></span>
+                    <span>Address <span className='mandatory'>*</span></span>
                     <input
                       type="text"
                       name="street"
@@ -363,7 +363,7 @@ const BasicInfo = ({ activeTab }) => {
                 </div>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    <span>Pincode<span className='custom-error'> *</span></span>
+                    <span>Pincode <span className='mandatory'>*</span></span>
                     <input
                       placeholder="Enter your Pincode"
                       maxLength={6}
@@ -380,7 +380,7 @@ const BasicInfo = ({ activeTab }) => {
                     {errors.pincode && <span className="custom-error">{errors.pincode}</span>}
                   </label>
                   <label>
-                    <span>City<span className='custom-error'> *</span></span>
+                    <span>City <span className='mandatory'>*</span></span>
                     <input
                       value={formData.city}
                       type="text"
@@ -394,7 +394,7 @@ const BasicInfo = ({ activeTab }) => {
                     {errors.city && <span className="custom-error">{errors.city}</span>}
                   </label>
                   <label>
-                    <span>State<span className='custom-error'> *</span></span>
+                    <span>State <span className='mandatory'>*</span></span>
                     <input
                       type="text"
                       name="state"
@@ -408,7 +408,7 @@ const BasicInfo = ({ activeTab }) => {
                     {errors.state && <span className="custom-error">{errors.state}</span>}
                   </label>
                   <label>
-                    <span>Country<span className='custom-error'> *</span></span>
+                    <span>Country <span className='mandatory'>*</span></span>
                     <input placeholder="Enter your country" maxLength={20} className={`input-field ${errors.country && "input-field-error"}`} type="text" name="state" value={formData.country} onChange={handleChange} />
                     {errors.country && <span className="custom-error">{errors.country}</span>}
                   </label>
@@ -421,7 +421,7 @@ const BasicInfo = ({ activeTab }) => {
               <div className='col-9'>
                 <div className='d-flex gap-3 mt-3'>
                   <label>
-                    <span>PAN Number<span className='custom-error'> *</span></span>
+                    <span>PAN Number <span className='mandatory'>*</span></span>
                     <input
                       onChange={handleChange}
                       maxLength={10} type="text"
@@ -438,7 +438,7 @@ const BasicInfo = ({ activeTab }) => {
                     {errors.pan_number && <span className="custom-error">{errors.pan_number}</span>}
                   </label>
                   <label>
-                    <span>GST Number<span className='custom-error'> *</span></span>
+                    <span>GST Number <span className='mandatory'>*</span></span>
                     <input
                       maxLength={15}
                       type="text"
@@ -455,7 +455,7 @@ const BasicInfo = ({ activeTab }) => {
                     {errors.gst_number && <span className="custom-error">{errors.gst_number}</span>}
                   </label>
                   <label className='position-relative'>
-                    <span>GST Certificate<span className='custom-error'> *</span></span>
+                    <span>GST Certificate <span className='mandatory'>*</span></span>
                     <input className="form-control input-field" type="file" accept=".pdf" onChange={(e) => uploadFile(e, 'gstCertificate')} />
                     {docsError && <span className="custom-error">{docsError}</span>}
                     {formData.gst_certificate && (
