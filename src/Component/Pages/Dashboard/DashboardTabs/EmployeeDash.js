@@ -14,7 +14,7 @@ const EmployeeDash = () => {
     <>
       <div className='position-relative'>
         <NonActiveService />
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <EmployeesPerformance />
             <AttendanceandPunctuality />
@@ -29,7 +29,7 @@ const EmployeeDash = () => {
           </Col>
         </Row>
 
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className="col-12 cardsSpace">
             <TeamDash />
           </Col>

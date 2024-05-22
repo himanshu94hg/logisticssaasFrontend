@@ -23,7 +23,7 @@ const WhatsappComm = () => {
     <>
       <div className='position-relative'>
         <NonActiveService />
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <MostViewedStatus />
             <WhatsAppCreateOrder />
@@ -37,7 +37,7 @@ const WhatsappComm = () => {
             <OrdersConfirmed />
           </Col>
         </Row>
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className='col-6'>
             <CodToPrepaidConversion />
           </Col>
