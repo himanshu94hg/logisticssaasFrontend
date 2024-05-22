@@ -509,6 +509,7 @@
     height: -moz-fit-content;
     height: fit-content;
     margin-top: 7%;
+    position: fixed;
 }
 
 @media screen and (max-width: 1800px) {
