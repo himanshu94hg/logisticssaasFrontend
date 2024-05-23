@@ -236,7 +236,7 @@ const CreateTicketForm = (props) => {
     if (typeof ticketData?.sub_category !== 'string' || !ticketData.sub_category.trim()) {
       validationErrors.sub_category = "Sub category is required!";
     }
-    if (awbStatus === true) {
+    if (awbStatus === true && ticketData.awb_number.trim()) {
       validationErrors.awb_number = awbErrorMessage || "One of these AWB numbers is invalid.";
     }
     setErrors(validationErrors)
