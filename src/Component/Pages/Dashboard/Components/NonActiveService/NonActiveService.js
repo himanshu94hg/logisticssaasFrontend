@@ -1,6 +1,8 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const NonActiveService = () => {
+    let Navigate = useNavigate()
     return (
         <>
             <div className='non-active-service'>
@@ -17,7 +19,7 @@ const NonActiveService = () => {
                     </ul>
                     <p>Upgrade today and take full advantage of all that we have to offer!</p>
                     <div className='d-flex justify-content-end'>
-                        <button className='btn main-button ms-2'>Enable</button>
+                        <button onClick={() => Navigate('/business-plan')} className='btn main-button ms-2'>Upgrade Now!</button>
                     </div>
                 </div>
             </div>
