@@ -258,7 +258,7 @@ const AddWarehouse = () => {
                                     name="warehouse_name"
                                     placeholder='Enter Warehouse Name'
                                 />
-                                {errors.warehouseName && <div className="error">{errors.warehouseName}</div>}
+                                {errors.warehouseName && <div className="custom-error">{errors.warehouseName}</div>}
                             </label>
                             <label>
                                 Contact Person Name
@@ -268,10 +268,10 @@ const AddWarehouse = () => {
                                     name="contact_name"
                                     placeholder='Enter Contact Person Name'
                                 />
-                                {errors.contactName && <div className="error">{errors.contactName}</div>}
+                                {errors.contactName && <div className="custom-error">{errors.contactName}</div>}
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-3'>
+                        <div className='d-flex gap-3 mt-4'>
                             <label>
                                 Contact Number
                                 <div className='d-flex mobile-number-field'>
@@ -294,7 +294,7 @@ const AddWarehouse = () => {
                                         }}
                                     />
                                 </div>
-                                {errors.contactNumber && <div className="error">{errors.contactNumber}</div>}
+                                {errors.contactNumber && <div className="custom-error">{errors.contactNumber}</div>}
                             </label>
                             <label>
                                 GST Number
@@ -305,10 +305,10 @@ const AddWarehouse = () => {
                                     placeholder='Enter GST Number'
                                     maxLength={15}
                                 />
-                                {errors.gstNumber && <div className="error">{errors.gstNumber}</div>}
+                                {errors.gstNumber && <div className="custom-error">{errors.gstNumber}</div>}
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-3'>
+                        <div className='d-flex gap-3 mt-4'>
                             <label>
                                 Warehouse Address 1
                                 <input
@@ -317,7 +317,7 @@ const AddWarehouse = () => {
                                     name="address_line1"
                                     placeholder='Enter Warehouse Address 1'
                                 />
-                                {errors.addressLine1 && <div className="error">{errors.addressLine1}</div>}
+                                {errors.addressLine1 && <div className="custom-error">{errors.addressLine1}</div>}
                             </label>
                             <label>
                                 Warehouse Address 2
@@ -327,10 +327,10 @@ const AddWarehouse = () => {
                                     name="address_line2"
                                     placeholder='Enter Warehouse Address 2'
                                 />
-                                {errors.address_line2 && <div className="error">{errors.address_line2}</div>}
+                                {errors.address_line2 && <div className="custom-error">{errors.address_line2}</div>}
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-3'>
+                        <div className='d-flex gap-3 mt-4'>
                             <label>
                                 Pincode
                                 <input
@@ -346,7 +346,7 @@ const AddWarehouse = () => {
                                         }
                                     }}
                                 />
-                                {errors.pincode && <div className="error">{errors.pincode}</div>}
+                                {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                             </label>
                             <label>
                                 City
@@ -379,7 +379,7 @@ const AddWarehouse = () => {
                                 />
                             </label>
                         </div>
-                        <div className='d-flex gap-3 mt-3'>
+                        <div className='d-flex gap-3 mt-4'>
                             <label>
                                 Support Email
                                 <input
@@ -401,7 +401,7 @@ const AddWarehouse = () => {
                         </div>
 
 
-                        <div className="d-flex gap-3 mt-3">
+                        <div className="d-flex gap-3 mt-4">
                             <p onClick={() => SetAddFields(!AddFields)} className='add-fields-text mb-0'>
                                 <span>Warehouse Timings</span>
                                 <span className='text-gray'> (Optional) <FontAwesomeIcon icon={AddFields ? faChevronUp : faChevronDown} /></span>
@@ -455,7 +455,7 @@ const AddWarehouse = () => {
                                     />
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 mt-3'>
+                            <div className='d-flex gap-3 mt-4'>
                                 <label>
                                     Contact Number
                                     {/* <input
@@ -499,7 +499,7 @@ const AddWarehouse = () => {
                                     />
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 mt-3'>
+                            <div className='d-flex gap-3 mt-4'>
                                 <label>
                                     Address
                                     <input
@@ -519,7 +519,7 @@ const AddWarehouse = () => {
                                     />
                                 </label>
                             </div>
-                            <div className='d-flex gap-3 mt-3'>
+                            <div className='d-flex gap-3 mt-4'>
                                 <label>
                                     Pincode
                                     <input

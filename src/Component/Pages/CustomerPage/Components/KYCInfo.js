@@ -207,7 +207,7 @@ const KYCInfo = ({ activeTab }) => {
               <div className="col-9">
                 <div className="d-flex gap-3 mt-3">
                   <label>
-                    Document Type:
+                    <span>Document Type: <span className='mandatory'>*</span></span>
                     <select
                       className={`input-field ${errors.document_type && "input-field-error"}`}
                       name="document_type"
@@ -220,10 +220,10 @@ const KYCInfo = ({ activeTab }) => {
                       <option value="Driving License">Driving License</option>
                       <option value="Voter ID Card">Voter ID Card</option>
                     </select>
-                    {errors.document_type && <span className="error-text">{errors.document_type}</span>}
+                    {errors.document_type && <span className="custom-error">{errors.document_type}</span>}
                   </label>
                   <label>
-                    Upload Document:
+                    <span>Upload Document: <span className='mandatory'>*</span></span>
                     <input
                       className="form-control input-field"
                       type="file"
@@ -235,7 +235,7 @@ const KYCInfo = ({ activeTab }) => {
                 </div>
                 <div className="d-flex gap-3 mt-3">
                   <label>
-                    Document Name:
+                    <span>Document Name: <span className='mandatory'>*</span></span>
                     <input
                       className={`input-field ${errors.document_name && "input-field-error"}`}
                       type="text"
@@ -245,10 +245,10 @@ const KYCInfo = ({ activeTab }) => {
                       maxLength={55}
                       onKeyDown={(e) => handleKeyPress(e)}
                     />
-                    {errors.document_name && <span className="error-text">{errors.document_name}</span>}
+                    {errors.document_name && <span className="custom-error">{errors.document_name}</span>}
                   </label>
                   <label>
-                    Document Number:
+                    <span>Document Number: <span className='mandatory'>*</span></span>
                     <input
                       className={`input-field ${errors.document_id && "input-field-error"}`}
                       type="text"
@@ -258,7 +258,7 @@ const KYCInfo = ({ activeTab }) => {
                       onChange={handleChange}
                       onKeyDown={(e) => handleKeyPress(e)}
                     />
-                    {errors.document_id && <span className="error-text">{errors.document_id}</span>}
+                    {errors.document_id && <span className="custom-error">{errors.document_id}</span>}
                   </label>
                 </div>
               </div>

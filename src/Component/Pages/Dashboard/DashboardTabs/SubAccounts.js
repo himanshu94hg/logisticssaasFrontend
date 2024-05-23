@@ -14,7 +14,7 @@ const SubAccounts = () => {
     <>
       <div className='position-relative'>
         <NonActiveService />
-        <Row className='cardsSpace'>
+        <Row className='cardsSpace position-relative z-2'>
           <Col className='col-12'>
             <Row>
               <Col className='col-3 cardsSpace'>

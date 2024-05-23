@@ -14,7 +14,7 @@ const PnL = () => {
     <>
       <div className='position-relative'>
         <NonActiveService />
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className="col-3 cardsSpace">
             <TotalProfitAndLoss />
           </Col>
@@ -25,7 +25,7 @@ const PnL = () => {
             <ChannelWiseStats />
           </Col>
         </Row>
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className='col-6 cardsSpace'>
             <OrdersSourceStat />
           </Col>
@@ -33,7 +33,7 @@ const PnL = () => {
             <BestSalesProducts />
           </Col>
         </Row>
-        <Row className='mb-3'>
+        <Row className='mb-3 position-relative z-2'>
           <Col className='col-6 cardsSpace'>
             <TopVendorsStats />
           </Col>

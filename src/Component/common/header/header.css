@@ -273,6 +273,7 @@
 .quick-actions-container:hover .quick-actions-hover {
   width: 252px;
   height: 320px;
+  z-index: 4;
 }
 
 .quick-action-text {
