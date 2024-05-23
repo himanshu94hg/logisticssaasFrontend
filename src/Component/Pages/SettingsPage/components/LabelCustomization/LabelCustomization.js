@@ -3,6 +3,8 @@ import './LabelCustomization.css'
 import LabelData from './LabelData';
 import Logo from '../../../../../assets/image/logo/logo.svg'
 import { Col, Row } from 'react-bootstrap';
+import Toggle from 'react-toggle';
+import 'react-toggle/style.css';
 
 const LabelCustomization = () => {
     const initialSections = [
@@ -28,13 +30,67 @@ const LabelCustomization = () => {
     ];
     return (
         <>
-            <section className='label-customize-page box-shadow shadow-sm p10'>
+            <section className='label-customize-page'>
                 <Row>
-                    <Col className="col-3"></Col>
-                    <Col className="col-6">
+                    <Col className="col-3">
+                        <div className='lc-section-column'>
+                            <div className='lc-section-item'>
+                                <div className="lc-section-header">
+                                    <p>Section One</p>
+                                    <Toggle />
+                                </div>
+                                <div className='lc-section-body'>
+                                    <ul>
+                                        <li>Contact Mask</li>
+                                        <li>Shipping Address</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className='lc-section-item'>
+                                <div className="lc-section-header">
+                                    Section Two
+                                </div>
+                                <div className='lc-section-body'></div>
+                            </div>
+                            <div className='lc-section-item'>
+                                <div className="lc-section-header">
+                                    Section Three
+                                </div>
+                                <div className='lc-section-body'></div>
+                            </div>
+                        </div>
+                    </Col>
+                    <Col className="col-6 box-shadow shadow-sm p10">
                         <LabelData />
                     </Col>
-                    <Col className="col-3"></Col>
+                    <Col className="col-3">
+                        <div className='lc-section-column'>
+                            <div className='lc-section-item'>
+                                <div className="lc-section-header">
+                                    <p>Section One</p>
+                                    <Toggle />
+                                </div>
+                                <div className='lc-section-body'>
+                                    <ul>
+                                        <li>Contact Mask</li>
+                                        <li>Shipping Address</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div className='lc-section-item'>
+                                <div className="lc-section-header">
+                                    Section Two
+                                </div>
+                                <div className='lc-section-body'></div>
+                            </div>
+                            <div className='lc-section-item'>
+                                <div className="lc-section-header">
+                                    Section Three
+                                </div>
+                                <div className='lc-section-body'></div>
+                            </div>
+                        </div>
+                    </Col>
                 </Row>
             </section>
         </>

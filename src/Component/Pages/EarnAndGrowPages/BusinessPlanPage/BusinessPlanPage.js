@@ -27,7 +27,7 @@ const BusinessPlanPage = () => {
                         <button className='btn main-button-outline mt-4'>Get Started</button>
                     </div>
                     <div className='plan-item'>
-                        <h4>Advanced</h4>
+                        <h4>Pro</h4>
                         <div className='plan-price'>
                             {/* <span>₹</span> */}
                             <p>25/500</p>
