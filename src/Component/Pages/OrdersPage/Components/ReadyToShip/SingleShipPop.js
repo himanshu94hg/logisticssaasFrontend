@@ -70,7 +70,7 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
                             <div className='d-flex flex-column justify-content-center'>
                                 <p>{option.partner_title}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
-                                <p>RTO Charges: ₹{0}</p>
+                                <p>RTO Charges: ₹{option?.rto_charge}</p>
                             </div>
                         </div>
                         <div className='d-flex align-items-center gap-2'>
@@ -103,12 +103,12 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
                             <p><strong>₹ {(option.rate + option.cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
-                                <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
+                                <span>+ Early COD Charges: <strong>₹ {option?.early_cod_charge}</strong></span><br />
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
                             <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword)}>Ship Now</button>
-                            <p><span>EDD: <strong>{formatDate(dateAfter2Days)}</strong></span></p>
+                            <p><span>EDD: <strong>{"N/A"}</strong></span></p>
                         </div>
                         <span className={`recommended ${true ? '' : 'd-none'}`}></span>
                     </div>
