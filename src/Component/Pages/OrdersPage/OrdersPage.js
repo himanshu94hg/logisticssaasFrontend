@@ -69,6 +69,7 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
+    console.log("orderUpdateResorderUpdateResorderUpdateRes",orderUpdateRes)
 
     useEffect(() => {
         if (activeTab) {
