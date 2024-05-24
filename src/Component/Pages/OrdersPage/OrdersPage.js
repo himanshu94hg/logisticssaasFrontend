@@ -71,6 +71,12 @@ const OrdersPage = () => {
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
 
+
+    useEffect(()=>{
+        dispatch({ type: "PAYMENT_DATA_ACTION" });
+    },[orderCancelled])
+
+
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
