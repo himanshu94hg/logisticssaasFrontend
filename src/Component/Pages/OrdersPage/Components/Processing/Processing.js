@@ -36,6 +36,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     let authToken = Cookies.get("access_token") 
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
+    const [refresh, setRefresh] = useState(null)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -125,7 +126,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     }
 
     useEffect(() => {
-        if (selectedOrderId !== null) {
+        if (selectedOrderId !== null  ) {
             const config = {
                 headers: {
                     Authorization: `Bearer ${authToken}`
