@@ -19,6 +19,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
+import globalDebouncedClick from '../../../debounce';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -56,7 +57,7 @@ const ShipmentsPage = () => {
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [queryParamSearch, setQueryParamSearch] = useState(null)
     const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
-    const apiEndpoint =`${BASE_URL_ORDER}`;
+    const apiEndpoint = `${BASE_URL_ORDER}`;
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -119,7 +120,7 @@ const ShipmentsPage = () => {
                 });
         }
     }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
-      
+
 
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
 
@@ -187,11 +188,11 @@ const ShipmentsPage = () => {
                 .catch(error => {
                     customErrorFunction(error);
                 });
-                setQueryParamTemp({
-                    search_by:searchType,
-                    q:searchValue
-                })
-                setCurrentPage(1)
+            setQueryParamTemp({
+                search_by: searchType,
+                q: searchValue
+            })
+            setCurrentPage(1)
         }
     };
 
@@ -265,7 +266,7 @@ const ShipmentsPage = () => {
                                 options={SearchOptions}
                             />
                             <input className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`} type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
-                            <button onClick={() => handleSearch()}>
+                            <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
@@ -349,7 +350,7 @@ const ShipmentsPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows}/>
+                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 )
                 }
             </div>

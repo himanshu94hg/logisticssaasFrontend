@@ -6,6 +6,7 @@ import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import { useDispatch } from 'react-redux';
 import { capatlize } from '../../../../customFunction/functionLogic';
 import NoData from '../../../common/noData';
+import globalDebouncedClick from '../../../../debounce';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -62,20 +63,24 @@ const AllTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonC
     };
 
     const handleCloseOpenTicket = (id, status) => {
-        dispatch({ type: "UPDATE_TICKET_STATUS_ACTION", payload: {
-            status:status,
-            ticket_ids:[id]
-        } })
+        dispatch({
+            type: "UPDATE_TICKET_STATUS_ACTION", payload: {
+                status: status,
+                ticket_ids: [id]
+            }
+        })
     }
 
     const handleEscalateTicket = (id) => {
-        dispatch({ type: "TICKET_ESCALATE_ACTION", payload: {
-            ticket_ids:[id]
-        } })
+        dispatch({
+            type: "TICKET_ESCALATE_ACTION", payload: {
+                ticket_ids: [id]
+            }
+        })
     }
-  
 
-console.log(activeTab,"activeTab")
+
+    console.log(activeTab, "activeTab")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -129,7 +134,7 @@ console.log(activeTab,"activeTab")
                                         <td>
                                             {/* AWB */}
                                             <div className='cell-inside-box'>
-                                            <span className={`fw-bold ${item?.severity==="critical"?"text-danger":item?.severity==="high"?"text-warning":item?.severity==="low"?"text-success":"text-info"}`}> {capatlize(item?.severity)}</span>
+                                                <span className={`fw-bold ${item?.severity === "critical" ? "text-danger" : item?.severity === "high" ? "text-warning" : item?.severity === "low" ? "text-success" : "text-info"}`}> {capatlize(item?.severity)}</span>
 
                                             </div>
                                         </td>
@@ -157,7 +162,7 @@ console.log(activeTab,"activeTab")
                                                 {moment(item?.created_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
-                                      
+
                                         <td>
                                             {/* last Updated */}
                                             <div className='cell-inside-box'>
@@ -180,9 +185,9 @@ console.log(activeTab,"activeTab")
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleEscalateTicket(item?.id)}>Escalate</li>
-                                                            {item?.status=== "Closed" && <li onClick={() => handleCloseOpenTicket(item?.id, "Open")}>Re-open</li>}
-                                                            {item?.status=== "Open" && <li onClick={() => handleCloseOpenTicket(item?.id, "Closed")}>Close</li>}
+                                                            <li onClick={() => globalDebouncedClick(() => handleEscalateTicket(item?.id))}>Escalate</li>
+                                                            {item?.status === "Closed" && <li onClick={() => globalDebouncedClick(() => handleCloseOpenTicket(item?.id, "Open"))}>Re-open</li>}
+                                                            {item?.status === "Open" && <li onClick={() => globalDebouncedClick(() => handleCloseOpenTicket(item?.id, "Closed"))}>Close</li>}
                                                         </ul>
                                                     </div>
                                                 </div>
