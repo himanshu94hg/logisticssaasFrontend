@@ -240,6 +240,7 @@
 
 .rule-name-container label {
     width: 100%;
+    position: relative;
 }
 
 
@@ -294,5 +295,11 @@
 @media screen and (max-width:1252px) {
     .create-rules-section .rule-preference {
         margin-inline: 20px 100px;
+    }
+}
+
+@media screen and (min-width:1600.5px) {
+    .ar-items-scroll {
+        height: calc(100vh - 471px);
     }
 }
