@@ -6,6 +6,7 @@ import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
 import { useDispatch } from 'react-redux';
 import { capatlize } from '../../../../customFunction/functionLogic';
 import NoData from '../../../common/noData';
+import globalDebouncedClick from '../../../../debounce';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -183,9 +184,9 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleEscalateTicket(item?.id)}>Escalate</li>
-                                                            {activeTab != "openTickets" && <li onClick={() => handleCloseOpenTicket(item?.id, "Open")}>Re-open</li>}
-                                                            {activeTab != "closedTickets" && <li onClick={() => handleCloseOpenTicket(item?.id, "Closed")}>Close</li>}
+                                                            <li onClick={() => globalDebouncedClick(() => handleEscalateTicket(item?.id))}>Escalate</li>
+                                                            {activeTab != "openTickets" && <li onClick={() => globalDebouncedClick(() => handleCloseOpenTicket(item?.id, "Open"))}>Re-open</li>}
+                                                            {activeTab != "closedTickets" && <li onClick={() => globalDebouncedClick(() => handleCloseOpenTicket(item?.id, "Closed"))}>Close</li>}
                                                         </ul>
                                                     </div>
                                                 </div>

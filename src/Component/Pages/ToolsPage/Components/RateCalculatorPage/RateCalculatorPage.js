@@ -6,6 +6,7 @@ import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/Pi
 import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
 import { debounce } from 'lodash';
 import Toggle from 'react-toggle';
+import globalDebouncedClick from '../../../../../debounce';
 
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
@@ -265,7 +266,7 @@ const RateCalculatorPage = () => {
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
               </label>
-              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={orderIdApiCAll}>Search</button>
+              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={()=>globalDebouncedClick(() => orderIdApiCAll())}>Search</button>
             </div>
             <form>
               <div style={containerStyle}>
@@ -435,7 +436,7 @@ const RateCalculatorPage = () => {
               </div>
               <div className='d-flex w-100 justify-content-end mt-4'>
                 <button type='reset' className="btn main-button-outline" onClick={handleReset}>Reset</button>
-                <button onClick={() => handleSubmit()} type='button' className="ms-2 btn main-button">Calculate</button>
+                <button onClick={() => globalDebouncedClick(() => handleSubmit())} type='button' className="ms-2 btn main-button">Calculate</button>
               </div>
             </form>
           </section>

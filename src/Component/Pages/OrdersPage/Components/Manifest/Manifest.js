@@ -23,23 +23,23 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
     const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
 
 
-   /* useEffect(()=>{
-        if(manifestList){
-            setTotalItems(manifestList?.length)
-        }
-    },[manifestList])
-
-
-
-
-    useEffect(() => {
-        if (activeTab === "Manifest") {
-
-            dispatch({ type: "MANIFEST_LIST_API_ACTION" })
-        }
-    }, [activeTab])
-
-    */
+    /* useEffect(()=>{
+         if(manifestList){
+             setTotalItems(manifestList?.length)
+         }
+     },[manifestList])
+ 
+ 
+ 
+ 
+     useEffect(() => {
+         if (activeTab === "Manifest") {
+ 
+             dispatch({ type: "MANIFEST_LIST_API_ACTION" })
+         }
+     }, [activeTab])
+ 
+     */
 
     useEffect(() => {
         if (orderdelete) {
@@ -72,22 +72,17 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         //     setSelectAll(false);
         // }
     };
-    const handleClick = (param) => {
-        if(activeTab === "Manifest"){
+    const handleClick = (data) => {
+        if (activeTab === "Manifest") {
             dispatch({
                 type: "BULK_ORDER_DOWNLOAD_MANIFEST_ACTION", payload: {
-                    manifest_id: param
+                    manifest_id: data
                 }
             })
-        }   
-      };
-    const manifestDownload = (value) => {
-        globalDebouncedClick(() => handleClick(value));
-    }
+        }
+    };
 
-
-    
-    const handleDownloadLabel = async (data) => {
+    const handleClickDownloadLabel = async (data) => {
         let temp = []
         data.map((item) => {
             temp.push(item?.order)
@@ -120,10 +115,10 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         } catch (error) {
             toast.error("Somethng went wrong!")
         }
-    };
 
+    }
 
-    const handleDownloadInvoice = async (data) => {
+    const handleClickDownloadInvoice = async (data) => {
         let temp = []
         data.map((item) => {
             temp.push(item?.order)
@@ -156,21 +151,33 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         } catch (error) {
             toast.error("Somethng went wrong!")
         }
+    }
+
+    const manifestDownload = (data) => {
+        globalDebouncedClick(() => handleClick(data));
+    }
+
+    const handleDownloadLabel = async (data) => {
+        globalDebouncedClick(() => handleClickDownloadLabel(data));
+    };
+
+    const handleDownloadInvoice = async (data) => {
+        globalDebouncedClick(() => handleClickDownloadInvoice(data));
     };
 
 
     useEffect(() => {
         if (downloadManifest) {
-            if(activeTab === "Manifest"){   
-            const blob = new Blob([downloadManifest], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'manifest.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
+            if (activeTab === "Manifest") {
+                const blob = new Blob([downloadManifest], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'manifest.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
             }
         }
 
@@ -251,7 +258,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                                                 <p className=''>{row?.p_ref_no} </p>
                                             </div>
                                         </td>
-                                    
+
 
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>

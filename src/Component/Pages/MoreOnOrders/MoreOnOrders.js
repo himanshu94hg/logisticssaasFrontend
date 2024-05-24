@@ -20,6 +20,7 @@ import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
+import globalDebouncedClick from '../../../debounce';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -268,7 +269,7 @@ const MoreOnOrders = () => {
                                 }}
                                 placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
                             />
-                            <button onClick={() => handleSearch()}>
+                            <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>

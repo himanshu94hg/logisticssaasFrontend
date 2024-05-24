@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { RiFilterLine } from "react-icons/ri";
 import { RxReset } from "react-icons/rx";
+import globalDebouncedClick from "../../../../../debounce";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -97,7 +98,7 @@ export default function NavTabs(props) {
             />
              {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
 
-            <button onClick={() => props.handleSearch()}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            <button onClick={() => globalDebouncedClick(() =>  props.handleSearch())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </label>
         </div>
         <button

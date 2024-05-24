@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { faEye, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
+import globalDebouncedClick from "../../../../debounce";
 
 const AccountInfo = ({ activeTab }) => {
   const [errors, setErrors] = useState([]);
@@ -60,6 +61,19 @@ const AccountInfo = ({ activeTab }) => {
     }
   };
 
+  const handleClickSubmit = async (formData) => {
+    await axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
+      headers: {
+        'Authorization': `Bearer ${hardcodedToken}`,
+        'Content-Type': 'multipart/form-data'
+      },
+    }).then((response) => {
+      if (response.status === 201) {
+        toast.success('Account Added successfully.');
+      }
+    });
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;
@@ -100,16 +114,7 @@ const AccountInfo = ({ activeTab }) => {
           formData.append('cheque_image', account.chequeImage);
 
           if (!account.id) {
-            await axios.post(`${BASE_URL_CORE}/core-api/seller/bank-info/`, formData, {
-              headers: {
-                'Authorization': `Bearer ${hardcodedToken}`,
-                'Content-Type': 'multipart/form-data'
-              },
-            }).then((response) => {
-              if (response.status === 201) {
-                toast.success('Account Added successfully.');
-              }
-            });
+            globalDebouncedClick(() => handleClickSubmit(formData))
           }
         }
       } catch (error) {

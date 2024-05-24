@@ -27,6 +27,7 @@ import WeightUpdatePop from './Components/BulkActionsComponent/Components/Weight
 import CloneOrder from './Components/CloneOrder/CloneOrder';
 import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
+import globalDebouncedClick from '../../../debounce';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -197,7 +198,7 @@ const OrdersPage = () => {
         });
         setQueryParamTemp(queryParams);
     };
-    
+
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
@@ -336,7 +337,7 @@ const OrdersPage = () => {
                                 placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
                                 className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`}
                             />
-                            <button onClick={() => handleSearch()}>
+                            <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>

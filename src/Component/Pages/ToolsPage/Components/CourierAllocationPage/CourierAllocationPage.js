@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SetPreferenceRules from './SetPreferenceRules';
 import { useDispatch, useSelector } from "react-redux";
+import globalDebouncedClick from '../../../../../debounce';
 
 const CourierAllocationPage = () => {
   const dispatch = useDispatch();
@@ -102,7 +103,7 @@ const CourierAllocationPage = () => {
             {/* </div> */}
           </label>
           <div>
-            <button className='btn main-button' onClick={() => handleSubmit()}>Save Courier Preference</button>
+            <button className='btn main-button' onClick={() =>globalDebouncedClick(() => handleSubmit())}>Save Courier Preference</button>
           </div>
         </div>
 
