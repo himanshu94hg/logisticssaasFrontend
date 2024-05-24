@@ -1,3 +1,11 @@
+.label-customize-page {
+    padding-bottom: 15px;
+}
+
+.label-customize-page p {
+    margin-bottom: 0;
+}
+
 .label-customize-page table,
 .label-customize-page td,
 .label-customize-page th {
@@ -36,4 +44,29 @@
 .label-customize-page th,
 .label-customize-page td {
     padding: 3px;
+}
+
+
+.lc-section-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 100%;
+}
+
+
+.lc-section-item {
+    background-color: #fff;
+    width: 100%;
+    height: 100%;
+    border-radius: 0.5rem;
+}
+
+.lc-section-header {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    padding: 15px;
+    background: var(--sh-primary-middle);
+    border-radius: 0.5rem 0.5rem 0 0;
 }
