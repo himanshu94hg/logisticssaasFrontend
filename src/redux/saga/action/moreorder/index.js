@@ -1,6 +1,6 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
+import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
 import { REASSIGN_DATA_ACTION,REASSIGN_SHIP_DATA_ACTION } from "../../constant/moreorder";
 import { GET_REASSIGN_DATA,GET_REASSIGN_SHIP_DATA, GET_REASSIGN_SHIP_DATA_STATUS } from "../../../constants/moreorder";
 import {  toast } from 'react-toastify';
@@ -10,7 +10,7 @@ import { customErrorFunction } from '../../../../customFunction/errorHandling';
 async function moreorderFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_REASSIGN_URL}?order_id=${data}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_REASSIGN_URL}?order_id=${data}`,
         //data: data
     });
     return listData;
@@ -19,7 +19,7 @@ async function moreorderFileAPI(data) {
 async function moreorderShipFileAPI(data) {
     let listData = axios.request({
         method: "GET",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_REASSIGN_SHIP_URL}${data?.order_id}?courier_partner=${data?.courier}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_REASSIGN_SHIP_URL}${data?.order_id}?courier_partner=${data?.courier}`,
         data: data
     });
     return listData;

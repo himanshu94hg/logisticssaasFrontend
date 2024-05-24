@@ -30,6 +30,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { debounce } from "lodash";
+import globalDebouncedClick from "../../../../../debounce";
 
 
 const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -149,6 +150,17 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         setOrderId(id)
     }
 
+    const handleMarkClick=(value)=>{
+        dispatch({
+            type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
+                order_ids: [value],
+            }
+        })
+    }
+
+    const markAsVerified = () => {
+
+    }
 
     return (
         <section className='position-relative'>
@@ -342,13 +354,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                 }>Verify Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
-                                                                <li onClick={() =>
-                                                                    dispatch({
-                                                                        type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
-                                                                            order_ids: [row?.id],
-                                                                        }
-                                                                    })
-                                                                }>Mark As Verified</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() =>
@@ -376,7 +382,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                 <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
-        </section>
+        </section >
     );
 })
 
