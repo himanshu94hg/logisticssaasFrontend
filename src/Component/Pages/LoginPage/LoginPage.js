@@ -14,6 +14,7 @@ import { indexPattern, signUpPattern } from '../../../Routes';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../axios/config';
+import globalDebouncedClick from '../../../debounce';
 
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
@@ -41,9 +42,8 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
     return () => clearInterval(intervalId);
   }, [timer, isTimerRunning]);
 
-  const handleLogin = async (e) => {
-    setStatus(true)
-    e.preventDefault();
+
+  const handleClickLogin = async () => {
     try {
       const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/user-sign/`, {
         contact_number: username,
@@ -58,10 +58,15 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
         dispatch({ type: LOGIN_DATA, payload: response })
         window.location.reload()
       }
-
     } catch (error) {
       customErrorFunction(error)
     }
+  }
+
+  const handleLogin = async (e) => {
+    setStatus(true)
+    e.preventDefault();
+    globalDebouncedClick(() => handleClickLogin())
   }
 
   const handleOTPSubmit = (e) => {
