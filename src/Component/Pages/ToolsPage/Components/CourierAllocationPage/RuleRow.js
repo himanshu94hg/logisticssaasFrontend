@@ -3,9 +3,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react'
 
-const RuleRow = ({ initialRows, setConditions ,formErrors }) => {
+const RuleRow = ({ initialRows, setConditions, formErrors }) => {
 
-    console.log(formErrors,"formErrorsformErrorsformErrors")
+    console.log(formErrors, "formErrorsformErrorsformErrors")
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
@@ -52,7 +52,7 @@ const RuleRow = ({ initialRows, setConditions ,formErrors }) => {
                         onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
                         disabled={index === 0}
                     >
-                        <option value="">And/Or</option>
+                        {index === 0 && <option value="">And/Or</option>}
                         <option value="and">And</option>
                         <option value="or">Or</option>
                     </select>
@@ -117,7 +117,7 @@ const RuleRow = ({ initialRows, setConditions ,formErrors }) => {
                         )}
                         {row.condition_type === "product_sku" && (
                             <>
-                                 <option value="is">Is</option>
+                                <option value="is">Is</option>
                                 <option value="is_not">Is not</option>
                                 <option value="starts_with">Starts with</option>
                             </>
@@ -144,9 +144,8 @@ const RuleRow = ({ initialRows, setConditions ,formErrors }) => {
                         )}
                     </div>
                 </div>
-                
+
             ))}
-            <div className="text-danger mt-2">{formErrors["conditions"]}</div>
         </>
     )
 }
