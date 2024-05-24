@@ -31,12 +31,11 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
-    let authToken = Cookies.get("access_token") 
+    let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
-    const [refresh, setRefresh] = useState(null)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -85,6 +84,21 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
+        if (orderId !== null) {
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
+            };
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
+                .then((response) => {
+                    setShipingResponse(response.data);
+                    setSingleShip(true);
+
+                }).catch((error) => {
+                    customErrorFunction(error)
+                });
+        }
     };
 
     const handleSelectRow = (orderId, awb) => {
@@ -114,7 +128,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         }
     };
 
-
     const openEditingSection = (id) => {
         setEditOrderSection(true)
         setOrderId(id)
@@ -124,24 +137,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         setCloneOrderSection(true)
         setOrderId(id)
     }
-
-    useEffect(() => {
-        if (selectedOrderId !== null  ) {
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
-                }
-            };
-            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${selectedOrderId}`, config)
-                .then((response) => {
-                    setShipingResponse(response.data);
-                    setSingleShip(true);
-
-                }).catch((error) => {
-                    customErrorFunction(error)
-                });
-        }
-    }, [selectedOrderId]);
 
 
     return (
