@@ -52,7 +52,7 @@ const RuleRow = ({ initialRows, setConditions ,formErrors }) => {
                         onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
                         disabled={index === 0}
                     >
-                        <option value="">And/Or</option>
+                        {index === 0 && <option value="">And/Or</option>}
                         <option value="and">And</option>
                         <option value="or">Or</option>
                     </select>
