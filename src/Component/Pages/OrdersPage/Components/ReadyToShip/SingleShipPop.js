@@ -100,7 +100,7 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ {(option.rate + option.cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
+                            <p><strong>₹ {(option.rate + option.cod_charge+option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ {option?.early_cod_charge}</strong></span><br />
