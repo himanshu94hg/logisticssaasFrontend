@@ -14,6 +14,7 @@ import { getFileData, uploadImageData } from '../../../../awsUploadFile';
 import { customErrorFunction, customErrorPincode } from '../../../../customFunction/errorHandling';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
+import globalDebouncedClick from "../../../../debounce";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
@@ -99,6 +100,21 @@ const BasicInfo = ({ activeTab }) => {
     }
   }, [activeTab]);
 
+  const handleClickSubmit=async(formData)=>{
+    try {
+      const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
+        headers: {
+          'Authorization': `Bearer ${hardcodedToken}`,
+        },
+      });
+      if (response?.status === 201) {
+        toast.success("Details update successfully")
+      }
+    } catch (error) {
+      customErrorFunction(error)
+    }
+  }
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -116,21 +132,9 @@ const BasicInfo = ({ activeTab }) => {
       }
       return errors;
     }, {});
-    console.log(newErrors, "newErrorsnewErrorsnewErrors")
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      try {
-        const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
-          headers: {
-            'Authorization': `Bearer ${hardcodedToken}`,
-          },
-        });
-        if (response?.status === 201) {
-          toast.success("Details update successfully")
-        }
-      } catch (error) {
-        customErrorFunction(error)
-      }
+      globalDebouncedClick(() => handleClickSubmit(formData))
     }
   };
 

@@ -23,6 +23,7 @@ import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, create
 import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../axios/config";
 import { useDispatch } from "react-redux";
 import { customErrorFunction } from "../../../customFunction/errorHandling";
+import globalDebouncedClick from "../../../debounce";
 
 export default function Header(props) {
   const dispatch = useDispatch()
@@ -49,8 +50,8 @@ export default function Header(props) {
         }
       })
         .then(response => {
-          if(response.status===200){
-            navigate(`/orderdetail/${inputValue}`, { state: { orderData:response.data ,path:"searchOrderData"} });
+          if (response.status === 200) {
+            navigate(`/orderdetail/${inputValue}`, { state: { orderData: response.data, path: "searchOrderData" } });
           }
         })
         .catch(error => {
@@ -65,9 +66,9 @@ export default function Header(props) {
         Authorization: `Bearer ${authToken}`
       }
     })
-    .then(response => {
-      if(response.status===200){
-        navigate(`/orderdetail/${inputValue}`, { state: { orderData:response.data,path:"searchOrderData" } });
+      .then(response => {
+        if (response.status === 200) {
+          navigate(`/orderdetail/${inputValue}`, { state: { orderData: response.data, path: "searchOrderData" } });
         }
       })
       .catch(error => {
@@ -128,7 +129,7 @@ export default function Header(props) {
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress} />
-                <button onClick={handleNavigate}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                <button onClick={() => globalDebouncedClick(() => handleNavigate())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
               </div>
               <div className="quick-actions-container">
                 <div className="quick-action-text">

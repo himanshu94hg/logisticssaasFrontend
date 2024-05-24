@@ -34,6 +34,7 @@ import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import axios from 'axios';
+import globalDebouncedClick from '../../../../../debounce';
 
 
 const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
@@ -474,13 +475,13 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>
                                                     <button className='btn main-button' style={{ width: '100%' }}>{
                                                         row?.order_courier_status === 'Unprocessable' ? <span>Edit Order</span>
-                                                            : row?.status === "pending" ? <span onClick={() => handleShipNow(row?.id)}>Ship Now</span>
-                                                                : row?.status === "pickup_requested" ? <span onClick={() => generateManifest(row.id)}>Generate Manifest</span>
-                                                                    : row?.status === "shipped" ? <span onClick={() => handleGeneratePickup(row.id)}>Generate Pickup</span>
+                                                            : row?.status === "pending" ? <span onClick={() => globalDebouncedClick(() => handleShipNow(row?.id))}>Ship Now</span>
+                                                                : row?.status === "pickup_requested" ? <span onClick={() => globalDebouncedClick(() => generateManifest(row?.id))}>Generate Manifest</span>
+                                                                    : row?.status === "shipped" ? <span onClick={() => globalDebouncedClick(() => handleGeneratePickup(row?.id))}>Generate Pickup</span>
                                                                         : row?.status === "cancelled" || row?.status === "delivered" || row?.status === "picked_up" ||
                                                                             row?.status === "out_for_delivery" || row?.status === "pickup_scheduled" || row?.status === "rto_initiated"
                                                                             || row?.status === "ndr" || row?.status === "lost" || row?.status === "damaged"
-                                                                            ? <span onClick={() => openCloneSection(row?.id)}>Clone Order</span> : ""
+                                                                            ? <span onClick={() => globalDebouncedClick(() => openCloneSection(row?.id))}>Clone Order</span> : ""
                                                     }</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
@@ -508,9 +509,9 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                 }}>Cancel Order</li>
 
                                                                 <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
-                                                                <li onClick={() => handleShipReassign(row?.id)}>Reassign Order</li>
-                                                                <li onClick={() => handleDownloadLabel(row.id)}>Download label</li>
-                                                                <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id))}>Download Invoice</li>
                                                             </ul>
                                                         </div>
                                                     </div>

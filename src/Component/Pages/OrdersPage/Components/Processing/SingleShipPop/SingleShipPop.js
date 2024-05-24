@@ -16,12 +16,12 @@ import { customErrorFunction } from '../../../../../../customFunction/errorHandl
 import { debounce } from 'lodash';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip,  shipingResponse,orderId }) => {
+const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
-  
-    const handleClick = (param1,param2) => {
+
+    const handleClick = (param1, param2) => {
         axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${param2}/?courier_partner=${param1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
@@ -45,13 +45,13 @@ const SingleShipPop = ({ SingleShip, setSingleShip,  shipingResponse,orderId }) 
     };
 
     const debouncedHandleClick = useCallback(
-        debounce((param,orderId) => handleClick(param,orderId), 1500),
+        debounce((param, orderId) => handleClick(param, orderId), 1500),
         []
     );
 
-    const handleSubmit = (courier,orderId) => {
-        debouncedHandleClick(courier,orderId);
-        
+    const handleSubmit = (courier, orderId) => {
+        debouncedHandleClick(courier, orderId);
+
     };
 
     return (
@@ -113,15 +113,17 @@ const SingleShipPop = ({ SingleShip, setSingleShip,  shipingResponse,orderId }) 
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
-                            <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword,orderId)}>Ship Now</button>
+                            <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword, orderId)}>Ship Now</button>
                             <p><span>EDD: <strong>N/A</strong></span></p>
                         </div>
-                        <span className={`${option?.is_recommended ? "recommended" : ""} ${true ? '' : 'd-none'}`}></span>
+                        {option?.is_recommended &&
+                            <span className="recommended"></span>
+                        }
 
                     </div>
                 ))}
             </div>
-        </section>
+        </section >
     );
 }
 
