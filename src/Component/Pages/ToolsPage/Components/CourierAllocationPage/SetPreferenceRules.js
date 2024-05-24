@@ -276,7 +276,7 @@ const SetPreferenceRules = () => {
                         <label>
                             Rule Name
                             <input placeholder='Enter the rule name' className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
-                            <div className="text-danger">{formErrors["ruleName"]}</div>
+                            <div className="custom-error">{formErrors["ruleName"]}</div>
                         </label>
 
                         <label>
@@ -287,7 +287,7 @@ const SetPreferenceRules = () => {
                                     <option key={option?.value} value={option?.value}>{option?.value}</option>
                                 ))}
                             </select>
-                            <div className="text-danger">{formErrors["priority"]}</div>
+                            <div className="custom-error">{formErrors["priority"]}</div>
                         </label>
                     </div>
                     <div style={{ width: '100%' }} className='mb-5'>
@@ -305,15 +305,16 @@ const SetPreferenceRules = () => {
                                             <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                         ))}
                                     </select>
-                                    <div className="text-danger">{formErrors["selectedPartners"]}</div>
+                                    <div className="custom-error">{formErrors["selectedPartners"]}</div>
                                 </label>
                             ))}
                         </div>
                     </div>
-                    <div className='ar-items-scroll my-3 d-flex gap-3 flex-column'>
-                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors}/>
+                    <div className='ar-items-scroll mt-3 d-flex gap-3 flex-column position-relative'>
+                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors} />
                     </div>
-                    <div className='d-flex justify-content-end'>
+                    <div className='d-flex justify-content-end my-3'>
+                        <div className="text-danger mt-2 me-3 font12">{formErrors["conditions"]}</div>
                         <button onClick={handleSubmit} className='btn main-button'>Submit</button>
                     </div>
                 </section>
