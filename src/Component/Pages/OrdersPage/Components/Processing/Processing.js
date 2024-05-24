@@ -3,7 +3,7 @@ import Cookies from 'js-cookie';
 import moment from 'moment/moment';
 import { Link } from 'react-router-dom';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import SingleShipPop from './SingleShipPop/SingleShipPop';
@@ -29,6 +29,7 @@ import { faCircle } from '@fortawesome/free-solid-svg-icons';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { debounce } from "lodash";
 
 
 const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -82,15 +83,15 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         }
     };
 
-    const handleShipNow = (orderId) => {
-        setSelectedOrderId(orderId);
-        if (orderId !== null) {
+
+    const handleClick = (param) => {
+        if (param !== null) {
             const config = {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
             };
-            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${param}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                     setSingleShip(true);
@@ -100,6 +101,16 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                 });
         }
     };
+
+    const debouncedHandleClick = useCallback(
+        debounce((orderId) => handleClick(orderId), 500),
+        []
+    );
+
+    const handleShipNow = (orderId) => {
+        setSelectedOrderId(orderId);
+        debouncedHandleClick(orderId);
+    }
 
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
@@ -32,6 +32,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { debounce } from 'lodash';
 
 
 const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -110,14 +111,20 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
             setSelectAll(false);
         }
     };
-
-
-    const generateManifest = (value) => {
+    const handleClick = (param) => {
         dispatch({
             type: "GENERATE_MANIFEST_ACTION", payload: {
-                order_ids: `${value}`
+                order_ids: `${param}`
             }
         })
+      };
+    const debouncedHandleClick = useCallback(
+        debounce((param) => handleClick(param), 1000),
+        []
+      );
+      
+    const generateManifest = (value) => {
+        debouncedHandleClick(value);
     }
 
     const handleDownloadLabel = async (orderId) => {
