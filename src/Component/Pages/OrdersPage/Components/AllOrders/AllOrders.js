@@ -152,18 +152,13 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        // setSingleShip(true);
-    };
-
-
-    useEffect(() => {
-        if (selectedOrderId !== null) {
+        if (orderId !== null) {
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
             };
-            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${selectedOrderId}`, config)
+            axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
                     setSingleShip(true);
@@ -172,7 +167,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                     customErrorFunction(error)
                 });
         }
-    }, [selectedOrderId]);
+    };
 
     const handleShipReassign = (orderId) => {
         setSelectedOrderId(orderId);
@@ -302,8 +297,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
             }
         }
     }, [invoiceData])
-
-    console.log(invoiceData, "invoiceDatainvoiceData")
 
     return (
         <>
