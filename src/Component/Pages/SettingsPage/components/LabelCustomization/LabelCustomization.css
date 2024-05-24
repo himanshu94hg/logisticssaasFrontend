@@ -66,7 +66,25 @@
     display: flex;
     gap: 15px;
     align-items: center;
-    padding: 15px;
-    background: var(--sh-primary-middle);
+    padding: 10px 15px;
+    background: var(--sh-primary-light);
     border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.lc-section-body {
+    padding: 15px;
+}
+
+.lc-section-body ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lc-section-body ul li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
 }
