@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
@@ -13,31 +13,16 @@ import { useDispatch } from 'react-redux';
 import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
+import { debounce } from 'lodash';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip, orderId,shipingResponse }) => {
-    const navigation = useNavigate();
+const SingleShipPop = ({ SingleShip, setSingleShip,  shipingResponse,orderId }) => {
     const dispatch = useDispatch()
-    // const [shipingResponse, setShipingResponse] = useState(null);
-    const [currentDate, setCurrentDate] = useState(new Date());
-
-    const addDays = (date, days) => {
-        const result = new Date(date);
-        result.setDate(result.getDate() + days);
-        return result;
-    };
-
-    const formatDate = (date) => {
-        const options = { day: '2-digit', month: 'short', year: 'numeric' };
-        return date.toLocaleDateString('en-GB', options);
-    };
-    const dateAfter2Days = addDays(currentDate, 2);
+    const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
-
- 
-
-    const handleSubmit = (courier) => {
-        axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${orderId}/?courier_partner=${courier}`, {
+  
+    const handleClick = (param1,param2) => {
+        axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${param2}/?courier_partner=${param1}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -58,10 +43,16 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId,shipingResponse }) =
                 customErrorFunction(error)
             });
     };
-    const handleClose = () => {
-        setSingleShip(false); // Close the modal
-    };
 
+    const debouncedHandleClick = useCallback(
+        debounce((param,orderId) => handleClick(param,orderId), 1500),
+        []
+    );
+
+    const handleSubmit = (courier,orderId) => {
+        debouncedHandleClick(courier,orderId);
+        
+    };
 
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
@@ -115,14 +106,14 @@ const SingleShipPop = ({ SingleShip, setSingleShip, orderId,shipingResponse }) =
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ {(option?.rate + option?.cod_charge+option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
+                            <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option?.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option?.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ {option?.early_cod_charge}</strong></span><br />
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
-                            <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword)}>Ship Now</button>
+                            <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword,orderId)}>Ship Now</button>
                             <p><span>EDD: <strong>N/A</strong></span></p>
                         </div>
                         <span className={`${option?.is_recommended ? "recommended" : ""} ${true ? '' : 'd-none'}`}></span>

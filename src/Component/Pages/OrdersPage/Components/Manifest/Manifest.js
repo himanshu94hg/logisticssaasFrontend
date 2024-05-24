@@ -10,6 +10,7 @@ import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import globalDebouncedClick from '../../../../../debounce';
 
 
 const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -71,17 +72,21 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         //     setSelectAll(false);
         // }
     };
-
-    const manifestDownload = (value) => {
+    const handleClick = (param) => {
         if(activeTab === "Manifest"){
             dispatch({
                 type: "BULK_ORDER_DOWNLOAD_MANIFEST_ACTION", payload: {
-                    manifest_id: value
+                    manifest_id: param
                 }
             })
         }   
+      };
+    const manifestDownload = (value) => {
+        globalDebouncedClick(() => handleClick(value));
     }
 
+
+    
     const handleDownloadLabel = async (data) => {
         let temp = []
         data.map((item) => {

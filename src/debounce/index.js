@@ -1,13 +1,7 @@
-function debounce(func, delay) {
-    let timeoutId;
-    
-    return function() {
-        const context = this;
-        const args = arguments;
-        
-        clearTimeout(timeoutId);
-        timeoutId = setTimeout(() => {
-            func.apply(context, args);
-        }, delay);
-    };
-}
+import { debounce } from 'lodash';
+
+const globalDebouncedClick = debounce((func) => {
+  func();
+}, 1000);
+
+export default globalDebouncedClick;

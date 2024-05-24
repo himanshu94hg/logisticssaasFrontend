@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
@@ -32,6 +32,8 @@ import SingleShipPop from './SingleShipPop';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import globalDebounce from '../../../../../debounce';
+import { debounce } from 'lodash';
 
 
 const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
@@ -50,8 +52,6 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
         }
     }, [moreorderCard])
 
-
-    console.log(SingleShip, "moreorderCardmoreorderCardmoreorderCardmoreorderCard")
 
     useEffect(() => {
         if (orderdelete) {
@@ -157,8 +157,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     };
 
 
-
-    const handleGeneratePickup = async (orderId) => {
+    const handleClick =  async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
             const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-pickup/`, {
@@ -179,6 +178,17 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
         } catch (error) {
             toast.error("Something went wrong!")
         }
+    };
+
+    
+
+    const debouncedHandleClick = useCallback(
+        debounce((param) => handleClick(param), 1000),
+        []
+      );
+
+    const handleGeneratePickup = (orderId) => {
+        debouncedHandleClick(orderId);
     };
 
     const handleDownloadInvoice = async (orderId) => {
