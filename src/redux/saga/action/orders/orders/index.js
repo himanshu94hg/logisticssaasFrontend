@@ -225,8 +225,7 @@ function* GetOrdersSourceApiAction(action) {
 async function GetOrdersDataApi(data) {
     return axios.request({
         method: "GET",
-        url: `${BASE_URL_ORDER}${API_URL.GET_ORDERS_API}`,
-        data: data
+        url: `${BASE_URL_ORDER}${API_URL.GET_ORDERS_API}?courier_status=${data?.courier_status}&page=${data?.page}&page_size=${data?.page_size}`,
     });
 }
 function* GetOrdersDataAction(action) {
