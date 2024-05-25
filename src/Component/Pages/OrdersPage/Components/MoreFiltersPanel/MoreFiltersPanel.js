@@ -363,7 +363,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                             selected={filterParams?.end_date}
                                             onKeyDown={(e) => handleKeyDown(e)}
                                             onChange={(e) => handleChange("end_date", e)}
-                                            placeholderText='Select Start Date'
+                                            placeholderText='Select End Date'
                                             isClearable
                                             closeOnScroll={(e) => e.target === document}
                                             showTimeInput
