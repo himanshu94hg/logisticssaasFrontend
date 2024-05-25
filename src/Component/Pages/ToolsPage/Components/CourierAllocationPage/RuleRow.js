@@ -3,16 +3,16 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useState, useEffect } from 'react'
 
-const RuleRow = ({ initialRows, setConditions, formErrors }) => {
-
-    console.log(formErrors, "formErrorsformErrorsformErrors")
+const RuleRow = ({ initialRows, setConditions,setOnRowsChange }) => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
         if (initialRows == null || initialRows.length === 0) {
             setRows([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
+            setOnRowsChange([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
         } else {
             setRows(initialRows);
+            setOnRowsChange(initialRows);
         }
     }, [initialRows]);
 
@@ -32,6 +32,7 @@ const RuleRow = ({ initialRows, setConditions, formErrors }) => {
 
     const handleAddRow = () => {
         setRows([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
+        setOnRowsChange([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
     };
 
     const handleRemoveRow = (index) => {
