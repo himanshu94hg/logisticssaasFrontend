@@ -72,6 +72,12 @@ const OrdersPage = () => {
 
     console.log("orderUpdateResorderUpdateResorderUpdateRes",orderUpdateRes)
 
+
+    useEffect(()=>{
+        dispatch({ type: "PAYMENT_DATA_ACTION" });
+    },[orderCancelled])
+
+
     useEffect(() => {
         if (activeTab) {
             setSearchValue("");
