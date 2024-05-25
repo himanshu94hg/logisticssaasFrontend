@@ -33,8 +33,8 @@ const LabelCustomization = () => {
             name: 'Section 3',
             included: true,
             items: [
-                { name: 'Seller Contact', field: "seller_contact", included: true },
-                { name: 'Seller GSTIN', field: "seller_gstin", included: true },
+                { name: 'Seller Contact Mask', field: "seller_contact", included: true },
+                { name: 'Seller GSTIN Mask', field: "seller_gstin", included: true },
                 { name: 'Order Details', field: "order_details", included: true },
                 { name: 'Manifest Date', field: "manifest_date", included: true },
                 { name: 'Order Barcode', field: "order_barcode", included: true },
@@ -48,7 +48,7 @@ const LabelCustomization = () => {
             items: [
                 { name: 'Product Details', field: "product_detail", included: true },
                 { name: 'Invoice Value', field: "invoice_value", included: true },
-                { name: 'As a Gift', field: "gift", included: true },
+                { name: 'As a Gift', field: "gift", included: false },
                 { name: 'Display All Products', field: "display_product", included: true },
                 { name: 'Full Product Name', field: "product_name", included: true },
             ],
@@ -135,7 +135,12 @@ const LabelCustomization = () => {
                         </div>
                     </Col>
                     <Col className="col-6 box-shadow shadow-sm p10">
-                        <LabelData />
+                        <div>
+                            <LabelData sections={sections} />
+                            <div className='float-end'>
+                                <button className='btn main-button'>Save Customization</button>
+                            </div>
+                        </div>
                     </Col>
                     <Col className="col-3">
                         <div className='lc-section-column'>
