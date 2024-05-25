@@ -69,6 +69,7 @@
     padding: 10px 15px;
     background: var(--sh-primary-light);
     border-radius: 0.5rem 0.5rem 0 0;
+    justify-content: space-between;
 }
 
 .lc-section-body {
@@ -87,4 +88,5 @@
     display: flex;
     gap: 10px;
     align-items: center;
+    justify-content: space-between;
 }
