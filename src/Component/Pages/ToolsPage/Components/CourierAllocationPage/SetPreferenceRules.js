@@ -17,6 +17,7 @@ const SetPreferenceRules = () => {
     const [allRules, setAllRules] = useState([]);
     const [trigger, setTrigger] = useState(false);
     const [formErrors, setFormErrors] = useState({});
+    const [onRowsChange, setOnRowsChange] = useState([]);
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
@@ -25,7 +26,7 @@ const SetPreferenceRules = () => {
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
-    console.log("courierPartnerData", courierPartnerData);
+    console.log("onRowsChangeonRowsChangeonRowsChange", onRowsChange);
 
     useEffect(() => {
         if (courierRules?.data) {
@@ -136,9 +137,14 @@ const SetPreferenceRules = () => {
             }
         }
 
-        if (conditions.length === 0) {
-            formIsValid = false;
-            errors["conditions"] = "At least one condition should be added";
+        for (let i = 0; i < onRowsChange.length; i++) {
+            const condition = onRowsChange[i];
+            console.log('Validating condition:', condition);
+            if (!condition.condition_type || !condition.match_type || !condition.match_value) {
+                formIsValid = false;
+                errors["conditions"] = "All condition fields are required!";
+                break;
+            }
         }
 
         if (!formIsValid) {
@@ -311,7 +317,7 @@ const SetPreferenceRules = () => {
                         </div>
                     </div>
                     <div className='ar-items-scroll mt-3 d-flex gap-3 flex-column position-relative'>
-                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors} />
+                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors} setOnRowsChange={setOnRowsChange} />
                         <div className="text-danger mt-2 me-3 font12">{formErrors["conditions"]}</div>
                     </div>
                     <div className='d-flex justify-content-end my-3'>
