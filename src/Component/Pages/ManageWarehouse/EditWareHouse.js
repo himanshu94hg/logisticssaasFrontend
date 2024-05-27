@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import './Components/AddWarehouse.css';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import { tr } from 'date-fns/locale';
 
 const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
     const dispatch = useDispatch();
@@ -54,6 +55,8 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             country: ""
         }
     });
+
+    console.log("SameRTOSameRTOSameRTOSameRTO",SameRTO)
     const { warehouseDetails } = useSelector(state => state?.settingsSectionReducer)
     useEffect(() => {
         if (warehouseDetails) {
@@ -117,7 +120,7 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             valid = false;
             errors.contact_number = 'Mobile number must be 10 digits.';
         }
-        if (!formData?.gst_number.trim()) {
+        if (!formData?.gst_number?.trim()) {
             valid = false;
             errors.gst_number = 'Enter GST number !';
         }
@@ -151,41 +154,44 @@ const EditWareHouse = ({ wareHouseId, setEditWarehouse }) => {
             errors.country = 'Enter country name!';
         }
 
-        if (!formData?.rto_details?.warehouse_name?.trim()) {
-            valid = false;
-            errors.warehouse_name1 = 'Enter Warehouse Name!';
-        }
-        if (!formData?.rto_details?.contact_person_name?.trim()) {
-            valid = false;
-            errors.contact_person_name1 = 'Enter Contact Person name!';
-        }
-        if (!formData?.rto_details?.contact_number?.trim()) {
-            valid = false;
-            errors.contact_number1 = 'Enter Contact number!';
-        }
-        if (!formData?.rto_details?.email?.trim()) {
-            valid = false;
-            errors.email = 'Enter Email id!';
-        }
-        if (!formData?.rto_details?.address?.trim()) {
-            valid = false;
-            errors.address = 'Enter Address details!';
-        }
-        if (!formData?.rto_details?.pincode?.trim()) {
-            valid = false;
-            errors.pincode1 = 'Enter pincode!';
-        }
-        if (!formData?.rto_details?.city?.trim()) {
-            valid = false;
-            errors.city1 = 'Enter city name!';
-        }
-        if (!formData?.rto_details?.state?.trim()) {
-            valid = false;
-            errors.state1 = 'Enter state name!';
-        }
-        if (!formData?.rto_details?.country?.trim()) {
-            valid = false;
-            errors.country1 = 'Enter country name!';
+        if(SameRTO === true)
+        {
+            if (!formData?.rto_details?.warehouse_name?.trim()) {
+                valid = false;
+                errors.warehouse_name1 = 'Enter Warehouse Name!';
+            }
+            if (!formData?.rto_details?.contact_person_name?.trim()) {
+                valid = false;
+                errors.contact_person_name1 = 'Enter Contact Person name!';
+            }
+            if (!formData?.rto_details?.contact_number?.trim()) {
+                valid = false;
+                errors.contact_number1 = 'Enter Contact number!';
+            }
+            if (!formData?.rto_details?.email?.trim()) {
+                valid = false;
+                errors.email = 'Enter Email id!';
+            }
+            if (!formData?.rto_details?.address?.trim()) {
+                valid = false;
+                errors.address = 'Enter Address details!';
+            }
+            if (!formData?.rto_details?.pincode?.trim()) {
+                valid = false;
+                errors.pincode1 = 'Enter pincode!';
+            }
+            if (!formData?.rto_details?.city?.trim()) {
+                valid = false;
+                errors.city1 = 'Enter city name!';
+            }
+            if (!formData?.rto_details?.state?.trim()) {
+                valid = false;
+                errors.state1 = 'Enter state name!';
+            }
+            if (!formData?.rto_details?.country?.trim()) {
+                valid = false;
+                errors.country1 = 'Enter country name!';
+            }   
         }
 
         setFormErrors(errors);
