@@ -31,6 +31,8 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { debounce } from "lodash";
 import globalDebouncedClick from "../../../../../debounce";
+import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 
 const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -41,6 +43,8 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+
 
     useEffect(() => {
         if (orderdelete) {
@@ -110,7 +114,16 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
-        debouncedHandleClick(orderId);
+        if (paymentCard?.balance > 200) {
+            debouncedHandleClick(orderId);
+        } else {
+            Swal.fire({
+                icon: "error",
+                html: `
+                <b>Please recharge the wallet!</b>
+              `,
+            });
+        }
     }
 
     const handleSelectRow = (orderId, awb) => {
@@ -150,7 +163,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         setOrderId(id)
     }
 
-    const handleMarkClick=(value)=>{
+    const handleMarkClick = (value) => {
         dispatch({
             type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
                 order_ids: [value],
@@ -161,6 +174,13 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     const markAsVerified = () => {
 
     }
+
+
+
+
+
+
+    console.log(paymentCard, "paymentSetCardpaymentSetCardpaymentSetCard")
 
     return (
         <section className='position-relative'>

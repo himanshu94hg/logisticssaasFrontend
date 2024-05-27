@@ -123,9 +123,9 @@ const ShippingRates = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className='box-shadow shadow-sm p10 my-3'>
+                {/* <div className='box-shadow shadow-sm p10 my-3'>
                     <p className='mb-0 font12 text-red'>** Gati Rates include INR 100 docket charges and INR 100 ROV charges</p>
-                </div>
+                </div> */}
             </div>
         </section>
     );
