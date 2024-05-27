@@ -1,4 +1,5 @@
 import React from 'react';
+import Logo from '../../../../../assets/image/logo/logo.svg';
 
 const LabelData = ({ sections }) => {
     const renderSection = (section) => {
@@ -41,7 +42,7 @@ const LabelData = ({ sections }) => {
                                                 id="label-header-logo"
                                             >
                                                 <img
-                                                    src="https://www.shipease.in/public/assets/admin/images/20201125223903LOGO.png"
+                                                    src={Logo}
                                                     style={{ width: "80%", height: 60 }}
                                                 />
                                             </td>
@@ -254,7 +255,7 @@ const LabelData = ({ sections }) => {
                                                     }}
                                                 >
                                                     <img
-                                                        src="https://www.shipease.in/public/assets/admin/images/20201125223903LOGO.png"
+                                                        src={Logo}
                                                         style={{ height: 25, width: 70 }}
                                                     />
                                                 </td>
