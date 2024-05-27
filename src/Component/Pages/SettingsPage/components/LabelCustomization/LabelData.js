@@ -1,24 +1,18 @@
-import React from 'react'
+import React from 'react';
+import Logo from '../../../../../assets/image/logo/logo.svg';
 
-const LabelData = () => {
-
-    return (
-        <>
-            <div
-                style={{
-                    margin: "0 2rem",
-                    display: "flex",
-                    flexDirection: "column"
-                }}
-            >
-                <table>
-                    <tbody>
-                        <tr id="label-header">
-                            <td className="noPadding">
-                                <table className="tableInner">
-                                    <tbody>
-                                        <tr>
-                                            <td style={{ width: "70%", border: 0 }}>
+const LabelData = ({ sections }) => {
+    const renderSection = (section) => {
+        switch (section.id) {
+            case 1:
+                return (
+                    <tr id="label-header">
+                        <td className="noPadding">
+                            <table className="tableInner">
+                                <tbody>
+                                    <tr>
+                                        <td style={{ width: "70%", border: 0 }}>
+                                            {section.items.find(item => item.field === 'shipping' && item.included) &&
                                                 <div id="label-shipping-address">
                                                     <b style={{ padding: 0, margin: 0, marginBottom: 5 }}>
                                                         Ship To
@@ -29,10 +23,14 @@ const LabelData = () => {
                                                         Gurugram, Haryana<br />
                                                         122002
                                                         <br />
-                                                        Contact :<span id="spanContactMask" style={{}}> **********</span>
+                                                        Contact : {section.items.find(item => item.field === 'contact' && item.included) ?
+                                                            "987*****10" : "9876543210"
+                                                        }
                                                     </p>
                                                 </div>
-                                            </td>
+                                            }
+                                        </td>
+                                        {section.items.find(item => item.field === 'logo' && item.included) &&
                                             <td
                                                 style={{
                                                     width: "30%",
@@ -44,20 +42,25 @@ const LabelData = () => {
                                                 id="label-header-logo"
                                             >
                                                 <img
-                                                    src="https://www.shipease.in/public/assets/admin/images/20201125223903LOGO.png"
+                                                    src={Logo}
                                                     style={{ width: "80%", height: 60 }}
                                                 />
                                             </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="noPadding">
-                                <table className="tableInner">
-                                    <tbody>
-                                        <tr>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                );
+            case 2:
+                return (
+                    <tr>
+                        <td className="noPadding">
+                            <table className="tableInner">
+                                <tbody>
+                                    <tr>
+                                        {section.items.find(item => item.field === 'shipping_details' && item.included) &&
                                             <td
                                                 style={{ width: "50%", border: 0 }}
                                                 id="label-shipment-detail"
@@ -70,6 +73,8 @@ const LabelData = () => {
                                                 <br />
                                                 Route Code : DEL/ALT
                                             </td>
+                                        }
+                                        {section.items.find(item => item.field === 'awb_barcode' && item.included) &&
                                             <td
                                                 style={{ width: "50%", textAlign: "center", border: 0 }}
                                                 id="label-awb-barcode"
@@ -81,61 +86,73 @@ const LabelData = () => {
                                                     style={{ height: 60, margin: 10, maxWidth: 160 }}
                                                 />
                                             </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td className="noPadding">
-                                <table className="tableInner">
-                                    <tbody>
-                                        <tr>
-                                            <td style={{ width: "50%", border: 0 }}>
+                                        }
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                );
+            case 3:
+                return (
+                    <tr>
+                        <td className="noPadding">
+                            <table className="tableInner">
+                                <tbody>
+                                    <tr>
+                                        <td style={{ width: "50%", border: 0 }}>
+                                            {section.items.find(item => item.field === 'order_details' && item.included) &&
                                                 <div id="label-order-detail">
                                                     <b>Shipped By</b> (if undelivered,return to)
                                                     <br />
                                                     <p style={{ padding: 0, margin: 0 }}>
                                                         Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
-                                                        Contact :
-                                                        <span id="spanSContactMask" style={{}}>
-                                                            **********
-                                                        </span>
+                                                        Contact: {section.items.find(item => item.field === 'seller_contact' && item.included) ? "**********" : "9876543210"}
                                                     </p>
-                                                    GSTIN:
-                                                    <span id="spanGstMask" style={{}}>
-                                                        **********
-                                                    </span>
+                                                    GSTIN: {section.items.find(item => item.field === 'seller_gstin' && item.included) ? "***************" : "22AAAAA0000A1Z5"}
                                                     <br />
                                                     Invoice No. : SE-1000123
                                                     <br />
                                                 </div>
+                                            }
+                                            {section.items.find(item => item.field === 'manifest_date' && item.included) &&
                                                 <div id="label-manifest-date" style={{}}>
                                                     Manifest Date. : 2024-01-05
                                                 </div>
-                                            </td>
-                                            <td
-                                                style={{ width: "50%", textAlign: "center", border: 0 }}
-                                                id="label-order-barcode"
-                                            >
-                                                <b>Essentials</b>
-                                                <br />
-                                                <span id="barcodeImage">
-                                                    <img
-                                                        src="https://www.shipease.in/barcode/test.php?code=1000123"
-                                                        style={{ height: 60, margin: 10, maxWidth: 160 }}
-                                                    />
+                                            }
+                                        </td>
+                                        <td
+                                            style={{ width: "50%", textAlign: "center", border: 0 }}
+                                            id="label-order-barcode"
+                                        >
+                                            {section.items.find(item => item.field === 'order_barcode' && item.included) &&
+                                                <>
+                                                    <b>Essentials</b>
                                                     <br />
-                                                </span>
+                                                    <span id="barcodeImage">
+                                                        <img
+                                                            src="https://www.shipease.in/barcode/test.php?code=1000123"
+                                                            style={{ height: 60, margin: 10, maxWidth: 160 }}
+                                                        />
+                                                        <br />
+                                                    </span>
+                                                </>
+                                            }
+                                            {section.items.find(item => item.field === 'order_number_visibility' && item.included) &&
                                                 <span id="ordernumberVisibility">Order #: 1000***</span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
-                        <tr id="label-product-detail" style={{}}>
-                            <td className="noPadding">
+                                            }
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                );
+            case 4:
+                return (
+                    <tr id="label-product-detail" style={{}}>
+                        <td className="noPadding">
+                            {section.items.find(item => item.field === 'product_detail' && item.included) &&
                                 <table
                                     className="tableInner"
                                     id="productTable"
@@ -161,35 +178,26 @@ const LabelData = () => {
                                             </td>
                                             <td>1</td>
                                         </tr>
-                                        <tr>
-                                            <td>
-                                                <br />
-                                            </td>
-                                            <td />
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <br />
-                                            </td>
-                                            <td />
-                                        </tr>
-                                        <tr id="label-invoice-value" style={{}}>
-                                            <td colSpan={3} style={{ textAlign: "right" }}>
-                                                TOTAL Amount :{" "}
-                                                <span id="label-gift" style={{}}>
-                                                    AS A GIFT
-                                                </span>
-                                                <span id="label-amount" style={{ display: "none" }}>
-                                                    Rs. 100
-                                                </span>
-                                            </td>
-                                        </tr>
+
+                                        {section.items.find(item => item.field === 'invoice_value' && item.included) &&
+                                            <tr id="label-invoice-value" style={{}}>
+                                                <td colSpan={3} style={{ textAlign: "right" }}>
+                                                    TOTAL Amount :
+                                                    {section.items.find(item => item.field === 'gift' && item.included) ? " AS A GIFT" : " Rs. 100"}
+                                                </td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
-                            </td>
-                        </tr>
-                        <tr id="other-charges" style={{}}>
-                            <td className="noPadding">
+                            }
+                        </td>
+                    </tr>
+                );
+            case 5:
+                return (
+                    <tr id="other-charges">
+                        <td className="noPadding">
+                            {section.items.find(item => item.field === 'other_charges' && item.included) &&
                                 <table
                                     className="tableInner"
                                     border={5}
@@ -211,50 +219,83 @@ const LabelData = () => {
                                         </tr>
                                     </tbody>
                                 </table>
-                            </td>
-                        </tr>
-                        <tr id="disclaimer-text" style={{}}>
-                            <td>
-                                <p style={{ margin: 0 }}>
-                                    All disputes are subject to delhi jurisdiction. Goods once sold will
-                                    only be taken back or exchange as per the store's exchange/return
-                                    policy.
-                                </p>
-                            </td>
-                        </tr>
-                        <tr id="label-footer" style={{}}>
-                            <td className="noPadding">
-                                <table className="tableInner">
-                                    <tbody>
-                                        <tr>
-                                            <td style={{ width: "70%" }}>
-                                                THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE
-                                            </td>
-                                            <td
-                                                style={{
-                                                    width: "30%",
-                                                    alignContent: "center",
-                                                    alignItems: "center",
-                                                    textAlign: "center"
-                                                }}
-                                            >
-                                                <img
-                                                    src="https://www.shipease.in/public/assets/admin/images/20201125223903LOGO.png"
-                                                    style={{ height: 25, width: 70 }}
-                                                />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </td>
-                        </tr>
+                            }
+                        </td>
+                    </tr>
+                );
+            case 6:
+                return (
+                    <>
+                        {section.items.find(item => item.field === 'disclaimer_text' && item.included) &&
+                            <tr id="disclaimer-text" style={{}}>
+                                <td>
+                                    <p style={{ margin: 0 }}>
+                                        All disputes are subject to delhi jurisdiction. Goods once sold will
+                                        only be taken back or exchange as per the store's exchange/return
+                                        policy.
+                                    </p>
+                                </td>
+                            </tr>
+                        }
+                        {section.items.find(item => item.field === 'footer' && item.included) &&
+                            <tr id="label-footer" style={{}}>
+                                <td className="noPadding">
+                                    <table className="tableInner">
+                                        <tbody>
+                                            <tr>
+                                                <td style={{ width: "70%" }}>
+                                                    {section.items.find(item => item.field === 'footer_customize_text' && item.included) ?
+                                                        <input style={{ height: '24px' }} className='w-100' type="text" value="THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE" />
+                                                        :
+                                                        <p style={{ marginLeft: '4px' }}>THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE</p>
+                                                    }
+                                                </td>
+                                                <td
+                                                    style={{
+                                                        width: "30%",
+                                                        alignContent: "center",
+                                                        alignItems: "center",
+                                                        textAlign: "center"
+                                                    }}
+                                                >
+                                                    <img
+                                                        src={Logo}
+                                                        style={{ height: 25, width: 70 }}
+                                                    />
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        }
+                    </>
+                );
+            default:
+                return null;
+        }
+    };
+
+    return (
+        <>
+            <div
+                style={{
+                    margin: "0 2rem",
+                    display: "flex",
+                    flexDirection: "column"
+                }}
+            >
+                <table>
+                    <tbody>
+                        {sections.map((section) => (
+                            section.included && renderSection(section)
+                        ))}
                     </tbody>
                 </table>
                 <br />
             </div>
-
         </>
-    )
-}
+    );
+};
 
-export default LabelData
+export default LabelData;

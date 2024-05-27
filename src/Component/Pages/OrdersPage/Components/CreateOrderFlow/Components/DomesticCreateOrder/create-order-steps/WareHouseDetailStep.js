@@ -10,7 +10,7 @@ import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wareHouseName }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -78,12 +78,12 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
         }));
     };
 
-   
+
 
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>
-                <div className='inputs-container mx-auto mb-3'>
+                <div className='inputs-container mx-auto mb-3 cr-wh-select'>
                     <h3 className='mb-4'>Warehouse Details</h3>
                     <div className='warehouse-options mt-3'>
                         <div className="row">
@@ -98,7 +98,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData,wa
                                                 name="warehouse"
                                                 value={warehouse.id}
                                                 checked={formData.order_details.warehouse_id === warehouse.id}
-                                                onChange={handleRadioChange}                                              
+                                                onChange={handleRadioChange}
                                             />
                                             <div className='d-flex h-100 flex-column justify-content-between'>
                                                 <div>

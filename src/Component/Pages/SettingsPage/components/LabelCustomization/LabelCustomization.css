@@ -66,7 +66,43 @@
     display: flex;
     gap: 15px;
     align-items: center;
-    padding: 15px;
-    background: var(--sh-primary-middle);
+    padding: 10px 15px;
+    background: var(--sh-primary-light);
     border-radius: 0.5rem 0.5rem 0 0;
+    justify-content: space-between;
+}
+
+.lc-section-body {
+    padding: 15px;
+}
+
+.lc-section-body ul {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.lc-section-body ul li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.lc-section-item .react-toggle-track {
+    width: 34px;
+    height: 17px;
+}
+
+.lc-section-item .react-toggle-thumb {
+    width: 12px;
+    height: 12px;
+    top: 2px;
+    left: 3px;
+}
+
+.lc-section-item .react-toggle--checked .react-toggle-thumb {
+    left: 19px;
 }

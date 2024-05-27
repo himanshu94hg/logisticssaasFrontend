@@ -181,7 +181,8 @@ export default function Header(props) {
                 className="user-image-container"
               >
                 <NavDropdown.Item eventKey="4.1">
-                  Hello, {userData?.first_name || "Seller"}
+                  Hello, {userData?.first_name || "Seller"} <br />
+                  ({userData?.code})
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">

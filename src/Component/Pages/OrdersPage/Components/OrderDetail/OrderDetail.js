@@ -67,7 +67,7 @@ const OrderDetail = () => {
                                 <div className='od-status-lines d-flex gap-2'>
                                     <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
                                     {/* <p>Updated at:  {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p> */}
-                                    {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>}
+                                    {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.awb_assigned_date).format("DD MMM YYYY")} || {moment(orderDetails?.awb_assigned_date).format("h:mm A")}</p>}
                                 </div>
                             </div>
                             <div className='od-courier-details'>

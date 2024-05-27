@@ -112,8 +112,9 @@ ul [data-rbd-droppable-context-id] {
 }
 
 .priority-container label {
-    padding: 5px;
+    /* padding: 5px; */
     width: 100%;
+    position: relative;
 }
 
 .priority-container label select {

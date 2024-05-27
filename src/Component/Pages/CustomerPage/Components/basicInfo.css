@@ -1,6 +1,7 @@
-.input-field-error{
+.input-field-error {
     border: 1px solid red !important;
 }
-.custom-error{
-    color: red !important;
+
+.custom-error {
+    color: #dc3545 !important;
 }
