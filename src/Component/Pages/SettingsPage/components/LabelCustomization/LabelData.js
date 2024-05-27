@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/logo/logo.svg';
 
 const LabelData = ({ sections }) => {
+    const [text, setText] = useState('THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE')
     const renderSection = (section) => {
         switch (section.id) {
             case 1:
@@ -245,7 +246,12 @@ const LabelData = ({ sections }) => {
                                             <tr>
                                                 <td style={{ width: "70%" }}>
                                                     {section.items.find(item => item.field === 'footer_customize_text' && item.included) ?
-                                                        <input style={{ height: '24px' }} className='w-100' type="text" value="THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE" />
+                                                        <input
+                                                            style={{ height: '24px' }}
+                                                            className='w-100'
+                                                            type="text"
+                                                            onChange={(e) => setText(e.target.value)} 
+                                                            value={text} />
                                                         :
                                                         <p style={{ marginLeft: '4px' }}>THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE</p>
                                                     }
