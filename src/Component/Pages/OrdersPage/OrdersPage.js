@@ -328,7 +328,6 @@ const OrdersPage = () => {
                                 type="search"
                                 value={searchValue}
                                 onChange={(e) => setSearchValue(e.target.value)}
-                                maxLength={200}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
                                     if (
