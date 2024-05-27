@@ -182,7 +182,7 @@ export default function Header(props) {
               >
                 <NavDropdown.Item eventKey="4.1">
                   Hello, {userData?.first_name || "Seller"} <br />
-                  ({userData?.code})
+                  {userData?.code&&<>({userData?.code})</>}
                 </NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item eventKey="4.2">
