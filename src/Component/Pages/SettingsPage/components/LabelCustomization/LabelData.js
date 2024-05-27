@@ -244,7 +244,11 @@ const LabelData = ({ sections }) => {
                                         <tbody>
                                             <tr>
                                                 <td style={{ width: "70%" }}>
-                                                    THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE
+                                                    {section.items.find(item => item.field === 'footer_customize_text' && item.included) ?
+                                                        <input style={{ height: '24px' }} className='w-100' type="text" value="THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE" />
+                                                        :
+                                                        <p style={{ marginLeft: '4px' }}>THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE</p>
+                                                    }
                                                 </td>
                                                 <td
                                                     style={{
