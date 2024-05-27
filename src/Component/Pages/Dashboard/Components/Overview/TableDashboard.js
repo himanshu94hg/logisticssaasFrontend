@@ -46,11 +46,7 @@ function TableDashboard() {
         <h4 className="title">Last 30 Days Order</h4>
       </div>
       <div className="table-responsive last-thirty-table">
-        {!isLoading ? (
           <CustomTable data={lastOrders} />
-        ) : (
-          <p>Loading...</p>
-        )}
       </div>
     </div>
   );
