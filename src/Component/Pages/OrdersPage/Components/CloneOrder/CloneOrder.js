@@ -107,6 +107,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
     useEffect(() => {
         if (CloneOrderSection) {
             setActiveSection("Order Details");
+            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
         }
     }, [CloneOrderSection]);
 
