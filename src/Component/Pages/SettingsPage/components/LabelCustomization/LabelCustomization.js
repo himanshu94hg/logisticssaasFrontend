@@ -69,7 +69,7 @@ const LabelCustomization = () => {
                 { name: 'Disclaimer Text', field: "disclaimer_text", included: true },
                 { name: 'Footer', field: "footer", included: true },
                 { name: 'Tabular Product Data', field: "tabular", included: true },
-                { name: 'Footer Customize Text', field: "footer_customize_text", included: false },
+                { name: 'Footer Customize Text', field: "footer_customize_text", included: true },
             ],
         },
     ]);
