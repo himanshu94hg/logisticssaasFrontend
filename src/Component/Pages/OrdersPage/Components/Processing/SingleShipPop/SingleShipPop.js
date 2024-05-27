@@ -14,12 +14,15 @@ import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 import { debounce } from 'lodash';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 
 const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
 
     const handleClick = (param1, param2) => {
         axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${param2}/?courier_partner=${param1}`, {
@@ -50,7 +53,16 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
     );
 
     const handleSubmit = (courier, orderId) => {
-        debouncedHandleClick(courier, orderId);
+        if (paymentCard?.balance > 200) {
+            debouncedHandleClick(courier, orderId);
+        } else {
+            Swal.fire({
+                icon: "error",
+                html: `
+                <b>Please recharge the wallet!</b>
+              `,
+            });
+        }
 
     };
 

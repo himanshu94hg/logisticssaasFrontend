@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import NoData from '../../../../common/noData';
 import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -67,7 +68,7 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
 
@@ -117,14 +118,23 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
     }
 
     const handleShipNow = (orderId) => {
-        setSelectedOrderId(orderId);
-        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
-        setSingleShip(true);
+        if (paymentCard?.balance > 200) {
+            setSelectedOrderId(orderId);
+            dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+            setSingleShip(true);
+        } else {
+            Swal.fire({
+                icon: "error",
+                html: `
+                <b>Please recharge the wallet!</b>
+              `,
+            });
+        }
+
     };
 
     const handleClickAWB = (event, orders) => {
         event.preventDefault();
-        console.log(orders, "this is orders");
         const url = `https://shipease.in/order-tracking/`;
         window.open(url, '_blank');
     };
