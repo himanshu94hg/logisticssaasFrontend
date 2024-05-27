@@ -1,0 +1,136 @@
+.seller-profile-section {
+    position: fixed;
+    width: 40em;
+    background: #fff;
+    height: 100vh;
+    top: 0;
+    right: -50em;
+    transition: 1s;
+    z-index: 6;
+}
+
+.seller-profile-section.open {
+    right: 0;
+}
+
+.seller-profile-section .seller-profile-section p {
+    margin-bottom: 0;
+}
+
+.sp-header-sec {
+    background-color: var(--sh-primary);
+    width: 100%;
+    height: auto;
+    padding-block: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+
+.sp-body-sec {
+    padding: 30px;
+    overflow-y: auto;
+    height: calc(100vh - 280px);
+    z-index: 1;
+}
+
+.sp-wh-container {
+    width: 80%;
+    margin-inline: auto;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    background: #fff;
+    border-radius: 0.5rem;
+}
+
+.sp-image-container {
+    width: 100px;
+    height: 100px;
+    padding: 5px;
+    border-radius: 25px;
+    background: #fff;
+    margin-top: -60px;
+    /* margin-bottom: 10px; */
+}
+
+.sp-image-container img {
+    width: 100%;
+    height: 100%;
+}
+
+
+.sp-seller-name h6 {
+    font-size: 0.8rem;
+}
+
+.sp-seller-name button {
+    padding: 0;
+    border: none;
+    background: transparent;
+}
+
+.sp-seller-name .copytext-tooltip {
+    width: 82px;
+    font-size: 0.6rem;
+    min-width: unset;
+    height: 25px;
+    min-height: unset;
+    top: -11px;
+    left: 17px;
+}
+
+.contact-email-sec {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+    gap: 10px;
+    font-size: 0.9rem;
+}
+
+.sp-phone,
+.sp-email {
+    width: 100%;
+    white-space: nowrap;
+}
+
+.sp-phone {
+    text-align: end;
+}
+
+.sp-middle-line {
+    border-left: 1px solid;
+    height: 20px !important;
+    width: 0;
+    margin: 0;
+}
+
+.sp-header-sec .plan-info {
+    width: auto;
+    margin-inline: auto;
+    padding: 5px 10px;
+    background: var(--sh-primary-light);
+    border-radius: 20px;
+    margin-bottom: -35px;
+    margin-top: 34px;
+    z-index: 1;
+}
+
+
+.sp-data-field-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.sp-data-field {
+    padding: 5px 10px;
+    flex: 1 1;
+    border: 1px solid var(--sh-primary-middle);
+    border-radius: 0.5rem;
+}
