@@ -335,6 +335,7 @@ const AddWarehouse = () => {
                                     placeholder='Enter Pincode'
                                     ref={pincodeRef1}
                                     onBlur={handlePincodeChange1}
+                                    maxLength={6}
                                     onKeyPress={(e) => {
                                         if (!/\d/.test(e.key)) {
                                             e.preventDefault();
@@ -524,6 +525,7 @@ const AddWarehouse = () => {
                                         className='input-field'
                                         name="rto_pincode"
                                         placeholder='Enter Pincode'
+                                        maxLength={6}
                                         ref={pincodeRef}
                                         onBlur={handlePincodeChange}
                                     />
