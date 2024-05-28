@@ -45,7 +45,7 @@ export default function Header(props) {
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
       event.preventDefault();
-      axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${inputValue}`, {
+      axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${encodeURIComponent(inputValue)}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -62,7 +62,7 @@ export default function Header(props) {
   }
 
   const handleNavigate = () => {
-    axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${inputValue}`, {
+    axios.get(`${BASE_URL_ORDER}/orders-api/orders/top-search/?q=${encodeURIComponent(inputValue)}`, {
       headers: {
         Authorization: `Bearer ${authToken}`
       }
@@ -103,6 +103,9 @@ export default function Header(props) {
   const handleProfile = () => {
     setViewProfile(!ViewProfile)
   }
+
+
+  console.log(inputValue, "inputValueinputValueinputValueinputValue")
 
   return (
     <>
