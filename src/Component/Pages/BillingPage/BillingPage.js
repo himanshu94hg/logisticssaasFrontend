@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './BillingPage.css';
 import Pagination from '../../common/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -22,11 +23,13 @@ const BillingPage = () => {
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
     const [selectedOrderRows, setSelectedOrderRows] = useState([]);
-    
-    const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
-    const { billingCard,billingShipingCard ,billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
+    const [MoreFilters, setMoreFilters] = useState(false);
 
-    console.log("All Item Logs",billingShipingCard.count)
+
+    const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
+    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
+
+    console.log("All Item Logs", billingShipingCard.count)
 
     useEffect(() => {
         switch (activeTab) {
@@ -51,7 +54,7 @@ const BillingPage = () => {
             default:
                 break;
         }
-    }, [activeTab,dispatch,itemsPerPage,currentPage]);
+    }, [activeTab, dispatch, itemsPerPage, currentPage]);
 
     useEffect(() => {
         if (billingShipingCard && billingShipingCard?.count !== undefined) {
@@ -114,44 +117,44 @@ const BillingPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} MoreFilters={MoreFilters} setMoreFilters={setMoreFilters} />
             <div className='billing-page-container'>
                 {/* Shipping Charges */}
-                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}
-                setSelectedOrderRows={setSelectedOrderRows}/>}
+                {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow}
+                    setSelectedOrderRows={setSelectedOrderRows} />}
 
                 {/* Remittance Logs */}
-                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard.results} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}/>}
+                {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={billingShipingRemitanceCard.results}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow} />}
 
                 {/* RechargeLogs */}
-                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}/>}
+                {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow} />}
 
                 {/* Invoices */}
-                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}/>}
+                {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow} />}
 
                 {/* Passbook */}
-                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}/>}
+                {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow} />}
 
                 {/* Credit Receipt */}
-                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results} 
-                selectedRows={selectedRows}
-                setSelectedRows={setSelectedRows}
-                setBulkActionShow={setBulkActionShow}/>}
+                {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
+                    selectedRows={selectedRows}
+                    setSelectedRows={setSelectedRows}
+                    setBulkActionShow={setBulkActionShow} />}
 
                 <Pagination
                     totalItems={totalItems}
@@ -171,6 +174,13 @@ const BillingPage = () => {
                 )
                 }
             </div>
+            <MoreFiltersPanel
+                activeTab={activeTab}
+                setActiveTab={setActiveTab}
+                MoreFilters={MoreFilters}
+                setMoreFilters={setMoreFilters}
+            />
+            <div onClick={() => setMoreFilters(false)} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
         </>
     );
 }
