@@ -54,7 +54,6 @@ const AddWarehouse = () => {
             const state = event.target.state.value;
             const country = event.target.country.value;
 
-            // Validate form fields
             const newErrors = {};
             if (!warehouseName) {
                 newErrors.warehouseName = "Warehouse Name is required";
@@ -81,6 +80,16 @@ const AddWarehouse = () => {
             if (!pincode) {
                 newErrors.pincode = "Pincode is required";
             }
+
+            if (!city) {
+                newErrors.city = "Please enter valid pincode";
+            }
+
+            if (!state) {
+                newErrors.state = "Please enter valid pincode";
+            }
+
+
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
                 return;
@@ -183,12 +192,7 @@ const AddWarehouse = () => {
         const pincode = pincodeRef.current.value;
 
         if (pincode.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter a valid 6-digit pincode.',
-                confirmButtonText: 'OK'
-            });
+            toast.error("Please enter a valid 6-digit pincode.")
             return;
         }
 
@@ -201,10 +205,10 @@ const AddWarehouse = () => {
                 stateRef.current.value = postOffice.State;
                 countryRef.current.value = postOffice.Country;
             } else {
-                throw new Error('No data found for the given pincode.');
+                toast.error("No data found for the given pincode.")
             }
         } catch (error) {
-           customErrorFunction(error)
+            toast.error("Please enter a valid 6-digit pincode.")
         }
     };
 
@@ -212,12 +216,7 @@ const AddWarehouse = () => {
         const pincode = pincodeRef1.current.value;
 
         if (pincode.length < 6) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                text: 'Please enter a valid 6-digit pincode.',
-                confirmButtonText: 'OK'
-            });
+            toast.error("Please enter a valid 6-digit pincode.")
             return;
         }
 
@@ -230,17 +229,13 @@ const AddWarehouse = () => {
                 stateRef1.current.value = postOffice1.State;
                 countryRef1.current.value = postOffice1.Country;
             } else {
-                throw new Error('No data found for the given pincode.');
+                toast.error("No data found for the given pincode.")
             }
         } catch (error) {
-            customErrorFunction(error)
+            toast.error("Please enter a valid 6-digit pincode.")
 
         }
     };
-
-    const validateData = () => {
-
-    }
 
 
     return (
@@ -352,21 +347,23 @@ const AddWarehouse = () => {
                                 City
                                 <input
                                     type="text"
-                                    className='input-field'
+                                    className={`input-field ${errors.city && 'input-field-error'}`}
                                     name="city"
                                     ref={cityRef1}
                                     disabled
                                 />
+                                {errors.city && <div className="custom-error">{errors.city}</div>}
                             </label>
                             <label>
                                 State
                                 <input
                                     type="text"
-                                    className='input-field'
+                                    className={`input-field ${errors.state && 'input-field-error'}`}
                                     name="state"
                                     ref={stateRef1}
                                     disabled
                                 />
+                                {errors.state && <div className="custom-error">{errors.state}</div>}
                             </label>
                             <label>
                                 Country
