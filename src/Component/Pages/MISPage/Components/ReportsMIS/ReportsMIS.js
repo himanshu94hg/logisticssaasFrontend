@@ -26,15 +26,24 @@ const ReportsMIS = ({ activeTab }) => {
     const [stateData1, setStateData1] = useState(new Date())
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
-
-
+    const [selectAll, setSelectAll] = useState(false);
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
-
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
     const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+
+
+
+    useEffect(() => {
+        if (activeTab) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+            setSelectAll(false)
+        }
+    }, [activeTab, firstSelectedOption, exportCard, secondSelectedOption])
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -79,10 +88,8 @@ const ReportsMIS = ({ activeTab }) => {
         ? secondOptionsMap[firstSelectedOption.value]
         : [];
 
-    // Handle select change
     const handleFirstSelectChange = selectedOption => {
         setFirstSelectedOption(selectedOption);
-        // Reset second select whenever the first select changes
         setSecondSelectedOption("");
     };
 
@@ -90,7 +97,6 @@ const ReportsMIS = ({ activeTab }) => {
         setSecondSelectedOption(selectedOption);
     };
 
-    // Handle date picker change
     const handleStartDateChange = (date) => {
         setStartDate(date);
     };
@@ -100,7 +106,6 @@ const ReportsMIS = ({ activeTab }) => {
     };
 
     useEffect(() => {
-        // if(stateData){
         if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_ORDERS_ACTION", payload: {
@@ -287,22 +292,26 @@ const ReportsMIS = ({ activeTab }) => {
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                selectAll={selectAll}
+                                setSelectAll={setSelectAll}
+                                selectedRows={selectedRows}
                                 setStateData={setStateData}
                                 setTotalItems={setTotalItems}
                                 BulkActionShow={BulkActionShow}
-                                setBulkActionShow={setBulkActionShow}
-                                selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
+                                setBulkActionShow={setBulkActionShow}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                selectAll={selectAll}
+                                setSelectAll={setSelectAll}
                                 setTotalItems={setTotalItems}
                                 BulkActionShow={BulkActionShow}
-                                setBulkActionShow={setBulkActionShow}
                                 selectedRows={selectedRows}
+                                setBulkActionShow={setBulkActionShow}
                                 setSelectedRows={setSelectedRows}
                             />
                         ) : showComponent === 'Billing' ? (
@@ -310,6 +319,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                selectAll={selectAll}
+                                setSelectAll={setSelectAll}
                                 setTotalItems={setTotalItems}
                                 BulkActionShow={BulkActionShow}
                                 setBulkActionShow={setBulkActionShow}
@@ -321,6 +332,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                selectAll={selectAll}
+                                setSelectAll={setSelectAll}
                                 setTotalItems={setTotalItems}
                                 BulkActionShow={BulkActionShow}
                                 setBulkActionShow={setBulkActionShow}
@@ -344,6 +357,7 @@ const ReportsMIS = ({ activeTab }) => {
                     // activeTab={activeTab}
                     // bulkAwb={bulkAwb}
                     // setbulkAwb={setbulkAwb}
+                    activeTab={activeTab}
                     selectedRows={selectedRows}
                     // setaddTagShow={setaddTagShow}
                     setSelectedRows={setSelectedRows}

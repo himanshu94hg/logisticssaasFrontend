@@ -7,20 +7,52 @@ import ExportIcon from '../../OrdersPage/Components/BulkActionsComponent/Compone
 
 const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
-    const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
-    const [genaratelabel, setGenaratelabel] = useState(false);
-    const [generateinvoice, setGenerateinvoice] = useState(false);
 
 
-    const addTag = () => {
-        setaddTagShow(true)
+    console.log(exportCard,"exportCardexportCardexportCardexportCard")
+ 
+    const exportFile = () => {
+        setExportButtonClick(true)
+        const requestData = {
+            "order_tab": {
+                "type": "All",
+                "subtype": ""
+            },
+            "order_id": `${selectedRows.join(',')}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": false,
+            "global_type": "",
+            "payment_type": ""
+        };
+        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     }
 
-
-
+    useEffect(() => {
+        if (exportButtonClick && exportCard) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
 
     return (
         <>
@@ -32,7 +64,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                             <span>Rows Selected</span>
                         </div>
                         <ul className='ba-actions'>
-                            <li><ExportIcon /><span>Export</span></li>
+                            <li onClick={exportFile}><ExportIcon /><span>Export</span></li>
                         </ul>
                         <div className='ba-close'></div>
                     </div>
