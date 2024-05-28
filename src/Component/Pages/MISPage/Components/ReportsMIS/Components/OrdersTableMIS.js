@@ -14,11 +14,12 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 
-const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
+const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows, BulkActionShow, setBulkActionShow }) => {
     const [selectAll, setSelectAll] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
+    // const [selectedRows, setSelectedRows] = useState([]);
     const [ordersData, setOrdersData] = useState([]);
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
+    const [orders, setOrders] = useState([])
 
     useEffect(() => {
         if (reportsOrderData && reportsOrderData?.results !== null) {
@@ -38,27 +39,37 @@ const OrdersTableMIS = ({ setStateData, setTotalItems }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(ordersData.map(row => row.id));
+            setSelectedRows(ordersData.map(row => row?.id));
+            setBulkActionShow(true)
         } else {
             setSelectedRows([]);
+            setBulkActionShow(false)
         }
     };
 
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
+        let updatedSelectedRows;
         if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
+            updatedSelectedRows = selectedRows.filter(id => id !== orderId);
         } else {
-            setSelectedRows([...selectedRows, orderId]);
+            updatedSelectedRows = [...selectedRows, orderId];
+        }
+        setSelectedRows(updatedSelectedRows);
+        if (updatedSelectedRows.length > 0) {
+            setBulkActionShow(true);
+        } else {
+            setBulkActionShow(false);
+
         }
 
-        if (selectedRows.length === reportsOrderData?.length - 1 && isSelected) {
+        if (updatedSelectedRows.length === ordersData.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
+
     return (
         <table className=" w-100">
             <thead className="sticky-header">

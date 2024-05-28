@@ -64,3 +64,7 @@
     border-width: 1px;
     box-shadow: none;
 }
+
+.mis-page-container .bulk-action-container {
+    z-index: 1;
+}

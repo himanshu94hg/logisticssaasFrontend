@@ -24,7 +24,7 @@ const ReportsMIS = ({ activeTab }) => {
     const [endDate, setEndDate] = useState(new Date());
     const [stateData, setStateData] = useState(false)
     const [stateData1, setStateData1] = useState(new Date())
-    const [BulkActionShow, setBulkActionShow] = useState(true)
+    const [BulkActionShow, setBulkActionShow] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
 
 
@@ -289,6 +289,10 @@ const ReportsMIS = ({ activeTab }) => {
                                 endDate={endDate}
                                 setStateData={setStateData}
                                 setTotalItems={setTotalItems}
+                                BulkActionShow={BulkActionShow}
+                                setBulkActionShow={setBulkActionShow}
+                                selectedRows={selectedRows}
+                                setSelectedRows={setSelectedRows}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS
@@ -296,6 +300,10 @@ const ReportsMIS = ({ activeTab }) => {
                                 startDate={startDate}
                                 endDate={endDate}
                                 setTotalItems={setTotalItems}
+                                BulkActionShow={BulkActionShow}
+                                setBulkActionShow={setBulkActionShow}
+                                selectedRows={selectedRows}
+                                setSelectedRows={setSelectedRows}
                             />
                         ) : showComponent === 'Billing' ? (
                             <BillingTableMIS
@@ -303,6 +311,10 @@ const ReportsMIS = ({ activeTab }) => {
                                 startDate={startDate}
                                 endDate={endDate}
                                 setTotalItems={setTotalItems}
+                                BulkActionShow={BulkActionShow}
+                                setBulkActionShow={setBulkActionShow}
+                                selectedRows={selectedRows}
+                                setSelectedRows={setSelectedRows}
                             />
                         ) : showComponent === 'Returns' ? (
                             <ReturnsTableMIS
@@ -310,12 +322,24 @@ const ReportsMIS = ({ activeTab }) => {
                                 startDate={startDate}
                                 endDate={endDate}
                                 setTotalItems={setTotalItems}
+                                BulkActionShow={BulkActionShow}
+                                setBulkActionShow={setBulkActionShow}
+                                selectedRows={selectedRows}
+                                setSelectedRows={setSelectedRows}
                             />
                         ) : ''
                     )}
                 </div>
             </div>
-            {/* {BulkActionShow && ( */}
+
+            <Pagination
+                totalItems={totalItems}
+                currentPage={currentPage}
+                itemsPerPage={itemsPerPage}
+                setItemsPerPage={setItemsPerPage}
+                setCurrentPage={setCurrentPage}
+            />
+            {BulkActionShow && (
                 <BulkActionsComponent
                     // activeTab={activeTab}
                     // bulkAwb={bulkAwb}
@@ -327,15 +351,8 @@ const ReportsMIS = ({ activeTab }) => {
                 // setUpdateWarehouse={setUpdateWarehouse}
                 // setUpdateWeight={setUpdateWeight}
                 />
-            {/* ) */}
-            {/* } */}
-            <Pagination
-                totalItems={totalItems}
-                currentPage={currentPage}
-                itemsPerPage={itemsPerPage}
-                setItemsPerPage={setItemsPerPage}
-                setCurrentPage={setCurrentPage}
-            />
+            )
+            }
         </section>
     );
 };

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import './BulkActionsComponent.css'
+import ExportIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
 
 const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
@@ -18,26 +19,25 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         setaddTagShow(true)
     }
 
-  
+
 
 
     return (
         <>
-            {/* {selectedRows.length > 0 && ( */}
+            {selectedRows.length > 0 && (
                 <section className='bulk-action-container box-shadow'>
                     <div className='ba-inner-container'>
                         <div className='ba-rows-selected'>
-                            {/* <span className='fw-bold font20'>{selectedRows.length}</span> */}
-                            <span className='fw-bold font20'>sss</span>
+                            <span className='fw-bold font20'>{selectedRows.length}</span>
                             <span>Rows Selected</span>
                         </div>
                         <ul className='ba-actions'>
-                            <li><span>Add Tag</span></li>
+                            <li><ExportIcon /><span>Export</span></li>
                         </ul>
                         <div className='ba-close'></div>
                     </div>
                 </section>
-            {/* )} */}
+            )}
 
         </>
     )
