@@ -1,15 +1,16 @@
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 
-const RuleRow = ({ initialRows, setConditions,setOnRowsChange }) => {
+const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
     const [rows, setRows] = useState([]);
 
     useEffect(() => {
         if (initialRows == null || initialRows.length === 0) {
-            setRows([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
-            setOnRowsChange([{ condition: '', condition_type: '', match_type: '', match_value: '' }]);
+            const initialRow = { condition: '', condition_type: '', match_type: '', match_value: '' };
+            setRows([initialRow]);
+            setOnRowsChange([initialRow]);
         } else {
             setRows(initialRows);
             setOnRowsChange(initialRows);
@@ -31,8 +32,10 @@ const RuleRow = ({ initialRows, setConditions,setOnRowsChange }) => {
     };
 
     const handleAddRow = () => {
-        setRows([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
-        setOnRowsChange([...rows, { condition: '', condition_type: '', match_type: '', match_value: '' }]);
+        const newRow = { condition: 'and', condition_type: '', match_type: '', match_value: '' };
+        const newRows = [...rows, newRow];
+        setRows(newRows);
+        setOnRowsChange(newRows);
     };
 
     const handleRemoveRow = (index) => {
@@ -62,7 +65,7 @@ const RuleRow = ({ initialRows, setConditions,setOnRowsChange }) => {
                         value={row.condition_type}
                         onChange={(e) => handleSelectChange(index, 'condition_type', e.target.value)}
                     >
-                        <option value="">Select Condiction</option>
+                        <option value="">Select Condition</option>
                         <option value="payment_type">Payment Mode</option>
                         <option value="order_amount">Order Amount</option>
                         <option value="pickup_pincode">Pickup Pincode</option>
@@ -139,16 +142,15 @@ const RuleRow = ({ initialRows, setConditions,setOnRowsChange }) => {
                     <div className='add-rule-btns'>
                         {index > 0 && (
                             <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                        )}
+                        )}  
                         {index === rows.length - 1 && (
                             <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                         )}
                     </div>
                 </div>
-
             ))}
         </>
-    )
-}
+    );
+};
 
-export default RuleRow
+export default RuleRow;
