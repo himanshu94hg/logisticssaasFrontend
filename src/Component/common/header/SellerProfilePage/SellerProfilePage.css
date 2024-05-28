@@ -113,7 +113,7 @@
 .sp-header-sec .plan-info {
     width: auto;
     margin-inline: auto;
-    padding: 5px 10px;
+    padding: 5px 24px;
     background: var(--sh-primary-light);
     border-radius: 20px;
     margin-bottom: -35px;
