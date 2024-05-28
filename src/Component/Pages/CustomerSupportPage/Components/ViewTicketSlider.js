@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import Modal from "react-bootstrap/Modal";
-import {Document, Page} from "react-pdf";
+import { Document, Page } from "react-pdf";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { BASE_URL_CORE } from '../../../../axios/config';
 
@@ -109,7 +109,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
     }
   }
 
-  console.log("handelAWSImage",handelAWSImage)
+  console.log("handelAWSImage", handelAWSImage)
   return (
     <>
       <div
@@ -126,7 +126,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
           <p>Status:</p>
           <p className='ticket-status ms-2'>{allTicket?.status}</p>
         </div>
-        <section className='ticket-description'>
+        <section className='ticket-description d-flex flex-column gap-2'>
           {/* <div className='d-flex gap-2'>
             <p>Description:</p>
             <p className='fw-bold'>{allTicket?.description}</p>
@@ -142,7 +142,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
 
             </div>
           </div>
-          <div className='ticket-view-field'>
+          <div className='ticket-view-field flex-column gap-2'>
             <div className='d-flex gap-2'>
               <p>Category:</p>
               <p className='fw-bold'>{allTicket?.category}</p>
@@ -205,7 +205,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
           </div>
         </section>
       </section>
-    
+
       <section className={`attachment-container ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}>
         {allTicket && allTicket?.escalate_image && (
           <>
@@ -238,7 +238,7 @@ export default ViewTicketSlider
 
 function Preview({ show, handleClose, previewImage, handelAWSImage }) {
   const isPDF = handelAWSImage && handelAWSImage.endsWith('.pdf');
-  console.log(handelAWSImage,"Pdf")
+  console.log(handelAWSImage, "Pdf")
 
   return (
     <Modal show={show} onHide={handleClose} size="md" style={{ width: '100%', height: '670px', overflow: 'hidden' }} centered>
