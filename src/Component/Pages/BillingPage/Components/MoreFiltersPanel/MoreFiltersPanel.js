@@ -329,7 +329,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                {/* <label>
+                                <label>
                                     Start Date
                                     <div className="date-picker-container">
                                         <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
@@ -350,12 +350,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                         />
                                         {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}
                                     </div>
-                                </label> */}
-                                {/* <label> */}
-                                {/* End Date */}
-                                {/* <div className="date-picker-container"> */}
-                                {/* <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" /> */}
-                                {/* <DatePicker
+                                </label>
+                                <label>
+                                    End Date
+                                    <div className="date-picker-container">
+                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+                                        <DatePicker
                                             dateFormat="MM/dd/yyyy h:mm aa"
                                             className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                             maxDate={new Date()}
@@ -369,12 +369,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                             showMonthDropdown
                                             showYearDropdown
                                         // dropdownMode="select"
-                                        /> */}
-                                {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
-                                {/* </div> */}
-                                {/* </label> */}
+                                        />
+                                        {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
+                                    </div>
+                                </label>
                             </div>
-                            {/* <div className='filter-row'>
+                            <div className='filter-row'>
                                 <label >Order Status
                                     <Select
                                         options={OrderStatus}
@@ -385,7 +385,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     />
                                 </label>
                             </div>
-                            <div className='filter-row'>
+                            {/* <div className='filter-row'>
                                 <label >Order Source
                                     <Select
                                         options={orderSource}

@@ -278,7 +278,7 @@
     background-color: #F2F2F2;
     min-height: 276px;
     padding: 10px;
-    height: calc(100vh - 388px);
+    height: calc(100vh - 415px);
     overflow: scroll;
 }
 
