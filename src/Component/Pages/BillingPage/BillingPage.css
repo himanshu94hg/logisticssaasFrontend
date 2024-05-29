@@ -67,13 +67,15 @@
 
 .remitance-logs-filter .sidepanel-tabs p {
     width: 100%;
-    border: 1px solid var(--sh-primary);
+    border: 1px solid var(--sh-primary-middle);
     text-align: center;
     padding: 5px 10px;
+    font-size: 1.2rem;
+    cursor: pointer;
 }
 
 .remitance-logs-filter .sidepanel-tabs p.active {
-    background: var(--sh-primary);
+    background: var(--sh-primary-middle);
     color: #fff;
 }
 

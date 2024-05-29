@@ -364,7 +364,7 @@ const ShipmentsPage = () => {
                 handleResetFrom={handleResetFrom}
                 setHandleResetFrom={setHandleResetFrom}
             />
-            <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+            <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
         </>
     )
