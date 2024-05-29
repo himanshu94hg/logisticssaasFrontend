@@ -3,7 +3,7 @@ import moment from 'moment';
 import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import CreateTicketForm from './Components/CreateTicketForm';
 import FilterTicketsForm from './Components/FilterTicketsForm';
@@ -37,12 +37,24 @@ const CustomerSupportPage = () => {
   const [errors, setErrors] = useState({});
   const [clearTicket, setClearTicket] = useState(false)
   const [queryParamTemp, setQueryParamTemp] = useState({})
+  const popRef = useRef(null);
 
   const authToken = Cookies.get("access_token")
   const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
   const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
-  console.log(ticketStatus, "ticketStatus")
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popRef.current && !popRef.current.contains(event.target)) {
+        setFilterTickets(false)
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [setFilterTickets]);
 
   useEffect(() => {
     let url = apiUrl;
@@ -294,7 +306,7 @@ const CustomerSupportPage = () => {
         />
       </div>
 
-      <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
+      <div ref={popRef} className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets); setFilterClick(true) }}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>

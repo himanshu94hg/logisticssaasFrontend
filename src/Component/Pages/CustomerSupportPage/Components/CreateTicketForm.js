@@ -1,9 +1,9 @@
 import axios from 'axios';
-import './createTicket.css'
+import './createTicket.css';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import { awsAccessKey } from '../../../../config';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import { getFileData, uploadImageData } from '../../../../awsUploadFile';
@@ -42,29 +42,30 @@ const FormInput = ({ label, placeholder, mandatory, type, value, onChange, onBlu
 );
 
 const CreateTicketForm = (props) => {
-  const [errors, setErrors] = useState({})
-  const authToken = Cookies.get("access_token")
-  const [fileError, setFileError] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [allCatagery, setAllCatagery] = useState([])
-  const [allSubCatagry, setAllSubCatagry] = useState([])
-  const [selectFile, setSelectFile] = useState(false)
-  const [fileObj, setFileObj] = useState(null)
-  const [categoryStatus, setCategoryStatus] = useState(false)
-  const [awbStatus, setAwbStatus] = useState(false)
-  const [awbErrorMessage, setAwbErrorMessage] = useState("")
+  const [errors, setErrors] = useState({});
+  const authToken = Cookies.get("access_token");
+  const [fileError, setFileError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [allCatagery, setAllCatagery] = useState([]);
+  const [allSubCatagry, setAllSubCatagry] = useState([]);
+  const [selectFile, setSelectFile] = useState(false);
+  const [fileObj, setFileObj] = useState(null);
+  const [categoryStatus, setCategoryStatus] = useState(false);
+  const [awbStatus, setAwbStatus] = useState(false);
+  const [awbErrorMessage, setAwbErrorMessage] = useState("");
 
   const location = useLocation();
   const navigate = useNavigate();
   const searchParams = new URLSearchParams(location.search);
   const escalateAwbNumber = searchParams.get('awb_number');
 
+  const formRef = useRef(null);
+
   useEffect(() => {
     if (escalateAwbNumber !== null) {
-      props.setNewTicket(true)
-    }
-    else {
-      props.setNewTicket(false)
+      props.setNewTicket(true);
+    } else {
+      props.setNewTicket(false);
     }
   }, [escalateAwbNumber]);
 
@@ -74,7 +75,7 @@ const CreateTicketForm = (props) => {
     awb_number: escalateAwbNumber || "",
     description: "",
     escalate_image: "",
-  })
+  });
 
   const categoryOptions = allCatagery.map(category => ({
     value: category.id,
@@ -95,10 +96,10 @@ const CreateTicketForm = (props) => {
       })
       .then(response => {
         setAllCatagery(response.data);
-        setCategoryStatus(false)
+        setCategoryStatus(false);
       })
       .catch(error => {
-        customErrorFunction(error)
+        customErrorFunction(error);
       });
   }, [categoryStatus]);
 
@@ -120,7 +121,7 @@ const CreateTicketForm = (props) => {
           }
         })
         .catch(error => {
-          customErrorFunction(error)
+          customErrorFunction(error);
         });
     } else {
       setAllSubCatagry([]);
@@ -138,24 +139,24 @@ const CreateTicketForm = (props) => {
             },
           });
           if (response.status === 201) {
-            toast.success("Ticket created successfully")
+            toast.success("Ticket created successfully");
             setTicketData({
               category: null,
               sub_category: null,
               awb_number: "",
               description: "",
               escalate_image: ""
-            })
+            });
             setSelectFile(false);
-            setFileObj(null)
-            setAllCatagery([])
-            setCategoryStatus(true)
-            props?.setStatus(!props.status)
-            props.setNewTicket(false)
+            setFileObj(null);
+            setAllCatagery([]);
+            setCategoryStatus(true);
+            props?.setStatus(!props.status);
+            props.setNewTicket(false);
             document.getElementById("fileInput").value = "";
           }
         } catch (error) {
-          customErrorFunction(error)
+          customErrorFunction(error);
         }
       };
       postTicketData();
@@ -193,7 +194,7 @@ const CreateTicketForm = (props) => {
         }
       }
     ).then(response => {
-      console.warn(response, "Response")
+      console.warn(response, "Response");
       setAwbStatus(false);
     }).catch(error => {
       setAwbErrorMessage(error?.response?.data?.detail);
@@ -205,22 +206,21 @@ const CreateTicketForm = (props) => {
   const clearFile = () => {
     setSelectFile(false);
     setFileError("");
-    setFileObj(null)
+    setFileObj(null);
     document.getElementById("fileInput").value = "";
   };
   
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
-    if (file != undefined) {
+    if (file !== undefined) {
       setSelectFile(true);
-      setFileObj(file)
+      setFileObj(file);
     }
     if (fileSizeInMB > 2) {
-      setFileError("File should be less than 3 mb")
-    }
-    else {
-      setFileError("")
+      setFileError("File should be less than 3 mb");
+    } else {
+      setFileError("");
     }
   };
 
@@ -239,13 +239,13 @@ const CreateTicketForm = (props) => {
     if (awbStatus === true && ticketData.awb_number.trim()) {
       validationErrors.awb_number = awbErrorMessage || "One of these AWB numbers is invalid.";
     }
-    setErrors(validationErrors)
+    setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
       if (fileObj) {
         try {
-          const responseData = await getFileData(fileObj?.name.replace(/\s/g, ""))
-          const awsUrl = responseData.data.url.url
+          const responseData = await getFileData(fileObj?.name.replace(/\s/g, ""));
+          const awsUrl = responseData.data.url.url;
           const formData = new FormData();
           formData.append('key', responseData.data.url.fields.key);
           formData.append('file', fileObj);
@@ -253,17 +253,15 @@ const CreateTicketForm = (props) => {
           formData.append('policy', responseData.data.url.fields.policy);
           formData.append('signature', responseData.data.url.fields["x-amz-signature"]);
           await uploadImageData(awsUrl, formData);
-          const imageUrl = responseData?.data?.url?.url + fileObj?.name.replace(/\s/g, "")
+          const imageUrl = responseData?.data?.url?.url + fileObj?.name.replace(/\s/g, "");
           setTicketData(prev => ({
             ...prev,
             escalate_image: imageUrl
           }));
+        } catch (error) {
+          customErrorFunction(error);
         }
-        catch (error) {
-          customErrorFunction(error)
-        }
-      }
-      else {
+      } else {
         try {
           const response = await axios.post(`${BASE_URL_CORE}/core-api/features/support-tickets/`, ticketData, {
             headers: {
@@ -272,23 +270,23 @@ const CreateTicketForm = (props) => {
             },
           });
           if (response.status === 201) {
-            toast.success("Ticket created successfully")
+            toast.success("Ticket created successfully");
             setTicketData({
               category: null,
               sub_category: null,
               awb_number: "",
               description: "",
               escalate_image: ""
-            })
+            });
 
-            props?.setStatus(!props.status)
-            props.setNewTicket(false)
-            setAllCatagery([])
-            setCategoryStatus(true)
+            props?.setStatus(!props.status);
+            props.setNewTicket(false);
+            setAllCatagery([]);
+            setCategoryStatus(true);
           }
 
         } catch (error) {
-          customErrorFunction(error)
+          customErrorFunction(error);
         }
       }
     }
@@ -304,18 +302,31 @@ const CreateTicketForm = (props) => {
       awb_number: "",
       description: "",
       escalate_image: ""
-
-    })
-    props.setNewTicket(false)
+    });
+    props.setNewTicket(false);
     setSelectFile(false);
-    setFileObj(null)
+    setFileObj(null);
     setAllCatagery([]);
-    categoryStatus ? setCategoryStatus(false) : setCategoryStatus(true)
+    setCategoryStatus(!categoryStatus);
     document.getElementById("fileInput").value = "";
-  }
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (formRef.current && !formRef.current.contains(event.target)) {
+        handleCancel();
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} ref={formRef}>
       <div className='slider-scroll-body'>
         {escalateAwbNumber ? (
           <FormInput
@@ -379,13 +390,13 @@ const CreateTicketForm = (props) => {
           onChange={handleFileChange}
           accept=".pdf, image/*"
         />
-        {fileError != '' && <span className='error-text'>{fileError}</span>}
+        {fileError !== '' && <span className='error-text'>{fileError}</span>}
       </div>
       <div className='ticket-form-btn'>
         <button className='btn cancel-button' type="button" onClick={handleCancel}>
           Cancel
         </button>
-        <button className='btn main-button' type="submit" onClick={handleEscalateTicket} disabled={isLoading} >
+        <button className='btn main-button' type="submit" onClick={handleEscalateTicket} disabled={isLoading}>
           Submit
         </button>
       </div>
