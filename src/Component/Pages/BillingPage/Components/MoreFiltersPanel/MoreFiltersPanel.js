@@ -65,6 +65,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
     const [orderTag, setorderTag] = useState([]);
     const [orderSource, setOrderSource] = useState([]);
     const [errors, setErrors] = useState({})
+    const [SidePanelOption, setSidePanelOption] = useState('Filter')
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -315,9 +316,18 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         }
     }, [courierPartnerData])
 
+
+    const customStyles = {
+        menuList: (provided) => ({
+            ...provided,
+            maxHeight: '150px', // Set the height for the dropdown
+            overflowY: 'auto',  // Add scroll if content exceeds the height
+        }),
+    };
+
     return (
         <>
-            <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
+            <div id='sidePanel' className={`side-panel morefilters-panel remitance-logs-filter ${MoreFilters ? 'open' : ''}`}>
                 <div id='sidepanel-closer' onClick={() => setMoreFilters(false)}>
                     <FontAwesomeIcon icon={faChevronRight} />
                 </div>
@@ -325,214 +335,100 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                     <h4>Explore Additional Filters</h4>
                     <p>Fine-Tune Your Search</p>
                 </section>
+                <section className='sidepanel-tabs'>
+                    <p onClick={() => setSidePanelOption('Filter')} className={`${SidePanelOption === 'Filter' && 'active'}`}>Filter</p>
+                    <p onClick={() => setSidePanelOption('Export')} className={`${SidePanelOption === 'Export' && 'active'}`}>Export</p>
+                </section>
                 <section className='sidepanel-body'>
-                    <form onSubmit={handleSubmit}>
-                        <div className="form-input-fields">
-                            <div className='filter-row'>
-                                <label>
-                                    Start Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
-                                            maxDate={new Date()}
-                                            selected={filterParams?.start_date}
-                                            onKeyDown={(e) => handleKeyDown(e)}
-                                            onChange={(e) => handleChange("start_date", e)}
-                                            placeholderText='Select Start Date'
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            isClearable
-                                            closeOnScroll={(e) => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                        // dropdownMode="select"
+                    {SidePanelOption === 'Filter' &&
+                        <form onSubmit={handleSubmit}>
+                            <div className="form-input-fields">
+                                <div className='filter-row'>
+                                    <label>
+                                        Start Date
+                                        <div className="date-picker-container">
+                                            <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+                                            <DatePicker
+                                                className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
+                                                maxDate={new Date()}
+                                                selected={filterParams?.start_date}
+                                                onKeyDown={(e) => handleKeyDown(e)}
+                                                onChange={(e) => handleChange("start_date", e)}
+                                                placeholderText='Select Start Date'
+                                                dateFormat="MM/dd/yyyy h:mm aa"
+                                                isClearable
+                                                closeOnScroll={(e) => e.target === document}
+                                                showTimeInput
+                                                showMonthDropdown
+                                                showYearDropdown
+                                            // dropdownMode="select"
+                                            />
+                                            {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}
+                                        </div>
+                                    </label>
+                                    <label>
+                                        End Date
+                                        <div className="date-picker-container">
+                                            <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
+                                            <DatePicker
+                                                dateFormat="MM/dd/yyyy h:mm aa"
+                                                className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
+                                                maxDate={new Date()}
+                                                selected={filterParams?.end_date}
+                                                onKeyDown={(e) => handleKeyDown(e)}
+                                                onChange={(e) => handleChange("end_date", e)}
+                                                placeholderText='Select End Date'
+                                                isClearable
+                                                closeOnScroll={(e) => e.target === document}
+                                                showTimeInput
+                                                showMonthDropdown
+                                                showYearDropdown
+                                            // dropdownMode="select"
+                                            />
+                                            {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
+                                        </div>
+                                    </label>
+                                </div>
+                                <div className='filter-row'>
+                                    <label >Order Status
+                                        <Select
+                                            options={OrderStatus}
+                                            styles={customStyles}
+                                            isMulti
+                                            isSearchable
+                                            onChange={(e) => handleChange("status", e)}
+                                            value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
                                         />
-                                        {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}
-                                    </div>
-                                </label>
-                                <label>
-                                    End Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
-                                            maxDate={new Date()}
-                                            selected={filterParams?.end_date}
-                                            onKeyDown={(e) => handleKeyDown(e)}
-                                            onChange={(e) => handleChange("end_date", e)}
-                                            placeholderText='Select End Date'
-                                            isClearable
-                                            closeOnScroll={(e) => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                        // dropdownMode="select"
-                                        />
-                                        {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
-                                    </div>
-                                </label>
+                                    </label>
+                                </div>
                             </div>
-                            <div className='filter-row'>
-                                <label >Order Status
-                                    <Select
-                                        options={OrderStatus}
-                                        isMulti
-                                        isSearchable
-                                        onChange={(e) => handleChange("status", e)}
-                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
-                                    />
-                                </label>
+                            <div className='more-filters-footer justify-content-end'>
+                                <div>
+                                    <button className='btn seconadary-button' type="button" onClick={handleReset}>
+                                        Reset
+                                    </button>
+                                    <button className='btn main-button ms-3' type="submit">Submit</button>
+                                </div>
                             </div>
-                            {/* <div className='filter-row'>
-                                <label >Order Source
-                                    <Select
-                                        options={orderSource}
-                                        onChange={(e) => handleChange("order_source", e)}
-                                        isMulti
-                                        isSearchable
-                                        value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
-                                    />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label>Courier Partner
-                                    <Select
-                                        options={courierPartners}
-                                        onChange={(e) => handleChange("courier_partner", e)}
-                                        isMulti
-                                        isSearchable
-                                        value={courierPartners?.value}
-                                    />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label>Payment Option
-                                    <Select
-                                        options={paymentOptions}
-                                        defaultValue={null}
-                                        // defaultValue={filterParams?.payment_type}
-                                        onChange={(e) => handleChange("payment_type", e)}
-                                        value={filterParams.payment_type !== null ? paymentOptions.find(option => option.value === filterParams.payment_type) : null}
-                                        isMulti
-                                    />
-                                </label>
-                            </div> 
-                             <div className='filter-row'>
-                                <label>Courier Partner
-                                    <Select
-                                        options={courierPartners}
-                                        onChange={(e) => handleChange("courier_partner", e)}
-                                        isMulti
-                                        isSearchable
-                                        value={filterParams.courier_partner ? courierPartners.filter(option => filterParams.courier_partner.includes(option.value)) : null}
-                                    />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label>Pickup Address
-                                    <Select
-                                        isMulti
-                                        isSearchable
-                                        options={pickupAddresses}
-                                        onChange={(e) => handleChange("pickup_address", e)}
-                                        value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
-                                    />
-                                </label>
-                            </div> 
-                             <div className='filter-row'>
-                                <label>Order Tag
-                                    <Select
-                                        isMulti
-                                        isSearchable
-                                        options={orderTag}
-                                        onChange={(e) => handleChange("order_tag", e)}
-                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null} />
-                                </label>
-                            </div>
-                            <div className='filter-row'>
-                                <label>SKU
-                                    <input
-                                        className='input-field'
-                                        type="text"
-                                        value={filterParams.sku}
-                                        placeholder='Enter SKU'
-                                        onChange={(e) => handleChange("sku", e)}
-                                    />
-                                </label>
-                            </div> 
-                            <div className='filter-row sku-checkbox'>
-                                <label htmlFor="singleSku">
-                                    Single SKU
-                                    <input
-                                        type="radio"
-                                        name="sku_match_type"
-                                        id="singleSku"
-                                        value="single"
-                                        // checked={filterParams.skuType === "single"}
-                                        onChange={() => handleChange("sku_match_type", "single")}
-                                    />
-                                </label>
-                                <label htmlFor="multiSku">
-                                    Multi SKU
-                                    <input
-                                        type="radio"
-                                        name="sku_match_type"
-                                        id="multiSku"
-                                        value="multi"
-                                        // checked={filterParams.skuType === "multi"}
-                                        onChange={() => handleChange("sku_match_type", "multi")}
-                                    />
-                                </label>
-                                <label htmlFor="matchExact">
-                                    Match Exact
-                                    <input
-                                        type="radio"
-                                        name="sku_match_type"
-                                        id="matchExact"
-                                        value="exact"
-                                        // checked={filterParams.skuType === "exact"}
-                                        onChange={() => handleChange("sku_match_type", "exact")}
-                                    />
-                                </label>
-                            </div> 
-                            <div className='filter-row mb-2'>
-                                <label>Search Multiple Order Ids
-                                    <input
-                                        className='input-field'
-                                        type="text"
-                                        value={filterParams.order_id}
-                                        placeholder='Enter Order ID comma separated'
-                                        onChange={(e) => handleChange("order_id", e)}
-                                    />
-                                </label>
-                            </div>
-                            */}
-                        </div>
-                        <div className='more-filters-footer'>
-                            <label>
-                                {/* <input
-                                    type="checkbox"
-                                    checked={SaveFilter}
-                                    value={SaveFilter}
-                                    onChange={(e) => handleCheckboxChange(e.target.checked)}
-                                />
-                                {!SaveFilter ? 'Save Filter (Optional)' : (
-                                    <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
-                                )} */}
+                        </form>
+                    }
 
-                                {/*errors.favName && <span className='error-text'></span>*/}
-
-                            </label>
-                            <div>
-                                <button className='btn seconadary-button' type="button" onClick={handleReset}>
-                                    Reset
-                                </button>
-                                <button className='btn main-button ms-3' type="submit">Submit</button>
+                    {
+                        SidePanelOption === 'Export' &&
+                        <form>
+                            <div className="form-input-fields">
+                                <div className='filter-row'>
+                                    <label>
+                                        Enter AWB Number(s)
+                                        <input className='input-field' type="text" placeholder='Enter awb numbers (comma separated)' />
+                                    </label>
+                                </div>
+                                <div className='d-flex justify-content-end'>
+                                    <button className='btn main-button'>Export</button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    }
                 </section>
             </div>
         </>

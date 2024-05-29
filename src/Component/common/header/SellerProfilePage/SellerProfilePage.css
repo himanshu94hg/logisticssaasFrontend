@@ -1,6 +1,6 @@
 .seller-profile-section {
     position: fixed;
-    width: 40em;
+    width: 31em;
     background: #fff;
     height: 100vh;
     top: 0;
@@ -113,7 +113,7 @@
 .sp-header-sec .plan-info {
     width: auto;
     margin-inline: auto;
-    padding: 5px 10px;
+    padding: 5px 24px;
     background: var(--sh-primary-light);
     border-radius: 20px;
     margin-bottom: -35px;
@@ -123,14 +123,28 @@
 
 
 .sp-data-field-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    /* display: grid; */
+    /* grid-template-columns: repeat(2, 1fr); */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .sp-data-field {
+    /* flex: 1 1; */
+    font-weight: 700;
+    font-size: 1rem;
     padding: 5px 10px;
-    flex: 1 1;
-    border: 1px solid var(--sh-primary-middle);
     border-radius: 0.5rem;
+    text-align: center;
+}
+
+.sp-data-field span {
+    font-weight: 500;
+    font-size: 0.9rem;
+    margin-right: 5px;
+}
+
+.sp-data-field:nth-of-type(even) {
+    background-color: var(--sh-primary-light);
 }
