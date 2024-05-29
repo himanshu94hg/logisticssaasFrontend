@@ -351,7 +351,7 @@ const ReportsMIS = ({ activeTab }) => {
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={setItemsPerPage}
                 setCurrentPage={setCurrentPage}
-            />
+            /> 
             {BulkActionShow && (
                 <BulkActionsComponent
                     // activeTab={activeTab}
@@ -359,6 +359,7 @@ const ReportsMIS = ({ activeTab }) => {
                     // setbulkAwb={setbulkAwb}
                     activeTab={activeTab}
                     selectedRows={selectedRows}
+                    firstOptions={firstOptions}
                     // setaddTagShow={setaddTagShow}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}

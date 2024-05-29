@@ -5,19 +5,19 @@ import './BulkActionsComponent.css'
 import ExportIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, firstOptions, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
 
-    console.log(exportCard,"exportCardexportCardexportCardexportCard")
- 
+    console.log(exportCard, "exportCardexportCardexportCardexportCard")
+
     const exportFile = () => {
         setExportButtonClick(true)
         const requestData = {
             "order_tab": {
-                "type": "All",
+                "type": firstOptions === "Orders" ? "" : firstOptions,
                 "subtype": ""
             },
             "order_id": `${selectedRows.join(',')}`,
