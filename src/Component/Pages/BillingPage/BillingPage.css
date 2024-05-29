@@ -49,3 +49,34 @@
 .billing-page-container .table-container.cr-table-height {
     height: calc(100vh - 203px);
 }
+
+.remitance-logs-filter .form-input-fields {
+    min-height: 400px;
+    /* max-height: unset; */
+}
+
+/* 
+.remitance-logs-filter .form-input-fields .css-1nmdiq5-menu {
+    height: 200px;
+    overflow: scroll;
+} */
+
+.remitance-logs-filter .sidepanel-tabs {
+    display: flex;
+}
+
+.remitance-logs-filter .sidepanel-tabs p {
+    width: 100%;
+    border: 1px solid var(--sh-primary);
+    text-align: center;
+    padding: 5px 10px;
+}
+
+.remitance-logs-filter .sidepanel-tabs p.active {
+    background: var(--sh-primary);
+    color: #fff;
+}
+
+.remitance-logs-filter .sidepanel-body {
+    height: calc(100vh - 172px);
+}
