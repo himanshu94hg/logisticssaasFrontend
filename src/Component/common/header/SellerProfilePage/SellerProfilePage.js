@@ -66,7 +66,7 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                             Grover
                         </div>
                         <div className='sp-data-field'>
-                            <span>Company ID:</span>
+                            <span>Company GST:</span>
                             548155
                         </div>
                         <div className='sp-data-field'>
