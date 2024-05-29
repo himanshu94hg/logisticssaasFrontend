@@ -37,9 +37,9 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                             <img src={sellerProfileImage} alt="" />
                         </div>
                         <div className='sp-seller-name'>
-                            <h4 className='mb-0'>Himanshu Grover</h4>
+                            <h4 className='mb-0'>{userData?.first_name} {userData?.last_name}</h4>
                             <div className='d-flex gap-2 align-items-center justify-content-center'>
-                                <h6 ref={textRef} className='mb-0'>SH0001</h6>
+                                <h6 ref={textRef} className='mb-0'>{userData?.code}</h6>
                                 <CustomTooltip
                                     triggerComponent={<button className='btn copy-button' onClick={handleCopy}><FaRegCopy /></button>}
                                     tooltipComponent={copyText}
@@ -59,19 +59,19 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                     <div className='sp-data-field-container'>
                         <div className='sp-data-field'>
                             <span>First Name:</span>
-                            Himanshu
+                            {userData?.first_name}
                         </div>
                         <div className='sp-data-field'>
                             <span>Last Name:</span>
-                            Grover
+                            {userData?.last_name}
                         </div>
                         <div className='sp-data-field'>
                             <span>Company GST:</span>
-                            548155
+                            22***AHGB***
                         </div>
                         <div className='sp-data-field'>
                             <span>Company Name:</span>
-                            Shipease Technologies
+                            {userData?.company_name}
                         </div>
                         <div className='sp-data-field'>
                             <span>Subscription Status:</span>
@@ -99,7 +99,7 @@ const SellerProfilePage = ({ ViewProfile, setViewProfile, userData }) => {
                         </div>
                         <div className='sp-data-field'>
                             <span>Kam Phone No:</span>
-                            9876543210
+                            NA
                         </div>
                     </div>
                 </div>
