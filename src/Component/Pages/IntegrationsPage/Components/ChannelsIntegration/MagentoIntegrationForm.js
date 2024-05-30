@@ -62,18 +62,18 @@ const MagentoIntegrationForm = () => {
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     Channel Name
-                                    <input className="input-field" type="text" />
+                                    <input className="input-field" type="text" placeholder='Enter Channel Name' />
                                 </label>
                                 <label>
                                     Store URL
-                                    <input className="input-field" type="text" />
+                                    <input className="input-field" type="text"  placeholder='Enter Store URL'/>
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
                             </div>
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     Admin Access Token
-                                    <input className="input-field" type="text" />
+                                    <input className="input-field" type="text"  placeholder='Enter Admin Access Token'/>
                                     <span className='font13 text-sh-primary'>Generate Admin Access Token</span>
                                 </label>
                             </div>
