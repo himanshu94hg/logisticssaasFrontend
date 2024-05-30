@@ -234,8 +234,10 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
 
     useEffect(() => {
         if (orderId) {
-            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
-            dispatch(orderIdAction(orderId))
+            if(CloneOrderSection === false){
+                dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+                dispatch(orderIdAction(orderId))
+            }
         }
     }, [orderId])
 
@@ -244,7 +246,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
-                    customer_order_number: orderDetailsData?.customer_order_number + "_clone",
+                    customer_order_number: orderDetailsData?.customer_order_number + "_c",
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
                     warehouse_id: orderDetailsData?.warehouse_id,

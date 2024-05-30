@@ -171,17 +171,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         })
     }
 
-    const markAsVerified = () => {
-
-    }
-
-
-
-
-
-
-    console.log(paymentCard, "paymentSetCardpaymentSetCardpaymentSetCard")
-
     return (
         <section className='position-relative'>
             <div className="position-relative">

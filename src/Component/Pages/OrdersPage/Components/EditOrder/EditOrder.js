@@ -250,10 +250,12 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
 
     useEffect(() => {
         if (orderId) {
-            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
-            dispatch(orderIdAction(orderId))
+            if(EditOrderSection === false){
+                dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+                dispatch(orderIdAction(orderId))
+            }
         }
-    }, [orderId])
+    }, [orderId,EditOrderSection,dispatch])
 
     const [tagData, setTagData] = useState([])
 
