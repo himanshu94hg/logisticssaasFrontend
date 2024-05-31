@@ -113,17 +113,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     );
 
     const handleShipNow = (orderId) => {
-        setSelectedOrderId(orderId);
-        if (paymentCard?.balance > 200) {
             debouncedHandleClick(orderId);
-        } else {
-            Swal.fire({
-                icon: "error",
-                html: `
-                <b>Please recharge the wallet!</b>
-              `,
-            });
-        }
     }
 
     const handleSelectRow = (orderId, awb) => {
@@ -170,17 +160,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             }
         })
     }
-
-    const markAsVerified = () => {
-
-    }
-
-
-
-
-
-
-    console.log(paymentCard, "paymentSetCardpaymentSetCardpaymentSetCard")
 
     return (
         <section className='position-relative'>

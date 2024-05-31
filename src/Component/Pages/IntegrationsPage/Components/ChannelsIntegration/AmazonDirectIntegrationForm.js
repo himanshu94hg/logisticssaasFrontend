@@ -45,7 +45,7 @@ const AmazonDirectIntegrationForm = () => {
                             <div className='d-flex w-100 gap-5 mt-4'>
                                 <label>
                                     Store Name
-                                    <input className="input-field" type="text" />
+                                    <input className="input-field" type="text" placeholder='Enter Store Name' />
                                 </label>
                             </div>
                             <div className='mt-3 d-flex justify-content-end'>
