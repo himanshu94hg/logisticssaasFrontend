@@ -178,7 +178,7 @@ function* bulkGeneratePickupAction(action) {
     try {
         let response = yield call(bulkGeneratePickupApi, payload);
         if (response.status === 200) {
-            toast.success(` Pikcup generate successfully!`)
+            toast.success(` Pickup generate successfully!`)
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
         }
 
