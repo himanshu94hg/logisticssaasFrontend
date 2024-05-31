@@ -329,8 +329,8 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 isMulti
                                 isSearchable
                                 options={orderTag}
-                                onChange={(e) => handleChange(e, 'order_tag')}
-                                value={tagData}
+                                onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
+                                value={orderTag.filter(tag => formData.order_details.order_tag?.includes(tag.value))}
                                 styles={{
                                     control: styles => ({ ...styles, width: "325px" })
                                 }}
