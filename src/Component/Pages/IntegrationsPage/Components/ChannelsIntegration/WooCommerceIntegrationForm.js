@@ -33,9 +33,9 @@ const WooCommerceIntegrationForm = () => {
             in_transit: "",
             out_for_delivery: "",
             delivered: "",
-            auto_fulfill: false,
-            auto_cancel: false,
-            auto_cod_paid: false,
+            auto_fulfill: true,
+            auto_cancel: true,
+            auto_cod_paid: true,
             send_abandon_sms: false
         }
     });
@@ -198,7 +198,6 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.store_url"
                                     placeholder='Enter Store URL'
                                     value={formData.channel_configuration.store_url}
-                                    maxLength={100}
                                     onChange={handleChange}/>
                                     <span className='font13 text-sh-primary'>Store URL should be like https://yourstore.com</span>
                                 </label>
@@ -212,7 +211,6 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.woo_consumer_key"
                                     placeholder='Enter Consumer Key'
                                     value={formData.channel_configuration.woo_consumer_key}
-                                    maxLength={100}
                                     onChange={handleChange}/>
                                     {errors.woo_consumer_key && <span className='error-text'>{errors.woo_consumer_key}</span>}
                                 </label>
@@ -224,7 +222,6 @@ const WooCommerceIntegrationForm = () => {
                                     name="channel_configuration.woo_consumer_secret"
                                     placeholder='Enter Consumer Secret'
                                     value={formData.channel_configuration.woo_consumer_secret}
-                                    maxLength={100}
                                     onChange={handleChange}/>
                                     {errors.woo_consumer_secret && <span className='error-text'>{errors.woo_consumer_secret}</span>}
                                 </label>
