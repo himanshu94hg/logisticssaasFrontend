@@ -45,7 +45,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
 
-
     useEffect(() => {
         if (orderdelete) {
             setSelectAll(false)
@@ -114,6 +113,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
 
     const handleShipNow = (orderId) => {
             debouncedHandleClick(orderId);
+            setSelectedOrderId(orderId)
     }
 
     const handleSelectRow = (orderId, awb) => {

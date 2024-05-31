@@ -63,7 +63,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
               `,
             });
         }
-
     };
 
     return (
