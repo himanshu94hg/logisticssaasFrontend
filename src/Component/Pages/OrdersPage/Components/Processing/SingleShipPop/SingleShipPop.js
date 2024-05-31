@@ -52,8 +52,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
         []
     );
 
-    const handleSubmit = (courier, orderId) => {
-        if (paymentCard?.balance > 200) {
+    const handleSubmit = (courier, orderId, shipCharge) => {
+        if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
             debouncedHandleClick(courier, orderId);
         } else {
             Swal.fire({
@@ -125,7 +125,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
-                            <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword, orderId)}>Ship Now</button>
+                            <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword, orderId, option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
                             <p><span>EDD: <strong>N/A</strong></span></p>
                         </div>
                         {option?.is_recommended &&

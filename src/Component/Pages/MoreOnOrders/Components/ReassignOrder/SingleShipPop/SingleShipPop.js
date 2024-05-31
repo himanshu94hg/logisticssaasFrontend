@@ -2,19 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop';
-import {  toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; 
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Swal from 'sweetalert2';
 
-const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
+const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => {
     const navigation = useNavigate();
     const dispatch = useDispatch()
     const [currentDate, setCurrentDate] = useState(new Date());
     const [shipingData, setShipingData] = useState(false);
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
 
     const addDays = (date, days) => {
         const result = new Date(date);
@@ -28,21 +30,31 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     };
     const dateAfter2Days = addDays(currentDate, 2);
 
-    const handleSubmit = (option) => {
-        dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: {"courier":option,"order_id":orderId} });
-        setShipingData(true);
+    const handleSubmit = (option,shipCharge) => {
+        if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
+            dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
+            setShipingData(true);
+        } else {
+            Swal.fire({
+                icon: "error",
+                html: `
+                <b>Please recharge the wallet!</b>
+              `,
+            });
+        }
+
+
     };
 
     useEffect(() => {
-        if(shipingData === true)
-        {
+        if (shipingData === true) {
             if (moreorderCard?.status) {
                 setSingleShip(false);
             }
             setShipingData(false);
         }
     }, [moreorderCard]);
-    
+
     const handleClose = () => {
         setSingleShip(false);
     };
@@ -98,14 +110,14 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ {(option.rate + option.cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
+                            <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
-                            <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword)}>Ship Now</button>
+                            <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword,option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
                             <p><span>EDD: <strong>{formatDate(dateAfter2Days)}</strong></span></p>
                         </div>
                         {option?.is_recommended &&
