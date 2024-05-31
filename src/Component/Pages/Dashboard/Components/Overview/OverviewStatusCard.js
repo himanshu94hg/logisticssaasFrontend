@@ -37,7 +37,7 @@ const OverviewStatusCard = () => {
                         </div>
                         <div className='status-counter'>
                             <p>Today's Remittance</p>
-                            <p>{formatNumber(codDetails?.total_cod || 0)}</p>
+                            <p>{formatNumber(codDetails?.todays_remittance || 0)}</p>
                         </div>
                         <div className='status-counter'>
                             <p>Upcoming Remittance</p>
