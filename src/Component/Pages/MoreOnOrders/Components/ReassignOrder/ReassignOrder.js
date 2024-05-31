@@ -118,18 +118,10 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
     }
 
     const handleShipNow = (orderId) => {
-        if (paymentCard?.balance > 200) {
-            setSelectedOrderId(orderId);
+            setSelectedOrderId(orderId)
             dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
             setSingleShip(true);
-        } else {
-            Swal.fire({
-                icon: "error",
-                html: `
-                <b>Please recharge the wallet!</b>
-              `,
-            });
-        }
+      
 
     };
 
