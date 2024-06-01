@@ -36,7 +36,7 @@ import globalDebounce from '../../../../../debounce';
 import { debounce } from 'lodash';
 
 
-const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,setAwbNo }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -233,6 +233,7 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
         // const url = `https://shipease.in/order-tracking/`;
         // window.open(url, '_blank');
         setOrderTracking(true)
+        setAwbNo(awb)
     };
 
 

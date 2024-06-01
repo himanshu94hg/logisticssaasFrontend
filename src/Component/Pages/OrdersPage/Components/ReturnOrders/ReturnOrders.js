@@ -29,7 +29,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
-const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,setOrderTracking,setAwbNo }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -92,10 +92,12 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
         setOrderId(id)
     }
 
-    const handleClickAWB = (event, orders) => {
+    const handleClickAWB = (event, awb) => {
         event.preventDefault();
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+        setOrderTracking(true)
+        setAwbNo(awb)
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
     };
 
     const handleClickpartner = (event, row) => {

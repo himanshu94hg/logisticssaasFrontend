@@ -35,7 +35,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { debounce } from 'lodash';
 
 
-const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -189,10 +189,12 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
         }
     };
 
-    const handleClickAWB = (event, orders) => {
+    const handleClickAWB = (event, awb) => {
         event.preventDefault();
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+         setAwbNo(awb)
+         setOrderTracking(true)
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
     };
 
     const handleClickpartner = (event, row) => {

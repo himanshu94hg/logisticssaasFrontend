@@ -68,6 +68,7 @@ const OrdersPage = () => {
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
     const [orderTracking, setOrderTracking] = useState(false)
+    const [awbNo, setAwbNo] = useState(null)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
@@ -431,6 +432,7 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
                     <ReadyToShip
                         bulkAwb={bulkAwb}
+                        setAwbNo={setAwbNo}
                         setbulkAwb={setbulkAwb}
                         orders={orders}
                         activeTab={activeTab}
@@ -448,6 +450,7 @@ const OrdersPage = () => {
                     <Pickups
                         orders={orders}
                         bulkAwb={bulkAwb}
+                        setAwbNo={setAwbNo}
                         setbulkAwb={setbulkAwb}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
@@ -455,6 +458,7 @@ const OrdersPage = () => {
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -475,11 +479,13 @@ const OrdersPage = () => {
                     <ReturnOrders
                         orders={orders}
                         activeTab={activeTab}
+                        setAwbNo={setAwbNo}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                         setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
                 <Pagination
@@ -552,7 +558,7 @@ const OrdersPage = () => {
             </section>
 
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking}orderTracking={orderTracking} />
+                <AWBTrackingPage setOrderTracking={setOrderTracking}orderTracking={orderTracking} awbNo={awbNo}/>
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>

@@ -8,7 +8,7 @@ import Cookies from 'js-cookie';
 import { customErrorFunction } from '../../../customFunction/errorHandling'
 import axios from 'axios'
 
-const AWBTrackingPage = ({ orderTracking, setOrderTracking }) => {
+const AWBTrackingPage = ({ orderTracking, setOrderTracking,awbNo }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
 
@@ -23,7 +23,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://uat.shipease.in/core-api/shipping/track-order/23189711399963`, {
+                const response = await axios.get(`https://uat.shipease.in/core-api/shipping/track-order/${awbNo}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
@@ -40,14 +40,14 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking }) => {
         }
 
     }, [orderTracking]);
-    console.log(orderStatus, "orderStatus")
+
     return (
         <>
             <div id='sidepanel-closer' onClick={CloseSidePanel}>
                 <FontAwesomeIcon icon={faChevronRight} />
             </div>
             <section className='tracking-header'>
-                <h4><span>AWB No.</span> TPC10000198</h4>
+                <h4><span>AWB No:</span> {orderStatus?.awb_number}</h4>
             </section>
             <section className='tracking-body'>
                 <ul>
@@ -55,7 +55,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking }) => {
                         return (
                             <li className={`${item?.status === "Delivered" ? "active" : ""}`}>
                                 <div className='track-icon'>
-                                    <TrackingIcon />
+                                    {item?.status==="Delivered"?  <TrackingDone />: <TrackingIcon />}
                                 </div>
                                 <div>
                                     <h4>{item?.status_description}</h4>
