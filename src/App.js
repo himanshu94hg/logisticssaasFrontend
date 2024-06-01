@@ -11,6 +11,7 @@ import DailyPrefrences from './Component/common/Graph/DailyPrefrence';
 import IndiaMapp from './Component/common/Graph/IndiaMapp';
 import OrdersPage from './Component/Pages/OrdersPage/OrdersPage';
 import MoreOnOrders from './Component/Pages/MoreOnOrders/MoreOnOrders';
+import AllOrders from './Component/Pages/OrdersPage/Components/AllOrders/AllOrders';
 import ShipmentsPage from './Component/Pages/ShipmentsPage/ShipmentsPage';
 import ChannelsIntegration from './Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ChannelsIntegration';
 import CouriersIntegration from './Component/Pages/IntegrationsPage/Components/CouriersIntegration';
@@ -46,15 +47,15 @@ import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/Serviceab
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-import { TrackingPagePattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern } from "./Routes";
+import { LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
 import ReferAndEarnPage from "./Component/Pages/EarnAndGrowPages/ReferAndEarnPage/ReferAndEarnPage";
 import BusinessPlanPage from "./Component/Pages/EarnAndGrowPages/BusinessPlanPage/BusinessPlanPage";
+import axios from "axios";
 import BypassPage from "./Component/Pages/bypass";
 import LabelCustomization from "./Component/Pages/SettingsPage/components/LabelCustomization/LabelCustomization";
-import AWBTrackingPage from "./Component/Pages/AWBTrackingPage/AWBTrackingPage";
 
 
 function App() {
@@ -147,7 +148,6 @@ function App() {
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
             <Route path={signUpPattern} element={<SignUpPage />} />
-            <Route path={TrackingPagePattern} element={<AWBTrackingPage />} />
             <Route path={orderdetailPattern} element={<OrderDetail />} />
             <Route path={bypassPattern} element={<BypassPage />} />
           </Routes>

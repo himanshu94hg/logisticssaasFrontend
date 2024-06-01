@@ -28,6 +28,7 @@ import CloneOrder from './Components/CloneOrder/CloneOrder';
 import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -66,13 +67,15 @@ const OrdersPage = () => {
     const [queryName, setQueryName] = useState([])
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [awbNo, setAwbNo] = useState(null)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
-    },[orderCancelled])
+    }, [orderCancelled])
 
     useEffect(() => {
         if (activeTab) {
@@ -429,6 +432,7 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
                     <ReadyToShip
                         bulkAwb={bulkAwb}
+                        setAwbNo={setAwbNo}
                         setbulkAwb={setbulkAwb}
                         orders={orders}
                         activeTab={activeTab}
@@ -437,6 +441,7 @@ const OrdersPage = () => {
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -445,6 +450,7 @@ const OrdersPage = () => {
                     <Pickups
                         orders={orders}
                         bulkAwb={bulkAwb}
+                        setAwbNo={setAwbNo}
                         setbulkAwb={setbulkAwb}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
@@ -452,6 +458,7 @@ const OrdersPage = () => {
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -472,11 +479,13 @@ const OrdersPage = () => {
                     <ReturnOrders
                         orders={orders}
                         activeTab={activeTab}
+                        setAwbNo={setAwbNo}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                         setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
                 <Pagination
@@ -547,6 +556,11 @@ const OrdersPage = () => {
                     <div onClick={() => setUpdateWeight(false)} className="backdrop"></div>
                 }
             </section>
+
+            <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking}orderTracking={orderTracking} awbNo={awbNo}/>
+            </section>
+            <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>
     )
 }
