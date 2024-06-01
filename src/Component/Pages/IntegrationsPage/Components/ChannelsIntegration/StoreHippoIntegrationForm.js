@@ -35,9 +35,9 @@ const StoreHippoIntegrationForm = () => {
             in_transit: "",
             out_for_delivery: "",
             delivered: "",
-            auto_fulfill: false,
-            auto_cancel: false,
-            auto_cod_paid: false,
+            auto_fulfill: true,
+            auto_cancel: true,
+            auto_cod_paid: true,
             send_abandon_sms: false
         }
     });
@@ -167,7 +167,6 @@ const StoreHippoIntegrationForm = () => {
                                     name="channel_configuration.store_url"
                                     placeholder='Enter Store Name or URL'
                                     value={formData.channel_configuration.store_url}
-                                    maxLength={100}
                                     onChange={handleChange}/>
                                     <span className='font13 text-sh-primary'>Store URL should be like http://yourstore.com</span>
                                 </label>
@@ -181,7 +180,6 @@ const StoreHippoIntegrationForm = () => {
                                     name="channel_configuration.store_hippo_access_key"
                                     placeholder='Enter Access Key'
                                     value={formData.channel_configuration.store_hippo_access_key}
-                                    maxLength={100}
                                     onChange={handleChange}/>
                                     {errors.store_hippo_access_key && <span className='error-text'>{errors.store_hippo_access_key}</span>}
                                 </label>

@@ -393,6 +393,12 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="support_phone"
+                                    onKeyPress={(e) => {
+                                        if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                    maxLength={10}
                                     placeholder='Enter Support Contact'
                                 />
                             </label>

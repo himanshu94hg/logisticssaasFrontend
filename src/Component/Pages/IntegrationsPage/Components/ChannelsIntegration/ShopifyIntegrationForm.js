@@ -28,9 +28,9 @@ const ShopifyIntegrationForm = () => {
             password: "",
             store_url: "",
             shared_secret: "",
-            auto_fulfill: false,
-            auto_cancel: false,
-            auto_cod_paid: false,
+            auto_fulfill: true,   
+            auto_cancel: true,    
+            auto_cod_paid: true,  
             send_abandon_sms: false,
             last_executed: ''
         }
@@ -182,7 +182,6 @@ const ShopifyIntegrationForm = () => {
                                         type="text"
                                         name="channel_configuration.password"
                                         placeholder='Enter Admin API access token'
-                                        maxLength={100}
                                         value={formData.channel_configuration.password}
                                         onChange={handleChange}
                                     />
@@ -197,7 +196,6 @@ const ShopifyIntegrationForm = () => {
                                         type="text"
                                         name="channel_configuration.api_key"
                                         placeholder='Enter API Key'
-                                        maxLength={100}
                                         value={formData.channel_configuration.api_key}
                                         onChange={handleChange}
                                     />
@@ -210,7 +208,6 @@ const ShopifyIntegrationForm = () => {
                                         type="text"
                                         name="channel_configuration.shared_secret"
                                         placeholder='Enter API Secret Key'
-                                        maxLength={100}
                                         value={formData.channel_configuration.shared_secret}
                                         onChange={handleChange}
                                     />
@@ -225,7 +222,6 @@ const ShopifyIntegrationForm = () => {
                                         type="text"
                                         name="channel_configuration.store_url"
                                         placeholder='Enter Store URL'
-                                        maxLength={100}
                                         value={formData.channel_configuration.store_url}
                                         onChange={handleChange}
                                     />
