@@ -224,6 +224,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
         dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShip(true);
 
     };
 
