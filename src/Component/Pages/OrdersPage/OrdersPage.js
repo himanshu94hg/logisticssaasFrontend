@@ -552,7 +552,7 @@ const OrdersPage = () => {
             </section>
 
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} />
+                <AWBTrackingPage setOrderTracking={setOrderTracking}orderTracking={orderTracking} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>

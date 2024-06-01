@@ -1,16 +1,46 @@
 import { faChevronRight, faCircleCheck, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './AWBTrackingPage.css'
 import TrackingIcon from './TrackingIcon'
 import TrackingDone from './TrackingDone'
+import Cookies from 'js-cookie';
+import { customErrorFunction } from '../../../customFunction/errorHandling'
+import axios from 'axios'
 
-const AWBTrackingPage = ({ setOrderTracking }) => {
+const AWBTrackingPage = ({ orderTracking, setOrderTracking }) => {
+    let authToken = Cookies.get("access_token")
+    const [orderStatus, setOrderStatus] = useState([])
 
     const CloseSidePanel = () => {
         setOrderTracking(false)
     }
 
+    useEffect(() => {
+
+    }, [])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`https://uat.shipease.in/core-api/shipping/track-order/23189711399963`, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                });
+
+                setOrderStatus(response.data);
+            } catch (error) {
+                customErrorFunction(error)
+            }
+        };
+
+        if (orderTracking && authToken) {
+            fetchData();
+        }
+
+    }, [orderTracking]);
+    console.log(orderStatus, "orderStatus")
     return (
         <>
             <div id='sidepanel-closer' onClick={CloseSidePanel}>
@@ -21,76 +51,20 @@ const AWBTrackingPage = ({ setOrderTracking }) => {
             </section>
             <section className='tracking-body'>
                 <ul>
-                    <li className='active'>
-                        <div className='track-icon'>
-                            <TrackingIcon />
-                        </div>
-                        <div>
-                            <h4>Order Delivered</h4>
-                            <p>Status: Pending</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='track-icon'>
-                            <TrackingDone />
-                        </div>
-                        <div>
-                            <h4>Order Received at Delivery Center</h4>
-                            <p>Status: Done</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='track-icon'>
-                            <TrackingDone />
-                        </div>
-                        <div>
-                            <h4>Order In Transit</h4>
-                            <p>Status: Done</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='track-icon'>
-                            <TrackingDone />
-                        </div>
-                        <div>
-                            <h4>Order Picked up</h4>
-                            <p>Status: Done</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='track-icon'>
-                            <TrackingDone />
-                        </div>
-                        <div>
-                            <h4>Pickup Requested</h4>
-                            <p>Status: Done</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='track-icon'>
-                            <TrackingDone />
-                        </div>
-                        <div>
-                            <h4>Order Booked</h4>
-                            <p>Status: Done</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
-                    <li>
-                        <div className='track-icon'>
-                            <TrackingDone />
-                        </div>
-                        <div>
-                            <h4>Order Created</h4>
-                            <p>Status: Done</p>
-                            <p>1 June 2024 || 12:00 PM</p>
-                        </div>
-                    </li>
+                    {orderStatus?.order_tracking?.map((item) => {
+                        return (
+                            <li className={`${item?.status === "Delivered" ? "active" : ""}`}>
+                                <div className='track-icon'>
+                                    <TrackingIcon />
+                                </div>
+                                <div>
+                                    <h4>{item?.status_description}</h4>
+                                    <p>Status: {item?.status}</p>
+                                    <p>{item?.location}</p>
+                                </div>
+                            </li>
+                        )
+                    })}
                 </ul>
             </section>
         </>
