@@ -577,6 +577,21 @@ ul.order-label-list li {
   width: 35px;
 }
 
+.awb-tracking-slider {
+  position: fixed;
+  width: 40em;
+  height: 100vh;
+  top: 0;
+  right: -50em;
+  background: #fff;
+  transition: 1s;
+}
+
+.awb-tracking-slider.open {
+  right: 0;
+  z-index: 6;
+}
+
 @media screen and (max-width:1366px) {
   .cell-inside-box p {
     font-size: 12px;

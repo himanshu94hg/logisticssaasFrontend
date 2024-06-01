@@ -36,7 +36,7 @@ import globalDebounce from '../../../../../debounce';
 import { debounce } from 'lodash';
 
 
-const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -157,7 +157,7 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
     };
 
 
-    const handleClick =  async (orderId) => {
+    const handleClick = async (orderId) => {
         let authToken = Cookies.get("access_token")
         try {
             const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-pickup/`, {
@@ -180,12 +180,12 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
         }
     };
 
-    
+
 
     const debouncedHandleClick = useCallback(
         debounce((param) => handleClick(param), 1000),
         []
-      );
+    );
 
     const handleGeneratePickup = (orderId) => {
         debouncedHandleClick(orderId);
@@ -230,8 +230,9 @@ const ReadyToShip = ({ orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, s
 
     const handleClickAWB = (e, awb) => {
         e.preventDefault();
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
+        setOrderTracking(true)
     };
 
 

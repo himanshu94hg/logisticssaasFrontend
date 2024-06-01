@@ -28,6 +28,7 @@ import CloneOrder from './Components/CloneOrder/CloneOrder';
 import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -66,13 +67,14 @@ const OrdersPage = () => {
     const [queryName, setQueryName] = useState([])
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
+    const [orderTracking, setOrderTracking] = useState(false)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
-    useEffect(()=>{
+    useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
-    },[orderCancelled])
+    }, [orderCancelled])
 
     useEffect(() => {
         if (activeTab) {
@@ -437,6 +439,7 @@ const OrdersPage = () => {
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -547,6 +550,11 @@ const OrdersPage = () => {
                     <div onClick={() => setUpdateWeight(false)} className="backdrop"></div>
                 }
             </section>
+
+            <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} />
+            </section>
+            <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>
     )
 }
