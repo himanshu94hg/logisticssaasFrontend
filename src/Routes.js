@@ -214,3 +214,8 @@ export const LabelCustomizationPattern = "/label-customize";
 export const LabelCustomizationRoutes = () => {
     return generatePath(LabelCustomizationPattern);
 };
+
+export const TrackingPagePattern = "/track-your-order";
+export const TrackingPageRoutes = () => {
+    return generatePath(TrackingPagePattern);
+};
