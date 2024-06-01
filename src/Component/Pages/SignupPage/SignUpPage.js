@@ -251,7 +251,7 @@ const SignUpPage = () => {
                                         </label>
                                     </div>
                                     <button type="submit" className="btn main-button">Sign Up</button>
-                                    <p className='signup-text text-center m-0'>Already a member? <button className='btn p-0' href="#" onClick={() => navigate(loginPattern)}>Login</button></p>
+                                    <p className='signup-text text-center m-0'>Already a member? <button type='button' className='btn p-0' href="#" onClick={() => navigate(loginPattern)}>Login</button></p>
                                 </form>
                             }
                             {
@@ -280,7 +280,7 @@ const SignUpPage = () => {
                                             <i>Enter your Phone or Email</i>
                                         </label>
                                     }
-                                    <button className='btn main-button'>
+                                    <button type='button' onClick={() => navigate('/track-your-order')} className='btn main-button'>
                                         Track Now
                                     </button>
                                 </form>
