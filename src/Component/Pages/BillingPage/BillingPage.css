@@ -82,3 +82,21 @@
 .remitance-logs-filter .sidepanel-body {
     height: calc(100vh - 172px);
 }
+
+.remitance-logs-filter .section-divider {
+    position: relative;
+}
+
+.remitance-logs-filter .section-divider span {
+    position: absolute;
+    background: #fff;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid;
+    top: 0;
+    left: 47%;
+}

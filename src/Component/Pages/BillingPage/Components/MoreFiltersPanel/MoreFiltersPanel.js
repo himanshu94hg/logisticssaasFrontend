@@ -390,15 +390,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     </label>
                                 </div>
                                 <div className='filter-row'>
-                                    <label >Order Status
-                                        <Select
-                                            options={OrderStatus}
-                                            styles={customStyles}
-                                            isMulti
-                                            isSearchable
-                                            onChange={(e) => handleChange("status", e)}
-                                            value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
-                                        />
+                                    <label >UTR Number
+                                        <input className='input-field' type="text" />
                                     </label>
                                 </div>
                             </div>
@@ -415,7 +408,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
 
                     {
                         SidePanelOption === 'Export' &&
-                        <form>
+                        <>
+
                             <div className="form-input-fields">
                                 <div className='filter-row'>
                                     <label>
@@ -426,8 +420,25 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                 <div className='d-flex justify-content-end'>
                                     <button className='btn main-button'>Export</button>
                                 </div>
+                                <div className='section-divider invisible'>
+                                    <hr />
+                                    <span>OR</span>
+                                </div>
+                                <div className='filter-row'>
+                                    <label>
+                                        Courier Partner(s)
+                                        <Select
+                                            isMulti
+                                            isSearchable
+                                            placeholder="Select Courier Partner(s)"
+                                        />
+                                    </label>
+                                </div>
+                                <div className='d-flex justify-content-end'>
+                                    <button className='btn main-button'>Export</button>
+                                </div>
                             </div>
-                        </form>
+                        </>
                     }
                 </section>
             </div>
