@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import NoData from '../../../../../common/noData'
 
-const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll }) => {
+const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll,setAwbNo,setOrderTracking }) => {
     const [ordersData, setOrdersData] = useState([]);
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
 
@@ -67,6 +67,10 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
         }
     };
 
+    const handleClickAWB = (orders) => {
+        setOrderTracking(true)
+        setAwbNo(orders)
+    };
     return (
         <>
 
@@ -194,7 +198,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_image && <img src={row.courier_image} title='partner' />}
                                         <div>
-                                            <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                            <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row?.awb_number )}>{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner ?? ""}</p>
                                         </div>
                                     </div>

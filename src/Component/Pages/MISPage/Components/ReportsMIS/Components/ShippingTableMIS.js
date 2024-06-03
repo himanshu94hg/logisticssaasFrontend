@@ -4,7 +4,7 @@ import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
 
-const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll }) => {
+const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll ,setAwbNo,setOrderTracking}) => {
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
@@ -22,7 +22,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
-            setSelectedRows(shipmentData.map(row => row?.id));
+            setSelectedRows(shipmentData?.map(row => row?.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -51,6 +51,10 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
             setSelectAll(false);
         }
     };
+    const handleClickAWB = (orders) => {
+        setOrderTracking(true)
+        setAwbNo(orders)
+    };
 
     return (
         <>
@@ -74,44 +78,44 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     <tr className="blank-row"><td></td></tr>
                 </thead>
                 <tbody>
-                    {shipmentData?.length > 0 && shipmentData.map((row, index) => (
+                    {shipmentData?.length  && shipmentData?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
                                 <td className='checkbox-cell'>
                                     <input
                                         type="checkbox"
-                                        checked={selectedRows.includes(row.id)}
-                                        onChange={() => handleSelectRow(row.id)}
+                                        checked={selectedRows.includes(row?.id)}
+                                        onChange={() => handleSelectRow(row?.id)}
                                     />
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
-                                        <span className='ms-2'>{`${moment(row?.ndr_details.raised_date).format('DD MMM YYYY')}`}</span>
+                                        <span className='ms-2'>{`${moment(row?.ndr_details?.raised_date).format('DD MMM YYYY')}`}</span>
                                     </div>
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
-                                        <p><strong>Attempts: </strong>{row?.ndr_details.length}</p>
-                                        {row?.ndr_details.length > 0 && (
-                                            row.ndr_details.map((detail, index) => (
-                                                <p key={index}>NDR Reason: {detail.reason}</p>
+                                        {/* <p><strong>Attempts: </strong>{row?.ndr_details?.length}</p> */}
+                                        {/* {row?.ndr_details.length > 0 && (
+                                            row?.ndr_details?.map((detail, index) => (
+                                                <p key={index}>NDR Reason: {detail?.reason}</p>
                                             ))
-                                        )}
+                                        )} */}
                                     </div>
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
-                                        <p className='width-eclipse'>{row.order_products.product_name}</p>
+                                        <p className='width-eclipse'>{row?.order_products?.product_name}</p>
                                         <p>Wt:  {row?.dimension_detail?.weight} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
                                                 <span style={{ width: '250px' }}>
-                                                    {row?.order_products.map((product, index) => (
+                                                    {row?.order_products?.map((product, index) => (
                                                         <React.Fragment key={index}>
-                                                            <strong>Product:</strong> {product.product_name}<br />
-                                                            <strong>SKU:</strong> {product.sku}<br />
-                                                            <strong>Qt.:</strong> {product.quantity}<br />
+                                                            <strong>Product:</strong> {product?.product_name}<br />
+                                                            <strong>SKU:</strong> {product?.sku}<br />
+                                                            <strong>Qt.:</strong> {product?.quantity}<br />
                                                         </React.Fragment>
                                                     ))}
                                                 </span>
@@ -138,7 +142,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_image && <img src={row?.courier_image} title='partner' />}
                                         <div>
-                                            <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""} </p>
+                                            <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row?.awb_number )} >{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
                                         </div>
                                     </div>
@@ -151,7 +155,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     ))}
                 </tbody>
             </table>
-            {shipmentData?.length < 1 && <NoData label={"No Records Found!"} />}
+            {shipmentData?.length ===0 && <NoData label={"No Records Found!"} />}
 
         </>
     )

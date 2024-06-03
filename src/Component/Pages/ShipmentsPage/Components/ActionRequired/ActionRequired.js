@@ -49,7 +49,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequired = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const ActionRequired = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo,setOrderTracking }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -152,11 +152,13 @@ const ActionRequired = ({ shipmentCard, selectedRows, setSelectedRows, setBulkAc
 
     const handleClose = () => setShow(false);
 
-    const handleClickAWB = (event, orders) => {
-        event.preventDefault();
-        console.log(orders, "this is orders");
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+    const handleClickAWB = (orders) => {
+        // event.preventDefault();
+        // console.log(orders, "this is orders");
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
+        setOrderTracking(true)
+        setAwbNo(orders)
     };
 
     const handleClickpartner = (event, row) => {
@@ -325,7 +327,7 @@ const ActionRequired = ({ shipmentCard, selectedRows, setSelectedRows, setBulkAc
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_image && <img src={row.courier_image} title='partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                         {row.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
