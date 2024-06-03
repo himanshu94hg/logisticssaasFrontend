@@ -3,12 +3,13 @@ import moment from 'moment'
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
+import NoData from '../../../../../../../common/noData';
 
 const InvoiceMIS = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const {reportsBillingData}=useSelector(state=>state?.misSectionReducer)
-    
+    const { reportsBillingData } = useSelector(state => state?.misSectionReducer)
+
     const [orders, setAllOrders] = useState([
         {
             "id": 506,
@@ -88,81 +89,84 @@ const InvoiceMIS = () => {
     };
 
     return (
-        <table className=" w-100">
-            <thead className="sticky-header">
-                <tr className="table-row box-shadow">
-                   {/*} <th style={{ width: '1%' }}>
+        <>
+            <table className=" w-100">
+                <thead className="sticky-header">
+                    <tr className="table-row box-shadow">
+                        {/*} <th style={{ width: '1%' }}>
                         <input
                             type="checkbox"
                             checked={selectAll}
                             onChange={handleSelectAll}
                         />
-    </th>*/}
-                    <th>Invoice Id</th>
-                    <th>Invoice Date</th>
-                    <th>Due Date</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                </tr>
-                <tr className="blank-row"><td></td></tr>
-            </thead>
-            <tbody>
-                {reportsBillingData.length&& reportsBillingData?.map((row, index) => (
-                    <React.Fragment key={row.id}>
-                        {index > 0 && <tr className="blank-row"><td></td></tr>}
-                        <tr className='table-row box-shadow'>
-                            {/*<td className='checkbox-cell'>
+                         </th>*/}
+                        <th>Invoice Id</th>
+                        <th>Invoice Date</th>
+                        <th>Due Date</th>
+                        <th>Total</th>
+                        <th>Status</th>
+                    </tr>
+                    <tr className="blank-row"><td></td></tr>
+                </thead>
+                <tbody>
+                    {reportsBillingData?.length > 0 && reportsBillingData?.map((row, index) => (
+                        <React.Fragment key={row.id}>
+                            {index > 0 && <tr className="blank-row"><td></td></tr>}
+                            <tr className='table-row box-shadow'>
+                                {/*<td className='checkbox-cell'>
                                 <input
                                     type="checkbox"
                                     checked={selectedRows.includes(row.id)}
                                     onChange={() => handleSelectRow(row.id)}
                                 />
-                </td>*/}
-                            <td>
-                                {/* AWB detail */}
-                                <div className='cell-inside-box'>
-                                    <p className='text-capitalize'>
-                                        {row?.invoice_id}
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                {/* Courier detail */}
-                                <div className='cell-inside-box'>
-                                    <p className='text-capitalize'>
-                                        {`${moment(row?.invoice_date).format('DD MMM YYYY')}`}
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                {/* AWB Assigned Date */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        {`${moment(row?.due_date).format('DD MMM YYYY')}`}
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                {/* Shipment Status */}
-                                <div className='cell-inside-box'>
-                                    <p className='text-capitalize'>
-                                        {row?.total}
-                                    </p>
-                                </div>
-                            </td>
-                            <td>
-                                {/* Applied Weight Charges */}
-                                <div className='cell-inside-box'>
-                                    <p className=''>
-                                        {row?.status}
-                                    </p>
-                                </div>
-                            </td>
-                        </tr>
-                    </React.Fragment>
-                ))}
-            </tbody>
-        </table>
+                                </td>*/}
+                                <td>
+                                    {/* AWB detail */}
+                                    <div className='cell-inside-box'>
+                                        <p className='text-capitalize'>
+                                            {row?.invoice_id}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>
+                                    {/* Courier detail */}
+                                    <div className='cell-inside-box'>
+                                        <p className='text-capitalize'>
+                                            {`${moment(row?.invoice_date).format('DD MMM YYYY')}`}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>
+                                    {/* AWB Assigned Date */}
+                                    <div className='cell-inside-box'>
+                                        <p className=''>
+                                            {`${moment(row?.due_date).format('DD MMM YYYY')}`}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>
+                                    {/* Shipment Status */}
+                                    <div className='cell-inside-box'>
+                                        <p className='text-capitalize'>
+                                            {row?.total}
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>
+                                    {/* Applied Weight Charges */}
+                                    <div className='cell-inside-box'>
+                                        <p className=''>
+                                            {row?.status}
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </React.Fragment>
+                    ))}
+                </tbody>
+            </table>
+            {reportsBillingData?.length < 1 && <NoData label={"No Records Found!"} />}
+        </>
     )
 }
 

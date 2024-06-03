@@ -4,7 +4,7 @@ import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
 
-const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll }) => {
+const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll ,setAwbNo,setOrderTracking}) => {
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
@@ -50,6 +50,10 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
         } else {
             setSelectAll(false);
         }
+    };
+    const handleClickAWB = (orders) => {
+        setOrderTracking(true)
+        setAwbNo(orders)
     };
 
     return (
@@ -138,7 +142,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_image && <img src={row?.courier_image} title='partner' />}
                                         <div>
-                                            <p className='details-on-hover anchor-awb' >{row?.awb_number ?? ""} </p>
+                                            <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row?.awb_number )} >{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
                                         </div>
                                     </div>
