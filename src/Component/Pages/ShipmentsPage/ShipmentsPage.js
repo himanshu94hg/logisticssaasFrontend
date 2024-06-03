@@ -20,6 +20,7 @@ import moment from 'moment';
 import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -56,6 +57,9 @@ const ShipmentsPage = () => {
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [queryParamSearch, setQueryParamSearch] = useState(null)
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [awbNo, setAwbNo] = useState(null)
+
     const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
     const apiEndpoint = `${BASE_URL_ORDER}`;
 
@@ -316,6 +320,8 @@ const ShipmentsPage = () => {
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -324,6 +330,8 @@ const ShipmentsPage = () => {
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -332,6 +340,8 @@ const ShipmentsPage = () => {
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 
@@ -340,6 +350,9 @@ const ShipmentsPage = () => {
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
+
                     />
                 </div>
                 <Pagination
@@ -365,7 +378,10 @@ const ShipmentsPage = () => {
                 setHandleResetFrom={setHandleResetFrom}
             />
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
-
+            <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking}orderTracking={orderTracking} awbNo={awbNo}/>
+            </section>
+            <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>
     )
 }

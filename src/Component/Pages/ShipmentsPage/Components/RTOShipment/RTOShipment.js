@@ -49,7 +49,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RTOShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const RTOShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -136,10 +136,12 @@ const RTOShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActio
     const handleClose = () => setShow(false);
 
     const handleClickAWB = (event, orders) => {
-        event.preventDefault();
-        console.log(orders, "this is orders");
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+        // event.preventDefault();
+        // console.log(orders, "this is orders");
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
+        setOrderTracking(true)
+        setAwbNo(orders)
     };
 
     const handleClickpartner = (event, row) => {
@@ -308,7 +310,7 @@ const RTOShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActio
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.courier_image && <img src={row.courier_image} title='partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                         {row.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
