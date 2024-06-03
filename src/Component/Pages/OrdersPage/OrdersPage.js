@@ -103,13 +103,15 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
+    console.log(orderCancelled,"orderCancelledorderCancelledorderCancelledorderCancelled")
+
     useEffect(() => {
         if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
             setSelectedRows([])
             setbulkAwb([])
             setBulkActionShow(false)
         }
-    }, [orderdelete])
+    }, [orderdelete,orderCancelled])
 
     useEffect(() => {
         if (BulkActionShow) {
@@ -393,6 +395,7 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setCloneOrderSection={setCloneOrderSection}
                         setOrderId={setOrderId}
+                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
                     />
                 </div>

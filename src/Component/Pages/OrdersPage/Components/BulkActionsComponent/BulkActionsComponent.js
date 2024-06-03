@@ -12,6 +12,9 @@ import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
 import LabelIcon from './Components/BulkIcons/LabelIcon';
 import InvoiceIcon from './Components/BulkIcons/InvoiceIcon';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+
 
 const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
@@ -21,6 +24,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
+    const [actionType, setActionType] = useState("")
+
+
 
     useEffect(() => {
         if (labelData) {
@@ -86,29 +92,56 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         setUpdateWarehouse(true)
 
     }
-    const bulkDeleted = () => {
-        dispatch({
-            type: "BULK_DELETE_ORDER_ACTION", payload: {
-                order_ids: selectedRows,
-            }
-        })
+    const bulkDeleted = (args) => {
+        setShow(true)
+        setActionType(args)
     }
-    const bulkCancelled = () => {
-        if (activeTab === "Processing" || activeTab === "Pickups") {
+    const bulkCancelled = (args) => {
+        setActionType(args)
+        // if (activeTab === "Processing" || activeTab === "Pickups") {
+        //     dispatch({
+        //         type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+        //             order_ids: selectedRows,
+        //         }
+        //     })
+        // } else {
+        //     dispatch({
+        //         type: "BULK_CANCEL_ORDER_ACTION", payload: {
+        //             awb_numbers: bulkAwb,
+        //         }
+        //     })
+        // }
+        setShow(true)
+
+    }
+
+    const makeApiCall = () => {
+        setShow(false)
+        if (actionType === "bulkDelete") {
             dispatch({
-                type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                type: "BULK_DELETE_ORDER_ACTION", payload: {
                     order_ids: selectedRows,
                 }
             })
-        } else {
-            dispatch({
-                type: "BULK_CANCEL_ORDER_ACTION", payload: {
-                    awb_numbers: bulkAwb,
-                }
-            })
         }
-
+        else {
+            if (activeTab === "Processing" || activeTab === "Pickups") {
+                dispatch({
+                    type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                        order_ids: selectedRows,
+                    }
+                })
+            } else {
+                dispatch({
+                    type: "BULK_CANCEL_ORDER_ACTION", payload: {
+                        awb_numbers: bulkAwb,
+                    }
+                })
+            }
+        }
     }
+
+
     const generateManifest = () => {
         dispatch({
             type: "BULK_GENERATE_MENIFEST_ACTION", payload: {
@@ -223,6 +256,14 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     }, [shipButtonClicked, bulkShipData]);
 
 
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => {
+        setShow(true)
+    };
+
+
+
 
     return (
         <>
@@ -240,7 +281,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                     <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
                                     {/* <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li> */}
-                                    <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
+                                    <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
@@ -251,8 +292,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                 <>
                                     <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                     <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
+                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={() => rtoUpdate()}><WarehouseIcon /><span>Warehouse update</span></li>
                                     <li onClick={() => bulkDimesionDetailUpdate()}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
@@ -261,8 +302,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                             {activeTab === "Processing" && <>
                                 <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                 <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
-                                <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
-                                <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
+                                <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                 <li onClick={() => rtoUpdate()}><WarehouseIcon /><span>Warehouse update</span></li>
                                 <li onClick={() => bulkDimesionDetailUpdate()}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
                                 <li onClick={handelBulkShip}><ShippingIcon /><span>Ship</span></li>
@@ -273,7 +314,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={generatePickup}><ShippingIcon /><span>Generate Pickup</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
 
                                 </>
@@ -283,7 +324,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={generateManifest}><ExportIcon /><span>Generate Manifest</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                 </>
                             }
 
@@ -297,8 +338,25 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                         <div className='ba-close'></div>
                     </div>
                 </section>
+
+
             )}
 
+            <Modal
+                show={show}
+                onHide={handleClose}
+                keyboard={false}
+            >
+                <Modal.Header>
+                    <Modal.Title>Are you sure you want to {actionType==="bulkDelete"?"delete":"cancel"} the order ?</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button variant="secondary" className="px-5" onClick={handleClose}>
+                        No
+                    </Button>
+                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
         </>
     )
 }

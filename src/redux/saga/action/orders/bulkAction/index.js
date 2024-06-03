@@ -66,10 +66,13 @@ function* bulkDeleteOrderAction(action) {
     let { payload, } = action;
     try {
         let response = yield call(bulkDeleteOrderApi, payload);
-        console.log(response,"222222222222222222222222")
         if (response.status === 200) {
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
-            toast.success(response?.data?.message)
+            if (response?.data?.count > 1) {
+                toast.success(`${response?.data?.count}order deleted successfully`)
+            } else {
+                toast.error("No order deleted!")
+            }
         }
 
     } catch (error) {
@@ -289,7 +292,6 @@ function* bulkCancelOrderProcessingAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(bulkCancelOrderProcessingApi, payload);
-        console.log(payload, "payloadpayloadpayloadpayload")
         if (response.status === 200) {
             toast.success(`${payload?.order_ids?.length} Orders cancelled successfully!`)
             yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
