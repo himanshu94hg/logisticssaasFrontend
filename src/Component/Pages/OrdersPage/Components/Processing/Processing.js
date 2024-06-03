@@ -33,6 +33,8 @@ import { debounce } from "lodash";
 import globalDebouncedClick from "../../../../../debounce";
 import { toast } from "react-toastify";
 import Swal from "sweetalert2";
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
 const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
@@ -43,8 +45,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
-
 
     useEffect(() => {
         if (orderdelete) {
@@ -57,7 +57,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             setSelectAll(false)
         }
     }, [activeTab])
-
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {
@@ -88,7 +87,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
         }
     };
 
-
     const handleClick = (param) => {
         if (param !== null) {
             const config = {
@@ -113,7 +111,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     );
 
     const handleShipNow = (orderId) => {
-            debouncedHandleClick(orderId);
+        debouncedHandleClick(orderId);
     }
 
     const handleSelectRow = (orderId, awb) => {
@@ -160,6 +158,12 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             }
         })
     }
+
+
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
 
     return (
         <section className='position-relative'>
@@ -357,11 +361,14 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() =>
-                                                                    dispatch({
-                                                                        type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
-                                                                            order_ids: [row?.id],
-                                                                        }
-                                                                    })
+                                                                    //     dispatch({
+                                                                    //         type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                                                                    //             order_ids: [row?.id],
+                                                                    //         }
+                                                                    //     }
+                                                                    // )
+                                                                    handleShow()
+                                                                    // console.log("object")
                                                                 }>Cancel Order</li>
                                                                 <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
                                                             </ul>
@@ -381,6 +388,26 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                 <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                 <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
+
+            <Modal
+                show={show}
+                onHide={handleClose}
+               
+                keyboard={false}
+            >
+                <Modal.Header>
+                    <Modal.Title>Are you sure you want to cancel the order ?</Modal.Title>
+                </Modal.Header>
+              
+                <Modal.Footer>
+                    <Button variant="secondary" className="px-5" onClick={handleClose}>
+                        No
+                    </Button>
+                    <Button variant="primary" className="px-5" onClick={makeApiCall} >Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
+
         </section >
     );
 })
