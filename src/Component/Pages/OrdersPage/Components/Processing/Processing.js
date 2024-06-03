@@ -96,8 +96,10 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             };
             axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${param}`, config)
                 .then((response) => {
-                    setShipingResponse(response.data);
-                    setSingleShip(true);
+                    if(response?.status===200){
+                        setShipingResponse(response.data);
+                        setSingleShip(true);
+                    }
 
                 }).catch((error) => {
                     customErrorFunction(error)
@@ -161,9 +163,34 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
 
 
     const [show, setShow] = useState(false);
+    const [actionType, setActionType] = useState({
+
+    });
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+
+
+    const handleShow = (args1, args2) => {
+        setShow(true)
+        setActionType({
+            id: args1,
+            action: args2
+        })
+    };
+
+    const makeApiCall = () => {
+        if (actionType.action === "cancel") {
+            dispatch({
+                type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+                    order_ids: [actionType?.id],
+                }
+            }
+            )
+        } else {
+            dispatch({ type: "DELETE_ORDERS_ACTION", payload: actionType?.id })
+        }
+        setShow(false)
+    }
 
     return (
         <section className='position-relative'>
@@ -360,24 +387,14 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                                 <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li className='action-hr'></li>
-                                                                <li onClick={() =>
-                                                                    //     dispatch({
-                                                                    //         type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
-                                                                    //             order_ids: [row?.id],
-                                                                    //         }
-                                                                    //     }
-                                                                    // )
-                                                                    handleShow()
-                                                                    // console.log("object")
-                                                                }>Cancel Order</li>
-                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                <li onClick={() => handleShow(row?.id, "cancel")}>Cancel Order</li>
+                                                                <li onClick={() => handleShow(row?.id, "delete")}>Delete Order</li>
                                                             </ul>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-
                                     </React.Fragment>
                                 ))}
                             </> : <tr></tr>}
@@ -392,21 +409,18 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             <Modal
                 show={show}
                 onHide={handleClose}
-               
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to cancel the order ?</Modal.Title>
+                    <Modal.Title>Are you sure you want to {actionType.action} the order ?</Modal.Title>
                 </Modal.Header>
-              
                 <Modal.Footer>
                     <Button variant="secondary" className="px-5" onClick={handleClose}>
                         No
                     </Button>
-                    <Button variant="primary" className="px-5"  >Yes</Button>
+                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
                 </Modal.Footer>
             </Modal>
-
 
         </section >
     );

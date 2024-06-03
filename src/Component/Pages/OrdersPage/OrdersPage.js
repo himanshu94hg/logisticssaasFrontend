@@ -393,6 +393,7 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setCloneOrderSection={setCloneOrderSection}
                         setOrderId={setOrderId}
+                        setOrderTracking={setOrderTracking}
                     />
                 </div>
 

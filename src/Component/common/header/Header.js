@@ -19,7 +19,7 @@ import RateCalculatorIcon from "./Icons/RateCalculatorIcon";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Navbar, Nav, NavDropdown, Modal, Button } from "react-bootstrap";
 import { faBell, faEdit, faSignOutAlt, faMagnifyingGlass, faUser, faShuffle } from "@fortawesome/free-solid-svg-icons";
-import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern } from "../../../Routes";
+import { ReferAndEarnPattern, BusinessPlanPattern, RateCalculatorPattern, createOrderPattern, customerSupportPattern, loginBypassPattern, indexPattern } from "../../../Routes";
 import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../axios/config";
 import { useDispatch } from "react-redux";
 import { customErrorFunction } from "../../../customFunction/errorHandling";
@@ -80,7 +80,10 @@ export default function Header(props) {
   const handleLogout = () => {
     localStorage.clear();
     Cookies.remove('access_token');
-    window.location.reload()
+    navigate(indexPattern)
+    if (indexPattern) {
+      window.location.reload()
+    }
   };
 
   useEffect(() => {

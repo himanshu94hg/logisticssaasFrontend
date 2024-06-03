@@ -62,7 +62,7 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo, setOrderTracking}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
@@ -125,10 +125,14 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
 
     };
 
-    const handleClickAWB = (event, orders) => {
-        event.preventDefault();
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+    const handleClickAWB = (orders) => {
+        // event.preventDefault();
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
+        setAwbNo(orders)
+        setOrderTracking(true)
+
+        console.log(orders,"ordersordersordersorders")
     };
 
     const handleClickpartner = (event, row) => {
@@ -308,7 +312,7 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={handleClickAWB}>{row.awb_number ?? ""}
+                                                <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row.awb_number )}>{row.awb_number ?? ""}
                                                 </p>
                                                 <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
                                             </div>
