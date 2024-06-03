@@ -68,7 +68,7 @@ function* bulkDeleteOrderAction(action) {
         let response = yield call(bulkDeleteOrderApi, payload);
         if (response.status === 200) {
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
-            if (response?.data?.count > 1) {
+            if (response?.data?.count >= 1) {
                 toast.success(`${response?.data?.count} order deleted successfully`)
             } else {
                 toast.error("No order deleted!")
