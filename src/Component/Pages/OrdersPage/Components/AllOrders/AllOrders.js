@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId , setAwbNo,setOrderTracking}) => {
+const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -304,12 +304,14 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
 
     const [show, setShow] = useState(false);
     const [actionType, setActionType] = useState("");
+    const [orderIds,setOrderIds]=useState(null)
 
     const handleClose = () => setShow(false);
 
-    const handleShow = (args) => {
+    const handleShow = (args1,args2) => {
         setShow(true)
-        setActionType(args)
+        // setOrderId(args)
+        setActionType({id:args1,action:args2})
     };
 
     const makeApiCall = () => {
@@ -318,6 +320,12 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
         //         awb_numbers: [actionType]
         //     }
         // })
+        if(actionType?.action==="deleteOrder"){
+            dispatch({ type: "DELETE_ORDERS_ACTION", payload:actionType.id })
+        }
+        else{
+
+        }
         setShow(false)
     }
 
@@ -531,7 +539,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     }
                                                                 }}>Cancel Order</li>
 
-                                                                <li onClick={() => dispatch({ type: "DELETE_ORDERS_ACTION", payload: row?.id })}>Delete Order</li>
+                                                                <li onClick={() => handleShow(row?.id,"deleteOrder")}>Delete Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id))}>Download Invoice</li>
@@ -557,7 +565,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                         keyboard={false}
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to cancel the order ?</Modal.Title>
+                            <Modal.Title>Are you sure you want to {actionType?.action==="deleteOrder"?"delete":"cancel"} the order ?</Modal.Title>
                         </Modal.Header>
                         <Modal.Footer>
                             <Button variant="secondary" className="px-5" onClick={handleClose}>
