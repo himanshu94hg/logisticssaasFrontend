@@ -34,15 +34,20 @@ import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import globalDebounce from '../../../../../debounce';
 import { debounce } from 'lodash';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
-const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,setAwbNo }) => {
+
+const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo }) => {
     const dispatch = useDispatch()
-    const [selectAll, setSelectAll] = useState(false);
-    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const token = Cookies.get("access_token")
+    const [show, setShow] = useState(false);
+    const [actionType, setActionType] = useState("");
+    const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
@@ -241,8 +246,6 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
     const handleClickpartner = (event, row) => {
         event.preventDefault();
         const courierPartner = row.courier_partner.toLowerCase();
-        console.log(row, "this is a order page data")
-
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -285,6 +288,22 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
     }
 
 
+    const handleClose = () => setShow(false);
+
+
+    const handleShow = (args) => {
+        setShow(true)
+        setActionType(args)
+    };
+
+    const makeApiCall = () => {
+        dispatch({
+            type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+                awb_numbers: [actionType]
+            }
+        })
+        setShow(false)
+    }
 
     return (
         <section className='position-relative'>
@@ -482,12 +501,7 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                 <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
-                                                                <li onClick={() => dispatch({
-                                                                    type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                                                                        awb_numbers: [
-                                                                            row?.awb_number]
-                                                                    }
-                                                                })}>Cancel Order</li>
+                                                                <li onClick={() => handleShow(row?.awb_number)}>Cancel Order</li>
                                                             </ul>
                                                         </div>
                                                     ) : null}
@@ -502,8 +516,23 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
                     {orders?.length === 0 && <NoData />}
                 </div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
+                <Modal
+                    show={show}
+                    onHide={handleClose}
+                    keyboard={false}
+                >
+                    <Modal.Header>
+                        <Modal.Title>Are you sure you want to cancel the order ?</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Footer>
+                        <Button variant="secondary" className="px-5" onClick={handleClose}>
+                            No
+                        </Button>
+                        <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
-        </section>
+        </section >
     );
 };
 

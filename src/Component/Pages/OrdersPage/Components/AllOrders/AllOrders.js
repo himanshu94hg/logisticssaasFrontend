@@ -35,9 +35,12 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import axios from 'axios';
 import globalDebouncedClick from '../../../../../debounce';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId }) => {
+
+const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId ,setOrderTracking}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -215,8 +218,9 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
 
     const handleClickAWB = (event, orders) => {
         event.preventDefault();
-        const url = `https://shipease.in/order-tracking/`;
-        window.open(url, '_blank');
+        // const url = `https://shipease.in/order-tracking/`;
+        // window.open(url, '_blank');
+        setOrderTracking(true)
     };
 
     const handleClickpartner = (event, row) => {
@@ -298,6 +302,27 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
             }
         }
     }, [invoiceData])
+
+
+    const [show, setShow] = useState(false);
+    const [actionType, setActionType] = useState("");
+
+    const handleClose = () => setShow(false);
+
+    const handleShow = (args) => {
+        setShow(true)
+        setActionType(args)
+    };
+
+    const makeApiCall = () => {
+        // dispatch({
+        //     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+        //         awb_numbers: [actionType]
+        //     }
+        // })
+        setShow(false)
+    }
+
 
     return (
         <>
@@ -527,6 +552,23 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                     <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
                     <SingleShipPopReassign reassignCard={reassignCard} orderId={selectedOrderId} setSingleShipReassign={setSingleShipReassign} SingleShipReassign={SingleShipReassign} />
                     <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
+
+                    <Modal
+                        show={show}
+                        onHide={handleClose}
+                        keyboard={false}
+                    >
+                        <Modal.Header>
+                            <Modal.Title>Are you sure you want to cancel the order ?</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Footer>
+                            <Button variant="secondary" className="px-5" onClick={handleClose}>
+                                No
+                            </Button>
+                            <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                        </Modal.Footer>
+                    </Modal>
+
                 </div>
             </section>
         </>
