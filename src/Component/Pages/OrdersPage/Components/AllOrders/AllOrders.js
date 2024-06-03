@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId ,setOrderTracking}) => {
+const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId , setAwbNo,setOrderTracking}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -216,10 +216,8 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
         setOrderId(id)
     }
 
-    const handleClickAWB = (event, orders) => {
-        event.preventDefault();
-        // const url = `https://shipease.in/order-tracking/`;
-        // window.open(url, '_blank');
+    const handleClickAWB = (orders) => {
+        setAwbNo(orders)
         setOrderTracking(true)
     };
 
@@ -484,7 +482,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 <div className='cell-inside-box shipping-details'>
                                                     {row?.courier_image && <img src={row.courier_image} title='partner' />}
                                                     <div>
-                                                        <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
+                                                        <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                             {row.awb_number}
                                                         </p>
                                                         <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
