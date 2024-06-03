@@ -403,7 +403,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                     <Button variant="secondary" className="px-5" onClick={handleClose}>
                         No
                     </Button>
-                    <Button variant="primary" className="px-5" onClick={makeApiCall} >Yes</Button>
+                    <Button variant="primary" className="px-5"  >Yes</Button>
                 </Modal.Footer>
             </Modal>
 
