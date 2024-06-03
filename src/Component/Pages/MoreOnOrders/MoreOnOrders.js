@@ -21,6 +21,7 @@ import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -61,6 +62,10 @@ const MoreOnOrders = () => {
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryName, setQueryName] = useState([])
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [awbNo, setAwbNo] = useState(null)
+
+
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const apiEndpoint = `${BASE_URL_CORE}`;
     const activeTabValueSet =
@@ -310,7 +315,7 @@ const MoreOnOrders = () => {
             <div className='orders-section-tabs'>
                 {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
-                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
+                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} setAwbNo={setAwbNo} setOrderTracking={setOrderTracking} />
                 </div>
 
                 {/* merge */}
@@ -342,7 +347,6 @@ const MoreOnOrders = () => {
                 }
             </div>
 
-
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
@@ -351,6 +355,9 @@ const MoreOnOrders = () => {
                 handleResetFrom={handleResetFrom}
                 setHandleResetFrom={setHandleResetFrom}
             />
+            <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
+            </section>
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
 
         </>

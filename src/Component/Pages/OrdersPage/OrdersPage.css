@@ -585,11 +585,11 @@ ul.order-label-list li {
   right: -50em;
   background: #fff;
   transition: 1s;
+  z-index: 6;
 }
 
 .awb-tracking-slider.open {
   right: 0;
-  z-index: 6;
 }
 
 @media screen and (max-width:1366px) {

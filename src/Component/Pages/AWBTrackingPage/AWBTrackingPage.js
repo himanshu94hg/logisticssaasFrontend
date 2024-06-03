@@ -7,8 +7,10 @@ import TrackingDone from './TrackingDone'
 import Cookies from 'js-cookie';
 import { customErrorFunction } from '../../../customFunction/errorHandling'
 import axios from 'axios'
+import { BASE_URL_CORE } from '../../../axios/config'
+import moment from 'moment'
 
-const AWBTrackingPage = ({ orderTracking, setOrderTracking,awbNo }) => {
+const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
 
@@ -23,7 +25,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking,awbNo }) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`https://uat.shipease.in/core-api/shipping/track-order/${awbNo}`, {
+                const response = await axios.get(`${BASE_URL_CORE}/core-api/shipping/track-order/${awbNo}`, {
                     headers: {
                         Authorization: `Bearer ${authToken}`
                     }
@@ -55,12 +57,13 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking,awbNo }) => {
                         return (
                             <li className={`${item?.status === "Delivered" ? "active" : ""}`}>
                                 <div className='track-icon'>
-                                    {item?.status==="Delivered"?  <TrackingDone />: <TrackingIcon />}
+                                    {item?.status === "Delivered" ? <TrackingDone /> : <TrackingIcon />}
                                 </div>
                                 <div>
                                     <h4>{item?.status_description}</h4>
                                     <p>Status: {item?.status}</p>
                                     <p>{item?.location}</p>
+                                    <p >{moment(new Date()).format("DD MMM YYYY")} || {moment(new Date()).format('hh:mm A')}</p>
                                 </div>
                             </li>
                         )
