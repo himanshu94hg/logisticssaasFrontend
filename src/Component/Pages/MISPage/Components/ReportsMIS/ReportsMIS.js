@@ -14,6 +14,7 @@ import moment from 'moment';
 import { useSelector } from 'react-redux';
 import Pagination from '../../../../common/Pagination/Pagination';
 import BulkActionsComponent from '../BulkActionsComponent';
+import AWBTrackingPage from '../../../AWBTrackingPage/AWBTrackingPage';
 
 const ReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
@@ -223,6 +224,11 @@ const ReportsMIS = ({ activeTab }) => {
         }
     }
 
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [awbNo, setAwbNo] = useState(null)
+ 
+
+
 
     return (
         <section className='position-relative reports-mis'>
@@ -300,6 +306,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 BulkActionShow={BulkActionShow}
                                 setSelectedRows={setSelectedRows}
                                 setBulkActionShow={setBulkActionShow}
+                                setAwbNo={setAwbNo}
+                                setOrderTracking={setOrderTracking}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS
@@ -313,6 +321,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 selectedRows={selectedRows}
                                 setBulkActionShow={setBulkActionShow}
                                 setSelectedRows={setSelectedRows}
+                                setAwbNo={setAwbNo}
+                                setOrderTracking={setOrderTracking}
                             />
                         ) : showComponent === 'Billing' ? (
                             <BillingTableMIS
@@ -326,6 +336,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 setBulkActionShow={setBulkActionShow}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
+                                setAwbNo={setAwbNo}
+                                setOrderTracking={setOrderTracking}
                             />
                         ) : showComponent === 'Returns' ? (
                             <ReturnsTableMIS
@@ -339,6 +351,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 setBulkActionShow={setBulkActionShow}
                                 selectedRows={selectedRows}
                                 setSelectedRows={setSelectedRows}
+                                setAwbNo={setAwbNo}
+                                setOrderTracking={setOrderTracking}
                             />
                         ) : ''
                     )}
@@ -368,6 +382,9 @@ const ReportsMIS = ({ activeTab }) => {
                 />
             )
             }
+                <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo}/>
+            </section>
         </section>
     );
 };

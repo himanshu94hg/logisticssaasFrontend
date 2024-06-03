@@ -63,7 +63,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                                     <h4>{item?.status_description}</h4>
                                     <p>Status: {item?.status}</p>
                                     <p>{item?.location}</p>
-                                    <p >{moment(new Date()).format("DD MMM YYYY")} || {moment(new Date()).format('hh:mm A')}</p>
+                                    <p >{moment(item?.updated_at).format("DD MMM YYYY")} || {moment(item?.updated_at).format('hh:mm A')}</p>
                                 </div>
                             </li>
                         )
