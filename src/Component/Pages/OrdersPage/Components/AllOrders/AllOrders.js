@@ -503,7 +503,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                                     : row?.status === "shipped" ? <span onClick={() => globalDebouncedClick(() => handleGeneratePickup(row?.id))}>Generate Pickup</span>
                                                                         : row?.status === "cancelled" || row?.status === "delivered" || row?.status === "picked_up" ||
                                                                             row?.status === "out_for_delivery" || row?.status === "pickup_scheduled" || row?.status === "rto_initiated"
-                                                                            || row?.status === "ndr" || row?.status === "lost" || row?.status === "damaged"
+                                                                            || row?.status === "ndr" || row?.status === "lost" || row?.status === "damaged" ||row?.status==="in_transit"
                                                                             ? <span onClick={() => globalDebouncedClick(() => openCloneSection(row?.id))}>Clone Order</span> : ""
                                                     }</button>
                                                     <div className='action-options'>
