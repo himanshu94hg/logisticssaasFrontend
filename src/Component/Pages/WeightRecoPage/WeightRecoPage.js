@@ -15,6 +15,7 @@ import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import globalDebouncedClick from '../../../debounce';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -44,6 +45,8 @@ const WeightRecoPage = () => {
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryName, setQueryName] = useState([])
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [awbNo, setAwbNo] = useState(null)
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
@@ -131,11 +134,11 @@ const WeightRecoPage = () => {
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
-        if(activeTab === "Weight Reconciliation"){
+        if (activeTab === "Weight Reconciliation") {
             dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-        } else if(activeTab === "Settled Reconciliation"){
+        } else if (activeTab === "Settled Reconciliation") {
             dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
-        } else if(activeTab === "On Hold Reconciliation"){
+        } else if (activeTab === "On Hold Reconciliation") {
             dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
         }
     }
@@ -184,17 +187,17 @@ const WeightRecoPage = () => {
                             <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
                                 <span className="visually-hidden">Toggle Dropdown</span>
                             </button>
-                            <ul 
-                            className="dropdown-menu" 
-                            style={{
-                                 paddingInline: '12px', 
-                                 minWidth: '190px' 
-                            }}
+                            <ul
+                                className="dropdown-menu"
+                                style={{
+                                    paddingInline: '12px',
+                                    minWidth: '190px'
+                                }}
                             >
-                              {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
+                                {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
-                        <button className='btn main-button-outline ms-2'  onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
@@ -209,26 +212,35 @@ const WeightRecoPage = () => {
             <div className='wt-page-container'>
                 {/* Weight Reconciliation */}
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
-                    <WeightRecoTab weightRecoData={weightData?.results} 
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow}/>
+                    <WeightRecoTab weightRecoData={weightData?.results}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
+                    />
                 </div>
 
                 {/* Settled Reco */}
                 <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
-                    <SettledReco weightRecoData={setteledData?.results} 
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow}/>
+                    <SettledReco weightRecoData={setteledData?.results}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
+                    />
                 </div>
 
                 {/* On-Hold Reco */}
                 <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
-                    <OnHoldReco weightRecoData={holdData?.results} 
-                    selectedRows={selectedRows}
-                    setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow}/>
+                    <OnHoldReco weightRecoData={holdData?.results}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                        setAwbNo={setAwbNo}
+                        setOrderTracking={setOrderTracking}
+                    />
                 </div>
 
                 <Pagination
@@ -256,6 +268,11 @@ const WeightRecoPage = () => {
                 setHandleResetFrom={setHandleResetFrom}
             />
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
+
+            <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
+            </section>
+            <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>
     );
 };
