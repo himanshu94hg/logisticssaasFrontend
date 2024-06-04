@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -38,6 +39,11 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const [data, setData] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingRemitanceDOWNLOADCard)
+    const { codDetails } = useSelector(state => state?.dashboardOverviewReducer)
+
+    useEffect(() => {
+        dispatch({ type: "DASHBOARD_OVERVIEW_COD_DETAILS_ACTION", payload: dateRangeDashboard })
+    }, [dispatch]);
 
     const reasons = [
         { count: 300, data: 207 },
@@ -127,19 +133,19 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total COD:     <span>&#8377; {data?.cod_total || 0}</span></p>
+                        <p>Total COD:     <span>&#8377; {codDetails?.total_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Remitted:     <span>&#8377; {data?.remitted_cod || 0}</span></p>
+                        <p>COD Remitted:     <span>&#8377; {codDetails?.remitted_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Pending:     <span>&#8377; {data?.cod_total - data?.remitted_cod || 0}</span></p>
+                        <p>COD Pending:     <span>&#8377; {codDetails?.cod_pending || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remittance Date:     <span> {data?.nextRemitDate || moment(new Date()).format("DD MMM")}</span></p>
+                        <p>Next Remittance Date:     <span> {codDetails?.next_remit_date || moment(new Date()).format("DD MMM")}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remit Amount:     <span>&#8377; {data?.nextRemitCod ?? 0}</span></p>
+                        <p>Next Remit Amount:     <span>&#8377; {codDetails?.next_remit_amount ?? 0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>

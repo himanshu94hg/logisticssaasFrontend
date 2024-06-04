@@ -66,19 +66,19 @@ const RechargeLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActio
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Successful Recharge: <span>&#8377; {0.00}</span></p>
+                        <p style={{ fontSize: "13px" }}>Successful Recharge: <span>&#8377; {data?.successful_recharge || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Total Credit: <span>&#8377; {0.00}</span></p>
+                        <p style={{ fontSize: "13px" }}>Total Credit: <span>&#8377; {data?.total_credit || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Total Debit: <span>&#8377; {0.00}</span></p>
+                        <p style={{ fontSize: "13px" }}>Total Debit: <span>&#8377; {data?.total_debit || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Cashback: <span>&#8377; {0.00}</span> </p>
+                        <p style={{ fontSize: "13px" }}>Cashback: <span>&#8377; {data?.cashback || 0}</span> </p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Referral: <span>&#8377; {0.00}</span></p>
+                        <p style={{ fontSize: "13px" }}>Referral: <span>&#8377; {data?.referral || 0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
