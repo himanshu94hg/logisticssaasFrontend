@@ -51,7 +51,7 @@ const CourierPartner = [
     { label: "Ecom Express", value: "ecom_express" },
 ];
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, handleResetFrom, setHandleResetFrom,selectedRows }) => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
@@ -428,8 +428,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     <label>
                                         Courier Partner(s)
                                         <Select
+                                            options={courierPartners}
+                                            onChange={(e) => handleChange("courier_partner", e)}
                                             isMulti
                                             isSearchable
+                                            value={courierPartners?.value}
                                             placeholder="Select Courier Partner(s)"
                                         />
                                     </label>
