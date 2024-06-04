@@ -226,7 +226,7 @@ const ReportsMIS = ({ activeTab }) => {
 
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
- 
+
 
 
 
@@ -365,7 +365,7 @@ const ReportsMIS = ({ activeTab }) => {
                 itemsPerPage={itemsPerPage}
                 setItemsPerPage={setItemsPerPage}
                 setCurrentPage={setCurrentPage}
-            /> 
+            />
             {BulkActionShow && (
                 <BulkActionsComponent
                     // activeTab={activeTab}
@@ -382,9 +382,10 @@ const ReportsMIS = ({ activeTab }) => {
                 />
             )
             }
-                <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo}/>
+            <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
+            <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </section>
     );
 };

@@ -51,7 +51,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -136,6 +136,11 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
     };
 
     const handleClose = () => setShow(false);
+
+    const handleClickAWB = (orders) => {
+        setAwbNo(orders)
+        setOrderTracking(true)
+    };
 
     return (
         <section className='position-relative'>
@@ -227,7 +232,10 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.order?.courier_image && <img src={row?.order?.courier_image} title='partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb'>{row?.order?.awb_number}</p>
+                                                    {/* <p className='details-on-hover anchor-awb'>{row?.order?.awb_number}</p> */}
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
+                                                        {row?.order?.awb_number}
+                                                    </p>
                                                     <p className='text-capitalize'>{row?.order?.courier_partner}</p>
                                                 </div>
                                             </div>

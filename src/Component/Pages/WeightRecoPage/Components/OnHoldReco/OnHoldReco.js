@@ -39,7 +39,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActionShow}) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -116,6 +116,11 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
         setBackDrop(false)
     }
 
+    const handleClickAWB = (orders) => {
+        setAwbNo(orders)
+        setOrderTracking(true)
+    };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -136,7 +141,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                 <th style={{ width: '12%' }}>Courier Partner</th>
                                 <th style={{ width: '12%' }}>Extra Amount Charged</th>
                                 <th style={{ width: '12%' }}>On Hold Amount</th>
-                              
+
                             </tr>
                             <tr className="blank-row"><td></td></tr>
                         </thead>
@@ -155,7 +160,7 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                              
+
                                                 <p className='ws-nowrap d-flex align-items-center'>
                                                     <DateFormatter dateTimeString={row?.order?.awb_assigned_date} />
                                                 </p>
@@ -170,8 +175,9 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                <p>{row?.order?.awb_number}</p>
-                                                
+                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
+                                                    {row?.order?.awb_number}
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
@@ -179,8 +185,8 @@ const WeightRecoTab = ({weightRecoData,selectedRows,setSelectedRows,setBulkActio
                                             <div className='cell-inside-box'>
 
                                                 <p className='mt-1'>
-                                                    {/* <img src={`https://shipease.in/${row?.partner_details?.image}`} height={40} className='me-2' /> */}
-                                                    <span className='text-capitalize'>{row?.order?.courier_partner}</span>
+                                                    {row?.order?.courier_image && <img src={row?.order?.courier_image} title='partner' />}
+                                                    <p className='text-capitalize'>{row?.order?.courier_partner}</p>
                                                 </p>
                                             </div>
 

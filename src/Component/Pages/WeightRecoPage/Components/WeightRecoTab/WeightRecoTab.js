@@ -55,7 +55,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking }) => {
 
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
@@ -181,6 +181,11 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         // }
     };
 
+    const handleClickAWB = (orders) => {
+        setAwbNo(orders)
+        setOrderTracking(true)
+    };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -273,7 +278,9 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             <div className='cell-inside-box shipping-details'>
                                                 {row?.order?.courier_image && <img src={row?.order?.courier_image} title='partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb'>{row?.order?.awb_number}</p>
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
+                                                        {row?.order?.awb_number}
+                                                    </p>
                                                     <p className='text-capitalize'>{row?.order?.courier_partner}</p>
                                                 </div>
                                             </div>
@@ -353,7 +360,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                 <PreviewComment showComment={showComment} handleCloseComment={handleCloseComment} selectedRow={selectedRow} />
 
             </div>
-        </section >
+        </section>
     );
 };
 
