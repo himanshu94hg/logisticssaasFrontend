@@ -179,6 +179,7 @@ const BillingPage = () => {
                 setActiveTab={setActiveTab}
                 MoreFilters={MoreFilters}
                 setMoreFilters={setMoreFilters}
+                selectedRows={selectedRows}
             />
             <div onClick={() => setMoreFilters(false)} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
         </>

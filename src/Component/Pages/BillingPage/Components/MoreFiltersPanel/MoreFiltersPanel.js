@@ -51,7 +51,7 @@ const CourierPartner = [
     { label: "Ecom Express", value: "ecom_express" },
 ];
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, handleResetFrom, setHandleResetFrom,selectedRows }) => {
     const dispatch = useDispatch()
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
