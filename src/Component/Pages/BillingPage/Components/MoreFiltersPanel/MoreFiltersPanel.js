@@ -428,8 +428,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     <label>
                                         Courier Partner(s)
                                         <Select
+                                            options={courierPartners}
+                                            onChange={(e) => handleChange("courier_partner", e)}
                                             isMulti
                                             isSearchable
+                                            value={courierPartners?.value}
                                             placeholder="Select Courier Partner(s)"
                                         />
                                     </label>
