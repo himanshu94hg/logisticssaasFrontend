@@ -44,12 +44,12 @@ html {
 
 .rightContainer {
   display: flex;
-  margin-block: 20px;
+  margin-block: 20px 0px;
   flex-direction: column;
   justify-content: flex-start;
   gap: 15px;
   margin-inline: 72px 10px;
-  height: 92vh;
+  /* height: 92vh; */
   width: calc(100vw - 92px) !important;
 }
 
