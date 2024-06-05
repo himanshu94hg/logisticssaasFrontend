@@ -108,7 +108,7 @@ const CourierAllocationPage = () => {
         </div>
 
       </section>
-      <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
+      <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
         <SetPreferenceRules />
       </section>
     </>
