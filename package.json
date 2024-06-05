@@ -58,6 +58,8 @@
     "react-date-range": "^2.0.0-alpha.4",
     "react-datepicker": "^4.25.0",
     "react-daterange-picker": "^2.0.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.0",
     "react-hooks-form": "^2.0.1",
