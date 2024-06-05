@@ -43,8 +43,8 @@ const ParentComponent = () => {
                                 <tr key={index}>
                                     <td>{product.sku}</td>
                                     <td>{selectedOption === 'unitsSold' ? product.count : "₹ " + product.count}</td>
-                                    <td className={product.inStock ? 'text-success' : 'text-danger'}>
-                                        {product.inStock ? 'In Stock' : 'Out Of Stock'}
+                                    <td className={product.count > 0 ? 'text-success' : 'text-danger'}>
+                                        {product.count > 0 ? 'In Stock' : 'Out Of Stock'}
                                     </td>
                                 </tr>
                             ))}
