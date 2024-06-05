@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -62,31 +62,52 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
         }
     }, [activeTab])
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-            setBulkActionShow(true)
-        } else {
-            setSelectedRows([]);
-            setBulkActionShow(false)
+    const handleSelectAll = (data) => {
+        if (data === "selectAll") {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setbulkAwb(orders.map(row => row?.awb_number));
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setbulkAwb([])
+                setBulkActionShow(false)
+            }
+
+        } 
+        else {
+            setSelectAll(!selectAll);
+            if (!selectAll) {
+                setbulkAwb(orders.map(row => row?.awb_number));
+                setSelectedRows(orders.map(row => row?.id));
+                setBulkActionShow(true)
+            } else {
+                setSelectedRows([]);
+                setbulkAwb([])
+                setBulkActionShow(false)
+            }
         }
     };
 
-    const handleSelectRow = (orderId) => {
+    const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
+        const isSelected1 = bulkAwb.includes(awb);
         let updatedSelectedRows;
-        if (isSelected) {
+        let updatedBulkAwb;
+        if (isSelected || isSelected1) {
             updatedSelectedRows = selectedRows.filter(id => id !== orderId);
+            updatedBulkAwb = bulkAwb.filter(id => id !== awb);
         } else {
             updatedSelectedRows = [...selectedRows, orderId];
+            updatedBulkAwb = [...bulkAwb, awb];
         }
         setSelectedRows(updatedSelectedRows);
+        setbulkAwb(updatedBulkAwb);
         if (updatedSelectedRows.length > 0) {
             setBulkActionShow(true);
         } else {
             setBulkActionShow(false);
-
         }
 
         if (updatedSelectedRows.length === orders.length - 1 && isSelected) {
@@ -95,7 +116,6 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
             setSelectAll(false);
         }
     };
-
 
     const handleDownloadLabel = async (orderId) => {
         dispatch({
@@ -368,7 +388,7 @@ const AllOrders = ({ orders, activeTab, setBulkActionShow, BulkActionShow, selec
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows?.includes(row?.id)}
-                                                    onChange={() => handleSelectRow(row?.id)}
+                                                    onChange={() => handleSelectRow(row?.id, row?.awb_number)}
                                                 />
                                             </td>
                                             <td>
