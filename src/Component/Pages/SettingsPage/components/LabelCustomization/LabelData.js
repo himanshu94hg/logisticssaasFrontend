@@ -1,20 +1,18 @@
 import React, { useState } from 'react';
 import Logo from '../../../../../assets/image/logo/logo.svg';
 
-const LabelData = ({ items }) => {
-    const [text, setText] = useState('THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE');
-
+const LabelData = ({ items, setItems }) => {
     const renderSection = () => {
         return (
             <>
-                {items.Section1 && (
+                {items.section1 && (
                     <tr id="label-header">
                         <td className="noPadding">
                             <table className="tableInner">
                                 <tbody>
                                     <tr>
                                         <td style={{ width: "70%", border: 0 }}>
-                                            {items.shipping && (
+                                            {items?.shipping_address_visibility && (
                                                 <div id="label-shipping-address">
                                                     <b style={{ padding: 0, margin: 0, marginBottom: 5 }}>Ship To</b>
                                                     <p id="contact_paragraph" style={{ padding: 0, margin: 0 }}>
@@ -23,12 +21,12 @@ const LabelData = ({ items }) => {
                                                         Gurugram, Haryana<br />
                                                         122002
                                                         <br />
-                                                        Contact : {items.contact ? "987*****10" : "9876543210"}
+                                                        Contact : {items?.contact_mask ? "987*****10" : "9876543210"}
                                                     </p>
                                                 </div>
                                             )}
                                         </td>
-                                        {items.logo && (
+                                        {items?.header_logo_visibility && (
                                             <td
                                                 style={{
                                                     width: "30%",
@@ -48,13 +46,13 @@ const LabelData = ({ items }) => {
                         </td>
                     </tr>
                 )}
-                {items.Section2 && (
+                {items.section2 && (
                     <tr>
                         <td className="noPadding">
                             <table className="tableInner">
                                 <tbody>
                                     <tr>
-                                        {items.shipping_details && (
+                                        {items.shipment_detail_visibility && (
                                             <td style={{ width: "50%", border: 0 }} id="label-shipment-detail">
                                                 Dimension (cm) : 1 x 1 x 1<br />
                                                 Payment : <b>Prepaid</b>
@@ -65,7 +63,7 @@ const LabelData = ({ items }) => {
                                                 Route Code : DEL/ALT
                                             </td>
                                         )}
-                                        {items.awb_barcode && (
+                                        {items.awb_barcode_visibility && (
                                             <td style={{ width: "50%", textAlign: "center", border: 0 }} id="label-awb-barcode">
                                                 <b>Delhivery</b>
                                                 <br />
@@ -81,14 +79,14 @@ const LabelData = ({ items }) => {
                         </td>
                     </tr>
                 )}
-                {items.Section3 && (
+                {items.section3 && (
                     <tr>
                         <td className="noPadding">
                             <table className="tableInner">
                                 <tbody>
                                     <tr>
                                         <td style={{ width: "50%", border: 0 }}>
-                                            {items.order_details && (
+                                            {items.ordernumber_visibility && (
                                                 <div id="label-order-detail">
                                                     <b>Shipped By</b> (if undelivered,return to)
                                                     <br />
@@ -96,20 +94,20 @@ const LabelData = ({ items }) => {
                                                         Unit - 321, M3M Cosmopolitan, Tower - B1, Sector 66, Gurugram, Haryana 122002<br />
                                                         Contact: {items.seller_contact ? "**********" : "9876543210"}
                                                     </p>
-                                                    GSTIN: {items.seller_gstin ? "***************" : "22AAAAA0000A1Z5"}
+                                                    GSTIN: {items.s_gst_mask ? "***************" : "22AAAAA0000A1Z5"}
                                                     <br />
                                                     Invoice No. : SE-1000123
                                                     <br />
                                                 </div>
                                             )}
-                                            {items.manifest_date && (
+                                            {items.manifest_date_visibility && (
                                                 <div id="label-manifest-date" style={{}}>
                                                     Manifest Date. : 2024-01-05
                                                 </div>
                                             )}
                                         </td>
                                         <td style={{ width: "50%", textAlign: "center", border: 0 }} id="label-order-barcode">
-                                            {items.order_barcode && (
+                                            {items.order_barcode_visibility && (
                                                 <>
                                                     <b>Essentials</b>
                                                     <br />
@@ -122,7 +120,7 @@ const LabelData = ({ items }) => {
                                                     </span>
                                                 </>
                                             )}
-                                            {items.order_number_visibility && (
+                                            {items.ordernumber_visibility && (
                                                 <span id="ordernumberVisibility">Order #: 1000***</span>
                                             )}
                                         </td>
@@ -132,10 +130,10 @@ const LabelData = ({ items }) => {
                         </td>
                     </tr>
                 )}
-                {items.Section4 && (
+                {items.section4 && (
                     <tr id="label-product-detail" style={{}}>
                         <td className="noPadding">
-                            {items.product_detail && (
+                            {items.product_detail_visibility && (
                                 <table className="tableInner" id="productTable" style={{ width: "100%", borderCollapse: "collapse", border: 0 }}>
                                     <thead>
                                         <tr style={{ border: "1px solid black" }}>
@@ -153,10 +151,10 @@ const LabelData = ({ items }) => {
                                             </td>
                                             <td>1</td>
                                         </tr>
-                                        {items.invoice_value && (
+                                        {items.invoice_value_visibility && (
                                             <tr id="label-invoice-value" style={{}}>
                                                 <td colSpan={3} style={{ textAlign: "right" }}>
-                                                    TOTAL Amount : {items.gift ? " AS A GIFT" : " Rs. 100"}
+                                                    TOTAL Amount : {items.gift_visibility ? " AS A GIFT" : " Rs. 100"}
                                                 </td>
                                             </tr>
                                         )}
@@ -166,7 +164,7 @@ const LabelData = ({ items }) => {
                         </td>
                     </tr>
                 )}
-                {items.Section5 && (
+                {items.section5 && (
                     <tr id="other-charges">
                         <td className="noPadding">
                             {items.other_charges && (
@@ -190,7 +188,7 @@ const LabelData = ({ items }) => {
                         </td>
                     </tr>
                 )}
-                {items.Section6 && (
+                {items.section6 && (
                     <>
                         {items.disclaimer_text && (
                             <tr id="disclaimer-text" style={{}}>
@@ -203,23 +201,26 @@ const LabelData = ({ items }) => {
                                 </td>
                             </tr>
                         )}
-                        {items.footer && (
+                        {items.footer_visibility && (
                             <tr id="label-footer" style={{}}>
                                 <td className="noPadding">
                                     <table className="tableInner">
                                         <tbody>
                                             <tr>
                                                 <td style={{ width: "70%" }}>
-                                                    {items.footer_customize_text ? (
+                                                    {items.custom_footer_enable ? (
                                                         <input
                                                             style={{ height: '24px' }}
                                                             className='w-100'
                                                             type="text"
-                                                            onChange={(e) => setText(e.target.value)}
-                                                            value={text}
+                                                            onChange={(e) => setItems(prev => ({
+                                                                ...prev,
+                                                                footer_customize_value: e.target.value
+                                                            }))}
+                                                            value={items.footer_customize_value}
                                                         />
                                                     ) : (
-                                                        <p style={{ marginLeft: '4px' }}>THIS IS AN AUTO-GENERATED LABEL AND DOES NOT NEED SIGNATURE</p>
+                                                        <p style={{ marginLeft: '4px' }}>{items.footer_customize_value}</p>
                                                     )}
                                                 </td>
                                                 <td

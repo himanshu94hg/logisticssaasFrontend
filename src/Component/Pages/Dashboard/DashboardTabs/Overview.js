@@ -18,9 +18,11 @@ import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
+  let authToken = Cookies.get("access_token")
+
 
   useEffect(() => {
-    if (activeTab === "Overview") {
+    if (activeTab === "Overview" && authToken) {
       dispatch({ type: "DASHBOARD_OVERVIEW_SHIPMENTCARD_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_DELIVERY_PERFORMANCE_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_OVERVIEW_STATEWISE_SPLIT_ACTION", payload: dateRangeDashboard })

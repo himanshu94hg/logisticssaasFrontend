@@ -55,7 +55,7 @@ const CourierAllocationPage = () => {
   return (
     <>
       <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      <section className={`courier-preference box-shadow shadow-sm white-block p10 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
+      <section className={`courier-preference box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
         <div className='courier-preference-list'>
           <DragDropContext onDragEnd={handleDragEnd}>
             {partnersData?.map((category, index) => (
@@ -103,12 +103,12 @@ const CourierAllocationPage = () => {
             {/* </div> */}
           </label>
           <div>
-            <button className='btn main-button' onClick={() =>globalDebouncedClick(() => handleSubmit())}>Save Courier Preference</button>
+            <button className='btn main-button' onClick={() => globalDebouncedClick(() => handleSubmit())}>Save Courier Preference</button>
           </div>
         </div>
 
       </section>
-      <section className={`box-shadow shadow-sm white-block p10 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
+      <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
         <SetPreferenceRules />
       </section>
     </>

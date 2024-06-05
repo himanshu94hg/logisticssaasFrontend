@@ -305,7 +305,9 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
 
                                         <td className='align-middle'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                            {row?.status &&
+                                                <p className='order-Status-box'>{row?.status}</p>
+                                            }
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
