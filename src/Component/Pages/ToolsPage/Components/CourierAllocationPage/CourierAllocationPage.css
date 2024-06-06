@@ -125,3 +125,27 @@ ul [data-rbd-droppable-context-id] {
     width: 100%;
     margin-top: 5px;
 }
+
+
+.app {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.pool,
+.sequence {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    min-height: 400px;
+    padding: 10px;
+}
+
+.courier {
+    padding: 8px;
+    margin: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
