@@ -224,7 +224,8 @@ const SetPreferenceRules = () => {
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
-            <div className={`d-flex mt-2 ${courierRules?.length === 0 ? '' : 'justify-content-end w-100'}`}>
+            <div className={`d-flex mt-2 ${courierRules?.length === 0 ? '' : 'justify-content-end w-100 gap-3'}`}>
+                <button className='btn main-button'>Save Changes</button>
                 <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>

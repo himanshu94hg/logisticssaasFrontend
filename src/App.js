@@ -56,6 +56,7 @@ import BusinessPlanPage from "./Component/Pages/EarnAndGrowPages/BusinessPlanPag
 import axios from "axios";
 import BypassPage from "./Component/Pages/bypass";
 import LabelCustomization from "./Component/Pages/SettingsPage/components/LabelCustomization/LabelCustomization";
+import NewComponent from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/NewComponent/NewComponent";
 
 
 function App() {
@@ -147,6 +148,7 @@ function App() {
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
+            {/* <Route path={CourierAllocationPattern} element={<NewComponent />} /> */}
             <Route path={signUpPattern} element={<SignUpPage />} />
             <Route path={orderdetailPattern} element={<OrderDetail />} />
             <Route path={bypassPattern} element={<BypassPage />} />

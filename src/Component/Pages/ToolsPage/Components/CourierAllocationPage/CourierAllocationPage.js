@@ -72,9 +72,8 @@ const CourierAllocationPage = () => {
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                             >
-                              <FontAwesomeIcon icon={faEllipsisVertical} /><img style={{ border: "1px solid #E3E3E3", borderRadius: "50%" }}
-                                src={partner.image} alt="" />{partner.title}
-
+                              <FontAwesomeIcon icon={faEllipsisVertical} />
+                              <img style={{ border: "1px solid #E3E3E3", borderRadius: "50%" }} src={partner.image} alt="" />{partner.title}
                             </li>
                           )}
                         </Draggable>
@@ -93,14 +92,12 @@ const CourierAllocationPage = () => {
         </div>
         <div className='default-sorting-section'>
           <label className='d-flex gap-3 align-items-center'>
-            {/* <div> */}
             Sort by default sorting options
             <select className='select-field' name="" id="">
               <option value="">Select</option>
               <option value="">Sort as Cheapest</option>
               <option value="">Sort as Fastest</option>
             </select>
-            {/* </div> */}
           </label>
           <div>
             <button className='btn main-button' onClick={() => globalDebouncedClick(() => handleSubmit())}>Save Courier Preference</button>
