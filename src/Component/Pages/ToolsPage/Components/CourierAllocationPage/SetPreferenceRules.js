@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrashCan, faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import RuleRow from './RuleRow';
 import './SetPreferenceRules.css';
+import AddRuleSidePanel from './AddRuleSidePanel';
+
 
 const SetPreferenceRules = () => {
     const dispatch = useDispatch();
@@ -204,126 +207,119 @@ const SetPreferenceRules = () => {
         value: index + 1
     }));
 
+    const onDragEnd = (result) => {
+        if (!result.destination) {
+            return;
+        }
+
+        const reorderedRules = Array.from(allRules);
+        const [movedRule] = reorderedRules.splice(result.source.index, 1);
+        reorderedRules.splice(result.destination.index, 0, movedRule);
+
+        setAllRules(reorderedRules);
+    };
 
     return (
         <>
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
-            <div className={`d-flex mt-2 ${courierRules?.length === 0 ? '' : 'justify-content-end w-100'}`}>
+            <div className={`d-flex mt-2 gap-3 ${allRules?.length > 0 ? 'justify-content-end w-100' : ''}`}>
+                <button className='btn main-button'>Save Changes</button>
                 <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
-            <div className='create-rules-section'>
-                {allRules?.map((rule, index) => (
-                    <div key={index} className='created-rules'>
-                        <div className='cr-rule-name'>
-                            <div className='rule-name'>
-                                <p>Rule Name: {rule?.rule_name}</p>
-                                <p>Priority: #{rule?.priority}</p>
-                            </div>
-                            <div className="toggle-switch">
-                                <input
-                                    type="checkbox"
-                                    id={`toggle-${index}`}
-                                    checked={isActive[index]}
-                                    onChange={() => handleToggle(index, rule?.id)}
-                                />
-                                <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
-                                    <span className="toggle-inner" />
-                                    <span className="toggle-switch" />
-                                </label>
-                            </div>
+            <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="rules">
+                    {(provided) => (
+                        <div
+                            className='create-rules-section'
+                            {...provided.droppableProps}
+                            ref={provided.innerRef}
+                        >
+                            {allRules?.map((rule, index) => (
+                                <Draggable key={rule.id} draggableId={rule.id.toString()} index={index}>
+                                    {(provided) => (
+                                        <div
+                                            ref={provided.innerRef}
+                                            {...provided.draggableProps}
+                                            {...provided.dragHandleProps}
+                                            className='created-rules'
+                                        >
+                                            <div className='cr-rule-name'>
+                                                <div className='rule-name'>
+                                                    <p>Rule Name: {rule?.rule_name}</p>
+                                                    {/* <p>Priority: #{rule?.priority}</p> */}
+                                                </div>
+                                                <div className="toggle-switch">
+                                                    <input
+                                                        type="checkbox"
+                                                        id={`toggle-${index}`}
+                                                        checked={isActive[index]}
+                                                        onChange={() => handleToggle(index, rule?.id)}
+                                                    />
+                                                    <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
+                                                        <span className="toggle-inner" />
+                                                        <span className="toggle-switch" />
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div className='cr-rule-conditions'>
+                                                <div className='rule-row text-capitalize'>
+                                                    {rule?.preference_choices?.map((condition, index) => (
 
+                                                        <div key={index} className='rule-item'>
+                                                            {console.log(index, "this is rule data", index, condition)}
+                                                            <p>{condition.criteria}</p>
+                                                            <p>{condition.match_type}</p>
+                                                            <p className={`${rule?.preference_choices.length < 2 ? 'match-value-item' : ''}`}>{condition.match_value}</p>
+                                                            <p className="rule-condition">{condition.condition_type}</p>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className='rule-preference text-capitalize'>
+                                                    <p>1: <img src={rule?.courier_image_1} alt="" /> {rule?.priority_1}</p>
+                                                    <p>2: <img src={rule?.courier_image_2} alt="" /> {rule?.priority_2}</p>
+                                                    <p>3: <img src={rule?.courier_image_3} alt="" /> {rule?.priority_3}</p>
+                                                    <p>4: <img src={rule?.courier_image_4} alt="" /> {rule?.priority_4}</p>
+                                                </div>
+                                                <div className='rules-action-btn'>
+                                                    <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
+                                                        <FontAwesomeIcon icon={faPenToSquare} />
+                                                    </button>
+                                                    <button className='btn main-button ms-2' onClick={() => handleRuleDelete(rule?.id)}>
+                                                        <FontAwesomeIcon icon={faTrashCan} />
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+                                </Draggable>
+                            ))}
+                            {provided.placeholder}
                         </div>
-                        <div className='cr-rule-conditions'>
-                            <div className='rule-row text-capitalize'>
-                                {rule?.preference_choices?.map((condition, index) => (
-
-                                    <div key={index} className='rule-item'>
-                                        {console.log(index, "this is rule data", index, condition)}
-                                        <p>{condition.criteria}</p>
-                                        <p>{condition.match_type}</p>
-                                        <p className={`${rule?.preference_choices.length < 2 ? 'match-value-item' : ''}`}>{condition.match_value}</p>
-                                        <p className="rule-condition">{condition.condition_type}</p>
-                                    </div>
-                                ))}
-                            </div>
-                            <div className='rule-preference text-capitalize'>
-                                <p>1: <img src={rule?.courier_image_1} alt="" /> {rule?.priority_1}</p>
-                                <p>2: <img src={rule?.courier_image_2} alt="" /> {rule?.priority_2}</p>
-                                <p>3: <img src={rule?.courier_image_3} alt="" /> {rule?.priority_3}</p>
-                                <p>4: <img src={rule?.courier_image_4} alt="" /> {rule?.priority_4}</p>
-                            </div>
-                            <div className='rules-action-btn'>
-                                <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
-                                    <FontAwesomeIcon icon={faPenToSquare} />
-                                </button>
-                                <button className='btn main-button ms-2' onClick={() => handleRuleDelete(rule?.id)}>
-                                    <FontAwesomeIcon icon={faTrashCan} />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                ))}
-            </div>
+                    )}
+                </Droppable>
+            </DragDropContext>
 
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
-                <div id='sidepanel-closer' onClick={() => setRulePanel(false)}>
-                    <FontAwesomeIcon icon={faChevronRight} />
-                </div>
-                <section className='edit-order-header'>
-                    <div>
-                        <h5 className='mb-0'>Create a rule to set preference for Courier!</h5>
-                    </div>
-                </section>
-                <section className='ar-panel-body'>
-                    <div className='rule-name-container'>
-                        <label>
-                            Rule Name
-                            <input placeholder='Enter the rule name' className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
-                            <div className="custom-error">{formErrors["ruleName"]}</div>
-                        </label>
-
-                        <label>
-                            Set Priority for this rule
-                            <select className='select-field' value={priority} onChange={(e) => handlePriorityChange(e)}>
-                                <option value="">Select Priority</option>
-                                {priorityOptions?.map(option => (
-                                    <option key={option?.value} value={option?.value}>{option?.value}</option>
-                                ))}
-                            </select>
-                            <div className="custom-error">{formErrors["priority"]}</div>
-                        </label>
-                    </div>
-                    <div style={{ width: '100%' }} className='mb-5'>
-                        <div className='priority-container'>
-                            {[1, 2, 3, 4].map((priority, index) => (
-                                <label key={priority}>
-                                    Priority {priority}
-                                    <select
-                                        className='select-field'
-                                        value={selectedPartners[index]}
-                                        onChange={(e) => handlePartnerChange(index, e.target.value)}
-                                    >
-                                        <option value="">Select Partner</option>
-                                        {courierPartnerData?.data?.map((partner) => (
-                                            <option key={partner.id} value={partner.keyword}>{partner.title}</option>
-                                        ))}
-                                    </select>
-                                    <div className="custom-error">{formErrors["selectedPartners"]}</div>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                    <div className='ar-items-scroll mt-3 d-flex gap-3 flex-column position-relative'>
-                        <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors} setOnRowsChange={setOnRowsChange} />
-                        <div className="text-danger mt-2 me-3 font12">{formErrors["conditions"]}</div>
-                    </div>
-                    <div className='d-flex justify-content-end my-3'>
-                        <button onClick={handleSubmit} className='btn main-button'>Submit</button>
-                    </div>
-                </section>
+                <AddRuleSidePanel
+                    setRulePanel={setRulePanel}
+                    setRuleName={setRuleName}
+                    ruleName={ruleName}
+                    formErrors={formErrors}
+                    priorityOptions={priorityOptions}
+                    courierPartnerData={courierPartnerData}
+                    priority={priority}
+                    handlePriorityChange={handlePriorityChange}
+                    selectedPartners={selectedPartners}
+                    handlePartnerChange={handlePartnerChange}
+                    RuleRow={RuleRow}
+                    conditions={conditions}
+                    setConditions={setConditions}
+                    setOnRowsChange={setOnRowsChange}
+                    handleSubmit={handleSubmit}
+                />
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
 

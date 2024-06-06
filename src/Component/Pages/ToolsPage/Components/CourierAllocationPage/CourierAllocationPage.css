@@ -17,11 +17,15 @@ ul [data-rbd-droppable-context-id] {
     box-shadow: inset 0px 0px 20px 0px rgba(0, 0, 0, 0.21);
     padding: 15px;
     width: 100%;
+    /* overflow-y: auto; */
+    /* padding-block: 10px; */
 }
 
 .Weight-slab ul {
     list-style: none;
+    height: calc(100vh - 373px);
     padding-left: 0;
+    overflow-y: auto;
 }
 
 .Weight-slab ul li {
@@ -120,4 +124,28 @@ ul [data-rbd-droppable-context-id] {
 .priority-container label select {
     width: 100%;
     margin-top: 5px;
+}
+
+
+.app {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.pool,
+.sequence {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 300px;
+    min-height: 400px;
+    padding: 10px;
+}
+
+.courier {
+    padding: 8px;
+    margin: 4px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }

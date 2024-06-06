@@ -185,7 +185,7 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
         <section className='comments-section'>
           <div className="chat-container">
             {allTicket?.comments.map((comment, index) => (
-              <div key={index} className={`comment-container ${comment.replied_by === 'replied_by' ? 'support-comment' : 'user-comment'}`}>
+              <div key={index} className={`comment-container ${comment.replied_by === 'You' ? 'user-comment' : 'support-comment'}`}>
                 {comment.comment}
                 <p className='text-gray'>{currentTime}, {currentDate}</p>
               </div>

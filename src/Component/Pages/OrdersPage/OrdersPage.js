@@ -392,6 +392,8 @@ const OrdersPage = () => {
                     <AllOrders
                         orders={orders}
                         activeTab={activeTab}
+                        bulkAwb={bulkAwb}
+                        setbulkAwb={setbulkAwb}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}

@@ -26,6 +26,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     const [generateinvoice, setGenerateinvoice] = useState(false);
     const [actionType, setActionType] = useState("")
 
+    console.log("bulkAwb", bulkAwb);
 
 
     useEffect(() => {
@@ -281,6 +282,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={() => addTag()}><AddTagIcon /><span>Add Tag</span></li>
                                     <li onClick={() => markedVerified()}><VerifiedIcon /><span>Mark as verified</span></li>
                                     {/* <li onClick={() => bulkCancelled()}><CancelIcon /><span>Cancel</span></li> */}
+                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
