@@ -145,7 +145,6 @@ const NewComponent = () => {
                                                     {...provided.dragHandleProps}
                                                     className="courier"
                                                 >
-                                                    <FontAwesomeIcon icon={faEllipsisVertical} />
                                                     {courier.name}
                                                 </div>
                                             )}
@@ -172,7 +171,6 @@ const NewComponent = () => {
                                                     {...provided.dragHandleProps}
                                                     className="courier"
                                                 >
-                                                    <FontAwesomeIcon icon={faEllipsisVertical} />
                                                     {courier.name}
                                                 </div>
                                             )}
