@@ -4,54 +4,100 @@ import '../CourierAllocationPage.css'
 import NavTabs from '../navTabs/NavTabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
+import SetPreferenceRules from '../SetPreferenceRules';
+import globalDebouncedClick from '../../../../../../debounce';
+import { useDispatch } from 'react-redux';
+// import globalDebouncedClick from '../../../../../debounce';
+
 
 const initialPool = [
     { id: 'courier-1', name: 'Courier 1' },
     { id: 'courier-2', name: 'Courier 2' },
     { id: 'courier-3', name: 'Courier 3' },
+    { id: 'courier-4', name: 'Courier 4' },
+    { id: 'courier-5', name: 'Courier 5' },
+    { id: 'courier-6', name: 'Courier 6' },
+    { id: 'courier-7', name: 'Courier 7' },
+    { id: 'courier-8', name: 'Courier 8' },
     // Add more couriers as needed
 ];
 
-const initialSequence = [];
+const initialSequenceOne = [];
+const initialSequenceTwo = [];
 
 const NewComponent = () => {
+    const dispatch = useDispatch();
+
     const [activeTab, setActiveTab] = useState("Courier Preferences");
+    const [formData, setFormData] = useState(null)
 
     const [pool, setPool] = useState(initialPool);
-    const [sequence, setSequence] = useState(initialSequence);
+    const [sequenceOne, setSequenceOne] = useState(initialSequenceOne);
+    const [sequenceTwo, setSequenceTwo] = useState(initialSequenceTwo);
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
 
         if (!destination) return;
 
-        if (source.droppableId === destination.droppableId) {
-            if (source.droppableId === 'pool') {
-                const items = Array.from(pool);
-                const [movedItem] = items.splice(source.index, 1);
-                items.splice(destination.index, 0, movedItem);
-                setPool(items);
-            } else {
-                const items = Array.from(sequence);
-                const [movedItem] = items.splice(source.index, 1);
-                items.splice(destination.index, 0, movedItem);
-                setSequence(items);
+        const getList = (id) => {
+            switch (id) {
+                case 'pool':
+                    return pool;
+                case 'sequenceOne':
+                    return sequenceOne;
+                case 'sequenceTwo':
+                    return sequenceTwo;
+                default:
+                    return [];
             }
+        };
+
+        const setList = (id, items) => {
+            switch (id) {
+                case 'pool':
+                    setPool(items);
+                    break;
+                case 'sequenceOne':
+                    setSequenceOne(items);
+                    break;
+                case 'sequenceTwo':
+                    setSequenceTwo(items);
+                    break;
+                default:
+                    break;
+            }
+        };
+
+        if (source.droppableId === destination.droppableId) {
+            const items = Array.from(getList(source.droppableId));
+            const [movedItem] = items.splice(source.index, 1);
+            items.splice(destination.index, 0, movedItem);
+            setList(source.droppableId, items);
         } else {
-            const sourceItems = source.droppableId === 'pool' ? Array.from(pool) : Array.from(sequence);
-            const destinationItems = destination.droppableId === 'pool' ? Array.from(pool) : Array.from(sequence);
+            const sourceItems = Array.from(getList(source.droppableId));
+            const destinationItems = Array.from(getList(destination.droppableId));
             const [movedItem] = sourceItems.splice(source.index, 1);
             destinationItems.splice(destination.index, 0, movedItem);
 
-            if (source.droppableId === 'pool') {
-                setPool(sourceItems);
-                setSequence(destinationItems);
-            } else {
-                setPool(destinationItems);
-                setSequence(sourceItems);
-            }
+            setList(source.droppableId, sourceItems);
+            setList(destination.droppableId, destinationItems);
         }
     };
+
+    const removeAllFromSequenceOne = () => {
+        setPool([...pool, ...sequenceOne]);
+        setSequenceOne([]);
+    };
+
+    const removeAllFromSequenceTwo = () => {
+        setPool([...pool, ...sequenceTwo]);
+        setSequenceTwo([]);
+    };
+
+    const handleSubmit = () => {
+        dispatch({ type: "COURIER_ALLOCATION_PARTNER_POST_ACTION", payload: formData });
+    }
 
     return (
         <>
@@ -73,8 +119,6 @@ const NewComponent = () => {
                                                     {...provided.dragHandleProps}
                                                     className="courier"
                                                 >
-                                                    <FontAwesomeIcon icon={faEllipsisVertical} />
-                                                    <img style={{ border: "1px solid #E3E3E3", borderRadius: "50%" }} src={courier?.name} alt={courier?.name} />
                                                     {courier.name}
                                                 </div>
                                             )}
@@ -85,11 +129,14 @@ const NewComponent = () => {
                             )}
                         </Droppable>
 
-                        <Droppable droppableId="sequence">
+                        <Droppable droppableId="sequenceOne">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <h2>Sequence</h2>
-                                    {sequence.map((courier, index) => (
+                                    <div className='d-flex gap-2 align-items-center justify-content-between'>
+                                        <h2 className='mb-0'>B2B</h2>
+                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceOne}>Remove All</button>
+                                    </div>
+                                    {sequenceOne.map((courier, index) => (
                                         <Draggable key={courier.id} draggableId={courier.id} index={index}>
                                             {(provided) => (
                                                 <div
@@ -99,8 +146,8 @@ const NewComponent = () => {
                                                     className="courier"
                                                 >
                                                     <FontAwesomeIcon icon={faEllipsisVertical} />
-                                                    <img style={{ border: "1px solid #E3E3E3", borderRadius: "50%" }} src={courier?.name} alt={courier?.name} />
-                                                    {courier.name}                                                </div>
+                                                    {courier.name}
+                                                </div>
                                             )}
                                         </Draggable>
                                     ))}
@@ -108,9 +155,56 @@ const NewComponent = () => {
                                 </div>
                             )}
                         </Droppable>
-                        {/* </div>q */}
+
+                        <Droppable droppableId="sequenceTwo">
+                            {(provided) => (
+                                <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
+                                    <div className='d-flex gap-2 align-items-center justify-content-between'>
+                                        <h2 className='mb-0'>B2C</h2>
+                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
+                                    </div>
+                                    {sequenceTwo.map((courier, index) => (
+                                        <Draggable key={courier.id} draggableId={courier.id} index={index}>
+                                            {(provided) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    className="courier"
+                                                >
+                                                    <FontAwesomeIcon icon={faEllipsisVertical} />
+                                                    {courier.name}
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
                     </DragDropContext>
                 </div>
+                <div className='cp-or-line'>
+                    <hr />
+                    <span>OR</span>
+                </div>
+                <div className='default-sorting-section'>
+                    <label className='d-flex gap-3 align-items-center'>
+                        Sort by default sorting options
+                        <select className='select-field' name="" id="">
+                            <option value="">Select</option>
+                            <option value="">Sort as Cheapest</option>
+                            <option value="">Sort as Fastest</option>
+                        </select>
+                    </label>
+                    <div>
+                        <button className='btn main-button' onClick={() => globalDebouncedClick(() => handleSubmit())}>Save Courier Preference</button>
+                    </div>
+                </div>
+            </section>
+
+            <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
+                <SetPreferenceRules />
             </section>
         </>
     );
