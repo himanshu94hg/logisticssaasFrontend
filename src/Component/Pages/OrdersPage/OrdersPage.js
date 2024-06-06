@@ -237,11 +237,11 @@ const OrdersPage = () => {
             case "Processing":
                 apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
-            case "Ready to Ship":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+                case "Ready to Ship":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
-            case "Pickup":
-                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+                case "Pickup":
+                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Returns":
                 apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -253,22 +253,26 @@ const OrdersPage = () => {
         if (apiUrl) {
             const queryParams = { ...queryParamTemp };
             const queryString = Object.keys(queryParams)
-                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                 .join('&');
-
-            const decodedURL = decodeURIComponent(queryString);
-
-            if (decodedURL) {
-                apiUrl += '&' + decodedURL;
-            }
-            axios.get(apiUrl, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`
+                
+                const decodedURL = decodeURIComponent(queryString);
+                
+                if (decodedURL) {
+                    apiUrl += '&' + decodedURL;
                 }
-            })
+                axios.get(apiUrl, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`
+                    }
+                })
                 .then(response => {
                     setTotalItems(response?.data?.count)
+                    const start = performance.now();
                     setOrders(response.data.results);
+                    const end = performance.now();
+                    console.log(`Operation took ${end - start}`);
+
                 })
                 .catch(error => {
                     customErrorFunction(error)
