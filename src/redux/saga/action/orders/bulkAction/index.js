@@ -207,6 +207,12 @@ function* bulkGenerateLabelAction(action) {
             yield put({ type: ORDERS_LABEL_LIST_DATA, payload: response?.data })
         }
 
+        if (response.status === 201) {
+            toast.success(response?.data?.message)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_LABEL_LIST_DATA, payload: response?.data })
+        }
+
     } catch (error) {
         customErrorFunction(error);
     }
@@ -225,6 +231,13 @@ function* bulkGenerateInvoiceAction(action) {
         let response = yield call(bulkGenerateInvoiceApi, payload);
         if (response.status === 200) {
             toast.success(` Invoice downloaded successfully!`)
+            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
+            yield put({ type: ORDERS_INVOICE_LIST_DATA, payload: response?.data })
+
+        }
+
+        if (response.status === 201) {
+            toast.success(response?.data?.message)
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             yield put({ type: ORDERS_INVOICE_LIST_DATA, payload: response?.data })
 
