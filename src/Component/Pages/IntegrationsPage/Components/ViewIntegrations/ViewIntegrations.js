@@ -5,10 +5,17 @@ import './ViewIntegrations.css'
 import OMSView from './Components/OMSView';
 import OthersView from './Components/OthersView';
 import CourierView from './Components/CourierView';
+import { useLocation } from 'react-router-dom';
 
 const ViewIntegrations = () => {
-
+    const location = useLocation()
     const [activeTab, setActiveTab] = useState("Channel")
+
+    useEffect(() => {
+        if (location.state?.tabState) {
+            setActiveTab(location.state.tabState);
+        }
+    }, [location.state]);
 
     return (
         <>
