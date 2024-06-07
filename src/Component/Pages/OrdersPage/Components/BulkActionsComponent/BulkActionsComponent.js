@@ -26,39 +26,46 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     const [generateinvoice, setGenerateinvoice] = useState(false);
     const [actionType, setActionType] = useState("")
 
-    console.log("bulkAwb", bulkAwb);
-
-
     useEffect(() => {
-        if (labelData) {
-            if (genaratelabel === true) {
-                const blob = new Blob([labelData], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'label.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                setGenaratelabel(false)
+        if (labelData?.message === "Go to MIS -> Download and download the labels.") {
+            console.log("here");
+        }
+        else{
+            if(labelData)
+            {
+                if (genaratelabel === true) {
+                    const blob = new Blob([labelData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'label.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenaratelabel(false)
+                }
             }
         }
     }, [labelData])
 
     useEffect(() => {
-        if (invoiceData) {
-            if (generateinvoice === true) {
-                const blob = new Blob([invoiceData], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'Invoice.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                setGenerateinvoice(false)
+        if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
+        }
+        else{
+            if (invoiceData) {
+                if (generateinvoice === true) {
+                    const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Invoice.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenerateinvoice(false)
+                }
             }
         }
     }, [invoiceData])
