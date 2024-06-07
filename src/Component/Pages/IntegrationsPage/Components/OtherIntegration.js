@@ -17,7 +17,7 @@ const OtherIntegration = () => {
             <div className=' integration-container mb-3'>
                 <div className='d-flex justify-content-between align-items-center w-100 mb-3'>
                     <h4 className='mb-0'>Other Integration</h4>
-                    <button onClick={() => navigate('/integrations')} className='btn main-button'>View Integrations</button>
+                    <button onClick={() => navigate('/integrations', { state: { activeTab: 'Other' } })} className='btn main-button'>View Integrations</button>
                 </div>
                 <div className="card-grid-container">
                     {data.map((item, index) => (
