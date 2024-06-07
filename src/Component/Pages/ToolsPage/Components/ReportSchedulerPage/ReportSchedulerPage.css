@@ -23,7 +23,8 @@
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 20px;
-    height: calc(100vh - 173px);
+    height: calc(100vh - 178px);
+    padding-bottom: 70px;
 }
 
 /* Style for grid items */
@@ -79,5 +80,12 @@
 }
 
 .rs-page-container .table-container {
-    height: calc(100vh - 191px);
+    height: calc(100vh - 189px);
+    overflow-y: auto;
+}
+
+@media screen and (min-width:1601px) {
+    .rs-page-container .table-container {
+        height: calc(100vh - 198px);
+    }
 }
