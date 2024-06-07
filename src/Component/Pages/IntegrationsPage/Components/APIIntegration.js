@@ -31,7 +31,7 @@ const APIIntegration = () => {
     return (
         <>
             <div className="box-shadow shadow-sm p10">
-                <h3 className="h4 mb-4">Shipease API</h3>
+                <h4 className="h4 mb-4">Shipease API</h4>
                 <div className="row mt-3">
                     <div className="col-sm-12">
                         <p><b>Expand and automate your online business with Shipease API.</b></p>

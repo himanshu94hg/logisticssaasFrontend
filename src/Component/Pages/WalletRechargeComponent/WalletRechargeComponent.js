@@ -9,6 +9,7 @@ import redeemIcon from '../../../assets/image/icons/redeemIcon.png';
 import { useDispatch, useSelector } from 'react-redux';
 import ShipeaseLogo from '../../../assets/image/logo/mobileLogo.svg'
 import Cookies from "js-cookie"
+import { BASE_URL_ORDER } from '../../../axios/config';
 
 
 const WalletRechargeComponent = (props) => {
@@ -42,6 +43,19 @@ const WalletRechargeComponent = (props) => {
         }
     }, [paymentCard, paymentSetCard]);
 
+    useEffect(() => {
+        if (paymentMode === 'paypal') {
+            const script = document.createElement('script');
+            script.src = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
+            script.async = true;
+            document.body.appendChild(script);
+
+            return () => {
+                document.body.removeChild(script);
+            };
+        }
+    }, [paymentMode]);
+
 
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);
@@ -62,44 +76,101 @@ const WalletRechargeComponent = (props) => {
     const handleAddCoupon = () => {
     };
 
-    const handleRecharge = useCallback(async () => {
-        console.log("object")
-        try {
-            const options = {
-                key: razorpayKey,
-                amount: (rechargeAmount) * 100,
-                currency: "INR",
-                name: "Shipease",
-                description: "Wallet Recharge",
-                image: ShipeaseLogo,
-                prefill: {
-                    name: userData?.company_name || "Shipease",
-                    email: userData?.email || "info@shipease.in",
-                    contact: userData?.contact_number,
-                },
-                notes: {
-                    address: "Testing Address",
-                },
-                theme: {
-                    color: "3399cc",
-                },
-                handler: async (response) => {
-                    if (response.razorpay_payment_id) {
-                        let data = JSON.stringify({
-                            razorpay_payment_id: response.razorpay_payment_id,
-                            amount: rechargeAmount,
-                            description: options.description
-                        });
-                        dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
+    const generateOrderId = () => {
+        const now = new Date();
+        return `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
+    };
 
-                    } else {
+
+    const handleRecharge = useCallback(async () => {
+        
+        if (paymentMode === 'credit_card')
+        {
+            try {
+                const options = {
+                    key: razorpayKey,
+                    amount: (rechargeAmount) * 100,
+                    currency: "INR",
+                    name: "Shipease",
+                    description: "Wallet Recharge",
+                    image: ShipeaseLogo,
+                    prefill: {
+                        name: userData?.company_name || "Shipease",
+                        email: userData?.email || "info@shipease.in",
+                        contact: userData?.contact_number,
+                    },
+                    notes: {
+                        address: "Testing Address",
+                    },
+                    theme: {
+                        color: "3399cc",
+                    },
+                    handler: async (response) => {
+                        if (response.razorpay_payment_id) {
+                            let data = JSON.stringify({
+                                razorpay_payment_id: response.razorpay_payment_id,
+                                amount: rechargeAmount,
+                                description: options.description
+                            });
+                            dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
+    
+                        } else {
+                        }
                     }
-                }
+                };
+    
+                const rzpay = new Razorpay(options);
+                rzpay.open();
+            } catch (error) {
+            }
+        }
+        else{
+            const form = document.createElement('form');
+            form.action = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
+            form.method = 'POST';
+            form.style.display = 'none';
+
+            const parameters = {
+                order_id: generateOrderId(),
+                currency: 'INR',
+                amount: rechargeAmount,
+                language: 'EN',
+                billing_name: "",
+                billing_address: "",
+                billing_city:  "",
+                billing_state: "",
+                billing_zip: "",
+                billing_country: "",
+                billing_tel: "",
+                billing_email: "",
+                delivery_name: "",
+                delivery_address: "",
+                delivery_city: "",
+                delivery_state: "",
+                delivery_zip: "",
+                delivery_country: "India",
+                delivery_tel: "",
+                seller_id: userData?.id,
+                merchant_param2: "",
+                merchant_param3: "",
+                merchant_param4: "",
+                merchant_param5: "",
+                promo_code: couponCode,
+                customer_identifier: "",
             };
 
-            const rzpay = new Razorpay(options);
-            rzpay.open();
-        } catch (error) {
+            Object.keys(parameters).forEach(key => {
+                const input = document.createElement('input');
+                input.type = 'hidden';
+                input.name = key;
+                input.value = parameters[key];
+                form.appendChild(input);
+            });
+
+            document.body.appendChild(form);
+            form.submit();
+            document.body.removeChild(form);
+    
         }
     }, [Razorpay, rechargeAmount, dispatch]);
 

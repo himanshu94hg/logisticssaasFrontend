@@ -22,7 +22,10 @@ const OMSIntegration = () => {
     return (
         <>
             <div className=' integration-container mb-3'>
-                <h4>OMS</h4>
+                <div className='d-flex justify-content-between align-items-center w-100 mb-3'>
+                    <h4 className='mb-0'>OMS</h4>
+                    <button onClick={() => navigate('/integrations')} className='btn main-button'>View Integrations</button>
+                </div>
                 <div className="card-grid-container">
                     {OMSData.map((item, index) => (
                         <div key={index} className="card">
