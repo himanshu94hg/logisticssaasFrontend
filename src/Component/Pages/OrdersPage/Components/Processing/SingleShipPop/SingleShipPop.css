@@ -24,7 +24,7 @@
 }
 
 .ss-container-main {
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 100%;
     padding-bottom: 30px;
     display: flex;
