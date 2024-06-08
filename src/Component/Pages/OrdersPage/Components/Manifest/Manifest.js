@@ -19,8 +19,11 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
     const [BulkActions, setBulkActions] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const token = Cookies.get("access_token")
+    const [genaratelabel, setGenaratelabel] = useState(false);
+    const [generateinvoice, setGenerateinvoice] = useState(false);
 
     const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
+    const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
 
 
     /* useEffect(()=>{
@@ -87,71 +90,71 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         data.map((item) => {
             temp.push(item?.order)
         })
-        const requestData = {
-            order_ids: `${temp.join(",")}`
-        };
-
-        try {
-            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-label/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(requestData)
-            });
-            if (response.status === 200) {
-                toast.success("Download label successfully")
+        dispatch({
+            type: "BULK_ORDER_GENERATE_LABEL_ACTION",
+            payload: {
+                order_ids: `${temp.join(",")}`
             }
-            const data = await response.blob();
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            toast.error("Somethng went wrong!")
-        }
-
+        });
+        setGenaratelabel(true)
     }
+
+    useEffect(() => {
+        if (labelData?.message === "Go to MIS -> Download and download the labels.") {
+            console.log("here",labelData?.message);
+        }
+        else{
+            if(labelData)
+            {
+                if (genaratelabel === true) {
+                    const blob = new Blob([labelData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'label.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenaratelabel(false)
+                }
+            }
+        }
+    }, [labelData])
 
     const handleClickDownloadInvoice = async (data) => {
         let temp = []
         data.map((item) => {
             temp.push(item?.order)
         })
-        const requestData = {
-            order_ids: `${temp.join(",")}`
-        };
-        try {
-            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-invoice/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(requestData)
-            });
-            if (!response.ok) {
-                throw new Error('Something went wrong');
+        dispatch({
+            type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
+                order_ids: `${temp.join(",")}`
             }
-
-            const data = await response.blob();
-            const url = window.URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.style.display = 'none';
-            a.href = url;
-            a.download = 'Invoice.pdf';
-            document.body.appendChild(a);
-            a.click();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            toast.error("Somethng went wrong!")
-        }
+        });
+        setGenerateinvoice(true)
     }
+
+    useEffect(() => {
+        if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
+        }
+        else{
+            if (invoiceData) {
+                if (generateinvoice === true) {
+                    const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Invoice.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenerateinvoice(false)
+                }
+            }
+        }
+    }, [invoiceData])
 
     const manifestDownload = (data) => {
         globalDebouncedClick(() => handleClick(data));
