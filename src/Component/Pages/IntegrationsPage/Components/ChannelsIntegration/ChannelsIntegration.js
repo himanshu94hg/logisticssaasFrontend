@@ -32,7 +32,10 @@ const ChannelsIntegration = () => {
     return (
         <>
             <div className=' integration-container mb-3'>
-                <h4>Shopping Carts</h4>
+                <div className='d-flex justify-content-between align-items-center w-100 mb-3'>
+                    <h4 className='mb-0'>Shopping Carts</h4>
+                    <button onClick={() => navigate('/integrations')} className='btn main-button'>View Integrations</button>
+                </div>
                 <div className="card-grid-container">
                     {ShoppingCarts.map((item, index) => (
                         <div key={index} className="card">
@@ -41,7 +44,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
+                                <button onClick={() => navigate('/integrations', { state: { tabState: 'Courier' } })} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}

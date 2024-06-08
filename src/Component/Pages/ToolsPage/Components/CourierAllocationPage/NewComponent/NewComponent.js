@@ -7,6 +7,7 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SetPreferenceRules from '../SetPreferenceRules';
 import globalDebouncedClick from '../../../../../../debounce';
 import { useDispatch } from 'react-redux';
+import { has } from 'lodash';
 // import globalDebouncedClick from '../../../../../debounce';
 
 
@@ -188,7 +189,7 @@ const NewComponent = () => {
                 </div>
                 <div className='default-sorting-section'>
                     <label className='d-flex gap-3 align-items-center'>
-                        Sort by default sorting options
+                        Sort by default sorting options:
                         <select className='select-field' name="" id="">
                             <option value="">Select</option>
                             <option value="">Sort as Cheapest</option>

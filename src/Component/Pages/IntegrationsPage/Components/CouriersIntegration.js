@@ -1,7 +1,11 @@
 import React from 'react'
 import '../IntegrationsPage.css'
+import { useNavigate } from 'react-router-dom';
 
 const CouriersIntegration = () => {
+
+    const navigate = useNavigate();
+
     const data = [
         { title: 'Blue Dart', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Bluedart.png' },
         { title: 'Blue Dart Surface', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Bluedart.png' },
@@ -18,8 +22,11 @@ const CouriersIntegration = () => {
 
     return (
         <>
-            <div className=' integration-container mb-3'>
-                <h4>Couriers</h4>
+            <div className='integration-container mb-3'>
+                <div className='d-flex justify-content-between align-items-center w-100 mb-3'>
+                    <h4 className='mb-0'>Couriers</h4>
+                    <button onClick={() => navigate('/integrations', { state: { tabState: 'Courier' } })} className='btn main-button'>View Integrations</button>
+                </div>
                 <div className="card-grid-container">
                     {data.map((item, index) => (
                         <div key={index} className="card">

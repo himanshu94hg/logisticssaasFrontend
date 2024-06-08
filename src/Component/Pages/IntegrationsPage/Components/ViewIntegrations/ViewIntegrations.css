@@ -1,0 +1,3 @@
+.view-integrations-page .table-container {
+    height: calc(100vh - 164px);
+}

@@ -214,3 +214,8 @@ export const LabelCustomizationPattern = "/label-customize";
 export const LabelCustomizationRoutes = () => {
     return generatePath(LabelCustomizationPattern);
 };
+
+export const ViewIntegrationsPattern = "/integrations";
+export const ViewIntegrationsRoutes = () => {
+    return generatePath(ViewIntegrationsPattern);
+};
