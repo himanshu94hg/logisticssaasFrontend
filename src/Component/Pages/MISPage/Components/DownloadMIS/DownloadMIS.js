@@ -28,6 +28,10 @@ const DownloadMIS = ({ activeTab }) => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { itemsPerPage, currentPage } });
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
 
+    const handleRefresh=()=>{
+        dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+    }
+
     useEffect(() => {
         if (misDownloadData?.results !== null && misDownloadData !== undefined) {
             setmisDownload(misDownloadData?.results);
@@ -125,7 +129,8 @@ const DownloadMIS = ({ activeTab }) => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <button className='btn main-button-outline' onClick={handleReset}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        <button className='btn main-button-outline' onClick={() => handleRefresh()}> Refresh</button>
                     </div>
                 </div>
                 <div className='table-container'>
