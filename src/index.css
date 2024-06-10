@@ -777,3 +777,36 @@ div:where(.swal2-container) button:where(.swal2-styled).swal2-cancel:hover {
   position: absolute;
   bottom: -19px;
 }
+
+
+label .css-b62m3t-container .css-1nmdiq5-menu {
+  z-index: 2;
+}
+
+div:where(.swal2-container) div:where(.swal2-popup) {
+  border-radius: 0.5rem;
+  padding: 0 0 15px;
+}
+
+div:where(.swal2-container) .swal2-html-container {
+  font-size: 1rem;
+  margin-top: 15px;
+}
+
+div:where(.swal2-container) div:where(.swal2-actions) {
+  margin-top: 15px;
+}
+
+div:where(.swal2-icon).swal2-success{
+  order: 4;
+  margin-block: 20px 15px;
+}
+
+.swal2-title.custom-title {
+  font-weight: 500;
+  font-size: 1.25rem;
+  padding: 15px;
+  background: var(--sh-primary-light);
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: var(--bs-heading-color);
+}
