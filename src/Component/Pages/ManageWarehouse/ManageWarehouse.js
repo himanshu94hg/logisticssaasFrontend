@@ -42,32 +42,43 @@ const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const handleSetDefault = (index, id) => {
     if (defaultWarehouseIndex === index) {
       Swal.fire({
-        title: 'Already Default',
         text: 'This warehouse is already marked as default.',
-        icon: 'info',
         confirmButtonText: 'Ok',
-        confirmButtonClass: 'my-confirm-button-class'
+        customClass: {
+          title: 'custom-title',
+          confirmButton: 'btn main-button',
+          cancelButton: 'btn cancel-button'
+        }
       });
     } else {
       Swal.fire({
-        title: 'Are you sure?',
+        title: 'Confirmation Required!',
         text: 'Do you want to mark this warehouse as default?',
-        icon: 'warning',
         showCancelButton: true,
-        confirmButtonText: `<span class="custom-confirm-button">Yes, mark it as default</span>`,
-        cancelButtonText: '<span class="custom-cancel-button">No, cancel</span>',
+        confirmButtonText: `Yes, mark it as default`,
+        cancelButtonText: 'No, cancel',
         reverseButtons: true,
-        confirmButtonClass: 'my-confirm-button-class',
-        cancelButtonClass: 'my-cancel-button-class'
+        customClass: {
+          title: 'custom-title',
+          confirmButton: 'btn main-button',
+          cancelButton: 'btn cancel-button'
+        }
       }).then((result) => {
         if (result.isConfirmed) {
           dispatch({ type: "MAKE_WAREHOUSE_DEFAULT_ACTION", payload: id })
           setDefaultWarehouseIndex(index);
-          Swal.fire(
-            'Marked as Default!',
-            'This warehouse has been marked as default.',
-            'success'
-          );
+          Swal.fire({
+            title: 'Marked as Default!',
+            text: 'This warehouse has been marked as default.',
+            icon: 'success',
+            timer: '3000',
+            showConfirmButton: false,
+            customClass: {
+              title: 'custom-title',
+              confirmButton: 'btn main-button',
+              cancelButton: 'btn cancel-button'
+            }
+          });
         }
       });
     }
@@ -242,7 +253,7 @@ const ManageWarehouse = () => {
         },
         responseType: 'blob'
       });
-  
+
       if (response.status === 200) {
         toast.success('File exported successfully!');
         const blob = new Blob([response.data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
@@ -276,7 +287,7 @@ const ManageWarehouse = () => {
           </div>
           <div className='button-container'>
             <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
-            <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25}  /> Export</button>
+            <button className='btn main-button-outline me-2' onClick={handleExport}><AiOutlineCloudDownload fontSize={25} /> Export</button>
             <button className='btn main-button' onClick={() => navigate('/add-pickup-address')}><FontAwesomeIcon icon={faPlus} /> Add Warehouse</button>
           </div>
         </section>

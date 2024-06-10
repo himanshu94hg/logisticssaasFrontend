@@ -797,6 +797,11 @@ div:where(.swal2-container) div:where(.swal2-actions) {
   margin-top: 15px;
 }
 
+div:where(.swal2-icon).swal2-success{
+  order: 4;
+  margin-block: 20px 15px;
+}
+
 .swal2-title.custom-title {
   font-weight: 500;
   font-size: 1.25rem;
