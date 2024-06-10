@@ -27,25 +27,28 @@ const BillingPage = () => {
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
 
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
-    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard } = billingSectionReducer;
+    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard,billingPassbookCounterCard,billingRechargeCounterCard,billingShippingCounterCard,billingRemitanceExportCard } = billingSectionReducer;
 
-    console.log("All Item Logs", billingShipingCard.count);
+    console.log("billingPassbookCounterCardbillingPassbookCounterCard", billingShippingCounterCard);
 
     useEffect(() => {
         switch (activeTab) {
             case "Shipping Charges":
+                dispatch({ type: "BILLING_SHIPPING_COUNTER_DATA_ACTION"});
                 dispatch({ type: "BILLING_SHIPING_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Remittance Logs":
                 dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: { page_size: itemsPerPage, page: currentPage } });
                 break;
             case "Recharge Logs":
+                dispatch({ type: "BILLING_RECHARGE_COUNTER_DATA_ACTION"});
                 dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Invoices":
                 dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Passbook":
+                dispatch({ type: "BILLING_PASSBOOK_COUNTER_DATA_ACTION"});
                 dispatch({ type: "BILLING_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Credit Receipt":
@@ -144,7 +147,8 @@ const BillingPage = () => {
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}
-                    setSelectedOrderRows={setSelectedOrderRows} />}
+                    setSelectedOrderRows={setSelectedOrderRows} 
+                    billingShippingCounterCard={billingShippingCounterCard}/>}
 
                 {/* Remittance Logs */}
                 {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={remitanceOrderRows}
@@ -156,7 +160,8 @@ const BillingPage = () => {
                 {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} />}
+                    setBulkActionShow={setBulkActionShow} 
+                    billingRechargeCounterCard={billingRechargeCounterCard}/>}
 
                 {/* Invoices */}
                 {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
@@ -168,7 +173,8 @@ const BillingPage = () => {
                 {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} />}
+                    setBulkActionShow={setBulkActionShow} 
+                    billingPassbookCounterCard={billingPassbookCounterCard}/>}
 
                 {/* Credit Receipt */}
                 {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
@@ -200,6 +206,7 @@ const BillingPage = () => {
                 setMoreFilters={setMoreFilters}
                 handleMoreFilter={handleMoreFilter}
                 selectedRows={selectedRows}
+                billingRemitanceExportCard={billingRemitanceExportCard}
             />
             <div onClick={() => setMoreFilters(false)} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
         </>

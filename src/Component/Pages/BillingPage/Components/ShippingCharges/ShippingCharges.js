@@ -30,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow,setSelectedOrderRows }) => {
+const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow,setSelectedOrderRows,billingShippingCounterCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -104,19 +104,19 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total Freight Charges: <span>&#8377; {data?.total_freight_charges || 0}</span></p>
+                        <p>Total Freight Charges: <span>&#8377; {billingShippingCounterCard?.total_freight_charge || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Billed Freight Charges: <span>&#8377; {data?.billed_freight_charges || 0}</span></p>
+                        <p>Billed Freight Charges: <span>&#8377; {billingShippingCounterCard?.billed_freight_charge || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Unbilled Freight Charges: <span>&#8377; {data?.unbilled_freight_charges || 0}</span></p>
+                        <p>Unbilled Freight Charges: <span>&#8377; {billingShippingCounterCard?.unbilled_freight_charge || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total On-Hold Amount: <span>&#8377; {data?.total_on_hold_amount || 0}</span></p>
+                        <p>Total On-Hold Amount: <span>&#8377; {billingShippingCounterCard?.total_on_hold || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Invoice Due Amount: <span>&#8377; {data?.invoice_due_amount || 0}</span></p>
+                        <p>Invoice Due Amount: <span>&#8377; {billingShippingCounterCard?.invoice_due_amount || 0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>

@@ -1,4 +1,4 @@
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA ,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA } from "../../constants/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA ,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA,GET_BILLING_PASSBOOK_COUNTER_DATA,GET_BILLING_RECHARGE_COUNTER_DATA,GET_BILLING_SHIPPING_COUNTER_DATA,GET_BILLING_REMITANCE_EXPORT_DATA } from "../../constants/billing";
 
 
 const initialState = {
@@ -9,7 +9,11 @@ const initialState = {
     billingShipingInvoiceCard:[],
     billingShipingReceiptCard:[],
     billingShipingReceiptExportCard:[],
-    billingShipingRemitanceDOWNLOADCard:null
+    billingShipingRemitanceDOWNLOADCard:null,
+    billingPassbookCounterCard:null,
+    billingRechargeCounterCard:null,
+    billingShippingCounterCard:null,
+    billingRemitanceExportCard:null
 };
 
 export const billingSectionReducer = (state = initialState, action) => {
@@ -55,6 +59,27 @@ export const billingSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 billingShipingRemitanceDOWNLOADCard: action?.payload
+            };
+
+        case GET_BILLING_SHIPPING_COUNTER_DATA:
+            return {
+                ...state,
+                billingShipingCounterCard: action?.payload
+            };
+        case GET_BILLING_RECHARGE_COUNTER_DATA:
+            return {
+                ...state,
+                billingRechargeCounterCard: action?.payload
+            };
+        case GET_BILLING_PASSBOOK_COUNTER_DATA:
+            return {
+                ...state,
+                billingPassbookCounterCard: action?.payload
+            };
+        case GET_BILLING_REMITANCE_EXPORT_DATA:
+            return {
+                ...state,
+                billingRemitanceExportCard: action?.payload
             };
         default:
             return state
