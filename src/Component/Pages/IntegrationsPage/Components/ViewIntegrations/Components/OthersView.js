@@ -2,86 +2,8 @@ import React, { useState } from 'react';
 
 const OthersView = () => {
     const integrations = [
-        {
-            id: 1,
-            storeName: 'Store 1',
-            channelID: 'Channel_001',
-            salesChannel: 'Shopify',
-            syncInfo: '2023-01-01',
-            connectionStatus: 'Connected',
-            channelStatus: 'Active',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 2,
-            storeName: 'Store 2',
-            channelID: 'Channel_002',
-            salesChannel: 'Amazon',
-            syncInfo: '2023-02-15',
-            connectionStatus: 'Disconnected',
-            channelStatus: 'Inactive',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 3,
-            storeName: 'Store 3',
-            channelID: 'Channel_003',
-            salesChannel: 'woocommerce',
-            syncInfo: '2023-03-01',
-            connectionStatus: 'Connected',
-            channelStatus: 'Active',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 4,
-            storeName: 'Store 4',
-            channelID: 'Channel_004',
-            salesChannel: 'Shopify',
-            syncInfo: '2023-04-15',
-            connectionStatus: 'Disconnected',
-            channelStatus: 'Inactive',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 5,
-            storeName: 'Store 5',
-            channelID: 'Channel_005',
-            salesChannel: 'Amazon',
-            syncInfo: '2023-05-01',
-            connectionStatus: 'Connected',
-            channelStatus: 'Active',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 6,
-            storeName: 'Store 6',
-            channelID: 'Channel_006',
-            salesChannel: 'woocommerce',
-            syncInfo: '2023-06-15',
-            connectionStatus: 'Disconnected',
-            channelStatus: 'Inactive',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 7,
-            storeName: 'Store 7',
-            channelID: 'Channel_007',
-            salesChannel: 'Shopify',
-            syncInfo: '2023-07-01',
-            connectionStatus: 'Connected',
-            channelStatus: 'Active',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
-        {
-            id: 8,
-            storeName: 'Store 8',
-            channelID: 'Channel_008',
-            salesChannel: 'Amazon',
-            syncInfo: '2023-08-15',
-            connectionStatus: 'Disconnected',
-            channelStatus: 'Inactive',
-            logoUrl: 'https://via.placeholder.com/50'
-        },
+     
+       
     ];
 
     return (

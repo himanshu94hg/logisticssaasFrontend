@@ -2,54 +2,7 @@ import React from 'react';
 
 const CourierView = () => {
     const integrations = [
-        {
-            id: 1,
-            logo_url: 'https://via.placeholder.com/50',
-            courier_name: 'Courier 1',
-            mode: 'Air',
-            call_before_delivery: 'Available',
-            tracking_service: 'Real Time',
-            pod: 'Instant',
-            delivery_boy_number: '9876543210',
-            status: 'Active',
-            activation_date: '6 June 2024'
-        },
-        {
-            id: 2,
-            logo_url: 'https://via.placeholder.com/50',
-            courier_name: 'Courier 2',
-            mode: 'Land',
-            call_before_delivery: 'Available',
-            tracking_service: 'MIS',
-            pod: 'On Request',
-            delivery_boy_number: 'Not Available',
-            status: 'Not Active',
-            activation_date: '6 June 2024'
-        },
-        {
-            id: 3,
-            logo_url: 'https://via.placeholder.com/50',
-            courier_name: 'Courier 3',
-            mode: 'Sea',
-            call_before_delivery: 'Not Available',
-            tracking_service: 'Real Time',
-            pod: 'On Request',
-            delivery_boy_number: '9876543210',
-            status: 'Active',
-            activation_date: '6 June 2024'
-        },
-        {
-            id: 4,
-            logo_url: 'https://via.placeholder.com/50',
-            courier_name: 'Courier 4',
-            mode: 'Air',
-            call_before_delivery: 'Available',
-            tracking_service: 'MIS',
-            pod: 'On Request',
-            delivery_boy_number: 'Not Available',
-            status: 'Active',
-            activation_date: '6 June 2024'
-        }
+      
     ];
 
     return (
