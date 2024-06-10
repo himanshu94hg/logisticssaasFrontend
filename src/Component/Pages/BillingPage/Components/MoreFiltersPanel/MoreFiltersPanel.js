@@ -4,16 +4,17 @@ import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 
-const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter}) => {
+const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, handleMoreFilter, billingRemitanceExportCard }) => {
     const dispatch = useDispatch();
     const [errors, setErrors] = useState({});
     const [SidePanelOption, setSidePanelOption] = useState('Filter');
     const [courierPartners, setCourierPartners] = useState([]);
+    const [awbNumbers, setAwbNumbers] = useState('');
+    const [selectedCourierPartners, setSelectedCourierPartners] = useState([]);
+    const [exportButtonClick, setExportButtonClick] = useState(false)
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -110,6 +111,38 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         }),
     };
 
+    const handleExportClick = () => {
+        setExportButtonClick(true);
+        const awbNumbersString = awbNumbers
+            .split(',')
+            .map(number => number.trim())
+            .filter(Boolean)
+            .join(',');
+
+        const selectedCourierPartnerKeywords = selectedCourierPartners
+            .map(partner => partner.value)
+            .join(',');
+
+        const payload = {
+            awb_number: awbNumbersString,
+            courier_partner: selectedCourierPartnerKeywords
+        };
+
+        dispatch({
+            type: "BILLING_REMITANCE_EXPORT_DATA_ACTION",
+            payload: payload
+        });
+    };
+
+    useEffect(() => {
+        if (billingRemitanceExportCard) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([billingRemitanceExportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [billingRemitanceExportCard]);
+
     return (
         <div id='sidePanel' className={`side-panel morefilters-panel remitance-logs-filter ${MoreFilters ? 'open' : ''}`}>
             <div id='sidepanel-closer' onClick={() => setMoreFilters(false)}>
@@ -199,11 +232,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                             <div className='filter-row'>
                                 <label>
                                     Enter AWB Number(s)
-                                    <input className='input-field' type="text" placeholder='Enter AWB numbers (comma separated)' />
+                                    <input
+                                        className='input-field'
+                                        type="text"
+                                        placeholder='Enter AWB numbers (comma separated)'
+                                        value={awbNumbers}
+                                        onChange={e => setAwbNumbers(e.target.value)}
+                                    />
                                 </label>
                             </div>
                             <div className='d-flex justify-content-end'>
-                                <button className='btn main-button'>Export</button>
+                                <button className='btn main-button' onClick={handleExportClick}>Export</button>
                             </div>
                             <div className='section-divider invisible'>
                                 <hr />
@@ -214,17 +253,17 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     Courier Partner(s)
                                     <Select
                                         options={courierPartners}
-                                        onChange={e => handleChange("courier_partner", e)}
+                                        onChange={setSelectedCourierPartners}
                                         isMulti
                                         isSearchable
-                                        value={courierPartners?.value}
+                                        value={selectedCourierPartners}
                                         placeholder="Select Courier Partner(s)"
                                         styles={customStyles}
                                     />
                                 </label>
                             </div>
                             <div className='d-flex justify-content-end'>
-                                <button className='btn main-button'>Export</button>
+                                <button className='btn main-button' onClick={handleExportClick}>Export</button>
                             </div>
                         </div>
                     </>

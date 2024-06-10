@@ -186,4 +186,9 @@ export const API_URL = {
    GET_CHANNEL_URL: "/core-api/channel/channel/",
 
    GET_COURIER_PARTNER:"/core-api/features/partner-list/",
+
+   GET_BILLING_PASSBOOK_COUNTER_URL:"/core-api/features/billing/passbook-counter/",
+   GET_BILLING_RECHARGE_COUNTER_URL:"/core-api/features/billing/recharge-log-counter/",
+   GET_SHIPPING_COUNTER_URL:"/core-api/features/billing/shipping-charge-counter/",
+   GET_REMITANCE_EXPORT_URL:"/core-api/features/billing/remittance-log-export-by-filter/",
 };

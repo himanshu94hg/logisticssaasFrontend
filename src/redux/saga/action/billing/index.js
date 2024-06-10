@@ -1,8 +1,8 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,BASE_URL_BILLING } from "../../../../axios/config";
-import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION } from "../../constant/billing";
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA } from "../../../constants/billing";
+import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION,BILLING_PASSBOOK_COUNTER_DATA_ACTION,BILLING_RECHARGE_COUNTER_DATA_ACTION,BILLING_SHIPPING_COUNTER_DATA_ACTION,BILLING_REMITANCE_EXPORT_DATA_ACTION } from "../../constant/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA,GET_BILLING_PASSBOOK_COUNTER_DATA,GET_BILLING_RECHARGE_COUNTER_DATA,GET_BILLING_SHIPPING_COUNTER_DATA,GET_BILLING_REMITANCE_EXPORT_DATA } from "../../../constants/billing";
 import {toast} from "react-toastify";
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
@@ -183,6 +183,93 @@ function* billingShipingRemitanceDownloadFilesAction(action) {
     }
 }
 
+//counter
+async function billingPassbookCounterFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_PASSBOOK_COUNTER_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+function* billingPassbookCounterFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingPassbookCounterFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_PASSBOOK_COUNTER_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        customErrorFunction(error);
+    }
+}
+
+async function billingRechargeCounterFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_RECHARGE_COUNTER_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+function* billingRechargeCounterFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingRechargeCounterFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_RECHARGE_COUNTER_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        customErrorFunction(error);
+    }
+}
+
+async function billingShippingCounterFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_BILLING}${API_URL.GET_SHIPPING_COUNTER_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+function* billingShippingCounterFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingShippingCounterFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_SHIPPING_COUNTER_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        customErrorFunction(error);
+    }
+}
+
+
+async function billingRemitanceExportFileAPI(data) {
+    let listData = axios.request({
+        method: "POST",
+        responseType: 'blob',
+        url: `${BASE_URL_BILLING}${API_URL.GET_REMITANCE_EXPORT_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+function* billingRemitanceExportFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingRemitanceExportFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_REMITANCE_EXPORT_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        customErrorFunction(error);
+    }
+}
+
 export function* getBillingWatcher() {
     yield takeLatest(BILLING_DATA_ACTION,billingFilesAction);
     yield takeLatest(BILLING_SHIPING_DATA_ACTION,billingShipingFilesAction);
@@ -192,4 +279,10 @@ export function* getBillingWatcher() {
     yield takeLatest(BILLING_SHIPING_INVOICE_DATA_ACTION,billingShipingInvoiceFilesAction);
     yield takeLatest(BILLING_SHIPING_RECEIPT_DATA_ACTION,billingShipingReceiptFilesAction);
     yield takeLatest(BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,billingShipingReceiptExportFilesAction);
+
+    yield takeLatest(BILLING_PASSBOOK_COUNTER_DATA_ACTION,billingPassbookCounterFilesAction);
+    yield takeLatest(BILLING_RECHARGE_COUNTER_DATA_ACTION,billingRechargeCounterFilesAction);
+    yield takeLatest(BILLING_SHIPPING_COUNTER_DATA_ACTION,billingShippingCounterFilesAction);
+    yield takeLatest(BILLING_REMITANCE_EXPORT_DATA_ACTION,billingRemitanceExportFilesAction);
 }
+
