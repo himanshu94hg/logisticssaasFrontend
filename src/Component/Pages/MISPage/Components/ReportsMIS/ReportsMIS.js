@@ -36,6 +36,13 @@ const ReportsMIS = ({ activeTab }) => {
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
+    const [bulkFilters, setBulkFilters] = useState({
+        type: null,
+        subtype: null,
+        startDate: null,
+        endDate: null
+    });
+
 
 
     useEffect(() => {
@@ -200,6 +207,12 @@ const ReportsMIS = ({ activeTab }) => {
         setStateData1(new Date())
         if (firstSelectedOption && secondSelectedOption) {
             setShowComponent(firstSelectedOption.value);
+            setBulkFilters({
+                type: firstSelectedOption.value,
+                subtype: secondSelectedOption.value,
+                startDate: startDate,
+                endDate: endDate
+            });
         } else if (!firstSelectedOption) {
             Swal.fire({
                 icon: 'error',
@@ -292,7 +305,7 @@ const ReportsMIS = ({ activeTab }) => {
 
                 </div>
                 <div className='table-container'>
-                    {showComponent !== null && ( // Conditional rendering only if showComponent is true and selectOption is truthy
+                    {showComponent !== null && (
                         showComponent === 'Orders' ? (
                             <OrdersTableMIS
                                 subType={secondSelectedOption.value}
@@ -368,17 +381,15 @@ const ReportsMIS = ({ activeTab }) => {
             />
             {BulkActionShow && (
                 <BulkActionsComponent
-                    // activeTab={activeTab}
-                    // bulkAwb={bulkAwb}
-                    // setbulkAwb={setbulkAwb}
                     activeTab={activeTab}
                     selectedRows={selectedRows}
                     firstOptions={firstOptions}
-                    // setaddTagShow={setaddTagShow}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}
-                // setUpdateWarehouse={setUpdateWarehouse}
-                // setUpdateWeight={setUpdateWeight}
+                    type={bulkFilters.type}
+                    subtype={bulkFilters.subtype}
+                    startDate={bulkFilters.startDate}
+                    endDate={bulkFilters.endDate}
                 />
             )
             }
