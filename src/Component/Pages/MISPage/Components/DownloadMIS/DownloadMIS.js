@@ -24,12 +24,16 @@ const DownloadMIS = ({ activeTab }) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(20);
 
+
     useEffect(() => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { itemsPerPage, currentPage } });
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
 
-    const handleRefresh=()=>{
+    const handleRefresh = () => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+        if (misDownloadData) {
+            toast.success("Data refreshed successfully!")
+        }
     }
 
     useEffect(() => {
@@ -98,24 +102,24 @@ const DownloadMIS = ({ activeTab }) => {
                 'Content-Type': 'application/pdf',
             },
         })
-        .then(response => {
-            if (response.ok) {
-                return response.blob();
-            } else {
-                throw new Error('Failed to download file');
-            }
-        })
-        .then(blob => {
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = filename;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        })
-        .catch(error => console.error('Error:', error));
+            .then(response => {
+                if (response.ok) {
+                    return response.blob();
+                } else {
+                    throw new Error('Failed to download file');
+                }
+            })
+            .then(blob => {
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                window.URL.revokeObjectURL(url);
+            })
+            .catch(error => console.error('Error:', error));
     };
 
     return (
