@@ -65,6 +65,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, fi
                         </div>
                         <ul className='ba-actions'>
                             <li onClick={exportFile}><ExportIcon /><span>Export</span></li>
+                            <li><ExportIcon /><span>Export All</span></li>
                         </ul>
                         <div className='ba-close'></div>
                     </div>
