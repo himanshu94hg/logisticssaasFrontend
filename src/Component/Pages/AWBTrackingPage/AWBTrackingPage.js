@@ -55,14 +55,17 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                 <ul>
                     {orderStatus?.order_tracking?.map((item) => {
                         return (
-                            <li className={`${item?.status === "Delivered" ? "active" : ""}`}>
-                                <div className='track-icon'>
+                            <li className={`active`}>
+                                <div className='track-icon active'>
                                     {item?.status === "Delivered" ? <TrackingDone /> : <TrackingIcon />}
                                 </div>
-                                <div>
-                                    <h4>{item?.status_description}</h4>
-                                    <p>Status: {item?.status}</p>
-                                    <p>{item?.location}</p>
+                                <div className='d-flex flex-column gap-1'>
+                                    <h4>{item?.status}</h4>
+                                    <div className='d-flex gap-3 align-items-end'>
+                                        <p>Status: {item?.status}</p>
+                                        <p>||</p>
+                                        <p>{item?.location}</p>
+                                    </div>
                                     <p>{moment(item?.updated_at).format("DD MMM YYYY")} || {moment(item?.updated_at).format('hh:mm A')}</p>
                                 </div>
                             </li>

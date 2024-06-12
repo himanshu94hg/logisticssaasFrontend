@@ -9,6 +9,11 @@
     padding: 30px;
 }
 
+.tracking-body p,
+.tracking-body h4 {
+    margin-bottom: 0;
+}
+
 .tracking-body ul {
     list-style: none;
     padding-left: 0;
@@ -19,9 +24,15 @@
 
 .tracking-body ul li {
     display: flex;
-    align-items: start;
+    align-items: center;
     gap: 10px;
+
 }
+
+/* 
+.tracking-body ul li .track-icon::after {
+    po
+} */
 
 .tracking-body ul li h4 {
     font-size: 1rem;
