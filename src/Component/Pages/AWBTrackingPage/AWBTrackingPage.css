@@ -19,6 +19,11 @@
     margin-bottom: 0;
 }
 
+.tracking-header img {
+    width: 35px;
+    height: 35px;
+}
+
 .tracking-body ul {
     list-style: none;
     padding-left: 0;
