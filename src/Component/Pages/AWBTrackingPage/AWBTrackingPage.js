@@ -66,9 +66,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                                 <div className='d-flex flex-column gap-1'>
                                     <h4>{item?.status}</h4>
                                     <div className='d-flex gap-3 align-items-end'>
-                                        <p>{item?.status_description}</p>
-                                        <p>||</p>
-                                        <p>{item?.location}</p>
+                                        <p>{item?.status_description} || {item?.location}</p>
                                     </div>
                                     <p>{moment(item?.updated_at).format("DD MMM YYYY")} || {moment(item?.updated_at).format('hh:mm A')}</p>
                                 </div>
