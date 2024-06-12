@@ -51,8 +51,8 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
             <section className='tracking-header'>
                 <h4><span>AWB:</span> {orderStatus?.awb_number}</h4>
                 <div className='d-flex align-items-center gap-3'>
-                    {/* <p className='text-capitalize'>{orderStatus?.courier_partner}</p> */}
-                    {/* <img src="" alt={orderStatus?.courier_partner} /> */}
+                    <p className='text-capitalize'>{orderStatus?.courier_partner}</p>
+                    <img src={orderStatus?.courier_image} alt={orderStatus?.courier_partner} />
                 </div>
             </section>
             <section className='tracking-body'>
