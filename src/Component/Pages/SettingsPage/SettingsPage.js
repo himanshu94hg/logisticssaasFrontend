@@ -34,13 +34,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "Basic Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Company Profile
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -88,13 +88,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "Account Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Bank Details
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
