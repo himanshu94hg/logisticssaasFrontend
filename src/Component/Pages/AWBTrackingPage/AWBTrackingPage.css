@@ -20,6 +20,8 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    height: calc(100vh - 111px);
+    overflow: auto;
 }
 
 .tracking-body ul li {

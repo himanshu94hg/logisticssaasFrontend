@@ -55,7 +55,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                 <ul>
                     {orderStatus?.order_tracking?.map((item) => {
                         return (
-                            <li className={`active`}>
+                            <li className={``}>
                                 <div className='track-icon active'>
                                     {item?.status === "Delivered" ? <TrackingDone /> : <TrackingIcon />}
                                 </div>
