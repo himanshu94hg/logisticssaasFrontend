@@ -31,15 +31,29 @@
 
 .tracking-body ul li {
     display: flex;
-    align-items: center;
+    align-items: start;
     gap: 10px;
 
 }
 
-/* 
+.tracking-body ul li .track-icon {
+    position: relative;
+}
+
 .tracking-body ul li .track-icon::after {
-    po
-} */
+    position: absolute;
+    content: '';
+    height: 45px;
+    width: 2px;
+    bottom: 35px;
+    left: 12px;
+    border-left: 1px dashed #000;
+    z-index: -1;
+}
+
+.tracking-body ul li:first-of-type .track-icon::after {
+    display: none;
+}
 
 .tracking-body ul li h4 {
     font-size: 1rem;
