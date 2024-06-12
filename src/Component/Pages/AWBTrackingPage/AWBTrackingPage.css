@@ -1,7 +1,10 @@
 .tracking-header {
     width: 100%;
     background-color: #CEDBF2;
-    padding: 15px 20px;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tracking-body {
@@ -9,7 +12,9 @@
     padding: 30px;
 }
 
+.tracking-header p,
 .tracking-body p,
+.tracking-header h4,
 .tracking-body h4 {
     margin-bottom: 0;
 }
