@@ -335,7 +335,7 @@ const ReportSchedulerPage = () => {
                 {reportData.report_type === 'Non-order' ? <>
                   <div className='d-flex flex-column gap-4'>
                     <label>
-                      Report Content
+                      Content Type
                       <input className='input-field' type="text" />
                     </label>
                   </div>
