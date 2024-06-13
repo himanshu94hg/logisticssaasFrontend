@@ -1,12 +1,27 @@
 .tracking-header {
     width: 100%;
     background-color: #CEDBF2;
-    padding: 15px 20px;
+    padding: 30px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .tracking-body {
     width: 100%;
     padding: 30px;
+}
+
+.tracking-header p,
+.tracking-body p,
+.tracking-header h4,
+.tracking-body h4 {
+    margin-bottom: 0;
+}
+
+.tracking-header img {
+    width: 45px;
+    height: 45px;
 }
 
 .tracking-body ul {
@@ -15,12 +30,34 @@
     display: flex;
     flex-direction: column;
     gap: 15px;
+    height: calc(100vh - 139px);
+    overflow: auto;
 }
 
 .tracking-body ul li {
     display: flex;
     align-items: start;
     gap: 10px;
+
+}
+
+.tracking-body ul li .track-icon {
+    position: relative;
+}
+
+.tracking-body ul li .track-icon::after {
+    position: absolute;
+    content: '';
+    height: 45px;
+    width: 2px;
+    bottom: 35px;
+    left: 12px;
+    border-left: 1px dashed #000;
+    z-index: -1;
+}
+
+.tracking-body ul li:first-of-type .track-icon::after {
+    display: none;
 }
 
 .tracking-body ul li h4 {

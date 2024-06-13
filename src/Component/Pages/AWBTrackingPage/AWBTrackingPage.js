@@ -49,14 +49,18 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                 <FontAwesomeIcon icon={faChevronRight} />
             </div>
             <section className='tracking-header'>
-                <h4><span>AWB No:</span> {orderStatus?.awb_number}</h4>
+                <h4><span>AWB:</span> {orderStatus?.awb_number}</h4>
+                <div className='d-flex align-items-center gap-3'>
+                    <p className='text-capitalize'>{orderStatus?.courier_partner}</p>
+                    <img src={orderStatus?.courier_image} alt={orderStatus?.courier_partner} />
+                </div>
             </section>
             <section className='tracking-body'>
                 <ul>
                     {orderStatus?.order_tracking?.map((item) => {
                         return (
-                            <li className={`${item?.status === "Delivered" ? "active" : ""}`}>
-                                <div className='track-icon'>
+                            <li className={`${item?.status === "Delivered" && 'active'}`}>
+                                <div className={`track-icon ${item?.status === "Delivered" && 'active'}`}>
                                     {item?.status === "Delivered" ? <TrackingDone /> : <TrackingIcon />}
                                 </div>
                                 <div>
