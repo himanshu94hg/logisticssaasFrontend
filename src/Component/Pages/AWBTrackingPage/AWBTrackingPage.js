@@ -63,12 +63,11 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                                 <div className={`track-icon ${item?.status === "Delivered" && 'active'}`}>
                                     {item?.status === "Delivered" ? <TrackingDone /> : <TrackingIcon />}
                                 </div>
-                                <div className='d-flex flex-column gap-1'>
-                                    <h4>{item?.status}</h4>
-                                    <div className='d-flex gap-3 align-items-end'>
-                                        <p>{item?.status_description} || {item?.location}</p>
-                                    </div>
-                                    <p>{moment(item?.updated_at).format("DD MMM YYYY")} || {moment(item?.updated_at).format('hh:mm A')}</p>
+                                <div>
+                                    <h4>{item?.status_description}</h4>
+                                    <p>Status: {item?.status}</p>
+                                    <p>{item?.location}</p>
+                                    <p>{moment(item?.courier_action_date).format("DD MMM YYYY")} || {moment(item?.courier_action_date).format('hh:mm A')}</p>
                                 </div>
                             </li>
                         )
