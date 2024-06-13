@@ -362,7 +362,7 @@ const ReportSchedulerPage = () => {
                       />
                     </label>
                     <label className='invisible'>
-                      Content Type
+                      #############
                       <Select
                       />
                     </label>
