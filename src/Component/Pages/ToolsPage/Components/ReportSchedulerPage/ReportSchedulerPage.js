@@ -91,17 +91,16 @@ const ReportSchedulerPage = () => {
   };
 
   useEffect(() => {
-    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" ,payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-  }, [dispatch,itemsPerPage,currentPage])
+    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+  }, [dispatch, itemsPerPage, currentPage])
 
-  
+
   useEffect(() => {
-    if(reportSchedularData && reportSchedularData !== undefined)
-    {
+    if (reportSchedularData && reportSchedularData !== undefined) {
       setReportSchedular(reportSchedularData)
-        setTotalItems(reportSchedularData?.length)
+      setTotalItems(reportSchedularData?.length)
     }
-}, [reportSchedularData])
+  }, [reportSchedularData])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -159,54 +158,54 @@ const ReportSchedulerPage = () => {
               <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-  {reportSchedular?.map(report => (
-    <React.Fragment key={report.id}>
-      <tr className='table-row box-shadow'>
-        <td>{report.report_title}</td>
-        <td>{report.report_type}</td>
-        <td>
-          {/* Toggle switch for status */}
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              checked={report.enabled}
-              onChange={() => {
-                // Handle toggle status
-                const updatedReports = reportSchedular?.map(rep => {
-                  if (rep.id === report.id) {
-                    return { ...rep, status: !rep.status };
-                  }
-                  return rep;
-                });
-                setReportSchedular(updatedReports);
-              }}
-            />
-          </div>
-        </td>
-        <td>{report.recipients}</td>
-        <td>{report.recurrence}</td>
-        <td>{report.order_type}</td>
-        <td>{report.order_status}</td>
-        <td>{report.order_sub_status}</td>
-        <td className='align-middle'>
-          <div className='d-flex align-items-center gap-3'>
-            <button className='btn edit-btn'>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-            <button
-              className='btn delete-btn'
-              onClick={() => handleDelete(report.id)}
-            >
-              <FontAwesomeIcon icon={faTrashCan} />
-            </button>
-          </div>
-        </td>
-      </tr>
-      <tr className="blank-row"><td></td></tr>
-    </React.Fragment>
-  ))}
-</tbody>
+              {reportSchedular?.map(report => (
+                <React.Fragment key={report.id}>
+                  <tr className='table-row box-shadow'>
+                    <td>{report.report_title}</td>
+                    <td>{report.report_type}</td>
+                    <td>
+                      {/* Toggle switch for status */}
+                      <div className="form-check form-switch">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          checked={report.enabled}
+                          onChange={() => {
+                            // Handle toggle status
+                            const updatedReports = reportSchedular?.map(rep => {
+                              if (rep.id === report.id) {
+                                return { ...rep, status: !rep.status };
+                              }
+                              return rep;
+                            });
+                            setReportSchedular(updatedReports);
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td>{report.recipients}</td>
+                    <td>{report.recurrence}</td>
+                    <td>{report.order_type}</td>
+                    <td>{report.order_status}</td>
+                    <td>{report.order_sub_status}</td>
+                    <td className='align-middle'>
+                      <div className='d-flex align-items-center gap-3'>
+                        <button className='btn edit-btn'>
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </button>
+                        <button
+                          className='btn delete-btn'
+                          onClick={() => handleDelete(report.id)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="blank-row"><td></td></tr>
+                </React.Fragment>
+              ))}
+            </tbody>
 
           </table>
         </div>
@@ -218,6 +217,8 @@ const ReportSchedulerPage = () => {
           setCurrentPage={setCurrentPage}
         />
       </div>
+
+      {/* Slider */}
       <section className={`new-scheduler-slider ${NewScheduler ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewScheduler(!NewScheduler)}>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -331,29 +332,38 @@ const ReportSchedulerPage = () => {
 
               <div class="grid-item component-3">
                 <h5>Report Content</h5>
-                <div className='d-flex flex-column gap-4'>
-                  <label>
-                    Order Type
-                    <Select
-                      options={orderType}
-                      onChange={(e) => handleChange(e, "order_type")}
-                    />
-                  </label>
-                  <label>
-                    Order Status
-                    <Select
-                      options={orderStatus}
-                      onChange={(e) => handleChange(e, "order_status")}
-                    />
-                  </label>
-                  <label>
-                    Order Sub-status
-                    <Select
-                      options={orderSubStatus}
-                      onChange={(e) => handleChange(e, "order_sub_status")}
-                    />
-                  </label>
-                </div>
+                {reportData.report_type === 'Non-order' ? <>
+                  <div className='d-flex flex-column gap-4'>
+                    <label>
+                      Report Content
+                      <input className='input-field' type="text" />
+                    </label>
+                  </div>
+                </> :
+                  <div className='d-flex flex-column gap-4'>
+                    <label>
+                      Order Type
+                      <Select
+                        options={orderType}
+                        onChange={(e) => handleChange(e, "order_type")}
+                      />
+                    </label>
+                    <label>
+                      Order Status
+                      <Select
+                        options={orderStatus}
+                        onChange={(e) => handleChange(e, "order_status")}
+                      />
+                    </label>
+                    <label>
+                      Order Sub-status
+                      <Select
+                        options={orderSubStatus}
+                        onChange={(e) => handleChange(e, "order_sub_status")}
+                      />
+                    </label>
+                  </div>
+                }
               </div>
 
             </div>
