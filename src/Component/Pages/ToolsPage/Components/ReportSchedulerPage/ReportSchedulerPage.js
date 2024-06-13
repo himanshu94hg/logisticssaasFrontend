@@ -36,6 +36,17 @@ const ReportSchedulerPage = () => {
     { value: 'Order', label: 'Order' },
     { value: 'Non-order', label: 'Non-order' },
   ];
+
+  const contentType = [
+    { value: 'recharge_logs', label: 'Recharge Logs' },
+    { value: 'remmittance_logs', label: 'Remmittance Logs' },
+    { value: 'invoices', label: 'Invoices' },
+    { value: 'credit_report', label: 'Credit Report' },
+    { value: 'debit_report', label: 'Debit Report' },
+    { value: 'shipping_charges', label: 'Shipping Charges' },
+  ];
+
+
   const orderType = [
     { value: 'both', label: 'Both' },
     { value: 'Prepaid', label: 'Prepaid' },
@@ -133,6 +144,14 @@ const ReportSchedulerPage = () => {
   const handleDelete = (value) => {
     dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION", payload: value })
   }
+
+  const customStyles = {
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: '150px',  // Set the maximum height
+      overflowY: 'auto',   // Enable vertical scrolling
+    }),
+  };
 
   return (
     <>
@@ -336,7 +355,16 @@ const ReportSchedulerPage = () => {
                   <div className='d-flex flex-column gap-4'>
                     <label>
                       Content Type
-                      <input className='input-field' type="text" />
+                      <Select
+                        options={contentType}
+                        styles={customStyles}
+                      // onChange={(e) => handleChange(e, "")}
+                      />
+                    </label>
+                    <label className='invisible'>
+                      Content Type
+                      <Select
+                      />
                     </label>
                   </div>
                 </> :
