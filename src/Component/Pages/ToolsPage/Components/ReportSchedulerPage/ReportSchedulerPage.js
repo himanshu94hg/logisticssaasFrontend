@@ -36,6 +36,17 @@ const ReportSchedulerPage = () => {
     { value: 'Order', label: 'Order' },
     { value: 'Non-order', label: 'Non-order' },
   ];
+
+  const contentType = [
+    { value: 'recharge_logs', label: 'Recharge Logs' },
+    { value: 'remmittance_logs', label: 'Remmittance Logs' },
+    { value: 'invoices', label: 'Invoices' },
+    { value: 'credit_report', label: 'Credit Report' },
+    { value: 'debit_report', label: 'Debit Report' },
+    { value: 'shipping_charges', label: 'Shipping Charges' },
+  ];
+
+
   const orderType = [
     { value: 'both', label: 'Both' },
     { value: 'Prepaid', label: 'Prepaid' },
@@ -91,17 +102,16 @@ const ReportSchedulerPage = () => {
   };
 
   useEffect(() => {
-    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION" ,payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
-  }, [dispatch,itemsPerPage,currentPage])
+    dispatch({ type: "REPORT_SCHEDULER_GET_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
+  }, [dispatch, itemsPerPage, currentPage])
 
-  
+
   useEffect(() => {
-    if(reportSchedularData && reportSchedularData !== undefined)
-    {
+    if (reportSchedularData && reportSchedularData !== undefined) {
       setReportSchedular(reportSchedularData)
-        setTotalItems(reportSchedularData?.length)
+      setTotalItems(reportSchedularData?.length)
     }
-}, [reportSchedularData])
+  }, [reportSchedularData])
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -135,6 +145,14 @@ const ReportSchedulerPage = () => {
     dispatch({ type: "REPORT_SCHEDULER_DELETE_ACTION", payload: value })
   }
 
+  const customStyles = {
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: '150px',  // Set the maximum height
+      overflowY: 'auto',   // Enable vertical scrolling
+    }),
+  };
+
   return (
     <>
       <div className='d-flex justify-content-between align-items-center'>
@@ -159,54 +177,54 @@ const ReportSchedulerPage = () => {
               <tr className="blank-row"><td></td></tr>
             </thead>
             <tbody>
-  {reportSchedular?.map(report => (
-    <React.Fragment key={report.id}>
-      <tr className='table-row box-shadow'>
-        <td>{report.report_title}</td>
-        <td>{report.report_type}</td>
-        <td>
-          {/* Toggle switch for status */}
-          <div className="form-check form-switch">
-            <input
-              className="form-check-input"
-              type="checkbox"
-              checked={report.enabled}
-              onChange={() => {
-                // Handle toggle status
-                const updatedReports = reportSchedular?.map(rep => {
-                  if (rep.id === report.id) {
-                    return { ...rep, status: !rep.status };
-                  }
-                  return rep;
-                });
-                setReportSchedular(updatedReports);
-              }}
-            />
-          </div>
-        </td>
-        <td>{report.recipients}</td>
-        <td>{report.recurrence}</td>
-        <td>{report.order_type}</td>
-        <td>{report.order_status}</td>
-        <td>{report.order_sub_status}</td>
-        <td className='align-middle'>
-          <div className='d-flex align-items-center gap-3'>
-            <button className='btn edit-btn'>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </button>
-            <button
-              className='btn delete-btn'
-              onClick={() => handleDelete(report.id)}
-            >
-              <FontAwesomeIcon icon={faTrashCan} />
-            </button>
-          </div>
-        </td>
-      </tr>
-      <tr className="blank-row"><td></td></tr>
-    </React.Fragment>
-  ))}
-</tbody>
+              {reportSchedular?.map(report => (
+                <React.Fragment key={report.id}>
+                  <tr className='table-row box-shadow'>
+                    <td>{report.report_title}</td>
+                    <td>{report.report_type}</td>
+                    <td>
+                      {/* Toggle switch for status */}
+                      <div className="form-check form-switch">
+                        <input
+                          className="form-check-input"
+                          type="checkbox"
+                          checked={report.enabled}
+                          onChange={() => {
+                            // Handle toggle status
+                            const updatedReports = reportSchedular?.map(rep => {
+                              if (rep.id === report.id) {
+                                return { ...rep, status: !rep.status };
+                              }
+                              return rep;
+                            });
+                            setReportSchedular(updatedReports);
+                          }}
+                        />
+                      </div>
+                    </td>
+                    <td>{report.recipients}</td>
+                    <td>{report.recurrence}</td>
+                    <td>{report.order_type}</td>
+                    <td>{report.order_status}</td>
+                    <td>{report.order_sub_status}</td>
+                    <td className='align-middle'>
+                      <div className='d-flex align-items-center gap-3'>
+                        <button className='btn edit-btn'>
+                          <FontAwesomeIcon icon={faPenToSquare} />
+                        </button>
+                        <button
+                          className='btn delete-btn'
+                          onClick={() => handleDelete(report.id)}
+                        >
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                  <tr className="blank-row"><td></td></tr>
+                </React.Fragment>
+              ))}
+            </tbody>
 
           </table>
         </div>
@@ -218,6 +236,8 @@ const ReportSchedulerPage = () => {
           setCurrentPage={setCurrentPage}
         />
       </div>
+
+      {/* Slider */}
       <section className={`new-scheduler-slider ${NewScheduler ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewScheduler(!NewScheduler)}>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -331,29 +351,47 @@ const ReportSchedulerPage = () => {
 
               <div class="grid-item component-3">
                 <h5>Report Content</h5>
-                <div className='d-flex flex-column gap-4'>
-                  <label>
-                    Order Type
-                    <Select
-                      options={orderType}
-                      onChange={(e) => handleChange(e, "order_type")}
-                    />
-                  </label>
-                  <label>
-                    Order Status
-                    <Select
-                      options={orderStatus}
-                      onChange={(e) => handleChange(e, "order_status")}
-                    />
-                  </label>
-                  <label>
-                    Order Sub-status
-                    <Select
-                      options={orderSubStatus}
-                      onChange={(e) => handleChange(e, "order_sub_status")}
-                    />
-                  </label>
-                </div>
+                {reportData.report_type === 'Non-order' ? <>
+                  <div className='d-flex flex-column gap-4'>
+                    <label>
+                      Content Type
+                      <Select
+                        options={contentType}
+                        styles={customStyles}
+                      // onChange={(e) => handleChange(e, "")}
+                      />
+                    </label>
+                    <label className='invisible'>
+                      #############
+                      <Select
+                      />
+                    </label>
+                  </div>
+                </> :
+                  <div className='d-flex flex-column gap-4'>
+                    <label>
+                      Order Type
+                      <Select
+                        options={orderType}
+                        onChange={(e) => handleChange(e, "order_type")}
+                      />
+                    </label>
+                    <label>
+                      Order Status
+                      <Select
+                        options={orderStatus}
+                        onChange={(e) => handleChange(e, "order_status")}
+                      />
+                    </label>
+                    <label>
+                      Order Sub-status
+                      <Select
+                        options={orderSubStatus}
+                        onChange={(e) => handleChange(e, "order_sub_status")}
+                      />
+                    </label>
+                  </div>
+                }
               </div>
 
             </div>
