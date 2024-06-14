@@ -58,6 +58,7 @@ import BypassPage from "./Component/Pages/bypass";
 import LabelCustomization from "./Component/Pages/SettingsPage/components/LabelCustomization/LabelCustomization";
 import NewComponent from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/NewComponent/NewComponent";
 import ViewIntegrations from "./Component/Pages/IntegrationsPage/Components/ViewIntegrations/ViewIntegrations";
+import MigrationNewsPop from "./Component/Pages/MigrationNewsPop/MigrationNewsPop";
 
 
 function App() {
@@ -178,6 +179,8 @@ function App() {
         pauseOnHover
 
       />
+
+      {/* <MigrationNewsPop /> */}
       {/* Same as */}
 
     </>

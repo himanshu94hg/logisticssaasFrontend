@@ -94,11 +94,12 @@ const SettingsPage = () => {
                                         </span>
                                         Bank Details
                                     </li>
-                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}>
+                                    {/* <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
-                                        KYC
+                                        Early COD
                                     </li>
                                     <li>
                                         <span className='icon-container'>
