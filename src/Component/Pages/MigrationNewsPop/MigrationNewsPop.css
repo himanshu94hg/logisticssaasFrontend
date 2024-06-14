@@ -17,7 +17,7 @@
     margin: 0;
     width: 100%;
     height: auto;
-    padding: 20px;
+    padding: 40px 20px 0 20px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 0.5rem;
@@ -32,6 +32,10 @@
     margin-bottom: 40px;
 }
 
+.migration-news h1 {
+    margin-bottom: 0;
+}
+
 .migration-news .section h2 {
     color: #333;
 }
@@ -40,11 +44,13 @@
     display: block;
     width: 100%;
     max-width: 300px;
-    margin: 20px auto;
+    margin-top: 20px;
+    margin-inline: auto;
     padding: 15px;
     text-align: center;
-    background-color: #007bff;
+    background-color: #599bd8;
     color: white;
     text-decoration: none;
     border-radius: 5px;
+    font-size: 18px;
 }
