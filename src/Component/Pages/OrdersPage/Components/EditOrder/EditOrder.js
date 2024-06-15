@@ -160,11 +160,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         if (!formData.order_details.invoice_amount) {
             newErrors.invoice_amount = 'Invoice amount is required!';
         }
-        if (formData.order_details.payment_type === "COD") {
-            if (!formData.charge_details.cod_charges) {
-                newErrors.cod_charges = 'COD Charges is required!';
-            }
-        }
         if (formData.dimension_details.weight == 0) {
             newErrors.weight = 'Dead Weight should be greater than 0!';
         }
@@ -231,6 +226,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             }
         });
 
+        console.log(newErrors,"newErrorsnewErrorsnewErrorsnewErrors");
         seteditErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -239,14 +235,16 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const handleUpdate = () => {
         if (validateFormData()) {
             dispatch({
-                type: "ORDERS_DETAILS_UPDATE_ACTION", payload: {
+                type: "ORDERS_DETAILS_UPDATE_ACTION",
+                payload: {
                     formData: formData,
                     orderId: orderId
                 }
-            })
-            setEditOrderSection(false)
+            });
+            setEditOrderSection(false);
         }
     };
+    
 
     useEffect(() => {
         if (orderId) {
@@ -429,7 +427,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                 </div>
                             )}
                         </section>
-                        <button className='btn main-button ms-3 mt-3' onClick={() => handleUpdate()}>Update</button>
+                        <button className='btn main-button ms-3 mt-3' onClick={handleUpdate}>Update</button>
                     </section>
                 </section>
             </section>
