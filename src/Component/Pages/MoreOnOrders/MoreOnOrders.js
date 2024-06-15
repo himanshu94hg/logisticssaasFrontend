@@ -65,6 +65,26 @@ const MoreOnOrders = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
 
+    const orderStatus = {
+        "pending": "Pending",
+        "shipped": "Shipped",
+        "pickup_requested": "Pickup Requested",
+        "pickup_scheduled": "Pickup Scheduled",
+        "picked_up": "Picked Up",
+        "cancelled": "Cancelled",
+        "manifested": "Manifested",
+        "in_transit": "In Transit",
+        "out_for_delivery": "Out for Delivery",
+        "rto_initiated": "RTO Initiated",
+        "rto_delivered": "RTO Delivered",
+        "rto_in_transit": "RTO Transit",
+        "delivered": "Delivered",
+        "ndr": "NDR",
+        "lost": "Lost",
+        "damaged": "Damaged",
+        "hold": "Hold"
+    };
+
 
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const apiEndpoint = `${BASE_URL_CORE}`;
@@ -315,17 +335,17 @@ const MoreOnOrders = () => {
             <div className='orders-section-tabs'>
                 {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
-                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} setAwbNo={setAwbNo} setOrderTracking={setOrderTracking} />
+                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} setAwbNo={setAwbNo} setOrderTracking={setOrderTracking} orderStatus={orderStatus} />
                 </div>
 
                 {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
-                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
+                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus}/>
                 </div>
 
                 {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
-                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} />
+                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus}/>
                 </div>
 
                 <Pagination

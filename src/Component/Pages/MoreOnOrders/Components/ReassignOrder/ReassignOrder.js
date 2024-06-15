@@ -62,7 +62,7 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo, setOrderTracking}) => {
+const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo, setOrderTracking,orderStatus}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
@@ -317,9 +317,8 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
                                                 <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                        <td className='align-middle status-box'>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* action section */}

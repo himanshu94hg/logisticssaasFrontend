@@ -60,6 +60,26 @@ const ShipmentsPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
 
+    const orderStatus = {
+        "pending": "Pending",
+        "shipped": "Shipped",
+        "pickup_requested": "Pickup Requested",
+        "pickup_scheduled": "Pickup Scheduled",
+        "picked_up": "Picked Up",
+        "cancelled": "Cancelled",
+        "manifested": "Manifested",
+        "in_transit": "In Transit",
+        "out_for_delivery": "Out for Delivery",
+        "rto_initiated": "RTO Initiated",
+        "rto_delivered": "RTO Delivered",
+        "rto_in_transit": "RTO Transit",
+        "delivered": "Delivered",
+        "ndr": "NDR",
+        "lost": "Lost",
+        "damaged": "Damaged",
+        "hold": "Hold"
+    };
+
     const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
     const apiEndpoint = `${BASE_URL_ORDER}`;
 
@@ -322,6 +342,7 @@ const ShipmentsPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -332,6 +353,7 @@ const ShipmentsPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -342,6 +364,7 @@ const ShipmentsPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -352,6 +375,7 @@ const ShipmentsPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
 
                     />
                 </div>

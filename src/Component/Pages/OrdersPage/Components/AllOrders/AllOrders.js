@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking,orderStatus }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -520,7 +520,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                                                 </div>
                                             </td>
                                             <td className='align-middle status-box'>
-                                                <p className='order-Status-box'>{row?.status || 'New'}</p>
+                                                <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>

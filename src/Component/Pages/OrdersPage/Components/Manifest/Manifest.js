@@ -13,7 +13,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import globalDebouncedClick from '../../../../../debounce';
 
 
-const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows,orderStatus }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)

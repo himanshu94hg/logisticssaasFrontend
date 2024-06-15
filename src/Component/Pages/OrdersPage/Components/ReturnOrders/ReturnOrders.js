@@ -29,7 +29,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
-const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,setOrderTracking,setAwbNo }) => {
+const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,setOrderTracking,setAwbNo,orderStatus }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -38,8 +38,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-
-
 
     useEffect(() => {
         if (activeTab) {
@@ -311,7 +309,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, BulkActionShow, setBulkAc
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{row?.status || 'New'}</p>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                     </tr>
                                 </React.Fragment>

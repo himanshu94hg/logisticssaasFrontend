@@ -26,7 +26,7 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
 
-const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,orderStatus }) => {
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -222,7 +222,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>

@@ -35,7 +35,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { debounce } from 'lodash';
 
 
-const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo}) => {
+const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -420,7 +420,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                         <td className='align-middle status-box'>
                                             {/*  Status section  */}
                                             <div className='d-flex flex-column gap-2 justify-content-center'>
-                                                <p className='order-Status-box'>{row?.status}</p>
+                                                <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                                 <p className='text-success fw-bold' style={{ paddingInline: '10px', fontSize: 11 }}>{row?.manifest_status ? "Manifest Generated" : ""}</p>
                                             </div>
                                         </td>

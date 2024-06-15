@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow,orderStatus }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
@@ -365,8 +365,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                 </div>
                                             </td>
                                             <td className='align-middle status-box'>
-                                                {/*  Status section  */}
-                                                <p className='order-Status-box'>{row?.status || 'New'}</p>
+                                                <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3'>

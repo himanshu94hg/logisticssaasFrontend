@@ -50,7 +50,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const DeliveredShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow ,  setOrderTracking,setAwbNo}) => {
+const DeliveredShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow ,  setOrderTracking,setAwbNo,orderStatus}) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -322,9 +322,8 @@ const DeliveredShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBul
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                        <td className='align-middle status-box'>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                     </tr>
                                 </React.Fragment>

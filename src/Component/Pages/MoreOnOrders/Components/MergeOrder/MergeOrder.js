@@ -36,7 +36,7 @@ const InfoMissing = () => {
     );
 }
 
-const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow,orderStatus }) => {
     const dispatch = useDispatch()
     console.log(orders, "Headers");
     const [selectAll, setSelectAll] = useState(false);
@@ -253,9 +253,8 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                                                 </div>
                                             </td>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                        <td className='align-middle status-box'>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                     </tr>
                                 </React.Fragment>

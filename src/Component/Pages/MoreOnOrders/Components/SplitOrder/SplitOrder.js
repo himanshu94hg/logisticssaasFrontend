@@ -21,7 +21,7 @@ import NoData from '../../../../common/noData';
 import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
 
-const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow,orderStatus }) => {
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
@@ -216,9 +216,8 @@ const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                                                 </p>
                                             </div>
                                         </td> */}
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                        <td className='align-middle status-box'>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* action section */}

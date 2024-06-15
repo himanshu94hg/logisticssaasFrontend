@@ -45,7 +45,7 @@ const MISPage = () => {
 
                 {/* BillingMIS */}
                 <div className={`${activeTab === "ReportsMIS" ? "d-block" : "d-none"}`}>
-                    <ReportsMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow}  selectedRows={selectedRows} setSelectedRows={setSelectedRows}  />
+                    <ReportsMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow}  selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
                 </div>
 
                 {/* ReturnsMIS */}

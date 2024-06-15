@@ -39,7 +39,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo }) => {
+const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo,orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -480,8 +480,7 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row?.status}</p>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}

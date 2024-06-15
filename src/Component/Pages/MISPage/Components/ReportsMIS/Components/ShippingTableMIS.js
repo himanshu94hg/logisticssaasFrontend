@@ -4,7 +4,7 @@ import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
 
-const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll ,setAwbNo,setOrderTracking}) => {
+const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll ,setAwbNo,setOrderTracking,orderStatus}) => {
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
@@ -147,8 +147,8 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                                         </div>
                                     </div>
                                 </td>
-                                <td className='align-middle'>
-                                    <p className='order-Status-box'>{row.status}</p>
+                                <td className='align-middle status-box'>
+                                    <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                 </td>
                             </tr>
                         </React.Fragment>

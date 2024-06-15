@@ -70,6 +70,26 @@ const OrdersPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
 
+    const orderStatus = {
+        "pending": "Pending",
+        "shipped": "Shipped",
+        "pickup_requested": "Pickup Requested",
+        "pickup_scheduled": "Pickup Scheduled",
+        "picked_up": "Picked Up",
+        "cancelled": "Cancelled",
+        "manifested": "Manifested",
+        "in_transit": "In Transit",
+        "out_for_delivery": "Out for Delivery",
+        "rto_initiated": "RTO Initiated",
+        "rto_delivered": "RTO Delivered",
+        "rto_in_transit": "RTO Transit",
+        "delivered": "Delivered",
+        "ndr": "NDR",
+        "lost": "Lost",
+        "damaged": "Damaged",
+        "hold": "Hold"
+    };
+
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
@@ -403,6 +423,7 @@ const OrdersPage = () => {
                         setOrderId={setOrderId}
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -415,6 +436,7 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                         activeTab={activeTab} orders={orders}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -434,6 +456,7 @@ const OrdersPage = () => {
                         setCloneOrderSection={setCloneOrderSection}
                         setaddTagShow={setaddTagShow}
                         BulkActionShow={BulkActionShow}
+                        orderStatus={orderStatus}
 
                     />
                 </div>
@@ -452,6 +475,7 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -469,6 +493,7 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -481,6 +506,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
                         setBulkActionShow={setBulkActionShow}
+                        orderStatus={orderStatus}
                     />
                 </div>
 
@@ -496,6 +522,7 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
+                        orderStatus={orderStatus}
                     />
                 </div>
                 <Pagination

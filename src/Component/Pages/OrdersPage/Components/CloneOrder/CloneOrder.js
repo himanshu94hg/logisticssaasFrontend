@@ -156,11 +156,6 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         if (!formData.order_details.invoice_amount){
             newErrors.invoice_amount = 'Invoice amount is required!';
         }
-        if (formData.order_details.payment_type === "COD") {
-            if (!formData.charge_details.cod_charges) {
-                newErrors.cod_charges = 'COD Charges is required!';
-            }
-        }
         if (!formData.dimension_details.weight) {
             newErrors.weight = 'Dead Weight is required!';
         }

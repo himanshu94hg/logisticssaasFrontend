@@ -50,7 +50,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequested = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow,  setOrderTracking,setAwbNo }) => {
+const ActionRequested = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow,  setOrderTracking,setAwbNo,orderStatus }) => {
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
     const [selectAll, setSelectAll] = useState(false);
@@ -309,9 +309,8 @@ const ActionRequested = ({ shipmentCard, selectedRows, setSelectedRows, setBulkA
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle'>
-                                            {/*  Status section  */}
-                                            <p className='order-Status-box'>{row.status}</p>
+                                        <td className='align-middle status-box'>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* {row.ndr_action}
