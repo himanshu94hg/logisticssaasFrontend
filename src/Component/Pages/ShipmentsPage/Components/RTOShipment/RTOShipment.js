@@ -135,7 +135,7 @@ const RTOShipment = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActio
 
     const handleClose = () => setShow(false);
 
-    const handleClickAWB = (event, orders) => {
+    const handleClickAWB = (orders) => {
         // event.preventDefault();
         // console.log(orders, "this is orders");
         // const url = `https://shipease.in/order-tracking/`;
