@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './SettingsPage.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAnglesRight, faCrown } from '@fortawesome/free-solid-svg-icons'
@@ -18,10 +18,17 @@ import ApiBG from '../../../assets/image/settingsBG/ApiBG.png'
 import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
 import { Link, useNavigate } from 'react-router-dom'
+import Handle from 'rc-slider/lib/Handles/Handle'
 
 const SettingsPage = () => {
 
     let Navigate = useNavigate()
+
+    const [ChangePasswordPop, setChangePasswordPop] = useState(false)
+
+    const handleChangePasswordPop = () => {
+        setChangePasswordPop(!ChangePasswordPop)
+    }
 
     return (
         <>
@@ -46,7 +53,7 @@ const SettingsPage = () => {
                                         </span>
                                         KYC
                                     </li>
-                                    <li>
+                                    <li onClick={handleChangePasswordPop}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -112,6 +119,40 @@ const SettingsPage = () => {
                         </div>
                     </div>
                     <img src={codBG} alt="CompanyBG" />
+                </div>
+                <div className="col main-container">
+                    <div className='tile'>
+                        <div className="tile-content">
+                            <div className='tile-heading'>
+                                <h3>Label, Invoice & POD</h3>
+                            </div>
+                            <div className='tile-body'>
+                                <ul>
+                                    <li onClick={() => Navigate('/label-customize')}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Customize Label
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
+                                    </li>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Customize Invoice
+                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
+                                    </li>
+                                    <li>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Proof of Delivery (POD)
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <img src={LabelBG} alt="CompanyBG" />
                 </div>
                 <div className="col main-container">
                     <div className='tile'>
@@ -205,40 +246,7 @@ const SettingsPage = () => {
                     </div>
                     <img src={UserRoleBG} alt="CompanyBG" />
                 </div>
-                <div className="col main-container">
-                    <div className='tile'>
-                        <div className="tile-content">
-                            <div className='tile-heading'>
-                                <h3>Label, Invoice & POD</h3>
-                            </div>
-                            <div className='tile-body'>
-                                <ul>
-                                    <li onClick={() => Navigate('/label-customize')}>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Customize Label
-                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
-                                    </li>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Customize Invoice
-                                        <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
-                                    </li>
-                                    <li>
-                                        <span className='icon-container'>
-                                            <FontAwesomeIcon icon={faAnglesRight} />
-                                        </span>
-                                        Proof of Delivery (POD)
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <img src={LabelBG} alt="CompanyBG" />
-                </div>
+
                 <div className="col main-container">
                     <div className='tile'>
                         <div className="tile-content">
@@ -476,6 +484,30 @@ const SettingsPage = () => {
                     <img src={CourierBG} alt="CompanyBG" />
                 </div>
             </section>
+
+            <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
+                <div className='cp-header'>
+                    <h5>Change Your Password Here!</h5>
+                </div>
+                <div className='cp-body'>
+                    <label>
+                        Current Password
+                        <input placeholder='Enter your current password' className='input-field' type="text" />
+                    </label>
+                    <label>
+                        New Password
+                        <input placeholder='Enter your new Password' className='input-field' type="text" />
+                    </label>
+                    <label>
+                        Confirm New Password
+                        <input placeholder='Re-enter your new password' className='input-field' type="text" />
+                    </label>
+                    <div className='d-flex justify-content-end'>
+                        <button className='btn main-button'>Submit</button>
+                    </div>
+                </div>
+            </section>
+            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div>
         </>
     )
 }

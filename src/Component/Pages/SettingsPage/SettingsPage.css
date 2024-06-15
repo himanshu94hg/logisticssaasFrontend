@@ -127,3 +127,36 @@
 .settings-page-container .paid-service span {
     height: 30px;
 }
+
+.change-password-pop {
+    position: fixed;
+    top: -100%;
+    width: 40%;
+    left: 30%;
+    background: #fff;
+    height: auto;
+    z-index: 6;
+    transition: 1s;
+    border-radius: 0.5rem;
+}
+
+.change-password-pop.open {
+    top: 10%;
+}
+
+.cp-header {
+    padding: 20px;
+    background: var(--sh-primary-light);
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+.cp-body {
+    padding: 20px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+
+.cp-body label {
+    width: 100%;
+}
