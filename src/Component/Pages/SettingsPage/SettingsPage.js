@@ -492,15 +492,15 @@ const SettingsPage = () => {
                 <div className='cp-body'>
                     <label>
                         Current Password
-                        <input placeholder='Enter your current password' className='input-field' type="text" />
+                        <input placeholder='Enter your current password' className='input-field' type="password" />
                     </label>
                     <label>
                         New Password
-                        <input placeholder='Enter your new Password' className='input-field' type="text" />
+                        <input placeholder='Enter your new Password' className='input-field' type="password" />
                     </label>
                     <label>
                         Confirm New Password
-                        <input placeholder='Re-enter your new password' className='input-field' type="text" />
+                        <input placeholder='Re-enter your new password' className='input-field' type="password" />
                     </label>
                     <div className='d-flex justify-content-end'>
                         <button className='btn main-button'>Submit</button>
