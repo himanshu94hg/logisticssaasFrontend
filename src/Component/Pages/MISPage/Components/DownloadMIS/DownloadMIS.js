@@ -181,7 +181,7 @@ const DownloadMIS = ({ activeTab }) => {
                                             </div>
                                         </td>
                                         <td>
-                                            {row.report_status !== "pending" ? (
+                                            {row.report_status === "Success" ? (
                                                 <button className='btn main-button' onClick={() => handleDownload(row.report_download_url, row.report_title)}>
                                                     <FontAwesomeIcon icon={faDownload} />
                                                 </button>

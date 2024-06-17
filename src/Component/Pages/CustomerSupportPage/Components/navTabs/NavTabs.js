@@ -44,6 +44,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "allTickets" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("allTickets");
+                props.handleReset();
               }}
             >
               <div className="navItemsContainer">
@@ -54,6 +55,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "openTickets" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("openTickets");
+                props.handleReset();
               }}
             >
               {" "}
@@ -65,6 +67,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "inProgressTickets" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("inProgressTickets");
+                //props.handleReset();
               }}
             >
               {" "}
@@ -76,6 +79,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "closedTickets" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("closedTickets");
+                props.handleReset();
               }}
             >
               {" "}

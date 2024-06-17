@@ -31,7 +31,14 @@ const BulkActionsComponent = ({
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard);
     const exportAllCard = useSelector(state => state?.exportSectionReducer?.exportAllCard);
 
+    console.log("exportButtonClickexportButtonClickexportButtonClick", exportButtonClick)
+
     const exportFile = () => {
+        if (selectedRows.length === 0) {
+            toast.error("No rows selected for export.");
+            return;
+        }
+        
         setExportButtonClick(true);
         const requestData = {
             "order_tab": {
@@ -56,7 +63,7 @@ const BulkActionsComponent = ({
             "max_weight": "",
             "min_product_qty": "",
             "max_product_qty": "",
-            "rto_status": false,
+            "rto_status": "",
             "global_type": "",
             "payment_type": ""
         };
@@ -64,12 +71,14 @@ const BulkActionsComponent = ({
     };
 
     useEffect(() => {
-        if (exportButtonClick && exportCard) {
+        if (exportButtonClick) {
             const blob = new Blob([exportCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
+            setBulkActionShow(false);
+            setSelectedRows([])
         }
-    }, [exportCard, exportButtonClick, activeTab]);
+    }, [exportCard]);
 
     const handleExportAll = () => {
         Swal.fire({

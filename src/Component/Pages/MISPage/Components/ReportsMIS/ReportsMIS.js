@@ -72,7 +72,7 @@ const ReportsMIS = ({ activeTab }) => {
             setSelectedRows([])
             setSelectAll(false)
         }
-    }, [activeTab, firstSelectedOption, exportCard, secondSelectedOption])
+    }, [activeTab, firstSelectedOption, secondSelectedOption])
 
     const firstOptions = [
         { value: '', label: 'Select Option' },
@@ -138,7 +138,7 @@ const ReportsMIS = ({ activeTab }) => {
         if (showComponent === "Orders" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_ORDERS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || 'all_orders',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,
@@ -148,7 +148,7 @@ const ReportsMIS = ({ activeTab }) => {
         } else if (showComponent === "Billing" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_BILLING_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || 'shipping_charges',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,
@@ -158,7 +158,7 @@ const ReportsMIS = ({ activeTab }) => {
         } else if (showComponent === "Shipment" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || 'all_ndr',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,
@@ -168,7 +168,7 @@ const ReportsMIS = ({ activeTab }) => {
         } else if (showComponent === "Returns" && firstSelectedOption && secondSelectedOption) {
             dispatch({
                 type: "MIS_REPORT_RETURNS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || '',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,
@@ -183,7 +183,7 @@ const ReportsMIS = ({ activeTab }) => {
         if (reportsOrderData?.count > 0) {
             dispatch({
                 type: "MIS_REPORT_ORDERS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || 'all_orders',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,
@@ -197,7 +197,7 @@ const ReportsMIS = ({ activeTab }) => {
         if (reportShipmentsData?.count > 0) {
             dispatch({
                 type: "MIS_REPORT_SHIPMENTS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || 'all_ndr',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,
@@ -211,7 +211,7 @@ const ReportsMIS = ({ activeTab }) => {
         if (reportsReturnsData?.count > 0) {
             dispatch({
                 type: "MIS_REPORT_RETURNS_ACTION", payload: {
-                    sub_type: secondSelectedOption?.value,
+                    sub_type: secondSelectedOption?.value || 'return_order',
                     start_date: moment(startDate).format("YYYY-MM-DD"),
                     end_date: moment(endDate).format("YYYY-MM-DD"),
                     page_size: itemsPerPage,

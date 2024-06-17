@@ -200,6 +200,7 @@ const CustomerSupportPage = () => {
   const handleReset = () => {
     setSearchValue("")
     setQueryParamTemp({})
+    setCurrentPage(1); 
     if(activeTab === 'allTickets'){
       axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
         headers: {
