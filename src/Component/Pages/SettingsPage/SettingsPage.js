@@ -19,7 +19,7 @@ import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Handle from 'rc-slider/lib/Handles/Handle'
-import { BillingAddressPattern, ShipeaseBankDetailsPattern, gstInvoicingPattern } from '../../../Routes'
+import { BillingAddressPattern, ManageSubAccountPattern, ShipeaseBankDetailsPattern, gstInvoicingPattern } from '../../../Routes'
 
 const SettingsPage = () => {
 
@@ -78,13 +78,11 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
-                                        <Link to='/manage-warehouses'>
-                                            <span className='icon-container'>
-                                                <FontAwesomeIcon icon={faAnglesRight} />
-                                            </span>
-                                            Manage Pickup Addresses
-                                        </Link>
+                                    <li onClick={() => Navigate('/manage-warehouses')}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Manage Pickup Addresses
                                     </li>
                                 </ul>
                             </div>
@@ -107,13 +105,13 @@ const SettingsPage = () => {
                                         Bank Details
                                     </li>
                                     {/* <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}> */}
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Early COD
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -140,14 +138,14 @@ const SettingsPage = () => {
                                         Customize Label
                                         <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Customize Invoice
                                         <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -199,7 +197,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate(-1)}>
+                                    <li onClick={() => Navigate(ManageSubAccountPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -219,13 +217,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Theme
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -266,13 +264,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Buyer Communication
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -292,43 +290,43 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Split Shipment
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         COD to Prepaid
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Order Verification
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Secure Shipment
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Activate Direct Ship
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         RTO Score
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -348,43 +346,43 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Page Settings
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Themes
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Promotional Banners
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Product Recommendation
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Header Links
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         NPS Report
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -404,13 +402,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Return Settings
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -430,13 +428,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Configure
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -456,13 +454,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         KYC International
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -482,7 +480,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

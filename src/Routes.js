@@ -234,3 +234,8 @@ export const ShipeaseBankDetailsPattern = "/shipease-bank-details";
 export const ShipeaseBankDetailsRoutes = () => {
     return generatePath(ShipeaseBankDetailsPattern);
 };
+
+export const ManageSubAccountPattern = "/manage-sub-account";
+export const ManageSubAccountRoutes = () => {
+    return generatePath(ManageSubAccountPattern);
+};
