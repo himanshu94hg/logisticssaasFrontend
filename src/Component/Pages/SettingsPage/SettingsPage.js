@@ -19,7 +19,7 @@ import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Handle from 'rc-slider/lib/Handles/Handle'
-import { BillingAddressPattern, gstInvoicingPattern } from '../../../Routes'
+import { BillingAddressPattern, ShipeaseBankDetailsPattern, gstInvoicingPattern } from '../../../Routes'
 
 const SettingsPage = () => {
 
@@ -178,6 +178,12 @@ const SettingsPage = () => {
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Billing Address
+                                    </li>
+                                    <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}>
+                                        <span className='icon-container'>
+                                            <FontAwesomeIcon icon={faAnglesRight} />
+                                        </span>
+                                        Shipease Bank Details
                                     </li>
                                 </ul>
                             </div>

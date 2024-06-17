@@ -229,3 +229,8 @@ export const BillingAddressPattern = "/company-address-details";
 export const BillingAddressRoutes = () => {
     return generatePath(BillingAddressPattern);
 };
+
+export const ShipeaseBankDetailsPattern = "/shipease-bank-details";
+export const ShipeaseBankDetailsRoutes = () => {
+    return generatePath(ShipeaseBankDetailsPattern);
+};
