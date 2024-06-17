@@ -16,6 +16,7 @@ import Pagination from '../../../../common/Pagination/Pagination';
 import BulkActionsComponent from '../BulkActionsComponent';
 import AWBTrackingPage from '../../../AWBTrackingPage/AWBTrackingPage';
 
+
 const ReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
     const [showComponent, setShowComponent] = useState(null);
