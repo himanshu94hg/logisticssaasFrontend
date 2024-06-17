@@ -37,9 +37,9 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
-        if (!formData.shipping_details.landmark) {
-            newErrors.landmark = 'Landmark is required!';
-        }
+        // if (!formData.shipping_details.landmark) {
+        //     newErrors.landmark = 'Landmark is required!';
+        // }
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
@@ -66,9 +66,9 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
-            if (!formData.billing_details.landmark) {
-                newErrors.billing_landmark = 'Landmark is required!';
-            }
+            // if (!formData.billing_details.landmark) {
+            //     newErrors.billing_landmark = 'Landmark is required!';
+            // }
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
@@ -444,9 +444,9 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     <div className='row mt-3'>
                         {/* Address 2 (Optional) */}
                         <label className='col'>
-                            <span>Landmark <span className='mandatory'>*</span></span>
+                            <span>Landmark</span>
                             <input
-                                className={`input-field ${errors.landmark || editErrors?.landmark ? 'input-field-error' : ''}`}
+                                className={`input-field`}
                                 placeholder="Any nearby post office, market, Hospital as the landmark"
                                 type="text"
                                 value={formData.shipping_details.landmark}
@@ -463,7 +463,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     }
                                 }}
                             />
-                            {(errors.landmark || editErrors?.landmark) && <div className="custom-error">{errors.landmark || editErrors?.landmark}</div>}
+                            {/* {(errors.landmark || editErrors?.landmark) && <div className="custom-error">{errors.landmark || editErrors?.landmark}</div>} */}
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -666,9 +666,9 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                         <div className='row mt-3'>
                             {/* Address 2 (Optional) */}
                             <label className='col'>
-                                <span> Landmark<span className='mandatory'>*</span></span>
+                                <span> Landmark</span>
                                 <input
-                                    className={`input-field ${errors.billing_landmark || editErrors?.billing_landmark ? 'input-field-error' : ''}`}
+                                    className={`input-field`}
                                     placeholder="Any nearby post office, market, Hospital as the landmark"
                                     type="text" value={formData.billing_details.landmark}
                                     maxLength={100}
@@ -685,7 +685,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         }
                                     }}
                                 />
-                                {(errors.billing_landmark || editErrors?.billing_landmark) && <div className="custom-error">{errors.billing_landmark || editErrors?.billing_landmark}</div>}
+                                {/* {(errors.billing_landmark || editErrors?.billing_landmark) && <div className="custom-error">{errors.billing_landmark || editErrors?.billing_landmark}</div>} */}
                             </label>
                         </div>
                         <div className='row mt-3 gap-2'>

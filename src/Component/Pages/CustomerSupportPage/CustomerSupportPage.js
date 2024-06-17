@@ -3,7 +3,7 @@ import moment from 'moment';
 import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import CreateTicketForm from './Components/CreateTicketForm';
 import FilterTicketsForm from './Components/FilterTicketsForm';
@@ -78,33 +78,33 @@ const CustomerSupportPage = () => {
     if (url) {
       const queryParams = { ...queryParamTemp };
       const queryString = Object.keys(queryParams)
-          .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
-          .join('&');
+        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+        .join('&');
 
-          console.log(queryString,"queryStringqueryString")
+      console.log(queryString, "queryStringqueryString")
 
       if (queryString) {
         url += '&' + queryString;
       }
       axios.get(url, {
-          headers: {
-              Authorization: `Bearer ${authToken}`
-          }
+        headers: {
+          Authorization: `Bearer ${authToken}`
+        }
       })
-          .then(response => {
-              setAllTicket(response?.data?.results);
-              setTotalItems(response?.data?.count);
-          })
-          .catch(error => {
-              customErrorFunction(error)
-          });
+        .then(response => {
+          setAllTicket(response?.data?.results);
+          setTotalItems(response?.data?.count);
+        })
+        .catch(error => {
+          customErrorFunction(error)
+        });
     }
 
 
-  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage,queryParamTemp]);
+  }, [activeTab, status, currentPage, ticketStatus, itemsPerPage, queryParamTemp]);
 
   const handleFormSubmit = (categories, status, resDate, endDt, isFilter, createdDate, Severity) => {
-    const queryParams = new URLSearchParams(); 
+    const queryParams = new URLSearchParams();
 
     if (categories && categories.value) {
       queryParams.append('sub_category', categories.value);
@@ -148,7 +148,7 @@ const CustomerSupportPage = () => {
     /*setQueryParamTemp({
       sub_category: categories.value        
     })*/
-};
+  };
 
   const handleViewButtonClick = (ticketId) => {
     setId(ticketId);
@@ -190,8 +190,8 @@ const CustomerSupportPage = () => {
         .catch(error => {
           customErrorFunction(error)
         });
-        setQueryParamTemp({
-          q:searchValue
+      setQueryParamTemp({
+        q: searchValue
       })
       setCurrentPage(1)
     }
@@ -200,9 +200,8 @@ const CustomerSupportPage = () => {
   const handleReset = () => {
     setSearchValue("")
     setQueryParamTemp({})
-    setCurrentPage(1); 
-    if(activeTab === 'allTickets'){
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab==="allTickets" ?'':activeTab}`, {
+    if (activeTab === 'allTickets') {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?page_size=${20}&page=${1}&courier_status${activeTab === "allTickets" ? '' : activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -213,9 +212,9 @@ const CustomerSupportPage = () => {
         })
         .catch(error => {
           customErrorFunction(error)
-        }); 
-    }else if (activeTab === 'openTickets') {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab==="openTickets" ?'':activeTab}`, {
+        });
+    } else if (activeTab === 'openTickets') {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Open&page_size=${20}&page=${1}&courier_status${activeTab === "openTickets" ? '' : activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -230,7 +229,7 @@ const CustomerSupportPage = () => {
 
     }
     else if (activeTab === "closedTickets") {
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab==="closedTickets" ?'':activeTab}`, {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=Closed&page_size=${20}&page=${1}&courier_status${activeTab === "closedTickets" ? '' : activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -243,8 +242,8 @@ const CustomerSupportPage = () => {
           customErrorFunction(error)
         });
 
-    }else if(activeTab === "inProgressTickets"){
-      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab==="inProgressTickets" ?'':activeTab}`, {
+    } else if (activeTab === "inProgressTickets") {
+      axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?status=In-progress&page_size=${20}&page=${1}&courier_status${activeTab === "inProgressTickets" ? '' : activeTab}`, {
         headers: {
           Authorization: `Bearer ${authToken}`
         }
@@ -257,14 +256,17 @@ const CustomerSupportPage = () => {
           customErrorFunction(error)
         });
     }
-   
+
   }
 
+  const handleNeedHelpPage = () => {
+    window.open('https://www.shipease.in/support', '_blank');
+  };
 
   return (
     <>
       <div className='support-page position-relative'>
-        <div onClick={() => navigate('/help-articles')} className='help-button'>
+        <div onClick={() => handleNeedHelpPage()} className='help-button'>
           <FontAwesomeIcon icon={faCircleQuestion} />
           <div className='ms-2'>
             <p className='mb-0 fw-bold'>Need Help?</p>
@@ -284,7 +286,7 @@ const CustomerSupportPage = () => {
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
           errors={errors}
-          
+
           setClearTicket={setClearTicket}
           handleReset={handleReset}
         />
@@ -322,7 +324,7 @@ const CustomerSupportPage = () => {
         <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
-        <section className='ticket-slider-header'>  
+        <section className='ticket-slider-header'>
           <h2 className='mb-0'>Create a new Ticket!</h2>
         </section>
         <section className='ticket-slider-body'>

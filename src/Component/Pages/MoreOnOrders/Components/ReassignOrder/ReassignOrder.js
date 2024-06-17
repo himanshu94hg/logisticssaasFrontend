@@ -62,7 +62,7 @@ const InfoMissing = () => {
     );
 }
 
-const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo, setOrderTracking,orderStatus}) => {
+const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
@@ -70,7 +70,14 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
+    // moreorderShipCardStatus
 
+    useEffect(() => {
+        if (moreorderShipCardStatusData) {
+            setSingleShip(false)
+        }
+    }, [moreorderShipCardStatusData])
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -118,10 +125,10 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
     }
 
     const handleShipNow = (orderId) => {
-            setSelectedOrderId(orderId)
-            dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
-            setSingleShip(true);
-      
+        setSelectedOrderId(orderId)
+        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+        setSingleShip(true);
+
 
     };
 
@@ -132,7 +139,7 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
         setAwbNo(orders)
         setOrderTracking(true)
 
-        console.log(orders,"ordersordersordersorders")
+        console.log(orders, "ordersordersordersorders")
     };
 
     const handleClickpartner = (event, row) => {
@@ -312,7 +319,7 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row.awb_number )}>{row.awb_number ?? ""}
+                                                <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row.awb_number)}>{row.awb_number ?? ""}
                                                 </p>
                                                 <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
                                             </div>

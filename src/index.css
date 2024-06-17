@@ -92,6 +92,10 @@ p {
   color: var(--sh-primary);
 }
 
+.text-sh-red {
+  color: #dc3545;
+}
+
 .bg-sh-primary {
   background: var(--sh-primary) !important;
 }
@@ -797,7 +801,7 @@ div:where(.swal2-container) div:where(.swal2-actions) {
   margin-top: 15px;
 }
 
-div:where(.swal2-icon).swal2-success{
+div:where(.swal2-icon).swal2-success {
   order: 4;
   margin-block: 20px 15px;
 }
@@ -809,4 +813,10 @@ div:where(.swal2-icon).swal2-success{
   background: var(--sh-primary-light);
   border-radius: 0.5rem 0.5rem 0 0;
   color: var(--bs-heading-color);
+}
+
+input:disabled {
+  /* background-color: #c5dcf145; */
+  background-color: #fff;
+  opacity: 0.3;
 }

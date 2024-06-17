@@ -19,6 +19,8 @@ const OrderDetail = () => {
     let authToken = Cookies.get("access_token")
     const [orderDetails, setOrderDetails] = useState({})
 
+    console.log(params, "navigatenavigate")
+
     useEffect(() => {
         if (params?.slug && location && location?.state?.path != "searchOrderData") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/get-order-by-id/${params?.slug}/`, {
@@ -38,6 +40,57 @@ const OrderDetail = () => {
     }, [params])
 
 
+    const handleExport = async () => {
+        const requestData = {
+            "order_tab": {
+                "type": "",
+                "subtype": ""
+            },
+            "order_id": `${params?.slug}`,
+            "courier": "",
+            "awb_number": "",
+            "min_awb_assign_date": "",
+            "max_awb_assign_date": "",
+            "status": "",
+            "order_type": "",
+            "customer_order_number": "",
+            "channel": "",
+            "min_invoice_amount": "",
+            "max_invoice_amount": "",
+            "warehouse_id": "",
+            "product_name": "",
+            "delivery_address": "",
+            "min_weight": "",
+            "max_weight": "",
+            "min_product_qty": "",
+            "max_product_qty": "",
+            "rto_status": false,
+            "global_type": "",
+            "payment_type": ""
+        };
+
+        try {
+            const response = await axios.post(`${BASE_URL_ORDER}/orders-api/orders/export-order/`, requestData, {
+                responseType: 'blob',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${authToken}`
+                }
+            });
+            if (response !== null) {
+                if (response.status === 200) {
+                    toast.success("Order Exported successfully!")
+                    var FileSaver = require('file-saver');
+                    var blob = new Blob([response?.data], { type: 'application/ms-excel' });
+                    FileSaver.saveAs(blob, `order.xlsx`);
+                }
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    }
+
+
     return (
         <>
             {orderDetails !== null &&
@@ -47,13 +100,13 @@ const OrderDetail = () => {
                             <h3 className='text-white'>Order ID: {orderDetails?.customer_order_number}</h3>
                             <div className='d-flex gap-2'>
                                 <button className='btn white-btn' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
-                                <button className='btn white-btn'><AiOutlineExport className='align-text-bottom' /> Export</button>
-                                {orderDetails?.status === 'pending' &&
+                                <button className='btn white-btn' onClick={handleExport}><AiOutlineExport className='align-text-bottom' /> Export</button>
+                                {/* {orderDetails?.status === 'pending' &&
                                     <>
                                         <button className='btn white-btn'><FiEdit className='align-text-bottom' /> Edit</button>
                                         <button className='btn white-btn'>Ship Now</button>
                                     </>
-                                }
+                                } */}
                             </div>
                         </div>
                         <div className='d-flex justify-content-between'>

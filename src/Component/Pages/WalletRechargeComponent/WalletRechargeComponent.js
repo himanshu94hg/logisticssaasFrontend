@@ -59,6 +59,12 @@ const WalletRechargeComponent = (props) => {
 
     const handleRechargeAmountChange = (event) => {
         setRechargeAmount(event.target.value);
+        if (event.target.value >= 500) {
+            setValidate(false)
+        }
+        // else {
+        //     setValidate(true)
+        // }
     };
 
     const handlePaymentModeChange = (event) => {
@@ -81,97 +87,100 @@ const WalletRechargeComponent = (props) => {
         return `${now.getFullYear()}${(now.getMonth() + 1).toString().padStart(2, '0')}${now.getDate().toString().padStart(2, '0')}_${now.getHours().toString().padStart(2, '0')}${now.getMinutes().toString().padStart(2, '0')}${now.getSeconds().toString().padStart(2, '0')}`;
     };
 
-
+    const [validate, setValidate] = useState(false)
     const handleRecharge = useCallback(async () => {
-        
-        if (paymentMode === 'credit_card')
-        {
-            try {
-                const options = {
-                    key: razorpayKey,
-                    amount: (rechargeAmount) * 100,
-                    currency: "INR",
-                    name: "Shipease",
-                    description: "Wallet Recharge",
-                    image: ShipeaseLogo,
-                    prefill: {
-                        name: userData?.company_name || "Shipease",
-                        email: userData?.email || "info@shipease.in",
-                        contact: userData?.contact_number,
-                    },
-                    notes: {
-                        address: "Testing Address",
-                    },
-                    theme: {
-                        color: "3399cc",
-                    },
-                    handler: async (response) => {
-                        if (response.razorpay_payment_id) {
-                            let data = JSON.stringify({
-                                razorpay_payment_id: response.razorpay_payment_id,
-                                amount: rechargeAmount,
-                                description: options.description
-                            });
-                            dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
-    
-                        } else {
+        if (rechargeAmount >= 500) {
+            if (paymentMode === 'credit_card') {
+                try {
+                    const options = {
+                        key: razorpayKey,
+                        amount: (rechargeAmount) * 100,
+                        currency: "INR",
+                        name: "Shipease",
+                        description: "Wallet Recharge",
+                        image: ShipeaseLogo,
+                        prefill: {
+                            name: userData?.company_name || "Shipease",
+                            email: userData?.email || "info@shipease.in",
+                            contact: userData?.contact_number,
+                        },
+                        notes: {
+                            address: "Testing Address",
+                        },
+                        theme: {
+                            color: "3399cc",
+                        },
+                        handler: async (response) => {
+                            if (response.razorpay_payment_id) {
+                                let data = JSON.stringify({
+                                    razorpay_payment_id: response.razorpay_payment_id,
+                                    amount: rechargeAmount,
+                                    description: options.description
+                                });
+                                dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
+
+                            } else {
+                            }
                         }
-                    }
-                };
-    
-                const rzpay = new Razorpay(options);
-                rzpay.open();
-            } catch (error) {
+                    };
+
+                    const rzpay = new Razorpay(options);
+                    rzpay.open();
+                } catch (error) {
+                }
             }
+            else {
+                const form = document.createElement('form');
+                form.action = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
+                form.method = 'POST';
+                form.style.display = 'none';
+
+                const parameters = {
+                    order_id: generateOrderId(),
+                    currency: 'INR',
+                    amount: rechargeAmount,
+                    language: 'EN',
+                    billing_name: "",
+                    billing_address: "",
+                    billing_city: "",
+                    billing_state: "",
+                    billing_zip: "",
+                    billing_country: "",
+                    billing_tel: "",
+                    billing_email: "",
+                    delivery_name: "",
+                    delivery_address: "",
+                    delivery_city: "",
+                    delivery_state: "",
+                    delivery_zip: "",
+                    delivery_country: "India",
+                    delivery_tel: "",
+                    seller_id: userData?.id,
+                    merchant_param2: "",
+                    merchant_param3: "",
+                    merchant_param4: "",
+                    merchant_param5: "",
+                    promo_code: couponCode,
+                    customer_identifier: "",
+                };
+
+                Object.keys(parameters).forEach(key => {
+                    const input = document.createElement('input');
+                    input.type = 'hidden';
+                    input.name = key;
+                    input.value = parameters[key];
+                    form.appendChild(input);
+                });
+
+                document.body.appendChild(form);
+                form.submit();
+                document.body.removeChild(form);
+
+            }
+        } else {
+            setValidate(true)
         }
-        else{
-            const form = document.createElement('form');
-            form.action = `${BASE_URL_ORDER}/core-api/master/ccavRequestHandler/`;
-            form.method = 'POST';
-            form.style.display = 'none';
 
-            const parameters = {
-                order_id: generateOrderId(),
-                currency: 'INR',
-                amount: rechargeAmount,
-                language: 'EN',
-                billing_name: "",
-                billing_address: "",
-                billing_city:  "",
-                billing_state: "",
-                billing_zip: "",
-                billing_country: "",
-                billing_tel: "",
-                billing_email: "",
-                delivery_name: "",
-                delivery_address: "",
-                delivery_city: "",
-                delivery_state: "",
-                delivery_zip: "",
-                delivery_country: "India",
-                delivery_tel: "",
-                seller_id: userData?.id,
-                merchant_param2: "",
-                merchant_param3: "",
-                merchant_param4: "",
-                merchant_param5: "",
-                promo_code: couponCode,
-                customer_identifier: "",
-            };
-
-            Object.keys(parameters).forEach(key => {
-                const input = document.createElement('input');
-                input.type = 'hidden';
-                input.name = key;
-                input.value = parameters[key];
-                form.appendChild(input);
-            });
-
-            document.body.appendChild(form);
-            form.submit();
-            document.body.removeChild(form);
-    
-        }
     }, [Razorpay, rechargeAmount, dispatch]);
 
     return (
@@ -195,8 +204,23 @@ const WalletRechargeComponent = (props) => {
                         </div>
                         <label className='d-flex flex-column mb-3 px-3'>
                             <span style={{ fontSize: '0.9rem' }}>Enter Amount in Multiples of 100 Below</span>
-                            <input className='input-field' type="text" value={rechargeAmount} onChange={handleRechargeAmountChange} />
-                            <span className='font12 text-sh-primary fw-bold'>Min value:₹500 & Max value: ₹50,00,000</span>
+                            <input
+                                type="text"
+                                value={rechargeAmount}
+                                className={`input-field ${validate && "input-field-error"}`}
+                                onKeyPress={(e) => {
+                                    const allowedCharacters = /^[0-9\s]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                                onChange={handleRechargeAmountChange} />
+                            <span className={`font12 fw-bold ${validate ? "text-sh-red" : "text-sh-primary"}`}>Min value:₹500 & Max value: ₹50,00,000</span>
                         </label>
                         <div className='d-flex flex-column my-3 px-3'>
                             <span style={{ fontSize: '0.9rem' }}>Or Select From Below:</span>
