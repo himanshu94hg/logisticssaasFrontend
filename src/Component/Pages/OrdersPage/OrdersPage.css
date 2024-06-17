@@ -348,6 +348,7 @@
   z-index: 6;
   max-height: 67px;
   overflow-y: auto;
+  text-transform: capitalize;
 }
 
 .cell-inside-box .product-details span:after,
