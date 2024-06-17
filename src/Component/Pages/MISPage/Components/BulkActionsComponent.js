@@ -6,9 +6,19 @@ import ExportIcon from '../../OrdersPage/Components/BulkActionsComponent/Compone
 import FileSaver from 'file-saver'; 
 import Swal from 'sweetalert2'; 
 
+
+const formatDate = (date) => {
+    const d = new Date(date);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
 const BulkActionsComponent = ({
     activeTab,
     selectedRows,
+    setSelectedRows,
     setBulkActionShow,
     type,
     subtype,
@@ -17,7 +27,9 @@ const BulkActionsComponent = ({
 }) => {
     const dispatch = useDispatch();
     const [exportButtonClick, setExportButtonClick] = useState(false);
+    const [exportAllButtonClick, setExportAllButtonClick] = useState(false);
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard);
+    const exportAllCard = useSelector(state => state?.exportSectionReducer?.exportAllCard);
 
     const exportFile = () => {
         setExportButtonClick(true);
@@ -74,8 +86,40 @@ const BulkActionsComponent = ({
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                    // dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-                    toast.success("Go to MIS -> Download and download the report.");
+                const formattedStartDate = startDate ? formatDate(startDate) : '';
+                const formattedEndDate = endDate ? formatDate(endDate) : '';
+                    const requestData = {
+                        "order_tab": {
+                            "type": type,
+                            "subtype": subtype
+                        },
+                        "order_id": "",
+                        "courier": "",
+                        "awb_number": "",
+                        "min_awb_assign_date": "",
+                        "max_awb_assign_date": "",
+                        "status": "",
+                        "order_type": "",
+                        "customer_order_number": "",
+                        "channel": "",
+                        "min_invoice_amount": "",
+                        "max_invoice_amount": "",
+                        "warehouse_id": "",
+                        "product_name": "",
+                        "delivery_address": "",
+                        "min_weight": "",
+                        "max_weight": "",
+                        "min_product_qty": "",
+                        "max_product_qty": "",
+                        "rto_status": "",
+                        "global_type": "",
+                        "payment_type": "",
+                        "start_date": formattedStartDate,
+                        "end_date": formattedEndDate
+                    };
+                    dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
+                    setBulkActionShow(false);
+                    setSelectedRows([])
                 } else {
                     toast.info("Report canceled.");
                 }

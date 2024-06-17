@@ -1,8 +1,9 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
-import { EXPORT_DATA_ACTION,EXPORT_PASSBOOK_DATA_ACTION,EXPORT_SHIPPING_DATA_ACTION,EXPORT_RECHARGE_DATA_ACTION,EXPORT_INVOICE_DATA_ACTION,EXPORT_WEIGHT_DATA_ACTION,EXPORT_REMITANCE_DATA_ACTION,EXPORT_RECEIPT_DATA_ACTION } from "../../constant/exports";
-import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA,GET_EXPORT_RECEIPT_DATA } from "../../../constants/exports";
+import { EXPORT_DATA_ACTION,EXPORT_PASSBOOK_DATA_ACTION,EXPORT_SHIPPING_DATA_ACTION,EXPORT_RECHARGE_DATA_ACTION,EXPORT_INVOICE_DATA_ACTION,EXPORT_WEIGHT_DATA_ACTION,EXPORT_REMITANCE_DATA_ACTION,EXPORT_RECEIPT_DATA_ACTION,EXPORT_ALL_DATA_ACTION } from "../../constant/exports";
+import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA,GET_EXPORT_RECEIPT_DATA,GET_EXPORT_ALL_DATA } from "../../../constants/exports";
+import { toast } from "react-toastify";
 
 
 
@@ -230,6 +231,34 @@ function* exportReceiptFilesAction(action) {
     }
 }
 
+async function exportAllFileAPI(data) {
+    let listData = axios.request({
+        method: "POST",
+        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_ALL_URL}`,
+        data: data
+    });
+    return listData;
+}
+
+
+function* exportAllFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(exportAllFileAPI, payload);
+
+        console.log(response,"All Blob Data ....")
+        if (response.status === 200) {
+            toast.success(response?.data?.message);
+            yield put({ type: GET_EXPORT_ALL_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        if (reject) reject(error);
+    }
+}
+
+
 export function* getexportWatcher() {
     yield takeLatest(EXPORT_DATA_ACTION,exportFilesAction);
     yield takeLatest(EXPORT_PASSBOOK_DATA_ACTION,exportPassbookFilesAction);
@@ -239,4 +268,6 @@ export function* getexportWatcher() {
     yield takeLatest(EXPORT_WEIGHT_DATA_ACTION,exportWeightFilesAction);
     yield takeLatest(EXPORT_REMITANCE_DATA_ACTION,exportRemitanceFilesAction);
     yield takeLatest(EXPORT_RECEIPT_DATA_ACTION,exportReceiptFilesAction);
+
+    yield takeLatest(EXPORT_ALL_DATA_ACTION,exportAllFilesAction);
 }
