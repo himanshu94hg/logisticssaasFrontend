@@ -85,7 +85,7 @@ const GSTInvoicingPage = () => {
             </div>
             <section className='box-shadow shadow-sm p10 mb-4'>
                 <p>Enter your registered GST Identification Number below to add it to your freight and customer invoice:</p>
-                <div className='d-flex flex-column gap-4'>
+                <div className='mt-3 d-flex flex-column gap-4'>
                     <div className='d-flex w-100 align-items-center gap-4'>
                         <label className='w-100'>
                             GSTIN
