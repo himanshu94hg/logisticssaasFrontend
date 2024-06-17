@@ -61,9 +61,10 @@ const WalletRechargeComponent = (props) => {
         setRechargeAmount(event.target.value);
         if (event.target.value >= 500) {
             setValidate(false)
-        }else{
-            setValidate(true) 
         }
+        // else {
+        //     setValidate(true)
+        // }
     };
 
     const handlePaymentModeChange = (event) => {
@@ -176,6 +177,8 @@ const WalletRechargeComponent = (props) => {
                 document.body.removeChild(form);
 
             }
+        } else {
+            setValidate(true)
         }
 
     }, [Razorpay, rechargeAmount, dispatch]);
@@ -217,7 +220,7 @@ const WalletRechargeComponent = (props) => {
                                     }
                                 }}
                                 onChange={handleRechargeAmountChange} />
-                            <span className={`font12 fw-bold ${validate?"text-sh-red":"text-sh-primary"}`}>Min value:₹500 & Max value: ₹50,00,000</span>
+                            <span className={`font12 fw-bold ${validate ? "text-sh-red" : "text-sh-primary"}`}>Min value:₹500 & Max value: ₹50,00,000</span>
                         </label>
                         <div className='d-flex flex-column my-3 px-3'>
                             <span style={{ fontSize: '0.9rem' }}>Or Select From Below:</span>
