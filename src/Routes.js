@@ -239,3 +239,8 @@ export const ManageSubAccountPattern = "/manage-sub-account";
 export const ManageSubAccountRoutes = () => {
     return generatePath(ManageSubAccountPattern);
 };
+
+export const ThemeCustomizationPattern = "/theme-customization";
+export const ThemeCustomizationRoutes = () => {
+    return generatePath(ThemeCustomizationPattern);
+};

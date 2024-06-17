@@ -47,7 +47,7 @@ import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/Serviceab
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern } from "./Routes";
+import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
@@ -63,6 +63,7 @@ import GSTInvoicingPage from "./Component/Pages/SettingsPage/components/GSTInvoi
 import BillingAddressPage from "./Component/Pages/SettingsPage/components/BillingAddressPage/BillingAddressPage";
 import ShipeaseBankDetails from "./Component/Pages/SettingsPage/components/ShipeaseBankDetails/ShipeaseBankDetails";
 import ManageSubAccount from "./Component/Pages/SettingsPage/components/ManageSubAccount/ManageSubAccount";
+import ThemeCustomization from "./Component/Pages/SettingsPage/components/ThemeCustomization/ThemeCustomization";
 
 
 function App() {
@@ -112,6 +113,7 @@ function App() {
             <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />
             {/* <Route path={mergeOrdersPattern} element={<MoreOnOrders />} />
             <Route path={splitOrdersPattern} element={<MoreOnOrders />} /> */}
+            <Route path={ThemeCustomizationPattern} element={<ThemeCustomization />} />
             <Route path={ManageSubAccountPattern} element={<ManageSubAccount />} />
             <Route path={ShipeaseBankDetailsPattern} element={<ShipeaseBankDetails />} />
             <Route path={BillingAddressPattern} element={<BillingAddressPage />} />

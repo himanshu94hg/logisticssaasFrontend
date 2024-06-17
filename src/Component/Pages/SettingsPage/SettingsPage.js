@@ -19,7 +19,7 @@ import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Handle from 'rc-slider/lib/Handles/Handle'
-import { BillingAddressPattern, ManageSubAccountPattern, ShipeaseBankDetailsPattern, gstInvoicingPattern } from '../../../Routes'
+import { BillingAddressPattern, LabelCustomizationPattern, ManageSubAccountPattern, ShipeaseBankDetailsPattern, ThemeCustomizationPattern, customerPattern, gstInvoicingPattern, manageWarehousesPattern } from '../../../Routes'
 
 const SettingsPage = () => {
 
@@ -46,13 +46,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "Basic Information" } })}>
+                                    <li onClick={() => Navigate(customerPattern, { state: { activeTab: "Basic Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Company Profile
                                     </li>
-                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}>
+                                    <li onClick={() => Navigate(customerPattern, { state: { activeTab: "KYC Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -78,7 +78,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate('/manage-warehouses')}>
+                                    <li onClick={() => Navigate(manageWarehousesPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -98,13 +98,13 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate('/customer', { state: { activeTab: "Account Information" } })}>
+                                    <li onClick={() => Navigate(customerPattern, { state: { activeTab: "Account Information" } })}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Bank Details
                                     </li>
-                                    {/* <li onClick={() => Navigate('/customer', { state: { activeTab: "KYC Information" } })}> */}
+                                    {/* <li onClick={() => Navigate(customerPattern, { state: { activeTab: "KYC Information" } })}> */}
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
@@ -131,7 +131,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate('/label-customize')}>
+                                    <li onClick={() => Navigate(LabelCustomizationPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -177,7 +177,8 @@ const SettingsPage = () => {
                                         </span>
                                         Billing Address
                                     </li>
-                                    <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}>
+                                    {/* <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -197,7 +198,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate(ManageSubAccountPattern)}>
+                                    {/* <li onClick={() => Navigate(ManageSubAccountPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -217,7 +219,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate(ThemeCustomizationPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -243,7 +246,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate('/manage-user-role')}>
+                                    {/* <li onClick={() => Navigate('/manage-user-role')}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
