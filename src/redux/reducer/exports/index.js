@@ -1,7 +1,8 @@
-import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA,GET_EXPORT_RECEIPT_DATA } from "../../constants/exports";
+import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA,GET_EXPORT_RECEIPT_DATA,GET_EXPORT_ALL_DATA } from "../../constants/exports";
 
 const initialState = {
     exportCard:[],
+    exportAllCard:[],
     exportPassbookCard:[],
     exportShippingCard:[],
     exportRechargeCard:[],
@@ -52,6 +53,11 @@ export const exportSectionReducer = (state = initialState, action) => {
             return {
                 ...state,
                 exportReceiptCard: action?.payload
+            };
+        case GET_EXPORT_ALL_DATA:
+            return {
+                ...state,
+                exportAllCard: action?.payload
             };
         default:
             return state

@@ -407,8 +407,8 @@ const ReportsMIS = ({ activeTab }) => {
                 <BulkActionsComponent
                     activeTab={activeTab}
                     selectedRows={selectedRows}
-                    firstOptions={firstOptions}
                     setSelectedRows={setSelectedRows}
+                    firstOptions={firstOptions}
                     setBulkActionShow={setBulkActionShow}
                     type={bulkFilters.type}
                     subtype={bulkFilters.subtype}
