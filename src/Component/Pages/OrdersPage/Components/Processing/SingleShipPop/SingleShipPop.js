@@ -34,7 +34,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
                 if (response?.data?.status) {
                     setSingleShip(false);
                     navigation('/Orders');
-                    toast.success('Order successfully shipped!');
+                    toast.success('Order Shipped Successfully!');
                     dispatch(shipNowAction(new Date()))
                     dispatch({ type: "PAYMENT_DATA_ACTION" });
                 }

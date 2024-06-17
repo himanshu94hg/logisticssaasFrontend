@@ -31,7 +31,7 @@ const DomesticCreateOrder = () => {
             payment_type: '',
             order_date: currentDate,
             order_type: "",
-            channel: "",
+            channel: "custom",
             channel_id: null
         },
         shipping_details: {
@@ -110,6 +110,9 @@ const DomesticCreateOrder = () => {
     const handlePrev = () => {
         setStep(step - 1);
     };
+
+
+    console.log(formData,"this is a dummy data")
 
 
 

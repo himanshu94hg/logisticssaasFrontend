@@ -228,6 +228,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
+    
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');

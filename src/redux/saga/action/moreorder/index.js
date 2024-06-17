@@ -44,7 +44,7 @@ function* moreorderShipFilesAction(action) {
         if (response.status === 200) {
             yield put({ type: GET_REASSIGN_SHIP_DATA, payload: response?.data });
             yield put({ type: GET_REASSIGN_SHIP_DATA_STATUS, payload: response?.status });
-            toast.success(response?.data?.message);
+            toast.success("Order Reassigned successfully!");
         }
     } catch (error) {
         customErrorFunction(error)

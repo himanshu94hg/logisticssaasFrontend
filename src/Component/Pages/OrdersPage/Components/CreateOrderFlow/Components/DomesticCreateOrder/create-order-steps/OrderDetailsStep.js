@@ -106,9 +106,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         if (!formData.order_details.order_type) {
             newErrors.order_type = 'Select the Order Type!';
         }
-        if (!formData.order_details.channel) {
-            newErrors.channel = 'Select the Channel !';
-        }
+        // if (!formData.order_details.channel) {
+        //     newErrors.channel = 'Select the Channel !';
+        // }
         if (!formData.order_details.payment_type) {
             newErrors.payment_type = 'Select the Payment Type!';
         }
@@ -303,14 +303,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                         <label className='col'>
                             Order Channel
                             <select
-                                className={`select-field ${errors.channel || editErrors?.channel ? 'input-field-error' : ''}`}
+                                className={`select-field`}
                                 value={formData.order_details.channel}
                                 onChange={(e) => handleSelectChange(e, 'channel')}
                             >
                                 <option value="">Select Order Channel</option>
                                 <option value="custom">Custom</option>
                             </select>
-                            {(errors.channel || editErrors?.channel) && <div className="custom-error">{errors.channel || editErrors?.channel}</div>}
+                            {/*   {(errors.channel || editErrors?.channel) && <div className="custom-error">{errors.channel || editErrors?.channel}</div>}*/}
                         </label>
                     </div>
                     {/* Add Fields Section */}
