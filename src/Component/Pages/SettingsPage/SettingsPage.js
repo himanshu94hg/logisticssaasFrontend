@@ -19,7 +19,7 @@ import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Handle from 'rc-slider/lib/Handles/Handle'
-import { gstInvoicingPattern } from '../../../Routes'
+import { BillingAddressPattern, gstInvoicingPattern } from '../../../Routes'
 
 const SettingsPage = () => {
 
@@ -173,7 +173,7 @@ const SettingsPage = () => {
                                         </span>
                                         GSTIN Invoicing
                                     </li>
-                                    <li>
+                                    <li onClick={() => Navigate(BillingAddressPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

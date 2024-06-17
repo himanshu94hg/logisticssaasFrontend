@@ -224,3 +224,8 @@ export const gstInvoicingPattern = "/gstin-invoicing";
 export const gstInvoicingRoutes = () => {
     return generatePath(gstInvoicingPattern);
 };
+
+export const BillingAddressPattern = "/company-address-details";
+export const BillingAddressRoutes = () => {
+    return generatePath(BillingAddressPattern);
+};
