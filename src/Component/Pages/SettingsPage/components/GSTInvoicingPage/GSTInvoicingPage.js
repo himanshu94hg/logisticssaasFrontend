@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import './GSTInvoicingPage.css';
+import { useNavigate } from 'react-router-dom';
 
 // Function to generate random alphanumeric string
 const randomString = (length) => {
@@ -42,6 +43,7 @@ const generateRandomStateGstList = (numItems) => {
 };
 
 const GSTInvoicingPage = () => {
+    const Navigate = useNavigate();
     const [TDSPayment, setTDSPayment] = useState(false);
     const [StateGST, setStateGST] = useState(false);
     const [gstin, setGstin] = useState('');
@@ -79,7 +81,7 @@ const GSTInvoicingPage = () => {
         <div className='gst-invoicing-page'>
             <div className='d-flex justify-content-between align-items-center mb-3'>
                 <h4>GSTIN Invoicing</h4>
-                <button className='btn main-button-outline'>
+                <button onClick={() => Navigate(-1)} className='btn main-button-outline'>
                     <FontAwesomeIcon icon={faArrowLeftLong} /> Back
                 </button>
             </div>
