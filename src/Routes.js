@@ -219,3 +219,8 @@ export const ViewIntegrationsPattern = "/integrations";
 export const ViewIntegrationsRoutes = () => {
     return generatePath(ViewIntegrationsPattern);
 };
+
+export const gstInvoicingPattern = "/gstin-invoicing";
+export const gstInvoicingRoutes = () => {
+    return generatePath(gstInvoicingPattern);
+};
