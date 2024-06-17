@@ -17,9 +17,17 @@ import ReturnBG from '../../../assets/image/settingsBG/codBG.png'
 import ApiBG from '../../../assets/image/settingsBG/ApiBG.png'
 import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
-import { Link, useNavigate } from 'react-router-dom'
-import Handle from 'rc-slider/lib/Handles/Handle'
-import { BillingAddressPattern, LabelCustomizationPattern, ManageSubAccountPattern, ShipeaseBankDetailsPattern, ThemeCustomizationPattern, customerPattern, gstInvoicingPattern, manageWarehousesPattern } from '../../../Routes'
+import { useNavigate } from 'react-router-dom'
+import {
+    BillingAddressPattern,
+    LabelCustomizationPattern,
+    ManageSubAccountPattern,
+    ShipeaseBankDetailsPattern,
+    ThemeCustomizationPattern,
+    customerPattern,
+    gstInvoicingPattern,
+    manageWarehousesPattern
+} from '../../../Routes'
 
 const SettingsPage = () => {
 
