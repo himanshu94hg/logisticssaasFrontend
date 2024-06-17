@@ -19,6 +19,7 @@ import SubAccountBG from '../../../assets/image/settingsBG/SubAccountBG.png'
 import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomization.png'
 import { Link, useNavigate } from 'react-router-dom'
 import Handle from 'rc-slider/lib/Handles/Handle'
+import { gstInvoicingPattern } from '../../../Routes'
 
 const SettingsPage = () => {
 
@@ -27,6 +28,10 @@ const SettingsPage = () => {
     const [ChangePasswordPop, setChangePasswordPop] = useState(false)
 
     const handleChangePasswordPop = () => {
+        setChangePasswordPop(!ChangePasswordPop)
+    }
+
+    const handlePasswordSubmit = () => {
         setChangePasswordPop(!ChangePasswordPop)
     }
 
@@ -162,7 +167,7 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li>
+                                    <li onClick={() => Navigate(gstInvoicingPattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -503,7 +508,7 @@ const SettingsPage = () => {
                         <input placeholder='Re-enter your new password' className='input-field' type="password" />
                     </label>
                     <div className='d-flex justify-content-end'>
-                        <button className='btn main-button'>Submit</button>
+                        <button onClick={handlePasswordSubmit} className='btn main-button'>Submit</button>
                     </div>
                 </div>
             </section>
