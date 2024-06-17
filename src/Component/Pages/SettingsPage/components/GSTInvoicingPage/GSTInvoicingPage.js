@@ -164,8 +164,8 @@ const GSTInvoicingPage = () => {
                     <p>Note: Customer invoices will be generated with the pickup address (shown under Sold by) and respective state GSTIN.</p>
                 </div>
             </section>
-            <section className='my-4'>
-                <table className='mt-4 w-100'>
+            <section className='my-3'>
+                <table className='w-100'>
                     <thead className='sticky-header'>
                         <tr className='table-row box-shadow'>
                             <th>State</th>
