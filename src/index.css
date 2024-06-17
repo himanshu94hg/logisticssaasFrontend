@@ -92,6 +92,10 @@ p {
   color: var(--sh-primary);
 }
 
+.text-sh-red {
+  color: #dc3545;
+}
+
 .bg-sh-primary {
   background: var(--sh-primary) !important;
 }
