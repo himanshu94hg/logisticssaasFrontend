@@ -118,12 +118,9 @@ const WalletRechargeComponent = (props) => {
                                     description: options.description
                                 });
                                 dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
-
-                            } else {
-                            }
+                            } 
                         }
                     };
-
                     const rzpay = new Razorpay(options);
                     rzpay.open();
                 } catch (error) {

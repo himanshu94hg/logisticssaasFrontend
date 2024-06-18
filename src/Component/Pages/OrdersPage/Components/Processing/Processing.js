@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
+const Processing = React.memo(({ orders, activeTab,MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
@@ -56,10 +56,10 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     }, [orderdelete])
 
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab||MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab])
+    }, [activeTab,MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {

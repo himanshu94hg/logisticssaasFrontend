@@ -35,7 +35,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 import { debounce } from 'lodash';
 
 
-const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
+const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -49,10 +49,10 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
         }
     }, [orderdelete])
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab||MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab])
+    }, [activeTab,MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {

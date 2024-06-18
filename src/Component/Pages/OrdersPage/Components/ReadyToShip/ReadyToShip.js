@@ -39,7 +39,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo,orderStatus }) => {
+const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo,orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -64,10 +64,10 @@ const ReadyToShip = ({ setOrderTracking, orders, activeTab, bulkAwb, setbulkAwb,
         }
     }, [orderdelete])
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab||MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab])
+    }, [activeTab,MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {
