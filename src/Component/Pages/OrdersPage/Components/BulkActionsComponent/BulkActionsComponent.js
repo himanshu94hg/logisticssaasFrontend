@@ -240,15 +240,15 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
 
 
     const handelBulkShip = () => {
+        setShipButtonClicked(true);
         let data = {
             "order_ids": selectedRows.map(id => id.toString())
         };
         dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
-        setShipButtonClicked(true);
     };
 
     useEffect(() => {
-        if (shipButtonClicked === true) {
+        if (shipButtonClicked) {
             if (bulkShipData && Object.keys(bulkShipData).length > 0) {
                 const shippedCount = Object.values(bulkShipData).reduce((total, order) => {
                     if (order?.status === true) {
@@ -256,13 +256,18 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                     }
                     return total;
                 }, 0);
-                toast.success(`${shippedCount} out of ${selectedRows.length} Orders Shipped Successfully.`);
+    
+                const totalOrders = selectedRows.length;
+    
+                toast.success(`${shippedCount} out of ${totalOrders} Orders Shipped Successfully.`);
+    
                 setShipButtonClicked(false);
-                setBulkActionShow(false)
-                setSelectedRows([])
+                setBulkActionShow(false);
+                setSelectedRows([]);
             }
         }
-    }, [shipButtonClicked, bulkShipData]);
+    }, [shipButtonClicked, bulkShipData, selectedRows]);
+    
 
 
     const [show, setShow] = useState(false);
