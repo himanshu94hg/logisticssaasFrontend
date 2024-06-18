@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow,orderStatus }) => {
+const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
@@ -47,7 +47,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
     const start = performance.now();
-    console.log(start,"this is a start page ")
+    console.log(start, "this is a start page ")
 
     useEffect(() => {
         if (orderdelete) {
@@ -99,7 +99,7 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
             };
             axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${param}`, config)
                 .then((response) => {
-                    if(response?.status===200){
+                    if (response?.status === 200) {
                         setShipingResponse(response.data);
                         setSingleShip(true);
                     }
@@ -116,8 +116,8 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
     );
 
     const handleShipNow = (orderId) => {
-            debouncedHandleClick(orderId);
-            setSelectedOrderId(orderId)
+        debouncedHandleClick(orderId);
+        setSelectedOrderId(orderId)
     }
 
     const handleSelectRow = (orderId, awb) => {
@@ -378,13 +378,6 @@ const Processing = React.memo(({ orders, activeTab, bulkAwb, setbulkAwb, setEdit
                                                             <ul>
                                                                 <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
                                                                 <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) }}>Add Tag</li>
-                                                                <li onClick={() =>
-                                                                    dispatch({
-                                                                        type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
-                                                                            order_ids: [row?.id],
-                                                                        }
-                                                                    })
-                                                                }>Verify Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>

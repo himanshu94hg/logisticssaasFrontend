@@ -134,6 +134,7 @@ const MoreOnOrders = () => {
             setSearchValue("");
             setQueryParamTemp({});
             setQueryParamSearch(null);
+            setSearchOption(SearchOptions[0])
         }
     }, [activeTab])
 
@@ -261,7 +262,6 @@ const MoreOnOrders = () => {
             setQueryName(temp)
         }
     }, [favListData])
-    console.log(favListData, "this is fav list data")
 
     return (
         <>

@@ -179,6 +179,12 @@ const WeightRecoPage = () => {
         }
     }, [favListData])
 
+    useEffect(() => {
+        if (activeTab) {
+            setSearchOption(SearchOptions[0])
+        }
+    }, [activeTab])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
