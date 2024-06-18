@@ -254,3 +254,8 @@ export const SellerNotificationsPagePattern = "/seller-notifications";
 export const SellerNotificationsPageRoutes = () => {
     return generatePath(SellerNotificationsPagePattern);
 };
+
+export const PostpaidSettingsPagePattern = "/payment-type";
+export const PostpaidSettingsPageRoutes = () => {
+    return generatePath(PostpaidSettingsPagePattern);
+};
