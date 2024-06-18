@@ -106,6 +106,7 @@ const OrdersPage = () => {
             setSearchOption(SearchOptions[0])
             setBulkActionShow(false)
             setSelectedRows([])
+            setOrders([])
         }
     }, [activeTab, MoreFilters])
 
