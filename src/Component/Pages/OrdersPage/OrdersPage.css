@@ -348,7 +348,9 @@
   z-index: 6;
   max-height: 67px;
   overflow-y: auto;
-  text-transform: capitalize;
+  text-transform: lowercase;
+  width: 250px;
+  overflow-x: hidden;
 }
 
 .cell-inside-box .product-details span:after,
