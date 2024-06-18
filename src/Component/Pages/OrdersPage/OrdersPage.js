@@ -103,6 +103,7 @@ const OrdersPage = () => {
             setQueryParamTemp({});
             setItemsPerPage(20)
             setbulkAwb([])
+            setSearchOption(SearchOptions[0])
         }
     }, [activeTab])
 

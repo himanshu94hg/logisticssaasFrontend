@@ -148,7 +148,6 @@ const ShipmentsPage = () => {
 
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
 
-    console.log(shipmentCard.length, "Active Tab DADA")
 
     useEffect(() => {
         if (shipmentCardData && shipmentCardData.length) {
@@ -157,8 +156,6 @@ const ShipmentsPage = () => {
         }
     }, [shipmentCardData]);
 
-
-    console.log(activeTab, "Active Tab")
 
     const handleReattemptOrder = (() => {
         dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
@@ -224,7 +221,6 @@ const ShipmentsPage = () => {
         if (BulkActionShow) {
             setBulkActionShow(false)
             setSelectedRows([])
-
         }
     }, [activeTab])
 
@@ -257,6 +253,7 @@ const ShipmentsPage = () => {
             setSearchValue("");
             setQueryParamTemp({});
             setQueryParamSearch(null);
+            setSearchOption(SearchOptions[0])
         }
     }, [activeTab])
 
