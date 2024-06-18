@@ -492,7 +492,7 @@ const RateCalculatorPage = () => {
                     </div>
                     <div className='d-flex flex-column gap-2 align-items-end'>
                       <button className='btn main-button'>Ship Now</button>
-                      <p><span>EDD: <strong></strong></span></p>
+                      <p><span>EDD: <strong>N/A</strong></span></p>
                     </div>
                     <span className={`${item?.is_recommended ? "recommended" : ""} ${true ? '' : 'd-none'}`}></span>
                   </div>
