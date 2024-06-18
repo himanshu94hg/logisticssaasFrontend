@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
 const BulkActionsComponent = ({ activeTab, selectedRows }) => {
     const dispatch = useDispatch()
@@ -50,35 +51,35 @@ const BulkActionsComponent = ({ activeTab, selectedRows }) => {
 
     return (
         <>
-        {selectedRows.length > 0 && (
-            <section className='bulk-action-container box-shadow'>
-            <div className='ba-inner-container'>
-                <div className='ba-rows-selected'>
-                    <span className='fw-bold font20'>{selectedRows.length}</span>
-                    <span>Rows Selected</span>
-                </div>
-                <ul className='ba-actions'>
-                    {activeTab === "Weight Reconciliation" && 
-                        <>
-                            <li><span>Accept</span></li>
-                            <li onClick={handleExport}><span>Export</span></li>
-                        </>
-                    }
-                    {activeTab === "Settled Reconciliation" && 
-                        <>
-                            <li onClick={handleExport}><span>Export</span></li>
-                        </>
-                    }
-                    {activeTab === "On Hold Reconciliation" && 
-                        <>
-                            <li onClick={handleExport}><span>Export</span></li>
-                        </>
-                    }
-                </ul>
-                <div className='ba-close'></div>
-            </div>
-        </section>
-        )}
+            {selectedRows.length > 0 && (
+                <section className='bulk-action-container box-shadow'>
+                    <div className='ba-inner-container'>
+                        <div className='ba-rows-selected'>
+                            <span className='fw-bold font20'>{selectedRows.length}</span>
+                            <span>Rows Selected</span>
+                        </div>
+                        <ul className='ba-actions'>
+                            {activeTab === "Weight Reconciliation" &&
+                                <>
+                                    <li><span>Accept</span></li>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                </>
+                            }
+                            {activeTab === "Settled Reconciliation" &&
+                                <>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                </>
+                            }
+                            {activeTab === "On Hold Reconciliation" &&
+                                <>
+                                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                </>
+                            }
+                        </ul>
+                        <div className='ba-close'></div>
+                    </div>
+                </section>
+            )}
         </>
     )
 }

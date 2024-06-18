@@ -5,6 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import DeleteIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/DeleteIcon'
 import MergeIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/MergeIcon';
+import ShippingIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ShippingIcon';
 
 const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdateWarehouse }) => {
     const dispatch = useDispatch();
@@ -135,24 +136,24 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
             if (!authToken) {
                 throw new Error("Authentication token not found.");
             }
-    
+
             if (selectedRows.length === 0) {
                 throw new Error('Please select at least one order to merge.');
             }
-    
+
             const data = JSON.stringify({
                 "order_ids": selectedRows.join(',')
             });
-    
+
             const config = {
                 headers: {
                     Authorization: `Bearer ${authToken}`,
                     'Content-Type': 'application/json'
                 }
             };
-    
+
             const response = await axios.post(`${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`, data, config);
-    
+
             if (response.status === 200) {
                 toast.success("Order merged successfully.");
             } else {
@@ -161,7 +162,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
         } catch (error) {
             toast.error("Order cannot be merged.");
         }
-    };    
+    };
 
     return (
         <>
@@ -186,7 +187,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
                             </>}
                             {activeTab === "Reassign Order" &&
                                 <>
-                                    <li ><span>Reassign</span></li>
+                                    <li><ShippingIcon /><span>Reassign</span></li>
                                     {/* <li onClick={handleExport}><span>Export</span></li> */}
                                 </>
                             }

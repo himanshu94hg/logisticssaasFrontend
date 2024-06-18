@@ -1,40 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows,selectedOrderRows }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, selectedOrderRows }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const {exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportRemitanceCard,exportReceiptCard} = useSelector(state => state?.exportSectionReducer)
-    
-    console.log(selectedRows,selectedOrderRows, "Export Action Bulk")
+    const { exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard } = useSelector(state => state?.exportSectionReducer)
+
+    console.log(selectedRows, selectedOrderRows, "Export Action Bulk")
 
     const handleExport = () => {
         setExportButtonClick(true);
         const requestData = {
             "ids": `${activeTab === "Shipping Charges" ? selectedOrderRows.join(',') : selectedRows.join(',')}`
         };
-        if(activeTab === "Passbook")
-        {
+        if (activeTab === "Passbook") {
             dispatch({ type: "EXPORT_PASSBOOK_DATA_ACTION", payload: requestData });
         }
-        else if(activeTab === "Shipping Charges")
-        {
+        else if (activeTab === "Shipping Charges") {
             dispatch({ type: "EXPORT_SHIPPING_DATA_ACTION", payload: requestData });
         }
-        else if(activeTab === "Recharge Logs")
-        {
+        else if (activeTab === "Recharge Logs") {
             dispatch({ type: "EXPORT_RECHARGE_DATA_ACTION", payload: requestData });
         }
-        else if(activeTab === "Invoices")
-        {
+        else if (activeTab === "Invoices") {
             dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
         }
-        else if(activeTab === "Remittance Logs")
-        {
+        else if (activeTab === "Remittance Logs") {
             dispatch({ type: "EXPORT_REMITANCE_DATA_ACTION", payload: requestData });
         }
-        else{
+        else {
             dispatch({ type: "EXPORT_RECEIPT_DATA_ACTION", payload: requestData });
         }
     };
@@ -46,25 +42,25 @@ const BulkActionsComponent = ({ activeTab, selectedRows,selectedOrderRows }) => 
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportPassbookCard,exportShippingCard,exportRechargeCard,exportInvoiceCard,exportRemitanceCard,exportReceiptCard,exportCard]);
-    
+    }, [exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard, exportCard]);
+
 
     return (
         <>
-        {selectedRows.length > 0 && (
-            <section className='bulk-action-container box-shadow'>
-            <div className='ba-inner-container'>
-                <div className='ba-rows-selected'>
-                    <span className='fw-bold font20'>{selectedRows.length}</span>
-                    <span>Rows Selected</span>
-                </div>
-                <ul className='ba-actions'>
-                    <li onClick={handleExport}><span>Export</span></li>
-                </ul>
-                <div className='ba-close'></div>
-            </div>
-        </section>
-        )}
+            {selectedRows.length > 0 && (
+                <section className='bulk-action-container box-shadow'>
+                    <div className='ba-inner-container'>
+                        <div className='ba-rows-selected'>
+                            <span className='fw-bold font20'>{selectedRows.length}</span>
+                            <span>Rows Selected</span>
+                        </div>
+                        <ul className='ba-actions'>
+                            <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                        </ul>
+                        <div className='ba-close'></div>
+                    </div>
+                </section>
+            )}
         </>
     )
 }
