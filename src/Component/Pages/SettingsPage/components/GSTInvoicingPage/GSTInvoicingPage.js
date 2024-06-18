@@ -5,6 +5,7 @@ import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import './GSTInvoicingPage.css';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 
 // Function to generate random alphanumeric string
 const randomString = (length) => {
@@ -81,9 +82,7 @@ const GSTInvoicingPage = () => {
         <div className='gst-invoicing-page'>
             <div className='d-flex justify-content-between align-items-center mb-3'>
                 <h4>GSTIN Invoicing</h4>
-                <button onClick={() => Navigate(-1)} className='btn main-button-outline'>
-                    <FontAwesomeIcon icon={faArrowLeftLong} /> Back
-                </button>
+                <button className='btn main-button-outline' onClick={() => Navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
             </div>
             <section className='box-shadow shadow-sm p10 mb-4'>
                 <p>Enter your registered GST Identification Number below to add it to your freight and customer invoice:</p>

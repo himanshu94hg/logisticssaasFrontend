@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Toggle from 'react-toggle';
 import 'react-toggle/style.css';
 import './BillingAddressPage.css';
 import { useNavigate } from 'react-router-dom';
+import { MdOutlineKeyboardBackspace } from 'react-icons/md';
 
 const BillingAddressPage = () => {
     const Navigate = useNavigate();
@@ -17,9 +15,7 @@ const BillingAddressPage = () => {
         <div className='billing-address-page'>
             <div className='d-flex justify-content-between align-items-center mb-3'>
                 <h4>Billing Address</h4>
-                <button onClick={() => Navigate(-1)} className='btn main-button-outline'>
-                    <FontAwesomeIcon icon={faArrowLeftLong} /> Back
-                </button>
+                <button className='btn main-button-outline' onClick={() => Navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
             </div>
             <section className='box-shadow shadow-sm p10 mb-4'>
                 <div className='mt-3 d-flex gap-3 flex-wrap'>
