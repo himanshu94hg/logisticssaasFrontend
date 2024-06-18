@@ -73,7 +73,7 @@ function TotalInfoDashboard() {
                     <h2 className="font20 title-text p-y bold-600 m0">
                       {counterCard?.daily_shipment}
                     </h2>
-                    <p className="font12 text-yellow">Pending
+                    <p className="font12 text-yellow">Booked
                       {dailyShipment?.total_pending_data}
                     </p>
                   </div>
