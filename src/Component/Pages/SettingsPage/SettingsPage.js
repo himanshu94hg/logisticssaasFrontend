@@ -122,8 +122,8 @@ const SettingsPage = () => {
                                         </span>
                                         Early COD
                                     </li>
-                                    <li onClick={() => Navigate(PostpaidSettingsPagePattern)}>
-                                        {/* <li> */}
+                                    {/* <li onClick={() => Navigate(PostpaidSettingsPagePattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
