@@ -20,6 +20,7 @@ import PanelCustomizationBG from '../../../assets/image/settingsBG/PanelCustomiz
 import { useNavigate } from 'react-router-dom'
 import {
     BillingAddressPattern,
+    BuyerCommunicationPagePattern,
     LabelCustomizationPattern,
     ManageSubAccountPattern,
     ShipeaseBankDetailsPattern,
@@ -276,7 +277,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate(BuyerCommunicationPagePattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

@@ -244,3 +244,8 @@ export const ThemeCustomizationPattern = "/theme-customization";
 export const ThemeCustomizationRoutes = () => {
     return generatePath(ThemeCustomizationPattern);
 };
+
+export const BuyerCommunicationPagePattern = "/buyer-communication";
+export const BuyerCommunicationPageRoutes = () => {
+    return generatePath(BuyerCommunicationPagePattern);
+};
