@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, activeTab,  MoreFilters, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -57,10 +57,10 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
         }
     }, [orderdelete])
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab||MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab])
+    }, [activeTab,MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {

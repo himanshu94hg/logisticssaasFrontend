@@ -33,9 +33,10 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { debounce } from 'lodash';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
+const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -49,10 +50,10 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
         }
     }, [orderdelete])
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab||MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab])
+    }, [activeTab,MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {
@@ -126,6 +127,35 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
     const generateManifest = (value) => {
         debouncedHandleClick(value);
     }
+    const downloadManifest = async(value) => {
+              const requestData = {
+            order_ids: `${value}`
+        };
+        try {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-manifest/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(requestData)
+            });
+            if (response.status === 200) {
+                toast.success("Download Manifest successfully")
+            }
+            const data = await response.blob();
+            const url = window.URL.createObjectURL(data);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = 'Manifest.pdf';
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            customErrorFunction(error)
+        }
+    }
 
     const handleDownloadLabel = async (orderId) => {
         const requestData = {
@@ -153,7 +183,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
             a.click();
             window.URL.revokeObjectURL(url);
         } catch (error) {
-            toast.error("Somethng went wrong!")
+            customErrorFunction(error)
         }
     };
 
@@ -427,7 +457,7 @@ const Pickups = ({ orders, activeTab, BulkActionShow, bulkAwb, setbulkAwb, setBu
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
                                                 {row?.manifest_status ?
-                                                    <button className='btn main-button' onClick={() => generateManifest(row.id)}>Download Manifest</button> :
+                                                    <button className='btn main-button' onClick={() => downloadManifest(row.id)}>Download Manifest</button> :
                                                     <button className='btn main-button' onClick={() => generateManifest(row.id)}>Generate Manifest</button>
                                                 }
 

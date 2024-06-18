@@ -98,14 +98,23 @@ const OrdersPage = () => {
     }, [orderCancelled])
 
     useEffect(() => {
-        if (activeTab) {
+        if (activeTab || MoreFilters) {
             setSearchValue("");
             setQueryParamTemp({});
             setItemsPerPage(20)
             setbulkAwb([])
             setSearchOption(SearchOptions[0])
+            setBulkActionShow(false)
+            setSelectedRows([])
         }
-    }, [activeTab])
+    }, [activeTab, MoreFilters])
+
+    useEffect(() => {
+        if (itemsPerPage) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+        }
+    }, [itemsPerPage])
 
     useEffect(() => {
         if (favListData) {
@@ -124,7 +133,7 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(orderCancelled,"orderCancelledorderCancelledorderCancelledorderCancelled")
+    console.log(orderCancelled, "orderCancelledorderCancelledorderCancelledorderCancelled")
 
     useEffect(() => {
         if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
@@ -132,7 +141,7 @@ const OrdersPage = () => {
             setbulkAwb([])
             setBulkActionShow(false)
         }
-    }, [orderdelete,orderCancelled])
+    }, [orderdelete, orderCancelled])
 
     useEffect(() => {
         if (BulkActionShow) {
@@ -258,11 +267,11 @@ const OrdersPage = () => {
             case "Processing":
                 apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Processing&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
-                case "Ready to Ship":
-                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
+            case "Ready to Ship":
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Ready_to_ship&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
-                case "Pickup":
-                    apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
+            case "Pickup":
+                apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=manifest&page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Returns":
                 apiUrl = `${BASE_URL_ORDER}/orders-api/orders/?courier_status=Returns&page_size=${itemsPerPage}&page=${currentPage}`;
@@ -274,19 +283,19 @@ const OrdersPage = () => {
         if (apiUrl) {
             const queryParams = { ...queryParamTemp };
             const queryString = Object.keys(queryParams)
-            .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
+                .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
                 .join('&');
-                
-                const decodedURL = decodeURIComponent(queryString);
-                
-                if (decodedURL) {
-                    apiUrl += '&' + decodedURL;
+
+            const decodedURL = decodeURIComponent(queryString);
+
+            if (decodedURL) {
+                apiUrl += '&' + decodedURL;
+            }
+            axios.get(apiUrl, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
                 }
-                axios.get(apiUrl, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                })
+            })
                 .then(response => {
                     setTotalItems(response?.data?.count)
                     const start = performance.now();
@@ -414,6 +423,7 @@ const OrdersPage = () => {
                         orders={orders}
                         activeTab={activeTab}
                         bulkAwb={bulkAwb}
+                        MoreFilters={MoreFilters}
                         setbulkAwb={setbulkAwb}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
@@ -446,6 +456,7 @@ const OrdersPage = () => {
                     <Processing
                         orders={orders}
                         activeTab={activeTab}
+                        MoreFilters={MoreFilters}
                         bulkAwb={bulkAwb}
                         setbulkAwb={setbulkAwb}
                         setOrderId={setOrderId}
@@ -469,6 +480,7 @@ const OrdersPage = () => {
                         setAwbNo={setAwbNo}
                         setbulkAwb={setbulkAwb}
                         orders={orders}
+                        MoreFilters={MoreFilters}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
                         setBulkActionShow={setBulkActionShow}
@@ -486,6 +498,7 @@ const OrdersPage = () => {
                         orders={orders}
                         bulkAwb={bulkAwb}
                         setAwbNo={setAwbNo}
+                        MoreFilters={MoreFilters}
                         setbulkAwb={setbulkAwb}
                         activeTab={activeTab}
                         handleSearch={handleSearch}
@@ -504,6 +517,7 @@ const OrdersPage = () => {
                         manifestOrders={manifestOrders}
                         setManifestOrders={setManifestOrders}
                         activeTab={activeTab}
+                        MoreFilters={MoreFilters}
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
                         setBulkActionShow={setBulkActionShow}
@@ -516,6 +530,7 @@ const OrdersPage = () => {
                     <ReturnOrders
                         orders={orders}
                         activeTab={activeTab}
+                        MoreFilters={MoreFilters}
                         setAwbNo={setAwbNo}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
@@ -596,7 +611,7 @@ const OrdersPage = () => {
             </section>
 
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo}/>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>
