@@ -113,12 +113,12 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                             <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
-                                <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
+                                <span>+ Early COD Charges: <strong>₹  {option?.early_cod_charge}</strong></span><br />
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
                             <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword,option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
-                            <p><span>EDD: <strong>{formatDate(dateAfter2Days)}</strong></span></p>
+                            <p><span>EDD: <strong>N/A</strong></span></p>
                         </div>
                         {option?.is_recommended &&
                             <span className="recommended"></span>

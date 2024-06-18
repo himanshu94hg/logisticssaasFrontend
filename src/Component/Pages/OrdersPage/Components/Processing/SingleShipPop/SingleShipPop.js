@@ -125,7 +125,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
                             <button className='btn main-button' onClick={() => handleSubmit(option?.partner_keyword, orderId, option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
-                            <p><span>EDD: <strong>N/A</strong></span></p>
+                            <p><span>EDD: <strong>{option?.estimate_days} days</strong></span></p>
                         </div>
                         {option?.is_recommended &&
                             <span className="recommended"></span>
