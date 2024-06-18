@@ -259,3 +259,8 @@ export const PostpaidSettingsPagePattern = "/payment-type";
 export const PostpaidSettingsPageRoutes = () => {
     return generatePath(PostpaidSettingsPagePattern);
 };
+
+export const ProofOfDeliveryPattern = "/Proof-Of-Delivery";
+export const ProofOfDeliveryRoutes = () => {
+    return generatePath(ProofOfDeliveryPattern);
+};

@@ -24,6 +24,7 @@ import {
     LabelCustomizationPattern,
     ManageSubAccountPattern,
     PostpaidSettingsPagePattern,
+    ProofOfDeliveryPattern,
     SellerNotificationsPagePattern,
     ShipeaseBankDetailsPattern,
     ThemeCustomizationPattern,
@@ -157,7 +158,8 @@ const SettingsPage = () => {
                                         Customize Invoice
                                         <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    {/* <li onClick={() => Navigate(ProofOfDeliveryPattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
