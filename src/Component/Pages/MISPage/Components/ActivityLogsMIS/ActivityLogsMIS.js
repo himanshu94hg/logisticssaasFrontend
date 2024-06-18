@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import moment from 'moment';
 import Pagination from '../../../../common/Pagination/Pagination';
+import NoData from '../../../../common/noData';
 
 const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActionShow }) => {
     const dispatch = useDispatch();
@@ -177,7 +178,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActio
         }
     }
 
-    console.log(selectedRows,"selectedRowsselectedRowsselectedRows")
+    console.log(activitylog?.length,"selectedRowsselectedRowsselectedRows")
 
     return (
         <section className='position-relative reports-mis'>
@@ -311,6 +312,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActio
                             ))}
                         </tbody>
                     </table>
+                    {activitylog?.length===0 && <NoData/>}
                 </div>
             </div>
             <Pagination

@@ -80,7 +80,7 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                             <div className='d-flex flex-column justify-content-center'>
                                 <p>{option.partner_title}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
-                                <p>RTO Charges: ₹{0}</p>
+                                <p>RTO Charges: ₹{option.rto_charge}</p>
                             </div>
                         </div>
                         <div className='d-flex align-items-center gap-2'>

@@ -13,6 +13,7 @@ import Pagination from '../../../../common/Pagination/Pagination';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../../../debounce';
+import NoData from '../../../../common/noData';
 
 
 const ScheduledReportsMIS = ({ activeTab }) => {
@@ -111,7 +112,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                     <div className="search-container">
                         <label style={{ width: '500px' }}>
                             <input className='input-field' type="text" placeholder="Search Report Title" value={searchValue} onChange={(e) => setSearchValue(e.target.value)} />
-                            <button onClick={() =>globalDebouncedClick(() => handleSearch())} >
+                            <button onClick={() => globalDebouncedClick(() => handleSearch())} >
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
@@ -189,6 +190,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
                             ))}
                         </tbody>
                     </table>
+                    {scheduledReport?.length === 0 && <NoData />}
                 </div>
                 <Pagination
                     totalItems={totalItems}

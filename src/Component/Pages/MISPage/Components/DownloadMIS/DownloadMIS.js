@@ -10,6 +10,7 @@ import Pagination from '../../../../common/Pagination/Pagination';
 import { RxReset } from 'react-icons/rx';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import NoData from '../../../../common/noData';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch();
@@ -196,6 +197,7 @@ const DownloadMIS = ({ activeTab }) => {
                             ))}
                         </tbody>
                     </table>
+                    {misDownload?.length===0 && <NoData/>}
                 </div>
             </div>
             <Pagination
