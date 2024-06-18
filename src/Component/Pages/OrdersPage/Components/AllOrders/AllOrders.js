@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking,orderStatus }) => {
+const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
@@ -75,7 +75,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                 setBulkActionShow(false)
             }
 
-        } 
+        }
         else {
             setSelectAll(!selectAll);
             if (!selectAll) {
@@ -324,14 +324,14 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
 
     const [show, setShow] = useState(false);
     const [actionType, setActionType] = useState("");
-    const [orderIds,setOrderIds]=useState(null)
+    const [orderIds, setOrderIds] = useState(null)
 
     const handleClose = () => setShow(false);
 
-    const handleShow = (args1,args2) => {
+    const handleShow = (args1, args2) => {
         setShow(true)
         // setOrderId(args)
-        setActionType({id:args1,action:args2})
+        setActionType({ id: args1, action: args2 })
     };
 
     const makeApiCall = () => {
@@ -340,10 +340,10 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
         //         awb_numbers: [actionType]
         //     }
         // })
-        if(actionType?.action==="deleteOrder"){
-            dispatch({ type: "DELETE_ORDERS_ACTION", payload:actionType.id })
+        if (actionType?.action === "deleteOrder") {
+            dispatch({ type: "DELETE_ORDERS_ACTION", payload: actionType.id })
         }
-        else{
+        else {
 
         }
         setShow(false)
@@ -529,10 +529,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                                                             : row?.status === "pending" ? <span onClick={() => globalDebouncedClick(() => handleShipNow(row?.id))}>Ship Now</span>
                                                                 : row?.status === "pickup_requested" ? <span onClick={() => globalDebouncedClick(() => generateManifest(row?.id))}>Generate Manifest</span>
                                                                     : row?.status === "shipped" ? <span onClick={() => globalDebouncedClick(() => handleGeneratePickup(row?.id))}>Generate Pickup</span>
-                                                                        : row?.status === "cancelled" || row?.status === "delivered" || row?.status === "picked_up" ||
-                                                                            row?.status === "out_for_delivery" || row?.status === "pickup_scheduled" || row?.status === "rto_initiated"
-                                                                            || row?.status === "ndr" || row?.status === "lost" || row?.status === "damaged" ||row?.status==="in_transit"
-                                                                            ? <span onClick={() => globalDebouncedClick(() => openCloneSection(row?.id))}>Clone Order</span> : ""
+                                                                        : <span onClick={() => globalDebouncedClick(() => openCloneSection(row?.id))}>Clone Order</span>
                                                     }</button>
                                                     <div className='action-options'>
                                                         <div className='threedots-img'>
@@ -559,7 +556,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                                                                     }
                                                                 }}>Cancel Order</li>
 
-                                                                <li onClick={() => handleShow(row?.id,"deleteOrder")}>Delete Order</li>
+                                                                <li onClick={() => handleShow(row?.id, "deleteOrder")}>Delete Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id))}>Download Invoice</li>
@@ -585,7 +582,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                         keyboard={false}
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to {actionType?.action==="deleteOrder"?"delete":"cancel"} the order ?</Modal.Title>
+                            <Modal.Title>Are you sure you want to {actionType?.action === "deleteOrder" ? "delete" : "cancel"} the order ?</Modal.Title>
                         </Modal.Header>
                         <Modal.Footer>
                             <Button variant="secondary" className="px-5" onClick={handleClose}>
