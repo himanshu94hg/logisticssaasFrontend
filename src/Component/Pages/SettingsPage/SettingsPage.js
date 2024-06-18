@@ -23,6 +23,7 @@ import {
     BuyerCommunicationPagePattern,
     LabelCustomizationPattern,
     ManageSubAccountPattern,
+    SellerNotificationsPagePattern,
     ShipeaseBankDetailsPattern,
     ThemeCustomizationPattern,
     customerPattern,
@@ -284,7 +285,7 @@ const SettingsPage = () => {
                                         </span>
                                         Buyer Communication
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    <li onClick={() => Navigate(SellerNotificationsPagePattern)}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>

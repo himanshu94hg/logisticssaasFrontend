@@ -249,3 +249,8 @@ export const BuyerCommunicationPagePattern = "/buyer-communication";
 export const BuyerCommunicationPageRoutes = () => {
     return generatePath(BuyerCommunicationPagePattern);
 };
+
+export const SellerNotificationsPagePattern = "/seller-notifications";
+export const SellerNotificationsPageRoutes = () => {
+    return generatePath(SellerNotificationsPagePattern);
+};
