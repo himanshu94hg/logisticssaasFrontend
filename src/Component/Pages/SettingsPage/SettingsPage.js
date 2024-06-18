@@ -285,7 +285,8 @@ const SettingsPage = () => {
                                         </span>
                                         Buyer Communication
                                     </li>
-                                    <li onClick={() => Navigate(SellerNotificationsPagePattern)}>
+                                    {/* <li onClick={() => Navigate(SellerNotificationsPagePattern)}> */}
+                                    <li>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
