@@ -602,7 +602,7 @@ ul.order-label-list li {
   }
 
   .orders-section-tabs .table-container {
-    height: calc(100vh - 283px);
+    height: calc(100vh - 288px);
   }
 
   .orders-section-tabs .table-container.m-table-height {

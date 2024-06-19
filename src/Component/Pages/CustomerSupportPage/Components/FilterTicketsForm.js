@@ -159,19 +159,14 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Created</h6>
           <div className='date-picker-container'>
-            {/* <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className='calendar-icon'
-              onClick={() => document.getElementById("createdDate").focus()}
-            /> */}
             <DatePicker
               showIcon
               icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-              id="createdDate"
               selected={createdDate}
               onChange={handleCreatedChange}
-              dateFormat='dd/MM/yyyy'
+              dateFormat='dd MMMM, yyyy'
               className='input-field'
+              maxDate={new Date()}
               strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
               isClearable
@@ -181,18 +176,12 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Due Date</h6>
           <div className='date-picker-container'>
-            {/* <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className='calendar-icon'
-              onClick={() => document.getElementById("resolutionDate").focus()}
-            /> */}
             <DatePicker
               showIcon
               icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-              id="resolutionDate"
               selected={resolutionDate}
               onChange={handleResolutionDateChange}
-              dateFormat='dd/MM/yyyy'
+              dateFormat='dd MMMM, yyyy'
               className='input-field'
               maxDate={new Date()}
               strictParsing={true}
@@ -204,18 +193,12 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Updated</h6>
           <div className='date-picker-container'>
-            {/* <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className='calendar-icon'
-              onClick={() => document.getElementById("endDate").focus()}
-            /> */}
             <DatePicker
               showIcon
               icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-              id="endDate"
               selected={endDate}
               onChange={handleEndDateChange}
-              dateFormat='dd/MM/yyyy'
+              dateFormat='dd MMMM, yyyy'
               className='input-field'
               maxDate={new Date()}
               strictParsing={true}
