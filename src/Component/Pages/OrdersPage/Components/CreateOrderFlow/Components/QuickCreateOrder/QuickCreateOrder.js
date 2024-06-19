@@ -123,9 +123,10 @@ const QuickCreateOrder = () => {
         }
         if (!formData.shipping_details.mobile_number) {
             newErrors.mobile_number = 'Mobile Number is required!';
-        } else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
-            newErrors.mobile_number = 'Mobile Number should be 10 digits!';
-        }
+        } 
+        // else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
+        //     newErrors.mobile_number = 'Mobile Number should be 10 digits!';
+        // }
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
@@ -253,6 +254,8 @@ const QuickCreateOrder = () => {
                 });
         }
     }, [selectedOrderId]);
+
+    console.log(formData,"formDataformDataformData")
 
     return (
         <div className="stepper-form-container">
