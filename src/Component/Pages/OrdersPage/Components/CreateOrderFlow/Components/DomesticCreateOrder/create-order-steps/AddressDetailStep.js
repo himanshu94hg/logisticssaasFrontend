@@ -267,7 +267,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 }
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
             });
     };
 
@@ -305,7 +304,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 }
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
             });
     };
     const handleMobileNumberValidation = () => {

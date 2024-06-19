@@ -223,10 +223,8 @@ const QuickCreateOrder = () => {
                         const responseData = response.data;
                         // toast.success("Order Created successfully!")
                         // navigation('/Orders');
-                        console.log(response)
                         setSelectedOrderId(response?.data?.id)
                     } else {
-                        //    console.log(object)
                         toast.error("Something went wrong!")
                     }
                 }
@@ -255,7 +253,6 @@ const QuickCreateOrder = () => {
         }
     }, [selectedOrderId]);
 
-    console.log(formData,"formDataformDataformData")
 
     return (
         <div className="stepper-form-container">

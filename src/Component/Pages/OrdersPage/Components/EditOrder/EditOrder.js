@@ -226,7 +226,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             }
         });
 
-        console.log(newErrors, "newErrorsnewErrorsnewErrorsnewErrors");
         seteditErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };

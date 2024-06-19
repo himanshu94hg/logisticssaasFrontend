@@ -43,7 +43,6 @@ const BasicInfo = ({ activeTab }) => {
     company_logo: "",
   });
 
-  console.log(formData,"formDataformData")
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
