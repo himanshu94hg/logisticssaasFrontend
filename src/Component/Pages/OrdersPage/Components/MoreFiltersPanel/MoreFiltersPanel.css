@@ -155,11 +155,11 @@
     border-bottom-color: var(--sh-primary-light);
 }
 
-
+/* 
 
 .morefilters-panel .react-datepicker__close-icon {
-    margin-right: 18px;
-}
+    margin-right: 21px;
+} */
 
 .morefilters-panel .react-datepicker__close-icon::after {
     background-color: transparent;
@@ -168,6 +168,11 @@
     font-weight: 600;
     color: var(--sh-primary);
     vertical-align: bottom;
+}
+
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle {
+    fill: #c5dcf1;
+    color: #c5dcf1;
 }
 
 .morefilters-panel .react-datepicker__current-month.react-datepicker__current-month--hasYearDropdown.react-datepicker__current-month--hasMonthDropdown {

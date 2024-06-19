@@ -44,18 +44,6 @@ const RechargeLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActio
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
-
-
-
     const calculateTotalAmount = (billingCard) => {
         const totalAmount = billingCard.reduce((total, item) => total + parseFloat(item.amount), 0);
         return totalAmount.toFixed(2);

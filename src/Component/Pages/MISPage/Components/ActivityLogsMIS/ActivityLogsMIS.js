@@ -10,7 +10,7 @@ import moment from 'moment';
 import Pagination from '../../../../common/Pagination/Pagination';
 import NoData from '../../../../common/noData';
 
-const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActionShow }) => {
+const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [firstSelectedOption, setFirstSelectedOption] = useState(null);
@@ -178,7 +178,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActio
         }
     }
 
-    console.log(activitylog?.length,"selectedRowsselectedRowsselectedRows")
+    console.log(activitylog?.length, "selectedRowsselectedRowsselectedRows")
 
     return (
         <section className='position-relative reports-mis'>
@@ -195,34 +195,36 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActio
                             />
                         </label>
 
-                        <label>
+                        {/* <label> */}
+                        <div className='date-picker-container'>
                             From Date
-                            <div className='date-picker-container'>
-                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
-                                <DatePicker
-                                    maxDate={new Date()}
-                                    dateFormat='dd/MM/yyyy'
-                                    className='input-field'
-                                    selected={startDate}
-                                    onKeyDown={(e) => handleKeyDown(e)}
-                                    onChange={handleStartDateChange}
-                                />
-                            </div>
-                        </label>
-                        <label>
+                            <DatePicker
+                                showIcon
+                                icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                maxDate={new Date()}
+                                dateFormat='dd MMMM, yyyy'
+                                className='input-field'
+                                selected={startDate}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                                onChange={handleStartDateChange}
+                            />
+                        </div>
+                        {/* </label> */}
+                        {/* <label> */}
+                        <div className='date-picker-container'>
                             To Date
-                            <div className='date-picker-container'>
-                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
-                                <DatePicker
-                                    maxDate={new Date()}
-                                    dateFormat='dd/MM/yyyy'
-                                    className='input-field'
-                                    selected={endDate}
-                                    onKeyDown={(e) => handleKeyDown(e)}
-                                    onChange={handleEndDateChange}
-                                />
-                            </div>
-                        </label>
+                            <DatePicker
+                                showIcon
+                                icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                maxDate={new Date()}
+                                dateFormat='dd/MM/yyyy'
+                                className='input-field'
+                                selected={endDate}
+                                onKeyDown={(e) => handleKeyDown(e)}
+                                onChange={handleEndDateChange}
+                            />
+                        </div>
+                        {/* </label> */}
                         <button onClick={handleSubmit} className='btn main-button'>Search</button>
                     </div>
 
@@ -312,7 +314,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows,setBulkActio
                             ))}
                         </tbody>
                     </table>
-                    {activitylog?.length===0 && <NoData/>}
+                    {activitylog?.length === 0 && <NoData />}
                 </div>
             </div>
             <Pagination
