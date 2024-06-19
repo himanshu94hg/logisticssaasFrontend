@@ -98,7 +98,7 @@ const OrdersPage = () => {
     }, [orderCancelled])
 
     useEffect(() => {
-        if (activeTab || MoreFilters) {
+        if (activeTab) {
             setSearchValue("");
             setQueryParamTemp({});
             setItemsPerPage(20)
@@ -108,14 +108,14 @@ const OrdersPage = () => {
             setSelectedRows([])
             setOrders([])
         }
-    }, [activeTab, MoreFilters])
+    }, [activeTab])
 
     useEffect(() => {
-        if (itemsPerPage) {
+        if (itemsPerPage||MoreFilters) {
             setBulkActionShow(false)
             setSelectedRows([])
         }
-    }, [itemsPerPage])
+    }, [itemsPerPage,MoreFilters])
 
     useEffect(() => {
         if (favListData) {
