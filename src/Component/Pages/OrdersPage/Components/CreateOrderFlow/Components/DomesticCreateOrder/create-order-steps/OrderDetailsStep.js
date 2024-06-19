@@ -53,7 +53,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }
     }, [location, pathName, editStatus, formData]);
 
-    console.log(location.pathname,"this is a pathname daata")
+    console.log(location.pathname, "this is a pathname daata")
 
     useEffect(() => {
         if (formData.order_details.order_type === "Reverse") {
@@ -93,7 +93,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     }, [tagListData]);
 
     useEffect(() => {
-        if (location.pathname==="/create-order") {
+        if (location.pathname === "/create-order") {
             dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
         }
     }, [location])
@@ -284,21 +284,22 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                             {(errors.order_type || editErrors?.order_type) && <div className="custom-error">{errors.order_type || editErrors?.order_type}</div>}
                         </label>
                         {/* Order Date with react-datepicker */}
-                        <label className='col'>
+                        <div style={{ gap: '0.3rem' }} className='col d-flex flex-column'>
                             Order Date
                             <div className="date-picker-container">
-                                <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                 <DatePicker
+                                    showIcon
+                                    icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                     selected={formData?.order_details?.order_date}
                                     onChange={(date) => { handleDateChange(date, "order_date") }}
-                                    dateFormat="dd/MM/yyyy"
+                                    dateFormat="dd MMMM, yyyy"
                                     maxDate={new Date()}
                                     onKeyDown={(e) => handleKeyDown(e)}
                                     className={`input-field`}
                                 />
                             </div>
-                            {(errors.order_date || editErrors?.order_date) && <div className="custom-error">{errors.order_date || editErrors?.order_date}</div>}
-                        </label>
+                            {/* {(errors.order_date || editErrors?.order_date) && <div className="custom-error">{errors.order_date || editErrors?.order_date}</div>} */}
+                        </div>
 
                         <label className='col'>
                             Order Channel

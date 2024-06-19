@@ -24,6 +24,7 @@ import {
     LabelCustomizationPattern,
     ManageSubAccountPattern,
     PostpaidSettingsPagePattern,
+    ProofOfDeliveryPattern,
     SellerNotificationsPagePattern,
     ShipeaseBankDetailsPattern,
     ThemeCustomizationPattern,
@@ -31,18 +32,16 @@ import {
     gstInvoicingPattern,
     manageWarehousesPattern
 } from '../../../Routes'
+import ChangePassword from './components/ChangePassword/ChangePassword'
 
 const SettingsPage = () => {
 
-    let Navigate = useNavigate()
+    //  let Navigate = useNavigate()
+    const Navigate = () => { }
 
     const [ChangePasswordPop, setChangePasswordPop] = useState(false)
 
     const handleChangePasswordPop = () => {
-        setChangePasswordPop(!ChangePasswordPop)
-    }
-
-    const handlePasswordSubmit = () => {
         setChangePasswordPop(!ChangePasswordPop)
     }
 
@@ -115,15 +114,14 @@ const SettingsPage = () => {
                                         </span>
                                         Bank Details
                                     </li>
-                                    {/* <li onClick={() => Navigate(customerPattern, { state: { activeTab: "KYC Information" } })}> */}
                                     <li onClick={() => Navigate()}>
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Early COD
                                     </li>
-                                    {/* <li onClick={() => Navigate(PostpaidSettingsPagePattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(PostpaidSettingsPagePattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -157,7 +155,8 @@ const SettingsPage = () => {
                                         Customize Invoice
                                         <span className='paid-service'><FontAwesomeIcon icon={faCrown} /><span>Elite</span></span>
                                     </li>
-                                    <li onClick={() => Navigate()}>
+                                    <li onClick={() => Navigate(ProofOfDeliveryPattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -189,8 +188,8 @@ const SettingsPage = () => {
                                         </span>
                                         Billing Address
                                     </li>
-                                    {/* <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(ShipeaseBankDetailsPattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -210,8 +209,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate(ManageSubAccountPattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(ManageSubAccountPattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -231,8 +230,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate(ThemeCustomizationPattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(ThemeCustomizationPattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -258,8 +257,8 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate('/manage-user-role')}> */}
-                                    <li>
+                                    <li onClick={() => Navigate('/manage-user-role')}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -280,15 +279,15 @@ const SettingsPage = () => {
                             </div>
                             <div className='tile-body'>
                                 <ul>
-                                    {/* <li onClick={() => Navigate(BuyerCommunicationPagePattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(BuyerCommunicationPagePattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
                                         Buyer Communication
                                     </li>
-                                    {/* <li onClick={() => Navigate(SellerNotificationsPagePattern)}> */}
-                                    <li>
+                                    <li onClick={() => Navigate(SellerNotificationsPagePattern)}>
+                                        {/* <li> */}
                                         <span className='icon-container'>
                                             <FontAwesomeIcon icon={faAnglesRight} />
                                         </span>
@@ -513,28 +512,9 @@ const SettingsPage = () => {
             </section>
 
             <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
-                <div className='cp-header'>
-                    <h5>Change Your Password Here!</h5>
-                </div>
-                <div className='cp-body'>
-                    <label>
-                        Current Password
-                        <input placeholder='Enter your current password' className='input-field' type="password" />
-                    </label>
-                    <label>
-                        New Password
-                        <input placeholder='Enter your new Password' className='input-field' type="password" />
-                    </label>
-                    <label>
-                        Confirm New Password
-                        <input placeholder='Re-enter your new password' className='input-field' type="password" />
-                    </label>
-                    <div className='d-flex justify-content-end'>
-                        <button onClick={handlePasswordSubmit} className='btn main-button'>Submit</button>
-                    </div>
-                </div>
+                {/* <ChangePassword ChangePasswordPop={ChangePasswordPop} setChangePasswordPop={setChangePasswordPop} /> */}
             </section>
-            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div>
+            {/* <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div> */}
         </>
     )
 }
