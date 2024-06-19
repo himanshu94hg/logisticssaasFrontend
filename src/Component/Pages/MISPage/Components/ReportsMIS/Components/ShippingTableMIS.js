@@ -78,7 +78,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     <tr className="blank-row"><td></td></tr>
                 </thead>
                 <tbody>
-                    {shipmentData?.length  && shipmentData?.map((row, index) => (
+                    {shipmentData?.length>0  && shipmentData?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
