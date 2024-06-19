@@ -34,13 +34,17 @@ import { Link } from 'react-router-dom';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { debounce } from 'lodash';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
     const token = Cookies.get("access_token")
+    const [show, setShow] = useState(false);
+    const [awb, setAwb] = useState("");
+    const handleClose = () => setShow(false);
 
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -272,6 +276,23 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
         }
     }
 
+    const handleShow = (args1) => {
+        setShow(true)
+      
+    };
+    const handleCancelOrder=(awb)=>{
+        setShow(true)
+        setAwb(awb)
+    }
+    const makeApiCall = () => {
+        dispatch({
+            type: "BULK_CANCEL_ORDER_ACTION", payload: {
+                awb_numbers: [awb],
+            }
+        })
+        setShow(false)
+    }
+
 
     return (
         <section className='position-relative'>
@@ -467,6 +488,7 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
+                                                            <li onClick={() => handleCancelOrder(row.awb_number)}>Cancel Order</li>
                                                             <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                         </ul>
@@ -482,6 +504,22 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
                     {orders?.length === 0 && <NoData />}
                 </div>
             </div>
+
+            <Modal
+                show={show}
+                onHide={handleClose}
+                keyboard={false}
+            >
+                <Modal.Header>
+                    <Modal.Title>Are you sure you want to Cancel the order ?</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button variant="secondary" className="px-5" onClick={handleClose}>
+                        No
+                    </Button>
+                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
         </section>
     );
 };
