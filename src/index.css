@@ -820,3 +820,14 @@ input:disabled {
   background-color: #fff;
   opacity: 0.3;
 }
+
+.react-datepicker__header {
+  background-color: var(--sh-primary-light);
+}
+
+.react-datepicker__year-read-view--down-arrow,
+.react-datepicker__month-read-view--down-arrow,
+.react-datepicker__month-year-read-view--down-arrow,
+.react-datepicker__navigation-icon::before {
+  border-color: #000000;
+}
