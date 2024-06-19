@@ -28,7 +28,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
 
     useEffect(() => {
         if (labelData?.message === "Go to MIS -> Download and download the labels.") {
-            console.log("here");
         }
         else{
             if(labelData)

@@ -13,14 +13,9 @@ import moment from 'moment'
 const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
-
     const CloseSidePanel = () => {
         setOrderTracking(false)
     }
-
-    useEffect(() => {
-
-    }, [])
 
     useEffect(() => {
         const fetchData = async () => {
@@ -36,11 +31,9 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
                 customErrorFunction(error)
             }
         };
-
         if (orderTracking && authToken) {
             fetchData();
         }
-
     }, [orderTracking]);
 
     return (
