@@ -217,9 +217,8 @@
 }
 
 .calendar-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
+    top: 49%;
+    left: -1px;
     transform: translateY(-50%);
     cursor: pointer;
     color: #777;

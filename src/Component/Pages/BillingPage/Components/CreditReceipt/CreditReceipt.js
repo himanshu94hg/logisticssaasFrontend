@@ -1,4 +1,3 @@
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
@@ -74,15 +73,7 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
 
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
 
     const [show, setShow] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -174,13 +165,8 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
 
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
+
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />

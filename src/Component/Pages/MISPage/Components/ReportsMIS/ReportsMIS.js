@@ -288,38 +288,39 @@ const ReportsMIS = ({ activeTab }) => {
                                 isDisabled={!firstSelectedOption}
                             />
                         </label>
-                        <label>
+                        {/* <label> */}
+                        <div className='date-picker-container'>
                             From Date
-                            <div className='date-picker-container'>
-                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
-                                {/* <DatePicker
-                                    dateFormat='dd/MM/yyyy'
-                                    className='input-field'
-                                /> */}
-                                <DatePicker
-                                    maxDate={new Date()}
-                                    selected={startDate}
-                                    dateFormat='dd/MM/yyyy'
-                                    className='input-field'
-                                    onKeyDown={(e) => handleKeyDown(e)}
-                                    onChange={handleStartDateChange}
-                                />
-                            </div>
-                        </label>
-                        <label>
+                            <DatePicker
+                                showIcon
+                                icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                maxDate={new Date()}
+                                selected={startDate}
+                                dateFormat='dd MMMM, yyyy'
+                                className='input-field'
+                                onKeyDown={(e) => handleKeyDown(e)}
+                                onChange={handleStartDateChange}
+                                shouldCloseOnSelect={true}
+                                isClearable
+                            />
+                        </div>
+                        {/* </label> */}
+                        {/* <label> */}
+                        <div className='date-picker-container'>
                             To Date
-                            <div className='date-picker-container'>
-                                <FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />
-                                <DatePicker
-                                    selected={endDate}
-                                    maxDate={new Date()}
-                                    dateFormat='dd/MM/yyyy'
-                                    className='input-field'
-                                    onKeyDown={(e) => handleKeyDown(e)}
-                                    onChange={handleEndDateChange}
-                                />
-                            </div>
-                        </label>
+                            <DatePicker
+                                showIcon
+                                icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                selected={endDate}
+                                maxDate={new Date()}
+                                dateFormat='dd MMMM, yyyy'
+                                className='input-field'
+                                onKeyDown={(e) => handleKeyDown(e)}
+                                onChange={handleEndDateChange}
+                                isClearable
+                            />
+                        </div>
+                        {/* </label> */}
                         <button onClick={handleSubmit} className='btn main-button'>Search</button>
 
                     </div>

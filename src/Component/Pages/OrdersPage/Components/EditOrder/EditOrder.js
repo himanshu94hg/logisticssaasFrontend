@@ -226,7 +226,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             }
         });
 
-        console.log(newErrors,"newErrorsnewErrorsnewErrorsnewErrors");
         seteditErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -244,16 +243,14 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             setEditOrderSection(false);
         }
     };
-    
+
 
     useEffect(() => {
-        if (orderId) {
-            if(EditOrderSection === false){
-                dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
-                dispatch(orderIdAction(orderId))
-            }
+        if (orderId && EditOrderSection) {
+            dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
+            dispatch(orderIdAction(orderId))
         }
-    }, [orderId,EditOrderSection,dispatch])
+    }, [orderId, EditOrderSection, dispatch])
 
     const [tagData, setTagData] = useState([])
 

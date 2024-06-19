@@ -43,6 +43,7 @@ const BasicInfo = ({ activeTab }) => {
     company_logo: "",
   });
 
+
   const handleChange = async (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -119,9 +120,10 @@ const BasicInfo = ({ activeTab }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const newErrors = Object.keys(formData).reduce((errors, key) => {
-      if (!formData[key] && key !== "company_logo") {
-        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
-      } else if (key === 'mobile' && formData[key].length !== 10) {
+      // if (!formData[key] && key !== "company_logo") {
+      //   errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
+      // }
+        if (key === 'mobile' && formData[key].length !== 10) {
         errors[key] = "Mobile no should be 10 digits!.";
       } else if (key === 'pan_number' && formData[key].length !== 10) {
         errors[key] = "PAN number must consist of exactly 10 characters.";

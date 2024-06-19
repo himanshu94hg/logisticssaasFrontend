@@ -1,5 +1,4 @@
 import moment from 'moment';
-import SidePanel from './SidePanel/SidePanel';
 import React, { useState, useEffect } from 'react';
 
 const DateFormatter = ({ dateTimeString }) => {
@@ -29,7 +28,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow,billingPassbookCounterCard }) => {
+const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -96,25 +95,6 @@ const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkAction
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
-
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
-
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -166,7 +146,7 @@ const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkAction
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                <span>{`${moment(row?.datetime).format('DD MMM YYYY')}`}</span>
+                                                    <span>{`${moment(row?.datetime).format('DD MMM YYYY')}`}</span>
                                                     {/* {moment(row.datetime).format("YYYY-MM-DD")} */}
                                                 </p>
                                             </div>
@@ -225,18 +205,11 @@ const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkAction
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 

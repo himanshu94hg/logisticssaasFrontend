@@ -1,5 +1,6 @@
 .label-customize-page {
     padding-bottom: 15px;
+    /* max-height: calc(100vh - 89px); */
 }
 
 .label-customize-page p {

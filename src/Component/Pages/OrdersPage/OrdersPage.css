@@ -420,6 +420,7 @@
   text-transform: capitalize;
   margin-bottom: 0;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .status-box .order-Status-box {
@@ -601,7 +602,7 @@ ul.order-label-list li {
   }
 
   .orders-section-tabs .table-container {
-    height: calc(100vh - 283px);
+    height: calc(100vh - 288px);
   }
 
   .orders-section-tabs .table-container.m-table-height {

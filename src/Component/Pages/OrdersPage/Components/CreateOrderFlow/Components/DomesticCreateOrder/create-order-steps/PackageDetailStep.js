@@ -81,14 +81,32 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     };
 
     const handleChangeDimension = (e, field) => {
-        const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            dimension_details: {
-                ...prevData.dimension_details,
-                [field]: charge
+        let charge = e.target.value.trim();
+        if (field === 'weight' && charge.includes('.')) {
+            const parts = charge.split('.');
+            if (parts[1].length > 2) {
+                charge = `${parts[0]}.${parts[1].slice(0, 2)}`;
             }
-        }));
+        }
+        if (field === 'weight') {
+            setFormData(prevData => ({
+                ...prevData,
+                dimension_details: {
+                    ...prevData.dimension_details,
+                    [field]: charge
+                }
+            }));
+        }
+        else {
+            setFormData(prevData => ({
+                ...prevData,
+                dimension_details: {
+                    ...prevData.dimension_details,
+                    [field]: charge
+                }
+            }));
+        }
+
     };
 
     const [finalWeight, setFinalWeight] = useState(0)

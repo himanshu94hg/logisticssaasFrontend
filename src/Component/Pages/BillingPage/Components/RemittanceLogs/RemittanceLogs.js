@@ -96,16 +96,6 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
-
     const handelExportData = (row) => {
         setExportButtonClick(true);
         dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION", payload: row });

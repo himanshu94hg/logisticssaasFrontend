@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SidePanel from './SidePanel/SidePanel';
 import { Modal } from 'react-bootstrap';
 import moment from 'moment';
 
@@ -30,7 +29,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow,setSelectedOrderRows,billingShippingCounterCard }) => {
+const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -52,7 +51,7 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
     };
 
     // Handler for individual checkbox
-    const handleSelectRow = (orderId,order_id) => {
+    const handleSelectRow = (orderId, order_id) => {
         const isSelected = selectedRows.includes(orderId);
 
         if (isSelected) {
@@ -75,16 +74,6 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
             setSelectAll(false);
         }
     };
-
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
 
     const [show, setShow] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -234,18 +223,11 @@ const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkAc
                         </tbody>
                     </table>
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
             </div>
-        </section >
+        </section>
     );
 };
 

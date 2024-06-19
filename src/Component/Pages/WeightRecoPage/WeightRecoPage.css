@@ -43,5 +43,11 @@
 }
 
 .wt-page-container .table-container {
-    height: calc(100vh - 280px);
+    height: calc(100vh - 289px);
+}
+
+@media screen and (max-width:1600px) {
+    .wt-page-container .table-container {
+        height: calc(100vh - 281px);
+    }
 }

@@ -90,7 +90,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     useEffect(() => {
         if (orderSourceListData && orderSourceListData.length > 0) {
             const formattedData = orderSourceListData
-                .filter(item => item?.order_source) 
+                .filter(item => item?.order_source)
                 .map(item => ({
                     value: item.order_source,
                     label: item.order_source
@@ -330,50 +330,52 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                <label>
+                                {/* <label> */}
+                                <div className="date-picker-container">
                                     Start Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
-                                            maxDate={new Date()}
-                                            selected={filterParams?.start_date}
-                                            onKeyDown={(e) => handleKeyDown(e)}
-                                            onChange={(e) => handleChange("start_date", e)}
-                                            placeholderText='Select Start Date'
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            isClearable
-                                            closeOnScroll={(e) => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                        // dropdownMode="select"
-                                        />
-                                        {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>}
-                                    </div>
-                                </label>
-                                <label>
+                                    <DatePicker
+                                        showIcon
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
+                                        maxDate={new Date()}
+                                        selected={filterParams?.start_date}
+                                        onKeyDown={(e) => handleKeyDown(e)}
+                                        onChange={(e) => handleChange("start_date", e)}
+                                        placeholderText='Select Start Date'
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        isClearable
+                                        closeOnScroll={(e) => e.target === document}
+                                        showTimeInput
+                                        showMonthDropdown
+                                        showYearDropdown
+                                    // dropdownMode="select"
+                                    />
+                                    {/* {(errors.start_date) && <div className="custom-error">{errors.start_date}</div>} */}
+                                </div>
+                                {/* </label> */}
+                                {/* <label> */}
+                                <div className="date-picker-container">
                                     End Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
-                                            maxDate={new Date()}
-                                            selected={filterParams?.end_date}
-                                            onKeyDown={(e) => handleKeyDown(e)}
-                                            onChange={(e) => handleChange("end_date", e)}
-                                            placeholderText='Select End Date'
-                                            isClearable
-                                            closeOnScroll={(e) => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                        // dropdownMode="select"
-                                        />
-                                        {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
-                                    </div>
-                                </label>
+                                    <DatePicker
+                                        showIcon
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        dateFormat="dd MMMM, yyyy h:mm aa"
+                                        className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
+                                        maxDate={new Date()}
+                                        selected={filterParams?.end_date}
+                                        onKeyDown={(e) => handleKeyDown(e)}
+                                        onChange={(e) => handleChange("end_date", e)}
+                                        placeholderText='Select End Date'
+                                        isClearable
+                                        closeOnScroll={(e) => e.target === document}
+                                        showTimeInput
+                                        showMonthDropdown
+                                        showYearDropdown
+                                    // dropdownMode="select"
+                                    />
+                                    {/*{(errors.end_date) && <div className="custom-error">{errors.end_date}</div>}*/}
+                                </div>
+                                {/* </label> */}
                             </div>
                             <div className='filter-row'>
                                 <label >Order Status
@@ -535,7 +537,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                         </div>
                     </form>
                 </section>
-            </div>
+            </div >
         </>
     )
 })

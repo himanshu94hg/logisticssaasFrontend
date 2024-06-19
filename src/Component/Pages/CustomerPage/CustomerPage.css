@@ -151,7 +151,7 @@
 }
 
 .customer-details-form .preview-btn {
-    position: absolute;
+    /* position: absolute; */
     right: 1px;
     bottom: 0px;
     padding: 0.3125rem;

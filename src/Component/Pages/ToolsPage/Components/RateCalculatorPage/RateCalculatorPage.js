@@ -24,13 +24,6 @@ const RateCalculatorPage = () => {
   const [isChecked, setIsChecked] = useState(false);
   const [shipData, setShipData] = useState([])
 
-  const handleToggle = () => {
-    setIsChecked(!isChecked);
-
-  };
-
-  console.log(isChecked, "this is ischekced data")
-
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
     source_pincode: null,
@@ -38,12 +31,17 @@ const RateCalculatorPage = () => {
     weight: null,
     volmetric_weight: volWeight,
     is_cod: "No",
+    length:null,
+    weight:null,
+    height:null
 
   });
-
-  const { sellerData, reportSchedulerRes, ratePrefilledData, ratingCardData } = useSelector(state => state?.toolsSectionReducer)
   const { zonePathName } = useSelector(state => state?.authDataReducer)
+  const { sellerData, reportSchedulerRes, ratePrefilledData, ratingCardData } = useSelector(state => state?.toolsSectionReducer)
 
+  const handleToggle = () => {
+    setIsChecked(!isChecked);
+  };
 
   useEffect(() => {
     if (sellerData) {
@@ -61,6 +59,9 @@ const RateCalculatorPage = () => {
         weight: null,
         volmetric_weight: 0,
         is_cod: "No",
+        length:null,
+        weight:null,
+        height:null
       });
     }
   }, [zonePathName])
@@ -77,11 +78,13 @@ const RateCalculatorPage = () => {
         volmetric_weight: ratePrefilledData?.volmetric_weight,
         is_cod: ratePrefilledData?.is_cod,
         invoice_amount:ratePrefilledData?.invoice_amount,
+        length:ratePrefilledData?.length,
+        breadth:ratePrefilledData?.breadth,
+        height:ratePrefilledData?.height
+
       }))
     } 
   }, [ratePrefilledData]);
-
-  console.log(ratePrefilledData, "ratePrefilledDataratePrefilledData")
 
   useEffect(() => {
     if (reportSchedulerRes) {
@@ -454,7 +457,7 @@ const RateCalculatorPage = () => {
                           height={"50px"}
                           src={item?.partner_image} alt="" />
                         <p>{item?.courier_partner}</p>
-                        <p>RTO Charges: ₹{item?.rate}</p>
+                        <p>RTO Charges: ₹{item?.rto_charge}</p>
                       </div>
                     </div>
                     <div className='d-flex align-items-center gap-2'>
@@ -484,17 +487,19 @@ const RateCalculatorPage = () => {
                       </div>
                     </div>
                     <div className='ss-shipment-charges'>
-                      <p><strong>₹{item?.total_charge} </strong> <span>(Inclusive of all taxes )</span><br />
+                      <p><strong>₹{(item?.rate + item?.cod_charge + item?.early_cod_charge).toFixed(2)} </strong> <span>(Inclusive of all taxes )</span><br />
                         <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
                         <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
-                        <span>+ Early COD Charges: <strong>₹ 0</strong></span><br />
+                        <span>+ Early COD Charges: <strong>₹ {item?.early_cod_charge}</strong></span><br />
                       </p>
                     </div>
                     <div className='d-flex flex-column gap-2 align-items-end'>
                       <button className='btn main-button'>Ship Now</button>
-                      <p><span>EDD: <strong>N/A</strong></span></p>
+                      <p><span>EDD: <strong>{item?.estimate_days} days</strong></span></p>
                     </div>
-                    <span className={`${item?.is_recommended ? "recommended" : ""} ${true ? '' : 'd-none'}`}></span>
+                    {item?.is_recommended &&
+                            <span className="recommended"></span>
+                        }
                   </div>
                 </section>
               </div>

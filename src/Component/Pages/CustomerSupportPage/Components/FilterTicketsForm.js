@@ -103,7 +103,7 @@ const FilterTicketsForm = (props) => {
     { value: 'Closed', label: 'Closed' },
   ];
 
-  
+
   useEffect(() => {
     SeverityOptions.forEach((item) => {
       setSeverty((prev) => [...prev, { label: item.label, value: item.value }]);
@@ -159,59 +159,51 @@ const FilterTicketsForm = (props) => {
         <div>
           <h6>Created</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className='calendar-icon'
-              onClick={() => document.getElementById("createdDate").focus()}
-            />
             <DatePicker
-              id="createdDate"
+              showIcon
+              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
               selected={createdDate}
               onChange={handleCreatedChange}
-              dateFormat='dd/MM/yyyy'
+              dateFormat='dd MMMM, yyyy'
               className='input-field'
+              maxDate={new Date()}
               strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
+              isClearable
             />
           </div>
         </div>
         <div>
           <h6>Due Date</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className='calendar-icon'
-              onClick={() => document.getElementById("resolutionDate").focus()}
-            />
             <DatePicker
-              id="resolutionDate"
+              showIcon
+              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
               selected={resolutionDate}
               onChange={handleResolutionDateChange}
-              dateFormat='dd/MM/yyyy'
+              dateFormat='dd MMMM, yyyy'
               className='input-field'
               maxDate={new Date()}
               strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
+              isClearable
             />
           </div>
         </div>
         <div>
           <h6>Updated</h6>
           <div className='date-picker-container'>
-            <FontAwesomeIcon
-              icon={faCalendarAlt}
-              className='calendar-icon'
-              onClick={() => document.getElementById("endDate").focus()}
-            />
             <DatePicker
-              id="endDate"
+              showIcon
+              icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
               selected={endDate}
               onChange={handleEndDateChange}
-              dateFormat='dd/MM/yyyy'
+              dateFormat='dd MMMM, yyyy'
               className='input-field'
               maxDate={new Date()}
               strictParsing={true}
               onKeyDown={(e) => handleKeyDown(e)}
+              isClearable
             />
           </div>
         </div>

@@ -123,9 +123,10 @@ const QuickCreateOrder = () => {
         }
         if (!formData.shipping_details.mobile_number) {
             newErrors.mobile_number = 'Mobile Number is required!';
-        } else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
-            newErrors.mobile_number = 'Mobile Number should be 10 digits!';
-        }
+        } 
+        // else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
+        //     newErrors.mobile_number = 'Mobile Number should be 10 digits!';
+        // }
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
@@ -222,10 +223,8 @@ const QuickCreateOrder = () => {
                         const responseData = response.data;
                         // toast.success("Order Created successfully!")
                         // navigation('/Orders');
-                        console.log(response)
                         setSelectedOrderId(response?.data?.id)
                     } else {
-                        //    console.log(object)
                         toast.error("Something went wrong!")
                     }
                 }
@@ -253,6 +252,7 @@ const QuickCreateOrder = () => {
                 });
         }
     }, [selectedOrderId]);
+
 
     return (
         <div className="stepper-form-container">

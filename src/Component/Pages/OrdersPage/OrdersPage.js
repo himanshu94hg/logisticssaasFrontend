@@ -98,7 +98,7 @@ const OrdersPage = () => {
     }, [orderCancelled])
 
     useEffect(() => {
-        if (activeTab || MoreFilters) {
+        if (activeTab) {
             setSearchValue("");
             setQueryParamTemp({});
             setItemsPerPage(20)
@@ -108,14 +108,14 @@ const OrdersPage = () => {
             setSelectedRows([])
             setOrders([])
         }
-    }, [activeTab, MoreFilters])
+    }, [activeTab])
 
     useEffect(() => {
-        if (itemsPerPage) {
+        if (itemsPerPage||MoreFilters) {
             setBulkActionShow(false)
             setSelectedRows([])
         }
-    }, [itemsPerPage])
+    }, [itemsPerPage,MoreFilters])
 
     useEffect(() => {
         if (favListData) {
@@ -134,7 +134,6 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(orderCancelled, "orderCancelledorderCancelledorderCancelledorderCancelled")
 
     useEffect(() => {
         if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
@@ -302,7 +301,6 @@ const OrdersPage = () => {
                     const start = performance.now();
                     setOrders(response.data.results);
                     const end = performance.now();
-                    console.log(`Operation took ${end - start}`);
 
                 })
                 .catch(error => {

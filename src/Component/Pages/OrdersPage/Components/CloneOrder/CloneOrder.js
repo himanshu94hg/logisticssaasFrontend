@@ -228,7 +228,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
     };
 
     useEffect(() => {
-        if (orderId) {
+        if (orderId && CloneOrderSection) {
             if(CloneOrderSection === false){
                 dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
                 dispatch(orderIdAction(orderId))

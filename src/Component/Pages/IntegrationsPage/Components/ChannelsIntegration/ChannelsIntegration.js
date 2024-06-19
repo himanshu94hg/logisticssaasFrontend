@@ -44,7 +44,7 @@ const ChannelsIntegration = () => {
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button onClick={() => navigate('/integrations', { state: { tabState: 'Courier' } })} className='btn main-button'>Integrate</button>
+                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}

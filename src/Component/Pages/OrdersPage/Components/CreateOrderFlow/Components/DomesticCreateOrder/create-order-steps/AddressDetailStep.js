@@ -15,9 +15,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     });
     const [BillingDetails, setBillingDetails] = useState(true);
     const { pathName } = useSelector(state => state?.authDataReducer)
-
-    console.log(location, "this is a dummy data", pathName)
-
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -37,9 +34,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
-        // if (!formData.shipping_details.landmark) {
-        //     newErrors.landmark = 'Landmark is required!';
-        // }
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
@@ -66,9 +60,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
-            // if (!formData.billing_details.landmark) {
-            //     newErrors.billing_landmark = 'Landmark is required!';
-            // }
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
@@ -94,41 +85,73 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             onNext();
         }
     };
-
-
-
     const handleChange = (e, field) => {
         setFormData({ ...formData, [field]: e.target.value });
     };
 
+    // const handleChangeShiping = (e, field) => {
+    //     if (isChecked) {
+    //         setFormData(prevData => ({
+    //             ...prevData,
+    //             shipping_details: {
+    //                 ...prevData.shipping_details,
+    //                 [field]: e.target.value
+    //             },
+    //             billing_details: {
+    //                 ...prevData.billing_details,
+    //                 [field === "recipient_name" ? "customer_name" : field]: e.target.value
+    //             }
+    //         }));
+    //     } else {
+    //         setFormData(prevData => ({
+    //             ...prevData,
+    //             shipping_details: {
+    //                 ...prevData.shipping_details,
+    //                 [field]: e.target.value
+    //             },
+    //             billing_details: {
+    //                 ...prevData.billing_details,
+    //                 [field]: e.target.value
+    //             }
+    //         }));
+    //     }
+    // };
+
     const handleChangeShiping = (e, field) => {
-        if (isChecked) {
-            setFormData(prevData => ({
+        const value = e.target.value;
+        setFormData(prevData => {
+            const newFormData = {
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
-                    [field]: e.target.value
-                },
-                billing_details: {
-                    ...prevData.billing_details,
-                    [field === "recipient_name" ? "customer_name" : field]: e.target.value
+                    [field]: value
                 }
-            }));
-        } else {
-            setFormData(prevData => ({
-                ...prevData,
-                shipping_details: {
-                    ...prevData.shipping_details,
-                    [field]: e.target.value
-                },
-                billing_details: {
+            };
+            if (isChecked) {
+                newFormData.billing_details = {
                     ...prevData.billing_details,
-                    [field]: e.target.value
-                }
-            }));
+                    [field === "recipient_name" ? "customer_name" : field]: value
+                };
+            }
+            return newFormData;
+        });
+
+        if (field === 'mobile_number') {
+            if (value.length === 10) {
+                setErrors(prevErrors => {
+                    const { mobile_number, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+            } else if (value.length > 0 && value.length !== 10) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    mobile_number: "Mobile Number should be 10 digits!"
+                }));
+            }
         }
     };
     
+
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -138,7 +161,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }
         }));
     };
-    
+
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -160,35 +183,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }));
     };
 
-    /*const handleCheckboxChange = () => {
-        const updatedIsChecked = !isChecked;
-        setIsChecked(updatedIsChecked);
-        if (updatedIsChecked) {
-            setFormData(prevData => ({
-                ...prevData,
-                billing_details: {
-                    ...prevData.billing_details,
-                }
-            }));
-        } else {
-            setFormData(prevData => ({
-                ...prevData,
-                billing_details: {
-                    customer_name: '',
-                    contact_code: '',
-                    mobile_number: '',
-                    email: '',
-                    company_name: '',
-                    address: '',
-                    landmark: '',
-                    pincode: '',
-                    city: '',
-                    state: '',
-                    country: ''
-                }
-            }));
-        }
-    };*/
+ 
     const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
@@ -228,7 +223,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }));
         }
     };
-     
+
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
@@ -272,7 +267,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 }
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
             });
     };
 
@@ -310,7 +304,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 }
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
             });
     };
     const handleMobileNumberValidation = () => {
@@ -318,7 +311,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         if (mobile_number.length !== 10) {
             setErrors(prevErrors => ({
                 ...prevErrors,
-                mobile_number: "Mobile number must be 10 digits long"
+                mobile_number: "Mobile Number should be 10 digits!"
             }));
         }
     };

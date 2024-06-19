@@ -49,20 +49,23 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     }, [labelData, genaratelabel]);
 
     useEffect(() => {
-        if (invoiceData) {
-            if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
-                console.log("MIS instruction received for invoices.");
-            } else if (generateinvoice) {
-                const blob = new Blob([invoiceData], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'Invoice.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                setGenerateinvoice(false);
+        if (labelData?.message === "Go to MIS -> Download and download the labels.") {
+        }
+        else{
+            if(labelData)
+            {
+                if (genaratelabel === true) {
+                    const blob = new Blob([labelData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'label.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenaratelabel(false)
+                }
             }
         }
     }, [invoiceData, generateinvoice]);

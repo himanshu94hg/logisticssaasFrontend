@@ -46,9 +46,6 @@ const Processing = React.memo(({ orders, activeTab,MoreFilters, bulkAwb, setbulk
     const [shipingResponse, setShipingResponse] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
-    const start = performance.now();
-    console.log(start, "this is a start page ")
-
     useEffect(() => {
         if (orderdelete) {
             setSelectAll(false)

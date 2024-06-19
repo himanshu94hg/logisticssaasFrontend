@@ -11,7 +11,7 @@ const CustomDatePicker = ({ selectedDate, onChange }) => {
         <DatePicker
             selected={selectedDate}
             onChange={date => onChange(date)}
-            dateFormat="yyyy-MM-dd"
+            dateFormat='dd MMMM, yyyy'
         />
     );
 };
