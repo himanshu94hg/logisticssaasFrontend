@@ -106,7 +106,7 @@ const ScheduledReportsMIS = ({ activeTab }) => {
     }
 
     return (
-        <section className='position-relative reports-mis downloads-mis'>
+        <section className='position-relative downloads-mis'>
             <div className="position-relative">
                 <div className="box-shadow shadow-sm p7 mb-3 filter-container">
                     <div className="search-container">

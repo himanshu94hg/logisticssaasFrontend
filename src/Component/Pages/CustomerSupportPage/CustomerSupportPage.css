@@ -1,5 +1,5 @@
 .support-page .table-container {
-    height: calc(100vh - 266px);
+    height: calc(100vh - 281px);
 }
 
 
@@ -135,7 +135,7 @@
     right: -70em;
     transition: 1s;
     height: 100vh;
-    width: 40em;
+    width: 30em;
     background-color: #fff;
     z-index: 6;
 }
@@ -164,7 +164,7 @@
     display: flex;
     flex-direction: column;
     gap: 25px;
-    padding-inline: 15px;
+    /* padding-inline: 15px; */
 }
 
 .ticket-filter-inputs .css-1nmdiq5-menu {
@@ -370,4 +370,10 @@
     font-weight: 600;
     color: var(--sh-primary);
     vertical-align: bottom;
+}
+
+@media screen and (max-width:1600px) {
+    .support-page .table-container {
+        height: calc(100vh - 266px);
+    }
 }
