@@ -278,44 +278,46 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                <label>
+                                {/* <label> */}
+                                <div className="date-picker-container">
                                     Start Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            className='input-field'
-                                            selected={filterParams?.start_date}
-                                            onChange={(e) => handleChange("start_date", e)}
-                                            maxDate={new Date()}
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            isClearable
-                                            closeOnScroll={(e) => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                            placeholderText='select start date'
-                                        />
-                                    </div>
-                                </label>
-                                <label>
+                                    <DatePicker
+                                        showIcon
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        className='input-field'
+                                        selected={filterParams?.start_date}
+                                        onChange={(e) => handleChange("start_date", e)}
+                                        maxDate={new Date()}
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        isClearable
+                                        closeOnScroll={(e) => e.target === document}
+                                        showTimeInput
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        placeholderText='select start date'
+                                    />
+                                </div>
+                                {/* </label> */}
+                                {/* <label> */}
+                                <div className="date-picker-container">
                                     End Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            className='input-field'
-                                            selected={filterParams?.end_date}
-                                            onChange={(e) => handleChange("end_date", e)}
-                                            maxDate={new Date()}
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            isClearable
-                                            closeOnScroll={(e) => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                            placeholderText='select end date'
-                                        />
-                                    </div>
-                                </label>
+                                    <DatePicker
+                                        showIcon
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        className='input-field'
+                                        selected={filterParams?.end_date}
+                                        onChange={(e) => handleChange("end_date", e)}
+                                        maxDate={new Date()}
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        isClearable
+                                        closeOnScroll={(e) => e.target === document}
+                                        showTimeInput
+                                        showMonthDropdown
+                                        showYearDropdown
+                                        placeholderText='select end date'
+                                    />
+                                </div>
+                                {/* </label> */}
                             </div>
                             <div className='filter-row'>
                                 <label >Order Status

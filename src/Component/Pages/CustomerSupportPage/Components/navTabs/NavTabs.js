@@ -25,11 +25,11 @@ export default function NavTabs(props) {
     setIsOpen(!isOpen);
   };
 
-   const handlereset = () => {
-     props.setSearchValue('')
-     props.setClearTicket(true)
-     props.handleReset();
-   }
+  const handlereset = () => {
+    props.setSearchValue('')
+    props.setClearTicket(true)
+    props.handleReset();
+  }
 
   return (
     <Navbar
@@ -100,9 +100,9 @@ export default function NavTabs(props) {
               className={`input-field ${props.errors.searchValue ? 'input-field-error' : ''}`}
               onChange={(e) => props.setSearchValue(e.target.value)}
             />
-             {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
+            {/*(props.errors.searchValue) && <div className="custom-error">{props.errors.searchValue}</div>*/}
 
-            <button onClick={() => globalDebouncedClick(() =>  props.handleSearch())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+            <button onClick={() => globalDebouncedClick(() => props.handleSearch())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
           </label>
         </div>
         <button
@@ -110,7 +110,7 @@ export default function NavTabs(props) {
           className="btn main-button-outline">
           <RiFilterLine /> More Filters
         </button>
-        <button className='btn main-button-outline ms-2'  onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</button>
+        <button className='btn main-button-outline' onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</button>
         <button
           onClick={() => props.setNewTicket(!props.NewTicket)}
           className="btn main-button">

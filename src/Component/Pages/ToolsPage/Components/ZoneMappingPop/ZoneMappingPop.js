@@ -12,10 +12,10 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
   const [zoneData, setZoneData] = useState([])
   const [pincode, setPincode] = useState("")
   const [zoneStatus, setZoneStatus] = useState(false)
-  const { zonePathName,pathName } = useSelector(state => state?.authDataReducer)
+  const { zonePathName, pathName } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
-    if (zonePathName && pathName==="Zone Mapping") {
+    if (zonePathName && pathName === "Zone Mapping") {
       setZoneStatus(true)
       setZoneMapping(true)
     }
@@ -53,7 +53,7 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
 
   return (
     <>
-      <section ref={popRef} className={`zone-mapping-container ${zoneStatus ? '' : 'd-none'}`}>
+      <section ref={popRef} className={`zone-mapping-container ${zoneStatus && 'open'}`}>
         <h4>Zone Mapping</h4>
         <form action="">
           <div className='d-flex mt-4 gap-4 align-items-end justify-content-between'>

@@ -207,6 +207,7 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
                                 selected={startDate}
                                 onKeyDown={(e) => handleKeyDown(e)}
                                 onChange={handleStartDateChange}
+                                isClearable
                             />
                         </div>
                         {/* </label> */}
@@ -217,11 +218,12 @@ const ActivityLogsMIS = ({ activeTab, selectedRows, setSelectedRows, setBulkActi
                                 showIcon
                                 icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                 maxDate={new Date()}
-                                dateFormat='dd/MM/yyyy'
+                                dateFormat='dd MMMM, yyyy'
                                 className='input-field'
                                 selected={endDate}
                                 onKeyDown={(e) => handleKeyDown(e)}
                                 onChange={handleEndDateChange}
+                                isClearable
                             />
                         </div>
                         {/* </label> */}

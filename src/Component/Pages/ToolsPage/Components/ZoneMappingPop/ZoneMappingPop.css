@@ -1,22 +1,17 @@
 .zone-mapping-container {
     position: fixed;
     width: 50%;
+    top: -180px;
+    left: 25%;
     background-color: #fff;
     padding: 15px;
     z-index: 6;
     border-radius: 0.5rem;
-    transform: translate(46%, -437%);
-    animation: slideIn 0.6s ease;
+    transition: 1s;
 }
 
-@keyframes slideIn {
-    from {
-        transform: translate(46%, -600%);
-    }
-
-    to {
-        transform: translate(46%, -437%);
-    }
+.zone-mapping-container.open {
+    top: 10%;
 }
 
 .rotate-180 {

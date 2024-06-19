@@ -296,11 +296,12 @@ const ReportsMIS = ({ activeTab }) => {
                                 icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                 maxDate={new Date()}
                                 selected={startDate}
-                                dateFormat='dd/MM/yyyy'
+                                dateFormat='dd MMMM, yyyy'
                                 className='input-field'
                                 onKeyDown={(e) => handleKeyDown(e)}
                                 onChange={handleStartDateChange}
                                 shouldCloseOnSelect={true}
+                                isClearable
                             />
                         </div>
                         {/* </label> */}
@@ -312,10 +313,11 @@ const ReportsMIS = ({ activeTab }) => {
                                 icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                 selected={endDate}
                                 maxDate={new Date()}
-                                dateFormat='dd/MM/yyyy'
+                                dateFormat='dd MMMM, yyyy'
                                 className='input-field'
                                 onKeyDown={(e) => handleKeyDown(e)}
                                 onChange={handleEndDateChange}
+                                isClearable
                             />
                         </div>
                         {/* </label> */}
