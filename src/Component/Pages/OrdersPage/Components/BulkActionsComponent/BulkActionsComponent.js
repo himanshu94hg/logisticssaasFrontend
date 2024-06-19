@@ -14,6 +14,7 @@ import LabelIcon from './Components/BulkIcons/LabelIcon';
 import InvoiceIcon from './Components/BulkIcons/InvoiceIcon';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Swal from 'sweetalert2'; 
 
 const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
@@ -48,20 +49,23 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     }, [labelData, genaratelabel]);
 
     useEffect(() => {
-        if (invoiceData) {
-            if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
-                console.log("MIS instruction received for invoices.");
-            } else if (generateinvoice) {
-                const blob = new Blob([invoiceData], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'Invoice.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                setGenerateinvoice(false);
+        if (labelData?.message === "Go to MIS -> Download and download the labels.") {
+        }
+        else{
+            if(labelData)
+            {
+                if (genaratelabel === true) {
+                    const blob = new Blob([labelData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'label.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenaratelabel(false)
+                }
             }
         }
     }, [invoiceData, generateinvoice]);
@@ -178,6 +182,58 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         }
     }, [shipButtonClicked, bulkShipData, selectedRows, setBulkActionShow, setSelectedRows]);
 
+
+    const handleExportAll = () => {
+        Swal.fire({
+            title: 'Confirmation Required!',
+            text: 'Are you sure to export all report?',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true,
+            customClass: {
+                title: 'custom-title',
+                confirmButton: 'btn main-button',
+                cancelButton: 'btn cancel-button'
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                    const requestData = {
+                        "order_tab": {
+                            "type": "Orders",
+                            "subtype": activeTab === "All" ? "all_orders" : activeTab === "Unprocessable" ? "unprocessable" : activeTab === "Processing" ? "processing_orders" : activeTab === "Ready to Ship" ? "ready_to_ship" : activeTab === "Pickup" ? "pickups" : activeTab === "Returns" ? "returns" : ""
+                        },
+                        "order_id": "",
+                        "courier": "",
+                        "awb_number": "",
+                        "min_awb_assign_date": "",
+                        "max_awb_assign_date": "",
+                        "status": "",
+                        "order_type": "",
+                        "customer_order_number": "",
+                        "channel": "",
+                        "min_invoice_amount": "",
+                        "max_invoice_amount": "",
+                        "warehouse_id": "",
+                        "product_name": "",
+                        "delivery_address": "",
+                        "min_weight": "",
+                        "max_weight": "",
+                        "min_product_qty": "",
+                        "max_product_qty": "",
+                        "rto_status": "",
+                        "global_type": "",
+                        "payment_type": ""
+                    };
+                    dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
+                    setBulkActionShow(false);
+                    setSelectedRows([])
+                } else {
+                    toast.info("Report canceled.");
+                }
+            });
+    };
+
     return (
         <>
             {selectedRows.length > 0 && (
@@ -197,6 +253,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                             {activeTab === "Unprocessable" && (
@@ -208,6 +267,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
                                     <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                             {activeTab === "Processing" && (
@@ -220,6 +282,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
                                     <li onClick={handelBulkShip}><ShippingIcon /><span>Ship</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                             {activeTab === "Ready to Ship" && (
@@ -229,6 +294,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                             {activeTab === "Pickup" && (
@@ -237,11 +305,17 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                             {activeTab === "Returns" && (
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                         </ul>

@@ -6,12 +6,12 @@
 .reports-mis .table-container {
     z-index: 1;
     position: relative;
-    height: calc(100vh - 289px);
+    height: calc(100vh - 301px);
     overflow-y: auto;
 }
 
 .downloads-mis .table-container {
-    height: calc(100vh - 265px);
+    height: calc(100vh - 275px);
 }
 
 .reports-mis .filter-container {
@@ -67,4 +67,14 @@
 
 .mis-page-container .bulk-action-container {
     z-index: 1;
+}
+
+@media screen and (max-width:1600px) {
+    .downloads-mis .table-container {
+        height: calc(100vh - 265px);
+    }
+
+    .reports-mis .table-container {
+        height: calc(100vh - 288px);
+    }
 }

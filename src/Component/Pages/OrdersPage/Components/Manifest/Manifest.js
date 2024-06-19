@@ -101,7 +101,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
 
     useEffect(() => {
         if (labelData?.message === "Go to MIS -> Download and download the labels.") {
-            console.log("here",labelData?.message);
         }
         else{
             if(labelData)

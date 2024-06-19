@@ -138,7 +138,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,BulkActionSho
                 window.open('https://www.tpcindia.com/Default.aspx', '_blank');
                 break;
             default:
-                console.error("Courier partner not recognized");
                 break;
         }
     }

@@ -134,7 +134,6 @@ const OrdersPage = () => {
         }
     }, [exportCard])
 
-    console.log(orderCancelled, "orderCancelledorderCancelledorderCancelledorderCancelled")
 
     useEffect(() => {
         if (orderdelete || orderClone || orderCancelled || orderUpdateRes) {
@@ -302,7 +301,6 @@ const OrdersPage = () => {
                     const start = performance.now();
                     setOrders(response.data.results);
                     const end = performance.now();
-                    console.log(`Operation took ${end - start}`);
 
                 })
                 .catch(error => {
