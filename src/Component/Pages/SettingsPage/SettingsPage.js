@@ -36,8 +36,7 @@ import ChangePassword from './components/ChangePassword/ChangePassword'
 
 const SettingsPage = () => {
 
-    //  let Navigate = useNavigate()
-    const Navigate = () => { }
+    let Navigate = useNavigate()
 
     const [ChangePasswordPop, setChangePasswordPop] = useState(false)
 
