@@ -161,48 +161,50 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                     <form onSubmit={handleSubmit}>
                         <div className="form-input-fields">
                             <div className='filter-row'>
-                                <label>
+                                {/* <label> */}
+                                <div className="date-picker-container">
                                     Start Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
-                                            maxDate={new Date()}
-                                            selected={filterParams?.start_date}
-                                            onKeyDown={handleKeyDown}
-                                            onChange={e => handleChange("start_date", e)}
-                                            placeholderText='Select Start Date'
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            isClearable
-                                            closeOnScroll={e => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                        />
-                                        {errors.start_date && <div className="custom-error">{errors.start_date}</div>}
-                                    </div>
-                                </label>
-                                <label>
+                                    <DatePicker
+                                        showIcon
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        className={`input-field ${errors.start_date ? 'input-field-error' : ''}`}
+                                        maxDate={new Date()}
+                                        selected={filterParams?.start_date}
+                                        onKeyDown={handleKeyDown}
+                                        onChange={e => handleChange("start_date", e)}
+                                        placeholderText='Select Start Date'
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
+                                        isClearable
+                                        closeOnScroll={e => e.target === document}
+                                        showTimeInput
+                                        showMonthDropdown
+                                        showYearDropdown
+                                    />
+                                    {/* {errors.start_date && <div className="custom-error">{errors.start_date}</div>} */}
+                                </div>
+                                {/* </label> */}
+                                {/* <label> */}
+                                <div className="date-picker-container">
                                     End Date
-                                    <div className="date-picker-container">
-                                        <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
-                                        <DatePicker
-                                            dateFormat="MM/dd/yyyy h:mm aa"
-                                            className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
-                                            maxDate={new Date()}
-                                            selected={filterParams?.end_date}
-                                            onKeyDown={handleKeyDown}
-                                            onChange={e => handleChange("end_date", e)}
-                                            placeholderText='Select End Date'
-                                            isClearable
-                                            closeOnScroll={e => e.target === document}
-                                            showTimeInput
-                                            showMonthDropdown
-                                            showYearDropdown
-                                        />
-                                        {errors.end_date && <div className="custom-error">{errors.end_date}</div>}
-                                    </div>
-                                </label>
+                                    <DatePicker
+                                        showIcon
+                                        icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
+                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
+                                        maxDate={new Date()}
+                                        selected={filterParams?.end_date}
+                                        onKeyDown={handleKeyDown}
+                                        onChange={e => handleChange("end_date", e)}
+                                        placeholderText='Select End Date'
+                                        isClearable
+                                        closeOnScroll={e => e.target === document}
+                                        showTimeInput
+                                        showMonthDropdown
+                                        showYearDropdown
+                                    />
+                                    {/* {errors.end_date && <div className="custom-error">{errors.end_date}</div>} */}
+                                </div>
+                                {/* </label> */}
                             </div>
                             <div className='filter-row'>
                                 <label>UTR Number

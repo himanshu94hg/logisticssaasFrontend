@@ -45,7 +45,9 @@ const OverviewStatusCard = () => {
                         </div>
                         <div className='status-counter'>
                             <p>Remit Date</p>
-                            <p>{moment(codDetails?.next_remit_date).format("MMM Do")}</p>
+                            {codDetails?.next_remit_amount === 0 ? <p>-</p> :
+                                <p>{moment(codDetails?.next_remit_date).format("MMM Do")}</p>
+                            }
                         </div>
 
                     </div>

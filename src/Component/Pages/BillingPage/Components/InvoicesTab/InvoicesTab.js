@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import SidePanel from './SidePanel/SidePanel';
 import FreightInvoice from './FreightInvoice';
 import AllOtherInvoices from './AllOtherInvoices';
 
@@ -30,28 +29,9 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const InvoicesTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow}) => {
+const InvoicesTab = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const [backDrop, setBackDrop] = useState(false);
     const [InvoiceData, setInvoiceData] = useState(true);
-
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
-
-
-
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
-
 
     return (
         <section className='position-relative invoiceTab'>
@@ -71,21 +51,13 @@ const InvoicesTab = ({billingCard,selectedRows,setSelectedRows,setBulkActionShow
                     </div>
                 </div>
                 {
-                    InvoiceData ? <FreightInvoice billingCard={billingCard} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow}/> : <AllOtherInvoices />
+                    InvoiceData ? <FreightInvoice billingCard={billingCard} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} /> : <AllOtherInvoices />
                 }
-
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 
