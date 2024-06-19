@@ -32,6 +32,7 @@ import {
     gstInvoicingPattern,
     manageWarehousesPattern
 } from '../../../Routes'
+import ChangePassword from './components/ChangePassword/ChangePassword'
 
 const SettingsPage = () => {
 
@@ -41,10 +42,6 @@ const SettingsPage = () => {
     const [ChangePasswordPop, setChangePasswordPop] = useState(false)
 
     const handleChangePasswordPop = () => {
-        setChangePasswordPop(!ChangePasswordPop)
-    }
-
-    const handlePasswordSubmit = () => {
         setChangePasswordPop(!ChangePasswordPop)
     }
 
@@ -515,28 +512,9 @@ const SettingsPage = () => {
             </section>
 
             <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
-                <div className='cp-header'>
-                    <h5>Change Your Password Here!</h5>
-                </div>
-                <div className='cp-body'>
-                    <label>
-                        Current Password
-                        <input placeholder='Enter your current password' className='input-field' type="password" />
-                    </label>
-                    <label>
-                        New Password
-                        <input placeholder='Enter your new Password' className='input-field' type="password" />
-                    </label>
-                    <label>
-                        Confirm New Password
-                        <input placeholder='Re-enter your new password' className='input-field' type="password" />
-                    </label>
-                    <div className='d-flex justify-content-end'>
-                        <button onClick={handlePasswordSubmit} className='btn main-button'>Submit</button>
-                    </div>
-                </div>
+                {/* <ChangePassword ChangePasswordPop={ChangePasswordPop} setChangePasswordPop={setChangePasswordPop} /> */}
             </section>
-            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div>
+            {/* <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div> */}
         </>
     )
 }
