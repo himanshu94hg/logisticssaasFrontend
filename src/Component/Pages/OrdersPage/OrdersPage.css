@@ -420,6 +420,7 @@
   text-transform: capitalize;
   margin-bottom: 0;
   font-weight: 700;
+  white-space: nowrap;
 }
 
 .status-box .order-Status-box {
