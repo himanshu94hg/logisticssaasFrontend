@@ -362,3 +362,12 @@
     -webkit-box-shadow: 0px 10px 12px 5px rgba(0, 0, 0, .2);
     box-shadow: 0px 10px 12px 5px rgba(0, 0, 0, .2);
 }
+
+.react-datepicker__close-icon::after {
+    background-color: transparent;
+    content: '\00d7';
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--sh-primary);
+    vertical-align: bottom;
+}
