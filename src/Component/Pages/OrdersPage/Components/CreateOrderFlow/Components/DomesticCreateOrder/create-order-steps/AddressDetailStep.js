@@ -119,7 +119,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
 
     const handleChangeShiping = (e, field) => {
         const value = e.target.value;
-    
         setFormData(prevData => {
             const newFormData = {
                 ...prevData,
@@ -128,18 +127,15 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                     [field]: value
                 }
             };
-    
             if (isChecked) {
                 newFormData.billing_details = {
                     ...prevData.billing_details,
                     [field === "recipient_name" ? "customer_name" : field]: value
                 };
             }
-    
             return newFormData;
         });
-    
-        // Real-time validation for mobile number
+
         if (field === 'mobile_number') {
             if (value.length === 10) {
                 setErrors(prevErrors => {

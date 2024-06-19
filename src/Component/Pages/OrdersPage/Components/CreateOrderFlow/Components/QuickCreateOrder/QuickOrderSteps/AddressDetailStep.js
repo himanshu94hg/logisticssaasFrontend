@@ -2,42 +2,42 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 
-const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setErrors, isChecked, setIsChecked }) => {
-    //const [isChecked, setIsChecked] = useState(true);
+const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked, setIsChecked }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
 
-    // const [errors, setErrors] = useState({});
-
-
-
-    const handleChange = (e, field) => {
-        setFormData({ ...formData, [field]: e.target.value });
-    };
-
     const handleChangeShiping = (e, field) => {
-        if (isChecked) {
-            setFormData(prevData => ({
+        const value = e.target.value;
+        setFormData(prevData => {
+            const newFormData = {
                 ...prevData,
                 shipping_details: {
                     ...prevData.shipping_details,
-                    [field]: e.target.value,
-                    landmark: e.target.value
-                },
-                billing_details: {
+                    [field]: value,
+
+                }
+            };
+            if (isChecked) {
+                newFormData.billing_details = {
                     ...prevData.billing_details,
-                    [field === "recipient_name" ? "customer_name" : field]: e.target.value,
-                    landmark: e.target.value
-                }
-            }));
-        } else {
-            setFormData(prevData => ({
-                ...prevData,
-                shipping_details: {
-                    ...prevData.shipping_details,
-                    [field]: e.target.value,
-                    landmark: e.target.value
-                }
-            }));
+                    [field === "recipient_name" ? "customer_name" : field]: value,
+
+                };
+            }
+            return newFormData;
+        });
+
+        if (field === 'mobile_number') {
+            if (value.length === 10) {
+                setErrors(prevErrors => {
+                    const { mobile_number, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+            } else if (value.length > 0 && value.length !== 10) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    mobile_number: "Mobile Number should be 10 digits!"
+                }));
+            }
         }
     };
 
@@ -47,7 +47,6 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
             billing_details: {
                 ...prevData.billing_details,
                 [field]: e.target.value,
-                landmark: e.target.value
             }
         }));
     };
@@ -59,6 +58,7 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                 [field]: e.target.value
             }
         }));
+
     };
 
     const handleSelectBilling = (e, field) => {
@@ -138,7 +138,8 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                             ...prevState.shipping_details,
                             city: postOffice.District,
                             state: postOffice.State,
-                            country: postOffice.Country
+                            country: postOffice.Country,
+                            landmark: postOffice.District
                         }
                     }));
                     if (isChecked) {
@@ -149,13 +150,14 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 city: postOffice.District,
                                 state: postOffice.State,
                                 country: postOffice.Country,
+                                landmark: postOffice.District
                             }
                         }));
                     }
                 }
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
+             
             });
     };
 
@@ -193,7 +195,6 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                 }
             })
             .catch(error => {
-                console.error('Error fetching data:', error);
             });
     };
 
@@ -213,16 +214,16 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 placeholder='Enter Recipient Name'
                                 maxLength={100}
                                 onKeyPress={(e) => {
-                                   const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-                                   if (
-                                       e.key === ' ' &&
-                                       e.target.value.endsWith(' ')
-                                   ) {
-                                       e.preventDefault();
-                                   } else if (!allowedCharacters.test(e.key)) {
-                                       e.preventDefault();
-                                   }
-                               }}
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                                 type="text" value={formData.shipping_details.recipient_name} onChange={(e) => handleChangeShiping(e, 'recipient_name')} />
                             {errors.recipient_name && <div className="custom-error">{errors.recipient_name}</div>}
                         </label>
@@ -264,21 +265,21 @@ const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                             <input
                                 maxLength={100}
                                 onChange={(e) => handleChangeShiping(e, 'address')}
-                                type="text" value={formData.shipping_details.address} 
+                                type="text" value={formData.shipping_details.address}
                                 className={`input-field ${errors.address && 'input-field-error'}`}
                                 placeholder="House/Floor No. Building Name or Street, Locality"
                                 onKeyPress={(e) => {
-                                   const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
-                                   if (
-                                       e.key === ' ' &&
-                                       e.target.value.endsWith(' ')
-                                   ) {
-                                       e.preventDefault();
-                                   } else if (!allowedCharacters.test(e.key)) {
-                                       e.preventDefault();
-                                   }
-                               }}
-                                 />
+                                    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+                                    if (
+                                        e.key === ' ' &&
+                                        e.target.value.endsWith(' ')
+                                    ) {
+                                        e.preventDefault();
+                                    } else if (!allowedCharacters.test(e.key)) {
+                                        e.preventDefault();
+                                    }
+                                }}
+                            />
                             {errors.address && <div className="custom-error">{errors.address}</div>}
                         </label>
                         {/* Pincode */}
