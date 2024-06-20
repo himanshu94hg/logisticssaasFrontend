@@ -2,8 +2,8 @@ import { toast } from "react-toastify";
 import axios from "../../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
-import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA,BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA,ORDERS_DETAILS_CLONE_DATA, ORDERS_CLONE_RES_DATA,ORDER_SOURCE_DATA, ORDERS_DELETE_RES_DATA,ORDER_DATA, ORDERS_CANCEL_RES_DATA } from "../../../../constants/orders";
-import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION,BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION,ORDERS_DETAILS_CLONE_ACTION, CREATE_ORDERS_TAG_ACTION ,GET_ORDER_SOURCE_API_ACTION,GET_ORDER_DATA_ACTION} from "../../../constant/orders";
+import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA, BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA, ORDERS_DETAILS_CLONE_DATA, ORDERS_CLONE_RES_DATA, ORDER_SOURCE_DATA, ORDERS_DELETE_RES_DATA, ORDER_DATA, ORDERS_CANCEL_RES_DATA } from "../../../../constants/orders";
+import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION, BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION, ORDERS_DETAILS_CLONE_ACTION, CREATE_ORDERS_TAG_ACTION, GET_ORDER_SOURCE_API_ACTION, GET_ORDER_DATA_ACTION } from "../../../constant/orders";
 import { customErrorFunction } from "../../../../../customFunction/errorHandling";
 
 async function fetchOrderListDataApi(data) {
@@ -23,6 +23,7 @@ function* fetchOrderListDataAction(action) {
         }
 
     } catch (error) {
+        customErrorFunction(error);
     }
 }
 
@@ -43,6 +44,7 @@ function* fetchOrderDataAction(action) {
         }
 
     } catch (error) {
+        customErrorFunction(error);
     }
 }
 
@@ -78,11 +80,11 @@ async function saveFavouriteOrderAPI(data) {
     });
 }
 function* saveFavouriteOrdersAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(saveFavouriteOrderAPI, payload);
         if (response.status === 201) {
-            yield put({type:"GET_SAVE_FAVOURITE_ORDERS_ACTION"})
+            yield put({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
             toast.success("Filter added successfully!")
         }
 
@@ -100,7 +102,7 @@ async function saveFavListApi(data) {
     });
 }
 function* saveFavListAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(saveFavListApi, payload);
         if (response.status === 200) {
@@ -108,7 +110,7 @@ function* saveFavListAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -120,14 +122,24 @@ async function bulkShipOrderAPI(data) {
     });
 }
 function* bulkShipOrdersAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkShipOrderAPI, payload);
         if (response.status === 200) {
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
             yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
+            const shippedCount = Object.values(response?.data).reduce((total, order) => {
+                if (order?.status === true) {
+                    return total + 1;
+                }
+                return total;
+            }, 0);
+            if (shippedCount === 0) {
+                toast.error("No orders shipped")
+            } else {
+                toast.success(`${shippedCount} out of ${payload?.order_ids?.length} Orders Shipped Successfully.`);
+            }
         }
-
     } catch (error) {
         customErrorFunction(error);
     }
@@ -141,7 +153,7 @@ async function bulkGetOrdersTagApi(data) {
     });
 }
 function* bulkGetOrdersTagAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkGetOrdersTagApi, payload);
         if (response.status === 200) {
@@ -209,7 +221,7 @@ async function GetOrdersSourceApi(data) {
     });
 }
 function* GetOrdersSourceApiAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(GetOrdersSourceApi, payload);
         if (response.status === 200) {
@@ -218,7 +230,7 @@ function* GetOrdersSourceApiAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -229,7 +241,7 @@ async function GetOrdersDataApi(data) {
     });
 }
 function* GetOrdersDataAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(GetOrdersDataApi, payload);
         if (response.status === 200) {
@@ -238,7 +250,7 @@ function* GetOrdersDataAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -256,6 +268,6 @@ export function* ordersTabWatcher() {
     yield takeLatest(GET_ORDER_SOURCE_API_ACTION, GetOrdersSourceApiAction);
     yield takeLatest(GET_ORDER_DATA_ACTION, GetOrdersDataAction);
 
-    
+
 
 }

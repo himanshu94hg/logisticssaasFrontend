@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
 import SingleShipPop from '../../../../Processing/SingleShipPop/SingleShipPop';
 import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
-const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingleShip}) => {
+const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingleShip, errors }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [filteredWarehouses, setFilteredWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingl
     const authToken = Cookies.get("access_token");
     const sellerData = Cookies.get("user_id");
     const dropdownRef = useRef(null);
-  
+
 
     useEffect(() => {
         const fetchWarehouses = async () => {
@@ -89,6 +89,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingl
         setShowDropdown(!showDropdown);
     };
 
+
     return (
         <div>
             <div className='box-shadow p10 w-100 WD-page'>
@@ -134,13 +135,13 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData ,setSingl
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="wd-search-input"
                                 />
-
                             </div>
                         )}
                     </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3 cof-btn-container'>
+            <div className='d-flex justify-content-end my-3 cof-btn-container align-items-center'>
+                <p style={{ color: '#dc3545' }} className='font13 mb-0'>{Object.keys(errors)?.length > 0 && '**Please fill all mandatory fields'}</p>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Quick Ship</button>
             </div>
         </div>

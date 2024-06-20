@@ -16,9 +16,13 @@
 
 .anchor-order {
   text-decoration: underline;
-  color: #1975C9;
+  color: var(--sh-primary);
   position: relative;
   cursor: pointer;
+  max-width: 150px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 .anchor-error {

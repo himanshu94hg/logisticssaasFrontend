@@ -177,3 +177,35 @@ table.performance-rating tr td {
     color: gold;
     /* Color of highlighted stars */
 }
+
+.quick-ship-exit {
+    width: 24%;
+    height: 300px;
+    background: #fff;
+    position: fixed;
+    top: -50%;
+    left: 38%;
+    z-index: 8;
+    transition: 0.5s;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.quick-ship-exit.open {
+    top: 20%;
+}
+
+.quick-ship-exit .confirmation-header {
+    padding: 20px 15px;
+    background: var(--sh-primary-light);
+}
+
+.quick-ship-exit .confirmation-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: 15px;
+}
