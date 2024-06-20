@@ -60,6 +60,20 @@ const ShipmentsPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
 
+    const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
+
+
+    useEffect(() => {
+        if (favListData) {
+            let temp = [];
+            favListData.map((item) => {
+                temp.push(item)
+            })
+            setQueryName(temp)
+        }
+    }, [favListData])
+
     const orderStatus = {
         "pending": "Pending",
         "shipped": "Shipped",
@@ -146,8 +160,9 @@ const ShipmentsPage = () => {
     }, [JSON.stringify(queryParamTemp), activeTab, currentPage, itemsPerPage]);
 
 
-    const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
-
+    useEffect(() => {
+        dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
+    }, [])
 
     useEffect(() => {
         if (shipmentCardData && shipmentCardData.length) {
@@ -155,7 +170,6 @@ const ShipmentsPage = () => {
             setTotalItems(shipmentCardData.length);
         }
     }, [shipmentCardData]);
-
 
     const handleReattemptOrder = (() => {
         dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
@@ -274,6 +288,24 @@ const ShipmentsPage = () => {
         setQueryParamTemp(queryParams);
     };
 
+
+    const handleQueryfilter = (value) => {
+        setQueryParamTemp({})
+        axios.get(`${apiEndpoint}/orders-api/orders/shipment/?action=${tabData}&page_size=${itemsPerPage}&page=${currentPage}&${value}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setShipment(response?.data?.results);
+            })
+            .catch(error => {
+                customErrorFunction(error)
+            });
+    }
+
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} pageStatusSet={pageStatusSet} />
@@ -310,13 +342,7 @@ const ShipmentsPage = () => {
                                     minWidth: '110px',
                                 }}
                             >
-                                {queryName?.map((item) => {
-                                    return (
-                                        <>
-                                            <li>{item?.filter_name}</li>
-                                        </>
-                                    )
-                                })}
+                                {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
                             </ul>
                         </div>
                         <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
@@ -388,8 +414,6 @@ const ShipmentsPage = () => {
                 )
                 }
             </div>
-
-
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
@@ -400,7 +424,7 @@ const ShipmentsPage = () => {
             />
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking}orderTracking={orderTracking} awbNo={awbNo}/>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
         </>
