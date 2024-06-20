@@ -123,7 +123,7 @@ const QuickCreateOrder = () => {
         }
         if (!formData.shipping_details.mobile_number) {
             newErrors.mobile_number = 'Mobile Number is required!';
-        } 
+        }
         // else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
         //     newErrors.mobile_number = 'Mobile Number should be 10 digits!';
         // }
@@ -229,7 +229,7 @@ const QuickCreateOrder = () => {
                     }
                 }
             } catch (error) {
-               customErrorFunction(error)
+                customErrorFunction(error)
             }
         }
     };
@@ -306,7 +306,7 @@ const QuickCreateOrder = () => {
                         onPrev={handlePrev}
                         onSubmit={handleFormSubmit}
                         formData={formData}
-                        setFormData={setFormData} 
+                        setFormData={setFormData}
                     />
                 </div>
                 {/* <div className='d-flex justify-content-end my-3 cof-btn-container'>
@@ -314,7 +314,6 @@ const QuickCreateOrder = () => {
                 </div> */}
             </div>
             <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
-
         </div>
     );
 };
