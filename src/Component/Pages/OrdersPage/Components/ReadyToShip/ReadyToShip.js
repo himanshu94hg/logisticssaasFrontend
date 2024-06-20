@@ -39,7 +39,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb, setbulkAwb, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo,orderStatus }) => {
+const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo,orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -179,6 +179,7 @@ const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb,
             });
             if (response?.status === 200) {
                 toast.success("Generate Pickup successfully")
+                setPickupStatus(new Date())
             }
         } catch (error) {
             toast.error("Something went wrong!")

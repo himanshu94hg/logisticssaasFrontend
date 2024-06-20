@@ -51,9 +51,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     useEffect(() => {
         if (labelData?.message === "Go to MIS -> Download and download the labels.") {
         }
-        else{
-            if(labelData)
-            {
+        else {
+            if (labelData) {
                 if (genaratelabel === true) {
                     const blob = new Blob([labelData], { type: 'application/pdf' });
                     const url = URL.createObjectURL(blob);
@@ -70,17 +69,79 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         }
     }, [invoiceData, generateinvoice]);
 
-    const addTag = () => setaddTagShow(true);
-    const markedVerified = () => dispatch({ type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: { order_ids: selectedRows } });
-    const rtoUpdate = () => setUpdateWarehouse(true);
-    const bulkDeleted = args => {
-        setShow(true);
-        setActionType(args);
-    };
-    const bulkCancelled = args => {
-        setActionType(args);
-        setShow(true);
-    };
+    useEffect(() => {
+        if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
+        }
+        else {
+            if (invoiceData) {
+                if (generateinvoice === true) {
+                    const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'Invoice.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    setGenerateinvoice(false)
+                }
+            }
+        }
+    }, [invoiceData])
+
+    /* useEffect(()=>{
+         if(invoiceData){
+             const blob = new Blob([invoiceData], { type: 'application/pdf' });
+             const url = URL.createObjectURL(blob);
+             const a = document.createElement('a');
+             a.href = url;
+             a.download = 'Invoice.pdf';
+             document.body.appendChild(a);
+             a.click();
+             document.body.removeChild(a);
+             URL.revokeObjectURL(url);
+            }
+     },[invoiceData])*/
+
+
+    const addTag = () => {
+        setaddTagShow(true)
+    }
+    const markedVerified = () => {
+        dispatch({
+            type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
+                order_ids: selectedRows,
+            }
+        })
+    }
+
+    const rtoUpdate = () => {
+        setUpdateWarehouse(true)
+
+    }
+    const bulkDeleted = (args) => {
+        setShow(true)
+        setActionType(args)
+    }
+    const bulkCancelled = (args) => {
+        setActionType(args)
+        // if (activeTab === "Processing" || activeTab === "Pickups") {
+        //     dispatch({
+        //         type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
+        //             order_ids: selectedRows,
+        //         }
+        //     })
+        // } else {
+        //     dispatch({
+        //         type: "BULK_CANCEL_ORDER_ACTION", payload: {
+        //             awb_numbers: bulkAwb,
+        //         }
+        //     })
+        // }
+        setShow(true)
+
+    }
 
     const makeApiCall = () => {
         setShow(false);
@@ -172,9 +233,11 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                 }, 0);
 
                 const totalOrders = selectedRows.length;
-
-                toast.success(`${shippedCount} out of ${totalOrders} Orders Shipped Successfully.`);
-
+                if (shippedCount === 0) {
+                    toast.error("No orders shipped")
+                } else {
+                    toast.success(`${shippedCount} out of ${totalOrders} Orders Shipped Successfully.`);
+                }
                 setShipButtonClicked(false);
                 setBulkActionShow(false);
                 setSelectedRows([]);
@@ -330,7 +393,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} the order?</Modal.Title>
+                    <Modal.Title>Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} the order ?</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" className="px-5" onClick={handleClose}>
