@@ -31,6 +31,7 @@ const QuickCreateOrder = () => {
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [SingleShip, setSingleShip] = useState(false)
     const [shipingResponse, setShipingResponse] = useState(null);
+    const [dataRefresh, setDataRefresh] = useState(null)
 
 
     const [formData, setFormData] = useState({
@@ -106,6 +107,82 @@ const QuickCreateOrder = () => {
         ],
     })
 
+    useEffect(() => {
+        if (dataRefresh) {
+            setFormData({
+                order_details: {
+                    customer_order_number: '',
+                    invoice_amount: '',
+                    is_mps: false,
+                    warehouse_id: '',
+                    order_tag: [],
+                    payment_type: '',
+                    order_date: currentDate,
+                    order_type: "",
+                    channel: "custom",
+                    channel_id: null
+                },
+                shipping_details: {
+                    recipient_name: "",
+                    address: "",
+                    landmark: "",
+                    country: "India",
+                    state: "",
+                    city: "",
+                    pincode: "",
+                    mobile_number: "",
+                    email: "",
+                    company_name: "",
+                    contact_code: "91"
+                },
+                billing_details: {
+                    customer_name: "",
+                    address: "",
+                    landmark: "",
+                    country: "India",
+                    state: "",
+                    city: "",
+                    pincode: "",
+                    mobile_number: "",
+                    email: "",
+                    company_name: "",
+                    contact_code: "91"
+                },
+                other_details: {
+                    number_of_packets: 0,
+                    reseller_name: ""
+                },
+                charge_details: {
+                    cod_charges: '',
+                    shipping_charges: '',
+                    transaction_fee: '',
+                    is_gift_wrap: true
+                },
+                dimension_details: {
+                    weight: '',
+                    length: '',
+                    breadth: '',
+                    height: '',
+                    vol_weight: ''
+                },
+                product_details: [
+                    {
+                        product_name: "",
+                        quantity: '',
+                        unit_price: 0,
+                        product_category: "",
+                        weight: 0,
+                        sku: "",
+                        hsn_code: "",
+                        tax_rate: null,
+                        product_discount: 0,
+                        hts_number: "",
+                        export_reference_number: ""
+                    }
+                ],
+            })
+        }
+    }, [dataRefresh])
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -313,7 +390,7 @@ const QuickCreateOrder = () => {
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} />
+            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh}/>
         </div>
     );
 };

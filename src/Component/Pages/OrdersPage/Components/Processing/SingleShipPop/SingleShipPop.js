@@ -18,7 +18,7 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) => {
+const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId,setDataRefresh }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
@@ -72,6 +72,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId }) 
     }
 
     const handleDeleteOrder = () => {
+        dispatch({ type: "DELETE_ORDERS_ACTION", payload: orderId })
+        setDataRefresh(new Date())
         setSingleShip(false)
         setExitpop(false)
     }
