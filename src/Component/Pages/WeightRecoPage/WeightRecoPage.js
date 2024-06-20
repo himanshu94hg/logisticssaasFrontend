@@ -102,22 +102,21 @@ const WeightRecoPage = () => {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchData = () => {
             switch (activeTab) {
                 case "Weight Reconciliation":
-                    await dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+                    dispatch({ type: "WEIGHT_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     break;
                 case "Settled Reconciliation":
-                    await dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+                    dispatch({ type: "SETTELED_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     break;
                 case "On Hold Reconciliation":
-                    await dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
+                    dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
                     break;
                 default:
                     break;
             }
         };
-
         fetchData();
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
 

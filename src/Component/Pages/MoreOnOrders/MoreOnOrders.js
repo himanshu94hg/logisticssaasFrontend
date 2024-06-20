@@ -247,6 +247,18 @@ const MoreOnOrders = () => {
         // setSearchValue("")
         // setHandleResetFrom(true)
         setQueryParamTemp({})
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}&${value}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+            })
+            .catch(error => {
+                customErrorFunction(error)
+            });
     }
 
     useEffect(() => {

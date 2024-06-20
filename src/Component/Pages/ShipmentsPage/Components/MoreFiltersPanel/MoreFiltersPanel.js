@@ -97,8 +97,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             .join('&');
 
-        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
-
         if (SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
@@ -122,6 +120,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setSaveFilter(false)
         setFavName("")
     };
+    console.log(saveFav, "saveFavsaveFav")
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -175,7 +174,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
-            setSaveFav(true)
+            // setSaveFav(true)
             setErrors({})
         }
     }, [handleResetFrom])
@@ -242,7 +241,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             }
         };
 
-        fetchData(); // Call the fetchData function
+        fetchData();
 
     }, [MoreFilters, sellerData, authToken]);
 
@@ -261,7 +260,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             pickup_address: ""
         })
         setSaveFilter(false)
-        setSaveFav(true)
+        // setSaveFav(true)
     };
 
     return (
