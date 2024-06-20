@@ -131,10 +131,10 @@
 .change-password-pop {
     position: fixed;
     top: -100%;
-    width: 40%;
-    left: 30%;
+    width: 24%;
+    left: 38%;
     background: #fff;
-    height: auto;
+    height: 500px;
     z-index: 6;
     transition: 1s;
     border-radius: 0.5rem;
@@ -153,10 +153,29 @@
 .cp-body {
     padding: 20px;
     display: flex;
-    gap: 20px;
     flex-direction: column;
+    align-items: center;
+    height: calc(100% - 69px);
+    justify-content: space-between;
+}
+
+.cp-body .cp-img-container {
+    background: var(--sh-primary-light);
+    padding: 32px;
+    border-radius: 50%;
+    width: fit-content;
+    height: auto;
 }
 
 .cp-body label {
     width: 100%;
+}
+
+.cp-body label input {
+    text-align: center;
+}
+
+.cp-body button {
+    width: 150px;
+    text-align: center;
 }

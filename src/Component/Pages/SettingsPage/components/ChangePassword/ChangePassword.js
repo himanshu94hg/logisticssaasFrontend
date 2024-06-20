@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from 'react'
+import VerificationStep from './Components/VerificationStep'
+import OTPStep from './Components/OTPStep'
+import SuccessStep from './Components/SuccessStep'
 
 const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
 
@@ -6,14 +9,18 @@ const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
 
     useEffect(() => {
         if (ChangePassword) {
-            setVerificationTabs('first-step')
+            setTimeout(() => {
+                setVerificationTabs('first-step')
+            }, 1500);
         }
     }, [ChangePasswordPop])
 
 
     const handlePasswordSubmit = () => {
-        setChangePasswordPop(!ChangePasswordPop)
-        setVerificationTabs('first-step')
+        setVerificationTabs('fourth-step')
+        setTimeout(() => {
+            setChangePasswordPop(!ChangePasswordPop)
+        }, 2500);
     }
     return (
         <>
@@ -23,28 +30,29 @@ const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
             <div className='cp-body'>
                 {
                     VerificationTabs === 'first-step' ?
-                        <>
-                            first tab
-                            <button onClick={() => setVerificationTabs('second-step')} className='btn main-button'>Next</button>
-                        </>
+                        <VerificationStep setVerificationTabs={setVerificationTabs} />
                         : VerificationTabs === 'second-step' ?
                             <>
-                                second tab
-                                <button onClick={() => setVerificationTabs('third-step')} className='btn main-button'>Next</button>
+                                <OTPStep setVerificationTabs={setVerificationTabs} />
                             </> :
-                            <>
-                                <label>
-                                    New Password
-                                    <input placeholder='Enter your new Password' className='input-field' type="password" />
-                                </label>
-                                <label>
-                                    Confirm New Password
-                                    <input placeholder='Re-enter your new password' className='input-field' type="password" />
-                                </label>
-                                <div className='d-flex justify-content-end'>
-                                    <button onClick={handlePasswordSubmit} className='btn main-button'>Submit</button>
-                                </div>
-                            </>
+                            VerificationTabs === 'third-step' ?
+                                <>
+                                    <label>
+                                        New Password
+                                        <input placeholder='Enter your new Password' className='input-field' type="password" />
+                                    </label>
+                                    <label>
+                                        Confirm New Password
+                                        <input placeholder='Re-enter your new password' className='input-field' type="password" />
+                                    </label>
+                                    <div className='d-flex justify-content-end'>
+                                        <button onClick={handlePasswordSubmit} className='btn main-button'>Submit</button>
+                                        {/* <button onClick={() => setVerificationTabs('fourth-step')} className='btn main-button'>Submit</button> */}
+                                    </div>
+                                </> :
+                                <>
+                                    <SuccessStep />
+                                </>
                 }
             </div>
         </>
