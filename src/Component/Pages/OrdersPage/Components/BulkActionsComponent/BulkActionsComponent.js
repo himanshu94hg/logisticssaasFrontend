@@ -29,9 +29,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     useEffect(() => {
         if (labelData?.message === "Go to MIS -> Download and download the labels.") {
         }
-        else{
-            if(labelData)
-            {
+        else {
+            if (labelData) {
                 if (genaratelabel === true) {
                     const blob = new Blob([labelData], { type: 'application/pdf' });
                     const url = URL.createObjectURL(blob);
@@ -51,7 +50,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     useEffect(() => {
         if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
         }
-        else{
+        else {
             if (invoiceData) {
                 if (generateinvoice === true) {
                     const blob = new Blob([invoiceData], { type: 'application/pdf' });
@@ -227,7 +226,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         };
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
-    
+
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
@@ -255,18 +254,20 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                     }
                     return total;
                 }, 0);
-    
+
                 const totalOrders = selectedRows.length;
-    
-                toast.success(`${shippedCount} out of ${totalOrders} Orders Shipped Successfully.`);
-    
+                if (shippedCount === 0) {
+                    toast.error("No orders shipped")
+                } else {
+                    toast.success(`${shippedCount} out of ${totalOrders} Orders Shipped Successfully.`);
+                }
                 setShipButtonClicked(false);
                 setBulkActionShow(false);
                 setSelectedRows([]);
             }
         }
     }, [shipButtonClicked, bulkShipData, selectedRows]);
-    
+
 
 
     const [show, setShow] = useState(false);
@@ -362,7 +363,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionType==="bulkDelete"?"delete":"cancel"} the order ?</Modal.Title>
+                    <Modal.Title>Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} the order ?</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" className="px-5" onClick={handleClose}>

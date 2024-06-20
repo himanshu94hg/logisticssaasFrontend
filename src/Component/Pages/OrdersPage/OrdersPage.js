@@ -69,6 +69,7 @@ const OrdersPage = () => {
     const [UpdateWeight, setUpdateWeight] = useState(false)
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
+    const [pickupStatus, setPickupStatus] = useState('')
 
     const orderStatus = {
         "pending": "Pending",
@@ -308,7 +309,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
+    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp),pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {
@@ -488,6 +489,7 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
                         orderStatus={orderStatus}
+                        setPickupStatus={setPickupStatus}
                     />
                 </div>
 
