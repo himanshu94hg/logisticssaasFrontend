@@ -23,6 +23,7 @@ function* fetchOrderListDataAction(action) {
         }
 
     } catch (error) {
+        customErrorFunction(error);
     }
 }
 
@@ -43,6 +44,7 @@ function* fetchOrderDataAction(action) {
         }
 
     } catch (error) {
+        customErrorFunction(error);
     }
 }
 
@@ -78,7 +80,7 @@ async function saveFavouriteOrderAPI(data) {
     });
 }
 function* saveFavouriteOrdersAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(saveFavouriteOrderAPI, payload);
         if (response.status === 201) {
@@ -100,7 +102,7 @@ async function saveFavListApi(data) {
     });
 }
 function* saveFavListAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(saveFavListApi, payload);
         if (response.status === 200) {
@@ -108,7 +110,7 @@ function* saveFavListAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -120,12 +122,23 @@ async function bulkShipOrderAPI(data) {
     });
 }
 function* bulkShipOrdersAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkShipOrderAPI, payload);
         if (response.status === 200) {
             yield put({ type: BULK_SHIP_DATA, payload: response?.data })
             yield put({ type: ORDERS_CANCEL_RES_DATA, payload: response?.status })
+            const shippedCount = Object.values(response?.data).reduce((total, order) => {
+                if (order?.status === true) {
+                    return total + 1;
+                }
+                return total;
+            }, 0);
+            if (shippedCount === 0) {
+                toast.error("No orders shipped")
+            } else {
+                toast.success(`${shippedCount} out of ${payload?.order_ids?.length} Orders Shipped Successfully.`);
+            }
         }
     } catch (error) {
         customErrorFunction(error);
@@ -140,7 +153,7 @@ async function bulkGetOrdersTagApi(data) {
     });
 }
 function* bulkGetOrdersTagAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkGetOrdersTagApi, payload);
         if (response.status === 200) {
@@ -208,7 +221,7 @@ async function GetOrdersSourceApi(data) {
     });
 }
 function* GetOrdersSourceApiAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(GetOrdersSourceApi, payload);
         if (response.status === 200) {
@@ -217,7 +230,7 @@ function* GetOrdersSourceApiAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 
@@ -228,7 +241,7 @@ async function GetOrdersDataApi(data) {
     });
 }
 function* GetOrdersDataAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(GetOrdersDataApi, payload);
         if (response.status === 200) {
@@ -237,7 +250,7 @@ function* GetOrdersDataAction(action) {
         }
 
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error);
     }
 }
 

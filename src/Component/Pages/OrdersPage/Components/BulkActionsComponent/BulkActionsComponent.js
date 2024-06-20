@@ -220,24 +220,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     useEffect(() => {
         if (shipButtonClicked) {
             if (bulkShipData && Object.keys(bulkShipData).length > 0) {
-
-                const filteredData = Object.keys(bulkShipData)
-                    .filter(key => selectedRows.includes(parseInt(key)))
-                    .reduce((obj, key) => {
-                        obj[key] = bulkShipData[key];
-                        return obj;
-                    }, {});
-
-                const shippedCount = Object.values(filteredData).reduce((total, order) => {
-                    return total + (order?.status ? 1 : 0);
-                }, 0);
-
-                const totalOrders = selectedRows.length;
-                if (shippedCount === 0) {
-                    toast.error("No orders shipped")
-                } else {
-                    toast.success(`${shippedCount} out of ${totalOrders} Orders Shipped Successfully.`);
-                }
                 setShipButtonClicked(false);
                 setBulkActionShow(false);
                 setSelectedRows([]);
