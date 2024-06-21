@@ -72,6 +72,9 @@
     cursor: pointer;
     padding: 13px 30px;
     border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .edit-order-body .navigation-side ul li.active {

@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import orderIdAction from '../../../../../redux/action/orders/orderId';
+import ErrorIcon from './ErrorIcon';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
@@ -140,7 +141,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
-    
+
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
@@ -194,7 +195,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
-         
+
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
@@ -225,7 +226,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         seteditErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-console.log(editErrors,"editErrorseditErrors")
+    console.log(editErrors, "editErrorseditErrors")
 
     const handleUpdate = () => {
         if (validateFormData()) {
@@ -348,11 +349,11 @@ console.log(editErrors,"editErrorseditErrors")
                 <section className='edit-order-body'>
                     <section className='navigation-side'>
                         <ul>
-                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details</li>
-                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details</li>
-                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details</li>
-                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details</li>
-                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details</li>
+                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details <ErrorIcon /></li>
+                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details <ErrorIcon /></li>
+                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details <ErrorIcon /></li>
+                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details <ErrorIcon /></li>
+                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details <ErrorIcon /></li>
                         </ul>
                     </section>
                     <section className='details-side'>
