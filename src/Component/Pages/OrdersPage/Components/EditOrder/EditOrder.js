@@ -381,7 +381,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                 ) && <ErrorIcon />}
                             </li>
                             <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details
-                                {/* {(editErrors?.hasOwnProperty("customer_order_number") || editErrors?.hasOwnProperty("order_type") || editErrors?.hasOwnProperty("payment_type")) && <ErrorIcon />} */}
                             </li>
                         </ul>
                     </section>
