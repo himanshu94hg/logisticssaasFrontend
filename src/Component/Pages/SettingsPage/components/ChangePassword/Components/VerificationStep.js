@@ -14,7 +14,7 @@ const VerificationStep = ({ setVerificationTabs }) => {
                         <input placeholder='Email or phone number' className='input-field' type="text" />
                     </label>
                 </div>
-                <button onClick={() => setVerificationTabs('second-step')} className='btn main-button'>Send</button>
+                <button onClick={() => setVerificationTabs('second-step')} className='btn main-button'>Continue</button>
             </>
         </>
     )
