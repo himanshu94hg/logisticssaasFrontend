@@ -270,7 +270,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                     <div className='row mt-4 gap-2'>
                         {/* Order Type */}
                         <label className='col'>
-                            Order Type
+                            <span> Order Type <span className='mandatory'>*</span></span>
                             <select
                                 className={`select-field ${errors.order_type || editErrors?.order_type ? 'input-field-error' : ''}`}
                                 value={formData.order_details.order_type}
@@ -366,7 +366,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                     {/* Payment Section */}
                     <div className='row gap-2'>
                         <label className='col'>
-                            Payment Type
+                            <span> Payment Type<span className='mandatory'>*</span>                            </span>
                             <select
                                 className={`select-field ${errors.payment_type || editErrors?.payment_type ? 'input-field-error' : ''}`}
                                 value={formData.order_details.payment_type}
