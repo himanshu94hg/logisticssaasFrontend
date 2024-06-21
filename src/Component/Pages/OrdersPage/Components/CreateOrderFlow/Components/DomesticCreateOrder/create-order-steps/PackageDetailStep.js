@@ -61,13 +61,16 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
 
     const handleChangeOrder = (e, field) => {
         const value = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            order_details: {
-                ...prevData.order_details,
-                [field]: value
-            }
-        }));
+        const regex = /^\d*\.?\d{0,2}$/;
+        if (regex.test(value) || value === '') {
+            setFormData(prevData => ({
+                ...prevData,
+                order_details: {
+                    ...prevData.order_details,
+                    [field]: value
+                }
+            }));
+        }
     };
     const handleChangeCharge = (e, field) => {
         const charge = e.target.value.trim();
