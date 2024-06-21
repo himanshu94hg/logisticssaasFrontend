@@ -39,7 +39,7 @@ const SuccessStep = () => {
                 isStopped={isStopped}
                 isPaused={false}
             />
-            <p className='text-center mt-4'>Your Password Saved Successfully!</p>
+            <p className='text-center mt-4'>Your Password has been changed Successfully!</p>
         </div>
     );
 };

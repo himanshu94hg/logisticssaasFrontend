@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import VerificationStep from './Components/VerificationStep'
 import OTPStep from './Components/OTPStep'
 import SuccessStep from './Components/SuccessStep'
+import EnterPasswordStep from './Components/EnterPasswordStep'
 
 const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
 
@@ -16,12 +17,7 @@ const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
     }, [ChangePasswordPop])
 
 
-    const handlePasswordSubmit = () => {
-        setVerificationTabs('fourth-step')
-        setTimeout(() => {
-            setChangePasswordPop(!ChangePasswordPop)
-        }, 2500);
-    }
+
     return (
         <>
             <div className='cp-header'>
@@ -37,21 +33,14 @@ const ChangePassword = ({ setChangePasswordPop, ChangePasswordPop }) => {
                             </> :
                             VerificationTabs === 'third-step' ?
                                 <>
-                                    <label>
-                                        New Password
-                                        <input placeholder='Enter your new Password' className='input-field' type="password" />
-                                    </label>
-                                    <label>
-                                        Confirm New Password
-                                        <input placeholder='Re-enter your new password' className='input-field' type="password" />
-                                    </label>
-                                    <div className='d-flex justify-content-end'>
-                                        <button onClick={handlePasswordSubmit} className='btn main-button'>Submit</button>
-                                        {/* <button onClick={() => setVerificationTabs('fourth-step')} className='btn main-button'>Submit</button> */}
-                                    </div>
+                                    <EnterPasswordStep
+                                        ChangePasswordPop={ChangePasswordPop}
+                                        setChangePasswordPop={setChangePasswordPop}
+                                        setVerificationTabs={setVerificationTabs}
+                                    />
                                 </> :
                                 <>
-                                    <SuccessStep />
+                                    <SuccessStep setChangePasswordPop={setChangePasswordPop} />
                                 </>
                 }
             </div>
