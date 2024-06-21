@@ -71,42 +71,47 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     };
     const handleChangeCharge = (e, field) => {
         const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            charge_details: {
-                ...prevData.charge_details,
-                [field]: charge
-            }
-        }));
+        const regex = /^\d*\.?\d{0,2}$/;
+        if (regex.test(charge) || charge === '') {
+            setFormData(prevData => ({
+                ...prevData,
+                charge_details: {
+                    ...prevData.charge_details,
+                    [field]: charge
+                }
+            }));
+        }
     };
 
     const handleChangeDimension = (e, field) => {
         let charge = e.target.value.trim();
-        if (field === 'weight' && charge.includes('.')) {
-            const parts = charge.split('.');
-            if (parts[1].length > 2) {
-                charge = `${parts[0]}.${parts[1].slice(0, 2)}`;
+        const regex = /^\d*\.?\d{0,2}$/;
+        if (regex.test(charge) || charge === '') {
+            if (field === 'weight' && charge.includes('.')) {
+                const parts = charge.split('.');
+                if (parts[1].length > 2) {
+                    charge = `${parts[0]}.${parts[1].slice(0, 2)}`;
+                }
+            }
+            if (field === 'weight') {
+                setFormData(prevData => ({
+                    ...prevData,
+                    dimension_details: {
+                        ...prevData.dimension_details,
+                        [field]: charge
+                    }
+                }));
+            }
+            else {
+                setFormData(prevData => ({
+                    ...prevData,
+                    dimension_details: {
+                        ...prevData.dimension_details,
+                        [field]: charge
+                    }
+                }));
             }
         }
-        if (field === 'weight') {
-            setFormData(prevData => ({
-                ...prevData,
-                dimension_details: {
-                    ...prevData.dimension_details,
-                    [field]: charge
-                }
-            }));
-        }
-        else {
-            setFormData(prevData => ({
-                ...prevData,
-                dimension_details: {
-                    ...prevData.dimension_details,
-                    [field]: charge
-                }
-            }));
-        }
-
     };
 
     const [finalWeight, setFinalWeight] = useState(0)
@@ -173,7 +178,8 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    // Allow digits and one decimal point
+                                    if (!/[\d.]/.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                         e.preventDefault();
                                     }
                                 }}

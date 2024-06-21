@@ -238,7 +238,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
     const customStyles = {
         menuList: (provided) => ({
             ...provided,
-            maxHeight: '150px',
+            maxHeight: '130px',
             overflowY: 'auto',
         }),
     };
