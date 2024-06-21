@@ -112,14 +112,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
 
         handleMoreFilter(filterParams)
         CloseSidePanel()
-        if (saveFav) {
-            dispatch({
-                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
-                    filter_query: encodedParams,
-                    filter_name: favName
-                }
-            })
-        }
+        // if (saveFav) {
+        //     dispatch({
+        //         type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+        //             filter_query: encodedParams,
+        //             filter_name: favName
+        //         }
+        //     })
+        // }
         setSaveFilter(false)
         setFavName("")
     };
