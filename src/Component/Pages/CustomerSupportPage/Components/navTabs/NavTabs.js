@@ -95,7 +95,7 @@ export default function NavTabs(props) {
         <div className="search-container">
           <label className="label">
             <input
-              placeholder="Search by Ticket ID || AWB || Pickup ID"
+              placeholder="Search by Ticket ID || AWB"
               type="search" value={props.searchValue}
               className={`input-field ${props.errors.searchValue ? 'input-field-error' : ''}`}
               onChange={(e) => props.setSearchValue(e.target.value)}
