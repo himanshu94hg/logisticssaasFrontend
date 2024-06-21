@@ -15,6 +15,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import orderIdAction from '../../../../../redux/action/orders/orderId';
 import ErrorIcon from './ErrorIcon';
+import { error } from 'jquery';
 
 const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const dispatch = useDispatch()
@@ -246,6 +247,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         if (orderId && EditOrderSection) {
             dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
             dispatch(orderIdAction(orderId))
+            seteditErrors({})
         }
     }, [orderId, EditOrderSection, dispatch])
 
@@ -334,6 +336,14 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderDetailsData])
 
+    const checkValuePresence = (obj, valueToCheck) => {
+        return Object.values(obj).includes(valueToCheck);
+    };
+
+    const pname_err = checkValuePresence(editErrors, "Product Name is required!");
+    const qty_err = checkValuePresence(editErrors, "Product Quantity is required!");
+    const sku_err = checkValuePresence(editErrors, "SKU is required!");
+
     return (
         <>
             <section className={`edit-order-section ${EditOrderSection ? 'open-edit' : ''}`}>
@@ -349,11 +359,30 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 <section className='edit-order-body'>
                     <section className='navigation-side'>
                         <ul>
-                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details <ErrorIcon /></li>
-                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details <ErrorIcon /></li>
-                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details <ErrorIcon /></li>
-                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details <ErrorIcon /></li>
-                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details <ErrorIcon /></li>
+                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details
+                                {(editErrors?.hasOwnProperty("customer_order_number") || editErrors?.hasOwnProperty("order_type") || editErrors?.hasOwnProperty("payment_type")) && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details
+                                {(
+                                    editErrors?.hasOwnProperty("address") || editErrors?.hasOwnProperty("city") || editErrors?.hasOwnProperty("state") || editErrors?.hasOwnProperty("country") ||
+                                    editErrors?.hasOwnProperty("recipient_name") || editErrors?.hasOwnProperty("mobile_number") || editErrors?.hasOwnProperty("pincode") || editErrors?.hasOwnProperty("billing_address") ||
+                                    editErrors?.hasOwnProperty("billing_city") || editErrors?.hasOwnProperty("billing_country") || editErrors?.hasOwnProperty("billing_customer_name") ||
+                                    editErrors?.hasOwnProperty("billing_mobile_number") || editErrors?.hasOwnProperty("billing_pincode") || editErrors?.hasOwnProperty("billing_state")
+                                )
+                                    && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details
+                                {(pname_err ||qty_err ||sku_err) && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details
+                                {(
+                                    editErrors?.hasOwnProperty("invoice_amount") || editErrors?.hasOwnProperty("height") || editErrors?.hasOwnProperty("breadth") ||
+                                    editErrors?.hasOwnProperty("length") || editErrors?.hasOwnProperty("weight")
+                                ) && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details
+                                {/* {(editErrors?.hasOwnProperty("customer_order_number") || editErrors?.hasOwnProperty("order_type") || editErrors?.hasOwnProperty("payment_type")) && <ErrorIcon />} */}
+                            </li>
                         </ul>
                     </section>
                     <section className='details-side'>

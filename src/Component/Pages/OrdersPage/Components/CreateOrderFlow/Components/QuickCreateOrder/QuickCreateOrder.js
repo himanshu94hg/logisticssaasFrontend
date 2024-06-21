@@ -182,6 +182,7 @@ const QuickCreateOrder = () => {
                 ],
             })
         }
+        setIsChecked(true)
     }, [dataRefresh])
 
     const validatequickFormData = () => {
@@ -201,9 +202,9 @@ const QuickCreateOrder = () => {
         if (!formData.shipping_details.mobile_number) {
             newErrors.mobile_number = 'Mobile Number is required!';
         }
-        // else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
-        //     newErrors.mobile_number = 'Mobile Number should be 10 digits!';
-        // }
+        else if (!/^[0-9]{10}$/.test(formData.shipping_details.mobile_number)) {
+            newErrors.mobile_number = 'Mobile Number should be 10 digits!';
+        }
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
@@ -243,6 +244,9 @@ const QuickCreateOrder = () => {
         }
         if (!formData.dimension_details.breadth) {
             newErrors.breadth = 'Breadth is required!';
+        }
+        if (!formData.order_details.warehouse_id) {
+            newErrors.warehouse_id = 'Warehouse is required!';
         }
         if (!isChecked) {
             if (!formData.billing_details.customer_name) {
@@ -330,6 +334,13 @@ const QuickCreateOrder = () => {
         }
     }, [selectedOrderId]);
 
+    useEffect(() => {
+        setIsChecked(true)
+    }, [])
+
+
+    console.log(formData,"formDataformDataformDataformData")
+
 
     return (
         <div className="stepper-form-container">
@@ -390,7 +401,7 @@ const QuickCreateOrder = () => {
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh}/>
+            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
         </div>
     );
 };
