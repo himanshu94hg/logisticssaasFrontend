@@ -88,6 +88,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
     const toggleDropdown = () => {
         setShowDropdown(!showDropdown);
     };
+    console.log(errors, "errorserrorserrorserrors")
 
 
     return (
@@ -96,10 +97,10 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
                 <div className='inputs-container mx-auto mb-3'>
                     <label className='mb-0'>Pick up from</label>
                     <div className='wd-warehouse-dropdown mt-2' ref={dropdownRef}>
-                        <div className="wd-selected-option" onClick={toggleDropdown}>
+                        <div className={`wd-selected-option ${errors.warehouse_id&&"input-field-error"}`}  onClick={toggleDropdown}>
                             {formData.order_details.warehouse_id ? (
                                 <span>
-                                    {warehouses.find(warehouse => warehouse.id === formData.order_details.warehouse_id)?.warehouse_name} {/*- ({warehouses.find(warehouse => warehouse.id === formData.order_details.warehouse_id)?.code}) */}
+                                    {warehouses.find(warehouse => warehouse.id === formData.order_details.warehouse_id)?.warehouse_name}
                                 </span>
                             ) : (<span className='font14'>Select your Warehouse</span>)}
                             <div>
@@ -113,6 +114,8 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
                             </div>
 
                         </div>
+                        {errors?.warehouse_id && <span className="custom-error">{errors?.warehouse_id}</span>}
+
                         {showDropdown && (
                             <div className="wd-dropdown-content">
                                 <div className="wd-options">
@@ -135,6 +138,7 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                     className="wd-search-input"
                                 />
+
                             </div>
                         )}
                     </div>

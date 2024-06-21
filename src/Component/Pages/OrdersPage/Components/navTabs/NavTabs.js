@@ -140,12 +140,12 @@ export default function NavTabs(props) {
           >
             Domestic
           </div>
-          <div
+          {/* <div
             className={`option ${selectedOption === "International" ? "selected" : ""}`}
             onClick={() => handleOptionSelect("International")}
           >
             International
-          </div>
+          </div> */}
         </div>
 
       </div>

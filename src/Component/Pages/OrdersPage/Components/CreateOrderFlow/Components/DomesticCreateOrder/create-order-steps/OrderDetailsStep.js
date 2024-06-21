@@ -235,6 +235,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
 
     console.log(tagData, "this is a tag data")
 
+    const customStyles = {
+        menuList: (provided) => ({
+            ...provided,
+            maxHeight: '130px',
+            overflowY: 'auto',
+        }),
+    };
+
     return (
         <>
             {/* Order Details Section */}
@@ -270,7 +278,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                     <div className='row mt-4 gap-2'>
                         {/* Order Type */}
                         <label className='col'>
-                            Order Type
+                            <span> Order Type <span className='mandatory'>*</span></span>
                             <select
                                 className={`select-field ${errors.order_type || editErrors?.order_type ? 'input-field-error' : ''}`}
                                 value={formData.order_details.order_type}
@@ -332,11 +340,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 options={orderTag}
                                 onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
                                 value={orderTag.filter(tag => formData.order_details.order_tag?.includes(tag.value))}
-                                styles={{
-                                    control: styles => ({ ...styles, width: "325px" })
-                                }}
+                                styles={customStyles}
+                                placeholder="Select your tag(s)"
                             />
-
                         </label>
                         <label className='col'>
                             Reseller Name
@@ -366,7 +372,7 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                     {/* Payment Section */}
                     <div className='row gap-2'>
                         <label className='col'>
-                            Payment Type
+                            <span> Payment Type<span className='mandatory'>*</span>                            </span>
                             <select
                                 className={`select-field ${errors.payment_type || editErrors?.payment_type ? 'input-field-error' : ''}`}
                                 value={formData.order_details.payment_type}

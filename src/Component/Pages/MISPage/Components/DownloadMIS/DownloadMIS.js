@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
@@ -11,6 +11,7 @@ import { RxReset } from 'react-icons/rx';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import NoData from '../../../../common/noData';
+import { debounce } from 'lodash';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch();
@@ -30,12 +31,24 @@ const DownloadMIS = ({ activeTab }) => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { itemsPerPage, currentPage } });
     }, [dispatch, activeTab, itemsPerPage, currentPage]);
 
-    const handleRefresh = () => {
+    const handleClick = () => {
         dispatch({ type: "MIS_DOWNLOAD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } })
         if (misDownloadData) {
             toast.success("Data refreshed successfully!")
         }
     }
+
+    const debouncedHandleClick = useCallback(
+        debounce((param) => handleClick(param), 1000),
+        []
+    );
+
+    const handleRefresh = (orderId) => {
+        debouncedHandleClick(orderId);
+    };
+
+
+
 
     useEffect(() => {
         if (misDownloadData?.results !== null && misDownloadData !== undefined) {
@@ -197,7 +210,7 @@ const DownloadMIS = ({ activeTab }) => {
                             ))}
                         </tbody>
                     </table>
-                    {misDownload?.length===0 && <NoData/>}
+                    {misDownload?.length === 0 && <NoData />}
                 </div>
             </div>
             <Pagination

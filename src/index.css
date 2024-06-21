@@ -527,6 +527,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  z-index: 0;
 }
 
 .cardsSpace>div {

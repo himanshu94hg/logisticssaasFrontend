@@ -24,8 +24,8 @@ import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
-    { value: 'awb_number', label: 'AWB' },
     { value: 'customer_order_number', label: 'Order ID' },
+    { value: 'awb_number', label: 'AWB' },
     { value: 'shipping_detail__mobile_number', label: 'Mobile' },
     { value: 'shipping_detail__email', label: 'Email' },
     { value: 'shipping_detail__recipient_name', label: 'Name' },

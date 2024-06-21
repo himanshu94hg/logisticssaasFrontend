@@ -7,19 +7,11 @@ import { useLocation } from 'react-router-dom/dist';
 import { useSelector } from 'react-redux';
 
 
-export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
-    const location = useLocation()
-    const [isChecked, setIsChecked] = useState(() => {
-        const savedCheckboxState = localStorage.getItem('isChecked');
-        return savedCheckboxState ? JSON.parse(savedCheckboxState) : true;
-    });
+export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, isChecked, setIsChecked }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
     const { pathName } = useSelector(state => state?.authDataReducer)
     const [errors, setErrors] = useState({});
 
-    useEffect(() => {
-        localStorage.setItem('isChecked', JSON.stringify(isChecked));
-    }, [isChecked]);
 
     const validateFormData = () => {
         const newErrors = {};
@@ -89,34 +81,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         setFormData({ ...formData, [field]: e.target.value });
     };
 
-    // const handleChangeShiping = (e, field) => {
-    //     if (isChecked) {
-    //         setFormData(prevData => ({
-    //             ...prevData,
-    //             shipping_details: {
-    //                 ...prevData.shipping_details,
-    //                 [field]: e.target.value
-    //             },
-    //             billing_details: {
-    //                 ...prevData.billing_details,
-    //                 [field === "recipient_name" ? "customer_name" : field]: e.target.value
-    //             }
-    //         }));
-    //     } else {
-    //         setFormData(prevData => ({
-    //             ...prevData,
-    //             shipping_details: {
-    //                 ...prevData.shipping_details,
-    //                 [field]: e.target.value
-    //             },
-    //             billing_details: {
-    //                 ...prevData.billing_details,
-    //                 [field]: e.target.value
-    //             }
-    //         }));
-    //     }
-    // };
-
     const handleChangeShiping = (e, field) => {
         const value = e.target.value;
         setFormData(prevData => {
@@ -149,8 +113,59 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 }));
             }
         }
+
+        if (field === "pincode") {
+            if (value.length === 6) {
+                setErrors(prevErrors => {
+                    const { pincode, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+                axios.get(`https://api.postalpincode.in/pincode/${value}`)
+                    .then(response => {
+                        if (response?.data[0]?.Message === "No records found") {
+                            setErrors(prevErrors => ({
+                                ...prevErrors,
+                                pincode: "Please enter valid pincode!"
+                            }));
+                        }
+                        if (response.data && response.data.length > 0) {
+                            const data = response.data[0];
+                            const postOffice = data.PostOffice[0];
+                            setFormData(prevState => ({
+                                ...prevState,
+                                shipping_details: {
+                                    ...prevState.shipping_details,
+                                    city: postOffice.District,
+                                    state: postOffice.State,
+                                    country: postOffice.Country
+                                }
+                            }));
+                            if (isChecked) {
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    billing_details: {
+                                        ...prevState.billing_details,
+                                        city: postOffice.District,
+                                        state: postOffice.State,
+                                        country: postOffice.Country
+                                    }
+                                }));
+                            }
+                        }
+                    })
+                    .catch(error => {
+                    });
+
+
+            } else if (value.length > 0 && value.length !== 6) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    pincode: "Pincode should be 6 digits!"
+                }));
+            }
+        }
     };
-    
+
 
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
@@ -160,6 +175,47 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                 [field]: e.target.value
             }
         }));
+
+        if (e.target.value.length === 6) {
+            setErrors(prevErrors => {
+                const { billing_pincode, ...restErrors } = prevErrors;
+                return restErrors;
+            });
+
+        } else if (e.target.value.length > 0 && e.target.value.length !== 6) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                billing_pincode: "Pincode should be 6 digits!"
+            }));
+        }
+        if (field === "pincode" && e.target.value?.length === 6) {
+            axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
+                .then(response => {
+                    if (response?.data[0]?.Message === "No records found") {
+                        setErrors(prevErrors => ({
+                            ...prevErrors,
+                            billing_pincode: "Please enter valid pincode!"
+                        }));
+                    }
+                    if (response.data && response.data.length > 0) {
+                        const data = response.data[0];
+                        const postOffice = data.PostOffice[0];
+                        if (!isChecked) {
+                            setFormData(prevState => ({
+                                ...prevState,
+                                billing_details: {
+                                    ...prevState.billing_details,
+                                    city: postOffice.District,
+                                    state: postOffice.State,
+                                    country: postOffice.Country
+                                }
+                            }));
+                        }
+                    }
+                })
+                .catch(error => {
+                });
+        }
     };
 
     const handleSelectShiping = (e, field) => {
@@ -183,7 +239,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }));
     };
 
- 
     const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
@@ -224,88 +279,15 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }
     };
 
-    const pincodeRef = useRef(null);
-    const cityRef = useRef(null);
-    const stateRef = useRef(null);
-    const countryRef = useRef(null);
 
-    const handlePincodeChange = () => {
-        const pincode = pincodeRef.current.value;
-        if (pincode.length < 6) {
-            toast.error("Please enter a valid 6-digit pincode.")
-            return;
-        }
-
-        axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
-            .then(response => {
-                if (response?.data[0]?.Message === "No records found") {
-                    toast.error("Please enter valid pincode!")
-                }
-                if (response.data && response.data.length > 0) {
-                    const data = response.data[0];
-                    const postOffice = data.PostOffice[0];
-                    setFormData(prevState => ({
-                        ...prevState,
-                        shipping_details: {
-                            ...prevState.shipping_details,
-                            city: postOffice.District,
-                            state: postOffice.State,
-                            country: postOffice.Country
-                        }
-                    }));
-                    if (isChecked) {
-                        setFormData(prevState => ({
-                            ...prevState,
-                            billing_details: {
-                                ...prevState.billing_details,
-                                city: postOffice.District,
-                                state: postOffice.State,
-                                country: postOffice.Country
-                            }
-                        }));
-                    }
-                }
-            })
-            .catch(error => {
-            });
-    };
 
     const pincodeRef1 = useRef(null);
     const cityRef1 = useRef(null);
     const stateRef1 = useRef(null);
 
-    const handlePincodeChange1 = () => {
-        const pincode = pincodeRef1.current.value;
 
-        if (pincode.length < 6) {
-            toast.error("Please enter a valid 6-digit pincode.")
-            return;
-        }
 
-        axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
-            .then(response => {
-                if (response?.data[0]?.Message === "No records found") {
-                    toast.error("Please enter valid pincode!")
-                }
-                if (response.data && response.data.length > 0) {
-                    const data = response.data[0];
-                    const postOffice = data.PostOffice[0];
-                    if (!isChecked) {
-                        setFormData(prevState => ({
-                            ...prevState,
-                            billing_details: {
-                                ...prevState.billing_details,
-                                city: postOffice.District,
-                                state: postOffice.State,
-                                country: postOffice.Country
-                            }
-                        }));
-                    }
-                }
-            })
-            .catch(error => {
-            });
-    };
+
     const handleMobileNumberValidation = () => {
         const { mobile_number } = formData.shipping_details;
         if (mobile_number.length !== 10) {
@@ -456,7 +438,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     }
                                 }}
                             />
-                            {/* {(errors.landmark || editErrors?.landmark) && <div className="custom-error">{errors.landmark || editErrors?.landmark}</div>} */}
                         </label>
                     </div>
                     <div className='row mt-3 gap-2'>
@@ -465,10 +446,8 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <span>Pincode <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                ref={pincodeRef}
                                 className={`input-field ${errors.pincode || editErrors?.pincode ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's Pincode"
-                                onBlur={handlePincodeChange}
                                 value={formData.shipping_details.pincode}
                                 onChange={(e) => handleChangeShiping(e, 'pincode')}
                                 maxLength={6}
@@ -486,7 +465,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <span>City  <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                ref={cityRef}
                                 className={`input-field ${errors.city || editErrors?.city ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's City"
                                 value={formData.shipping_details.city}
@@ -501,7 +479,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <span>State <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                ref={stateRef}
                                 className={`input-field ${errors.state || editErrors?.state ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's State"
                                 value={formData.shipping_details.state}
@@ -515,7 +492,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                             <span>Country  <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                ref={countryRef}
                                 className={`input-field ${errors.country || editErrors?.country ? 'input-field-error' : ''}`}
                                 placeholder="Enter Recipient's State"
                                 value={formData.shipping_details.country}
@@ -565,8 +541,8 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         }
                                     }}
                                 />
+                                {(errors.billing_customer_name || editErrors?.billing_customer_name) && <div className="custom-error">{errors.billing_customer_name || editErrors?.billing_customer_name}</div>}
                             </label>
-                            {(errors.billing_customer_name || editErrors?.billing_customer_name) && <div className="custom-error">{errors.billing_customer_name || editErrors?.billing_customer_name}</div>}
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
@@ -687,10 +663,8 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <span> Pincode<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
-                                    ref={pincodeRef1}
                                     className={`input-field ${errors.billing_pincode || editErrors?.billing_pincode ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's Pincode"
-                                    onBlur={handlePincodeChange1}
                                     value={formData.billing_details.pincode}
                                     onChange={(e) => handleChangeBilling(e, 'pincode')}
                                     maxLength={6}
@@ -708,7 +682,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <span> City<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
-                                    ref={cityRef1}
                                     className={`input-field ${errors.billing_city || editErrors?.billing_city ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's City"
                                     value={formData.billing_details.city}
@@ -723,7 +696,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <span> State<span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
-                                    ref={stateRef1}
                                     className={`input-field ${errors.billing_state || editErrors?.billing_state ? 'input-field-error' : ''}`}
                                     placeholder="Enter Recipient's State"
                                     value={formData.billing_details.state}
