@@ -136,9 +136,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
-        if (!formData.shipping_details.landmark) {
-            newErrors.landmark = 'Landmark is required!';
-        }
+       
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
@@ -180,9 +178,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
-            if (!formData.billing_details.landmark) {
-                newErrors.billing_landmark = 'Landmark is required!';
-            }
+            
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {

@@ -39,6 +39,69 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                 }));
             }
         }
+
+        if (field === "pincode") {
+            if (value.length === 6) {
+                setErrors(prevErrors => {
+                    const { pincode, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+                axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
+                    .then(response => {
+                        if (response?.data[0]?.Message === "No records found") {
+                            setErrors(prevErrors => ({
+                                ...prevErrors,
+                                pincode: "Please enter valid pincode!"
+                            }));
+                        }
+                        if (response.data && response.data.length > 0) {
+                            const data = response.data[0];
+                            const postOffice = data.PostOffice[0];
+                            setFormData(prevState => ({
+                                ...prevState,
+                                shipping_details: {
+                                    ...prevState.shipping_details,
+                                    city: postOffice.District,
+                                    state: postOffice.State,
+                                    country: postOffice.Country,
+                                    landmark: postOffice.District
+                                }
+                            }));
+                            if (isChecked) {
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    billing_details: {
+                                        ...prevState.billing_details,
+                                        city: postOffice.District,
+                                        state: postOffice.State,
+                                        country: postOffice.Country,
+                                        landmark: postOffice.District
+                                    }
+                                }));
+                            }
+                            if (!isChecked) {
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    billing_details: {
+                                        ...prevState.billing_details,
+                                        city: postOffice.District,
+                                        state: postOffice.State,
+                                        country: postOffice.Country
+                                    }
+                                }));
+                            }
+                        }
+                    })
+                    .catch(error => {
+                    });
+
+            } else if (value.length > 0 && value.length !== 6) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    pincode: "Pincode should be 6 digits!"
+                }));
+            }
+        }
     };
 
     const handleChangeBilling = (e, field) => {
@@ -48,8 +111,51 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                 ...prevData.billing_details,
                 [field]: e.target.value,
             }
-        }));
+        })
+        );
+        if (e.target.value.length === 6) {
+            setErrors(prevErrors => {
+                const { billing_pincode, ...restErrors } = prevErrors;
+                return restErrors;
+            });
+        } else if (e.target.value.length > 0 && e.target.value.length !== 6) {
+            setErrors(prevErrors => ({
+                ...prevErrors,
+                billing_pincode: "Pincode should be 6 digits!"
+            }));
+        }
+
+        if (field === "pincode" && e.target.value?.length === 6) {
+            axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
+                .then(response => {
+                    if (response?.data[0]?.Message === "No records found") {
+                        setErrors(prevErrors => ({
+                            ...prevErrors,
+                            billing_pincode: "Please enter valid pincode!"
+                        }));
+                    }
+                    if (response.data && response.data.length > 0) {
+                        const data = response.data[0];
+                        const postOffice = data.PostOffice[0];
+                        if (!isChecked) {
+                            setFormData(prevState => ({
+                                ...prevState,
+                                billing_details: {
+                                    ...prevState.billing_details,
+                                    city: postOffice.District,
+                                    state: postOffice.State,
+                                    country: postOffice.Country
+                                }
+                            }));
+                        }
+                    }
+                })
+                .catch(error => {
+                });
+        }
     };
+
+    
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,
@@ -111,93 +217,6 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
             }));
         }
     };
-
-    const pincodeRef = useRef(null);
-    const cityRef = useRef(null);
-    const stateRef = useRef(null);
-    const countryRef = useRef(null);
-
-    const handlePincodeChange = () => {
-        const pincode = pincodeRef.current.value;
-        if (pincode.length < 6) {
-            toast.error("Please enter a valid 6-digit pincode.")
-            return;
-        }
-
-        axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
-            .then(response => {
-                if (response?.data[0]?.Message === "No records found") {
-                    toast.error("Please enter valid pincode!")
-                }
-                if (response.data && response.data.length > 0) {
-                    const data = response.data[0];
-                    const postOffice = data.PostOffice[0];
-                    setFormData(prevState => ({
-                        ...prevState,
-                        shipping_details: {
-                            ...prevState.shipping_details,
-                            city: postOffice.District,
-                            state: postOffice.State,
-                            country: postOffice.Country,
-                            landmark: postOffice.District
-                        }
-                    }));
-                    if (isChecked) {
-                        setFormData(prevState => ({
-                            ...prevState,
-                            billing_details: {
-                                ...prevState.billing_details,
-                                city: postOffice.District,
-                                state: postOffice.State,
-                                country: postOffice.Country,
-                                landmark: postOffice.District
-                            }
-                        }));
-                    }
-                }
-            })
-            .catch(error => {
-             
-            });
-    };
-
-    const pincodeRef1 = useRef(null);
-    const cityRef1 = useRef(null);
-    const stateRef1 = useRef(null);
-
-    const handlePincodeChange1 = () => {
-        const pincode = pincodeRef1.current.value;
-
-        if (pincode.length < 6) {
-            toast.error("Please enter a valid 6-digit pincode.")
-            return;
-        }
-
-        axios.get(`https://api.postalpincode.in/pincode/${pincode}`)
-            .then(response => {
-                if (response?.data[0]?.Message === "No records found") {
-                    toast.error("Please enter valid pincode!")
-                }
-                if (response.data && response.data.length > 0) {
-                    const data = response.data[0];
-                    const postOffice = data.PostOffice[0];
-                    if (!isChecked) {
-                        setFormData(prevState => ({
-                            ...prevState,
-                            billing_details: {
-                                ...prevState.billing_details,
-                                city: postOffice.District,
-                                state: postOffice.State,
-                                country: postOffice.Country
-                            }
-                        }));
-                    }
-                }
-            })
-            .catch(error => {
-            });
-    };
-
 
     return (
         <div>
@@ -287,10 +306,8 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                             <span>Pincode <span className='mandatory'>*</span></span>
                             <input
                                 type="text"
-                                ref={pincodeRef}
                                 className={`input-field ${errors.pincode && 'input-field-error'}`}
                                 placeholder="Enter Recipient's Pincode"
-                                onBlur={handlePincodeChange}
                                 value={formData.shipping_details.pincode}
                                 onChange={(e) => handleChangeShiping(e, 'pincode')}
                                 maxLength={6}
@@ -376,10 +393,8 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 <span>Pincode <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
-                                    ref={pincodeRef1}
                                     className={`input-field ${errors.billing_pincode && 'input-field-error'}`}
                                     placeholder="Enter Recipient's Pincode"
-                                    onBlur={handlePincodeChange1}
                                     value={formData.billing_details.pincode}
                                     onChange={(e) => handleChangeBilling(e, 'pincode')}
                                     maxLength={6}

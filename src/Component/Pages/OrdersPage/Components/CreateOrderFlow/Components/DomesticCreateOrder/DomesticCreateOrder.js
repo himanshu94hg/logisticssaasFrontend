@@ -19,6 +19,7 @@ const DomesticCreateOrder = () => {
     const [step, setStep] = useState(1);
     const authToken = Cookies.get("access_token")
     const currentDate = new Date();
+    const [isChecked, setIsChecked] = useState(true);
     const [progressBarWidth, setProgressBarWidth] = useState('5%');
 
     const [formData, setFormData] = useState({
@@ -112,7 +113,7 @@ const DomesticCreateOrder = () => {
     };
 
 
-    console.log(formData,"this is a dummy data")
+    console.log(formData,"pppppppppppppppppppppppppppppppp")
 
 
 
@@ -186,6 +187,8 @@ const DomesticCreateOrder = () => {
                         <AddressDetailStep
                             onPrev={handlePrev}
                             onNext={handleNext}
+                            isChecked={isChecked}
+                            setIsChecked={setIsChecked}
                             formData={formData}
                             setFormData={setFormData}
                         />
