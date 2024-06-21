@@ -114,7 +114,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                     }}
                                     placeholder='Enter dead weight' />
                                 <span class="unit">KG</span>
-                                {errors.weight && <span className="custom-error">{errors.weight}</span>}
+                                {errors.weight && <span className="fw-normal custom-error">{errors.weight}</span>}
                             </label>
                             <br />
                             <span className="font12 fw-normal">Dead Weight is physical Weight

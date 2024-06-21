@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import orderIdAction from '../../../../../redux/action/orders/orderId';
+import ErrorIcon from '../EditOrder/ErrorIcon';
 
 const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
     const dispatch = useDispatch()
@@ -136,7 +137,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         if (!formData.shipping_details.address) {
             newErrors.address = 'Address is required!';
         }
-       
+
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
         } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
@@ -151,7 +152,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         if (!formData.shipping_details.country) {
             newErrors.country = 'Country is required!';
         }
-        if (!formData.order_details.invoice_amount){
+        if (!formData.order_details.invoice_amount) {
             newErrors.invoice_amount = 'Invoice amount is required!';
         }
         if (!formData.dimension_details.weight) {
@@ -178,7 +179,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
-            
+
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
@@ -198,7 +199,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             if (!product?.product_name?.trim()) {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
-            if (!product?.quantity){
+            if (!product?.quantity) {
                 newErrors.quantity = 'Product Quantity is required!'
             }
             if (!product?.sku?.trim()) {
@@ -218,14 +219,14 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                     formData: formData
                 }
             })
-            setCloneOrderSection(false) 
+            setCloneOrderSection(false)
         }
-       
+
     };
 
     useEffect(() => {
         if (orderId && CloneOrderSection) {
-            if(CloneOrderSection === false){
+            if (CloneOrderSection === false) {
                 dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
                 dispatch(orderIdAction(orderId))
             }
@@ -307,8 +308,12 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
         }
     }, [orderDetailsData])
 
-
-
+    const checkValuePresence = (obj, valueToCheck) => {
+        return Object.values(obj).includes(valueToCheck);
+    };
+    const pname_err = checkValuePresence(editErrors, "Product Name is required!");
+    const qty_err = checkValuePresence(editErrors, "Product Quantity is required!");
+    const sku_err = checkValuePresence(editErrors, "SKU is required!");
 
 
     return (
@@ -325,13 +330,33 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                 </section>
                 <section className='edit-order-body'>
                     <section className='navigation-side'>
+
                         <ul>
-                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details</li>
-                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details</li>
-                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details</li>
-                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details</li>
-                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details</li>
+                            <li onClick={() => setActiveSection("Order Details")} className={activeSection === "Order Details" ? "active" : ""}>Order Details
+                                {(editErrors?.hasOwnProperty("customer_order_number") || editErrors?.hasOwnProperty("order_type") || editErrors?.hasOwnProperty("payment_type")) && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Shipping Details")} className={activeSection === "Shipping Details" ? "active" : ""}>Shipping Details
+                                {(
+                                    editErrors?.hasOwnProperty("address") || editErrors?.hasOwnProperty("city") || editErrors?.hasOwnProperty("state") || editErrors?.hasOwnProperty("country") ||
+                                    editErrors?.hasOwnProperty("recipient_name") || editErrors?.hasOwnProperty("mobile_number") || editErrors?.hasOwnProperty("pincode") || editErrors?.hasOwnProperty("billing_address") ||
+                                    editErrors?.hasOwnProperty("billing_city") || editErrors?.hasOwnProperty("billing_country") || editErrors?.hasOwnProperty("billing_customer_name") ||
+                                    editErrors?.hasOwnProperty("billing_mobile_number") || editErrors?.hasOwnProperty("billing_pincode") || editErrors?.hasOwnProperty("billing_state")
+                                )
+                                    && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details
+                                {(pname_err || qty_err || sku_err) && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details
+                                {(
+                                    editErrors?.hasOwnProperty("invoice_amount") || editErrors?.hasOwnProperty("height") || editErrors?.hasOwnProperty("breadth") ||
+                                    editErrors?.hasOwnProperty("length") || editErrors?.hasOwnProperty("weight")
+                                ) && <ErrorIcon />}
+                            </li>
+                            <li onClick={() => setActiveSection("Warehouse Details")} className={activeSection === "Warehouse Details" ? "active" : ""}>Warehouse Details
+                            </li>
                         </ul>
+
                     </section>
                     <section className='details-side'>
                         <section className='details-component'>
@@ -393,7 +418,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}
                                         setWareHouseName={setWareHouseName}
-                                      
+
                                     />
                                 </div>
                             )}

@@ -19,7 +19,6 @@ const OrderDetail = () => {
     let authToken = Cookies.get("access_token")
     const [orderDetails, setOrderDetails] = useState({})
 
-    console.log(params, "navigatenavigate")
 
     useEffect(() => {
         if (params?.slug && location && location?.state?.path != "searchOrderData") {
