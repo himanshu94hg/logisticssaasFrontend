@@ -6,7 +6,7 @@
     /* right: 2%; */
     width: fit-content;
     height: auto;
-    z-index: 11;
+    z-index: 6;
     transition: 0.5s;
     display: flex;
     align-items: center;

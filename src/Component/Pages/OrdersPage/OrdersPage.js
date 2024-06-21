@@ -31,8 +31,8 @@ import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const SearchOptions = [
-    { value: 'awb_number', label: 'AWB' },
     { value: 'customer_order_number', label: 'Order ID' },
+    { value: 'awb_number', label: 'AWB' },
     { value: 'shipping_detail__mobile_number', label: 'Mobile' },
     { value: 'shipping_detail__email', label: 'Email' },
     { value: 'shipping_detail__recipient_name', label: 'Name' },
@@ -112,11 +112,11 @@ const OrdersPage = () => {
     }, [activeTab])
 
     useEffect(() => {
-        if (itemsPerPage||MoreFilters) {
+        if (itemsPerPage || MoreFilters) {
             setBulkActionShow(false)
             setSelectedRows([])
         }
-    }, [itemsPerPage,MoreFilters])
+    }, [itemsPerPage, MoreFilters])
 
     useEffect(() => {
         if (favListData) {
@@ -309,7 +309,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp),pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
+    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {
