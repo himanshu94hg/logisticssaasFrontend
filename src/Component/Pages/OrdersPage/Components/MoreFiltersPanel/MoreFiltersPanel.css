@@ -39,6 +39,7 @@
     flex-direction: column;
     gap: 15px;
     overflow-y: auto;
+    padding-right: 10px;
 }
 
 .filter-row {
@@ -211,3 +212,17 @@
 .morefilters-panel .react-datepicker__month-year-dropdown-container--scroll {
     margin-inline: 0 15px;
 }
+
+/* 
+.morefilters-panel ::-webkit-scrollbar {
+    width: 2px;
+}
+
+.morefilters-panel ::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.morefilters-panel ::-webkit-scrollbar-thumb {
+    background: var(--sh-primary-light);
+    border-radius: 6px;
+} */

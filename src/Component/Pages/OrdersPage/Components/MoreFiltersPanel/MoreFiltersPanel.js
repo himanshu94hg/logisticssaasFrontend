@@ -316,6 +316,14 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [courierPartnerData])
 
+    const customStyles = {
+        menuList: (provided) => ({
+            ...provided,
+            maxHeight: '150px',
+            overflowY: 'auto',
+        }),
+    };
+
     return (
         <>
             <div id='sidePanel' className={`side-panel morefilters-panel ${MoreFilters ? 'open' : ''}`}>
@@ -385,6 +393,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         onChange={(e) => handleChange("status", e)}
                                         value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                        styles={customStyles}
                                     />
                                 </label>
                             </div>
@@ -395,6 +404,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("order_source", e)}
                                         isMulti
                                         isSearchable
+                                        styles={customStyles}
                                         value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
@@ -406,6 +416,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("courier_partner", e)}
                                         isMulti
                                         isSearchable
+                                        styles={customStyles}
                                         value={courierPartners?.value}
                                     />
                                 </label>
@@ -440,6 +451,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         options={pickupAddresses}
                                         onChange={(e) => handleChange("pickup_address", e)}
+                                        styles={customStyles}
                                         value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
                                     />
                                 </label>
@@ -451,6 +463,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
+                                        styles={customStyles}
                                         value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null} />
                                 </label>
                             </div>
