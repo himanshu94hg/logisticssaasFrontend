@@ -374,7 +374,7 @@ const OrdersPage = () => {
                                         e.preventDefault();
                                     }
                                 }}
-                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
                                 className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`}
                             />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>

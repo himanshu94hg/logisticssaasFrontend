@@ -304,7 +304,7 @@ const MoreOnOrders = () => {
                                         e.preventDefault();
                                     }
                                 }}
-                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID"
+                                placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
                             />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
@@ -352,12 +352,12 @@ const MoreOnOrders = () => {
 
                 {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
-                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus}/>
+                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus} />
                 </div>
 
                 {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
-                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus}/>
+                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus} />
                 </div>
 
                 <Pagination
@@ -390,7 +390,7 @@ const MoreOnOrders = () => {
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
-            <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
+            <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
 
         </>
     )

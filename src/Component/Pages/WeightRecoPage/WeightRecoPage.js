@@ -196,7 +196,7 @@ const WeightRecoPage = () => {
                                 onChange={handleChange}
                                 options={SearchOptions}
                             />
-                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU | Pickup ID" onChange={(e) => setSearchValue(e.target.value)} />
+                            <input className='input-field' type="search" value={searchValue} placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU" onChange={(e) => setSearchValue(e.target.value)} />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
