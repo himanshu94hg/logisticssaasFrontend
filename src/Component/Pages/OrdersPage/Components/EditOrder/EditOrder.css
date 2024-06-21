@@ -75,6 +75,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 51px;
 }
 
 .edit-order-body .navigation-side ul li.active {
