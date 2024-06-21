@@ -380,6 +380,29 @@
     font-size: 0.8rem;
 }
 
+.inputs-container .css-b62m3t-container {
+    width: 100%;
+    max-height: 36px;
+}
+
+.inputs-container .css-b62m3t-container:focus-visible {
+    outline: none;
+}
+
+.inputs-container .css-13cymwt-control,
+.inputs-container .css-13cymwt-control:hover,
+.inputs-container.css-t3ipsp-control,
+.inputs-container .css-t3ipsp-control:hover {
+    border-color: var(--sh-primary-middle);
+    border-radius: 0.5rem;
+    box-shadow: none;
+}
+
+.inputs-container .css-13cymwt-control {
+    height: 36px;
+    min-height: unset;
+}
+
 /* 
 .create-order-flow-container label {
     position: relative;

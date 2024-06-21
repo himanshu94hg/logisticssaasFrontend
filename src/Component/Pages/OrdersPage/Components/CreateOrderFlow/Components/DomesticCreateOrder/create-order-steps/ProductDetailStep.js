@@ -192,7 +192,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     />
                                 </label>
                                 {/* Quantity */}
-                                <label className='col'>
+                                <label className='col' style={{ height: 'fit-content' }}>
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
                                         className={`input-field ${(errors[`quantity_${index}`] || editErrors?.quantity) ? 'input-field-error' : ''}`}

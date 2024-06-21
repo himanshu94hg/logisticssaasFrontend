@@ -235,6 +235,14 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
 
     console.log(tagData, "this is a tag data")
 
+    const customStyles = {
+        menuList: (provided) => ({
+            ...provided,
+            maxHeight: '150px',
+            overflowY: 'auto',
+        }),
+    };
+
     return (
         <>
             {/* Order Details Section */}
@@ -332,11 +340,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                                 options={orderTag}
                                 onChange={(selectedOptions) => handleChange(selectedOptions, 'order_tag')}
                                 value={orderTag.filter(tag => formData.order_details.order_tag?.includes(tag.value))}
-                                styles={{
-                                    control: styles => ({ ...styles, width: "325px" })
-                                }}
+                                styles={customStyles}
+                                placeholder="Select your tag(s)"
                             />
-
                         </label>
                         <label className='col'>
                             Reseller Name

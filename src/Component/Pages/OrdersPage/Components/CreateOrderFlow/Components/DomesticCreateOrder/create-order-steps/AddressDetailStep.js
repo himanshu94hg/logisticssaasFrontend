@@ -150,7 +150,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }
         }
     };
-    
+
 
     const handleChangeBilling = (e, field) => {
         setFormData(prevData => ({
@@ -183,7 +183,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }));
     };
 
- 
+
     const handleCheckboxChange = () => {
         const updatedIsChecked = !isChecked;
         setIsChecked(updatedIsChecked);
@@ -565,8 +565,8 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                         }
                                     }}
                                 />
+                                {(errors.billing_customer_name || editErrors?.billing_customer_name) && <div className="custom-error">{errors.billing_customer_name || editErrors?.billing_customer_name}</div>}
                             </label>
-                            {(errors.billing_customer_name || editErrors?.billing_customer_name) && <div className="custom-error">{errors.billing_customer_name || editErrors?.billing_customer_name}</div>}
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
