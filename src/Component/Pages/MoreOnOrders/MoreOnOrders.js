@@ -387,6 +387,9 @@ const MoreOnOrders = () => {
                 handleResetFrom={handleResetFrom}
                 setHandleResetFrom={setHandleResetFrom}
             />
+            <div onClick={CloseSidePanel} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
+
+
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
