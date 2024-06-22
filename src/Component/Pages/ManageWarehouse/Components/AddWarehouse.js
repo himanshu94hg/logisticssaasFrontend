@@ -191,10 +191,10 @@ const AddWarehouse = () => {
     const handlePincodeChange = async () => {
         const pincode = pincodeRef.current.value;
 
-        if (pincode.length < 6) {
-            toast.error("Please enter a valid 6-digit pincode.")
-            return;
-        }
+        // if (pincode.length < 6) {
+        //     toast.error("Please enter a valid 6-digit pincode.")
+        //     return;
+        // }
 
         try {
             const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
@@ -208,17 +208,17 @@ const AddWarehouse = () => {
                 toast.error("No data found for the given pincode.")
             }
         } catch (error) {
-            toast.error("Please enter a valid 6-digit pincode.")
+            // toast.error("Please enter a valid 6-digit pincode.")
         }
     };
 
     const handlePincodeChange1 = async () => {
         const pincode = pincodeRef1.current.value;
 
-        if (pincode.length < 6) {
-            toast.error("Please enter a valid 6-digit pincode.")
-            return;
-        }
+        // if (pincode.length < 6) {
+        //     toast.error("Please enter a valid 6-digit pincode.")
+        //     return;
+        // }
 
         try {
             const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
@@ -232,7 +232,7 @@ const AddWarehouse = () => {
                 toast.error("No data found for the given pincode.")
             }
         } catch (error) {
-            toast.error("Please enter a valid 6-digit pincode.")
+            // toast.error("Please enter a valid 6-digit pincode.")
 
         }
     };
