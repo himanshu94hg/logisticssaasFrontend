@@ -23,36 +23,62 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
 
     const handleChangeOrder = (e, field) => {
         const value = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            order_details: {
-                ...prevData.order_details,
-                [field]: value
-            }
-        }));
+        const regex = /^\d*\.?\d{0,2}$/;
+        if (regex.test(value) || value === '') {
+            setFormData(prevData => ({
+                ...prevData,
+                order_details: {
+                    ...prevData.order_details,
+                    [field]: value
+                }
+            }));
+        }
     };
 
     const handleChangeCharge = (e, field) => {
         const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            charge_details: {
-                ...prevData.charge_details,
-                [field]: charge
-            }
-        }));
+        const regex = /^\d*\.?\d{0,2}$/;
+        if (regex.test(charge) || charge === '') {
+            setFormData(prevData => ({
+                ...prevData,
+                charge_details: {
+                    ...prevData.charge_details,
+                    [field]: charge
+                }
+            }));
+        }
     };
 
     const handleChangeDimension = (e, field) => {
         const charge = e.target.value.trim();
-        setFormData(prevData => ({
-            ...prevData,
-            dimension_details: {
-                ...prevData.dimension_details,
-                [field]: charge,
-                vol_weight: vol_data.toFixed(2)
+        const regex = /^\d*\.?\d{0,2}$/;
+
+            if (regex.test(charge) || charge === '') {
+            if (field === 'weight' && charge.includes('.')) {
+                const parts = charge.split('.');
+                if (parts[1].length > 2) {
+                    charge = `${parts[0]}.${parts[1].slice(0, 2)}`;
+                }
             }
-        }));
+            if (field === 'weight') {
+                setFormData(prevData => ({
+                    ...prevData,
+                    dimension_details: {
+                        ...prevData.dimension_details,
+                        [field]: charge
+                    }
+                }));
+            }
+            else {
+                setFormData(prevData => ({
+                    ...prevData,
+                    dimension_details: {
+                        ...prevData.dimension_details,
+                        [field]: charge
+                    }
+                }));
+            }
+        }
     };
 
     console.log(vol_data, "this is vol_data")
@@ -71,7 +97,8 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
                                 type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    const allowedCharacters = /^[0-9\b.]+$/;
+                                    if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
                                     }
                                 }}
@@ -87,13 +114,12 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                                 className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
-                                    if (!/\d/.test(e.key)) {
+                                    if (!/[\d.]/.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                         e.preventDefault();
                                     }
                                 }}
                                 placeholder='Enter COD charges'
                             />
-                            {/*formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>*/}
                         </label>
                     </div>
                     <div className='mt-3'>
