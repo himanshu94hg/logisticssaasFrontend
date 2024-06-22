@@ -339,7 +339,12 @@ const QuickCreateOrder = () => {
     }, [])
 
 
-    console.log(formData,"formDataformDataformDataformData")
+    console.log(formData, "formDataformDataformDataformData")
+
+    const [Exitpop, setExitpop] = useState(false)
+    const handleBackdropExit = () => {
+        setExitpop(true)
+    }
 
 
     return (
@@ -401,7 +406,9 @@ const QuickCreateOrder = () => {
                     <button className='btn main-button ms-3' onClick={handleFormSubmit}>Quick Ship</button>
                 </div> */}
             </div>
-            <SingleShipPop orderId={selectedOrderId} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
+            <SingleShipPop orderId={selectedOrderId} Exitpop={Exitpop} setExitpop={setExitpop} setSingleShip={setSingleShip} SingleShip={SingleShip} shipingResponse={shipingResponse} setDataRefresh={setDataRefresh} />
+            <div onClick={handleBackdropExit} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
+            <div style={{ zIndex: '7' }} className={`backdrop ${!Exitpop && 'd-none'}`}></div>
         </div>
     );
 };

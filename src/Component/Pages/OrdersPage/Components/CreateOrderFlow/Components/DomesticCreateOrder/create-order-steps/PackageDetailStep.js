@@ -181,14 +181,12 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 className='input-field'
                                 type="text" value={formData.charge_details.cod_charges} onChange={(e) => handleChangeCharge(e, 'cod_charges')}
                                 onKeyPress={(e) => {
-                                    // Allow digits and one decimal point
                                     if (!/[\d.]/.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                         e.preventDefault();
                                     }
                                 }}
                                 placeholder='Enter COD charges'
                             />
-                            {/* {formData.order_details.payment_type === "COD" && errors.cod_charges && <span className="custom-error">{errors.cod_charges}</span>} */}
                         </label>
                     </div>
                     <hr />
