@@ -174,7 +174,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         setExportButtonClick(true);
         const requestData = {
             order_tab: {
-                type: activeTab === "All" ? "" : activeTab,
+                type: "Orders",
                 subtype: ""
             },
             order_id: `${selectedRows.join(',')}`,
