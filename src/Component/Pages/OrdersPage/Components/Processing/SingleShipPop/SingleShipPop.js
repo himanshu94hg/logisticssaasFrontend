@@ -18,12 +18,11 @@ import { useSelector } from 'react-redux';
 import Swal from 'sweetalert2';
 
 
-const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId,setDataRefresh }) => {
+const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
-    const [Exitpop, setExitpop] = useState(false)
 
     const handleClick = (param1, param2) => {
         axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${param2}/?courier_partner=${param1}`, {
@@ -65,11 +64,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId,set
             });
         }
     };
-
-
-    const handleBackdropExit = () => {
-        setExitpop(true)
-    }
 
     const handleDeleteOrder = () => {
         dispatch({ type: "DELETE_ORDERS_ACTION", payload: orderId })
@@ -149,7 +143,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId,set
                     ))}
                 </div>
             </section>
-            <div onClick={handleBackdropExit} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
+            {/* <div onClick={handleBackdropExit} className={`backdrop ${!SingleShip && 'd-none'}`}></div> */}
 
             <section className={`quick-ship-exit ${Exitpop && 'open'}`}>
                 <div className='confirmation-header'>
@@ -166,7 +160,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId,set
                     </div>
                 </div>
             </section>
-            <div style={{ zIndex: '7' }} className={`backdrop ${!Exitpop && 'd-none'}`}></div>
         </>
     );
 }
