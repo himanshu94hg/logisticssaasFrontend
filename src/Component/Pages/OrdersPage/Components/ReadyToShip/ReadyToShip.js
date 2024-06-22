@@ -39,7 +39,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo,orderStatus }) => {
+const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -64,10 +64,10 @@ const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb,
         }
     }, [orderdelete])
     useEffect(() => {
-        if (activeTab||MoreFilters) {
+        if (activeTab || MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab,MoreFilters])
+    }, [activeTab, MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {
@@ -514,6 +514,7 @@ const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb,
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
+                <div className={`backdrop ${!SingleShip && 'd-none'}`}></div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
                 <Modal
                     show={show}
@@ -531,7 +532,7 @@ const ReadyToShip = ({ setOrderTracking, orders,MoreFilters, activeTab, bulkAwb,
                     </Modal.Footer>
                 </Modal>
             </div>
-        </section >
+        </section>
     );
 };
 
