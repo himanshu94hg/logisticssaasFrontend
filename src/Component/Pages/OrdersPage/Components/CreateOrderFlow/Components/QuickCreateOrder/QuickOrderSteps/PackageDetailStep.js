@@ -81,7 +81,16 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
         }
     };
 
-    console.log(vol_data, "this is vol_data")
+    useEffect(() => {
+        setFormData(prevData => ({
+            ...prevData,
+            dimension_details: {
+                ...prevData.dimension_details,
+                vol_weight: vol_data.toFixed(2)
+            }
+        }));
+    }, [vol_data])
+
 
     return (
         <div>

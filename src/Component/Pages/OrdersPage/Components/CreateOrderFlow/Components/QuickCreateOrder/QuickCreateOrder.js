@@ -337,7 +337,7 @@ const QuickCreateOrder = (activeTab) => {
         setExitpop(true)
     }
 
-
+console.log(formData,"this is a from data")
     return (
         <div className="stepper-form-container">
             <div className='w-100'>
