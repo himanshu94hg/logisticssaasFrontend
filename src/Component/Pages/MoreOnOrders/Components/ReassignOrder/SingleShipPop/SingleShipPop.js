@@ -42,8 +42,6 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
               `,
             });
         }
-
-
     };
 
     useEffect(() => {

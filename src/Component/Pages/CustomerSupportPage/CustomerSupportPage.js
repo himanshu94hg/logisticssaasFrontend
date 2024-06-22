@@ -38,6 +38,8 @@ const CustomerSupportPage = () => {
   const [clearTicket, setClearTicket] = useState(false)
   const [queryParamTemp, setQueryParamTemp] = useState({})
   const popRef = useRef(null);
+  const [categoryStatus, setCategoryStatus] = useState(false);
+
 
   const authToken = Cookies.get("access_token")
   const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
@@ -286,7 +288,7 @@ const CustomerSupportPage = () => {
           setSearchValue={setSearchValue}
           handleSearch={handleSearch}
           errors={errors}
-
+          setCategoryStatus={setCategoryStatus}
           setClearTicket={setClearTicket}
           handleReset={handleReset}
         />
@@ -328,7 +330,7 @@ const CustomerSupportPage = () => {
           <h2 className='mb-0'>Create a new Ticket!</h2>
         </section>
         <section className='ticket-slider-body'>
-          <CreateTicketForm setNewTicket={setNewTicket} NewTicket={NewTicket} setStatus={setStatus} status={status} />
+          <CreateTicketForm setNewTicket={setNewTicket} NewTicket={NewTicket} setStatus={setStatus} status={status} categoryStatus={categoryStatus} setCategoryStatus={setCategoryStatus} />
         </section>
       </div>
       <div className={`ticket-slider ${ViewTicketInfo ? 'open' : ''}`}>

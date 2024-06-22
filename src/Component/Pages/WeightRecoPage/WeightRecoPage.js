@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import './WeightRecoPage.css';
 import moment from 'moment';
@@ -16,6 +16,7 @@ import { RxReset } from "react-icons/rx";
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import { debounce } from 'lodash';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -150,7 +151,7 @@ const WeightRecoPage = () => {
         }
     }, [activeTab])
 
-    const handleReset = () => {
+    const handleClick = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         if (activeTab === "Weight Reconciliation") {
@@ -160,6 +161,14 @@ const WeightRecoPage = () => {
         } else if (activeTab === "On Hold Reconciliation") {
             dispatch({ type: "HOLD_ACTION", payload: { "itemsPerPage": itemsPerPage, "currentPage": currentPage } });
         }
+    }
+
+    const debouncedHandleClick = useCallback(
+        debounce((param) => handleClick(param), 1000),
+        []
+      );
+      const handleReset = () => {
+        debouncedHandleClick();
     }
 
     const handleQueryfilter = (value) => {

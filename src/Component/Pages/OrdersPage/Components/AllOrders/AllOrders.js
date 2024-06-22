@@ -125,42 +125,10 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
             }
         });
         setGenaratelabel(true)
-        // const data = await response.blob();
-        // const url = window.URL.createObjectURL(data);
-        // const a = document.createElement('a');
-        // a.style.display = 'none';
-        // a.href = url;
-        // a.download = 'label.pdf';
-        // document.body.appendChild(a);
-        // a.click();
-        // window.URL.revokeObjectURL(url);
-        // } catch (error) {
-        // }
+
     };
 
     const handleDownloadInvoice = async (orderId) => {
-        // try {
-        //     const response = await fetch(`https://dev.shipease.in/core-api/shipping/generate-invoice/${orderId}/`, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //         },
-        //     });
-        //     if (!response.ok) {
-        //         throw new Error('Something went wrong');
-        //     }
-
-        //     const data = await response.blob();
-        //     const url = window.URL.createObjectURL(data);
-        //     const a = document.createElement('a');
-        //     a.style.display = 'none';
-        //     a.href = url;
-        //     a.download = 'label.pdf';
-        //     document.body.appendChild(a);
-        //     a.click();
-        //     window.URL.revokeObjectURL(url);
-        // } catch (error) {
-        // }
         dispatch({
             type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
                 order_ids: `${orderId}`

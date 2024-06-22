@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import Cookies from "js-cookie"
 
-export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, editErrors, tagData }) => {
+export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, editStatus, editErrors, tagData }) => {
     const dispatch = useDispatch()
     const location = useLocation();
     const [errors, setErrors] = useState({});
@@ -53,7 +53,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }
     }, [location, pathName, editStatus, formData]);
 
-    console.log(location.pathname, "this is a pathname daata")
 
     useEffect(() => {
         if (formData.order_details.order_type === "Reverse") {
@@ -233,8 +232,6 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }
     }
 
-    console.log(tagData, "this is a tag data")
-
     const customStyles = {
         menuList: (provided) => ({
             ...provided,
@@ -243,6 +240,11 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
         }),
     };
 
+    useEffect(() => {
+        if (activeTab) {
+            setErrors({})
+        }
+    }, [activeTab])
     return (
         <>
             {/* Order Details Section */}
@@ -318,6 +320,9 @@ export const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, ed
                             >
                                 <option value="">Select Order Channel</option>
                                 <option value="custom">Custom</option>
+                                <option value="amazon">Amazon</option>
+                                <option value="shopify">Shopify</option>
+                                <option value="woocommerce">WooCommerce</option>
                             </select>
                             {/*   {(errors.channel || editErrors?.channel) && <div className="custom-error">{errors.channel || editErrors?.channel}</div>}*/}
                         </label>

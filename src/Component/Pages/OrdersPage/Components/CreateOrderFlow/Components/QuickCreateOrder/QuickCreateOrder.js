@@ -20,7 +20,7 @@ import SingleShipPop from '../../../Processing/SingleShipPop/SingleShipPop';
 import { BASE_URL_CORE, BASE_URL_ORDER } from '../../../../../../../axios/config';
 
 
-const QuickCreateOrder = () => {
+const QuickCreateOrder = (activeTab) => {
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
@@ -32,6 +32,7 @@ const QuickCreateOrder = () => {
     const [SingleShip, setSingleShip] = useState(false)
     const [shipingResponse, setShipingResponse] = useState(null);
     const [dataRefresh, setDataRefresh] = useState(null)
+    const [Exitpop, setExitpop] = useState(false)
 
 
     const [formData, setFormData] = useState({
@@ -108,7 +109,7 @@ const QuickCreateOrder = () => {
     })
 
     useEffect(() => {
-        if (dataRefresh) {
+        if (dataRefresh || activeTab) {
             setFormData({
                 order_details: {
                     customer_order_number: '',
@@ -183,7 +184,8 @@ const QuickCreateOrder = () => {
             })
         }
         setIsChecked(true)
-    }, [dataRefresh])
+        setErrors({})
+    }, [dataRefresh,activeTab])
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -301,9 +303,6 @@ const QuickCreateOrder = () => {
                 });
                 if (response !== null) {
                     if (response.status === 201) {
-                        const responseData = response.data;
-                        // toast.success("Order Created successfully!")
-                        // navigation('/Orders');
                         setSelectedOrderId(response?.data?.id)
                     } else {
                         toast.error("Something went wrong!")
@@ -334,14 +333,6 @@ const QuickCreateOrder = () => {
         }
     }, [selectedOrderId]);
 
-    useEffect(() => {
-        setIsChecked(true)
-    }, [])
-
-
-    console.log(formData, "formDataformDataformDataformData")
-
-    const [Exitpop, setExitpop] = useState(false)
     const handleBackdropExit = () => {
         setExitpop(true)
     }

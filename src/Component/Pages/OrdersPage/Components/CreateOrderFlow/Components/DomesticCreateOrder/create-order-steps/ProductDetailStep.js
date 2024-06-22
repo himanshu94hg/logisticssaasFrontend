@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
-export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
+export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormData, editErrors, seteditErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
     const [errors, setErrors] = useState({});
     
@@ -127,7 +127,12 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             handleChange(e, 'tax_rate', index);
         }
     };
-
+    
+    useEffect(() => {
+        if (activeTab) {
+            setErrors({})
+        }
+    }, [activeTab])
     return (
         <div>
             <div className='box-shadow shadow-sm p10 w-100 form-box-h'>

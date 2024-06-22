@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 
 
-export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
+export const PackageDetailStep = ({ onPrev, onNext,activeTab, formData, setFormData, editErrors, seteditErrors }) => {
     const [errors, setErrors] = useState({});
 
     const handleValidation = () => {
-        const { cod_charges } = formData?.charge_details;
         const { invoice_amount, } = formData?.order_details;
         const { weight, length, breadth, height } = formData?.dimension_details;
 
@@ -17,11 +16,6 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             errorsObj.invoice_amount = "Invoice Amount is required!";
 
         }
-        // if (formData.order_details.payment_type === "COD") {
-        //     if (!cod_charges) {
-        //         errorsObj.cod_charges = "COD Charges is required!";
-        //     }
-        // }
         if (weight <= 0) {
             errorsObj.weight = "Dead Weight should be greater than 0!";
         }
@@ -149,6 +143,11 @@ export const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }
     }, [vol_data, chargedWeight]);
 
+    useEffect(() => {
+        if (activeTab) {
+            setErrors({})
+        }
+    }, [activeTab])
 
     return (
         <div>

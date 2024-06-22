@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   Navbar,
   Nav
@@ -10,6 +10,7 @@ import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { RiFilterLine } from "react-icons/ri";
 import { RxReset } from "react-icons/rx";
 import globalDebouncedClick from "../../../../../debounce";
+import { debounce } from "lodash";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -25,11 +26,19 @@ export default function NavTabs(props) {
     setIsOpen(!isOpen);
   };
 
-  const handlereset = () => {
+  const handleClick = () => {
     props.setSearchValue('')
     props.setClearTicket(true)
     props.handleReset();
   }
+
+  const debouncedHandleClick = useCallback(
+    debounce((param) => handleClick(param), 1000),
+    []
+  );
+  const handlereset = () => {
+    debouncedHandleClick();
+}
 
   return (
     <Navbar
@@ -112,7 +121,7 @@ export default function NavTabs(props) {
         </button>
         <button className='btn main-button-outline' onClick={() => handlereset()}><RxReset className='align-text-bottom' /> Reset</button>
         <button
-          onClick={() => props.setNewTicket(!props.NewTicket)}
+          onClick={() =>{ props.setNewTicket(!props.NewTicket); props.setCategoryStatus(true)}}
           className="btn main-button">
           <FontAwesomeIcon icon={faPlus} /> New Ticket
         </button>

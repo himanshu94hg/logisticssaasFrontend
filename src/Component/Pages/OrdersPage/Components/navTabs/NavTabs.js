@@ -1,7 +1,7 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
@@ -11,6 +11,7 @@ import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-
 import { AiOutlineImport } from "react-icons/ai";
 import { IoMdSync } from "react-icons/io";
 import { BASE_URL_CORE } from "../../../../../axios/config";
+import { debounce } from "lodash";
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -19,15 +20,23 @@ export default function NavTabs(props) {
   const [isOpen, setIsOpen] = useState(false);
   const sellerData = Cookies.get("user_id");
 
-  const handleSubmit = () => {
+  const handleClick = () => {
     const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
       .then((response) => {
-        toast.success('Order Fetch Successfully');
+        toast.error('No channel integrated right now!');
       }).catch((error) => {
         toast.error('Order Fetch Failed!');
       });
     console.log("Data", response);
   };
+
+  const debouncedHandleClick = useCallback(
+    debounce((param) => handleClick(param), 1000),
+    []
+  );
+  const handleSubmit = () => {
+    debouncedHandleClick();
+}
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);

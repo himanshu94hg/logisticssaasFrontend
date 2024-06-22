@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import './MoreOnOrders.css'
 import { useDispatch, useSelector } from 'react-redux';
@@ -22,6 +22,7 @@ import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import { debounce } from 'lodash';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -225,7 +226,10 @@ const MoreOnOrders = () => {
         }
     }, [activeTab])
 
-    const handleReset = () => {
+
+
+
+    const handleClick = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setQueryParamTemp({})
@@ -242,6 +246,15 @@ const MoreOnOrders = () => {
                 customErrorFunction(error)
             });
     }
+
+    const debouncedHandleClick = useCallback(
+        debounce((param) => handleClick(param), 1000),
+        []
+      );
+      const handleReset = () => {
+        debouncedHandleClick();
+    }
+
 
     const handleQueryfilter = (value) => {
         // setSearchValue("")
