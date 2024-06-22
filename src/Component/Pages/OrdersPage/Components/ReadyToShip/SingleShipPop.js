@@ -51,13 +51,13 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p10 align-items-center'>
-                <h4 className='mb-0'>Choose Shipping Partner</h4>
+                {/* <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
                     onClick={handleClose}
                     className='btn close-button'
                 >
                     <FontAwesomeIcon icon={faTimes} />
-                </button>
+                </button> */}
             </div>
             <div className='ss-container-main'>
                 {/* Iterate over ship options and render details */}
