@@ -209,7 +209,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportCard, exportButtonClick, activeTab]);
+    }, [exportCard]);
 
     const handelBulkShip = () => {
         setShipButtonClicked(true);
