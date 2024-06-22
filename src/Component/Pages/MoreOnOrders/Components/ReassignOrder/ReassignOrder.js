@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import moment from 'moment';
@@ -189,6 +184,11 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
 
     const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
+    const handleBackdropClick = () => {
+        setBackDrop(false)
+        setSingleShip(false)
+    }
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -355,12 +355,11 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SidePanel CloseSidePanel={CloseSidePanel} />
-                <div className={`backdrop ${backDrop || SingleShip ? 'd-block' : 'd-none'}`}></div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
+                <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
 
             </div>
-        </section >
+        </section>
     );
 };
 
