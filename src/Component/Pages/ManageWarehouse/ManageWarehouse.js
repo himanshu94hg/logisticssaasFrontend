@@ -267,6 +267,11 @@ const ManageWarehouse = () => {
     }
   };
 
+  const handleReset = () => {
+    setSearchQuery('');
+    setInitialData(boxes); // Reset to initial data
+  };
+
   return (
     <>
       <div className="position-relative manage-warehouse">
@@ -284,6 +289,11 @@ const ManageWarehouse = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </label>
+          </div>
+          <div className='button-container '>
+            <button className='btn main-button-outline' onClick={handleReset} style={{marginRight:'300px'}}>
+                Reset
+              </button>
           </div>
           <div className='button-container'>
             <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>
