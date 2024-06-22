@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
 import './OrdersPage.css'
 import Unprocessable from './Components/Unprocessable/Unprocessable';
@@ -29,6 +29,7 @@ import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import { debounce } from 'lodash';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -93,6 +94,7 @@ const OrdersPage = () => {
 
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
+    const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
@@ -237,7 +239,7 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-    const handleReset = () => {
+    const handleClick = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setItemsPerPage(20)
@@ -254,6 +256,14 @@ const OrdersPage = () => {
             .catch(error => {
                 customErrorFunction(error)
             });
+    }
+    const debouncedHandleClick = useCallback(
+        debounce((param) => handleClick(param), 1000),
+        []
+      );
+
+    const handleReset = () => {
+        debouncedHandleClick();
     }
 
     useEffect(() => {
@@ -309,7 +319,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab]);
+    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab,moreorderShipCardStatus]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {

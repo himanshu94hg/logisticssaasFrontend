@@ -50,7 +50,7 @@ const CreateTicketForm = (props) => {
   const [allSubCatagry, setAllSubCatagry] = useState([]);
   const [selectFile, setSelectFile] = useState(false);
   const [fileObj, setFileObj] = useState(null);
-  const [categoryStatus, setCategoryStatus] = useState(false);
+  // const [categoryStatus, setCategoryStatus] = useState(false);
   const [awbStatus, setAwbStatus] = useState(false);
   const [awbErrorMessage, setAwbErrorMessage] = useState("");
 
@@ -88,20 +88,24 @@ const CreateTicketForm = (props) => {
   }));
 
   useEffect(() => {
-    axios
-      .get(`${BASE_URL_CORE}/core-api/features/ticket-category/`, {
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      })
-      .then(response => {
-        setAllCatagery(response.data);
-        setCategoryStatus(false);
-      })
-      .catch(error => {
-        customErrorFunction(error);
-      });
-  }, [categoryStatus]);
+    if (props.categoryStatus) {
+      axios
+        .get(`${BASE_URL_CORE}/core-api/features/ticket-category/`, {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+          },
+        })
+        .then(response => {
+          setAllCatagery(response.data);
+          props.setCategoryStatus(false);
+        })
+        .catch(error => {
+          customErrorFunction(error);
+        });
+    }
+  }, [props.categoryStatus]);
+
+  console.log(props.categoryStatus, "categoryStatuscategoryStatus")
 
   useEffect(() => {
     if (ticketData.category) {
@@ -150,7 +154,7 @@ const CreateTicketForm = (props) => {
             setSelectFile(false);
             setFileObj(null);
             setAllCatagery([]);
-            setCategoryStatus(true);
+            props.setCategoryStatus(true);
             props?.setStatus(!props.status);
             props.setNewTicket(false);
             document.getElementById("fileInput").value = "";
@@ -209,7 +213,7 @@ const CreateTicketForm = (props) => {
     setFileObj(null);
     document.getElementById("fileInput").value = "";
   };
-  
+
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     const fileSizeInMB = parseFloat((file?.size / (1024 * 1024)).toFixed(2));
@@ -282,7 +286,7 @@ const CreateTicketForm = (props) => {
             props?.setStatus(!props.status);
             props.setNewTicket(false);
             setAllCatagery([]);
-            setCategoryStatus(true);
+            props.setCategoryStatus(true);
           }
 
         } catch (error) {
@@ -307,7 +311,7 @@ const CreateTicketForm = (props) => {
     setSelectFile(false);
     setFileObj(null);
     setAllCatagery([]);
-    setCategoryStatus(!categoryStatus);
+    // setCategoryStatus(!categoryStatus);
     document.getElementById("fileInput").value = "";
   };
 

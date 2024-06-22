@@ -25,7 +25,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const sellerData = Cookies.get("user_id");
     const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
-    const [isChecked, setIsChecked] = useState();
+    const [isChecked, setIsChecked] = useState(true);
+    const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
 
     const [formData, setFormData] = useState({
@@ -100,7 +101,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             }
         ],
     })
-    const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
         if (orderUpdateRes) {
@@ -254,6 +254,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const [tagData, setTagData] = useState([])
 
 
+
+
     useEffect(() => {
         if (orderDetailsData) {
             const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);
@@ -291,16 +293,16 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     contact_code: "91"
                 },
                 billing_details: {
-                    customer_name: orderDetailsData?.shipping_detail?.recipient_name,
-                    address: orderDetailsData?.shipping_detail?.address,
-                    landmark: orderDetailsData?.shipping_detail?.landmark,
+                    customer_name: orderDetailsData?.billing_detail?.recipient_name,
+                    address: orderDetailsData?.billing_detail?.address,
+                    landmark: orderDetailsData?.billing_detail?.landmark,
                     country: "India",
-                    state: orderDetailsData?.shipping_detail?.state,
-                    city: orderDetailsData?.shipping_detail?.city,
-                    pincode: orderDetailsData?.shipping_detail?.pincode,
-                    mobile_number: orderDetailsData?.shipping_detail?.mobile_number,
-                    email: orderDetailsData?.shipping_detail?.email,
-                    company_name: orderDetailsData?.shipping_detail?.company_name,
+                    state: orderDetailsData?.billing_detail?.state,
+                    city: orderDetailsData?.billing_detail?.city,
+                    pincode: orderDetailsData?.billing_detail?.pincode,
+                    mobile_number: orderDetailsData?.billing_detail?.mobile_number,
+                    email: orderDetailsData?.billing_detail?.email,
+                    company_name: orderDetailsData?.billing_detail?.company_name,
                     contact_code: "91"
                 },
                 other_details: {
@@ -333,6 +335,13 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     }))
             }))
             setWareHouseName(orderDetailsData?.pickup_details?.p_warehouse_name)
+
+            if (orderDetailsData?.shipping_detail?.address === orderDetailsData?.billing_detail?.address && orderDetailsData?.shipping_detail?.pincode === orderDetailsData?.billing_detail?.pincode) {
+                setIsChecked(true)
+            }else{
+                setIsChecked(false)
+            }
+
         }
     }, [orderDetailsData])
 
@@ -343,6 +352,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const pname_err = checkValuePresence(editErrors, "Product Name is required!");
     const qty_err = checkValuePresence(editErrors, "Product Quantity is required!");
     const sku_err = checkValuePresence(editErrors, "SKU is required!");
+
+    console.log(formData,"this is a form dataa")
 
     return (
         <>
@@ -372,7 +383,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                     && <ErrorIcon />}
                             </li>
                             <li onClick={() => setActiveSection("Product Details")} className={activeSection === "Product Details" ? "active" : ""}>Product Details
-                                {(pname_err ||qty_err ||sku_err) && <ErrorIcon />}
+                                {(pname_err || qty_err || sku_err) && <ErrorIcon />}
                             </li>
                             <li onClick={() => setActiveSection("Package Details")} className={activeSection === "Package Details" ? "active" : ""}>Package Details
                                 {(
@@ -408,6 +419,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                         formData={formData}
                                         setFormData={setFormData}
                                         editErrors={editErrors}
+                                        setIsChecked={setIsChecked}
+                                        isChecked={isChecked}
                                         seteditErrors={seteditErrors}
                                     />
                                 </div>

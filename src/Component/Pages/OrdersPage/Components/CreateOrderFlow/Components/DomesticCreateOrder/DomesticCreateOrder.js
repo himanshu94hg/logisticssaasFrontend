@@ -13,7 +13,7 @@ import { WareHouseDetailStep } from './create-order-steps/WareHouseDetailStep';
 import { BASE_URL_ORDER } from '../../../../../../../axios/config';
 import { customErrorFunction, } from '../../../../../../../customFunction/errorHandling';
 
-const DomesticCreateOrder = () => {
+const DomesticCreateOrder = (activeTab) => {
     const totalSteps = 5;
     const navigation = useNavigate();
     const [step, setStep] = useState(1);
@@ -95,7 +95,6 @@ const DomesticCreateOrder = () => {
         ],
     })
 
-    console.log(formData, "this is a form data")
     useEffect(() => {
         const updateProgressBarWidth = () => {
             const width = step > totalSteps ? '100%' : `${((step - 1) / totalSteps) * 100}%`;
@@ -111,12 +110,6 @@ const DomesticCreateOrder = () => {
     const handlePrev = () => {
         setStep(step - 1);
     };
-
-
-    console.log(formData,"pppppppppppppppppppppppppppppppp")
-
-
-
 
     const handleFormSubmit = async () => {
         try {
@@ -136,6 +129,84 @@ const DomesticCreateOrder = () => {
             customErrorFunction(error)
         }
     };
+
+    useEffect(() => {
+        setStep(1)
+        setIsChecked(true)
+        setFormData({
+            order_details: {
+                customer_order_number: '',
+                invoice_amount: '',
+                is_mps: false,
+                warehouse_id: '',
+                order_tag: [],
+                payment_type: '',
+                order_date: currentDate,
+                order_type: "",
+                channel: "custom",
+                channel_id: null
+            },
+            shipping_details: {
+                recipient_name: "",
+                address: "",
+                landmark: "",
+                country: "India",
+                state: "",
+                city: "",
+                pincode: "",
+                mobile_number: "",
+                email: "",
+                company_name: "",
+                contact_code: "91"
+            },
+            billing_details: {
+                customer_name: "",
+                address: "",
+                landmark: "",
+                country: "India",
+                state: "",
+                city: "",
+                pincode: "",
+                mobile_number: "",
+                email: "",
+                company_name: "",
+                contact_code: "91"
+            },
+            other_details: {
+                number_of_packets: 0,
+                reseller_name: ""
+            },
+            charge_details: {
+                cod_charges: '',
+                shipping_charges: '',
+                transaction_fee: '',
+                is_gift_wrap: false || true
+            },
+            dimension_details: {
+                weight: '',
+                length: '',
+                breadth: '',
+                height: '',
+                vol_weight: ''
+            },
+            product_details: [
+                {
+                    product_name: "",
+                    quantity: '',
+                    unit_price: '',
+                    product_category: "",
+                    weight: 0,
+                    sku: "",
+                    hsn_code: "",
+                    tax_rate: null,
+                    product_discount: '',
+                    hts_number: "",
+                    export_reference_number: ""
+                }
+            ],
+        })
+    }, [activeTab])
+
 
     return (
         <div className="stepper-form-container">
@@ -179,6 +250,7 @@ const DomesticCreateOrder = () => {
                     {step === 1 && (
                         <OrderDetailsStep
                             onNext={handleNext}
+                            activeTab={activeTab}
                             formData={formData}
                             setFormData={setFormData}
                         />
@@ -186,6 +258,7 @@ const DomesticCreateOrder = () => {
                     {step === 2 && (
                         <AddressDetailStep
                             onPrev={handlePrev}
+                            activeTab={activeTab}
                             onNext={handleNext}
                             isChecked={isChecked}
                             setIsChecked={setIsChecked}
@@ -198,6 +271,7 @@ const DomesticCreateOrder = () => {
                             onPrev={handlePrev}
                             onNext={handleNext}
                             formData={formData}
+                            activeTab={activeTab}
                             setFormData={setFormData}
                         />
                     )}
@@ -206,11 +280,13 @@ const DomesticCreateOrder = () => {
                             onPrev={handlePrev}
                             onNext={handleNext}
                             formData={formData}
+                            activeTab={activeTab}
                             setFormData={setFormData}
                         />
                     )}
                     {step === 5 && (
                         <WareHouseDetailStep
+                            activeTab={activeTab}
                             onPrev={handlePrev}
                             onSubmit={handleFormSubmit}
                             formData={formData}

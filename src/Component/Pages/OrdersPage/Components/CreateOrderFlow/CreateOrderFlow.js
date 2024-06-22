@@ -53,7 +53,7 @@ const CreateOrderFlow = () => {
             <div className='create-order-flow-container'>
                 {/* All */}
                 <div className={`${activeTab === "DomesticCreateOrder" ? "d-block" : "d-none"}`}>
-                    <DomesticCreateOrder />
+                    <DomesticCreateOrder activeTab={activeTab} />
                 </div>
 
                 {/* All */}

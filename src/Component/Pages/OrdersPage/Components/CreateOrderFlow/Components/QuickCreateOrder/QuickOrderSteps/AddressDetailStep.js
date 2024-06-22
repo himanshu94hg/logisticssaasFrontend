@@ -105,6 +105,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
     };
 
     const handleChangeBilling = (e, field) => {
+        const value = e.target.value;
         setFormData(prevData => ({
             ...prevData,
             billing_details: {
@@ -113,49 +114,66 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
             }
         })
         );
-        if (e.target.value.length === 6) {
-            setErrors(prevErrors => {
-                const { billing_pincode, ...restErrors } = prevErrors;
-                return restErrors;
-            });
-        } else if (e.target.value.length > 0 && e.target.value.length !== 6) {
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                billing_pincode: "Pincode should be 6 digits!"
-            }));
+        if (field === 'mobile_number') {
+            if (value.length === 10) {
+                setErrors(prevErrors => {
+                    const { billing_mobile_number, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+            } else if (value.length > 0 && value.length !== 10) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    billing_mobile_number: "Mobile Number should be 10 digits!"
+                }));
+            }
         }
 
-        if (field === "pincode" && e.target.value?.length === 6) {
-            axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
-                .then(response => {
-                    if (response?.data[0]?.Message === "No records found") {
-                        setErrors(prevErrors => ({
-                            ...prevErrors,
-                            billing_pincode: "Please enter valid pincode!"
-                        }));
-                    }
-                    if (response.data && response.data.length > 0) {
-                        const data = response.data[0];
-                        const postOffice = data.PostOffice[0];
-                        if (!isChecked) {
-                            setFormData(prevState => ({
-                                ...prevState,
-                                billing_details: {
-                                    ...prevState.billing_details,
-                                    city: postOffice.District,
-                                    state: postOffice.State,
-                                    country: postOffice.Country
-                                }
+        if (field === "pincode") {
+            if (e.target.value.length === 6) {
+                setErrors(prevErrors => {
+                    const { billing_pincode, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+
+                axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
+                    .then(response => {
+                        if (response?.data[0]?.Message === "No records found") {
+                            setErrors(prevErrors => ({
+                                ...prevErrors,
+                                billing_pincode: "Please enter valid pincode!"
                             }));
                         }
-                    }
-                })
-                .catch(error => {
-                });
+                        if (response.data && response.data.length > 0) {
+                            const data = response.data[0];
+                            const postOffice = data.PostOffice[0];
+                            if (!isChecked) {
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    billing_details: {
+                                        ...prevState.billing_details,
+                                        city: postOffice.District,
+                                        state: postOffice.State,
+                                        country: postOffice.Country
+                                    }
+                                }));
+                            }
+                        }
+                    })
+                    .catch(error => {
+                    });
+
+            } else if (e.target.value.length > 0 && e.target.value.length !== 6) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    billing_pincode: "Pincode should be 6 digits!"
+                }));
+            }
+
+
         }
     };
 
-    
+
     const handleSelectShiping = (e, field) => {
         setFormData(prevData => ({
             ...prevData,

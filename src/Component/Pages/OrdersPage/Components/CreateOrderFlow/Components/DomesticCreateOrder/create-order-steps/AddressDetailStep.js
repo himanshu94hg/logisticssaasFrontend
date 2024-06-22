@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom/dist';
 import { useSelector } from 'react-redux';
 
 
-export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, isChecked, setIsChecked }) => {
+export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormData, editErrors, isChecked, setIsChecked }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
     const { pathName } = useSelector(state => state?.authDataReducer)
     const [errors, setErrors] = useState({});
@@ -77,9 +77,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             onNext();
         }
     };
-    const handleChange = (e, field) => {
-        setFormData({ ...formData, [field]: e.target.value });
-    };
+
 
     const handleChangeShiping = (e, field) => {
         const value = e.target.value;
@@ -168,6 +166,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
 
 
     const handleChangeBilling = (e, field) => {
+        const value = e.target.value
         setFormData(prevData => ({
             ...prevData,
             billing_details: {
@@ -176,45 +175,59 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
             }
         }));
 
-        if (e.target.value.length === 6) {
-            setErrors(prevErrors => {
-                const { billing_pincode, ...restErrors } = prevErrors;
-                return restErrors;
-            });
-
-        } else if (e.target.value.length > 0 && e.target.value.length !== 6) {
-            setErrors(prevErrors => ({
-                ...prevErrors,
-                billing_pincode: "Pincode should be 6 digits!"
-            }));
+        if (field === 'mobile_number') {
+            if (value.length === 10) {
+                setErrors(prevErrors => {
+                    const { billing_mobile_number, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+            } else if (value.length > 0 && value.length !== 10) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    billing_mobile_number: "Mobile Number should be 10 digits!"
+                }));
+            }
         }
-        if (field === "pincode" && e.target.value?.length === 6) {
-            axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
-                .then(response => {
-                    if (response?.data[0]?.Message === "No records found") {
-                        setErrors(prevErrors => ({
-                            ...prevErrors,
-                            billing_pincode: "Please enter valid pincode!"
-                        }));
-                    }
-                    if (response.data && response.data.length > 0) {
-                        const data = response.data[0];
-                        const postOffice = data.PostOffice[0];
-                        if (!isChecked) {
-                            setFormData(prevState => ({
-                                ...prevState,
-                                billing_details: {
-                                    ...prevState.billing_details,
-                                    city: postOffice.District,
-                                    state: postOffice.State,
-                                    country: postOffice.Country
-                                }
+
+        if (field === "pincode") {
+            if (value.length === 6) {
+                setErrors(prevErrors => {
+                    const { billing_pincode, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
+                axios.get(`https://api.postalpincode.in/pincode/${value}`)
+                    .then(response => {
+                        if (response?.data[0]?.Message === "No records found") {
+                            setErrors(prevErrors => ({
+                                ...prevErrors,
+                                billing_pincode: "Please enter valid pincode!"
                             }));
                         }
-                    }
-                })
-                .catch(error => {
-                });
+                        if (response.data && response.data.length > 0) {
+                            const data = response.data[0];
+                            const postOffice = data.PostOffice[0];
+                            if (!isChecked) {
+                                setFormData(prevState => ({
+                                    ...prevState,
+                                    billing_details: {
+                                        ...prevState.billing_details,
+                                        city: postOffice.District,
+                                        state: postOffice.State,
+                                        country: postOffice.Country
+                                    }
+                                }));
+                            }
+                        }
+                    })
+                    .catch(error => {
+                    });
+
+            } else if (value.length > 0 && value.length !== 6) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    billing_pincode: "Pincode should be 6 digits!"
+                }));
+            }
         }
     };
 
@@ -279,15 +292,6 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }
     };
 
-
-
-    const pincodeRef1 = useRef(null);
-    const cityRef1 = useRef(null);
-    const stateRef1 = useRef(null);
-
-
-
-
     const handleMobileNumberValidation = () => {
         const { mobile_number } = formData.shipping_details;
         if (mobile_number.length !== 10) {
@@ -298,6 +302,15 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         }
     };
 
+
+    useEffect(() => {
+        if (activeTab) {
+            setErrors({})
+        }
+    }, [activeTab])
+
+
+    console.log(isChecked,"this is a checkd data")
 
     return (
         <div>
