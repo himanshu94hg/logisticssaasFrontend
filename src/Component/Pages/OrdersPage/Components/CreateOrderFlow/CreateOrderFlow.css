@@ -440,8 +440,8 @@
     height: -moz-fit-content;
     height: fit-content;
     margin-top: 7%;
-    position: fixed;
-    top: 21%;
+    position: absolute;
+    top: 10%;
     width: 40%;
     height: 55px;
     left: 30%;
