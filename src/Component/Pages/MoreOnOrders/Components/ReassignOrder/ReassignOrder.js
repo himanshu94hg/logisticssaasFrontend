@@ -315,10 +315,13 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
                                             </td>
                                         </td>
                                         <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row.awb_number)}>{row.awb_number ?? ""}
-                                                </p>
-                                                <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                                <div>
+                                                    <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row.awb_number)}>{row.awb_number ?? ""}
+                                                    </p>
+                                                    <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
+                                                </div>
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
