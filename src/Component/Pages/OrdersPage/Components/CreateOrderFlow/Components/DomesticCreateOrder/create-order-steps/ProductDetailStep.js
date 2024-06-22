@@ -7,6 +7,7 @@ import { faChevronUp, faChevronDown, faPlus, faTrashCan } from '@fortawesome/fre
 export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editErrors, seteditErrors }) => {
     const [addFieldsStates, setAddFieldsStates] = useState([]);
     const [errors, setErrors] = useState({});
+    
     const validateFormData = () => {
         const newErrors = {};
         formData?.product_details?.forEach((product, index) => {
@@ -80,7 +81,6 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
     const handlePriceValidation = (value, index) => {
         const regex = /^\d{1,4}$/;
         if (!regex.test(value)) {
-            // setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: 'Please enter(up to 4 digits).' }));
             setErrors((prevErrors) => ({ ...prevErrors, [`quantity_${index}`]: '' }));
         }
     };
@@ -112,7 +112,21 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
         setFormData({ ...formData, product_details: updatedProducts });
     };
 
+    const handleUnitPriceChange = (e, index) => {
+        const { value } = e.target;
+        const allowedCharacters = /^\d*\.?\d{0,2}$/;
+        if (allowedCharacters.test(value)) {
+            handleChange(e, 'unit_price', index);
+        }
+    };
 
+    const handleTaxRateChange = (e, index) => {
+        const { value } = e.target;
+        const allowedCharacters = /^\d*\.?\d{0,2}$/;
+        if (allowedCharacters.test(value)) {
+            handleChange(e, 'tax_rate', index);
+        }
+    };
 
     return (
         <div>
@@ -176,16 +190,18 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 </label>
                             </div>
                             <div className='row mt-3 gap-2'>
-                                {/* SKU */}
+                                {/* Unit Price */}
                                 <label className='col'>
                                     Unit Price
                                     <input
                                         className='input-field'
                                         placeholder="Enter Unit Price"
-                                        type="text" value={product.unit_price} onChange={(e) => handleChange(e, 'unit_price', index)}
+                                        type="text"
+                                        value={product.unit_price}
+                                        onChange={(e) => handleUnitPriceChange(e, index)}
                                         onKeyPress={(e) => {
-                                            const allowedCharacters = /^[0-9\b.]+$/;
-                                            if (!allowedCharacters.test(e.key)) {
+                                            const allowedCharacters = /[\d.]/;
+                                            if (!allowedCharacters.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                                 e.preventDefault();
                                             }
                                         }}
@@ -196,10 +212,9 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
                                         className={`input-field ${(errors[`quantity_${index}`] || editErrors?.quantity) ? 'input-field-error' : ''}`}
-                                        placeholder='Enter Product Quantity'
-                                        pattern="[0-9]{4}"
-                                        maxLength={6}
-                                        onBlur={(e) => handlePriceValidation(e.target.value, index)}
+                                        placeholder='Enter Quantity'
+                                        onInput
+                                        ={(e) => handlePriceValidation(e.target.value, index)}
                                         type="text" value={product.quantity} onChange={(e) => handleChange(e, 'quantity', index) || "1"}
                                         onKeyPress={(e) => {
                                             if (!/\d/.test(e.key)) {
@@ -209,6 +224,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                     />
                                     {(errors[`quantity_${index}`] || editErrors?.quantity) && <span className="custom-error">{errors[`quantity_${index}`] || editErrors?.quantity}</span>}
                                 </label>
+                                {/* SKU */}
                                 <label className='col'>
                                     <span>SKU <span className='mandatory'>*</span></span>
                                     <input
@@ -253,13 +269,14 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <label className='col'>
                                     Tax Rate
                                     <input
-                                        type="number"
+                                        type="text"
                                         className='input-field'
                                         value={product.tax_rate}
-                                        onChange={(e) => handleChange(e, 'tax_rate', index)}
+                                        onChange={(e) => handleTaxRateChange(e, index)}
                                         placeholder='Enter Tax Rate'
                                         onKeyPress={(e) => {
-                                            if (!/\d/.test(e.key)) {
+                                            const allowedCharacters = /[\d.]/;
+                                            if (!allowedCharacters.test(e.key) || (e.key === '.' && e.target.value.includes('.'))) {
                                                 e.preventDefault();
                                             }
                                         }}
@@ -269,7 +286,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, editE
                                 <label className='col'>
                                     Discount
                                     <input
-                                        type="number"
+                                        type="text"
                                         className='input-field'
                                         value={product.product_discount}
                                         onChange={(e) => handleChange(e, 'product_discount', index)}
