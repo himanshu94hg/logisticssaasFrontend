@@ -50,7 +50,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "All" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("All");
-                
+
               }}
             >
               <div className="navItemsContainer">
@@ -61,7 +61,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Unprocessable");
-                
+
               }}
             >
               {" "}
@@ -73,7 +73,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Processing" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Processing");
-                
+
               }}
             >
               {" "}
@@ -85,7 +85,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Ready to Ship" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Ready to Ship");
-                
+
               }}
             >
               {" "}
@@ -106,7 +106,7 @@ export default function NavTabs(props) {
             <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
               onClick={() => {
                 props.setActiveTab("Manifest");
-                
+
               }}
             >
               <div className="navItemsContainer">
@@ -140,12 +140,14 @@ export default function NavTabs(props) {
           >
             Domestic
           </div>
-          {/* <div
-            className={`option ${selectedOption === "International" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("International")}
+          <div
+            title="Disabled"
+            // className={`option ${selectedOption === "International" ? "selected" : ""}`}
+            className={`option`}
+          // onClick={() => handleOptionSelect("International")}
           >
-            International
-          </div> */}
+            International <br />(Will Be Active Shortly)
+          </div>
         </div>
 
       </div>
