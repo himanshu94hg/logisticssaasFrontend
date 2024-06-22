@@ -245,20 +245,21 @@ const Step1 = ({ onNext, formData, setFormData }) => {
                             </select>
                         </label>
                         {/* Order Date with react-datepicker */}
-                        <label className='col'>
+                        <div style={{ gap: '0.3rem' }} className='col d-flex flex-column'>
                             Order Date
                             <div className="date-picker-container">
-                                <FontAwesomeIcon icon={faCalendarAlt} className="calendar-icon" />
                                 <DatePicker
+                                    showIcon
+                                    icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
                                     selected={formData.order_date || defaultDate}
+                                    dateFormat="dd MMMM, yyyy"
                                     onChange={(date) => handleDateChange(date)}
-                                    dateFormat="MM/dd/yyyy"
                                     minDate={startOfMonth}  // Set the minimum date to the start of the current month
                                     maxDate={new Date()}  // Set the maximum date to today
                                     className='input-field'
                                 />
                             </div>
-                        </label>
+                        </div>
 
                         <label className='col'>
                             Order Channel
@@ -385,7 +386,7 @@ const Step1 = ({ onNext, formData, setFormData }) => {
             </div>
             {/* Next Button */}
             <div className='d-flex justify-content-end my-3'>
-                <button className='btn main-button' onClick={onNext}>
+                <button className='btn main-button' disabled onClick={onNext}>
                     Next
                 </button>
             </div>
@@ -778,7 +779,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                                     <div>
                                         <div className='warehouse-heading'>WH Sarasvati Kunj</div>
                                         <p className='warehouse-description'> Plot 748,Sarasvati Kunj,Sector 53,Khatu Shyam Man ... </p>
-                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>    
+                                        <p className="warehouse-description font13 mt-3">Mobile : 7011424112</p>
                                     </div>
                                 </label>
                             </div>
@@ -837,7 +838,7 @@ const Step5 = ({ onPrev, onSubmit, formData, setFormData }) => {
                 <button className='btn main-button-outline' onClick={onPrev}>Previous</button>
                 <button className='btn main-button ms-3' onClick={onSubmit}>Submit</button>
             </div>
-        </div >
+        </div>
     );
 };
 

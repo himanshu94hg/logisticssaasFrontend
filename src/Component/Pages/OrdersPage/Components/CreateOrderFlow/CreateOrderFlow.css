@@ -416,6 +416,43 @@
 
 /* Add responsiveness for smaller screens */
 
+.non-active-flow {
+    position: relative;
+}
+
+.non-active-flow::after {
+    content: "";
+    position: absolute;
+    background: #00000059;
+    width: 100%;
+    height: calc(100% - 61px);
+    z-index: 3;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+}
+
+.not-active-message {
+    background: #fff;
+    border-radius: 0.5rem;
+    height: -moz-fit-content;
+    height: fit-content;
+    margin-top: 7%;
+    position: fixed;
+    top: 21%;
+    width: 40%;
+    height: 55px;
+    left: 30%;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
 @media screen and (max-width:1600px) {
     .bulk-import-input {
         min-height: 200px;
