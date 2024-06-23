@@ -18,6 +18,8 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
 
+    console.log(SingleShip,"SingleShipSingleShipSingleShip")
+
     const addDays = (date, days) => {
         const result = new Date(date);
         result.setDate(result.getDate() + days);
@@ -33,21 +35,11 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
      const handleSubmit = (option) => {
         dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: {"courier":option,"order_id":orderId} });
         setShipingData(true);
+        setSingleShip(false)
     };
 
-    // useEffect(() => {
-    //     if(shipingData === true)
-    //     {
-    //         if (moreorderCard?.status) {
-    //             setSingleShip(false);
-    //         }
-    //         setShipingData(false);
-    //     }
-    // }, [moreorderCard]);
     
-    const handleClose = () => {
-        setSingleShip(false);
-    };
+
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p10 align-items-center'>

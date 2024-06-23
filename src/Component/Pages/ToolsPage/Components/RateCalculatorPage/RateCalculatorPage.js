@@ -20,7 +20,7 @@ const RateCalculatorPage = () => {
   const [orderField, setOrderField] = useState(false);
   const [orderId, setOrderId] = useState("");
   const [chargedWeight, setChargedWeight] = useState(0);
-  const [errors, setErrors] = useState([]);
+  const [errors, setErrors] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [shipData, setShipData] = useState([])
 
@@ -31,9 +31,9 @@ const RateCalculatorPage = () => {
     weight: null,
     volmetric_weight: volWeight,
     is_cod: "No",
-    length:null,
-    weight:null,
-    height:null
+    length: null,
+    weight: null,
+    height: null
 
   });
   const { zonePathName } = useSelector(state => state?.authDataReducer)
@@ -59,9 +59,9 @@ const RateCalculatorPage = () => {
         weight: null,
         volmetric_weight: 0,
         is_cod: "No",
-        length:null,
-        weight:null,
-        height:null
+        length: null,
+        weight: null,
+        height: null
       });
     }
   }, [zonePathName])
@@ -72,18 +72,18 @@ const RateCalculatorPage = () => {
       setFormData(prev => ({
         ...prev,
         shipment_type: ratePrefilledData?.shipment_type,
-        source_pincode:ratePrefilledData?.source_pincode,
+        source_pincode: ratePrefilledData?.source_pincode,
         destination_pincode: ratePrefilledData?.destination_pincode,
-        weight: ratePrefilledData?.weight/1000,
+        weight: ratePrefilledData?.weight / 1000,
         volmetric_weight: ratePrefilledData?.volmetric_weight,
         is_cod: ratePrefilledData?.is_cod,
-        invoice_amount:ratePrefilledData?.invoice_amount,
-        length:ratePrefilledData?.length,
-        breadth:ratePrefilledData?.breadth,
-        height:ratePrefilledData?.height
+        invoice_amount: ratePrefilledData?.invoice_amount,
+        length: ratePrefilledData?.length,
+        breadth: ratePrefilledData?.breadth,
+        height: ratePrefilledData?.height
 
       }))
-    } 
+    }
   }, [ratePrefilledData]);
 
   useEffect(() => {
@@ -114,11 +114,12 @@ const RateCalculatorPage = () => {
       return errors;
     }, {});
     setErrors(newErrors);
-
-    dispatch({
-      type: "RATE_CALCULATOR_ACTION",
-      payload: formData
-    })
+    if (Object.keys(errors).length===0) {
+      dispatch({
+        type: "RATE_CALCULATOR_ACTION",
+        payload: formData
+      })
+    }
   }
 
   const handleReset = () => {
@@ -139,6 +140,7 @@ const RateCalculatorPage = () => {
     setOrderId("");
     setChargedWeight(0);
     setErrors([]);
+    setShipData([])
   };
 
 
@@ -269,7 +271,7 @@ const RateCalculatorPage = () => {
                   onChange={(e) => handleChangeOrder(e, "order_id")}
                 />
               </label>
-              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={()=>globalDebouncedClick(() => orderIdApiCAll())}>Search</button>
+              <button className={`btn main-button ${!isChecked ? 'invisible' : ''}`} onClick={() => globalDebouncedClick(() => orderIdApiCAll())}>Search</button>
             </div>
             <form>
               <div style={containerStyle}>
@@ -354,7 +356,7 @@ const RateCalculatorPage = () => {
                     <input
                       type="text"
                       name={"weight"}
-                      value={ formData.weight}
+                      value={formData.weight}
                       className='input-field'
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
@@ -364,6 +366,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    {errors.weight && <span className="error-text">{errors.weight}</span>}
                     <span className='unit'>KG</span>
                   </label>
                   {/* Length (cm) */}
@@ -382,6 +385,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    {errors.volmetric_weight && <span className="error-text">Length is required</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Breadth (cm) */}
@@ -400,6 +404,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    {errors.volmetric_weight && <span className="error-text">Breadth is required</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Height (cm) */}
@@ -418,6 +423,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
+                    {errors.volmetric_weight && <span className="error-text">Height is required</span>}
                     <span className='unit'>CM</span>
                   </label>
                 </div>
@@ -498,8 +504,8 @@ const RateCalculatorPage = () => {
                       <p><span>EDD: <strong>{item?.estimate_days} days</strong></span></p>
                     </div>
                     {item?.is_recommended &&
-                            <span className="recommended"></span>
-                        }
+                      <span className="recommended"></span>
+                    }
                   </div>
                 </section>
               </div>

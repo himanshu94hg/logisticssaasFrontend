@@ -53,7 +53,7 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
 
     useEffect(() => {
         if (moreorderCard?.status) {
-            setSingleShip(true);
+            setSingleShip(false);
         }
     }, [moreorderCard])
 

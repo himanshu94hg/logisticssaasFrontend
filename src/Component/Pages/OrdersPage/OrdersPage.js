@@ -239,7 +239,10 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-    const handleClick = () => {
+
+    console.log(activeTab,"this is active tab data")
+
+    const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
         setItemsPerPage(20)
@@ -257,14 +260,14 @@ const OrdersPage = () => {
                 customErrorFunction(error)
             });
     }
-    const debouncedHandleClick = useCallback(
-        debounce((param) => handleClick(param), 1000),
-        []
-      );
+    // const debouncedHandleClick = useCallback(
+    //     debounce((param) => handleClick(param), 1000),
+    //     []
+    //   );
 
-    const handleReset = () => {
-        debouncedHandleClick();
-    }
+    // const handleReset = () => {
+    //     debouncedHandleClick();
+    // }
 
     useEffect(() => {
         let apiUrl = '';

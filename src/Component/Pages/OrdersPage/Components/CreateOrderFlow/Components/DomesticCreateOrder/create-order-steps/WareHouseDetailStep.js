@@ -78,6 +78,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
         }));
     };
 
+    console.log(formData,"this is form data")
 
 
     return (
