@@ -103,24 +103,52 @@ const RateCalculatorPage = () => {
   };
 
   const handleSubmit = () => {
-    const newErrors = Object.keys(formData).reduce((errors, key) => {
-      if (!formData[key]) {
-        errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
-      } else if (key === 'source_pincode' && formData[key].length !== 6) {
-        errors[key] = " Pincode must consist of 6 characters.";
-      } else if (key === 'destination_pincode' && formData[key].length !== 6) {
-        errors[key] = "Pincode must consist of 6 characters.";
-      }
-      return errors;
-    }, {});
+    const newErrors = {};
+
+    // Check each field individually
+    if (!formData.shipment_type) {
+      newErrors.shipment_type = "Shipment Type is required!";
+    }
+
+    if (!formData.source_pincode) {
+      newErrors.source_pincode = "Source Pincode is required!";
+    } else if (formData.source_pincode.length !== 6) {
+      newErrors.source_pincode = "Source Pincode must consist of 6 characters.";
+    }
+
+    if (!formData.destination_pincode) {
+      newErrors.destination_pincode = "Destination Pincode is required!";
+    } else if (formData.destination_pincode.length !== 6) {
+      newErrors.destination_pincode = "Destination Pincode must consist of 6 characters.";
+    }
+
+    if (!formData.weight) {
+      newErrors.weight = "Weight is required!";
+    }
+
+    if (!length) {
+      newErrors.length = "Length is required!";
+    }
+
+    if (!breadth) {
+      newErrors.breadth = "Breadth is required!";
+    }
+
+    if (!height) {
+      newErrors.height = "Height is required!";
+    }
+
     setErrors(newErrors);
-    if (Object.keys(errors).length===0) {
+    console.log(newErrors, "this is key data");
+
+    if (Object.keys(newErrors).length === 0) {
       dispatch({
         type: "RATE_CALCULATOR_ACTION",
         payload: formData
-      })
+      });
     }
-  }
+  };
+
 
   const handleReset = () => {
     setFormData({
@@ -385,7 +413,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.volmetric_weight && <span className="error-text">Length is required</span>}
+                    {errors.length && <span className="error-text">{errors.length}</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Breadth (cm) */}
@@ -404,7 +432,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.volmetric_weight && <span className="error-text">Breadth is required</span>}
+                    {errors.breadth && <span className="error-text">{errors.breadth}</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Height (cm) */}
@@ -423,7 +451,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.volmetric_weight && <span className="error-text">Height is required</span>}
+                    {errors.height && <span className="error-text">{errors.height}</span>}
                     <span className='unit'>CM</span>
                   </label>
                 </div>
