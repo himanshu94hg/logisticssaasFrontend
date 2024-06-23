@@ -506,20 +506,25 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                                                             <ul>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li onClick={() => {
-                                                                    if (row.status !== "pending") {
-                                                                        dispatch({
-                                                                            type: "ORDERS_DETAILS_CANCEL_ACTION",
-                                                                            payload: {
-                                                                                awb_numbers: [row?.awb_number]
-                                                                            }
-                                                                        });
+                                                                    if (row?.status === "cancelled") {
+                                                                        toast.error("Order is already cancelled!")
                                                                     } else {
-                                                                        dispatch({
-                                                                            type: "BULK_PROCESSING_ORDER_CANCEL_ACTION",
-                                                                            payload: {
-                                                                                order_ids: [row?.id],
-                                                                            }
-                                                                        });
+                                                                        if (row.status !== "pending") {
+                                                                            dispatch({
+                                                                                type: "ORDERS_DETAILS_CANCEL_ACTION",
+                                                                                payload: {
+                                                                                    awb_numbers: [row?.awb_number]
+                                                                                }
+                                                                            });
+                                                                        }
+                                                                        else {
+                                                                            dispatch({
+                                                                                type: "BULK_PROCESSING_ORDER_CANCEL_ACTION",
+                                                                                payload: {
+                                                                                    order_ids: [row?.id],
+                                                                                }
+                                                                            });
+                                                                        }
                                                                     }
                                                                 }}>Cancel Order</li>
 
