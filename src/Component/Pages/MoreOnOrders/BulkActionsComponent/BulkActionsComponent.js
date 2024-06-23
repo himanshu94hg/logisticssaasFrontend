@@ -175,20 +175,12 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setaddTagShow, setUpdat
                         </div>
                         <ul className='ba-actions'>
                             {activeTab === "Merge Order" && <>
-                                {/* <li onClick={() => addTag()}><span>Add Tag</span></li>
-                                <li onClick={() => markedVerified()}><span>Mark as verified</span></li>
-                                <li onClick={() => bulkCancelled()}><span>Cancel</span></li> */}
                                 <li onClick={() => bulkDeleted()}><DeleteIcon /><span>Delete</span></li>
                                 <li onClick={() => handleMergeOrders()}><MergeIcon /><span>Merge</span></li>
-                                {/* <li onClick={() => rtoUpdate()}><span>Warehouse update</span></li>
-                                <li onClick={() => bulkDimesionDetailUpdate()}><span>Weight/Dimension update</span></li>
-                                <li onClick={handelBulkShip}><span>Ship</span></li>
-                                <li onClick={handleExport}><span>Export</span></li> */}
                             </>}
                             {activeTab === "Reassign Order" &&
                                 <>
                                     <li><ShippingIcon /><span>Reassign</span></li>
-                                    {/* <li onClick={handleExport}><span>Export</span></li> */}
                                 </>
                             }
                         </ul>

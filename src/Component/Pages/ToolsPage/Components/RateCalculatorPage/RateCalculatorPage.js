@@ -7,6 +7,7 @@ import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/
 import { debounce } from 'lodash';
 import Toggle from 'react-toggle';
 import globalDebouncedClick from '../../../../../debounce';
+import { toast } from 'react-toastify';
 
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
@@ -127,7 +128,7 @@ const RateCalculatorPage = () => {
     }
 
     if (!length) {
-      newErrors.length = "Length is required!";
+      newErrors.length1 = "Length is required!";
     }
 
     if (!breadth) {
@@ -203,12 +204,13 @@ const RateCalculatorPage = () => {
     const scaleDataName = e.target.name;
     if (scaleDataName === "length" || scaleDataName === "breadth" || scaleDataName === "height") {
       const { name, value } = e.target;
+      const formattedValue = parseFloat(value).toFixed(2);
       if (name === "length") {
-        setLength(value);
+        setLength(formattedValue);
       } else if (name === "breadth") {
-        setBreadth(value);
+        setBreadth(formattedValue);
       } else if (name === "height") {
-        setHeight(value);
+        setHeight(formattedValue);
       }
     } else {
       const { name, value } = e.target;
@@ -258,10 +260,14 @@ const RateCalculatorPage = () => {
   };
 
   const orderIdApiCAll = () => {
-    dispatch({
-      type: "RATE_CALCULATOR_ACTION_ORDER_ID",
-      payload: orderId
-    });
+    if (orderId !== "") {
+      dispatch({
+        type: "RATE_CALCULATOR_ACTION_ORDER_ID",
+        payload: orderId
+      });
+    }else{
+      toast.error("Please enter order id !")
+    }
   }
 
   useEffect(() => {
@@ -389,7 +395,13 @@ const RateCalculatorPage = () => {
                       onChange={(e) => handleChange(e)}
                       placeholder='e.g 0.9 for 900 gm'
                       onKeyPress={(e) => {
-                        if (!/\d|\./.test(e.key)) {
+                        if (!/\d/.test(e.key) && e.key !== '.') {
+                          e.preventDefault();
+                        }
+                        if (e.key === '.' && e.target.value.includes('.')) {
+                          e.preventDefault();
+                        }
+                        if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
                           e.preventDefault();
                         }
                       }}
@@ -408,12 +420,18 @@ const RateCalculatorPage = () => {
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Length'
                       onKeyPress={(e) => {
-                        if (!/\d/.test(e.key)) {
+                        if (!/\d/.test(e.key) && e.key !== '.') {
+                          e.preventDefault();
+                        }
+                        if (e.key === '.' && e.target.value.includes('.')) {
+                          e.preventDefault();
+                        }
+                        if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
                           e.preventDefault();
                         }
                       }}
                     />
-                    {errors.length && <span className="custom-error">{errors.length}</span>}
+                    {errors.length1 && <span className="custom-error">{errors.length1}</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Breadth (cm) */}
@@ -427,7 +445,13 @@ const RateCalculatorPage = () => {
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Breadth'
                       onKeyPress={(e) => {
-                        if (!/\d/.test(e.key)) {
+                        if (!/\d/.test(e.key) && e.key !== '.') {
+                          e.preventDefault();
+                        }
+                        if (e.key === '.' && e.target.value.includes('.')) {
+                          e.preventDefault();
+                        }
+                        if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
                           e.preventDefault();
                         }
                       }}
@@ -446,7 +470,13 @@ const RateCalculatorPage = () => {
                       onChange={(e) => handleChange(e)}
                       placeholder='Enter Height'
                       onKeyPress={(e) => {
-                        if (!/\d/.test(e.key)) {
+                        if (!/\d/.test(e.key) && e.key !== '.') {
+                          e.preventDefault();
+                        }
+                        if (e.key === '.' && e.target.value.includes('.')) {
+                          e.preventDefault();
+                        }
+                        if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
                           e.preventDefault();
                         }
                       }}

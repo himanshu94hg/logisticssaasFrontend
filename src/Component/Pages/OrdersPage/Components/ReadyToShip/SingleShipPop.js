@@ -18,8 +18,6 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
 
-    console.log(SingleShip,"SingleShipSingleShipSingleShip")
-
     const addDays = (date, days) => {
         const result = new Date(date);
         result.setDate(result.getDate() + days);
