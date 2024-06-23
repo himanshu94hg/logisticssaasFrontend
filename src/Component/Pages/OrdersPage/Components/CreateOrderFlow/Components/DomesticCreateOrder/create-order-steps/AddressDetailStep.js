@@ -535,7 +535,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                         <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
-                                <span> Recipient Name <span className='mandatory'>*</span></span>
+                                <span> Customer Name <span className='mandatory'>*</span></span>
                                 <input
                                     placeholder='Enter Recipient Name'
                                     maxLength={100}

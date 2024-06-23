@@ -293,7 +293,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                     contact_code: "91"
                 },
                 billing_details: {
-                    customer_name: orderDetailsData?.billing_detail?.recipient_name,
+                    customer_name: orderDetailsData?.billing_detail?.customer_name,
                     address: orderDetailsData?.billing_detail?.address,
                     landmark: orderDetailsData?.billing_detail?.landmark,
                     country: "India",
