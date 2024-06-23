@@ -334,7 +334,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.source_pincode && <span className="error-text">{errors.source_pincode}</span>}
+                    {errors.source_pincode && <span className="custom-error">{errors.source_pincode}</span>}
                   </label>
                   <label className=''>
                     Delivery Pincode
@@ -352,7 +352,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.destination_pincode && <span className="error-text">{errors.destination_pincode}</span>}
+                    {errors.destination_pincode && <span className="custom-error">{errors.destination_pincode}</span>}
                   </label>
                   <label className=''>
                     Payment Type
@@ -394,7 +394,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.weight && <span className="error-text">{errors.weight}</span>}
+                    {errors.weight && <span className="custom-error">{errors.weight}</span>}
                     <span className='unit'>KG</span>
                   </label>
                   {/* Length (cm) */}
@@ -413,7 +413,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.length && <span className="error-text">{errors.length}</span>}
+                    {errors.length && <span className="custom-error">{errors.length}</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Breadth (cm) */}
@@ -432,7 +432,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.breadth && <span className="error-text">{errors.breadth}</span>}
+                    {errors.breadth && <span className="custom-error">{errors.breadth}</span>}
                     <span className='unit'>CM</span>
                   </label>
                   {/* Height (cm) */}
@@ -451,7 +451,7 @@ const RateCalculatorPage = () => {
                         }
                       }}
                     />
-                    {errors.height && <span className="error-text">{errors.height}</span>}
+                    {errors.height && <span className="custom-error">{errors.height}</span>}
                     <span className='unit'>CM</span>
                   </label>
                 </div>
