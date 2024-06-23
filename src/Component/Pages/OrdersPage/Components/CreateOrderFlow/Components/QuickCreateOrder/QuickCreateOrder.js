@@ -196,7 +196,7 @@ const QuickCreateOrder = (activeTab) => {
             newErrors.order_type = 'Order Type is required!';
         }
         if (!formData.order_details.payment_type) {
-            newErrors.payment_type = 'Payment Type is required!';
+            newErrors.payment_type = 'Select the Payment Type!';
         }
         if (!formData.shipping_details.recipient_name) {
             newErrors.recipient_name = 'Recipient Name is required!';
@@ -218,10 +218,9 @@ const QuickCreateOrder = (activeTab) => {
         if (!formData.order_details.invoice_amount) {
             newErrors.invoice_amount = 'Invoice Amount is required!';
         }
-        if (formData.order_details.payment_type === "COD") {
-            if (!formData.charge_details.cod_charges) {
-                newErrors.cod_charges = 'COD Charges is required!';
-            }
+        if (!formData.order_details.order_type) {
+            newErrors.order_type = 'Select the Order Type!';
+           
         }
         if (formData.dimension_details.weight == 0) {
             newErrors.weight = 'Dead Weight should be greater than 0!';
@@ -337,7 +336,7 @@ const QuickCreateOrder = (activeTab) => {
         setExitpop(true)
     }
 
-console.log(formData,"this is a from data")
+console.log(errors,"this is a from data")
     return (
         <div className="stepper-form-container">
             <div className='w-100'>
