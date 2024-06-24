@@ -419,6 +419,7 @@ const MoreOnOrders = () => {
                         activeTab={activeTab}
                         selectedRows={selectedRows}
                         setSelectAll={setSelectAll}
+                        setSplitStatus={setSplitStatus}
                         setSelectedRows={setSelectedRows}
                         setaddTagShow={setaddTagShow}
                         setBulkActionShow={setBulkActionShow}
