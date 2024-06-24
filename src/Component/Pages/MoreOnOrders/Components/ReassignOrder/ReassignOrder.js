@@ -17,56 +17,17 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { toast } from 'react-toastify';
 import NoData from '../../../../common/noData';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
+import {  weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 
-
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
-const InfoMissing = () => {
-    return (
-        <>
-            <span className='info-missing-content'><InfoMissingIcon /> Info Missing</span>
-        </>
-    );
-}
-
-const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
+const ReassignOrder = ({ orders,selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
-    const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
-    // moreorderShipCardStatus
 
     useEffect(() => {
         if (moreorderShipCardStatusData) {
@@ -74,7 +35,6 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
         }
     }, [moreorderShipCardStatusData])
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -86,22 +46,17 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -109,22 +64,12 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId)
         dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
         setSingleShip(true);
-
-
+        setBulkActionShow(false)
     };
 
     const handleClickAWB = (orders) => {
@@ -133,14 +78,11 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
         // window.open(url, '_blank');
         setAwbNo(orders)
         setOrderTracking(true)
-
-        console.log(orders, "ordersordersordersorders")
     };
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
         const courierPartner = row.courier_partner.toLowerCase();
-
         switch (courierPartner) {
             case "bluedart":
                 window.open('https://www.bluedart.com/web/guest/home', '_blank');
@@ -181,8 +123,6 @@ const ReassignOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, se
                 break;
         }
     }
-
-    const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
     const handleBackdropClick = () => {
         setBackDrop(false)

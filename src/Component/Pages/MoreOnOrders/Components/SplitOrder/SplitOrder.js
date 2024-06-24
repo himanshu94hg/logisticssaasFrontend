@@ -21,54 +21,18 @@ import NoData from '../../../../common/noData';
 import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
 
-const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow,orderStatus }) => {
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
+
+const SplitOrder = ({ orders, orderStatus, setSplitStatus }) => {
     const [backDrop, setBackDrop] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
+
+
     const handleSubmit = () => {
         console.log("Log Data")
     };
 
-    const handleSelectAll = () => {
-        setSelectAll(!selectAll);
-        if (!selectAll) {
-            setSelectedRows(orders.map(row => row?.id));
-            setBulkActionShow(true)
-        } else {
-            setSelectedRows([]);
-            setBulkActionShow(false)
-        }
-    };
-
-    const handleSelectRow = (orderId) => {
-        const isSelected = selectedRows.includes(orderId);
-
-        if (isSelected) {
-            setSelectedRows(selectedRows.filter(id => id !== orderId));
-            setBulkActionShow(true)
-        } else {
-            setSelectedRows([...selectedRows, orderId]);
-        }
-
-        if (setSelectedRows !== ([])) {
-            setBulkActionShow(true)
-        }
-
-        // Check if all rows are selected, then select/deselect "Select All"
-        if (selectedRows.length === orders.length - 1 && isSelected) {
-            setSelectAll(false);
-        } else {
-            setSelectAll(false);
-        }
-    };
-
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
     const CloseSidePanel = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
@@ -86,18 +50,13 @@ const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
                                 <th style={{ width: '1%' }}>
-                                    {/* <input
-                                    type="checkbox"
-                                    checked={selectAll}
-                                    onChange={handleSelectAll}
-                                /> */}
+
                                 </th>
                                 <th style={{ width: '24%' }}>Order Details</th>
                                 <th style={{ width: '12.5%' }}>Customer details</th>
                                 <th style={{ width: '16%' }}>Package Details</th>
                                 <th style={{ width: '8%' }}>Payment</th>
                                 <th style={{ width: '12.5%' }}>Pickup Address</th>
-                                {/* <th style={{ width: '12.5%' }}>Shipping Details</th> */}
                                 <th style={{ width: '6%' }}>Status</th>
                                 <th style={{ width: '6%' }}>Action</th>
                             </tr>
@@ -109,11 +68,6 @@ const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
                                         <td className='checkbox-cell'>
-                                            {/* <input
-                                            type="checkbox"
-                                            checked={selectedRows.includes(row?.id)}
-                                            onChange={() => handleSelectRow(row?.id)}
-                                        /> */}
                                         </td>
                                         <td>
                                             {/* order detail */}
@@ -207,15 +161,7 @@ const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                                                 </div>
                                             </td>
                                         </td>
-                                        {/* shiping section here */}
-                                        {/* <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='mt-1'><img src='https://ekartlogistics.com/assets/images/ekblueLogo.png' height={10} className='me-2' />{row?.courier_partner}</p>
-                                                <p className='details-on-hover anchor-awb'>{row?.awb_number ?? ""}
-                                                    <span style={{right:'23px', width:'100px'}}>AWB Number</span>
-                                                </p>
-                                            </div>
-                                        </td> */}
+
                                         <td className='align-middle status-box'>
                                             <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
                                         </td>
@@ -242,6 +188,7 @@ const SplitOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
                 handleClose={handleClose}
                 handleSubmit={handleSubmit}
                 orderDetails={orderDetails}
+                setSplitStatus={setSplitStatus}
             />
 
         </section >

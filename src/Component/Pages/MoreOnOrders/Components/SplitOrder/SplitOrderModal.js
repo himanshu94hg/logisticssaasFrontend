@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { BASE_URL_CORE, BASE_URL_ORDER } from "../../../../../axios/config";
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
+
+function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails,setSplitStatus }) {
     const [warehouseData, setWarehouseData] = useState([]);
     const [selectedWarehouses, setSelectedWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -52,8 +53,8 @@ function SplitOrderModal({ show, handleClose, handleSubmit, orderDetails }) {
                 "Content-Type": "application/json"
             }
         }).then(response => {
-            console.log("Split order successful:", response.data);
             toast.success('Order Split Successfully.');
+            setSplitStatus(new Date())
             handleClose();
             handleSubmit();
         }).catch(error => {
