@@ -28,6 +28,7 @@ const OrderStatus = [
     { label: "Out of Delivery", value: "out_for_delivery" },
     { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
+    { label: "RTO Intransit", value: "rto_intransit" },
     { label: "RTO Initiated", value: "rto_initiated" },
     { label: "NDR", value: "ndr" },
     { label: "Lost", value: "lost" },
