@@ -10,7 +10,7 @@ import { BASE_URL_CORE } from '../../../../../../../../axios/config';
 
 
 
-export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName }) => {
+export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, wareHouseName, editForm,cloneForm }) => {
     const [warehouses, setWarehouses] = useState([]);
     const [loading, setLoading] = useState(false);
 
@@ -39,7 +39,7 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
     }, []);
 
     useEffect(() => {
-        if (warehouses) {
+        if ((editForm === "edit-form" || cloneForm==="clone-form") && warehouses) {
             let data = warehouses?.filter(item => item?.warehouse_name === wareHouseName)
             setFormData(prevFormData => ({
                 ...prevFormData,
@@ -49,12 +49,8 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
                 }
             }));
         }
-    }, [warehouses])
-
-    useEffect(() => {
-        if (warehouses) {
+        else {
             const defaultWarehouse = warehouses.find(warehouse => warehouse.is_default);
-
             if (defaultWarehouse) {
                 setFormData(prevFormData => ({
                     ...prevFormData,
@@ -65,7 +61,8 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
                 }));
             }
         }
-    }, [warehouses]);
+    }, [warehouses])
+
 
     const handleRadioChange = (e) => {
         const selectedWarehouseId = parseInt(e.target.value);
@@ -77,8 +74,6 @@ export const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, w
             }
         }));
     };
-
-    console.log(formData,"this is form data")
 
 
     return (

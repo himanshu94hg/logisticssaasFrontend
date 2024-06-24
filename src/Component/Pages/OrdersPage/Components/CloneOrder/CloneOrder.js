@@ -23,6 +23,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
     const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);
+    const cloneForm = "clone-form"
 
 
     const [formData, setFormData] = useState({
@@ -307,7 +308,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
 
             if (orderDetailsData?.shipping_detail?.address === orderDetailsData?.billing_detail?.address && orderDetailsData?.shipping_detail?.pincode === orderDetailsData?.billing_detail?.pincode) {
                 setIsChecked(true)
-            }else{
+            } else {
                 setIsChecked(false)
             }
 
@@ -423,6 +424,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                             {activeSection === "Warehouse Details" && (
                                 <div>
                                     <WareHouseDetailStep
+                                        cloneForm={cloneForm}
                                         formData={formData}
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}

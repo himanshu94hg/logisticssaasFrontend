@@ -26,6 +26,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);
+    const editForm = "edit-form"
     const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
 
@@ -227,7 +228,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         seteditErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
-    console.log(editErrors, "editErrorseditErrors")
 
     const handleUpdate = () => {
         if (validateFormData()) {
@@ -338,7 +338,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
 
             if (orderDetailsData?.shipping_detail?.address === orderDetailsData?.billing_detail?.address && orderDetailsData?.shipping_detail?.pincode === orderDetailsData?.billing_detail?.pincode) {
                 setIsChecked(true)
-            }else{
+            } else {
                 setIsChecked(false)
             }
 
@@ -352,8 +352,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const pname_err = checkValuePresence(editErrors, "Product Name is required!");
     const qty_err = checkValuePresence(editErrors, "Product Quantity is required!");
     const sku_err = checkValuePresence(editErrors, "SKU is required!");
-
-    console.log(formData,"this is a form dataa")
 
     return (
         <>
@@ -454,6 +452,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                             {activeSection === "Warehouse Details" && (
                                 <div>
                                     <WareHouseDetailStep
+                                        editForm={editForm}
                                         formData={formData}
                                         setFormData={setFormData}
                                         wareHouseName={wareHouseName}
