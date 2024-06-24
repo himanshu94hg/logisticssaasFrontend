@@ -40,16 +40,25 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, BulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
+    const token = Cookies.get("access_token")
+    const [show, setShow] = useState(false);
+    const [showCancel, setShowCancel] = useState(false);
+    const [deleteOrderId, setDeleteOrderId] = useState("");
+    const [cancelOrderId, setCancelOrderId] = useState("");
+    const [cancelAwbNo, setCancelAwbNo] = useState("");
+    const [cancelOrderStatus, setCancelOrderStatus] = useState("");
     const [selectAll, setSelectAll] = useState(false);
+    const [SingleShip, setSingleShip] = useState(false)
+    const [genaratelabel, setGenaratelabel] = useState(false);
+    const [selectedOrderId, setSelectedOrderId] = useState(null);
+    const [shipingResponse, setShipingResponse] = useState(null);
+    const [generateinvoice, setGenerateinvoice] = useState(false);
+    const [SingleShipReassign, setSingleShipReassign] = useState(false)
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
-    const [genaratelabel, setGenaratelabel] = useState(false);
-    const [generateinvoice, setGenerateinvoice] = useState(false);
-    const token = Cookies.get("access_token")
-
 
     useEffect(() => {
         if (orderdelete) {
@@ -136,11 +145,6 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
         });
         setGenerateinvoice(true)
     };
-    const [selectedOrderId, setSelectedOrderId] = useState(null);
-    const [SingleShip, setSingleShip] = useState(false)
-    const [SingleShipReassign, setSingleShipReassign] = useState(false)
-    const [shipingResponse, setShipingResponse] = useState(null);
-
 
     const handleShipNow = (orderId) => {
         setSelectedOrderId(orderId);
@@ -189,7 +193,6 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
             toast.error("Something went wrong!")
         }
     };
-
 
     const generateManifest = (value) => {
         dispatch({
@@ -289,31 +292,49 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
     }, [invoiceData])
 
 
-    const [show, setShow] = useState(false);
-    const [actionType, setActionType] = useState("");
-    const [orderIds, setOrderIds] = useState(null)
-
     const handleClose = () => setShow(false);
+    const handleCloseCancel = () => setShowCancel(false);
 
-    const handleShow = (args1, args2) => {
+    const handleShowDelete = (id) => {
         setShow(true)
-        // setOrderId(args)
-        setActionType({ id: args1, action: args2 })
+        setDeleteOrderId(id)
     };
 
-    const makeApiCall = () => {
-        // dispatch({
-        //     type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-        //         awb_numbers: [actionType]
-        //     }
-        // })
-        if (actionType?.action === "deleteOrder") {
-            dispatch({ type: "DELETE_ORDERS_ACTION", payload: actionType.id })
-        }
-        else {
+    const handleShowCancel = (args1, args2, args3) => {
+        setShowCancel(true)
+        setCancelOrderId(args1)
+        setCancelAwbNo(args2)
+        setCancelOrderStatus(args3)
+    };
 
-        }
+
+    const handleDeleteOrder = () => {
+        dispatch({ type: "DELETE_ORDERS_ACTION", payload: deleteOrderId })
         setShow(false)
+    }
+
+    const handleCancelOrder = () => {
+        if (cancelOrderStatus === "cancelled") {
+            toast.error("Order is already cancelled!")
+        } else {
+            if (cancelOrderStatus !== "pending") {
+                dispatch({
+                    type: "ORDERS_DETAILS_CANCEL_ACTION",
+                    payload: {
+                        awb_numbers: [cancelAwbNo]
+                    }
+                });
+            }
+            else {
+                dispatch({
+                    type: "BULK_PROCESSING_ORDER_CANCEL_ACTION",
+                    payload: {
+                        order_ids: [cancelOrderId],
+                    }
+                });
+            }
+        }
+        setShowCancel(false)
     }
 
 
@@ -505,30 +526,8 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
-                                                                <li onClick={() => {
-                                                                    if (row?.status === "cancelled") {
-                                                                        toast.error("Order is already cancelled!")
-                                                                    } else {
-                                                                        if (row.status !== "pending") {
-                                                                            dispatch({
-                                                                                type: "ORDERS_DETAILS_CANCEL_ACTION",
-                                                                                payload: {
-                                                                                    awb_numbers: [row?.awb_number]
-                                                                                }
-                                                                            });
-                                                                        }
-                                                                        else {
-                                                                            dispatch({
-                                                                                type: "BULK_PROCESSING_ORDER_CANCEL_ACTION",
-                                                                                payload: {
-                                                                                    order_ids: [row?.id],
-                                                                                }
-                                                                            });
-                                                                        }
-                                                                    }
-                                                                }}>Cancel Order</li>
-
-                                                                <li onClick={() => handleShow(row?.id, "deleteOrder")}>Delete Order</li>
+                                                                <li onClick={() => handleShowCancel(row?.id, row?.awb_number, row.status)}>Cancel Order</li>
+                                                                <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id))}>Download Invoice</li>
@@ -555,13 +554,30 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                         keyboard={false}
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to {actionType?.action === "deleteOrder" ? "delete" : "cancel"} the order ?</Modal.Title>
+                            <Modal.Title>Are you sure you want to delete the order ?</Modal.Title>
                         </Modal.Header>
                         <Modal.Footer>
                             <Button variant="secondary" className="px-5" onClick={handleClose}>
                                 No
                             </Button>
-                            <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                            <Button variant="primary" className="px-5" onClick={handleDeleteOrder}>Yes</Button>
+                        </Modal.Footer>
+                    </Modal>
+
+
+                    <Modal
+                        show={showCancel}
+                        onHide={handleCloseCancel}
+                        keyboard={false}
+                    >
+                        <Modal.Header>
+                            <Modal.Title>Are you sure you want to Cancel the order ?</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Footer>
+                            <Button variant="secondary" className="px-5" onClick={handleCloseCancel}>
+                                No
+                            </Button>
+                            <Button variant="primary" className="px-5" onClick={handleCancelOrder}>Yes</Button>
                         </Modal.Footer>
                     </Modal>
 
