@@ -15,12 +15,13 @@ import InvoiceIcon from './Components/BulkIcons/InvoiceIcon';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2'; 
+import moment from 'moment';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow,filterData,setFilterData }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard);
+    const {exportCard,exportAllCard} = useSelector(state => state?.exportSectionReducer?.exportCard);
     const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
@@ -28,6 +29,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     const [show, setShow] = useState(false);
     
     const handleClose = () => setShow(false);
+
+    console.log("filterDatafilterDatafilterDatafilterData",filterData)
     
     useEffect(() => {
         if (labelData) {
@@ -249,35 +252,44 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                             "subtype": activeTab === "All" ? "all_orders" : activeTab === "Unprocessable" ? "unprocessable" : activeTab === "Processing" ? "processing_orders" : activeTab === "Ready to Ship" ? "ready_to_ship" : activeTab === "Pickup" ? "pickups" : activeTab === "Returns" ? "returns" : ""
                         },
                         "order_id": "",
-                        "courier": "",
-                        "awb_number": "",
+                        "courier": filterData?.courier || "",
+                        "awb_number": filterData?.awb_number || "",
                         "min_awb_assign_date": "",
                         "max_awb_assign_date": "",
-                        "status": "",
-                        "order_type": "",
-                        "customer_order_number": "",
-                        "channel": "",
-                        "min_invoice_amount": "",
-                        "max_invoice_amount": "",
-                        "warehouse_id": "",
-                        "product_name": "",
-                        "delivery_address": "",
-                        "min_weight": "",
-                        "max_weight": "",
-                        "min_product_qty": "",
-                        "max_product_qty": "",
-                        "rto_status": "",
-                        "global_type": "",
-                        "payment_type": ""
+                        "status": filterData?.status || "",
+                        "order_type": filterData?.order_type || "",
+                        "customer_order_number": filterData?.customer_order_number || "",
+                        "channel": filterData?.channel || "",
+                        "min_invoice_amount": filterData?.min_invoice_amount || "",
+                        "max_invoice_amount": filterData?.max_invoice_amount || "",
+                        "warehouse_id": filterData?.warehouse_id || "",
+                        "product_name": filterData?.product_name || "",
+                        "delivery_address": filterData?.delivery_address || "",
+                        "min_weight": filterData?.min_weight || "",
+                        "max_weight": filterData?.max_weight || "",
+                        "min_product_qty": filterData?.min_product_qty || "",
+                        "max_product_qty": filterData?.max_product_qty || "",
+                        "rto_status": filterData?.rto_status || "",
+                        "global_type": filterData?.global_type || "",
+                        "payment_type": filterData?.payment_type || "",
+                        ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
+                        ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
                     };
                     dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
                     setBulkActionShow(false);
                     setSelectedRows([])
+                    setFilterData({});
                 } else {
                     toast.info("Report canceled.");
                 }
             });
     };
+
+    useEffect(() => {
+        if (exportAllCard?.message === "Go to MIS->Downloads to download your report") {
+            setFilterData({});
+        }
+    },[exportAllCard]);
 
     return (
         <>

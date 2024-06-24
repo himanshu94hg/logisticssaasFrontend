@@ -71,6 +71,7 @@ const OrdersPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
     const [pickupStatus, setPickupStatus] = useState('')
+    const [filterData, setFilterData] = useState({});
 
     const orderStatus = {
         "pending": "Pending",
@@ -225,7 +226,7 @@ const OrdersPage = () => {
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
         setCurrentPage(1)
-
+        setFilterData(data);
         const queryParams = {};
         Object.keys(data).forEach(key => {
             if (data[key] !== '' && data[key] !== null) {
@@ -573,6 +574,8 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setUpdateWarehouse={setUpdateWarehouse}
                         setUpdateWeight={setUpdateWeight}
+                        filterData={filterData}
+                        setFilterData={setFilterData}
                     />
                 )
                 }

@@ -60,6 +60,7 @@ const ShipmentsPage = () => {
     const [queryParamSearch, setQueryParamSearch] = useState(null)
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
+    const [filterData, setFilterData] = useState(null);
 
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
@@ -284,7 +285,7 @@ const ShipmentsPage = () => {
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
         setCurrentPage(1)
-
+        setFilterData(data);
         const queryParams = {};
         Object.keys(data).forEach(key => {
             if (data[key] !== '' && data[key] !== null) {
@@ -420,7 +421,7 @@ const ShipmentsPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} />
+                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} filterData={filterData} setFilterData={setFilterData}/>
                 )
                 }
             </div>
