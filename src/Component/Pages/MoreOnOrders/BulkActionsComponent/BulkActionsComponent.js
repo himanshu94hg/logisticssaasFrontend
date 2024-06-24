@@ -7,13 +7,12 @@ import DeleteIcon from '../../OrdersPage/Components/BulkActionsComponent/Compone
 import MergeIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/MergeIcon';
 import ShippingIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ShippingIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setSelectedRows, setSelectAll }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setSelectedRows, setSplitStatus, setSelectAll }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { bulkShipData } = useSelector(state => state?.orderSectionReducer)
- 
 
     const bulkDeleted = () => {
         dispatch({
@@ -25,7 +24,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setS
         setSelectedRows([])
         setSelectAll(false)
     }
-    const handleReassign=()=>{
+    const handleReassign = () => {
         setBulkActionShow(false)
         setSelectedRows([])
         setSelectAll(false)
@@ -84,6 +83,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setBulkActionShow, setS
 
             if (response.status === 200) {
                 toast.success("Order merged successfully.");
+                setSplitStatus(new Date())
             } else {
                 toast.error("Order cannot be merged.");
             }
