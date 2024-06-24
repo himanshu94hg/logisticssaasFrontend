@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const TopRTOCourier = () => {
   const [loading, setLoading] = useState(false); // No loading state needed for dummy data
   const [error, setError] = useState(null);
-  const {rtoTopCourier}=useSelector(state=>state?.dashboardRtoReducer)
+  const { rtoTopCourier } = useSelector(state => state?.dashboardRtoReducer)
 
 
   return (
@@ -33,9 +33,10 @@ const TopRTOCourier = () => {
                 &nbsp;&nbsp;&nbsp;{courier.courier}
               </p>
 
-              <p className="font12 bold-600 mb-10">
-                <HiArrowNarrowDown className="font15 text-green" /> {courier.count}
-                <span className="text-gray-light">(50)</span>
+              <p className="bold-600 mb-10">
+                {/* <HiArrowNarrowDown className="font15 text-green" /> */}
+                {courier.count}
+                {/* <span className="text-gray-light">(50)</span> */}
               </p>
             </li>
           ))
