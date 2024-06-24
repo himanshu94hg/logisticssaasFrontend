@@ -41,7 +41,7 @@ const MoreOnOrders = () => {
     const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
-    const [orderId, setOrderId] = useState(null)
+    const [splitStatus, setSplitStatus] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
     const [itemsPerPage, setItemsPerPage] = useState(20);
@@ -58,13 +58,16 @@ const MoreOnOrders = () => {
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [addTagShow, setaddTagShow] = useState(false)
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { pathName } = useSelector(state => state?.authDataReducer)
-    const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [queryName, setQueryName] = useState([])
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
+    const [selectAll, setSelectAll] = useState(false);
+
+    const { pathName } = useSelector(state => state?.authDataReducer)
+    const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
     const orderStatus = {
         "pending": "Pending",
@@ -211,7 +214,7 @@ const MoreOnOrders = () => {
                     customErrorFunction(error)
                 });
         }
-    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus]);
+    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus, orderdelete,splitStatus]);
 
     const handleChange = (option) => {
         setSearchOption(option);
@@ -250,8 +253,8 @@ const MoreOnOrders = () => {
     const debouncedHandleClick = useCallback(
         debounce((param) => handleClick(param), 1000),
         []
-      );
-      const handleReset = () => {
+    );
+    const handleReset = () => {
         debouncedHandleClick();
     }
 
@@ -360,17 +363,48 @@ const MoreOnOrders = () => {
             <div className='orders-section-tabs'>
                 {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
-                    <ReassignOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} setAwbNo={setAwbNo} setOrderTracking={setOrderTracking} orderStatus={orderStatus} />
+                    <ReassignOrder
+                        orders={orders}
+                        setAwbNo={setAwbNo}
+                        selectAll={selectAll}
+                        activeTab={activeTab}
+                        orderStatus={orderStatus}
+                        setSelectAll={setSelectAll}
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                        setOrderTracking={setOrderTracking}
+                    />
                 </div>
 
                 {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
-                    <MergeOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus} />
+                    <MergeOrder
+                        orders={orders}
+                        selectAll={selectAll}
+                        activeTab={activeTab}
+                        orderStatus={orderStatus}
+                        setSelectAll={setSelectAll}
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
 
                 {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
-                    <SplitOrder activeTab={activeTab} orders={orders} handleSearch={handleSearch} selectedRows={selectedRows} setSelectedRows={setSelectedRows} setBulkActionShow={setBulkActionShow} orderStatus={orderStatus} />
+                    <SplitOrder
+                        orders={orders}
+                        activeTab={activeTab}
+                        orderStatus={orderStatus}
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        setSplitStatus={setSplitStatus}
+                        setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
+                    />
                 </div>
 
                 <Pagination
@@ -384,8 +418,10 @@ const MoreOnOrders = () => {
                     <BulkActionsComponent
                         activeTab={activeTab}
                         selectedRows={selectedRows}
+                        setSelectAll={setSelectAll}
                         setSelectedRows={setSelectedRows}
                         setaddTagShow={setaddTagShow}
+                        setBulkActionShow={setBulkActionShow}
                         setUpdateWarehouse={setUpdateWarehouse}
                     />
                 )

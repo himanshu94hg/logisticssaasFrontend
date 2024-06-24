@@ -1,14 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
 import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 import SidePanel from './SidePanel/SidePanel';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
@@ -22,29 +16,15 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import moment from 'moment';
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
-import { useDispatch } from 'react-redux';
 import NoData from '../../../../common/noData';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const InfoMissing = () => {
-    return (
-        <>
-            <span className='info-missing-content'><InfoMissingIcon /> Info Missing</span>
-        </>
-    );
-}
 
-const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBulkActionShow,orderStatus }) => {
-    const dispatch = useDispatch()
-    console.log(orders, "Headers");
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
+const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, orderStatus, selectAll, setSelectAll }) => {
     const [backDrop, setBackDrop] = useState(false);
 
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -56,10 +36,8 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
@@ -71,7 +49,6 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
             setBulkActionShow(true)
         }
 
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -79,49 +56,11 @@ const MergeOrder = ({ orders, handleSearch, selectedRows, setSelectedRows, setBu
         }
     };
 
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
+   
     const CloseSidePanel = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
     }
-
-    const handleMergeOrders = async () => {
-        let authToken = Cookies.get("access_token");
-        if (selectedRows.length > 0) {
-            const data = JSON.stringify({
-                "order_ids": selectedRows.join(',')
-            });
-
-            const config = {
-                method: 'post',
-                url: `${process.env.REACT_APP_CORE_API_URL}/orders-api/orders/merge-order/`,
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                    'Content-Type': 'application/json'
-                },
-                data: data
-            };
-
-            try {
-                const response = await axios.request(config);
-                if (response.status >= 200 && response.status < 300) {
-                    toast.success("Order merged successfully.");
-                } else {
-                    toast.error("Order cannot be merged.");
-                }
-            } catch (error) {
-                customErrorFunction(error);
-            }
-        } else {
-            toast.error('Please select at least one order to merge.');
-        }
-    };
-
-
 
 
     return (
