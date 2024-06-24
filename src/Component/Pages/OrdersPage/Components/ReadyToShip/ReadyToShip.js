@@ -514,7 +514,7 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <div className={`backdrop ${!SingleShip && 'd-none'}`}></div>
+                <div onClick={() => setSingleShip(false)} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
                 <Modal
                     show={show}
