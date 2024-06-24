@@ -114,6 +114,7 @@ const BillingPage = () => {
 
     const handleMoreFilter = (filterParams) => {
         const { start_date, end_date, utr_number } = filterParams;
+    
         const formatDate = (dateString) => {
             if (!dateString) return null;
             const dateObject = new Date(dateString);
@@ -123,19 +124,22 @@ const BillingPage = () => {
         const startDate = formatDate(start_date);
         const endDate = formatDate(end_date);
     
+        const payload = {
+            page_size: 20,
+            page: 1,
+            ...(startDate && { start_date: startDate }),
+            ...(endDate && { end_date: endDate }),
+            utr_number: utr_number || '',
+        };
+    
         dispatch({
             type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",
-            payload: {
-                page_size: 20,
-                page: 1,
-                start_date: startDate,
-                end_date: endDate,
-                utr_number: utr_number || null,
-            },
+            payload: payload,
         });
     
         setMoreFilters(false);
     };
+    
     
 
     return (

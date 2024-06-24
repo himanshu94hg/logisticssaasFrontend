@@ -64,7 +64,7 @@ export const billingSectionReducer = (state = initialState, action) => {
         case GET_BILLING_SHIPPING_COUNTER_DATA:
             return {
                 ...state,
-                billingShipingCounterCard: action?.payload
+                billingShippingCounterCard: action?.payload
             };
         case GET_BILLING_RECHARGE_COUNTER_DATA:
             return {
