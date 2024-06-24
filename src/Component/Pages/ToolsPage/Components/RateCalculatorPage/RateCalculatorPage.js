@@ -265,7 +265,7 @@ const RateCalculatorPage = () => {
         type: "RATE_CALCULATOR_ACTION_ORDER_ID",
         payload: orderId
       });
-    }else{
+    } else {
       toast.error("Please enter order id !")
     }
   }
@@ -552,8 +552,8 @@ const RateCalculatorPage = () => {
                     </div>
                     <div className='ss-shipment-charges'>
                       <p><strong>₹{(item?.rate + item?.cod_charge + item?.early_cod_charge).toFixed(2)} </strong> <span>(Inclusive of all taxes )</span><br />
-                        <span>Freight Charges:{item?.rate} <strong>₹ </strong></span><br />
-                        <span>+ COD Charges:{item?.cod_charge} <strong>₹ </strong></span><br />
+                        <span>Freight Charges:₹ {item?.rate} <strong></strong></span><br />
+                        <span>+ COD Charges:₹{item?.cod_charge} <strong> </strong></span><br />
                         <span>+ Early COD Charges: <strong>₹ {item?.early_cod_charge}</strong></span><br />
                       </p>
                     </div>
