@@ -251,7 +251,7 @@ const QuickCreateOrder = (activeTab) => {
         }
         if (!isChecked) {
             if (!formData.billing_details.customer_name) {
-                newErrors.billing_customer_name = 'Customer Name is required!';
+                newErrors.billing_customer_name = 'Recipient Name is required!';
             }
             if (!formData.billing_details.mobile_number) {
                 newErrors.billing_mobile_number = 'Mobile Number is required!';

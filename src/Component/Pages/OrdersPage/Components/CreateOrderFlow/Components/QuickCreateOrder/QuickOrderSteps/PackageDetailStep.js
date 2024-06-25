@@ -101,7 +101,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                     <div className='row'>
                         {/* Invoice Amount */}
                         <label className='col'>
-                            <span>Invoice Amount (₹)<span className='mandatory'>*</span></span>
+                            <span>Invoice Amount (₹) <span className='mandatory'>*</span></span>
                             <input
                                 className={`input-field ${errors.invoice_amount && 'input-field-error'}`}
                                 type="text" value={formData.order_details.invoice_amount} onChange={(e) => handleChangeOrder(e, 'invoice_amount')}

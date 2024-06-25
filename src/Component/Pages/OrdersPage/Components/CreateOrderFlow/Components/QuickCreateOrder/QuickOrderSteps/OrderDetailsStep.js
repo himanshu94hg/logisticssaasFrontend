@@ -157,7 +157,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                         </label>
 
                         <label className='col'>
-                            Order Type
+                            <span>Order Type <span className='mandatory'>*</span></span>
                             <select
                                 className={`select-field ${errors.order_type && 'input-field-error'}`}
                                 value={formData.order_details.order_type}
@@ -171,7 +171,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
                             {errors.order_type && <div className="custom-error">{errors.order_type}</div>}
                         </label>
                         <label className='col'>
-                            Payment Type
+                            <span>Payment Type <span className='mandatory'>*</span></span>
                             <select
                                 className={`select-field ${errors.payment_type && 'input-field-error'}`}
                                 value={formData.order_details.payment_type}

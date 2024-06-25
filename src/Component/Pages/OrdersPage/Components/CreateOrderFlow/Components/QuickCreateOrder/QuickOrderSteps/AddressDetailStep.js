@@ -363,12 +363,12 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                     className={`input-field ${errors.billing_customer_name && 'input-field-error'}`}
                                     placeholder='Enter Recipient Name'
                                     type="text" value={formData.billing_details.customer_name ?? formData.shipping_details.recipient_name} onChange={(e) => handleChangeBilling(e, 'customer_name')} />
+                                {errors.billing_customer_name && <div className="custom-error">{errors.billing_customer_name}</div>}
                             </label>
-                            {errors.billing_customer_name && <div className="custom-error">{errors.billing_customer_name}</div>}
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
-                                <span> Mobile Number<span className='mandatory'>*</span></span>
+                                <span> Mobile Number <span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field '
@@ -399,7 +399,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                         <div className='row mt-3'>
                             {/* Address */}
                             <label className='col'>
-                                <span>Address<span className='mandatory'>*</span></span>
+                                <span>Address <span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_address && 'input-field-error'}`}
                                     placeholder="House/Floor No. Building Name or Street, Locality"

@@ -95,9 +95,9 @@ const WareHouseDetailStep = ({ onPrev, onSubmit, formData, setFormData, setSingl
         <div>
             <div className='box-shadow p10 w-100 WD-page'>
                 <div className='inputs-container mx-auto mb-3'>
-                    <label className='mb-0'>Pick up from</label>
+                    <label className='mb-0'><span>Pick up from <span className='mandatory'>*</span></span></label>
                     <div className='wd-warehouse-dropdown mt-2' ref={dropdownRef}>
-                        <div className={`wd-selected-option ${errors.warehouse_id&&"input-field-error"}`}  onClick={toggleDropdown}>
+                        <div className={`wd-selected-option ${errors.warehouse_id && "input-field-error"}`} onClick={toggleDropdown}>
                             {formData.order_details.warehouse_id ? (
                                 <span>
                                     {warehouses.find(warehouse => warehouse.id === formData.order_details.warehouse_id)?.warehouse_name}
