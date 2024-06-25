@@ -10,6 +10,8 @@ import FacebookIcon from '../LoginPage/Icons/FacebookIcon';
 import TrackYourOrder from '../../../assets/image/settingsBG/TrackYourOrder1.png'
 import loginBG from '../../../assets/image/login_bg2.svg'
 import Logo from '../../../assets/image/logo/logo.svg'
+import { IoIosEyeOff } from "react-icons/io";
+import { IoIosEye } from "react-icons/io";
 
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
@@ -18,6 +20,7 @@ const SignUpPage = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
+    const [PasswordShow, setPasswordShow] = useState(false)
 
     const onSubmit = (data) => {
         dispatch({ type: "SELLER_SIGNUP_ACTION", payload: data })
@@ -52,6 +55,10 @@ const SignUpPage = () => {
         if (value === "" || re.test(value)) {
             //   setTxt(value);
         }
+    }
+
+    const handlePasswordShow = () => {
+        setPasswordShow(!PasswordShow)
     }
 
     return (
@@ -227,13 +234,19 @@ const SignUpPage = () => {
                                                 <input
                                                     autoComplete="off"
                                                     className='input-field'
-                                                    type='password'
+                                                    type={PasswordShow ? "text" : "password"}
                                                     id="password"
                                                     maxLength={50}
                                                     {...register("password", { required: true, minLength: 6 })}
                                                     required
                                                 />
                                                 <i>Password</i>
+                                                <span onClick={handlePasswordShow} className='eye-icons'>
+                                                    {
+                                                        PasswordShow ?
+                                                            <IoIosEye /> : <IoIosEyeOff />
+                                                    }
+                                                </span>
                                                 {errors.password && <p className="error-message">Password must be at least 6 characters</p>}
                                             </label>
                                         </div>

@@ -15,7 +15,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../axios/config';
 import globalDebouncedClick from '../../../debounce';
-
+import { IoIosEyeOff } from "react-icons/io";
+import { IoIosEye } from "react-icons/io";
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   const [SentOtp, setSentOtp] = useState(false)
   const [timer, setTimer] = useState(20);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [PasswordShow, setPasswordShow] = useState(false)
 
   useEffect(() => {
     let intervalId;
@@ -95,6 +97,10 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
 
   const resendText = isTimerRunning ? `Resend in ${timer} seconds` : 'Resend';
 
+  const handlePasswordShow = () => {
+    setPasswordShow(!PasswordShow)
+  }
+
   return (
     <>
       <section className='login-section'>
@@ -131,12 +137,18 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
                     <input
                       className='input-field'
                       // id='password'
-                      type="password"
+                      type={PasswordShow ? "text" : "password"}
                       value={password}
                       autoComplete="new-password"
                       onChange={(e) => setPassword(e.target.value)}
                       required />
                     <i>Password</i>
+                    <span onClick={handlePasswordShow} className='eye-icons'>
+                      {
+                        PasswordShow ?
+                          <IoIosEye /> : <IoIosEyeOff />
+                      }
+                    </span>
                   </label>
                   <div className="links justify-content-between">
                     <label>
