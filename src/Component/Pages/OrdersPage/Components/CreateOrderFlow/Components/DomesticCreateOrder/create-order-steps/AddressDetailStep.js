@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom/dist';
 import { useSelector } from 'react-redux';
 
 
-export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormData, editErrors, isChecked, setIsChecked }) => {
+export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setFormData, editErrors, isChecked, setIsChecked }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
     const { pathName } = useSelector(state => state?.authDataReducer)
     const [errors, setErrors] = useState({});
@@ -42,7 +42,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
         }
         if (!isChecked) {
             if (!formData.billing_details.customer_name) {
-                newErrors.billing_customer_name = 'Customer Name is required!';
+                newErrors.billing_customer_name = 'Recipient Name is required!';
             }
             if (!formData.billing_details.mobile_number) {
                 newErrors.billing_mobile_number = 'Mobile Number is required!';
@@ -310,7 +310,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
     }, [activeTab])
 
 
-    console.log(isChecked,"this is a checkd data")
+    console.log(isChecked, "this is a checkd data")
 
     return (
         <div>
@@ -535,7 +535,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                         <div className='row gap-2'>
                             {/* Customer Name */}
                             <label className='col'>
-                                <span> Customer Name <span className='mandatory'>*</span></span>
+                                <span> Recipient Name <span className='mandatory'>*</span></span>
                                 <input
                                     placeholder='Enter Recipient Name'
                                     maxLength={100}
@@ -559,7 +559,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
 
                             {/* Mobile Number with Country Code Select */}
                             <label className='col'>
-                                <span>  Mobile Number<span className='mandatory'>*</span></span>
+                                <span>Mobile Number <span className='mandatory'>*</span></span>
                                 <div className='d-flex mobile-number-field'>
                                     <select
                                         className='input-field '
@@ -623,7 +623,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                         <div className='row'>
                             {/* Address */}
                             <label className='col'>
-                                <span> Address<span className='mandatory'>*</span></span>
+                                <span> Address <span className='mandatory'>*</span></span>
                                 <input
                                     className={`input-field ${errors.billing_address || editErrors?.billing_address ? 'input-field-error' : ''}`}
                                     placeholder="House/Floor No. Building Name or Street, Locality"
@@ -648,7 +648,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                         <div className='row mt-3'>
                             {/* Address 2 (Optional) */}
                             <label className='col'>
-                                <span> Landmark</span>
+                                <span>Landmark</span>
                                 <input
                                     className={`input-field`}
                                     placeholder="Any nearby post office, market, Hospital as the landmark"
@@ -673,7 +673,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                         <div className='row mt-3 gap-2'>
                             {/* Pincode */}
                             <label className='col'>
-                                <span> Pincode<span className='mandatory'>*</span></span>
+                                <span> Pincode <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.billing_pincode || editErrors?.billing_pincode ? 'input-field-error' : ''}`}
@@ -692,7 +692,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
 
                             {/* City */}
                             <label className='col'>
-                                <span> City<span className='mandatory'>*</span></span>
+                                <span>City <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.billing_city || editErrors?.billing_city ? 'input-field-error' : ''}`}
@@ -706,7 +706,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                         <div className='row mt-3 gap-2'>
                             {/* State */}
                             <label className='col'>
-                                <span> State<span className='mandatory'>*</span></span>
+                                <span>State <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.billing_state || editErrors?.billing_state ? 'input-field-error' : ''}`}
@@ -720,7 +720,7 @@ export const AddressDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
 
                             {/* Country */}
                             <label className='col'>
-                                <span> Country<span className='mandatory'>*</span></span>
+                                <span>Country <span className='mandatory'>*</span></span>
                                 <input
                                     type="text"
                                     className={`input-field ${errors.billing_country || editErrors?.billing_country ? 'input-field-error' : ''}`}
