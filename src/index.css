@@ -614,6 +614,31 @@ p {
 
 }
 
+.download-button,
+.download-button:hover {
+  background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%);
+  color: #fff;
+  width: 1.875rem;
+  height: 1.875rem;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.375rem;
+}
+
+.downlaod-tooltip {
+  display: flex;
+  min-height: unset;
+  height: 24px;
+  padding: 0;
+  width: 68px;
+  top: -7px;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
 .white-btn,
 .white-btn:hover {
   background-color: #fff;
