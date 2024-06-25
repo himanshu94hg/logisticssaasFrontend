@@ -1,19 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import NavTabs from './Components/navTabs/NavTabs';
+import axios from 'axios';
 import './MoreOnOrders.css'
+import moment from 'moment';
+import Cookies from 'js-cookie';
+import Select from 'react-select';
+import { debounce } from 'lodash';
+import NavTabs from './Components/navTabs/NavTabs';
 import { useDispatch, useSelector } from 'react-redux';
 import MergeOrder from './Components/MergeOrder/MergeOrder';
 import SplitOrder from './Components/SplitOrder/SplitOrder';
-import ReverseOrder from './Components/ReverseOrder/ReverseOrder';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReassignOrder from './Components/ReassignOrder/ReassignOrder';
-import axios from 'axios';
-import Cookies from 'js-cookie';
 import Pagination from '../../common/Pagination/Pagination';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import Select from 'react-select';
-import { toast } from 'react-toastify';
-import moment from 'moment';
 import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
@@ -22,7 +21,6 @@ import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
-import { debounce } from 'lodash';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -36,7 +34,6 @@ const SearchOptions = [
 
 const MoreOnOrders = () => {
     const dispatch = useDispatch()
-    const sellerData = Cookies.get("user_id")
     let authToken = Cookies.get("access_token")
     const [pageStatus, pageStatusSet] = useState(true)
     const [orders, setOrders] = useState([])
@@ -48,12 +45,10 @@ const MoreOnOrders = () => {
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [queryParamSearch, setQueryParamSearch] = useState(null)
     const [activeTab, setActiveTab] = useState("Reassign Order");
-    const [EditOrderSection, setEditOrderSection] = useState(false)
     const [BulkActionShow, setBulkActionShow] = useState(false)
     const [MoreFilters, setMoreFilters] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const [addTagShow, setaddTagShow] = useState(false)
@@ -64,10 +59,11 @@ const MoreOnOrders = () => {
     const [awbNo, setAwbNo] = useState(null)
     const [selectAll, setSelectAll] = useState(false);
 
+    const apiEndpoint = `${BASE_URL_CORE}`;
     const { pathName } = useSelector(state => state?.authDataReducer)
-    const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
+    const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
 
     const orderStatus = {
         "pending": "Pending",
@@ -89,9 +85,6 @@ const MoreOnOrders = () => {
         "hold": "Hold"
     };
 
-
-    const { favListData } = useSelector(state => state?.orderSectionReducer)
-    const apiEndpoint = `${BASE_URL_CORE}`;
     const activeTabValueSet =
         activeTab === "Reassign Order"
             ? "core-api/shipping/reassign/"
@@ -145,7 +138,6 @@ const MoreOnOrders = () => {
     const handleMoreFilter = (data) => {
         setItemsPerPage(20)
         setCurrentPage(1)
-
         const queryParams = {};
         Object.keys(data).forEach(key => {
             if (data[key] !== '' && data[key] !== null) {
@@ -172,6 +164,9 @@ const MoreOnOrders = () => {
         }
 
     }, [pathName]);
+
+
+    console.log(pathName,"pathNamepathNamepathNamepathName")
 
     useEffect(() => {
         let apiUrl = '';
@@ -214,7 +209,7 @@ const MoreOnOrders = () => {
                     customErrorFunction(error)
                 });
         }
-    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus, orderdelete,splitStatus]);
+    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     const handleChange = (option) => {
         setSearchOption(option);
@@ -228,9 +223,6 @@ const MoreOnOrders = () => {
 
         }
     }, [activeTab])
-
-
-
 
     const handleClick = () => {
         setSearchValue("")
@@ -254,14 +246,12 @@ const MoreOnOrders = () => {
         debounce((param) => handleClick(param), 1000),
         []
     );
+
     const handleReset = () => {
         debouncedHandleClick();
     }
 
-
     const handleQueryfilter = (value) => {
-        // setSearchValue("")
-        // setHandleResetFrom(true)
         setQueryParamTemp({})
         axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}&${value}`, {
             headers: {
