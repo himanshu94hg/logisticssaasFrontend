@@ -174,7 +174,7 @@ const AddWarehouse = () => {
                     SetAddFields(false);
                     setSameRTO(false);
                 }
-            } 
+            }
         } catch (error) {
             customErrorFunction(error)
         }
@@ -350,6 +350,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className={`input-field ${errors.city && 'input-field-error'}`}
                                     name="city"
+                                    placeholder='Enter city'
                                     ref={cityRef1}
                                     disabled
                                 />
@@ -363,6 +364,7 @@ const AddWarehouse = () => {
                                     name="state"
                                     ref={stateRef1}
                                     disabled
+                                    placeholder='Enter state'
                                 />
                                 {errors.state && <div className="custom-error">{errors.state}</div>}
                             </label>
@@ -372,6 +374,7 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="country"
+                                    placeholder='Enter country'
                                     ref={countryRef1}
                                     disabled
                                 />
