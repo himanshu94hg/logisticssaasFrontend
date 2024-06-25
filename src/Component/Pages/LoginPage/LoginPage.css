@@ -231,3 +231,11 @@
 .other-signin-options button span {
     font-size: 0.8rem;
 }
+
+.eye-icons {
+    position: absolute;
+    right: 9px;
+    top: 4px;
+    font-size: 19px;
+    cursor: pointer;
+}
