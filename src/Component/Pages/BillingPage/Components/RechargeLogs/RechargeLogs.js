@@ -1,14 +1,9 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 
-const RechargeLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow,billingRechargeCounterCard }) => {
+const RechargeLogs = ({ billingCard, selectedRows,selectAll,setSelectAll, setSelectedRows, setBulkActionShow,billingRechargeCounterCard }) => {
 
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
-
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {

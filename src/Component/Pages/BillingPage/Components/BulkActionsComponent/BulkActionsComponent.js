@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
 
-const BulkActionsComponent = ({ activeTab, selectedRows, selectedOrderRows }) => {
+const BulkActionsComponent = ({ activeTab,setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
     const dispatch = useDispatch()
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
@@ -12,6 +12,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, selectedOrderRows }) =>
 
     const handleExport = () => {
         setExportButtonClick(true);
+        setBulkActionShow(false)
         const requestData = {
             "ids": `${activeTab === "Shipping Charges" ? selectedOrderRows.join(',') : selectedRows.join(',')}`
         };
@@ -33,6 +34,10 @@ const BulkActionsComponent = ({ activeTab, selectedRows, selectedOrderRows }) =>
         else {
             dispatch({ type: "EXPORT_RECEIPT_DATA_ACTION", payload: requestData });
         }
+
+        setSelectedOrderRows([])
+        setSelectedRows([])
+        setSelectAll(false)
     };
 
     useEffect(() => {

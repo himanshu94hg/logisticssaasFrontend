@@ -1,64 +1,12 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
 
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
+const PassbookTab = ({ billingCard, selectedRows,selectAll,setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
 
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
-const PassbookTab = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
-
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
-    const reasons = [
-        { count: 247483644, credit_blance: 0.0, dr_blance: 100, cr_pathner_name: 'bluedart_surface' },
-        { count: 395645666, credit_blance: 3463, dr_blance: 200, cr_pathner_name: 'bluedart_surface' },
-        { count: 746465788, credit_blance: 200, dr_blance: 6000, cr_pathner_name: 'bluedart_surface' },
-        { count: 746465788, credit_blance: 700, dr_blance: 100, cr_pathner_name: 'bluedart_surface' },
-    ];
-
-    const awbcount = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].count;
-    };
-
-    const creditData = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].credit_blance;
-    };
-    const drData = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].dr_blance;
-    };
-    const cr_pathner_name = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].cr_pathner_name;
-    };
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {

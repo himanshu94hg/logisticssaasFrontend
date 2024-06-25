@@ -29,14 +29,11 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
+const ShippingCharges = ({ billingCard, selectedRows,selectAll, setSelectAll, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
 
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {

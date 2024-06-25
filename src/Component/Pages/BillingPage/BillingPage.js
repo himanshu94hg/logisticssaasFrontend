@@ -15,6 +15,7 @@ import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 const BillingPage = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [selectAll, setSelectAll] = useState(false);
     const [activeTab, setActiveTab] = useState("Shipping Charges");
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [currentPage, setCurrentPage] = useState(1);
@@ -26,29 +27,30 @@ const BillingPage = () => {
     const [MoreFilters, setMoreFilters] = useState(false);
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
 
-    const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
-    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard,billingPassbookCounterCard,billingRechargeCounterCard,billingShippingCounterCard,billingRemitanceExportCard } = billingSectionReducer;
 
-    console.log("billingPassbookCounterCardbillingPassbookCounterCard", billingShippingCounterCard);
+    const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
+    const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard, billingPassbookCounterCard, billingRechargeCounterCard, billingShippingCounterCard, billingRemitanceExportCard } = billingSectionReducer;
+
+
 
     useEffect(() => {
         switch (activeTab) {
             case "Shipping Charges":
-                dispatch({ type: "BILLING_SHIPPING_COUNTER_DATA_ACTION"});
+                dispatch({ type: "BILLING_SHIPPING_COUNTER_DATA_ACTION" });
                 dispatch({ type: "BILLING_SHIPING_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Remittance Logs":
                 dispatch({ type: "BILLING_SHIPING_REMITANCE_DATA_ACTION", payload: { page_size: itemsPerPage, page: currentPage } });
                 break;
             case "Recharge Logs":
-                dispatch({ type: "BILLING_RECHARGE_COUNTER_DATA_ACTION"});
+                dispatch({ type: "BILLING_RECHARGE_COUNTER_DATA_ACTION" });
                 dispatch({ type: "BILLING_SHIPING_RECHARGE_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Invoices":
                 dispatch({ type: "BILLING_SHIPING_INVOICE_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Passbook":
-                dispatch({ type: "BILLING_PASSBOOK_COUNTER_DATA_ACTION"});
+                dispatch({ type: "BILLING_PASSBOOK_COUNTER_DATA_ACTION" });
                 dispatch({ type: "BILLING_DATA_ACTION", payload: { itemsPerPage, currentPage } });
                 break;
             case "Credit Receipt":
@@ -114,16 +116,16 @@ const BillingPage = () => {
 
     const handleMoreFilter = (filterParams) => {
         const { start_date, end_date, utr_number } = filterParams;
-    
+
         const formatDate = (dateString) => {
             if (!dateString) return null;
             const dateObject = new Date(dateString);
             return dateObject.toISOString().split('T')[0];
         };
-    
+
         const startDate = formatDate(start_date);
         const endDate = formatDate(end_date);
-    
+
         const payload = {
             page_size: 20,
             page: 1,
@@ -131,16 +133,16 @@ const BillingPage = () => {
             ...(endDate && { end_date: endDate }),
             utr_number: utr_number || '',
         };
-    
+
         dispatch({
             type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",
             payload: payload,
         });
-    
+
         setMoreFilters(false);
     };
-    
-    
+
+
 
     return (
         <>
@@ -148,11 +150,13 @@ const BillingPage = () => {
             <div className='billing-page-container'>
                 {/* Shipping Charges */}
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
+                    selectAll={selectAll}
+                    setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}
-                    setSelectedOrderRows={setSelectedOrderRows} 
-                    billingShippingCounterCard={billingShippingCounterCard}/>}
+                    setSelectedOrderRows={setSelectedOrderRows}
+                    billingShippingCounterCard={billingShippingCounterCard} />}
 
                 {/* Remittance Logs */}
                 {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={remitanceOrderRows}
@@ -162,10 +166,12 @@ const BillingPage = () => {
 
                 {/* Recharge Logs */}
                 {activeTab === "Recharge Logs" && <RechargeLogs billingCard={billingShipingRechargeCard.results}
+                    selectAll={selectAll}
+                    setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} 
-                    billingRechargeCounterCard={billingRechargeCounterCard}/>}
+                    setBulkActionShow={setBulkActionShow}
+                    billingRechargeCounterCard={billingRechargeCounterCard} />}
 
                 {/* Invoices */}
                 {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
@@ -175,10 +181,12 @@ const BillingPage = () => {
 
                 {/* Passbook */}
                 {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
+                    selectAll={selectAll}
+                    setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
-                    setBulkActionShow={setBulkActionShow} 
-                    billingPassbookCounterCard={billingPassbookCounterCard}/>}
+                    setBulkActionShow={setBulkActionShow}
+                    billingPassbookCounterCard={billingPassbookCounterCard} />}
 
                 {/* Credit Receipt */}
                 {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
@@ -196,10 +204,13 @@ const BillingPage = () => {
                 {BulkActionShow && (
                     <BulkActionsComponent
                         activeTab={activeTab}
+                        setSelectAll={setSelectAll}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
+                        setBulkActionShow={setBulkActionShow}
                         selectedOrderRows={selectedOrderRows}
                         setSelectedOrderRows={setSelectedOrderRows}
+
                     />
                 )}
             </div>

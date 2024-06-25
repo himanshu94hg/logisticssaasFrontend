@@ -21,6 +21,8 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
     }
   }, [zonePathName]);
 
+  console.log(zonePathName, pathName, "this is zone mapping data")
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -36,19 +38,16 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
     };
   }, [setZoneMapping]);
 
-  const handleClickOutside = (event) => {
-    if (popRef.current && !popRef.current.contains(event.target)) {
-      setZoneMapping(false);
-      setZoneStatus(false)
-    }
-  };
 
-  const exportToExcel = async () => {
-    try {
-      const response = await dispatch({ type: 'ZONE_MAPPING_ACTION', payload: pincode });
-    } catch (error) {
-      customErrorFunction(error)
+  const exportToExcel = () => {
+    if (pincode == "") {
+      toast.error("Please enter pincode!")
+    } else {
+      dispatch({ type: 'ZONE_MAPPING_ACTION', payload: pincode });
     }
+
+    setZoneMapping(false)
+    setZoneStatus(false)
   };
 
   return (
@@ -61,8 +60,8 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
               Pick-up Pincode
               <input className='input-field' type="text" placeholder='6 Digits Pick-up Area Pincode' onChange={(e) => setPincode(e.target.value)} />
             </label>
-            <button type='button' className='btn main-button' onClick={exportToExcel}>
-              <span className='rotate-180'><PiExport fontSize={25} onClick={() => setZoneMapping(false)} /></span> Export
+            <button type='button' className='btn main-button' onClick={exportToExcel} >
+              <span className='rotate-180'   ><PiExport fontSize={25} /></span> Export
             </button>
           </div>
         </form>
