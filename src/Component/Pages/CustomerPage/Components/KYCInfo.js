@@ -244,6 +244,7 @@ const KYCInfo = ({ activeTab }) => {
                       onChange={handleChange}
                       maxLength={55}
                       onKeyDown={(e) => handleKeyPress(e)}
+                      placeholder='Enter document name'
                     />
                     {errors.document_name && <span className="custom-error">{errors.document_name}</span>}
                   </label>
@@ -257,6 +258,7 @@ const KYCInfo = ({ activeTab }) => {
                       value={formData.document_id}
                       onChange={handleChange}
                       onKeyDown={(e) => handleKeyPress(e)}
+                      placeholder='Enter document number'
                     />
                     {errors.document_id && <span className="custom-error">{errors.document_id}</span>}
                   </label>

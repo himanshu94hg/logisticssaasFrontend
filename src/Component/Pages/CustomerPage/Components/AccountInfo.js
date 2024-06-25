@@ -268,6 +268,7 @@ const AccountInfo = ({ activeTab }) => {
                           type="text"
                           maxLength={100}
                           value={account.accountHolderName}
+                          placeholder="Enter account holder name"
                           onKeyDown={(e) => handleKeyPress(e)}
                           className={`input-field ${errors[index]?.accountHolderName && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, accountHolderName: e.target.value } : acc))} />
@@ -279,6 +280,7 @@ const AccountInfo = ({ activeTab }) => {
                           type="text"
                           maxLength={50}
                           value={account.accountNumber}
+                          placeholder="Enter account number"
                           onKeyPress={(e) => {
                             if (!/\d/.test(e.key)) {
                               e.preventDefault();
@@ -297,6 +299,7 @@ const AccountInfo = ({ activeTab }) => {
                           value={account.ifscCode}
                           maxLength={20}
                           onKeyDown={(e) => handleKeyPress(e)}
+                          placeholder="Enter IFSC code"
                           onBlur={(e) => handleIFSCChange(e, index)}
                           className={`input-field ${errors[index]?.ifscCode && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, ifscCode: e.target.value } : acc))}
@@ -309,6 +312,7 @@ const AccountInfo = ({ activeTab }) => {
                           type="text"
                           maxLength={55}
                           value={account.bankName}
+                          placeholder="Enter bank name"
                           onKeyDown={(e) => handleKeyPress(e)}
                           className={`input-field ${errors[index]?.bankName && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, bankName: e.target.value } : acc))} />
@@ -322,6 +326,7 @@ const AccountInfo = ({ activeTab }) => {
                           type="text"
                           maxLength={55}
                           value={account.branchName}
+                          placeholder="Enter branch name"
                           onKeyDown={(e) => handleKeyPress(e)}
                           className={`input-field ${errors[index]?.branchName && "input-field-error"}`}
                           onChange={(e) => setAccounts(accounts.map((acc, idx) => idx === index ? { ...acc, branchName: e.target.value } : acc))}

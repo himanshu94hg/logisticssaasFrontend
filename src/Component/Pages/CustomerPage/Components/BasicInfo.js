@@ -432,6 +432,7 @@ const BasicInfo = ({ activeTab }) => {
                       onChange={handleChange}
                       maxLength={10} type="text"
                       name="pan_number" value={formData.pan_number}
+                      placeholder="Enter your PAN number"
                       className={`input-field ${errors.pan_number && "input-field-error"}`}
                       onKeyDown={(e) => {
                         const allowedCharacters = /^[a-zA-Z0-9]*$/;
@@ -449,6 +450,7 @@ const BasicInfo = ({ activeTab }) => {
                       maxLength={15}
                       type="text"
                       name="gst_number"
+                      placeholder="Enter your GST number"
                       value={formData.gst_number} onChange={handleChange}
                       className={`input-field ${errors.gst_number && "input-field-error"}`}
                       onKeyPress={(e) => {
