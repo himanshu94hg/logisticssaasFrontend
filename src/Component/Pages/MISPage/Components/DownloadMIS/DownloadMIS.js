@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import Pagination from '../../../../common/Pagination/Pagination';
+import { FiDownload } from "react-icons/fi";
 import { RxReset } from 'react-icons/rx';
 import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import NoData from '../../../../common/noData';
 import { debounce } from 'lodash';
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 
 const DownloadMIS = ({ activeTab }) => {
     const dispatch = useDispatch();
@@ -196,9 +198,14 @@ const DownloadMIS = ({ activeTab }) => {
                                         </td>
                                         <td>
                                             {row.report_status.toLowerCase() === "success" ? (
-                                                <button className='btn main-button' onClick={() => handleDownload(row.report_download_url, row.report_title)}>
-                                                    <FontAwesomeIcon icon={faDownload} />
-                                                </button>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn download-button' onClick={() => handleDownload(row.report_download_url, row.report_title)}>
+                                                        <FiDownload />
+                                                    </button>}
+                                                    tooltipComponent="Download"
+                                                    addClassName='downlaod-tooltip'
+                                                />
+
                                             ) : (
                                                 null
                                             )}
