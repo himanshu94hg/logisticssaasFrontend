@@ -299,7 +299,7 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
     const makeApiCall = () => {
         dispatch({
             type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                awb_numbers: [actionType]
+                ids: [actionType]
             }
         })
         setShow(false)
@@ -500,7 +500,7 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                 <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
-                                                                <li onClick={() => handleShow(row?.awb_number)}>Cancel Order</li>
+                                                                <li onClick={() => handleShow(row?.id)}>Cancel Order</li>
                                                             </ul>
                                                         </div>
                                                     ) : null}

@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -49,7 +49,6 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
     const [cancelOrderId, setCancelOrderId] = useState("");
     const [cancelAwbNo, setCancelAwbNo] = useState("");
     const [cancelOrderStatus, setCancelOrderStatus] = useState("");
-    const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
