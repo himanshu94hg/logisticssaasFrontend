@@ -129,6 +129,17 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             type="text"
                                             value={dimension[index].weight}
                                             onChange={(e) => handleInputChange(index, 'weight', e.target.value)}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key) && e.key !== '.') {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.key === '.' && e.target.value.includes('.')) {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
+                                                  e.preventDefault();
+                                                }
+                                              }}
                                         />
                                         {errors[index]?.weight && <div className="custom-error">{errors[index]?.weight}</div>}
                                         <span className='unit'>KG</span>
@@ -140,6 +151,17 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             type="text"
                                             value={dimension[index].length}
                                             onChange={(e) => handleInputChange(index, 'length', e.target.value)}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key) && e.key !== '.') {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.key === '.' && e.target.value.includes('.')) {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
+                                                  e.preventDefault();
+                                                }
+                                              }}
                                         />
                                         {errors[index]?.length && <div className="custom-error">{errors[index]?.length}</div>}
                                         <span className='unit'>CM</span>
@@ -151,6 +173,17 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             type="text"
                                             value={dimension[index].breadth}
                                             onChange={(e) => handleInputChange(index, 'breadth', e.target.value)}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key) && e.key !== '.') {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.key === '.' && e.target.value.includes('.')) {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
+                                                  e.preventDefault();
+                                                }
+                                              }}
                                         />
                                         {errors[index]?.breadth && <div className="custom-error">{errors[index]?.breadth}</div>}
                                         <span className='unit'>CM</span>
@@ -162,6 +195,17 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                                             type="text"
                                             value={dimension[index].height}
                                             onChange={(e) => handleInputChange(index, 'height', e.target.value)}
+                                            onKeyPress={(e) => {
+                                                if (!/\d/.test(e.key) && e.key !== '.') {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.key === '.' && e.target.value.includes('.')) {
+                                                  e.preventDefault();
+                                                }
+                                                if (e.target.value.includes('.') && e.target.value.split('.')[1].length >= 2) {
+                                                  e.preventDefault();
+                                                }
+                                              }}
                                         />
                                         {errors[index]?.height && <div className="custom-error">{errors[index]?.height}</div>}
                                         <span className='unit'>CM</span>
