@@ -44,6 +44,8 @@ const RateCalculatorPage = () => {
     setIsChecked(!isChecked);
   };
 
+  console.log(formData,"formDataformDataformData")
+
   useEffect(() => {
     if (sellerData) {
       setShipData(sellerData)
@@ -82,8 +84,10 @@ const RateCalculatorPage = () => {
         length: ratePrefilledData?.length,
         breadth: ratePrefilledData?.breadth,
         height: ratePrefilledData?.height
-
       }))
+      setLength(ratePrefilledData?.length)
+      setHeight(ratePrefilledData?.height)
+      setBreadth(ratePrefilledData?.breadth)
     }
   }, [ratePrefilledData]);
 
@@ -513,15 +517,15 @@ const RateCalculatorPage = () => {
                 <section className=''>
                   <div className='ship-container-row box-shadow shadow-sm' >
                     <div className='d-flex flex-column justify-content-center'>
-                      <div className='d-flex justify-content-center flex-column '>
-                        <img
-                          className='ms-3'
-                          style={{ border: "1px solid gray", borderRadius: "50%" }}
-                          width={"50px"}
-                          height={"50px"}
-                          src={item?.partner_image} alt="" />
-                        <p>{item?.courier_partner}</p>
-                        <p>RTO Charges: ₹{item?.rto_charge}</p>
+                      <div className='d-flex gap-2 '>
+                      <div className='img-container'>
+                                <img src={item.partner_image} alt={item.partner_title} />
+                            </div>
+                            <div className='d-flex flex-column justify-content-center'>
+                                <p>{item.partner_title}</p>
+                                <p>{"Delivering Excellence, Every Mile"}</p>
+                                <p>RTO Charges: ₹{item?.rto_charge}</p>
+                            </div>
                       </div>
                     </div>
                     <div className='d-flex align-items-center gap-2'>
