@@ -585,6 +585,8 @@ p {
   color: #fff;
 }
 
+.main-button-outline:focus-visible,
+.main-button-outline:active,
 .main-button-outline {
   border-color: #1975C9;
   color: #1975C9;
