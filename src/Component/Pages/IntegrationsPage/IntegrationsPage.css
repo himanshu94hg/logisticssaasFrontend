@@ -62,7 +62,8 @@
 }
 
 .card-img-container.StoreHippo {
-    border-right: 1px solid #7fb53c;
+    /* border-right: 1px solid #7fb53c; */
+    background-color: #cae1af;
 }
 
 .card-img-container.Amazon,
@@ -77,7 +78,7 @@
 }
 
 .card-img-container.Manual {
-background-color: var(--sh-primary-light);    
+    background-color: var(--sh-primary-light);
 }
 
 .card-img-container img {
