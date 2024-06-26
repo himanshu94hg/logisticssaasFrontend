@@ -13,7 +13,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const {exportCard,exportAllCard} = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const {exportCard,exportAllCard} = useSelector(state => state?.exportSectionReducer)
     console.log(exportCard, "Export Action Bulk")
 
     const handleExport = () => {

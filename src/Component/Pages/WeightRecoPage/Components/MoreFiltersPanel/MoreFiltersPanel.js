@@ -16,18 +16,22 @@ const SourceOptions = [
     { label: "Custom", value: "Custom" },
     { label: "Shopify", value: "shopify" },
 ];
-
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
+    { label: "Pending", value: "pending" },
     { label: "cancelled", value: "cancelled" },
     { label: "Delivered", value: "delivered" },
+    { label: "Picked Up", value: "picked_up" },
     { label: "In Transit", value: "in_transit" },
     { label: "Out of Delivery", value: "out_for_delivery" },
-    { label: "Pending", value: "pending" },
-    { label: "Lost", value: "lost" },
-    { label: "Manifested", value: "manifested" },
+    { label: "Pickup Requested", value: "pickup_requested" },
     { label: "Pickup Scheduled", value: "pickup_scheduled" },
+    { label: "RTO In Transit", value: "rto_in_transit" },
     { label: "RTO Initiated", value: "rto_initiated" },
+    { label: "RTO Delivered", value: "rto_delivered" },
+    { label: "NDR", value: "ndr" },
+    { label: "Lost", value: "lost" },
+    { label: "Damaged", value: "damaged" },
 ];
 
 const paymentOptions = [
