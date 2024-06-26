@@ -6,6 +6,7 @@ import Magento from '../../../../../assets/image/integration/magento.png'
 import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../assets/image/integration/Amazon.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
+import StoreHippoLogo from '../../../../../assets/image/integration/StoreHippoLogo2.png'
 
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
@@ -14,7 +15,7 @@ const ChannelsIntegration = () => {
         { child: 'wooCommerce', title: 'WooCommerce', imageUrl: WCLogo },
         // { child: 'opencart', title: 'Opencart', imageUrl: OpenCart },
         { child: 'channels', title: 'Opencart', imageUrl: OpenCart },
-        { child: 'storeHippo', title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
+        { child: 'storeHippo', title: 'StoreHippo', imageUrl: StoreHippoLogo },
         { child: 'magento', title: 'Magento', imageUrl: Magento },
         // Add more data as needed
     ];
