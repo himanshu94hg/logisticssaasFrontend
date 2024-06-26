@@ -26,7 +26,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const [activeSection, setActiveSection] = useState("Order Details");
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);
-    const editForm = "edit-form"
+    const [editForm, setEditForm] = useState(true)
     const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
 
@@ -353,6 +353,9 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const qty_err = checkValuePresence(editErrors, "Product Quantity is required!");
     const sku_err = checkValuePresence(editErrors, "SKU is required!");
 
+
+    console.log(formData, "this is a form data page")
+
     return (
         <>
             <section className={`edit-order-section ${EditOrderSection ? 'open-edit' : ''}`}>
@@ -401,6 +404,7 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                     <OrderDetailsStep
                                         tagData={tagData}
                                         editStatus={"editStatus"}
+                                        editForm={editForm}
                                         formData={formData}
                                         setFormData={setFormData}
                                         handleUpdate={handleUpdate}
@@ -461,7 +465,10 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                                 </div>
                             )}
                         </section>
-                        <button className='btn main-button ms-3 mt-3' onClick={handleUpdate}>Update</button>
+                        <div className='d-flex align-items-center gap-3 ms-3 mt-3'>
+                            <button className='btn main-button' onClick={handleUpdate}>Update</button>
+                            {formData?.order_details?.order_type === "Reverse" && <p className='mb-0 '><ErrorIcon /> Reverse order can only be prepaid!</p>}
+                        </div>
                     </section>
                 </section>
             </section>

@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -49,7 +49,6 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
     const [cancelOrderId, setCancelOrderId] = useState("");
     const [cancelAwbNo, setCancelAwbNo] = useState("");
     const [cancelOrderStatus, setCancelOrderStatus] = useState("");
-    const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -321,7 +320,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                 dispatch({
                     type: "ORDERS_DETAILS_CANCEL_ACTION",
                     payload: {
-                        awb_numbers: [cancelAwbNo]
+                        ids: [cancelAwbNo]
                     }
                 });
             }
@@ -526,7 +525,7 @@ const AllOrders = ({ orders, activeTab, bulkAwb, setbulkAwb, setBulkActionShow, 
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
-                                                                <li onClick={() => handleShowCancel(row?.id, row?.awb_number, row.status)}>Cancel Order</li>
+                                                                <li onClick={() => handleShowCancel(row?.id, row?.id, row.status)}>Cancel Order</li>
                                                                 <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>

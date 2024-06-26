@@ -283,10 +283,11 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
         setShow(true)
         setAwb(awb)
     }
+    
     const makeApiCall = () => {
         dispatch({
             type: "BULK_CANCEL_ORDER_ACTION", payload: {
-                awb_numbers: [awb],
+                ids: [awb],
             }
         })
         setShow(false)
@@ -487,7 +488,7 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleCancelOrder(row.awb_number)}>Cancel Order</li>
+                                                            <li onClick={() => handleCancelOrder(row.id)}>Cancel Order</li>
                                                             <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                         </ul>

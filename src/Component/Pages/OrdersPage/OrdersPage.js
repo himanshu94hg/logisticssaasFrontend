@@ -72,6 +72,7 @@ const OrdersPage = () => {
     const [awbNo, setAwbNo] = useState(null)
     const [pickupStatus, setPickupStatus] = useState('')
     const [filterData, setFilterData] = useState({});
+    const [selectAll, setSelectAll] = useState(false);
 
     const orderStatus = {
         "pending": "Pending",
@@ -241,7 +242,7 @@ const OrdersPage = () => {
     };
 
 
-    console.log(activeTab,"this is active tab data")
+    console.log(activeTab, "this is active tab data")
 
     const handleReset = () => {
         setSearchValue("")
@@ -323,7 +324,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab,moreorderShipCardStatus]);
+    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab, moreorderShipCardStatus]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {
@@ -449,6 +450,8 @@ const OrdersPage = () => {
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
                         orderStatus={orderStatus}
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
                     />
                 </div>
 
@@ -566,6 +569,7 @@ const OrdersPage = () => {
                 {BulkActionShow && (
                     <BulkActionsComponent
                         activeTab={activeTab}
+                        setSelectAll={setSelectAll}
                         bulkAwb={bulkAwb}
                         setbulkAwb={setbulkAwb}
                         selectedRows={selectedRows}
