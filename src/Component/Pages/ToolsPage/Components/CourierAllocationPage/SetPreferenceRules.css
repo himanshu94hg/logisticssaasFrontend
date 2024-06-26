@@ -143,9 +143,26 @@
 
 .create-rules-section .rule-preference p {
     background-color: #fff;
-    padding: 5px 10px;
+    /* padding: 5px 10px; */
     border-radius: 0.5rem;
     /* border: 1px solid var(--sh-primary-middle); */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 46px;
+    padding-right: 10px;
+}
+
+.create-rules-section .rule-preference p span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background: linear-gradient(180deg, var(--sh-primary-light) 0%, var(--sh-primary-middle) 0%, var(--sh-primary) 100%); */
+    background: var(--sh-primary-middle);
+    color: #fff;
+    height: 100%;
+    width: 30px;
+    border-radius: 0.5rem 0 0 0.5rem;
 }
 
 .create-rules-section .rule-condition {
