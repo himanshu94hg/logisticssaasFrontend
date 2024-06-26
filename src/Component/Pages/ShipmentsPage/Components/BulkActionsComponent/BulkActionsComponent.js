@@ -88,8 +88,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                         "order_id": "",
                         "courier": filterData?.courier || "",
                         "awb_number": filterData?.awb_number || "",
-                        "min_awb_assign_date": "",
-                        "max_awb_assign_date": "",
+                        "min_awb_assign_date": moment(filterData?.start_date).format("YYYY-MM-DD"),
+                        "max_awb_assign_date": moment(filterData?.end_date).format("YYYY-MM-DD"),
                         "status": filterData?.status || "",
                         "order_type": filterData?.order_type || "",
                         "customer_order_number": filterData?.customer_order_number || "",
@@ -106,8 +106,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                         "rto_status": filterData?.rto_status || "",
                         "global_type": filterData?.global_type || "",
                         "payment_type": filterData?.payment_type || "",
-                        ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
-                        ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
+                        // ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
+                        // ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
                     };
                     dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
                     // setBulkActionShow(false);
