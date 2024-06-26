@@ -320,7 +320,7 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
                 dispatch({
                     type: "ORDERS_DETAILS_CANCEL_ACTION",
                     payload: {
-                        awb_numbers: [cancelAwbNo]
+                        ids: [cancelAwbNo]
                     }
                 });
             }
@@ -525,7 +525,7 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
-                                                                <li onClick={() => handleShowCancel(row?.id, row?.awb_number, row.status)}>Cancel Order</li>
+                                                                <li onClick={() => handleShowCancel(row?.id, row?.id, row.status)}>Cancel Order</li>
                                                                 <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>
