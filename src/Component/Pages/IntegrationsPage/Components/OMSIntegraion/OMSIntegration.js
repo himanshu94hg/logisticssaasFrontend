@@ -1,12 +1,13 @@
 import React from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router-dom';
+import EasyShipLogo from '../../../../../assets/image/integration/EasyShipLogo.png'
 
 const OMSIntegration = () => {
     let navigate = useNavigate()
 
     const OMSData = [
-        { child: 'easyship', title: 'EasyShip', imageUrl: 'https://www.shipease.in/public/assets/images/oms/easyship.png' },
+        { child: 'easyship', title: 'EasyShip', imageUrl: EasyShipLogo },
         { child: 'easyecom', title: 'EasyEcom', imageUrl: 'https://www.shipease.in/public/assets/images/oms/easyecom.png' },
         { child: 'vine-retail', title: 'VineRetail', imageUrl: 'https://www.shipease.in/public/assets/images/oms/vineretail.png' },
         { child: 'unicommerce', title: 'Unicommerce', imageUrl: 'https://www.shipease.in/public/assets/images/oms/unicommerce.jpg' },
