@@ -17,7 +17,7 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2'; 
 import moment from 'moment';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow,filterData,setFilterData }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow,filterData,setFilterData }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
@@ -30,7 +30,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
     
     const handleClose = () => setShow(false);
 
-    console.log("filterDatafilterDatafilterDatafilterData",filterData)
     
     useEffect(() => {
         if (labelData) {
@@ -93,21 +92,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         }
     }, [invoiceData])
 
-    /* useEffect(()=>{
-         if(invoiceData){
-             const blob = new Blob([invoiceData], { type: 'application/pdf' });
-             const url = URL.createObjectURL(blob);
-             const a = document.createElement('a');
-             a.href = url;
-             a.download = 'Invoice.pdf';
-             document.body.appendChild(a);
-             a.click();
-             document.body.removeChild(a);
-             URL.revokeObjectURL(url);
-            }
-     },[invoiceData])*/
-
-
     const addTag = () => {
         setaddTagShow(true)
     }
@@ -117,64 +101,66 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                 order_ids: selectedRows,
             }
         })
+        setSelectAll(false)
     }
 
     const rtoUpdate = () => {
         setUpdateWarehouse(true)
-
+        setSelectAll(false)
     }
     const bulkDeleted = (args) => {
         setShow(true)
+        setSelectAll(false)
         setActionType(args)
     }
     const bulkCancelled = (args) => {
         setActionType(args)
-        // if (activeTab === "Processing" || activeTab === "Pickups") {
-        //     dispatch({
-        //         type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
-        //             order_ids: selectedRows,
-        //         }
-        //     })
-        // } else {
-        //     dispatch({
-        //         type: "BULK_CANCEL_ORDER_ACTION", payload: {
-        //             awb_numbers: bulkAwb,
-        //         }
-        //     })
-        // }
         setShow(true)
-
+        setSelectAll(false)
     }
 
     const makeApiCall = () => {
         setShow(false);
+        setSelectAll(false)
         if (actionType === "bulkDelete") {
             dispatch({ type: "BULK_DELETE_ORDER_ACTION", payload: { order_ids: selectedRows } });
         } else {
             if (activeTab === "Processing" || activeTab === "Pickups") {
                 dispatch({ type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: { order_ids: selectedRows } });
             } else {
-                dispatch({ type: "BULK_CANCEL_ORDER_ACTION", payload: { awb_numbers: bulkAwb } });
+                dispatch({ type: "BULK_CANCEL_ORDER_ACTION", payload: { ids: selectedRows } });
             }
         }
     };
 
     const generateManifest = () => {
         dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
+        setSelectAll(false)
     };
-    const generatePickup = () => dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } });
+    
+    const generatePickup = () =>{
+        setSelectAll(false)
+        dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
+    };
+
     const generateLabel = () => {
-        dispatch({ type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: { order_ids: selectedRows.join(',') } });
+        setSelectAll(false)
         setGenaratelabel(true);
+        dispatch({ type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: { order_ids: selectedRows.join(',') } });
     };
     const generateInvoice = () => {
-        dispatch({ type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: { order_ids: selectedRows.join(',') } });
+        setSelectAll(false)
         setGenerateinvoice(true);
+        dispatch({ type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: { order_ids: selectedRows.join(',') } });
     };
-    const bulkDimesionDetailUpdate = () => setUpdateWeight(true);
+    const bulkDimesionDetailUpdate = () => {
+        setUpdateWeight(true)
+        setSelectAll(false)
+    }
 
     const handleExport = () => {
         setExportButtonClick(true);
+        setSelectAll(false)
         const requestData = {
             "order_tab": {
                 "type": activeTab === "All" ? "" : activeTab,
@@ -218,6 +204,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
         setShipButtonClicked(true);
         const data = { "order_ids": selectedRows.map(id => id.toString()) };
         dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
+        setSelectAll(false)
     };
 
     useEffect(() => {

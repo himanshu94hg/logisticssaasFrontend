@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Select from 'react-select';
 import Cookies from "js-cookie"
 
-export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, editStatus, editErrors, tagData }) => {
+export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, editStatus, editErrors, tagData, editForm }) => {
     const dispatch = useDispatch()
     const location = useLocation();
     const [errors, setErrors] = useState({});
@@ -54,13 +54,17 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
     }, [location, pathName, editStatus, formData]);
 
 
+
+
+
     useEffect(() => {
         if (formData.order_details.order_type === "Reverse") {
             setFormData(prevFormData => ({
                 ...prevFormData,
                 order_details: {
                     ...prevFormData.order_details,
-                    is_mps: false
+                    is_mps: false,
+                    payment_type: "Prepaid",
                 },
                 other_details: {
                     ...prevFormData.other_details,

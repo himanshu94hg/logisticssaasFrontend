@@ -6,26 +6,31 @@ import Magento from '../../../../../assets/image/integration/magento.png'
 import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../assets/image/integration/Amazon.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
+import StoreHippoLogo from '../../../../../assets/image/integration/StoreHippoLogo2.png'
 
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
     const ShoppingCarts = [
         { child: 'shopify', title: 'Shopify', imageUrl: '../shopify.jpg' },
         { child: 'wooCommerce', title: 'WooCommerce', imageUrl: WCLogo },
-        { child: 'opencart', title: 'Opencart', imageUrl: OpenCart },
-        { child: 'storeHippo', title: 'StoreHippo', imageUrl: 'https://www.shipease.in/public/assets/images/channel/storehippo.png' },
+        // { child: 'opencart', title: 'Opencart', imageUrl: OpenCart },
+        { child: 'channels', title: 'Opencart', imageUrl: OpenCart },
+        { child: 'storeHippo', title: 'StoreHippo', imageUrl: StoreHippoLogo },
         { child: 'magento', title: 'Magento', imageUrl: Magento },
         // Add more data as needed
     ];
 
     const OnlineMarketplaces = [
-        { child: 'amazon', title: 'Amazon', imageUrl: Amazon },
-        { child: 'amazon-direct', title: 'Amazon Direct', imageUrl: Amazon },
+        { child: 'channels', title: 'Amazon', imageUrl: Amazon },
+        // { child: 'amazon', title: 'Amazon', imageUrl: Amazon },
+        { child: 'channels', title: 'Amazon Direct', imageUrl: Amazon },
+        // { child: 'amazon-direct', title: 'Amazon Direct', imageUrl: Amazon },
         // Add more data as needed
     ];
 
     const OtherChannels = [
-        { child: 'manual-integration', title: 'Manual', imageUrl: Manual }
+        { child: 'channels', title: 'Manual', imageUrl: Manual }
+        // { child: 'manual-integration', title: 'Manual', imageUrl: Manual }
         // Add more data as needed
     ];
 
