@@ -1,43 +1,56 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import '../CourierAllocationPage.css'
+import '../CourierAllocationPage.css';
 import NavTabs from '../navTabs/NavTabs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SetPreferenceRules from '../SetPreferenceRules';
 import globalDebouncedClick from '../../../../../../debounce';
 import { useDispatch } from 'react-redux';
+import Cookies from 'js-cookie';
 import { has } from 'lodash';
-// import globalDebouncedClick from '../../../../../debounce';
-
-
-const initialPool = [
-    { id: 'courier-1', name: 'Courier 1' },
-    { id: 'courier-2', name: 'Courier 2' },
-    { id: 'courier-3', name: 'Courier 3' },
-    { id: 'courier-4', name: 'Courier 4' },
-    { id: 'courier-5', name: 'Courier 5' },
-    { id: 'courier-6', name: 'Courier 6' },
-    { id: 'courier-7', name: 'Courier 7' },
-    { id: 'courier-8', name: 'Courier 8' },
-    // Add more couriers as needed
-];
-
-const initialSequenceOne = [];
-const initialSequenceTwo = [];
 
 const NewComponent = () => {
     const dispatch = useDispatch();
 
     const [activeTab, setActiveTab] = useState("Courier Preferences");
-    const [formData, setFormData] = useState(null)
+    const [formData, setFormData] = useState(null);
 
-    const [pool, setPool] = useState(initialPool);
-    const [sequenceOne, setSequenceOne] = useState(initialSequenceOne);
-    const [sequenceTwo, setSequenceTwo] = useState(initialSequenceTwo);
+    const [pool, setPool] = useState([]);
+    const [sequenceOne, setSequenceOne] = useState([]);
+    const [sequenceTwo, setSequenceTwo] = useState([]);
+    let authToken = Cookies.get("access_token")
+
+
+    console.log(pool,sequenceTwo,"this is a sequence pool data",sequenceOne)
+
+
+    useEffect(() => {
+        // Fetch data from API
+        fetch('https://uat.shipease.in/core-api/features/courier-category-new/', {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => response.json())
+            .then(data => {
+                const poolData = data.find(item => item.title === "Buffer Pool")?.partners || [];
+                const b2bData = data.find(item => item.title === "B2B")?.partners || [];
+                const b2cData = data.find(item => item.title === "B2C")?.partners || [];
+
+                setPool(poolData);
+                setSequenceOne(b2bData);
+                setSequenceTwo(b2cData);
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    }, [authToken, setPool, setSequenceOne, setSequenceTwo]);
 
     const onDragEnd = (result) => {
+        // console.log(result,"resultresultresultresult")
+        // return false
         const { source, destination } = result;
+
+        console.log(source,destination,"hhhhhhhhhhhhhhhhhhhhhhhhhh",result)
 
         if (!destination) return;
 
@@ -112,7 +125,7 @@ const NewComponent = () => {
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h2>Pool</h2>
                                     {pool.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id} index={index}>
+                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
                                             {(provided) => (
                                                 <div
                                                     ref={provided.innerRef}
@@ -120,7 +133,7 @@ const NewComponent = () => {
                                                     {...provided.dragHandleProps}
                                                     className="courier"
                                                 >
-                                                    {courier.name}
+                                                    {courier.title}
                                                 </div>
                                             )}
                                         </Draggable>
@@ -138,7 +151,7 @@ const NewComponent = () => {
                                         <button className='btn main-button-outline' onClick={removeAllFromSequenceOne}>Remove All</button>
                                     </div>
                                     {sequenceOne.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id} index={index}>
+                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
                                             {(provided) => (
                                                 <div
                                                     ref={provided.innerRef}
@@ -146,7 +159,7 @@ const NewComponent = () => {
                                                     {...provided.dragHandleProps}
                                                     className="courier"
                                                 >
-                                                    {courier.name}
+                                                    {courier.title}
                                                 </div>
                                             )}
                                         </Draggable>
@@ -164,7 +177,7 @@ const NewComponent = () => {
                                         <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
                                     </div>
                                     {sequenceTwo.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id} index={index}>
+                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
                                             {(provided) => (
                                                 <div
                                                     ref={provided.innerRef}
@@ -172,7 +185,7 @@ const NewComponent = () => {
                                                     {...provided.dragHandleProps}
                                                     className="courier"
                                                 >
-                                                    {courier.name}
+                                                    {courier.title}
                                                 </div>
                                             )}
                                         </Draggable>
@@ -209,4 +222,4 @@ const NewComponent = () => {
     );
 };
 
-export default NewComponent
+export default NewComponent;
