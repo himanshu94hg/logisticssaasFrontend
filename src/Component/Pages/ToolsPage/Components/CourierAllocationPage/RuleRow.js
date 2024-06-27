@@ -52,7 +52,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                     <select
                         className='select-field'
                         value={row.condition}
-                        style={{ width: '100px' }}
+                        style={{ width: '87px', minWidth: '87px' }}
                         onChange={(e) => handleSelectChange(index, 'condition', e.target.value)}
                         disabled={index === 0}
                     >
@@ -140,9 +140,9 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                         placeholder="Enter text"
                     />
                     <div className='add-rule-btns'>
-                        {index > 0 && (
+                        {rows.length > 1 && (
                             <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                        )}  
+                        )}
                         {index === rows.length - 1 && (
                             <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                         )}

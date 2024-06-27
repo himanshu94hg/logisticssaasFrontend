@@ -54,7 +54,10 @@ const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, pri
                 </div>
                 <div className='ar-items-scroll mt-3 d-flex gap-3 flex-column position-relative'>
                     <RuleRow initialRows={conditions} setConditions={setConditions} formErrors={formErrors} setOnRowsChange={setOnRowsChange} />
-                    <div className="text-danger mt-2 me-3 font12">{formErrors["conditions"]}</div>
+                    {formErrors["conditions"] &&
+                        <div className="text-danger mt-2 me-3 font12">{formErrors["conditions"]}</div>
+                    }
+
                 </div>
                 <div className='d-flex justify-content-end my-3'>
                     <button onClick={handleSubmit} className='btn main-button'>Submit</button>

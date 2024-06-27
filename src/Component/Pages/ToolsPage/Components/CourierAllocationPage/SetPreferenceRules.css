@@ -30,6 +30,17 @@
     align-items: center;
     gap: 10px;
 }
+/* 
+.add-rule-btns button:hover,
+.add-rule-btns button {
+    padding: 0;
+    width: 30px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+} */
 
 .create-rules-section {
     width: 100%;
