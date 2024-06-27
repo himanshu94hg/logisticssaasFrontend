@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import PieChart from './PieChart';
 import StarRating from './StarRating';
 import './SingleShipPop';
-import 'react-toastify/dist/ReactToastify.css'; 
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
-const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
+const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => {
     const navigation = useNavigate();
     const dispatch = useDispatch()
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -30,25 +30,25 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
     };
     const dateAfter2Days = addDays(currentDate, 2);
 
-     const handleSubmit = (option) => {
-        dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: {"courier":option,"order_id":orderId} });
+    const handleSubmit = (option) => {
+        dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
         setShipingData(true);
         setSingleShip(false)
     };
 
-    
+
 
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
-            <div className='d-flex justify-content-between p10 align-items-center'>
-                {/* <h4 className='mb-0'>Choose Shipping Partner</h4>
+            {/* <div className='d-flex justify-content-between p10 align-items-center'>
+                <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
                     onClick={handleClose}
                     className='btn close-button'
                 >
                     <FontAwesomeIcon icon={faTimes} />
-                </button> */}
-            </div>
+                </button>
+            </div> */}
             <div className='ss-container-main'>
                 {/* Iterate over ship options and render details */}
                 {reassignCard && reassignCard?.map((option, index) => (
@@ -90,7 +90,7 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
                             </div>
                         </div>
                         <div className='ss-shipment-charges'>
-                            <p><strong>₹ {(option.rate + option.cod_charge+option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
+                            <p><strong>₹ {(option.rate + option.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
                                 <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
                                 <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
                                 <span>+ Early COD Charges: <strong>₹ {option?.early_cod_charge}</strong></span><br />
