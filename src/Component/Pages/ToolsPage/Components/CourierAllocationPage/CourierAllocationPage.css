@@ -97,6 +97,7 @@ ul [data-rbd-droppable-context-id] {
 .minor-rule-row {
     display: flex;
     gap: 10px;
+    padding-right: 4px;
 }
 
 .major-rule-row label input,
