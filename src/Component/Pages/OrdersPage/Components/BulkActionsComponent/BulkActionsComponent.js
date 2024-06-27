@@ -272,8 +272,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setbulkAwb, selectedRows, se
                         "rto_status": filterData?.rto_status || "",
                         "global_type": filterData?.global_type || "",
                         "payment_type": filterData?.payment_type || "",
-                        ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
-                        ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
+                        "start_date": moment(filterData.start_date).format("YYYY-MM-DD") || "",
+                        "end_date": moment(filterData.end_date).format("YYYY-MM-DD") || "",
                     };
                     dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
                     setBulkActionShow(false);
