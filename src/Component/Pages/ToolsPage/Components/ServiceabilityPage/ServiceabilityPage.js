@@ -34,6 +34,7 @@ const ServiceabilityPage = () => {
     pickup_pincode: '',
     delivery_pincode: ''
   });
+  const [status, setStatus] = useState(false)
   const { shipeaseServicePincode, courierPartnerName, serviceAbility, serviceCourierPincode } = useSelector(state => state?.toolsSectionReducer)
   const handleChange = (selected) => {
     setSelectedOptions(selected);
@@ -43,6 +44,12 @@ const ServiceabilityPage = () => {
     const regex = /^\d{6}$/;
     return regex.test(input);
   };
+
+  useEffect(() => {
+    if (shipeaseServicePincode || serviceCourierPincode) {
+      setStatus(false)
+    }
+  }, [shipeaseServicePincode, serviceCourierPincode])
 
   const handlePincodeChange = (e) => {
     const { value } = e.target;
@@ -64,7 +71,7 @@ const ServiceabilityPage = () => {
     }
     if (!validatePincode(pairPincode.delivery_pincode)) {
       errors.delivery_pincode = "Delivery pincode is required!";
-    }if(!validatePincode()){
+    } if (!validatePincode()) {
 
     }
 
@@ -91,11 +98,13 @@ const ServiceabilityPage = () => {
       setPincodeError('')
     }
   };
-  const getCourierServiceAvability = () => { 
-      dispatch({ type: "GET_COURIER_SERVICE_ABILITY_FILTER_ACTION", payload: courierId })   
+  const getCourierServiceAvability = () => {
+    setStatus(true)
+    dispatch({ type: "GET_COURIER_SERVICE_ABILITY_FILTER_ACTION", payload: courierId })
   }
 
   const exportShipeaseServiceability = () => {
+    setStatus(true)
     dispatch({ type: "GET_SHIPEASE_SERVICE_ABILITY_ACTION" })
   }
 
@@ -104,12 +113,12 @@ const ServiceabilityPage = () => {
   }, [])
 
   useEffect(() => {
-    if (shipeaseServicePincode!=null || serviceCourierPincode!=null) {
+    if ((shipeaseServicePincode || serviceCourierPincode) && status) {
       var FileSaver = require('file-saver');
       var blob = new Blob([shipeaseServicePincode || serviceCourierPincode], { type: 'application/ms-excel' });
-      FileSaver.saveAs(blob, shipeaseServicePincode? "shipease_serviceability-pincode.xlsx":"serviceable-pincode.xlsx");
+      FileSaver.saveAs(blob, shipeaseServicePincode ? "shipease_serviceability-pincode.xlsx" : "serviceable-pincode.xlsx");
     }
-  }, [shipeaseServicePincode,serviceCourierPincode])
+  }, [shipeaseServicePincode, serviceCourierPincode])
 
   useEffect(() => {
     if (courierPartnerName && Array.isArray(courierPartnerName?.results)) {
@@ -121,22 +130,12 @@ const ServiceabilityPage = () => {
     }
   }, [courierPartnerName]);
 
-
   useEffect(() => {
     const temp_data = selectedOptions?.map((item) => item.value);
     const commaSeparatedString = temp_data.join(',');
     setCourierId(commaSeparatedString)
   }, [selectedOptions])
 
-  useEffect(() => {
-    if (serviceAbility) {
-      setPairPincode({
-        pickup_pincode: '',
-        delivery_pincode: ''
-      })
-      // setZipcode('')
-    }
-  }, [serviceAbility])
 
   return (
     <>
@@ -150,34 +149,34 @@ const ServiceabilityPage = () => {
                 <div className='d-flex w-100 gap-3 align-items-center'>
                   <label className='w-100'>
                     Pickup Pincode
-                    <input 
-                    className={`input-field ${pairPincodeError.pickup_pincode && "input-field-error"}`}
-                    name="pickup_pincode" value={pairPincode.pickup_pincode}
-                    type="text" placeholder='Enter your Pickup Pincode'
-                    onChange={pairHandleChange}
-                    maxLength={6}
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
+                    <input
+                      className={`input-field ${pairPincodeError.pickup_pincode && "input-field-error"}`}
+                      name="pickup_pincode" value={pairPincode.pickup_pincode}
+                      type="text" placeholder='Enter your Pickup Pincode'
+                      onChange={pairHandleChange}
+                      maxLength={6}
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
                           e.preventDefault();
-                      }
-                  }} />
+                        }
+                      }} />
                     {pairPincodeError.pickup_pincode && <span className="error-text">{pairPincodeError.pickup_pincode}</span>}
                   </label>
                   <hr className='pair-hr' />
                   <label className='w-100'>
                     Delivery Pincode
-                    <input 
-                    className={`input-field ${pairPincodeError.delivery_pincode && "input-field-error"}`} 
-                    name="delivery_pincode" 
-                    value={pairPincode.delivery_pincode} 
-                    type="text" placeholder='Enter your Delivery Pincode' 
-                    onChange={pairHandleChange}
-                    maxLength={6}  
-                    onKeyPress={(e) => {
-                      if (!/\d/.test(e.key)) {
+                    <input
+                      className={`input-field ${pairPincodeError.delivery_pincode && "input-field-error"}`}
+                      name="delivery_pincode"
+                      value={pairPincode.delivery_pincode}
+                      type="text" placeholder='Enter your Delivery Pincode'
+                      onChange={pairHandleChange}
+                      maxLength={6}
+                      onKeyPress={(e) => {
+                        if (!/\d/.test(e.key)) {
                           e.preventDefault();
-                      }
-                  }} />
+                        }
+                      }} />
                     {pairPincodeError.delivery_pincode && <span className="error-text">{pairPincodeError.delivery_pincode}</span>}
                   </label>
                 </div>
@@ -192,17 +191,17 @@ const ServiceabilityPage = () => {
                 <h5>Check Serviceable Couriers</h5>
                 <label>
                   Enter Pickup or Delivery Pincode
-                  <input 
-                  className={`input-field ${pincodeError && "input-field-error"}`} 
-                  type="text" value={zipcode} 
-                  placeholder='Enter your Pincode' 
-                  onChange={handlePincodeChange} 
-                  maxLength={6}
-                  onKeyPress={(e) => {
-                    if (!/\d/.test(e.key)) {
+                  <input
+                    className={`input-field ${pincodeError && "input-field-error"}`}
+                    type="text" value={zipcode}
+                    placeholder='Enter your Pincode'
+                    onChange={handlePincodeChange}
+                    maxLength={6}
+                    onKeyPress={(e) => {
+                      if (!/\d/.test(e.key)) {
                         e.preventDefault();
-                    }
-                }}/>
+                      }
+                    }} />
                   {pincodeError && <span className="error-text">{pincodeError}</span>}
                 </label>
                 <div className='d-flex gap-2 justify-content-end '>
@@ -235,7 +234,7 @@ const ServiceabilityPage = () => {
 
                 />
                 <div className='d-flex justify-content-start'>
-                  <button className='btn main-button'  onClick={() => getCourierServiceAvability()}>Export Courier Serviceability</button>
+                  <button className='btn main-button' onClick={() => getCourierServiceAvability()}>Export Courier Serviceability</button>
                 </div>
               </div>
             </div>
@@ -256,17 +255,6 @@ const ServiceabilityPage = () => {
             </div>
           </div>
         </div>
-
-       {/* <div className='box-shadow shadow-sm mt-3 p10 mb-3'>
-          <h4>Instructions:</h4>
-          <ul>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur, repellat?</li>
-          </ul>
-           </div>*/}
       </section>
     </>
   )
