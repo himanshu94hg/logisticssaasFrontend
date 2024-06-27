@@ -112,14 +112,15 @@ const ServiceabilityPage = () => {
   }, [shipeaseServicePincode,serviceCourierPincode])
 
   useEffect(() => {
-    if (courierPartnerName && Array.isArray(courierPartnerName)) {
-      const transformedData = courierPartnerName?.map(item => ({
+    if (courierPartnerName && Array.isArray(courierPartnerName?.results)) {
+      const transformedData = courierPartnerName?.results?.map(item => ({
         value: item.id,
         label: item.title,
       }));
       setCourierOptions(transformedData);
     }
   }, [courierPartnerName]);
+
 
   useEffect(() => {
     const temp_data = selectedOptions?.map((item) => item.value);
