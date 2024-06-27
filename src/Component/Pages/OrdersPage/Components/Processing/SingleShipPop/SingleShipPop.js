@@ -74,7 +74,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
 
     return (
         <>
-            <section className={`single-ship-container py-1 ${SingleShip ? 'open' : ''}`}>
+            <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
                 {/* <div className='d-flex justify-content-between p10 align-items-center'>
                     <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
