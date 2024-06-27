@@ -75,15 +75,15 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
-                <div className='d-flex justify-content-between p10 align-items-center'>
-                    {/* <h4 className='mb-0'>Choose Shipping Partner</h4>
+                {/* <div className='d-flex justify-content-between p10 align-items-center'>
+                    <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
                     onClick={handleClose}
                     className='btn close-button'
                 >
                     <FontAwesomeIcon icon={faTimes} />
-                </button> */}
-                </div>
+                </button>
+                </div> */}
                 <div className='ss-container-main'>
                     {/* Iterate over ship options and render details */}
                     {shipingResponse && shipingResponse.map((option, index) => (
