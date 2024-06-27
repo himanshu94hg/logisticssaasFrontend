@@ -30,7 +30,7 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
     };
     const dateAfter2Days = addDays(currentDate, 2);
 
-    const handleSubmit = (option,shipCharge) => {
+    const handleSubmit = (option, shipCharge) => {
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
             dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
             setShipingData(true);
@@ -58,15 +58,15 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
     };
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
-            <div className='d-flex justify-content-between p10 align-items-center'>
-                {/* <h4 className='mb-0'>Choose Shipping Partner</h4>
+            {/* <div className='d-flex justify-content-between p10 align-items-center'>
+                <h4 className='mb-0'>Choose Shipping Partner</h4>
                 <button
                     onClick={handleClose}
                     className='btn close-button'
                 >
                     <FontAwesomeIcon icon={faTimes} />
-                </button> */}
-            </div>
+                </button>
+            </div> */}
             <div className='ss-container-main'>
                 {/* Iterate over ship options and render details */}
                 {reassignCard && reassignCard?.map((option, index) => (
@@ -115,7 +115,7 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>
-                            <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword,option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
+                            <button className='btn main-button' onClick={() => handleSubmit(option.partner_keyword, option?.rate + option?.cod_charge + option?.early_cod_charge)}>Ship Now</button>
                             <p><span>EDD: <strong>{option?.estimate_days} days</strong></span></p>
                         </div>
                         {option?.is_recommended &&

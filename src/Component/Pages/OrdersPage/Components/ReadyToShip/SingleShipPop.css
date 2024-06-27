@@ -9,6 +9,7 @@
     z-index: 6;
     transition: 0.5s;
     border-radius: 0.5rem;
+    padding-block: 7px;
 }
 
 .single-ship-container.open {
