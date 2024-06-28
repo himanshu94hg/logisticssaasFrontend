@@ -32,7 +32,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             invoice_amount: '',
             is_mps: false,
             warehouse_id: '',
-            order_tag: '',
+            order_tag: [],
             payment_type: '',
             order_date: currentDate,
             order_type: "",
@@ -236,6 +236,8 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
 
     useEffect(() => {
         if (orderDetailsData) {
+            const orderTagIds = orderDetailsData?.order_tag?.map(tag => tag.id);
+
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
@@ -243,7 +245,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
                     warehouse_id: orderDetailsData?.warehouse_id,
-                    order_tag: orderDetailsData?.order_tag,
+                    order_tag: orderTagIds,
                     payment_type: orderDetailsData?.payment_type,
                     order_date: orderDetailsData.order_date && new Date(orderDetailsData?.order_date),
                     order_type: orderDetailsData?.order_type,
