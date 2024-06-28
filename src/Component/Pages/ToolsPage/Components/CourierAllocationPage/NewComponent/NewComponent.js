@@ -90,7 +90,10 @@ const NewComponent = () => {
         console.log(movedItem, "pppppppppppppppppppppppppppp")
 
         if(!(movedItem.courier_category_id.toString() === destination.droppableId.toString() || destination.droppableId.toString() === "0"))
+        {
+            alert('You can not move');
             return;
+        }
 
         if (source.droppableId === destination.droppableId) {
             const items = Array.from(getList(source.droppableId));
