@@ -20,24 +20,7 @@ const NewComponent = () => {
     const [sequenceOne, setSequenceOne] = useState([]);
     const [sequenceTwo, setSequenceTwo] = useState([]);
     let authToken = Cookies.get("access_token")
-    const [sequences, setSequences] = useState([
-        {
-            id: 0,
-            title: "Buffer Pool",
-            weight: 0,
-            partners: [
-                {
-                    id: 170,
-                    courier_category_id: 1,
-                    keyword: "amazon_swa",
-                    title: "Amazon SWA",
-                    priority: 1,
-                    image: "https://shipease-demo-s3-bucket.s3.ap-south-1.amazonaws.com/assets/partners-logo/amazon_swa.png"
-                }
-            ]
-        },
-        // Other sequences...
-    ]);
+
 
     console.log(pool,sequenceTwo,"this is a sequence pool data",sequenceOne)
 
@@ -52,81 +35,78 @@ const NewComponent = () => {
             .then(response => response.json())
             .then(data => {
                 const poolData = data.find(item => item.title === "Buffer Pool")?.partners || [];
-                const b2bData = data.find(item => item.title === "B2B")?.partners || [];
                 const b2cData = data.find(item => item.title === "B2C")?.partners || [];
+                const b2bData = data.find(item => item.title === "B2B")?.partners || [];
 
                 setPool(poolData);
-                setSequenceOne(b2bData);
-                setSequenceTwo(b2cData);
+                setSequenceOne(b2cData);
+                setSequenceTwo(b2bData);
+
             })
             .catch(error => console.error('Error fetching data:', error));
     }, [authToken, setPool, setSequenceOne, setSequenceTwo]);
 
     const onDragEnd = (result) => {
-        const { destination, source, draggableId } = result;
+        // console.log(result,"resultresultresultresult")
+        // return false
+        const { source, destination, draggableId } = result;
 
-        if (!destination) {
-            return;
-        }
+        console.log(source, destination, draggableId, "ppppppppppppppppppp");
 
-        const sourceDroppableId = parseInt(source.droppableId);
-        const destinationDroppableId = parseInt(destination.droppableId);
+        if (!destination) return;
 
-        const sourceItem = sequences[sourceDroppableId].partners[source.index];
-        const destinationSequenceId = sequences[destinationDroppableId].id;
-
-        if (sourceItem.courier_category_id !== destinationSequenceId) {
-            return;
-        }
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) {
-            return;
-        }
-
-        const start = sequences[source.droppableId];
-        const finish = sequences[destination.droppableId];
-
-        if (start === finish) {
-            const newPartnerIds = Array.from(start.partners);
-            const [removed] = newPartnerIds.splice(source.index, 1);
-            newPartnerIds.splice(destination.index, 0, removed);
-
-            const newSequence = {
-                ...start,
-                partners: newPartnerIds,
-            };
-
-            const newState = sequences.map((sequence) =>
-                sequence.id === newSequence.id ? newSequence : sequence
-            );
-
-            setSequences(newState);
-            return;
-        }
-
-        const startPartnerIds = Array.from(start.partners);
-        const [removed] = startPartnerIds.splice(source.index, 1);
-        const newStart = {
-            ...start,
-            partners: startPartnerIds,
+        const getList = (id) => {
+            switch (id) {
+                case '0':
+                    return pool;
+                case '1':
+                    return sequenceOne;
+                case '2':
+                    return sequenceTwo;
+                default:
+                    return [];
+            }
         };
 
-        const finishPartnerIds = Array.from(finish.partners);
-        finishPartnerIds.splice(destination.index, 0, removed);
-        const newFinish = {
-            ...finish,
-            partners: finishPartnerIds,
+        const setList = (id, items) => {
+            switch (id) {
+                case '0':
+                    setPool(items);
+                    break;
+                case '1':
+                    setSequenceOne(items);
+                    break;
+                case '2':
+                    setSequenceTwo(items);
+                    break;
+                default:
+                    break;
+            }
         };
 
-        const newState = sequences.map((sequence) => {
-            if (sequence.id === newStart.id) return newStart;
-            if (sequence.id === newFinish.id) return newFinish;
-            return sequence;
-        });
+        const sourceItems = Array.from(getList(source.droppableId));
+        const destinationItems = Array.from(getList(destination.droppableId));
+        const [movedItem] = sourceItems.splice(source.index, 1);
+        console.log(movedItem, "pppppppppppppppppppppppppppp")
 
-        setSequences(newState);
+        if(!(movedItem.courier_category_id.toString() === destination.droppableId.toString() || destination.droppableId.toString() === "0"))
+            return;
+
+        if (source.droppableId === destination.droppableId) {
+            const items = Array.from(getList(source.droppableId));
+            const [movedItem] = items.splice(source.index, 1);
+            items.splice(destination.index, 0, movedItem);
+            setList(source.droppableId, items);
+        } else {
+            const sourceItems = Array.from(getList(source.droppableId));
+            const destinationItems = Array.from(getList(destination.droppableId));
+            const [movedItem] = sourceItems.splice(source.index, 1);
+            destinationItems.splice(destination.index, 0, movedItem);
+
+            setList(source.droppableId, sourceItems);
+            setList(destination.droppableId, destinationItems);
+        }
     };
-
 
     const removeAllFromSequenceOne = () => {
         setPool([...pool, ...sequenceOne]);
@@ -149,7 +129,7 @@ const NewComponent = () => {
             <section className={`courier-preference box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
                 <div className='courier-preference-list'>
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="pool">
+                        <Droppable droppableId="0">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h2>Pool</h2>
@@ -172,12 +152,12 @@ const NewComponent = () => {
                             )}
                         </Droppable>
 
-                        <Droppable droppableId="sequenceOne">
+                        <Droppable droppableId="1">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <div className='d-flex gap-2 align-items-center justify-content-between'>
-                                        <h2 className='mb-0'>B2B</h2>
-                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceOne}>Remove All</button>
+                                        <h2 className='mb-0'>B2C</h2>
+                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
                                     </div>
                                     {sequenceOne.map((courier, index) => (
                                         <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
@@ -198,12 +178,12 @@ const NewComponent = () => {
                             )}
                         </Droppable>
 
-                        <Droppable droppableId="sequenceTwo">
+                        <Droppable droppableId="2">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <div className='d-flex gap-2 align-items-center justify-content-between'>
-                                        <h2 className='mb-0'>B2C</h2>
-                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
+                                        <h2 className='mb-0'>B2B</h2>
+                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceOne}>Remove All</button>
                                     </div>
                                     {sequenceTwo.map((courier, index) => (
                                         <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
@@ -223,6 +203,7 @@ const NewComponent = () => {
                                 </div>
                             )}
                         </Droppable>
+
                     </DragDropContext>
                 </div>
                 <div className='cp-or-line'>
