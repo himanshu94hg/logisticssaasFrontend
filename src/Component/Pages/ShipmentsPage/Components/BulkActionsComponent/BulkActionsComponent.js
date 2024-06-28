@@ -142,12 +142,17 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                                 <>
                                     <li onClick={handleReattemptOrder}><ReAttemptIcon /><span>Re-Attempt</span></li>
                                     <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
-                                    
+                                    <li onClick={handleExportAll}>
+                                        <ExportIcon /><span>Export All</span>
+                                    </li>
                                 </>
                             )}
                             {activeTab === "Action Requested" && (
                                 <>
                                 <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
+                                <li onClick={handleExportAll}>
+                                    <ExportIcon /><span>Export All</span>
+                                </li>
                                 </>  
                             )}
                         </>

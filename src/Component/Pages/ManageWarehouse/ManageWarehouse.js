@@ -276,7 +276,7 @@ const ManageWarehouse = () => {
     <>
       <div className="position-relative manage-warehouse">
         <section className="box-shadow shadow-sm p7 mb-3 filter-container">
-          <div className="search-container d-flex gap-2">
+          <div className="search-container">
             <label>
               <input
                 className='input-field'
@@ -289,9 +289,11 @@ const ManageWarehouse = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </label>
-            <button className='btn main-button-outline' onClick={handleReset}>
-              Reset
-            </button>
+          </div>
+          <div className='button-container '>
+            <button className='btn main-button-outline' onClick={handleReset} style={{marginRight:'300px'}}>
+                Reset
+              </button>
           </div>
           <div className='button-container'>
             <button className='btn main-button-outline me-2' onClick={handleShow} ><AiOutlineCloudUpload fontSize={25} /> Import</button>

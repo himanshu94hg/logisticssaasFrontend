@@ -512,10 +512,10 @@ const SettingsPage = () => {
                 </div>
             </section>
 
-            <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
+            {/* <section className={`change-password-pop ${ChangePasswordPop && 'open'}`}>
                 <ChangePassword ChangePasswordPop={ChangePasswordPop} setChangePasswordPop={setChangePasswordPop} />
             </section>
-            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div>
+            <div onClick={handleChangePasswordPop} className={`backdrop ${!ChangePasswordPop && 'd-none'}`}></div> */}
         </>
     )
 }
