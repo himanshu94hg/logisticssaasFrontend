@@ -20,7 +20,24 @@ const NewComponent = () => {
     const [sequenceOne, setSequenceOne] = useState([]);
     const [sequenceTwo, setSequenceTwo] = useState([]);
     let authToken = Cookies.get("access_token")
-
+    const [sequences, setSequences] = useState([
+        {
+            id: 0,
+            title: "Buffer Pool",
+            weight: 0,
+            partners: [
+                {
+                    id: 170,
+                    courier_category_id: 1,
+                    keyword: "amazon_swa",
+                    title: "Amazon SWA",
+                    priority: 1,
+                    image: "https://shipease-demo-s3-bucket.s3.ap-south-1.amazonaws.com/assets/partners-logo/amazon_swa.png"
+                }
+            ]
+        },
+        // Other sequences...
+    ]);
 
     console.log(pool,sequenceTwo,"this is a sequence pool data",sequenceOne)
 
@@ -46,58 +63,70 @@ const NewComponent = () => {
     }, [authToken, setPool, setSequenceOne, setSequenceTwo]);
 
     const onDragEnd = (result) => {
-        // console.log(result,"resultresultresultresult")
-        // return false
-        const { source, destination } = result;
+        const { destination, source, draggableId } = result;
 
-        console.log(source,destination,"hhhhhhhhhhhhhhhhhhhhhhhhhh",result)
-
-        if (!destination) return;
-
-        const getList = (id) => {
-            switch (id) {
-                case 'pool':
-                    return pool;
-                case 'sequenceOne':
-                    return sequenceOne;
-                case 'sequenceTwo':
-                    return sequenceTwo;
-                default:
-                    return [];
-            }
-        };
-
-        const setList = (id, items) => {
-            switch (id) {
-                case 'pool':
-                    setPool(items);
-                    break;
-                case 'sequenceOne':
-                    setSequenceOne(items);
-                    break;
-                case 'sequenceTwo':
-                    setSequenceTwo(items);
-                    break;
-                default:
-                    break;
-            }
-        };
-
-        if (source.droppableId === destination.droppableId) {
-            const items = Array.from(getList(source.droppableId));
-            const [movedItem] = items.splice(source.index, 1);
-            items.splice(destination.index, 0, movedItem);
-            setList(source.droppableId, items);
-        } else {
-            const sourceItems = Array.from(getList(source.droppableId));
-            const destinationItems = Array.from(getList(destination.droppableId));
-            const [movedItem] = sourceItems.splice(source.index, 1);
-            destinationItems.splice(destination.index, 0, movedItem);
-
-            setList(source.droppableId, sourceItems);
-            setList(destination.droppableId, destinationItems);
+        if (!destination) {
+            return;
         }
+
+        const sourceDroppableId = parseInt(source.droppableId);
+        const destinationDroppableId = parseInt(destination.droppableId);
+
+        const sourceItem = sequences[sourceDroppableId].partners[source.index];
+        const destinationSequenceId = sequences[destinationDroppableId].id;
+
+        if (sourceItem.courier_category_id !== destinationSequenceId) {
+            return;
+        }
+
+        if (destination.droppableId === source.droppableId && destination.index === source.index) {
+            return;
+        }
+
+        const start = sequences[source.droppableId];
+        const finish = sequences[destination.droppableId];
+
+        if (start === finish) {
+            const newPartnerIds = Array.from(start.partners);
+            const [removed] = newPartnerIds.splice(source.index, 1);
+            newPartnerIds.splice(destination.index, 0, removed);
+
+            const newSequence = {
+                ...start,
+                partners: newPartnerIds,
+            };
+
+            const newState = sequences.map((sequence) =>
+                sequence.id === newSequence.id ? newSequence : sequence
+            );
+
+            setSequences(newState);
+            return;
+        }
+
+        const startPartnerIds = Array.from(start.partners);
+        const [removed] = startPartnerIds.splice(source.index, 1);
+        const newStart = {
+            ...start,
+            partners: startPartnerIds,
+        };
+
+        const finishPartnerIds = Array.from(finish.partners);
+        finishPartnerIds.splice(destination.index, 0, removed);
+        const newFinish = {
+            ...finish,
+            partners: finishPartnerIds,
+        };
+
+        const newState = sequences.map((sequence) => {
+            if (sequence.id === newStart.id) return newStart;
+            if (sequence.id === newFinish.id) return newFinish;
+            return sequence;
+        });
+
+        setSequences(newState);
     };
+
 
     const removeAllFromSequenceOne = () => {
         setPool([...pool, ...sequenceOne]);

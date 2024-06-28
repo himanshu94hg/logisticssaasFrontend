@@ -248,7 +248,7 @@ const SetPreferenceRules = () => {
                                             <div className='cr-rule-name'>
                                                 <div className='rule-name'>
                                                     <p>Rule Name: {rule?.rule_name}</p>
-                                                    <p>Priority: #{rule?.priority}</p>
+                                                    {/* <p>Priority: #{rule?.priority}</p> */}
                                                 </div>
                                                 <div className="toggle-switch">
                                                     <input
@@ -277,10 +277,10 @@ const SetPreferenceRules = () => {
                                                     ))}
                                                 </div>
                                                 <div className='rule-preference text-capitalize'>
-                                                    <p><span>01</span> <img src={rule?.courier_image_1} alt="" /> {rule?.priority_1}</p>
-                                                    <p><span>02</span> <img src={rule?.courier_image_2} alt="" /> {rule?.priority_2}</p>
-                                                    <p><span>03</span> <img src={rule?.courier_image_3} alt="" /> {rule?.priority_3}</p>
-                                                    <p><span>04</span> <img src={rule?.courier_image_4} alt="" /> {rule?.priority_4}</p>
+                                                    <p>1: <img src={rule?.courier_image_1} alt="" /> {rule?.priority_1}</p>
+                                                    <p>2: <img src={rule?.courier_image_2} alt="" /> {rule?.priority_2}</p>
+                                                    <p>3: <img src={rule?.courier_image_3} alt="" /> {rule?.priority_3}</p>
+                                                    <p>4: <img src={rule?.courier_image_4} alt="" /> {rule?.priority_4}</p>
                                                 </div>
                                                 <div className='rules-action-btn'>
                                                     <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
