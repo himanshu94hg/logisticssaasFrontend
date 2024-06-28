@@ -65,24 +65,19 @@ const NewComponent = () => {
     const onDragEnd = (result) => {
         const { destination, source, draggableId } = result;
 
+        const sourceDroppableId = parseInt(source.droppableId);
+        const sourceItem = sequences[sourceDroppableId].partners[source.index];
         if (!destination) {
             return;
         }
 
-        const sourceDroppableId = parseInt(source.droppableId);
-        const destinationDroppableId = parseInt(destination.droppableId);
-
-        const sourceItem = sequences[sourceDroppableId].partners[source.index];
-        const destinationSequenceId = sequences[destinationDroppableId].id;
-
-        if (sourceItem.courier_category_id !== destinationSequenceId) {
-            return;
+        if(destination.droppableId.toString() === sourceItem.courier_category_id.toString() || destination.droppableId === '0'){
+            console.log('You can move');
         }
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) {
-            return;
+        else{
+            console.log('You Can not Move');
         }
-
+        return;
         const start = sequences[source.droppableId];
         const finish = sequences[destination.droppableId];
 
@@ -149,7 +144,7 @@ const NewComponent = () => {
             <section className={`courier-preference box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
                 <div className='courier-preference-list'>
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="pool">
+                        <Droppable droppableId="0">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h2>Pool</h2>
@@ -172,7 +167,33 @@ const NewComponent = () => {
                             )}
                         </Droppable>
 
-                        <Droppable droppableId="sequenceOne">
+                        <Droppable droppableId="1">
+                            {(provided) => (
+                                <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
+                                    <div className='d-flex gap-2 align-items-center justify-content-between'>
+                                        <h2 className='mb-0'>B2C</h2>
+                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
+                                    </div>
+                                    {sequenceTwo.map((courier, index) => (
+                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                            {(provided) => (
+                                                <div
+                                                    ref={provided.innerRef}
+                                                    {...provided.draggableProps}
+                                                    {...provided.dragHandleProps}
+                                                    className="courier"
+                                                >
+                                                    {courier.title}
+                                                </div>
+                                            )}
+                                        </Draggable>
+                                    ))}
+                                    {provided.placeholder}
+                                </div>
+                            )}
+                        </Droppable>
+
+                        <Droppable droppableId="2">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <div className='d-flex gap-2 align-items-center justify-content-between'>
@@ -198,31 +219,6 @@ const NewComponent = () => {
                             )}
                         </Droppable>
 
-                        <Droppable droppableId="sequenceTwo">
-                            {(provided) => (
-                                <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <div className='d-flex gap-2 align-items-center justify-content-between'>
-                                        <h2 className='mb-0'>B2C</h2>
-                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
-                                    </div>
-                                    {sequenceTwo.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className="courier"
-                                                >
-                                                    {courier.title}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
-                                </div>
-                            )}
-                        </Droppable>
                     </DragDropContext>
                 </div>
                 <div className='cp-or-line'>
