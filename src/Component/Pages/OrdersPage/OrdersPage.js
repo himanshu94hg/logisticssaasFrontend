@@ -249,6 +249,8 @@ const OrdersPage = () => {
         setHandleResetFrom(true)
         setItemsPerPage(20)
         setQueryParamTemp({})
+        setSearchOption(SearchOptions[0])
+
         axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`

@@ -1,5 +1,6 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
+import NoData from '../../../../common/noData';
 
 const RechargeLogs = ({ billingCard, selectedRows,selectAll,setSelectAll, setSelectedRows, setBulkActionShow,billingRechargeCounterCard }) => {
 
@@ -132,6 +133,8 @@ const RechargeLogs = ({ billingCard, selectedRows,selectAll,setSelectAll, setSel
                             ))}
                         </tbody>
                     </table>
+                    {billingCard?.length === 0 && <NoData />}
+
                 </div>
             </div>
         </section>

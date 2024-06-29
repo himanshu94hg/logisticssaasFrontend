@@ -169,6 +169,8 @@ const WeightRecoPage = () => {
       );
       const handleReset = () => {
         debouncedHandleClick();
+        setSearchOption(SearchOptions[0])
+
     }
 
     const handleQueryfilter = (value) => {

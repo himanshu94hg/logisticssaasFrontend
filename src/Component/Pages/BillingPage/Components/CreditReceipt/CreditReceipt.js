@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import moment from 'moment';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -164,13 +165,10 @@ const CreditReceipt = ({ billingCard, selectedRows, setSelectedRows, setBulkActi
                             ))}
                         </tbody>
                     </table>
+                    {billingCard?.length === 0 && <NoData />}
                 </div>
-
-
-
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
-
             </div>
         </section>
     );

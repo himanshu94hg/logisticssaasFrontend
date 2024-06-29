@@ -249,6 +249,8 @@ const MoreOnOrders = () => {
 
     const handleReset = () => {
         debouncedHandleClick();
+        setSearchOption(SearchOptions[0])
+
     }
 
     const handleQueryfilter = (value) => {
