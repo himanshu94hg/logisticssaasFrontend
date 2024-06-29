@@ -1,8 +1,9 @@
 import moment from 'moment';
 import React, { useState, useEffect } from 'react';
+import NoData from '../../../../common/noData';
 
 
-const PassbookTab = ({ billingCard, selectedRows,selectAll,setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
+const PassbookTab = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
 
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
@@ -152,6 +153,8 @@ const PassbookTab = ({ billingCard, selectedRows,selectAll,setSelectAll, setSele
                             ))}
                         </tbody>
                     </table>
+                    {billingCard?.length === 0 && <NoData />}
+
                 </div>
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>

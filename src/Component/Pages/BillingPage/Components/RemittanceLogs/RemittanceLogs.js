@@ -2,6 +2,7 @@ import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -261,6 +262,8 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                             ))}
                         </tbody>
                     </table>
+                    {billingCard?.length === 0 && <NoData />}
+
                 </div>
 
             </div>

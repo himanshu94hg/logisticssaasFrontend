@@ -206,7 +206,7 @@ const WalletRechargeComponent = (props) => {
                                 value={rechargeAmount}
                                 className={`input-field ${validate && "input-field-error"}`}
                                 onKeyPress={(e) => {
-                                    const allowedCharacters = /^[0-9\s]*$/;
+                                    const allowedCharacters = /^[0-9]*$/;
                                     if (
                                         e.key === ' ' &&
                                         e.target.value.endsWith(' ')

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import moment from 'moment';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -29,7 +30,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ShippingCharges = ({ billingCard, selectedRows,selectAll, setSelectAll, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
+const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
 
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
@@ -219,6 +220,7 @@ const ShippingCharges = ({ billingCard, selectedRows,selectAll, setSelectAll, se
                             ))}
                         </tbody>
                     </table>
+                    {billingCard?.length === 0 && <NoData />}
                 </div>
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>

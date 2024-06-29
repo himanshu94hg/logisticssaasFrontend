@@ -2,49 +2,38 @@ import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import '../CourierAllocationPage.css';
 import NavTabs from '../navTabs/NavTabs';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SetPreferenceRules from '../SetPreferenceRules';
-import globalDebouncedClick from '../../../../../../debounce';
 import { useDispatch } from 'react-redux';
 import Cookies from 'js-cookie';
-import { has } from 'lodash';
+import axios from 'axios';
+import { BASE_URL_CORE } from '../../../../../../axios/config';
 
 const NewComponent = () => {
     const dispatch = useDispatch();
-
     const [activeTab, setActiveTab] = useState("Courier Preferences");
-    const [formData, setFormData] = useState(null);
-
     const [pool, setPool] = useState([]);
     const [sequenceOne, setSequenceOne] = useState([]);
     const [sequenceTwo, setSequenceTwo] = useState([]);
-    let authToken = Cookies.get("access_token")
-    const [sequences, setSequences] = useState([
+    let authToken = Cookies.get("access_token");
+    const [dd, setDd] = useState([]);
+
+    const [formData, setFormData] = useState([
         {
-            id: 0,
-            title: "Buffer Pool",
-            weight: 0,
-            partners: [
-                {
-                    id: 170,
-                    courier_category_id: 1,
-                    keyword: "amazon_swa",
-                    title: "Amazon SWA",
-                    priority: 1,
-                    image: "https://shipease-demo-s3-bucket.s3.ap-south-1.amazonaws.com/assets/partners-logo/amazon_swa.png"
-                }
-            ]
+            id: 1,
+            title: "B2C",
+            weight: 500.0,
+            partners: []
         },
-        // Other sequences...
+        {
+            id: 2,
+            title: "B2B",
+            weight: 500.0,
+            partners: []
+        }
     ]);
 
-    console.log(pool,sequenceTwo,"this is a sequence pool data",sequenceOne)
-
-
     useEffect(() => {
-        // Fetch data from API
-        fetch('https://uat.shipease.in/core-api/features/courier-category-new/', {
+        fetch(`${BASE_URL_CORE}/core-api/features/courier-category-new/`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
             }
@@ -52,104 +41,147 @@ const NewComponent = () => {
             .then(response => response.json())
             .then(data => {
                 const poolData = data.find(item => item.title === "Buffer Pool")?.partners || [];
-                const b2bData = data.find(item => item.title === "B2B")?.partners || [];
                 const b2cData = data.find(item => item.title === "B2C")?.partners || [];
+                const b2bData = data.find(item => item.title === "B2B")?.partners || [];
 
                 setPool(poolData);
-                setSequenceOne(b2bData);
-                setSequenceTwo(b2cData);
+                setSequenceOne(b2cData);
+                setSequenceTwo(b2bData);
             })
             .catch(error => console.error('Error fetching data:', error));
-    }, [authToken, setPool, setSequenceOne, setSequenceTwo]);
+    }, [authToken]);
 
     const onDragEnd = (result) => {
-        const { destination, source, draggableId } = result;
+        const { source, destination } = result;
+        if (!destination) return;
 
-        if (!destination) {
-            return;
-        }
-
-        const sourceDroppableId = parseInt(source.droppableId);
-        const destinationDroppableId = parseInt(destination.droppableId);
-
-        const sourceItem = sequences[sourceDroppableId].partners[source.index];
-        const destinationSequenceId = sequences[destinationDroppableId].id;
-
-        if (sourceItem.courier_category_id !== destinationSequenceId) {
-            return;
-        }
-
-        if (destination.droppableId === source.droppableId && destination.index === source.index) {
-            return;
-        }
-
-        const start = sequences[source.droppableId];
-        const finish = sequences[destination.droppableId];
-
-        if (start === finish) {
-            const newPartnerIds = Array.from(start.partners);
-            const [removed] = newPartnerIds.splice(source.index, 1);
-            newPartnerIds.splice(destination.index, 0, removed);
-
-            const newSequence = {
-                ...start,
-                partners: newPartnerIds,
-            };
-
-            const newState = sequences.map((sequence) =>
-                sequence.id === newSequence.id ? newSequence : sequence
-            );
-
-            setSequences(newState);
-            return;
-        }
-
-        const startPartnerIds = Array.from(start.partners);
-        const [removed] = startPartnerIds.splice(source.index, 1);
-        const newStart = {
-            ...start,
-            partners: startPartnerIds,
+        const getList = (id) => {
+            switch (id) {
+                case '0':
+                    return pool;
+                case '1':
+                    return sequenceOne;
+                case '2':
+                    return sequenceTwo;
+                default:
+                    return [];
+            }
         };
 
-        const finishPartnerIds = Array.from(finish.partners);
-        finishPartnerIds.splice(destination.index, 0, removed);
-        const newFinish = {
-            ...finish,
-            partners: finishPartnerIds,
+        const setList = (id, items) => {
+            switch (id) {
+                case '0':
+                    setPool(items);
+                    break;
+                case '1':
+                    setSequenceOne(items);
+                    break;
+                case '2':
+                    setSequenceTwo(items);
+                    break;
+                default:
+                    break;
+            }
         };
 
-        const newState = sequences.map((sequence) => {
-            if (sequence.id === newStart.id) return newStart;
-            if (sequence.id === newFinish.id) return newFinish;
-            return sequence;
-        });
+        const sourceItems = Array.from(getList(source.droppableId));
+        const destinationItems = Array.from(getList(destination.droppableId));
+        const [movedItem] = sourceItems.splice(source.index, 1);
 
-        setSequences(newState);
+        if (!(movedItem.courier_category_id.toString() === destination.droppableId.toString() || destination.droppableId.toString() === "0")) {
+            alert('You can not move');
+            return;
+        }
+
+        if (source.droppableId === destination.droppableId) {
+            const items = Array.from(getList(source.droppableId));
+            items.splice(destination.index, 0, movedItem);
+            setList(source.droppableId, items);
+        } else {
+            destinationItems.splice(destination.index, 0, movedItem);
+            setList(source.droppableId, sourceItems);
+            setList(destination.droppableId, destinationItems);
+        }
     };
-
 
     const removeAllFromSequenceOne = () => {
         setPool([...pool, ...sequenceOne]);
         setSequenceOne([]);
     };
-
     const removeAllFromSequenceTwo = () => {
-        setPool([...pool, ...sequenceTwo]);
+        setPool([...pool, ...sequenceOne]);
         setSequenceTwo([]);
     };
 
-    const handleSubmit = () => {
-        dispatch({ type: "COURIER_ALLOCATION_PARTNER_POST_ACTION", payload: formData });
+
+
+    useEffect(() => {
+        setFormData((prev) => prev?.map(item =>
+            item.title === "B2C" ? { ...item, partners: sequenceOne } : item
+        ));
+    }, [sequenceOne]);
+
+    useEffect(() => {
+        setFormData((prev) => prev?.map(item =>
+            item.title === "B2B" ? { ...item, partners: sequenceTwo } : item
+        ));
+    }, [sequenceTwo]);
+
+    const handleSubmit = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/tools/save-general-preference/`, dd, {
+                headers: {
+                    'Authorization': `Bearer ${authToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 201) {
+
+            }
+        } catch (error) {
+
+        }
     }
+    
+
+    useEffect(() => {
+        if (sequenceOne || sequenceTwo) {
+            const tempOne = sequenceOne?.map((item) => ({
+                courier_category: item.courier_category_id,
+                priority: item?.priority,
+                partner: 1
+            })) || [];
+    
+            const tempTwo = sequenceTwo?.map((item) => ({
+                courier_category: item.courier_category_id,
+                priority: item?.priority,
+                partner: 2
+            })) || [];
+    
+            const combined = [...tempOne, ...tempTwo];
+    
+            // Using a Map to keep unique objects based on courier_category and priority
+            const uniqueCombined = combined.filter((item, index, self) =>
+                index === self.findIndex((t) => (
+                    t.courier_category === item.courier_category && t.priority === item.priority
+                ))
+            );
+    
+            setDd(uniqueCombined);
+        }
+    }, [sequenceOne, sequenceTwo]);
+    
+    
+    
+            console.log(dd,  "this is a pool data")
 
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-
             <section className={`courier-preference box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
                 <div className='courier-preference-list'>
                     <DragDropContext onDragEnd={onDragEnd}>
-                        <Droppable droppableId="pool">
+                        <Droppable droppableId="0">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <h2>Pool</h2>
@@ -171,12 +203,11 @@ const NewComponent = () => {
                                 </div>
                             )}
                         </Droppable>
-
-                        <Droppable droppableId="sequenceOne">
+                        <Droppable droppableId="1">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <div className='d-flex gap-2 align-items-center justify-content-between'>
-                                        <h2 className='mb-0'>B2B</h2>
+                                        <h2 className='mb-0'>B2C</h2>
                                         <button className='btn main-button-outline' onClick={removeAllFromSequenceOne}>Remove All</button>
                                     </div>
                                     {sequenceOne.map((courier, index) => (
@@ -197,13 +228,12 @@ const NewComponent = () => {
                                 </div>
                             )}
                         </Droppable>
-
-                        <Droppable droppableId="sequenceTwo">
+                        <Droppable droppableId="2">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
                                     <div className='d-flex gap-2 align-items-center justify-content-between'>
-                                        <h2 className='mb-0'>B2C</h2>
-                                        <button className='btn main-button-outline' onClick={removeAllFromSequenceTwo}>Remove All</button>
+                                        <h2 className='mb-0'>B2B</h2>
+                                        <button className='btn main-button-outline' onClick={() => removeAllFromSequenceTwo}>Remove All</button>
                                     </div>
                                     {sequenceTwo.map((courier, index) => (
                                         <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
@@ -239,11 +269,10 @@ const NewComponent = () => {
                         </select>
                     </label>
                     <div>
-                        <button className='btn main-button' onClick={() => globalDebouncedClick(() => handleSubmit())}>Save Courier Preference</button>
+                        <button className='btn main-button' onClick={() => handleSubmit()}>Save Courier Preference</button>
                     </div>
                 </div>
             </section>
-
             <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Set preference Rules" ? "d-block" : "d-none"}`}>
                 <SetPreferenceRules />
             </section>

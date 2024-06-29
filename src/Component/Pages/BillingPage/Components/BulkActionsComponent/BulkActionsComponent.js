@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon';
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const BulkActionsComponent = ({ activeTab,setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
+const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
     const dispatch = useDispatch()
+    let authToken = Cookies.get("access_token");
     const [exportButtonClick, setExportButtonClick] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard } = useSelector(state => state?.exportSectionReducer)
+    const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
 
     console.log(selectedRows, selectedOrderRows, "Export Action Bulk")
 
-    const handleExport = () => {
+    const handleExport = async () => {
         setExportButtonClick(true);
         setBulkActionShow(false)
         const requestData = {
@@ -29,7 +35,24 @@ const BulkActionsComponent = ({ activeTab,setSelectAll, setBulkActionShow, selec
             dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
         }
         else if (activeTab === "Remittance Logs") {
-            dispatch({ type: "EXPORT_REMITANCE_DATA_ACTION", payload: requestData });
+           
+            try {
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/features/billing/remittance-download/`, requestData, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`,
+                        'Content-Type': 'application/json'
+                    },
+                    responseType: 'blob' 
+                });
+        
+                if (response.status === 200) {
+                    const FileSaver = require('file-saver');
+                    const blob = new Blob([response.data], { type: 'application/ms-excel' });
+                    FileSaver.saveAs(blob, `remittance.xlsx`);
+                }
+            } catch (error) {
+                customErrorFunction(error)
+            }
         }
         else {
             dispatch({ type: "EXPORT_RECEIPT_DATA_ACTION", payload: requestData });
@@ -40,6 +63,14 @@ const BulkActionsComponent = ({ activeTab,setSelectAll, setBulkActionShow, selec
         setSelectAll(false)
     };
 
+    const handleExportData = async () => {
+        dispatch({ type: "BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION", payload: selectedRows.join(',') });
+        setSelectedOrderRows([])
+        setSelectedRows([])
+        setSelectAll(false)
+    }
+
+
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
@@ -48,6 +79,15 @@ const BulkActionsComponent = ({ activeTab,setSelectAll, setBulkActionShow, selec
             setExportButtonClick(false);
         }
     }, [exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard, exportCard]);
+
+    useEffect(() => {
+        if (billingShipingRemitanceDOWNLOADCard) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([billingShipingRemitanceDOWNLOADCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `remitance.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [billingShipingRemitanceDOWNLOADCard]);
 
 
     return (
@@ -61,6 +101,9 @@ const BulkActionsComponent = ({ activeTab,setSelectAll, setBulkActionShow, selec
                         </div>
                         <ul className='ba-actions'>
                             <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                            {activeTab === "Remittance Logs" &&
+                                <li onClick={handleExportData}><ExportIcon /><span>Export data</span></li>
+                            }
                         </ul>
                         <div className='ba-close'></div>
                     </div>

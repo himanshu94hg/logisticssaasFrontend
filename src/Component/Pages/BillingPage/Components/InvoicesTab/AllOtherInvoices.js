@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import NoData from '../../../../common/noData';
 
 const AllOtherInvoices = ({billingCard}) => {
     const [selectAll, setSelectAll] = useState(false);
@@ -121,6 +122,7 @@ const AllOtherInvoices = ({billingCard}) => {
                     ))}
                 </tbody>
             </table>
+            {billingCard?.length === 0 && <NoData />}
         </div>
     )
 }

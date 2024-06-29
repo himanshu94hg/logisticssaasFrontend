@@ -1,6 +1,7 @@
 import moment from 'moment';
 import React, { useEffect, useState, useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
+import NoData from '../../../../common/noData';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -345,15 +346,12 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                     </table>
                                 </center>
                             </div>
-                            {/* <center style={{ borderRadius: '10px', padding: '1mm', background: '#fff', textAlign: 'left', wordBreak: 'break-all' }}>
-                        <p style={{ paddingLeft: '50px' }}>Download Itemized Shipment Details: <a href="#" className="link-btn">Download Now</a></p>
-                        <p style={{ paddingLeft: '50px' }}>* Indicates taxable item</p>
-                        <p style={{ paddingLeft: '50px' }}>It's system generated invoice & dont require signature.</p>
-                    </center> */}
+
                         </div>
                     ) : null}
                 </div>
             </div>
+            {billingCard?.length === 0 && <NoData />}
         </div>
     )
 }

@@ -266,6 +266,8 @@ const ShipmentsPage = () => {
       );
       const handleReset = () => {
         debouncedHandleClick();
+        setSearchOption(SearchOptions[0])
+
     }
 
     const handleChange = (option) => {
