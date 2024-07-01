@@ -22,6 +22,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         utr_number: "",
     });
 
+
+
+    console.log(filterParams,"filterParamsfilterParamsfilterParams")
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -189,7 +193,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                                     <DatePicker
                                         showIcon
                                         icon={<FontAwesomeIcon icon={faCalendarAlt} className='calendar-icon' />}
-                                        dateFormat="MM/dd/yyyy h:mm aa"
+                                        dateFormat="dd MMMM, yyyy, h:mm aa"
                                         className={`input-field ${errors.end_date ? 'input-field-error' : ''}`}
                                         maxDate={new Date()}
                                         selected={filterParams?.end_date}

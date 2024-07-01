@@ -169,8 +169,8 @@ function App() {
             <Route path={ServiceabilityPattern} element={<ServiceabilityPage />} />
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
-            <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
-             {/* <Route path={CourierAllocationPattern} element={<NewComponent />} /> */}
+            {/* <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} /> */}
+             <Route path={CourierAllocationPattern} element={<NewComponent />} />
             <Route path={signUpPattern} element={<SignUpPage />} />
             <Route path={orderdetailPattern} element={<OrderDetail />} />
             <Route path={bypassPattern} element={<BypassPage />} />
