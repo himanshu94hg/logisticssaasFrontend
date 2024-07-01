@@ -132,15 +132,15 @@ const NewComponent = () => {
 
     useEffect(() => {
         if (sequenceOne || sequenceTwo) {
-            const tempOne = sequenceOne?.map((item) => ({
+            const tempOne = sequenceOne?.map((item, index) => ({
                 courier_category: item.courier_category_id,
-                priority: item?.priority,
+                priority: index + 1,
                 partner: item?.id
             })) || [];
 
-            const tempTwo = sequenceTwo?.map((item) => ({
+            const tempTwo = sequenceTwo?.map((item, index) => ({
                 courier_category: item.courier_category_id,
-                priority: item?.priority,
+                priority: index + 1,
                 partner: item?.id
             })) || [];
 
