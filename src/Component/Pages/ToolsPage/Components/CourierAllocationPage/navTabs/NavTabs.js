@@ -49,7 +49,6 @@ export default function NavTabs(props) {
               }}
             >
               <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
                 Preferences
               </div>
             </Nav.Link>
@@ -67,11 +66,6 @@ export default function NavTabs(props) {
           </div>
         </Nav>
       </Navbar.Collapse>
-      {/* <div className="d-flex gap-10 align-items-center">
-        <button className="btn main-button" onClick={handleSubmit}>Sync Orders</button>
-        <button className="btn main-button">Import CSV</button>
-        <Link to="/create-order" className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create Order</Link>
-      </div> */}
     </Navbar>
   );
 }

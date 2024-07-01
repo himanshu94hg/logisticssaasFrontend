@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './AddWarehouse.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons'
@@ -15,7 +15,7 @@ import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } 
 
 const AddWarehouse = () => {
     const [AddFields, SetAddFields] = useState(false)
-    const [SameRTO, setSameRTO] = useState(false)
+    const [SameRTO, setSameRTO] = useState(true)
     const pincodeRef = useRef(null);
     const cityRef = useRef(null);
     const stateRef = useRef(null);
@@ -188,14 +188,8 @@ const AddWarehouse = () => {
         '9:00 PM', '10:00 PM', '11:00 PM'
     ];
 
-    const handlePincodeChange = async () => {
+    const handlePincodeChange = async (value) => {
         const pincode = pincodeRef.current.value;
-
-        // if (pincode.length < 6) {
-        //     toast.error("Please enter a valid 6-digit pincode.")
-        //     return;
-        // }
-
         try {
             const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
             if (response.data && response.data.length > 0) {
@@ -208,17 +202,13 @@ const AddWarehouse = () => {
                 toast.error("No data found for the given pincode.")
             }
         } catch (error) {
-            // toast.error("Please enter a valid 6-digit pincode.")
+
         }
     };
 
-    const handlePincodeChange1 = async () => {
+    const handlePincodeChange1 = async (e) => {
         const pincode = pincodeRef1.current.value;
-
-        // if (pincode.length < 6) {
-        //     toast.error("Please enter a valid 6-digit pincode.")
-        //     return;
-        // }
+        console.log(e, "222222222222222")
 
         try {
             const response = await axios.get(`https://api.postalpincode.in/pincode/${pincode}`);
@@ -237,6 +227,73 @@ const AddWarehouse = () => {
         }
     };
 
+    const [warehouseData, setWareHouseData] = useState(
+        {
+            seller: "",
+            warehouse_name: "",
+            address_line1: "",
+            address_line2: "",
+            contact_number: "",
+            contact_name: "",
+            support_phone: "",
+            support_email: "",
+            gst_number: "",
+            country_code: "",
+            city: "",
+            state: "",
+            pincode: "",
+            country: "",
+            rto_details: {
+                warehouse_name: "",
+                contact_person_name: "",
+                contact_number: "",
+                alternate_number: "",
+                email: "",
+                address: "",
+                landmark: "",
+                pincode: "",
+                city: "",
+                state: "",
+                country: ""
+            }
+        }
+    )
+
+    const handleChangeWarehouse = async (event) => {
+        const { name, value } = event.target
+        if (name === "pincode") {
+            if (value.length === 6) {
+                try {
+                    const response = await axios.get(`https://api.postalpincode.in/pincode/${value}`);
+                    if (response.data && response.data.length > 0) {
+                        const data = response.data[0].PostOffice[0];
+                        setWareHouseData((prev) => ({
+                            ...prev,
+                            city: data.District,
+                            state: data.State,
+                            country: data.Country,
+                        }))
+                    }
+                } catch (error) {
+                }
+            }
+        }
+        setWareHouseData((prev) => ({
+            ...prev,
+            [name]: value
+        }))
+    }
+
+    const handleCheckboxChange = () => {
+    //     setSameRTO(!SameRTO)
+    //     if(SameRTO){
+    //         setWareHouseData((prev)=>({
+    //             ...prev,
+                
+    //         }))
+    //     }
+    }
+    // console.log(warehouseData, "hhhhhhhhhhhhhhhhhhh")
 
     return (
         <>
@@ -252,6 +309,7 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.warehouseName && 'input-field-error'}`}
                                     name="warehouse_name"
                                     placeholder='Enter Warehouse Name'
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.warehouseName && <div className="custom-error">{errors.warehouseName}</div>}
                             </label>
@@ -262,6 +320,7 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.contactName && 'input-field-error'}`}
                                     name="contact_name"
                                     placeholder='Enter Contact Person Name'
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.contactName && <div className="custom-error">{errors.contactName}</div>}
                             </label>
@@ -287,6 +346,7 @@ const AddWarehouse = () => {
                                                 e.preventDefault();
                                             }
                                         }}
+                                        onChange={handleChangeWarehouse}
                                     />
                                 </div>
                                 {errors.contactNumber && <div className="custom-error">{errors.contactNumber}</div>}
@@ -299,6 +359,7 @@ const AddWarehouse = () => {
                                     name="gst_number"
                                     placeholder='Enter GST Number'
                                     maxLength={15}
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.gstNumber && <div className="custom-error">{errors.gstNumber}</div>}
                             </label>
@@ -311,6 +372,7 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.addressLine1 && 'input-field-error'}`}
                                     name="address_line1"
                                     placeholder='Enter Warehouse Address 1'
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.addressLine1 && <div className="custom-error">{errors.addressLine1}</div>}
                             </label>
@@ -321,6 +383,7 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.address_line2 && 'input-field-error'}`}
                                     name="address_line2"
                                     placeholder='Enter Warehouse Address 2'
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.address_line2 && <div className="custom-error">{errors.address_line2}</div>}
                             </label>
@@ -341,6 +404,7 @@ const AddWarehouse = () => {
                                             e.preventDefault();
                                         }
                                     }}
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                             </label>
@@ -352,7 +416,7 @@ const AddWarehouse = () => {
                                     name="city"
                                     placeholder='Enter city'
                                     ref={cityRef1}
-                                    disabled
+                                    onChange={handleChangeWarehouse}
                                 />
                                 {errors.city && <div className="custom-error">{errors.city}</div>}
                             </label>
@@ -363,7 +427,7 @@ const AddWarehouse = () => {
                                     className={`input-field ${errors.state && 'input-field-error'}`}
                                     name="state"
                                     ref={stateRef1}
-                                    disabled
+                                    onChange={handleChangeWarehouse}
                                     placeholder='Enter state'
                                 />
                                 {errors.state && <div className="custom-error">{errors.state}</div>}
@@ -376,7 +440,7 @@ const AddWarehouse = () => {
                                     name="country"
                                     placeholder='Enter country'
                                     ref={countryRef1}
-                                    disabled
+
                                 />
                             </label>
                         </div>
@@ -437,10 +501,10 @@ const AddWarehouse = () => {
                         </div>
                         <hr />
                         <label className='d-flex flex-row align-items-center mt-3 gap-2'>
-                            <input type="checkbox" onChange={() => setSameRTO(!SameRTO)} defaultChecked={false} />
+                            <input type="checkbox" onChange={() => handleCheckboxChange()} defaultChecked={SameRTO} />
                             Use a different address as RTO address
                         </label>
-                        <div className={`d-flex flex-column gap-3 ${SameRTO ? '' : 'd-none'}`}>
+                        <div className={`d-flex flex-column gap-3 ${SameRTO ? 'd-none' : ''}`}>
                             <h3 className='mt-3 mb-0'>Add RTO Address</h3>
                             <div className='d-flex gap-3'>
                                 <label>

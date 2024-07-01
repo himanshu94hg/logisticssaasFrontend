@@ -1,55 +1,46 @@
-import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import { debounce } from 'lodash';
 import '../CourierAllocationPage.css';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
 import NavTabs from '../navTabs/NavTabs';
 import SetPreferenceRules from '../SetPreferenceRules';
-import { useDispatch } from 'react-redux';
-import Cookies from 'js-cookie';
-import axios from 'axios';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
+import React, { useState, useEffect, useCallback } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 
 const NewComponent = () => {
-    const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("Courier Preferences");
     const [pool, setPool] = useState([]);
     const [sequenceOne, setSequenceOne] = useState([]);
     const [sequenceTwo, setSequenceTwo] = useState([]);
     let authToken = Cookies.get("access_token");
-    const [dd, setDd] = useState([]);
-
-    const [formData, setFormData] = useState([
-        {
-            id: 1,
-            title: "B2C",
-            weight: 500.0,
-            partners: []
-        },
-        {
-            id: 2,
-            title: "B2B",
-            weight: 500.0,
-            partners: []
-        }
-    ]);
+    const [allocatedData, setAllocatedData] = useState([]);
 
     useEffect(() => {
-        fetch(`${BASE_URL_CORE}/core-api/features/courier-category-new/`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => response.json())
-            .then(data => {
-                const poolData = data.find(item => item.title === "Buffer Pool")?.partners || [];
-                const b2cData = data.find(item => item.title === "B2C")?.partners || [];
-                const b2bData = data.find(item => item.title === "B2B")?.partners || [];
-
-                setPool(poolData);
-                setSequenceOne(b2cData);
-                setSequenceTwo(b2bData);
+        if (activeTab === "Courier Preferences") {
+            fetch(`${BASE_URL_CORE}/core-api/features/courier-category-new/`, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`
+                }
             })
-            .catch(error => console.error('Error fetching data:', error));
-    }, [authToken]);
+                .then(response => response.json())
+                .then(data => {
+                    const poolData = data.find(item => item.title === "Buffer Pool")?.partners || [];
+                    const b2cData = data.find(item => item.title === "B2C")?.partners || [];
+                    const b2bData = data.find(item => item.title === "B2B")?.partners || [];
+
+                    setPool(poolData);
+                    setSequenceOne(b2cData);
+                    setSequenceTwo(b2bData);
+                })
+                .catch((error) => {
+                    customErrorFunction(error)
+                });
+        }
+    }, [activeTab]);
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
@@ -89,7 +80,7 @@ const NewComponent = () => {
         const [movedItem] = sourceItems.splice(source.index, 1);
 
         if (!(movedItem.courier_category_id.toString() === destination.droppableId.toString() || destination.droppableId.toString() === "0")) {
-            alert('You can not move');
+            toast.error("You can not move")
             return;
         }
 
@@ -113,67 +104,57 @@ const NewComponent = () => {
         setSequenceTwo([]);
     };
 
-
-
-    useEffect(() => {
-        setFormData((prev) => prev?.map(item =>
-            item.title === "B2C" ? { ...item, partners: sequenceOne } : item
-        ));
-    }, [sequenceOne]);
-
-    useEffect(() => {
-        setFormData((prev) => prev?.map(item =>
-            item.title === "B2B" ? { ...item, partners: sequenceTwo } : item
-        ));
-    }, [sequenceTwo]);
-
-    const handleSubmit = async () => {
+    const handleClick = async () => {
         try {
-            const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/tools/save-general-preference/`, dd, {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/tools/save-general-preference/`, allocatedData, {
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
                     'Content-Type': 'application/json'
                 }
             });
-            if (response.status === 201) {
 
+            if (response.status === 200) {
+                toast.success("Preference update successfully!")
             }
         } catch (error) {
-
+            customErrorFunction(error)
         }
     }
-    
+
+    const debounceClick = useCallback(
+        debounce(() => handleClick(), 700)
+    )
+
+    const handleSubmit = async () => {
+        debounceClick()
+    }
+
 
     useEffect(() => {
         if (sequenceOne || sequenceTwo) {
             const tempOne = sequenceOne?.map((item) => ({
                 courier_category: item.courier_category_id,
                 priority: item?.priority,
-                partner: 1
+                partner: item?.id
             })) || [];
-    
+
             const tempTwo = sequenceTwo?.map((item) => ({
                 courier_category: item.courier_category_id,
                 priority: item?.priority,
-                partner: 2
+                partner: item?.id
             })) || [];
-    
+
             const combined = [...tempOne, ...tempTwo];
-    
-            // Using a Map to keep unique objects based on courier_category and priority
+
             const uniqueCombined = combined.filter((item, index, self) =>
                 index === self.findIndex((t) => (
-                    t.courier_category === item.courier_category && t.priority === item.priority
+                    t.partner === item.partner
                 ))
-            );
-    
-            setDd(uniqueCombined);
+            )
+            setAllocatedData(uniqueCombined);
         }
     }, [sequenceOne, sequenceTwo]);
-    
-    
-    
-            console.log(dd,  "this is a pool data")
+
 
     return (
         <>
