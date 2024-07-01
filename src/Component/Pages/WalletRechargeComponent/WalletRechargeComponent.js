@@ -118,7 +118,7 @@ const WalletRechargeComponent = (props) => {
                                     description: options.description
                                 });
                                 dispatch({ type: "PAYMENT_SET_DATA_ACTION", payload: data });
-                            } 
+                            }
                         }
                     };
                     const rzpay = new Razorpay(options);
@@ -204,13 +204,11 @@ const WalletRechargeComponent = (props) => {
                             <input
                                 type="text"
                                 value={rechargeAmount}
+                                maxLength={8}
                                 className={`input-field ${validate && "input-field-error"}`}
                                 onKeyPress={(e) => {
                                     const allowedCharacters = /^[0-9]*$/;
-                                    if (
-                                        e.key === ' ' &&
-                                        e.target.value.endsWith(' ')
-                                    ) {
+                                    if (e.key === ' ' && e.target.value.endsWith(' ')) {
                                         e.preventDefault();
                                     } else if (!allowedCharacters.test(e.key)) {
                                         e.preventDefault();
@@ -255,7 +253,22 @@ const WalletRechargeComponent = (props) => {
                             <span style={{ fontSize: '0.9rem' }}>Have a redeem code?</span>
                             <div className='d-flex w-100 align-items-center position-relative'>
                                 <label className='w-100'>
-                                    <input className='input-field redeem-field' type="text" placeholder='Enter it here' value={couponCode} onChange={handleCouponCodeChange} />
+                                    <input
+                                        type="text"
+                                        maxLength={12}
+                                        value={couponCode}
+                                        placeholder='Enter it here'
+                                        onChange={handleCouponCodeChange}
+                                        className='input-field redeem-field'
+                                        onKeyPress={(e) => {
+                                            const allowedCharacters = /^[a-zA-Z0-9]*$/;
+                                            if (e.key === ' ' && e.target.value.endsWith(' ')) {
+                                                e.preventDefault();
+                                            } else if (!allowedCharacters.test(e.key)) {
+                                                e.preventDefault();
+                                            }
+                                        }}
+                                    />
                                 </label>
                                 <span className='redeem-button' onClick={handleAddCoupon}><img src={redeemIcon} width={24} alt="redeemIcon" /></span>
                             </div>
