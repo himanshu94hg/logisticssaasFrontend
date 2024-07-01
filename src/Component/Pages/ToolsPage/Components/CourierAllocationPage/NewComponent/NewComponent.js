@@ -145,7 +145,6 @@ const NewComponent = () => {
             })) || [];
 
             const combined = [...tempOne, ...tempTwo];
-
             const uniqueCombined = combined.filter((item, index, self) =>
                 index === self.findIndex((t) => (
                     t.partner === item.partner
