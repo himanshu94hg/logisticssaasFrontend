@@ -16,7 +16,7 @@ import { IoIosEye } from "react-icons/io";
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
     const [numberOfOrders, setnumberOfOrders] = useState(null)
-    const [TrackOption, setTrackOption] = useState('AWB Number')
+    const [TrackOption, setTrackOption] = useState('AWB No.')
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
@@ -78,6 +78,7 @@ const SignUpPage = () => {
                     </div>
                     <div className='right-side col-md-3 col-lg-3'>
                         <div className="content">
+                            <img src={Logo} alt="Logo" height={25} />
                             <div className='user-role-select'>
                                 <label htmlFor="seller">
                                     <input
@@ -274,11 +275,11 @@ const SignUpPage = () => {
                                     <img src={TrackYourOrder} alt="TrackYourOrder" />
 
                                     <div className='d-flex gap-3 align-items-end'>
-                                        <label className='inputBox' style={{ maxWidth: '140px' }}>
+                                        <label className='inputBox' style={{ maxWidth: '112px' }}>
                                             <select className='select-field' onChange={handleTrackOptionChange}>
-                                                <option value="mobile number">Mobile Number</option>
-                                                <option value="AWB number">AWB Number</option>
-                                                <option value="order ID">Order ID</option>
+                                                <option value="mobile_number">Mobile No.</option>
+                                                <option value="AWB_number">AWB No.</option>
+                                                <option value="order_number">Order ID</option>
                                             </select>
                                         </label>
                                         <label className='inputBox'>

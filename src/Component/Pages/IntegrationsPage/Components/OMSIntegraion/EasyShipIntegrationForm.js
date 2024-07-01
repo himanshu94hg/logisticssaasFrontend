@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Logo from '../../../../../assets/image/integration/MagentoLogo.png';
+import Logo from '../../../../../assets/image/integration/EasyShip.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,10 +13,10 @@ const EasyShipIntegrationForm = () => {
 
     return (
         <>
-            <div className='magento'>
+            <div className='easyship'>
                 <section className='int-header'>
                     <div className='int-header-left'>
-                        <img src='https://www.shipease.in/public/assets/images/oms/easyship.png' alt="Logo" />
+                        <img src={Logo} alt="Logo" />
                         <h2 className='mb-0'>EasyShip</h2>
                     </div>
                     <div className='int-header-right'>

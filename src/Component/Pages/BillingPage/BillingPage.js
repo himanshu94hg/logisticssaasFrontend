@@ -11,6 +11,7 @@ import './BillingPage.css';
 import Pagination from '../../common/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import moment from 'moment';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -115,33 +116,24 @@ const BillingPage = () => {
     }, [activeTab]);
 
     const handleMoreFilter = (filterParams) => {
-        const { start_date, end_date, utr_number } = filterParams;
-
-        const formatDate = (dateString) => {
-            if (!dateString) return null;
-            const dateObject = new Date(dateString);
-            return dateObject.toISOString().split('T')[0];
-        };
-
-        const startDate = formatDate(start_date);
-        const endDate = formatDate(end_date);
-
-        const payload = {
-            page_size: 20,
-            page: 1,
-            ...(startDate && { start_date: startDate }),
-            ...(endDate && { end_date: endDate }),
-            utr_number: utr_number || '',
-        };
+        const queryParams = {};
+        Object.keys(filterParams).forEach(key => {
+            if (filterParams[key] !== '' && filterParams[key] !== null) {
+                if (key === 'start_date' || key === 'end_date') {
+                    queryParams[key] = moment(filterParams[key]).format('YYYY-MM-DD');
+                } else {
+                    queryParams[key] = filterParams[key];
+                }
+            }
+        });
 
         dispatch({
             type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",
-            payload: payload,
+            payload: queryParams,
         });
 
         setMoreFilters(false);
     };
-
 
 
     return (

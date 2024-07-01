@@ -68,6 +68,7 @@ import BuyerCommunicationPage from "./Component/Pages/SettingsPage/components/Bu
 import SellerNotificationsPage from "./Component/Pages/SettingsPage/components/SellerNotificationsPage/SellerNotificationsPage";
 import PostpaidSettingsPage from "./Component/Pages/SettingsPage/components/PostpaidSettingsPage/PostpaidSettingsPage";
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
+import "./responsive.css";
 
 
 function App() {
@@ -168,8 +169,8 @@ function App() {
             <Route path={ServiceabilityPattern} element={<ServiceabilityPage />} />
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
-            <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
-             {/* <Route path={CourierAllocationPattern} element={<NewComponent />} /> */}
+            {/* <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} /> */}
+             <Route path={CourierAllocationPattern} element={<NewComponent />} />
             <Route path={signUpPattern} element={<SignUpPage />} />
             <Route path={orderdetailPattern} element={<OrderDetail />} />
             <Route path={bypassPattern} element={<BypassPage />} />

@@ -1,0 +1,49 @@
+@media screen and (max-width:991px) {
+    
+}
+
+@media screen and (max-width:767px) {
+
+    .signup-section .right-side,
+    .login-section .right-side {
+        background: url('./assets/image/bg_login.png');
+        background-size: cover;
+        background-position: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .signup-section .left-side,
+    .login-section .left-side {
+        display: none;
+    }
+
+    .signup-section .signup .content,
+    .login-section .signin .content {
+        margin-inline: 0;
+        max-width: 95%;
+        min-width: 95%;
+    }
+
+    .signup-section .signup .signup-logo-container::before,
+    .signup-section .signup .signup-logo-container img,
+    .login-section .signin .login-logo-container::before,
+    .login-section .signin .login-logo-container img {
+        display: none;
+    }
+
+    .signup-section .signup .content img,
+    .login-section .signin .content img {
+        display: block;
+    }
+
+
+    .signup-section .signup .content {
+        padding-inline: 20px;
+    }
+
+    .signup-section .signup .signup-with-social {
+        flex-direction: column;
+    }
+}
