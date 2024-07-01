@@ -280,20 +280,63 @@ const AddWarehouse = () => {
         }
         setWareHouseData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
+            rto_details: {
+                warehouse_name: warehouseData?.warehouse_name,
+                contact_person_name: warehouseData?.contact_name,
+                contact_number: warehouseData?.contact_number,
+                alternate_number: "",
+                email: warehouseData?.support_email,
+                address: warehouseData?.address_line1 + "," + warehouseData.address_line2,
+                landmark: warehouseData?.city,
+                pincode: warehouseData?.pincode,
+                city: warehouseData?.city,
+                state: warehouseData?.state,
+                country: warehouseData?.country
+            }
         }))
     }
 
     const handleCheckboxChange = () => {
-    //     setSameRTO(!SameRTO)
-    //     if(SameRTO){
-    //         setWareHouseData((prev)=>({
-    //             ...prev,
-                
-    //         }))
-    //     }
+        setSameRTO(!SameRTO)
+        if (SameRTO) {
+            setWareHouseData((prev) => ({
+                ...prev,
+                rto_details: {
+                    warehouse_name: warehouseData?.warehouse_name,
+                //     contact_person_name: warehouseData?.contact_name,
+                //     contact_number: warehouseData?.contact_number,
+                //     alternate_number: "",
+                //     email: warehouseData?.support_email,
+                //     address: warehouseData?.address_line1 + "," + warehouseData.address_line2,
+                //     landmark: warehouseData?.city,
+                //     pincode: warehouseData?.pincode,
+                //     city: warehouseData?.city,
+                //     state: warehouseData?.state,
+                //     country: warehouseData?.country
+                }
+            }))
+        }
+        else {
+            setWareHouseData((prev) => ({
+                ...prev,
+                rto_details: {
+                    warehouse_name: "",
+                    contact_person_name: "",
+                    contact_number: "",
+                    alternate_number: "",
+                    email: "",
+                    address: "",
+                    landmark: "",
+                    pincode: "",
+                    city: "",
+                    state: "",
+                    country: ""
+                }
+            }))
+        }
     }
-    // console.log(warehouseData, "hhhhhhhhhhhhhhhhhhh")
+    console.log(warehouseData, "hhhhhhhhhhhhhhhhhhh", SameRTO)
 
     return (
         <>
