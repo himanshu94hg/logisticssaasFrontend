@@ -46,6 +46,8 @@ const NewComponent = () => {
         const { source, destination } = result;
         if (!destination) return;
 
+        if (source.droppableId === destination.droppableId && source.index === destination.index) return;
+
         const getList = (id) => {
             switch (id) {
                 case '0':
