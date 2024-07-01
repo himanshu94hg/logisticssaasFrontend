@@ -68,6 +68,7 @@ import BuyerCommunicationPage from "./Component/Pages/SettingsPage/components/Bu
 import SellerNotificationsPage from "./Component/Pages/SettingsPage/components/SellerNotificationsPage/SellerNotificationsPage";
 import PostpaidSettingsPage from "./Component/Pages/SettingsPage/components/PostpaidSettingsPage/PostpaidSettingsPage";
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
+import "./responsive.css";
 
 
 function App() {
