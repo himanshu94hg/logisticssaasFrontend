@@ -81,6 +81,11 @@
     background-color: var(--sh-primary-light);
 }
 
+.card-img-container.EasyShip {
+    background-color: #bce5ea;
+    /* background-color: #8CD3DB; */
+}
+
 .card-img-container img {
     position: absolute;
     right: -18px;
@@ -131,6 +136,10 @@
 
 .hippo .int-header {
     background-color: #c0d4d2;
+}
+
+.easyship .int-header {
+    background-color: #bce5ea;
 }
 
 /* .int-form {
@@ -196,6 +205,10 @@
     background-color: #7ab434;
 }
 
+.easyship .int-header-right:after {
+    background-color: #8CD3DB;
+}
+
 .int-body {
     display: flex;
     margin-block: 1rem;
@@ -257,6 +270,10 @@
     background-color: #E4DBEF;
 }
 
+.easyship .timeline::after {
+    background-color: #bce5ea;
+}
+
 .timeline-list {
     padding: 10px 40px;
     position: relative;
@@ -291,4 +308,8 @@
 
 .woo .timeline-list:after {
     border: 4px solid #7f54b3;
+}
+
+.easyship .timeline-list:after {
+    border: 4px solid #8CD3DB;
 }

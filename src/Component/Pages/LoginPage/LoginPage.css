@@ -118,6 +118,11 @@
     background-color: #fff;
 }
 
+.login-section .signin .content img {
+    display: none;
+}
+
+
 .login-section .signin .content h2 {
     font-size: 2em;
     color: var(--sh-primary);
