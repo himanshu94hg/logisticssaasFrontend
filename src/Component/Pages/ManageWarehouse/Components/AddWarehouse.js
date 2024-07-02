@@ -19,41 +19,97 @@ const AddWarehouse = () => {
     const [SameRTO, setSameRTO] = useState(true);
     const [AddFields, SetAddFields] = useState(false);
     const hardcodedToken = Cookies.get("access_token");
+    const [warehouseData, setWareHouseData] = useState({
+        seller: "",
+        warehouse_name: "",
+        address_line1: "",
+        address_line2: "",
+        contact_number: "",
+        contact_name: "",
+        support_phone: "",
+        support_email: "",
+        gst_number: "",
+        country_code: "",
+        city: "",
+        state: "",
+        pincode: "",
+        country: "India",
+        rto_details: {
+            warehouse_name: "",
+            contact_person_name: "",
+            contact_number: "",
+            alternate_number: "",
+            email: "",
+            address: "",
+            landmark: "",
+            pincode: "",
+            city: "",
+            state: "",
+            country: "India"
+        }
+    });
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            // const newErrors = {}
-            // if (!warehouseData.warehouse_name) {
-            //     newErrors.warehouse_name = "Warehouse Name is required!"
-            // } else if (!warehouseData.contact_name) {
-            //     newErrors.warehouse_name = "Contact Person Name is required!"
-            // }
-            // else if (!warehouseData.contact_number) {
-            //     newErrors.contact_number = "Contact Number is required!"
-            // }
-            // else if (!warehouseData.gst_number) {
-            //     newErrors.gst_number = "GST Number is required!"
+            const newErrors = {}
+            if (!warehouseData.warehouse_name) {
+                newErrors.warehouse_name = "Warehouse Name is required!"
+            }
+            if (!warehouseData.contact_name) {
+                newErrors.contact_name = "Contact Person Name is required!"
+            }
+            if (!warehouseData.contact_number) {
+                newErrors.contact_number = "Contact Number is required!"
+            }
+            if (!warehouseData.gst_number) {
+                newErrors.gst_number = "GST Number is required!"
+            }
+            if (!warehouseData.address_line1) {
+                newErrors.address_line1 = "Address Line 1 is required!"
 
-            // } else if (!warehouseData.address_line1) {
-            //     newErrors.address_line1 = "Address Line 1 is required!"
+            }
+            if (!warehouseData.address_line2) {
+                newErrors.address_line2 = "Address Line 1 is required!"
+            }
+            if (!warehouseData.pincode) {
+                newErrors.pincode = "Pincode is required!"
+            }
+            if (!warehouseData.city) {
+                newErrors.city = "City is required!"
+            }
+            if (!warehouseData.state) {
+                newErrors.state = "State is required!"
+            }
 
-            // }
-            // else if (!warehouseData.address_line2) {
-            //     newErrors.address_line2 = "Address Line 1 is required!"
-            // }
-            // else if (!warehouseData.pincode) {
-            //     newErrors.pincode = "Pincode is required!"
-            // }
-            // else if (!warehouseData.city) {
-            //     newErrors.city = "City is required"
-            // }
+            //rto
+            if (!warehouseData.rto_details.warehouse_name) {
+                newErrors.rto_warehouse_name = "Warehouse Name is required!"
+            }
+            if (!warehouseData.rto_details.contact_person_name) {
+                newErrors.contact_person_name = "Contact Person Name is required!"
+            }
+            if (!warehouseData.rto_details.contact_number) {
+                newErrors.rto_contact_number = "Contact Number is required!"
+            }
+            if (!warehouseData.rto_details.address) {
+                newErrors.address = "Address is required!"
+            }
+            if (!warehouseData.rto_details.pincode) {
+                newErrors.rto_pincode = "Pincode is required!"
+            }
+            if (!warehouseData.rto_details.city) {
+                newErrors.rto_city = "City is required!"
+            }
+            if (!warehouseData.rto_details.state) {
+                newErrors.rto_state = "State is required!"
+            }
 
-            // setErrors(newErrors)
-            // if (Object.keys(newErrors).length > 0) {
-            //     setErrors(newErrors);
-            //     return;
-            // }
+            setErrors(newErrors)
+            if (Object.keys(newErrors).length > 0) {
+                setErrors(newErrors);
+                return;
+            }
             const response = await axios.post(`${BASE_URL_CORE}/core-api/features/warehouse/`, warehouseData, {
                 headers: {
                     'Authorization': `Bearer ${hardcodedToken}`,
@@ -80,54 +136,62 @@ const AddWarehouse = () => {
         '9:00 PM', '10:00 PM', '11:00 PM'
     ];
 
-    const [warehouseData, setWareHouseData] = useState({
-        seller: "",
-        warehouse_name: "",
-        address_line1: "",
-        address_line2: "",
-        contact_number: "",
-        contact_name: "",
-        support_phone: "",
-        support_email: "",
-        gst_number: "",
-        country_code: "",
-        city: "",
-        state: "",
-        pincode: "",
-        country: "",
-        rto_details: {
-            warehouse_name: "",
-            contact_person_name: "",
-            contact_number: "",
-            alternate_number: "",
-            email: "",
-            address: "",
-            landmark: "",
-            pincode: "",
-            city: "",
-            state: "",
-            country: "India"
-        }
-    });
 
-    const handleChangeWarehouse = async (event) => {
+
+    const handleChangeWarehouse = (event) => {
         const { name, value } = event.target;
+
+        console.log(value, "valuevalue")
+
+        if (name === "contact_number") {
+            if (value.length === 10) {
+                setErrors((prev) => {
+                    const { contact_number, ...restErrors } = prev;
+                    return restErrors
+                })
+            } else {
+                setErrors((prev) => ({
+                    ...prev,
+                    contact_number: 'Mobile Number should be 10 digits!'
+                }))
+            }
+        }
+
         if (name === "pincode") {
             if (value.length === 6) {
+                setErrors(prevErrors => {
+                    const { pincode, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
                 try {
-                    const response = await axios.get(`https://api.postalpincode.in/pincode/${value}`);
-                    if (response.data && response.data.length > 0) {
-                        const data = response.data[0].PostOffice[0];
-                        setWareHouseData((prev) => ({
-                            ...prev,
-                            city: data.District,
-                            state: data.State,
-                            country: data.Country,
-                        }));
-                    }
+                    axios.get(`https://api.postalpincode.in/pincode/${value}`)
+                        .then(response => {
+                            if (response?.data[0]?.Message === "No records found") {
+                                setErrors(prevErrors => ({
+                                    ...prevErrors,
+                                    pincode: "Please enter valid pincode!"
+                                }));
+                            } else {
+                                const data = response.data[0]?.PostOffice[0];
+                                if (response?.data[0]?.PostOffice?.length > 0) {
+                                    setWareHouseData((prev) => ({
+                                        ...prev,
+                                        city: data.District,
+                                        state: data.State,
+                                        country: data.Country,
+                                    }));
+                                }
+                            }
+                        }
+                        )
                 } catch (error) {
-                    // Handle error
+                    customErrorFunction(error)
                 }
+            } else if (value.length > 0 && value.length !== 6) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    pincode: "Pincode should be 6 digits!"
+                }));
             }
         }
         setWareHouseData((prev) => ({
@@ -145,34 +209,84 @@ const AddWarehouse = () => {
                     pincode: prev.pincode,
                     city: prev.city,
                     state: prev.state,
-                    country: prev.country
+                    country: "India"
                 }
                 : prev.rto_details
         }));
     };
 
-    const handleChangeRto = async (event) => {
+    const handleChangeRto = (event) => {
         const { name, value } = event.target;
+        if (name === "contact_number") {
+            if (value.length === 10) {
+                setErrors((prev) => {
+                    const { rto_contact_number, ...restErrors } = prev;
+                    return restErrors
+                })
+            } else {
+                setErrors((prev) => ({
+                    ...prev,
+                    rto_contact_number: 'Mobile Number should be 10 digits!'
+                }))
+            }
+        }
+        if (name === "alternate_number") {
+            if (value.length === 10) {
+                setErrors((prev) => {
+                    const { alternate_number, ...restErrors } = prev;
+                    return restErrors
+                })
+            } else {
+                setErrors((prev) => ({
+                    ...prev,
+                    alternate_number: 'Mobile Number should be 10 digits!'
+                }))
+            }
+        }
+
         if (name === "pincode") {
             if (value.length === 6) {
+                setErrors(prevErrors => {
+                    const { rto_pincode, ...restErrors } = prevErrors;
+                    return restErrors;
+                });
                 try {
-                    const response = await axios.get(`https://api.postalpincode.in/pincode/${value}`);
-                    if (response.data && response.data.length > 0) {
-                        const data = response.data[0].PostOffice[0];
-                        setWareHouseData((prev) => ({
-                            ...prev,
-                            rto_details: {
-                                ...prev.rto_details,
-                                city: data.District,
-                                state: data.State,
-                                country: data.Country,
+                    axios.get(`https://api.postalpincode.in/pincode/${value}`)
+                        .then(response => {
+                            if (response?.data[0]?.Message === "No records found") {
+                                setErrors(prevErrors => ({
+                                    ...prevErrors,
+                                    rto_pincode: "Please enter valid pincode!"
+                                }));
                             }
-                        }));
-                    }
-                } catch (error) {
+                            else {
+                                if (response?.data && response?.data?.length > 0) {
+                                    const data = response.data[0]?.PostOffice[0];
+                                    setWareHouseData((prev) => ({
+                                        ...prev,
+                                        rto_details: {
+                                            ...prev.rto_details,
+                                            city: data.District,
+                                            state: data.State,
+                                            country: data.Country,
+                                        }
+                                    }));
+                                }
+                            }
+                        }
+                        )
+                }
+                catch (error) {
                     // Handle error
                 }
             }
+            else if (value.length > 0 && value.length !== 6) {
+                setErrors(prevErrors => ({
+                    ...prevErrors,
+                    rto_pincode: "Pincode should be 6 digits!"
+                }));
+            }
+
         }
         setWareHouseData((prev) => ({
             ...prev,
@@ -183,9 +297,9 @@ const AddWarehouse = () => {
         }));
     };
 
+
     const handleCheckboxChange = () => {
         setSameRTO(!SameRTO);
-
     };
 
     useEffect(() => {
@@ -203,7 +317,7 @@ const AddWarehouse = () => {
                     pincode: prev.pincode,
                     city: prev.city,
                     state: prev.state,
-                    country: prev.country
+                    country: "India"
                 }
             }));
         } else {
@@ -220,13 +334,72 @@ const AddWarehouse = () => {
                     pincode: "",
                     city: "",
                     state: "",
-                    country: ""
+                    country: "India"
                 }
             }));
         }
     }, [SameRTO])
 
-    console.log(errors, "this is warehouse data")
+
+    const handleReset = () => {
+        setErrors({})
+        setWareHouseData({
+            seller: "",
+            warehouse_name: "",
+            address_line1: "",
+            address_line2: "",
+            contact_number: "",
+            contact_name: "",
+            support_phone: "",
+            support_email: "",
+            gst_number: "",
+            country_code: "",
+            city: "",
+            state: "",
+            pincode: "",
+            country: "India",
+            rto_details: {
+                warehouse_name: "",
+                contact_person_name: "",
+                contact_number: "",
+                alternate_number: "",
+                email: "",
+                address: "",
+                landmark: "",
+                pincode: "",
+                city: "",
+                state: "",
+                country: "India"
+            }
+
+        })
+    }
+
+    console.log(warehouseData, "this is warehouse data", errors)
+
+    const allowedCharacters = /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+    const allowedCharacters1 = /^[a-zA-Z0-9\s]*$/;
+
+    const handleKeyDown = (e) => {
+        // const allowedCharacters2= /^[a-zA-Z0-9\s!@#$%^&*(),.?":{}|<>]*$/;
+        console.log(e.target.name, e.target.value.length, "dddddddddddddddddddddddddd")
+
+    }
+    const handleKeypress = (e) => {
+        const { field, value } = e.target
+        if (field === "gst_number") {
+
+        }
+        else {
+            if (e.key === ' ' && e.target.value.endsWith(' ')) {
+                e.preventDefault();
+            } else if (!allowedCharacters.test(e.key)) {
+                e.preventDefault();
+            }
+        }
+
+
+    }
 
     return (
         <>
@@ -239,11 +412,13 @@ const AddWarehouse = () => {
                                 Warehouse Name (do not use special symbols)
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.warehouse_name && 'input-field-error'}`}
+                                    maxLength={70}
                                     name="warehouse_name"
                                     onChange={handleChangeWarehouse}
                                     placeholder='Enter Warehouse Name'
+                                    onKeyPress={(e) => handleKeypress(e)}
                                     value={warehouseData.warehouse_name}
+                                    className={`input-field ${errors.warehouse_name && 'input-field-error'}`}
                                 />
                                 {errors.warehouse_name && <div className="custom-error">{errors.warehouse_name}</div>}
                             </label>
@@ -251,11 +426,13 @@ const AddWarehouse = () => {
                                 Contact Person Name
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.contact_name && 'input-field-error'}`}
                                     name="contact_name"
+                                    maxLength={70}
                                     onChange={handleChangeWarehouse}
                                     value={warehouseData.contact_name}
+                                    onKeyPress={(e) => handleKeypress(e)}
                                     placeholder='Enter Contact Person Name'
+                                    className={`input-field ${errors.contact_name && 'input-field-error'}`}
                                 />
                                 {errors.contact_name && <div className="custom-error">{errors.contact_name}</div>}
                             </label>
@@ -296,6 +473,7 @@ const AddWarehouse = () => {
                                     value={warehouseData.gst_number}
                                     placeholder='Enter GST Number'
                                     maxLength={15}
+                                    onKeyPress={(e) => handleKeypress(e)}
                                     onChange={handleChangeWarehouse}
                                 />
                                 {errors.gst_number && <div className="custom-error">{errors.gst_number}</div>}
@@ -306,13 +484,15 @@ const AddWarehouse = () => {
                                 Warehouse Address 1
                                 <input
                                     type="text"
-                                    className={`input-field ${errors.addressLine1 && 'input-field-error'}`}
                                     name="address_line1"
+                                    maxLength={100}
                                     value={warehouseData.address_line1}
                                     placeholder='Enter Warehouse Address 1'
+                                    onKeyPress={(e) => handleKeypress(e)}
                                     onChange={handleChangeWarehouse}
+                                    className={`input-field ${errors.address_line1 && 'input-field-error'}`}
                                 />
-                                {errors.addressLine1 && <div className="custom-error">{errors.addressLine1}</div>}
+                                {errors.address_line1 && <div className="custom-error">{errors.address_line1}</div>}
                             </label>
                             <label>
                                 Warehouse Address 2
@@ -320,8 +500,10 @@ const AddWarehouse = () => {
                                     type="text"
                                     className={`input-field ${errors.address_line2 && 'input-field-error'}`}
                                     name="address_line2"
+                                    maxLength={100}
                                     value={warehouseData.address_line2}
                                     placeholder='Enter Warehouse Address 2'
+                                    onKeyPress={(e) => handleKeypress(e)}
                                     onChange={handleChangeWarehouse}
                                 />
                                 {errors.address_line2 && <div className="custom-error">{errors.address_line2}</div>}
@@ -352,8 +534,10 @@ const AddWarehouse = () => {
                                     type="text"
                                     className={`input-field ${errors.city && 'input-field-error'}`}
                                     name="city"
+                                    maxLength={50}
                                     value={warehouseData.city}
                                     placeholder='Enter city'
+                                    onKeyPress={(e) => handleKeypress(e)}
                                     onChange={handleChangeWarehouse}
                                 />
                                 {errors.city && <div className="custom-error">{errors.city}</div>}
@@ -364,9 +548,12 @@ const AddWarehouse = () => {
                                     type="text"
                                     className={`input-field ${errors.state && 'input-field-error'}`}
                                     name="state"
+                                    maxLength={30}
                                     value={warehouseData.state}
                                     onChange={handleChangeWarehouse}
                                     placeholder='Enter state'
+                                    onKeyPress={(e) => handleKeypress(e)}
+
                                 />
                                 {errors.state && <div className="custom-error">{errors.state}</div>}
                             </label>
@@ -376,9 +563,12 @@ const AddWarehouse = () => {
                                     type="text"
                                     className='input-field'
                                     name="country"
+                                    maxLength={30}
                                     value={warehouseData.country}
                                     onChange={handleChangeWarehouse}
                                     placeholder='Enter country'
+                                    onKeyPress={(e) => handleKeypress(e)}
+
                                 />
                             </label>
                         </div>
@@ -452,23 +642,29 @@ const AddWarehouse = () => {
                                     Warehouse Name (do not use special symbols)
                                     <input
                                         type="text"
-                                        className='input-field'
                                         name="warehouse_name"
+                                        maxLength={70}
                                         placeholder='Enter Warehouse Name'
                                         onChange={handleChangeRto}
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         value={warehouseData.rto_details.warehouse_name}
+                                        className={`input-field ${errors.rto_warehouse_name && 'input-field-error'}`}
                                     />
+                                    {errors?.rto_warehouse_name && <div className="custom-error">{errors.rto_warehouse_name}</div>}
                                 </label>
                                 <label>
                                     Contact Person Name
                                     <input
                                         type="text"
-                                        className='input-field'
                                         name="contact_person_name"
+                                        maxLength={70}
                                         onChange={handleChangeRto}
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         placeholder='Enter Contact Person Name'
                                         value={warehouseData.rto_details.contact_person_name}
+                                        className={`input-field ${errors.contact_person_name && 'input-field-error'}`}
                                     />
+                                    {errors?.contact_person_name && <div className="custom-error">{errors.contact_person_name}</div>}
                                 </label>
                             </div>
                             <div className='d-flex gap-3 mt-4'>
@@ -483,31 +679,38 @@ const AddWarehouse = () => {
                                         </select>
                                         <input
                                             type="text"
-                                            className={`input-field`}
                                             name="contact_number"
                                             onChange={handleChangeRto}
+                                            maxLength={10}
                                             value={warehouseData.rto_details.contact_number}
                                             placeholder='XXXXXXXXXX'
+                                            className={`input-field ${errors.rto_contact_number && 'input-field-error'}`}
                                         />
+                                        {errors?.rto_contact_number && <div className="custom-error">{errors.rto_contact_number}</div>}
                                     </div>
                                 </label>
                                 <label>
                                     Alternate Number
                                     <input
                                         type="text"
-                                        className='input-field'
+                                        maxLength={10}
                                         onChange={handleChangeRto}
                                         name="alternate_number"
                                         placeholder='Enter Alternate Contact'
+                                        className={`input-field ${errors.alternate_number && 'input-field-error'}`}
                                     />
+                                    {errors?.alternate_number && <div className="custom-error">{errors.alternate_number}</div>}
+
                                 </label>
                                 <label>
                                     Email
                                     <input
                                         type="text"
+                                        name="email"
+                                        maxLength={30}
                                         className='input-field'
                                         onChange={handleChangeRto}
-                                        name="email"
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         placeholder='Enter Email'
                                     />
                                 </label>
@@ -517,20 +720,26 @@ const AddWarehouse = () => {
                                     Address
                                     <input
                                         type="text"
-                                        className='input-field'
-                                        onChange={handleChangeRto}
                                         name="address"
+                                        maxLength={100}
+                                        onChange={handleChangeRto}
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         placeholder='Enter Warehouse Address 1'
                                         value={warehouseData.rto_details.address}
+                                        className={`input-field ${errors.address && 'input-field-error'}`}
+
                                     />
+                                    {errors?.address && <div className="custom-error">{errors.address}</div>}
                                 </label>
                                 <label>
                                     Landmark
                                     <input
                                         type="text"
+                                        maxLength={50}
+                                        name="landmark"
                                         className='input-field'
                                         onChange={handleChangeRto}
-                                        name="landmark"
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         placeholder='Enter Landmark'
                                         value={warehouseData.rto_details.landmark}
                                     />
@@ -541,41 +750,50 @@ const AddWarehouse = () => {
                                     Pincode
                                     <input
                                         type="text"
-                                        className='input-field'
                                         name="pincode"
                                         placeholder='Enter Pincode'
                                         onChange={handleChangeRto}
                                         maxLength={6}
                                         value={warehouseData.rto_details.pincode}
+                                        className={`input-field ${errors.rto_pincode && 'input-field-error'}`}
                                     />
+                                    {errors?.rto_pincode && <div className="custom-error">{errors.rto_pincode}</div>}
                                 </label>
                                 <label>
                                     City
                                     <input
                                         type="text"
-                                        className='input-field'
-                                        onChange={handleChangeRto}
                                         name="city"
+                                        maxLength={30}
+                                        onChange={handleChangeRto}
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         value={warehouseData.rto_details.city}
+                                        className={`input-field ${errors.rto_city && 'input-field-error'}`}
                                     />
+                                    {errors?.rto_city && <div className="custom-error">{errors.rto_city}</div>}
                                 </label>
                                 <label>
                                     State
                                     <input
                                         type="text"
-                                        className='input-field'
-                                        onChange={handleChangeRto}
+                                        maxLength={30}
                                         name="state"
+                                        onChange={handleChangeRto}
+                                        onKeyPress={(e) => handleKeypress(e)}
                                         value={warehouseData.rto_details.state}
+                                        className={`input-field ${errors.rto_city && 'input-field-error'}`}
                                     />
+                                    {errors?.rto_state && <div className="custom-error">{errors.rto_state}</div>}
                                 </label>
                                 <label>
                                     Country
                                     <input
                                         type="text"
-                                        className='input-field'
-                                        onChange={handleChangeRto}
+                                        maxLength={30}
                                         name="country"
+                                        className='input-field'
+                                        onKeyPress={(e) => handleKeypress(e)}
+                                        onChange={handleChangeRto}
                                         value={warehouseData.rto_details.country}
                                     />
                                 </label>
@@ -585,7 +803,7 @@ const AddWarehouse = () => {
                 </div>
                 {/* Next Button */}
                 <div className='d-flex justify-content-end my-3'>
-                    <button className='btn main-button-outline' type='reset'>
+                    <button className='btn main-button-outline' type='reset' onClick={handleReset}>
                         Reset
                     </button>
                     <button className='btn main-button ms-2' type='submit'>
