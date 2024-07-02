@@ -160,7 +160,6 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                         }
                     })
                     .catch(error => {
-                        
                     });
 
             } else if (e.target.value.length > 0 && e.target.value.length !== 6) {

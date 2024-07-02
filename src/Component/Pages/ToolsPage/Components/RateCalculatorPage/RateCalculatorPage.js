@@ -8,6 +8,12 @@ import { debounce } from 'lodash';
 import Toggle from 'react-toggle';
 import globalDebouncedClick from '../../../../../debounce';
 import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+
+import Cookies from 'js-cookie';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
@@ -20,6 +26,7 @@ const RateCalculatorPage = () => {
   const [invoiceField, setInvoiceField] = useState(false);
   const [orderField, setOrderField] = useState(false);
   const [orderId, setOrderId] = useState("");
+  const [orderNum, setOrderNum] = useState("");
   const [chargedWeight, setChargedWeight] = useState(0);
   const [errors, setErrors] = useState({});
   const [isChecked, setIsChecked] = useState(false);
@@ -44,7 +51,6 @@ const RateCalculatorPage = () => {
     setIsChecked(!isChecked);
   };
 
-  console.log(formData,"formDataformDataformData")
 
   useEffect(() => {
     if (sellerData) {
@@ -88,6 +94,7 @@ const RateCalculatorPage = () => {
       setLength(ratePrefilledData?.length)
       setHeight(ratePrefilledData?.height)
       setBreadth(ratePrefilledData?.breadth)
+      setOrderNum(ratePrefilledData?.id)
     }
   }, [ratePrefilledData]);
 
@@ -285,6 +292,35 @@ const RateCalculatorPage = () => {
     });
     setOrderId("");
   }, [])
+  let authToken = Cookies.get("access_token")
+
+const navigate=useNavigate()
+  const handleShip = (option) => {
+    if (orderId) {
+      axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${orderNum}/?courier_partner=${option}`, {
+        headers: {
+            Authorization: `Bearer ${authToken}`
+        }
+    })
+        .then((response) => {
+            if (response?.data?.status) {
+                // setSingleShip(false);
+                navigate('/Orders');
+                toast.success('Order Shipped Successfully!');
+                // dispatch(shipNowAction(new Date()))
+                dispatch({ type: "PAYMENT_DATA_ACTION" });
+            }
+            else {
+                // setSingleShip(true);
+                toast.error(response.data.message);
+            }
+        }).catch((error) => {
+            customErrorFunction(error)
+        });
+    } else {
+      navigate("/create-order")
+    }
+  }
 
   return (
     <>
@@ -518,14 +554,14 @@ const RateCalculatorPage = () => {
                   <div className='ship-container-row box-shadow shadow-sm' >
                     <div className='d-flex flex-column justify-content-center'>
                       <div className='d-flex gap-2 '>
-                      <div className='img-container'>
-                                <img src={item.partner_image} alt={item.partner_title} />
-                            </div>
-                            <div className='d-flex flex-column justify-content-center'>
-                                <p>{item.partner_title}</p>
-                                <p>{"Delivering Excellence, Every Mile"}</p>
-                                <p>RTO Charges: ₹{item?.rto_charge}</p>
-                            </div>
+                        <div className='img-container'>
+                          <img src={item.partner_image} alt={item.partner_title} />
+                        </div>
+                        <div className='d-flex flex-column justify-content-center'>
+                          <p>{item.partner_title}</p>
+                          <p>{"Delivering Excellence, Every Mile"}</p>
+                          <p>RTO Charges: ₹{item?.rto_charge}</p>
+                        </div>
                       </div>
                     </div>
                     <div className='d-flex align-items-center gap-2'>
@@ -558,11 +594,11 @@ const RateCalculatorPage = () => {
                       <p><strong>₹{(item?.rate + item?.cod_charge + item?.early_cod_charge).toFixed(2)} </strong> <span>(Inclusive of all taxes )</span><br />
                         <span>Freight Charges:₹ {item?.rate} <strong></strong></span><br />
                         <span>+ COD Charges:₹{item?.cod_charge} <strong> </strong></span><br />
-                        <span>+ Early COD Charges: <strong>₹ {item?.early_cod_charge}</strong></span><br />
+                        <span>+Early COD Charges: <strong>₹ {item?.early_cod_charge}</strong></span><br />
                       </p>
                     </div>
                     <div className='d-flex flex-column gap-2 align-items-end'>
-                      <button className='btn main-button'>Ship Now</button>
+                      <button className='btn main-button' onClick={() => handleShip(item.partner_keyword)}>Ship Now</button>
                       <p><span>EDD: <strong>{item?.estimate_days} days</strong></span></p>
                     </div>
                     {item?.is_recommended &&
