@@ -26,19 +26,20 @@ import zonePathClearAction from '../../../redux/action/pathname/zonePath';
 
 
 
-const Dropdown = ({ links, isOpen }) => {
+const Dropdown = ({ links, isOpen, setExpanded }) => {
   const dispatch = useDispatch()
 
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => (
         <NavLink key={index} to={link.to}
-        onClick={(e) => {
-          dispatch(zonePathClearAction(link.label));
-          dispatch(pathAction(link.label));
-        }}
+          onClick={(e) => {
+            dispatch(zonePathClearAction(link.label));
+            dispatch(pathAction(link.label));
+            setExpanded(false)
+          }}
         >
-        <span className='submenu-icon'><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
+          <span className='submenu-icon'><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
         </NavLink>
       ))}
     </div>
@@ -46,7 +47,7 @@ const Dropdown = ({ links, isOpen }) => {
 };
 
 
-const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle }) => {
+const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle, setExpanded }) => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   // const [isDropdownOpen, setDropdownOpen] = useState(true);
   const location = useLocation();
@@ -75,16 +76,21 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 
     // If there's a dropdown, check if the current route matches either the main menu item or any dropdown option
     return (
-      location.pathname === to ||
-      dropdownLinks.some((link) => location.pathname === link.to)
+      location.pathname === to || dropdownLinks.some((link) => location.pathname === link.to)
     );
   };
+
+  const handleMenuItemClick = () => {
+    if (!hasDropdown) {
+      setExpanded(false)
+    }
+  }
 
   return (
     <div className="nav-link main" onClick={hasDropdown ? handleDropdownToggle : null}>
       <div className="sidebar-label-wrapper">
 
-        <NavLinkComponent to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
+        <NavLinkComponent onClick={handleMenuItemClick} to={to} className={`nav-link ${isActive() ? 'active' : ''}`} activeclassName="active">
           {label === "Dashboard" && <DashboardIcon />}
           {label === "Orders" && <OrdersIcon />}
           {label === "More On Orders" && <MoreOnOrdersIcon />}
@@ -112,14 +118,13 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
       </div>
 
       {/* {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />} */}
-      {hasDropdown && <Dropdown links={dropdownLinks} isOpen={isDropdownOpen} />}
+      {hasDropdown && <Dropdown setExpanded={setExpanded} links={dropdownLinks} isOpen={isDropdownOpen} />}
     </div>
   );
 };
 
-const SideNav = (props) => {
+const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
   const navigate = useNavigate()
-  const [isExpanded, setExpanded] = useState(false);
   // const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
   const [openDropdown, setOpenDropdown] = useState(null);
@@ -153,7 +158,7 @@ const SideNav = (props) => {
   };
 
   const handleMappingShow = () => {
-    props.setZoneMapping(!props.ZoneMapping);
+    setZoneMapping(!ZoneMapping);
     setExpanded(false);
   }
 
@@ -200,7 +205,7 @@ const SideNav = (props) => {
 
   const handleMenuItemClick = () => {
     setExpanded(false);
-    setOpenDropdown(null);
+    // setOpenDropdown(null);
   };
 
   return (
@@ -215,7 +220,7 @@ const SideNav = (props) => {
           src={Logo}
           alt="Logo"
           onClick={() => navigate(indexPattern)}
-          // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
+        // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
         />
       </div>
       <div className="menu-container">
@@ -229,6 +234,7 @@ const SideNav = (props) => {
             isExpanded={isExpanded}
             openDropdown={openDropdown}
             onDropdownToggle={handleDropdownToggle}
+            setExpanded={setExpanded}
           />
         ))}
       </div>
