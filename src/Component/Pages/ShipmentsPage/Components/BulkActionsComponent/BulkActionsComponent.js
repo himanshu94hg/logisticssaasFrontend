@@ -13,7 +13,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const {exportCard,exportAllCard} = useSelector(state => state?.exportSectionReducer)
+    const {exportCard,exportAllCard,exportShipmentCard,exportShipmentAllCard} = useSelector(state => state?.exportSectionReducer)
     console.log(exportCard, "Export Action Bulk")
 
     const handleExport = () => {
@@ -45,17 +45,17 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
             "global_type": "",
             "payment_type": ""
         };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
+        dispatch({ type: "EXPORT_SHIPMENT_DATA_ACTION", payload: requestData });
     };
 
     useEffect(() => {
         if (exportButtonClick) {
             var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            var blob = new Blob([exportShipmentCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportCard]);
+    }, [exportShipmentCard]);
 
     const handleReattemptOrder = (() => {
         dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
@@ -109,7 +109,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                         // ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
                         // ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
                     };
-                    dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
+                    dispatch({ type: "EXPORT_SHIPMENT_ALL_DATA_ACTION", payload: requestData });
                     // setBulkActionShow(false);
                     setSelectedRows([])
                     setFilterData({});
@@ -120,10 +120,10 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
     };
 
     useEffect(() => {
-        if (exportAllCard?.message === "Go to MIS->Downloads to download your report") {
+        if (exportShipmentAllCard?.message === "Go to MIS->Downloads to download your report") {
             setFilterData({});
         }
-    },[exportAllCard]);
+    },[exportShipmentAllCard]);
 
     return (
         <>
@@ -142,17 +142,11 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                                 <>
                                     <li onClick={handleReattemptOrder}><ReAttemptIcon /><span>Re-Attempt</span></li>
                                     <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
-                                    <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li>
                                 </>
                             )}
                             {activeTab === "Action Requested" && (
                                 <>
                                 <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
-                                <li onClick={handleExportAll}>
-                                    <ExportIcon /><span>Export All</span>
-                                </li>
                                 </>  
                             )}
                         </>

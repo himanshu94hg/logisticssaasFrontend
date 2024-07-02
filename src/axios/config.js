@@ -97,6 +97,9 @@ export const API_URL = {
   GET_EXPORT_REMITANCE_URL:"/core-api/features/billing/remittance-log-download/",
   GET_EXPORT_RECEIPT_URL:"/core-api/features/billing/credit-receipt-download/",
 
+  GET_EXPORT_SHIPMENT_URL: "/orders-api/orders/export-order-shipment/",
+  GET_EXPORT_SHIPMENT_ALL_URL: "/orders-api/orders/export-all-order-shipment/",
+
 
   //DASHBOARD OVERVIEW API'S 
   GET_DASHBOARD_OVERVIEW_SHIPMENT_CARD: "/orders-api/dashboard/overview/shipment-card/",
