@@ -70,33 +70,36 @@ const ShopifyIntegrationForm = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-       if(validateFormData()){
-        try {
-            const response = await axios.post(`${BASE_URL_CORE}/core-api/channel/channel/`, formData, {
-                headers: {
-                    'Authorization': `Bearer ${hardcodedToken}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            console.log('Response:', response);
-
-            if (response.status === 201) {
-                const responseData = response.data;
-                console.log('API Response:', responseData);
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Channel added successfully!',
-                    confirmButtonText: 'OK'
+        if (validateFormData()) {
+            try {
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/channel/channel/`, formData, {
+                    headers: {
+                        'Authorization': `Bearer ${hardcodedToken}`,
+                        'Content-Type': 'application/json'
+                    }
                 });
-                navigation('/channels-integration');
-            } 
-        } catch (error) {
-            customErrorFunction(error);
-        }
 
-       }
+                if (response.status === 201) {
+                    const { url } = response.data; 
+
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Channel added successfully! Redirecting...',
+                        showConfirmButton: false,
+                        timer: 2000 
+                    });
+
+                    const redirectUrl = `${url}?redirect_uri=${encodeURIComponent(window.location.href)}`;
+
+                    setTimeout(() => {
+                        window.location.href = redirectUrl;
+                    }, 2000);
+                }
+            } catch (error) {
+                customErrorFunction(error);
+            }
+        }
     };
 
     const handleDateChange = (date) => {
@@ -161,106 +164,11 @@ const ShopifyIntegrationForm = () => {
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
                         <form onSubmit={handleSubmit}>
-                            <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
-                                    <span>Channel Name <span className='mandatory'>*</span></span>
-                                    <input
-                                        className={`input-field ${errors.channel_name && "input-field-error"}`} 
-                                        type="text"
-                                        name="channel.channel_name"
-                                        placeholder='Enter Channel Name'
-                                        maxLength={50}
-                                        value={formData.channel.channel_name}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.channel_name && <span className='error-text'>{errors.channel_name}</span>}
-                                </label>
-                                <label>
-                                    <span>Admin API access token <span className='mandatory'>*</span></span>
-                                    <input
-                                        className={`input-field ${errors.password && "input-field-error"}`} 
-                                        type="text"
-                                        name="channel_configuration.password"
-                                        placeholder='Enter Admin API access token'
-                                        value={formData.channel_configuration.password}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.password && <span className='error-text'>{errors.password}</span>}
-                                </label>
-                            </div>
-                            <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>  
-                                    <span>API Key <span className='mandatory'>*</span></span>
-                                    <input
-                                        className={`input-field ${errors.api_key && "input-field-error"}`} 
-                                        type="text"
-                                        name="channel_configuration.api_key"
-                                        placeholder='Enter API Key'
-                                        value={formData.channel_configuration.api_key}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.api_key && <span className='error-text'>{errors.api_key}</span>}
-                                </label>
-                                <label>                                  
-                                    <span>API Secret Key <span className='mandatory'>*</span></span>
-                                    <input
-                                        className={`input-field ${errors.shared_secret && "input-field-error"}`} 
-                                        type="text"
-                                        name="channel_configuration.shared_secret"
-                                        placeholder='Enter API Secret Key'
-                                        value={formData.channel_configuration.shared_secret}
-                                        onChange={handleChange}
-                                    />
-                                    {errors.shared_secret && <span className='error-text'>{errors.shared_secret}</span>}
-                                </label>
-                            </div>
-                            <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>                                  
-                                    <span>Store URL <span className='mandatory'>*</span></span>
-                                    <input
-                                        className={`input-field ${errors.store_url && "input-field-error"}`} 
-                                        type="text"
-                                        name="channel_configuration.store_url"
-                                        placeholder='Enter Store URL'
-                                        value={formData.channel_configuration.store_url}
-                                        onChange={handleChange}
-                                    />
-                                {errors.store_url && <span className='error-text'>{errors.store_url}</span>}
-                                </label>
-                                <label>                                  
-                                    <span>Fetch Orders From <span className='mandatory'>*</span></span>
-                                    <DatePicker
-                                        selected={selectedDate}
-                                        value={selectedDate}
-                                        onChange={handleDateChange}
-                                        dateFormat='MM/dd/yyyy'
-                                        placeholderText='Enter Date'
-                                        className={`input-field ${errors.selectedDate && "input-field-error"}`} 
-                                    />
-                                    {errors.selectedDate && <span className='error-text'>{errors.selectedDate}</span>}
-                                </label>
-                            </div>
                             <div className='int-checkbox mt-3'>
-                                {[
-                                    "auto_fulfill",
-                                    "auto_cancel",
-                                    "auto_cod_paid",
-                                    "send_abandon_sms"
-                                ].map(prop => (
-                                    <label key={prop}>
-                                        <input
-                                            className="input-field"
-                                            type="checkbox"
-                                            name={`channel_configuration.${prop}`}
-                                            checked={formData.channel_configuration[prop]}
-                                            onChange={handleChange}
-                                        />
-                                        {checkboxDescriptions[prop]}
-                                    </label>
-                                ))}
+                                <h3>Integrate shopify to ShipEase</h3>
                             </div>
                             <div className='mt-3 d-flex justify-content-end'>
-                                <button type='submit' className='btn main-button'>Submit</button>
+                                <button type='submit' className='btn main-button'>CONNECT SHOPIFY WITH SHIPEASE</button>
                             </div>
                         </form>
                     </section>
