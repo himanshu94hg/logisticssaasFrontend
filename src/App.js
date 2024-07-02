@@ -79,6 +79,7 @@ function App() {
   const [tokenExists, setTokenExists] = useState(false);
   const [tokenChecked, setTokenChecked] = useState(false);
   const [userID, setUserID] = useState("")
+  const [isExpanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get('access_token');
@@ -106,8 +107,8 @@ function App() {
       <div className="container p-0 m-0" style={{}}>
         <div className="rightContainer">
           {tokenExists && <>
-            <Header WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
-            <Sidebar ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
+            <Header isExpanded={isExpanded} setExpanded={setExpanded} WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
+            <Sidebar isExpanded={isExpanded} setExpanded={setExpanded} ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
           </>}
           <Routes>
             {
@@ -170,7 +171,7 @@ function App() {
             {/* <Route path={ZoneMappingPattern} element={<ZoneMapping />} /> */}
             <Route path={ReportSchedulerPattern} element={<ReportSchedulerPage />} />
             <Route path={CourierAllocationPattern} element={<CourierAllocationPage />} />
-             {/* <Route path={CourierAllocationPattern} element={<NewComponent />} /> */}
+            {/* <Route path={CourierAllocationPattern} element={<NewComponent />} /> */}
             <Route path={signUpPattern} element={<SignUpPage />} />
             <Route path={orderdetailPattern} element={<OrderDetail />} />
             <Route path={bypassPattern} element={<BypassPage />} />
