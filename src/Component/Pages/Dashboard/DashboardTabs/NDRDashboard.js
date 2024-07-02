@@ -12,7 +12,7 @@ import NDRFunnel from '../Components/NDR/NDRFunnel'
 import { useDispatch } from 'react-redux'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 
-const NDRDashboard = ({activeTab}) => {
+const NDRDashboard = ({ activeTab }) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,17 +32,17 @@ const NDRDashboard = ({activeTab}) => {
   return (
     <>
       <Row className='mb-3'>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <SuccessByZone />
           <SuccessbyCourier />
           <NDRResponse />
         </Col>
-        <Col className="col-6 cardsSpace">
+        <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
           <NDRTotalInfo />
           <NDRStatus />
           <NDRFunnel />
         </Col>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <NDRtoDeliveryAttempt />
           <NDRReasonSplit />
           <SellerBuyerResponse />

@@ -14,7 +14,7 @@ const RTODashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
   useEffect(() => {
     const token = Cookies.get('token');
-    if (activeTab === "RTO" ) {
+    if (activeTab === "RTO") {
       dispatch({ type: "DASHBOARD_RTO_TOP_RTO_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_RTO_TOP_CITY_ACTION", payload: dateRangeDashboard })
       dispatch({ type: "DASHBOARD_RTO_COUNT_MONTHWISE_ACTION", payload: dateRangeDashboard })
@@ -26,15 +26,15 @@ const RTODashboard = ({ activeTab }) => {
   return (
     <>
       <Row className='mb-3'>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           {/* <RTOOrderDetails /> */}
           <TopRTOPincodes />
         </Col>
-        <Col className="col-6 cardsSpace">
+        <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
           <RTOStatus />
           <RTOCount />
         </Col>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <TopRTOCity />
           <TopRTOCourier />
         </Col>

@@ -42,20 +42,20 @@ const Overview = ({ activeTab, ScreenWidth }) => {
 
   return (
     <Row className='mb-3'>
-      <Col className="col-3 col-sm-12 col-lg-3 col-md-6 cardsSpace">
+      <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <TotalShipment />
         <DeliveryPerformance />
         <StateSplitDashboard />
         <WeightDiscrepancies />
       </Col>
-      <Col className="col-6 col-sm-12 col-lg-6 col-md-12 cardsSpace">
+      <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
         <TotalInfoDashboard />
         {/* <OverviewDetails /> */}
         <OverviewStatusCard />
         <TopSellingDashboard />
         <TableDashboard />
       </Col>
-      <Col className="col-3 col-sm-12 col-lg-3 col-md-6 cardsSpace">
+      <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <RevenueDashboard />
         <CourierWiseDashboard />
         <PopularCustomerDashboard />
