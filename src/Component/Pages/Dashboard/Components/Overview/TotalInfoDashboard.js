@@ -37,7 +37,7 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Total Customer</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">
+                    <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.total_customers || 0}
                     </h2>
                     <p className="font12 text-green">Best customers</p>
@@ -70,7 +70,7 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Daily Shipment</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">
+                    <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.daily_shipment}
                     </h2>
                     <p className="font12 text-yellow">Booked
@@ -106,7 +106,7 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Average Selling Price</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">
+                    <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.avg_selling_price || 0}
                     </h2>
                     <p className="font12 text-blue">Seller </p>
@@ -138,7 +138,7 @@ function TotalInfoDashboard() {
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Today’s Revenue</p>
-                    <h2 className="font20 title-text p-y bold-600 m0">
+                    <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.today_revenue || 0}
                     </h2>
                     <p className="font12 text-red">Yesterday
