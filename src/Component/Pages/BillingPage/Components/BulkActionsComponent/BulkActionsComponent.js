@@ -14,7 +14,6 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
     const { exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard } = useSelector(state => state?.exportSectionReducer)
     const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
 
-    console.log(selectedRows, selectedOrderRows, "Export Action Bulk")
 
     const handleExport = async () => {
         setExportButtonClick(true);
@@ -35,16 +34,16 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
             dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
         }
         else if (activeTab === "Remittance Logs") {
-           
+
             try {
                 const response = await axios.post(`${BASE_URL_CORE}/core-api/features/billing/remittance-download/`, requestData, {
                     headers: {
                         'Authorization': `Bearer ${authToken}`,
                         'Content-Type': 'application/json'
                     },
-                    responseType: 'blob' 
+                    responseType: 'blob'
                 });
-        
+
                 if (response.status === 200) {
                     const FileSaver = require('file-saver');
                     const blob = new Blob([response.data], { type: 'application/ms-excel' });

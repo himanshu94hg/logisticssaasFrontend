@@ -66,6 +66,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
     });
 
     const handleExportAll = () => {
+        console.log("filterDatafilterDatafilterData",filterData);
         Swal.fire({
             title: 'Confirmation Required!',
             text: 'Are you sure to export all report?',
@@ -88,8 +89,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                         "order_id": "",
                         "courier": filterData?.courier || "",
                         "awb_number": filterData?.awb_number || "",
-                        "min_awb_assign_date": moment(filterData?.start_date).format("YYYY-MM-DD"),
-                        "max_awb_assign_date": moment(filterData?.end_date).format("YYYY-MM-DD"),
+                        "min_awb_assign_date": filterData?.start_date ? moment(filterData.start_date).format("YYYY-MM-DD") : "",
+                        "max_awb_assign_date": filterData?.end_date ? moment(filterData.end_date).format("YYYY-MM-DD") : "",
                         "status": filterData?.status || "",
                         "order_type": filterData?.order_type || "",
                         "customer_order_number": filterData?.customer_order_number || "",
