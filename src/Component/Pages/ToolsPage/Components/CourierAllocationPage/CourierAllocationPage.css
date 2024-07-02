@@ -152,7 +152,7 @@ ul [data-rbd-droppable-context-id] {
 }
 
 .courier {
-    padding: 5px 10px;
+    padding: 5px 0px;
     background-color: var(--sh-primary-light);
     border: 1px solid #ccc;
     border-radius: 4px;
