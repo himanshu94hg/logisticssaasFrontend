@@ -62,6 +62,13 @@ const BillingPage = () => {
         }
     }, [activeTab, dispatch, itemsPerPage, currentPage]);
 
+    
+    useEffect(() => {
+        if (activeTab) {
+            setSelectAll(false)
+        }
+    }, [activeTab])
+
     useEffect(() => {
         if (billingShipingCard?.count !== undefined) {
             setTotalItems(billingShipingCard.count);
@@ -152,6 +159,8 @@ const BillingPage = () => {
 
                 {/* Remittance Logs */}
                 {activeTab === "Remittance Logs" && <RemittanceLogs billingCard={remitanceOrderRows}
+                    selectAll={selectAll}
+                    setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow} />}
@@ -167,6 +176,8 @@ const BillingPage = () => {
 
                 {/* Invoices */}
                 {activeTab === "Invoices" && <InvoicesTab billingCard={billingShipingInvoiceCard.results}
+                    selectAll={selectAll}
+                    setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow} />}
@@ -182,6 +193,8 @@ const BillingPage = () => {
 
                 {/* Credit Receipt */}
                 {activeTab === "Credit Receipt" && <CreditReceipt billingCard={billingShipingReceiptCard.results}
+                    selectAll={selectAll}
+                    setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow} />}
