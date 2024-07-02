@@ -10,6 +10,7 @@ import { BASE_URL_CORE } from '../../../../../../axios/config';
 import React, { useState, useEffect, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
+import DragIcon from '../../../../../common/Icons/DragIcon';
 
 const NewComponent = () => {
     const [activeTab, setActiveTab] = useState("Courier Preferences");
@@ -160,52 +161,58 @@ const NewComponent = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            <section className={`courier-preference box-shadow shadow-sm white-block p10 mb-3 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
+            <section className={`courier-preference box-shadow shadow-sm p10 ${activeTab === "Courier Preferences" ? "d-block" : "d-none"}`}>
                 <div className='courier-preference-list'>
                     <DragDropContext onDragEnd={onDragEnd}>
                         <Droppable droppableId="0">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <h2>Pool</h2>
-                                    {pool.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className="courier"
-                                                >
-                                                    {courier.title}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
-                                    {provided.placeholder}
+                                    <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
+                                        <h2 className='mb-0'>Pool</h2>
+                                    </div>
+                                    <div className='couriers-list'>
+                                        {pool.map((courier, index) => (
+                                            <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        className="courier"
+                                                    >
+                                                        <span><DragIcon /></span><img src={courier.image} alt="" />{courier.title}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                        {provided.placeholder}
+                                    </div>
                                 </div>
                             )}
                         </Droppable>
                         <Droppable droppableId="1">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <div className='d-flex gap-2 align-items-center justify-content-between'>
+                                    <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
                                         <h2 className='mb-0'>B2C</h2>
                                         <button className='btn main-button-outline' onClick={removeAllFromSequenceOne}>Remove All</button>
                                     </div>
-                                    {sequenceOne.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className="courier"
-                                                >
-                                                    {courier.title}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
+                                    <div className='couriers-list'>
+                                        {sequenceOne.map((courier, index) => (
+                                            <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        className="courier"
+                                                    >
+                                                        <span><DragIcon /></span><img src={courier.image} alt="" />{courier.title}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                    </div>
                                     {provided.placeholder}
                                 </div>
                             )}
@@ -213,24 +220,26 @@ const NewComponent = () => {
                         <Droppable droppableId="2">
                             {(provided) => (
                                 <div className="Weight-slab" ref={provided.innerRef} {...provided.droppableProps}>
-                                    <div className='d-flex gap-2 align-items-center justify-content-between'>
+                                    <div className='d-flex gap-2 align-items-center justify-content-between mb-3'>
                                         <h2 className='mb-0'>B2B</h2>
                                         <button className='btn main-button-outline' onClick={() => removeAllFromSequenceTwo}>Remove All</button>
                                     </div>
-                                    {sequenceTwo.map((courier, index) => (
-                                        <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
-                                            {(provided) => (
-                                                <div
-                                                    ref={provided.innerRef}
-                                                    {...provided.draggableProps}
-                                                    {...provided.dragHandleProps}
-                                                    className="courier"
-                                                >
-                                                    {courier.title}
-                                                </div>
-                                            )}
-                                        </Draggable>
-                                    ))}
+                                    <div className='couriers-list'>
+                                        {sequenceTwo.map((courier, index) => (
+                                            <Draggable key={courier.id} draggableId={courier.id.toString()} index={index}>
+                                                {(provided) => (
+                                                    <div
+                                                        ref={provided.innerRef}
+                                                        {...provided.draggableProps}
+                                                        {...provided.dragHandleProps}
+                                                        className="courier"
+                                                    >
+                                                        <span><DragIcon /></span><img src={courier.image} alt="" /> {courier.title}
+                                                    </div>
+                                                )}
+                                            </Draggable>
+                                        ))}
+                                    </div>
                                     {provided.placeholder}
                                 </div>
                             )}

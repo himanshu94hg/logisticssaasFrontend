@@ -16,7 +16,15 @@
 .courier {
     padding: 8px;
     margin: 4px;
-    background-color: #f0f0f0;
+    background-color: var(--sh-primary-light);
     border: 1px solid #ccc;
     border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.courier img {
+    width: 35px;
+    height: 35px;
 }
