@@ -16,7 +16,7 @@ import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import Cookies from 'js-cookie';
 import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 
-const Overview = ({ activeTab }) => {
+const Overview = ({ activeTab, ScreenWidth }) => {
   const dispatch = useDispatch()
   let authToken = Cookies.get("access_token")
 
@@ -42,20 +42,20 @@ const Overview = ({ activeTab }) => {
 
   return (
     <Row className='mb-3'>
-      <Col className="col-3 cardsSpace">
+      <Col className="col-3 col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <TotalShipment />
         <DeliveryPerformance />
         <StateSplitDashboard />
         <WeightDiscrepancies />
       </Col>
-      <Col className="col-6 cardsSpace">
+      <Col className="col-6 col-sm-12 col-lg-6 col-md-12 cardsSpace">
         <TotalInfoDashboard />
         {/* <OverviewDetails /> */}
         <OverviewStatusCard />
         <TopSellingDashboard />
         <TableDashboard />
       </Col>
-      <Col className="col-3 cardsSpace">
+      <Col className="col-3 col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <RevenueDashboard />
         <CourierWiseDashboard />
         <PopularCustomerDashboard />

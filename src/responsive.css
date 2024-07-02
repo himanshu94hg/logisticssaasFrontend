@@ -34,6 +34,18 @@
         margin-inline: 10px;
         width: calc(100vw - 20px) !important;
     }
+
+    .cardsSpace {
+        margin-bottom: 20px;
+    }
+
+    .cardsSpace:first-of-type {
+        order: 2;
+    }
+
+    .cardsSpace:last-of-type {
+        order: 3;
+    }
 }
 
 @media screen and (max-width:767px) {
