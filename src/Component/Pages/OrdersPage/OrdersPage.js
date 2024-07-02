@@ -30,6 +30,7 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { debounce } from 'lodash';
+import { useLocation } from 'react-router-dom';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -43,6 +44,7 @@ const SearchOptions = [
 
 const OrdersPage = () => {
     const dispatch = useDispatch()
+    const location = useLocation()
     let authToken = Cookies.get("access_token")
     const [orders, setOrders] = useState([])
     const [manifestOrders, setManifestOrders] = useState([])
@@ -73,6 +75,7 @@ const OrdersPage = () => {
     const [pickupStatus, setPickupStatus] = useState('')
     const [filterData, setFilterData] = useState({});
     const [selectAll, setSelectAll] = useState(false);
+    const [rateRef,setRateRef]=useState(null)
 
     const orderStatus = {
         "pending": "Pending",
@@ -101,6 +104,18 @@ const OrdersPage = () => {
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [orderCancelled])
+
+    console.log(location.state,"object")
+    
+    useEffect(() => {
+        if (location?.state?.data === "ratecalc") {
+            setActiveTab("Processing")
+            setRateRef(new Date())
+        }else{
+            setActiveTab("Processing")
+        }
+    }, [location])
+
 
     useEffect(() => {
         if (activeTab) {
