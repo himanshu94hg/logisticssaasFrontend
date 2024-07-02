@@ -28,7 +28,7 @@ import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
 
-export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
+export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge, ScreenWidth }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let authToken = Cookies.get("access_token")
@@ -109,19 +109,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
     setViewProfile(!ViewProfile)
   }
 
-  const [ScreenWidth, setScreenWidth] = useState(null);
 
-  useEffect(() => {
-    const updateWidth = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    updateWidth(); // Set initial width
-
-    window.addEventListener('resize', updateWidth);
-
-    return () => window.removeEventListener('resize', updateWidth);
-  }, []);
 
   const handlesideMenu = () => {
     setExpanded(!isExpanded)

@@ -101,19 +101,33 @@ function App() {
     Cookies.set('pathName', window.location.pathname);
   }, [window.location.pathname])
 
+  const [ScreenWidth, setScreenWidth] = useState(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    updateWidth(); // Set initial width
+
+    window.addEventListener('resize', updateWidth);
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
 
   return (
     <>
       <div className="container p-0 m-0" style={{}}>
         <div className="rightContainer">
           {tokenExists && <>
-            <Header isExpanded={isExpanded} setExpanded={setExpanded} WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
+            <Header ScreenWidth={ScreenWidth} isExpanded={isExpanded} setExpanded={setExpanded} WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar isExpanded={isExpanded} setExpanded={setExpanded} ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
           </>}
           <Routes>
             {
               tokenExists ?
-                <Route path={indexPattern} element={<Dashboard />} /> :
+                <Route path={indexPattern} element={<Dashboard ScreenWidth={ScreenWidth} />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
             <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />

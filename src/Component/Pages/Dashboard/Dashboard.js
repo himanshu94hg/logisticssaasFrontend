@@ -16,63 +16,63 @@ import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
 import CourierDashboard from "./DashboardTabs/CourierDashboard";
 
 
-function Dashboard() {
+function Dashboard({ ScreenWidth }) {
   const [activeTab, setActiveTab] = useState("Overview");
 
   const { checkAuth } = useSelector(state => state?.authDataReducer)
 
   return (
     <>
-      <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
+      <NavTabs activeTab={activeTab} ScreenWidth={ScreenWidth} setActiveTab={setActiveTab} />
       {/* overview */}
       <div className={`${activeTab === "Overview" ? "d-block" : "d-none"}`}>
-        <Overview activeTab={activeTab} />
+        <Overview activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* Orders */}
       <div className={`${activeTab === "Orders" ? "d-block" : "d-none"}`}>
-        <OrdersDashboard activeTab={activeTab} />
+        <OrdersDashboard activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* Shipment */}
       <div className={`${activeTab === "Shipment" ? "d-block" : "d-none"}`}>
-        <ShipmentDashboard activeTab={activeTab} />
+        <ShipmentDashboard activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* NDR */}
       <div className={`${activeTab === "NDR" ? "d-block" : "d-none"}`}>
-        <NDRDashboard activeTab={activeTab} />
+        <NDRDashboard activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
 
       {/* RTO */}
       <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-        <RTODashboard activeTab={activeTab} />
+        <RTODashboard activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* Courier Delays */}
       <div className={`${activeTab === "Courier Delays" ? "d-block" : "d-none"}`}>
-        <CourierDashboard activeTab={activeTab} />
+        <CourierDashboard activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* Whatsapp Comm */}
       <div className={`${activeTab === "Whatsapp Comm" ? "d-block" : "d-none"}`}>
-        <WhatsappComm activeTab={activeTab} />
+        <WhatsappComm activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* SubAccounts*/}
       <div className={`${activeTab === "Sub Accounts" ? "d-block" : "d-none"}`}>
-        <SubAccounts activeTab={activeTab} />
+        <SubAccounts activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* Employees*/}
       <div className={`${activeTab === "Employees" ? "d-block" : "d-none"}`}>
-        <EmployeeDash activeTab={activeTab} />
+        <EmployeeDash activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
       {/* Employees*/}
       <div className={`${activeTab === "P & L" ? "d-block" : "d-none"}`}>
-        <PnL activeTab={activeTab} />
+        <PnL activeTab={activeTab} ScreenWidth={ScreenWidth} />
       </div>
 
     </>

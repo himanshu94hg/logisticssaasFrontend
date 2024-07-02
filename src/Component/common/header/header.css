@@ -190,6 +190,11 @@
   left: -6.3rem;
 }
 
+.navbar-expand-lg .navbar-nav .dropdown-menu {
+  right: 0;
+  left: unset;
+}
+
 .user-name {
   padding-inline: 10px;
   max-width: 112px;
@@ -342,6 +347,12 @@
   height: 36px;
   overflow: hidden;
   border-radius: 50%;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: transparent;
+  color: inherit;
 }
 
 /* Media query for tablets */
