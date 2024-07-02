@@ -248,7 +248,7 @@ const SetPreferenceRules = () => {
                                             <div className='cr-rule-name'>
                                                 <div className='rule-name'>
                                                     <p>Rule Name: {rule?.rule_name}</p>
-                                                    {/* <p>Priority: #{rule?.priority}</p> */}
+                                                    <p>Priority: #{rule?.priority}</p>
                                                 </div>
                                                 <div className="toggle-switch">
                                                     <input
