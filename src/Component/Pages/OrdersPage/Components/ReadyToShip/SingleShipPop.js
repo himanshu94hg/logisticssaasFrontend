@@ -28,7 +28,6 @@ const SingleShipPop = ({ reassignCard,SingleShip, setSingleShip,orderId}) => {
         const options = { day: '2-digit', month: 'short', year: 'numeric' };
         return date.toLocaleDateString('en-GB', options);
     };
-    const dateAfter2Days = addDays(currentDate, 2);
 
      const handleSubmit = (option) => {
         dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: {"courier":option,"order_id":orderId} });
