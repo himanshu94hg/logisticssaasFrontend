@@ -28,9 +28,9 @@ const OrdersDashboard = ({ activeTab }) => {
       dispatch({ type: 'DASHBOARD_ORDERS_BUYER_DEMOGRAPHIC_ACTION', payload: dateRangeDashboard })
       dispatch({ type: 'DASHBOARD_ORDERS_PREPAID_COD_ACTION', payload: dateRangeDashboard })
       dispatch({ type: 'DASHBOARD_ORDERS_WAREHOUSE_INFO_ACTION', payload: dateRangeDashboard })
-      dispatch({ type: 'DASHBOARD_ORDERS_SKU_PROJECT_ACTION', payload:dateRangeDashboard })
-      dispatch({ type: 'DASHBOARD_ORDERS_POPULAR_LOCATION_ACTION', payload:dateRangeDashboard })
-      dispatch({ type: 'DASHBOARD_ORDERS_INTVSDOM_ACTION', payload:dateRangeDashboard })
+      dispatch({ type: 'DASHBOARD_ORDERS_SKU_PROJECT_ACTION', payload: dateRangeDashboard })
+      dispatch({ type: 'DASHBOARD_ORDERS_POPULAR_LOCATION_ACTION', payload: dateRangeDashboard })
+      dispatch({ type: 'DASHBOARD_ORDERS_INTVSDOM_ACTION', payload: dateRangeDashboard })
     }
   }, [activeTab])
 
@@ -38,17 +38,17 @@ const OrdersDashboard = ({ activeTab }) => {
   return (
     <>
       <Row className='mb-3'>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <ChannelByOrder />
           <OrderDetails />
           <WarehouseInformation />
         </Col>
-        <Col className="col-6 cardsSpace">
+        <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
           <TotalOrderInfo />
           <ForwardReverseOrder />
           <BestSKU />
         </Col>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <CancelOrder />
           <BuyerDemographic />
           <PrepaidCOD />
