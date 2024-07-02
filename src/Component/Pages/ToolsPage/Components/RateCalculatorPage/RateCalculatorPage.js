@@ -304,16 +304,11 @@ const navigate=useNavigate()
     })
         .then((response) => {
             if (response?.data?.status) {
-                // setSingleShip(false);
-                navigate('/Orders');
+                navigate('/Orders',{state:{data:"ratecalc"}});
                 toast.success('Order Shipped Successfully!');
-                // dispatch(shipNowAction(new Date()))
                 dispatch({ type: "PAYMENT_DATA_ACTION" });
             }
-            else {
-                // setSingleShip(true);
-                toast.error(response.data.message);
-            }
+            
         }).catch((error) => {
             customErrorFunction(error)
         });
