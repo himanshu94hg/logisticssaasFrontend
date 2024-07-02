@@ -25,8 +25,10 @@ import { useDispatch } from "react-redux";
 import { customErrorFunction } from "../../../customFunction/errorHandling";
 import globalDebouncedClick from "../../../debounce";
 import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
+import FullLogo from '../../../assets/image/logo/logo.svg'
+import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
 
-export default function Header(props) {
+export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let authToken = Cookies.get("access_token")
@@ -107,59 +109,92 @@ export default function Header(props) {
     setViewProfile(!ViewProfile)
   }
 
+  const [ScreenWidth, setScreenWidth] = useState(null);
 
-  console.log(inputValue, "inputValueinputValueinputValueinputValue")
+  useEffect(() => {
+    const updateWidth = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    updateWidth(); // Set initial width
+
+    window.addEventListener('resize', updateWidth);
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
+  const handlesideMenu = () => {
+    setExpanded(!isExpanded)
+  }
 
   return (
     <>
       <Navbar
+        collapseOnSelect expand="lg"
         className="box-shadow shadow-sm p10-inline py-1"
         variant="light"
         id="shipEaseNavbarNav"
       >
-        <Navbar.Toggle aria-controls="navbarNav" />
         <Navbar.Collapse id="navbarNav">
           <Nav className="ml-auto w-100 alignContent">
             <div className="d-flex justify-content-between w-100 align-items-center">
-              <div className="quick-actions-container">
-                <div className="quick-action-text">
-                  <EarnAndGrow />Earn & Grow
-                </div>
-                <div className="quick-actions-hover hl">
-                  <div className="qa-hovered-content">
-                    <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plans</p>
-                    <p onClick={() => navigate(ReferAndEarnPattern)}><ReferEarnIcon />Refer to Earn Coins</p>
-
+              {
+                ScreenWidth < 992 &&
+                <>
+                  <div className="sidenav-toggle-icon">
+                    <button onClick={handlesideMenu} type="button"><SideNavToggleIcon /></button>
+                    <img src={FullLogo} alt="Logo" height={18} />
                   </div>
-                </div>
-              </div>
-
-              <div className="d-flex align-items-center" style={{ gap: "10px" }}>
-                <div className="header-search-input">
-                  <input className="input-field"
-                    type="search" placeholder="Search AWB || Order ID"
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    onKeyPress={handleKeyPress} />
-                  <button onClick={() => globalDebouncedClick(() => handleNavigate())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
-                </div>
+                </>
+              }
+              {
+                ScreenWidth > 991 &&
                 <div className="quick-actions-container">
                   <div className="quick-action-text">
-                    <QuickIcon /> Quick Actions
+                    <EarnAndGrow />Earn & Grow
                   </div>
-                  <div className="quick-actions-hover right-header">
+                  <div className="quick-actions-hover hl">
                     <div className="qa-hovered-content">
-                      <p onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })}><CreateOrderIcon />Create Order</p>
-                      <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
-                      <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
-                      <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
-                      <Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link>
+                      <p onClick={() => navigate(BusinessPlanPattern)}><BusinessPlanIcon />Business Plans</p>
+                      <p onClick={() => navigate(ReferAndEarnPattern)}><ReferEarnIcon />Refer to Earn Coins</p>
+
                     </div>
                   </div>
                 </div>
+              }
+
+              <div className="d-flex align-items-center" style={{ gap: "10px" }}>
+                {
+                  ScreenWidth > 991 &&
+                  <>
+                    <div className="header-search-input">
+                      <input className="input-field"
+                        type="search" placeholder="Search AWB || Order ID"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyPress={handleKeyPress} />
+                      <button onClick={() => globalDebouncedClick(() => handleNavigate())}><FontAwesomeIcon icon={faMagnifyingGlass} /></button>
+                    </div>
+
+                    <div className="quick-actions-container">
+                      <div className="quick-action-text">
+                        <QuickIcon /> Quick Actions
+                      </div>
+                      <div className="quick-actions-hover right-header">
+                        <div className="qa-hovered-content">
+                          <p onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })}><CreateOrderIcon />Create Order</p>
+                          <p onClick={() => navigate(createOrderPattern, { state: { orderType: "quickOrder" } })}><QuickShipIcon />Quick Ship</p>
+                          <p onClick={() => navigate(RateCalculatorPattern)}><RateCalculatorIcon />Rate Calculator</p>
+                          <p onClick={() => navigate(customerSupportPattern)}><TicketIcon />Create a Ticket</p>
+                          <Link to="https://www.shipease.in/order-tracking" target="_blank"><TrackingIcon />Track Shipments</Link>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                }
 
                 <Nav.Link>
-                  <div className="walletContainer" onClick={() => props.setWalletRecharge(!props.WalletRecharge)}>
+                  <div className="walletContainer" onClick={() => setWalletRecharge(!WalletRecharge)}>
                     <span className={`walletIcon px-2 ${(temp.var2?.balance || temp.var1?.balance) < 1000 ? 'empty' : ''}`}>
                       {(temp.var2?.balance || temp.var1?.balance) < 1000 ? <EmptyWalletIcon /> : <WalletIcon />}
                       <div className="walletBalance">
@@ -172,53 +207,58 @@ export default function Header(props) {
                     </span>
                   </div>
                 </Nav.Link>
-                <div className="icons links ">
-                  <div className="iconContainer notificationIcon bell">
-                    <FontAwesomeIcon icon={faBell} />
-                    <span className="bellColor">3</span>
-                  </div>
-                </div>
-                <NavDropdown
-                  title={
-                    <span className="user-image-icon">
-                      {/* <img
+                {
+                  ScreenWidth > 991 &&
+                  <>
+                    <div className="icons links ">
+                      <div className="iconContainer notificationIcon bell">
+                        <FontAwesomeIcon icon={faBell} />
+                        <span className="bellColor">3</span>
+                      </div>
+                    </div>
+                    <NavDropdown
+                      title={
+                        <span className="user-image-icon">
+                          {/* <img
                       src={UserImage}
                       className="user-photo"
                     /> */}
-                      {/* <FontAwesomeIcon icon={faUser} /> */}
-                      <UserImageIcon />
-                    </span>
-                  }
-                  id="basic-nav-dropdown"
-                  className="user-image-container"
-                >
-                  <NavDropdown.Item eventKey="4.1">
-                    Hello, {userData?.first_name || "Seller"} <br />
-                    ({userData?.code})
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item
-                    eventKey="4.2"
-                    onClick={handleProfile}
-                  >
-                    <FontAwesomeIcon icon={faEdit} /><span className="ms-2">View Profile</span>
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
+                          {/* <FontAwesomeIcon icon={faUser} /> */}
+                          <UserImageIcon />
+                        </span>
+                      }
+                      id="basic-nav-dropdown"
+                      className="user-image-container"
+                    >
+                      <NavDropdown.Item eventKey="4.1">
+                        Hello, {userData?.first_name || "Seller"} <br />
+                        ({userData?.code})
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item
+                        eventKey="4.2"
+                        onClick={handleProfile}
+                      >
+                        <FontAwesomeIcon icon={faEdit} /><span className="ms-2">View Profile</span>
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
 
-                  <NavDropdown.Item
-                    eventKey="4.4"
-                    onClick={() => handleSwitch()}
-                  >
-                    <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
-                  </NavDropdown.Item>
-                  <NavDropdown.Divider />
-                  <NavDropdown.Item
-                    eventKey="4.3"
-                    onClick={() => handleLogout()}
-                  >
-                    <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
-                  </NavDropdown.Item>
-                </NavDropdown>
+                      <NavDropdown.Item
+                        eventKey="4.4"
+                        onClick={() => handleSwitch()}
+                      >
+                        <FontAwesomeIcon icon={faShuffle} /><span className="ms-2">Switch To Classic</span>
+                      </NavDropdown.Item>
+                      <NavDropdown.Divider />
+                      <NavDropdown.Item
+                        eventKey="4.3"
+                        onClick={() => handleLogout()}
+                      >
+                        <FontAwesomeIcon icon={faSignOutAlt} /><span className="ms-2">Logout</span>
+                      </NavDropdown.Item>
+                    </NavDropdown>
+                  </>
+                }
               </div>
             </div>
           </Nav>
@@ -228,6 +268,12 @@ export default function Header(props) {
       {ViewProfile}
 
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
+
+      {
+        ScreenWidth < 992 &&
+        <div onClick={() => setExpanded(false)} className={`backdrop ${!isExpanded && 'd-none'}`}></div>
+      }
+
     </>
   );
 }
