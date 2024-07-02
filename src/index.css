@@ -148,6 +148,10 @@ p {
   font-size: 40px;
 }
 
+.font20r {
+  font-size: 1.25rem;
+}
+
 .title-text {
   color: #0B3B5B;
 }
