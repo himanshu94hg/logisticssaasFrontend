@@ -1,8 +1,8 @@
 @media screen and (max-width:991px) {
 
-    #shipEaseNavTabs {
+    /* #shipEaseNavTabs {
         display: none;
-    }
+    } */
 
     #shipEaseNavbarNav {
         width: calc(100vw - 20px) !important;
@@ -45,6 +45,15 @@
 
     .cardsSpace:last-of-type {
         order: 3;
+    }
+
+    .status-container-item .status-item {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .status-container-item .status-item .status-counter {
+        margin-inline: 20px;
     }
 }
 

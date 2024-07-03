@@ -52,7 +52,7 @@ const LineGraph = ({ cardColor }) => {
   return (
     <>
       {
-        ScreenWidth > 767 &&
+        ScreenWidth > 991 &&
         <div style={{ height: '2rem', width: '6rem', display: 'flex', justifyContent: 'flex-end' }}>
           {/* <h2>Linear Line Graph</h2> */}
           <Line data={data} options={options} />
