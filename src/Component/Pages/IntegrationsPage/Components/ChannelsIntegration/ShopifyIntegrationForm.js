@@ -43,64 +43,40 @@ const ShopifyIntegrationForm = () => {
         send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
     };
 
-    const validateFormData = () => {
-        const newErrors = {};
-        if (!formData.channel.channel_name) {
-            newErrors.channel_name = ' Channel Name is required!';
-        }
-        if (!formData.channel_configuration.password) {
-            newErrors.password = ' Access token is required!';
-        }
-        if (!formData.channel_configuration.api_key) {
-            newErrors.api_key = ' API Key is required!';
-        }
-        if (!formData.channel_configuration.shared_secret) {
-            newErrors.shared_secret = ' API Secret key is required!';
-        }
-        if (!formData.channel_configuration.store_url) {
-            newErrors.store_url = ' Store URL is required!';
-        }     
-        if (selectedDate === null) {
-            newErrors.selectedDate = ' Date is required!';
-        }     
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
-    
-
     const handleSubmit = async (event) => {
         event.preventDefault();
-        if (validateFormData()) {
-            try {
-                const response = await axios.post(`${BASE_URL_CORE}/core-api/channel/channel/`, formData, {
-                    headers: {
-                        'Authorization': `Bearer ${hardcodedToken}`,
-                        'Content-Type': 'application/json'
-                    }
-                });
-
-                if (response.status === 201) {
-                    const { url } = response.data; 
-
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Success',
-                        text: 'Channel added successfully! Redirecting...',
-                        showConfirmButton: false,
-                        timer: 2000 
-                    });
-
-                    const redirectUrl = `${url}?redirect_uri=${encodeURIComponent(window.location.href)}`;
-
-                    setTimeout(() => {
-                        window.location.href = redirectUrl;
-                    }, 2000);
-                }
-            } catch (error) {
-                customErrorFunction(error);
+        try {
+            const response = await fetch(`${BASE_URL_CORE}/core-api/features/channel/get-shopify-redirect-url/`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${hardcodedToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+    
+            if (response.status === 200) {
+                const data = await response.json();
+                const { redirect_url, nonce } = data;
+    
+                Cookies.set('redirect_url', redirect_url, { expires: 1 }); 
+                Cookies.set('nonce', nonce, { expires: 1 });
+    
+                console.log("Redirect URL", redirect_url);
+                console.log("Nonce", nonce);
+    
+                const finalRedirectUrl = `${redirect_url}&redirect_uri=${encodeURIComponent(window.location.href)}`;
+    
+                setTimeout(() => {
+                    window.location.href = finalRedirectUrl;
+                }, 2000);
+            } else {
+                console.error('Failed to fetch redirect URL:', response.status, response.statusText);
             }
+        } catch (error) {
+            console.error('Error occurred:', error);
         }
     };
+    
 
     const handleDateChange = (date) => {
         setSelectedDate(date);
