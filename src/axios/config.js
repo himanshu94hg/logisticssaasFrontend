@@ -48,6 +48,8 @@ export const API_URL = {
   ORDER_TAGS_LIST_API:"/orders-api/orders/order-tags/",
   ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/",
   ORDER_CLONE_API: "/orders-api/orders/",
+
+  GET_BILLING_INVOICE_DOWNLOAD_URL: "/core-api/features/billing/download-invoice-detail/",
   
   //BULK ACTION ACTION SECTION
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",

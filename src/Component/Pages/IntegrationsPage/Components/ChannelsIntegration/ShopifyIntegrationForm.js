@@ -60,17 +60,10 @@ const ShopifyIntegrationForm = () => {
                         <h4>Instruction to integrate Shopify to ShipEase</h4>
                         <ul className='timeline'>
                             {[
-                                "Login to Shopify Admin Panel.",
-                                "Go to Apps.",
-                                "Click Develop Apps for your store.",
-                                "Click on Create an App.",
-                                "Enter Name of the app and Select Account associated with your store.",
-                                "Click on Create App Button",
-                                "Now Click on Configure Admin API Scopes and Select All Permission that is needed for Order,Fulfillment,Shipping,Payments and Customer Data and click on Save Button",
-                                "Now Click on Install App Button",
-                                "Here You will find Admin API access token,API key and API Secret Key",
-                                "Copy the identifiers and integrate the channel.",
-                                "Please do not enter https:// or trailing / in Store URL just enter store.myshopify.com"
+                                "To proceed, please click on the 'Connect Shopify With Shipease' button on your screen.",
+                                "You'll be diverted to the Shopify seller login page. Log in to your Shopify account by entering your email address/username and password.",
+                                "Once logged in, the app authorization page will open where you can verify your account integration with Shipease by clicking 'Install app'.",
+                                "Now, you will be redirected to the Shipease channel page. Here you can edit your Shopify channel to modify it as per your preferences.",
                             ].map(
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>)
                             }
