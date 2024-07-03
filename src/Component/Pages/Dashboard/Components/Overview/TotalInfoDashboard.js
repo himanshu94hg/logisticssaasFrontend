@@ -40,7 +40,7 @@ function TotalInfoDashboard() {
                     <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.total_customers || 0}
                     </h2>
-                    <p className="font12 text-green">Best customers</p>
+                    <p className="font12 text-green">Active customers</p>
                   </div>
                 </div>
               </div>
