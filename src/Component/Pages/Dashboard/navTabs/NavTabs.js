@@ -1,139 +1,66 @@
 import React from "react";
-import {
-  Card,
-  Navbar,
-  Nav
-} from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faBinoculars,
-  faCube,
-  faCartFlatbed,
-} from "@fortawesome/free-solid-svg-icons";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import '@fortawesome/fontawesome-svg-core/styles.css';
 import "./navTabs.css";
 
+const navItems = [
+  { name: "Overview", title: "" },
+  { name: "Orders", title: "" },
+  { name: "Shipment", title: "" },
+  { name: "NDR", title: "Non-Delivery Report" },
+  { name: "RTO", title: "Return to Origin" },
+  { name: "Courier Delays", title: "" },
+  { name: "Whatsapp Comm", title: "" },
+  { name: "Sub Accounts", title: "" },
+  { name: "Employees", title: "" },
+  { name: "P & L", title: "Business Health" }
+];
+
 export default function NavTabs(props) {
+  // Function to handle dropdown item click
+  const handleSelect = (selectedTab) => {
+    props.setActiveTab(selectedTab);
+  };
+
   return (
-    <Navbar
-      className="w-100 box-shadow shadow-sm p7"
-      variant="light"
-      id="shipEaseNavTabs"
-    >
+    <Navbar className="w-100 box-shadow shadow-sm p-3" variant="light" id="shipEaseNavTabs">
       <Navbar.Toggle aria-controls="navTabs" />
       <Navbar.Collapse id="navTabs">
-        <Nav className="ml-auto w-100 alignContent">
+        <Nav className="ml-auto w-100">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "Overview" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Overview");
-              }}
+            {/* Render NavLinks for desktop */}
+            {navItems.map((item) => (
+              <Nav.Link
+                key={item.name}
+                className={`d-none d-md-block ${props.activeTab === item.name ? "active" : ""}`}
+                onClick={() => props.setActiveTab(item.name)}
+                title={item.title}
+              >
+                <div className="navItemsContainer">
+                  {item.name}
+                </div>
+              </Nav.Link>
+            ))}
+
+            {/* Render NavDropdown for mobile */}
+            <NavDropdown
+              title={props.activeTab || "Select Option"} // Set default value based on activeTab
+              id="nav-dropdown"
+              onSelect={handleSelect}
+              // Show on mobile
+              className="d-block d-md-none"
+              drop="left"
             >
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Overview
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Orders" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Orders");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Orders
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Shipment" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Shipment");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Shipment
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "NDR" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("NDR");
-              }}
-              title="Non-Delivery Report"
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                NDR
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "RTO" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("RTO");
-              }}
-              title="Return to Origin"
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                RTO
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Courier Delays" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Courier Delays");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Courier
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Whatsapp Comm" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Whatsapp Comm");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                WhatsApp Comm
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Sub Accounts" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Sub Accounts");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Sub Accounts
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Employees" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Employees");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Employees
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "P & L" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("P & L");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Business Health
-              </div>
-            </Nav.Link>
+              {navItems.map((item) => (
+                <NavDropdown.Item
+                  key={item.name}
+                  eventKey={item.name}
+                  active={props.activeTab === item.name}
+                >
+                  {item.name}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
           </div>
         </Nav>
       </Navbar.Collapse>
