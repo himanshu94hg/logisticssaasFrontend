@@ -26,10 +26,9 @@ const ShopifyRedirect = () => {
                 });
 
                 if (response.status === 200) {
+                    navigate('/integrations');
                     toast.success("Shopify Channel Integration successful");
                     console.log('Shopify integration successful', response.data);
-
-                    navigate('/integrations');
                 } else {
                     toast.error("Failed to send Shopify redirect data");
                 }
