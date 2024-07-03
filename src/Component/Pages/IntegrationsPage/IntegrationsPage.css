@@ -66,10 +66,14 @@
     background-color: #cae1af;
 }
 
-.card-img-container.Amazon,
-.card-img-container.Amazon.Direct {
+.card-img-container.Amazon {
     /* border-right: 1px solid #F8991D; */
     background-color: #FDDEB5;
+}
+
+.card-img-container.Flipkart {
+    /* border-right: 1px solid #F8991D; */
+    background-color: #f6dd91;
 }
 
 
