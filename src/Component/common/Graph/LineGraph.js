@@ -3,7 +3,9 @@
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 
-const LineGraph = ({cardColor}) => {
+const ScreenWidth = window.innerWidth
+
+const LineGraph = ({ cardColor }) => {
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May'],
     datasets: [
@@ -46,11 +48,17 @@ const LineGraph = ({cardColor}) => {
     },
   };
 
+
   return (
-    <div style={{ height: '35px', width: '102px', display: 'flex' , justifyContent: 'flex-end' }}>
-      {/* <h2>Linear Line Graph</h2> */}
-      <Line data={data} options={options} />
-    </div>
+    <>
+      {
+        ScreenWidth > 991 &&
+        <div style={{ height: '2rem', width: '6rem', display: 'flex', justifyContent: 'flex-end' }}>
+          {/* <h2>Linear Line Graph</h2> */}
+          <Line data={data} options={options} />
+        </div>
+      }
+    </>
   );
 };
 

@@ -48,6 +48,8 @@ export const API_URL = {
   ORDER_TAGS_LIST_API:"/orders-api/orders/order-tags/",
   ORDER_DOWNLOAD_MANIFEST_API:"/core-api/shipping/download-manifest/",
   ORDER_CLONE_API: "/orders-api/orders/",
+
+  GET_BILLING_INVOICE_DOWNLOAD_URL: "/core-api/features/billing/download-invoice-detail/",
   
   //BULK ACTION ACTION SECTION
   BULK_ADD_ORDER_TAG:"/orders-api/orders/bulk-action/add-order-tag/",
@@ -96,6 +98,9 @@ export const API_URL = {
   GET_EXPORT_WEIGHT_URL: "/orders-api/orders/export-weight-reconciliation/",
   GET_EXPORT_REMITANCE_URL:"/core-api/features/billing/remittance-log-download/",
   GET_EXPORT_RECEIPT_URL:"/core-api/features/billing/credit-receipt-download/",
+
+  GET_EXPORT_SHIPMENT_URL: "/orders-api/orders/export-order-shipment/",
+  GET_EXPORT_SHIPMENT_ALL_URL: "/orders-api/orders/export-all-order-shipment/",
 
 
   //DASHBOARD OVERVIEW API'S 
@@ -185,6 +190,7 @@ export const API_URL = {
 
    //CHANNEL
    GET_CHANNEL_URL: "/core-api/channel/channel/",
+   GET_CHANNEL_API_URL:"/core-api/channel/get-channel/",
 
    GET_COURIER_PARTNER:"/core-api/features/partner-list/",
 

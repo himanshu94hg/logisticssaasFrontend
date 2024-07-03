@@ -2,6 +2,8 @@ import moment from 'moment';
 import React, { useEffect, useState, useRef } from 'react'
 import { useReactToPrint } from 'react-to-print';
 import NoData from '../../../../common/noData';
+import { useDispatch, useSelector } from 'react-redux';
+import { BASE_URL_ORDER } from '../../../../../../src/axios/config';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -31,12 +33,14 @@ const DateFormatter = ({ dateTimeString }) => {
 };
 
 const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
+    const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
     const [data, setData] = useState([]);
     const [showPdf, setShowPdf] = useState(false);
     const componentRef = useRef();
     const [allinvoicedata, setAllInvoiceData] = useState([]);
+    const exportCard = useSelector(state => state?.billingSectionReducer?.billingInvoiceDownloadCard)
 
     useEffect(() => {
         console.log("All Invoice Data Updated", allinvoicedata);
@@ -93,6 +97,24 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
             }, 100);
         }
     };
+
+    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata}`
+
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+
+    const handleDownloadInvoice = () => {
+        setExportButtonClick(true);
+        dispatch({ type: "BILLING_INVOICE_DOWNLOAD_DATA_ACTION", payload: allinvoicedata });
+    };
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            var FileSaver = require('file-saver');
+            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${"Invoice"}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
 
 
     return (
@@ -345,6 +367,10 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                         </tbody>
                                     </table>
                                 </center>
+                            </div>
+
+                            <div style={{ borderRadius: '10px', background: '#fff', padding: '0mm 0 2mm 0' }}>
+                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' >Download Now</a></span>
                             </div>
 
                         </div>

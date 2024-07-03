@@ -47,7 +47,7 @@ import ServiceabilityPage from "./Component/Pages/ToolsPage/Components/Serviceab
 import ReportSchedulerPage from "./Component/Pages/ToolsPage/Components/ReportSchedulerPage/ReportSchedulerPage";
 import CourierAllocationPage from "./Component/Pages/ToolsPage/Components/CourierAllocationPage/CourierAllocationPage";
 import RateCalculatorPage from "./Component/Pages/ToolsPage/Components/RateCalculatorPage/RateCalculatorPage";
-import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern } from "./Routes";
+import { gstInvoicingPattern, ViewIntegrationsPattern, LabelCustomizationPattern, ReferAndEarnPattern, BusinessPlanPattern, AmazonDirectIntegrationPattern, EasyShipIntegrationPattern, MagentoIntegrationPattern, StoreHippoIntegrationPattern, WooCommerceIntegrationPattern, billingPattern, channelsIntegrationPattern, couriersIntegrationPattern, createOrderPattern, createOrderPattern1, customerPattern, customerSupportPattern, dailyPrefrencesPattern, generateApiKeyPattern, helpArticlesPattern, indexPattern, indiaMapPattern, loginPattern, manageWarehousesPattern, mergeOrdersPattern, misPattern, omsIntegrationPattern, ordersPattern, pickupAddressPattern, reassignOrdersPattern, settingsPattern, shipmentsPattern, shippingRatesPattern, shopifyIntegrationPattern, socailPagePattern, splitOrdersPattern, weightReconciliationPattern, EasyEcomIntegrationPattern, VineRetailIntegrationPattern, UnicommerceIntegrationPattern, OMSGuruIntegrationPattern, ClickPostIntegrationPattern, RateCalculatorPattern, ServiceabilityPattern, ZoneMappingPattern, ReportSchedulerPattern, CourierAllocationPattern, signUpPattern, apiIntegrationPattern, otherIntegrationPattern, orderdetailPattern, bypassPattern, BillingAddressPattern, ShipeaseBankDetailsPattern, ManageSubAccountPattern, ThemeCustomizationPattern, BuyerCommunicationPagePattern, SellerNotificationsPagePattern, PostpaidSettingsPagePattern, ProofOfDeliveryPattern,shopifyRedirect, shopifyRedirectIntegrationPattern } from "./Routes";
 import { useDispatch } from "react-redux";
 import SignUpPage from "./Component/Pages/SignupPage/SignUpPage";
 import OrderDetail from "./Component/Pages/OrdersPage/Components/OrderDetail/OrderDetail";
@@ -69,6 +69,7 @@ import SellerNotificationsPage from "./Component/Pages/SettingsPage/components/S
 import PostpaidSettingsPage from "./Component/Pages/SettingsPage/components/PostpaidSettingsPage/PostpaidSettingsPage";
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import "./responsive.css";
+import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 
 
 function App() {
@@ -101,19 +102,33 @@ function App() {
     Cookies.set('pathName', window.location.pathname);
   }, [window.location.pathname])
 
+  const [ScreenWidth, setScreenWidth] = useState(null);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    updateWidth(); // Set initial width
+
+    window.addEventListener('resize', updateWidth);
+
+    return () => window.removeEventListener('resize', updateWidth);
+  }, []);
+
 
   return (
     <>
       <div className="container p-0 m-0" style={{}}>
         <div className="rightContainer">
           {tokenExists && <>
-            <Header isExpanded={isExpanded} setExpanded={setExpanded} WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
+            <Header ScreenWidth={ScreenWidth} isExpanded={isExpanded} setExpanded={setExpanded} WalletRecharge={WalletRecharge} setWalletRecharge={setWalletRecharge} />
             <Sidebar isExpanded={isExpanded} setExpanded={setExpanded} ZoneMapping={ZoneMapping} setZoneMapping={setZoneMapping} />
           </>}
           <Routes>
             {
               tokenExists ?
-                <Route path={indexPattern} element={<Dashboard />} /> :
+                <Route path={indexPattern} element={<Dashboard ScreenWidth={ScreenWidth} />} /> :
                 <Route path={loginPattern} element={<LoginPage tokenExists={tokenExists} setTokenExists={setTokenExists} />} />
             }
             <Route path={reassignOrdersPattern} element={<MoreOnOrders />} />
@@ -156,6 +171,7 @@ function App() {
             <Route path={shippingRatesPattern} element={<ShippingRates />} />
             <Route path={channelsIntegrationPattern} element={<ChannelsIntegration />} />
             <Route path={shopifyIntegrationPattern} element={<ShopifyIntegrationForm />} />
+            <Route path={shopifyRedirectIntegrationPattern} element={<ShopifyRedirect />} />
             <Route path={WooCommerceIntegrationPattern} element={<WooCommerceIntegrationForm />} />
             <Route path={MagentoIntegrationPattern} element={<MagentoIntegrationForm />} />
             <Route path={StoreHippoIntegrationPattern} element={<StoreHippoIntegrationForm />} />

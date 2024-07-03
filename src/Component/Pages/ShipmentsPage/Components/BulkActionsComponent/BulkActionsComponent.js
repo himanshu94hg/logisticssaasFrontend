@@ -4,16 +4,16 @@ import ExportIcon from '../../../OrdersPage/Components/BulkActionsComponent/Comp
 import RtoIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/RTOAddressIcon';
 import IvrIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/IvrIcon';
 import ReAttemptIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ReAttemptIcon';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'; 
 import { toast } from 'react-toastify';
 import moment from 'moment';
 // import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filterData, setFilterData, setBulkActionShow ,setSelectAll}) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterData,setFilterData }) => {
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const { exportCard, exportAllCard } = useSelector(state => state?.exportSectionReducer)
+    const {exportCard,exportAllCard,exportShipmentCard,exportShipmentAllCard} = useSelector(state => state?.exportSectionReducer)
     console.log(exportCard, "Export Action Bulk")
 
     const handleExport = () => {
@@ -45,27 +45,17 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
             "global_type": "",
             "payment_type": ""
         };
-        dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
-        // setBulkActionShow(false)
+        dispatch({ type: "EXPORT_SHIPMENT_DATA_ACTION", payload: requestData });
     };
 
     useEffect(() => {
-        if (exportButtonClick && exportCard) {
+        if (exportButtonClick) {
             var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            var blob = new Blob([exportShipmentCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""}.xlsx`);
             setExportButtonClick(false);
-            setBulkActionShow(false)
-            setSelectedRows([])
-            setSelectAll(false)
         }
-    }, [exportCard]);
-
-    // useEffect(() => {
-    //     if (exportCard) {
-    //         setExportButtonClick(false);
-    //     }
-    // }, [exportCard])
+    }, [exportShipmentCard]);
 
     const handleReattemptOrder = (() => {
         dispatch({ type: "SHIPMENT_REATTEMPT_DATA_ACTION", payload: { "order_ids": reattemptOrderIds } });
@@ -76,6 +66,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
     });
 
     const handleExportAll = () => {
+        console.log("filterDatafilterDatafilterData",filterData);
         Swal.fire({
             title: 'Confirmation Required!',
             text: 'Are you sure to export all report?',
@@ -90,94 +81,87 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                const requestData = {
-                    "order_tab": {
-                        "type": "Shipment",
-                        "subtype": activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""
-                    },
-                    "order_id": "",
-                    "courier": filterData?.courier || "",
-                    "awb_number": filterData?.awb_number || "",
-                    "min_awb_assign_date": moment(filterData?.start_date).format("YYYY-MM-DD"),
-                    "max_awb_assign_date": moment(filterData?.end_date).format("YYYY-MM-DD"),
-                    "status": filterData?.status || "",
-                    "order_type": filterData?.order_type || "",
-                    "customer_order_number": filterData?.customer_order_number || "",
-                    "channel": filterData?.channel || "",
-                    "min_invoice_amount": filterData?.min_invoice_amount || "",
-                    "max_invoice_amount": filterData?.max_invoice_amount || "",
-                    "warehouse_id": filterData?.warehouse_id || "",
-                    "product_name": filterData?.product_name || "",
-                    "delivery_address": filterData?.delivery_address || "",
-                    "min_weight": filterData?.min_weight || "",
-                    "max_weight": filterData?.max_weight || "",
-                    "min_product_qty": filterData?.min_product_qty || "",
-                    "max_product_qty": filterData?.max_product_qty || "",
-                    "rto_status": filterData?.rto_status || "",
-                    "global_type": filterData?.global_type || "",
-                    "payment_type": filterData?.payment_type || "",
-                    // ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
-                    // ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
-                };
-                dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
-                // setBulkActionShow(false);
-                setSelectedRows([])
-                setFilterData({});
-                setSelectAll(false)
-            } else {
-                toast.info("Report canceled.");
-            }
-        });
+                    const requestData = {
+                        "order_tab": {
+                            "type": "Shipment",
+                            "subtype": activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""
+                        },
+                        "order_id": "",
+                        "courier": filterData?.courier || "",
+                        "awb_number": filterData?.awb_number || "",
+                        "min_awb_assign_date": filterData?.start_date ? moment(filterData.start_date).format("YYYY-MM-DD") : "",
+                        "max_awb_assign_date": filterData?.end_date ? moment(filterData.end_date).format("YYYY-MM-DD") : "",
+                        "status": filterData?.status || "",
+                        "order_type": filterData?.order_type || "",
+                        "customer_order_number": filterData?.customer_order_number || "",
+                        "channel": filterData?.channel || "",
+                        "min_invoice_amount": filterData?.min_invoice_amount || "",
+                        "max_invoice_amount": filterData?.max_invoice_amount || "",
+                        "warehouse_id": filterData?.warehouse_id || "",
+                        "product_name": filterData?.product_name || "",
+                        "delivery_address": filterData?.delivery_address || "",
+                        "min_weight": filterData?.min_weight || "",
+                        "max_weight": filterData?.max_weight || "",
+                        "min_product_qty": filterData?.min_product_qty || "",
+                        "max_product_qty": filterData?.max_product_qty || "",
+                        "rto_status": filterData?.rto_status || "",
+                        "global_type": filterData?.global_type || "",
+                        "payment_type": filterData?.payment_type || "",
+                        // ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
+                        // ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
+                    };
+                    dispatch({ type: "EXPORT_SHIPMENT_ALL_DATA_ACTION", payload: requestData });
+                    // setBulkActionShow(false);
+                    setSelectedRows([])
+                    setFilterData({});
+                } else {
+                    toast.info("Report canceled.");
+                }
+            });
     };
 
     useEffect(() => {
-        if (exportAllCard?.message === "Go to MIS->Downloads to download your report") {
+        if (exportShipmentAllCard?.message === "Go to MIS->Downloads to download your report") {
             setFilterData({});
         }
-    }, [exportAllCard]);
+    },[exportShipmentAllCard]);
 
     return (
         <>
-            {selectedRows.length > 0 && (
-                <section className='bulk-action-container box-shadow'>
-                    <div className='ba-inner-container'>
-                        <div className='ba-rows-selected'>
-                            <span className='fw-bold font20'>{selectedRows.length}</span>
-                            <span>Rows Selected</span>
-                        </div>
-                        <ul className='ba-actions'>
-                            <li><IvrIcon /><span>IVR</span></li>
-                            {(activeTab !== "Delivered" || activeTab !== "RTO") && (
+        {selectedRows.length > 0 && (
+            <section className='bulk-action-container box-shadow'>
+            <div className='ba-inner-container'>
+                <div className='ba-rows-selected'>
+                    <span className='fw-bold font20'>{selectedRows.length}</span>
+                    <span>Rows Selected</span>
+                </div>
+                <ul className='ba-actions'>
+                    <li><IvrIcon /><span>IVR</span></li>
+                    {(activeTab !== "Delivered" || activeTab !== "RTO") && (
+                        <>
+                            {activeTab === "Action Required" && (
                                 <>
-                                    {activeTab === "Action Required" && (
-                                        <>
-                                            <li onClick={handleReattemptOrder}><ReAttemptIcon /><span>Re-Attempt</span></li>
-                                            <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
-                                            {/* <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li> */}
-                                        </>
-                                    )}
-                                    {activeTab === "Action Requested" && (
-                                        <>
-                                            <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
-                                            {/* <li onClick={handleExportAll}>
-                                    <ExportIcon /><span>Export All</span>
-                                </li> */}
-                                        </>
-                                    )}
+                                    <li onClick={handleReattemptOrder}><ReAttemptIcon /><span>Re-Attempt</span></li>
+                                    <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
                                 </>
                             )}
-                            <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                            <li onClick={handleExportAll}>
-                                <ExportIcon /><span>Export All</span>
-                            </li>
-                        </ul>
+                            {activeTab === "Action Requested" && (
+                                <>
+                                <li onClick={handleRtoOrder}><RtoIcon /><span>RTO</span></li>
+                                </>  
+                            )}
+                        </>
+                    )}
+                    <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
+                    <li onClick={handleExportAll}>
+                        <ExportIcon /><span>Export All</span>
+                    </li>
+                </ul>
 
-                        <div className='ba-close'></div>
-                    </div>
-                </section>
-            )}
+                <div className='ba-close'></div>
+            </div>
+        </section>
+        )}
         </>
     )
 }

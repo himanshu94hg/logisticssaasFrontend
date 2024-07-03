@@ -10,32 +10,32 @@ import DataTable from '../Components/Overview/DataTable/DataTable'
 import { useDispatch } from 'react-redux'
 import { dateRangeDashboard } from '../../../../customFunction/dateRange'
 
-const ShipmentDashboard = ({activeTab}) => {
+const ShipmentDashboard = ({ activeTab }) => {
 
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
 
-  useEffect(()=>{
-    if(activeTab==="Shipment"){
-      dispatch({type:"DASHBOARD_SHIPMENT_WEIGHT_PROFILE_ACTION",payload:dateRangeDashboard})
-      dispatch({type:"DASHBOARD_SHIPMENT_OFD_DATA_ACTION",payload:dateRangeDashboard})
-      dispatch({type:"DASHBOARD_SHIPMENT_ZONEWISE_DATA_ACTION",payload:dateRangeDashboard})
-      dispatch({type:"DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION",payload:dateRangeDashboard})
-      dispatch({type:"DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_ACTION",payload:dateRangeDashboard})
+  useEffect(() => {
+    if (activeTab === "Shipment") {
+      dispatch({ type: "DASHBOARD_SHIPMENT_WEIGHT_PROFILE_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_SHIPMENT_OFD_DATA_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_SHIPMENT_ZONEWISE_DATA_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_SHIPMENT_OVERVIEW_COURIER_DATA_ACTION", payload: dateRangeDashboard })
+      dispatch({ type: "DASHBOARD_SHIPMENT_PERFORMANCE_METRIX_ACTION", payload: dateRangeDashboard })
     }
-  },[activeTab])
+  }, [activeTab])
 
   return (
     <>
       <Row className='mb-3'>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <WeightProfile />
           <ZoneWiseData />
         </Col>
-        <Col className="col-6 cardsSpace">
+        <Col className="col-sm-12 col-lg-6 col-md-12 cardsSpace">
           <ShipmentOverview />
           <ShipmentPerformance />
         </Col>
-        <Col className="col-3 cardsSpace">
+        <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <OFDDataCard />
           <ExpectedDate />
         </Col>
