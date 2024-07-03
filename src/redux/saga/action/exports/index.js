@@ -23,8 +23,6 @@ function* exportFilesAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(exportFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_DATA, payload: response?.data })
         }

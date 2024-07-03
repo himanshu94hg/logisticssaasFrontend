@@ -17,7 +17,6 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
 
     const handleExport = async () => {
         setExportButtonClick(true);
-        setBulkActionShow(false)
         const requestData = {
             "ids": `${activeTab === "Shipping Charges" ? selectedOrderRows.join(',') : selectedRows.join(',')}`
         };
@@ -48,6 +47,10 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
                     const FileSaver = require('file-saver');
                     const blob = new Blob([response.data], { type: 'application/ms-excel' });
                     FileSaver.saveAs(blob, `remittance.xlsx`);
+                    setBulkActionShow(false)
+                    setSelectAll(false)
+                    
+
                 }
             } catch (error) {
                 customErrorFunction(error)
@@ -76,6 +79,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
             var blob = new Blob([activeTab === "Passbook" ? exportPassbookCard : activeTab === "Shipping Charges" ? exportShippingCard : activeTab === "Recharge Logs" ? exportRechargeCard : activeTab === "Invoices" ? exportInvoiceCard : activeTab === "Credit Receipt" ? exportReceiptCard : ""], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
+            setSelectAll(false)
         }
     }, [exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard, exportCard]);
 
@@ -85,6 +89,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
             var blob = new Blob([billingShipingRemitanceDOWNLOADCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `remitance.xlsx`);
             setExportButtonClick(false);
+            setSelectAll(false)
         }
     }, [billingShipingRemitanceDOWNLOADCard]);
 
