@@ -5,6 +5,7 @@ import WCLogo from '../../../../../assets/image/integration/WCLogo.png'
 import Magento from '../../../../../assets/image/integration/magento.png'
 import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../assets/image/integration/Amazon.png'
+import Flipkart from '../../../../../assets/image/integration/Flipkart.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
 
 const ChannelsIntegration = () => {
@@ -22,8 +23,8 @@ const ChannelsIntegration = () => {
     const OnlineMarketplaces = [
         { child: 'channels', title: 'Amazon', imageUrl: Amazon },
         // { child: 'amazon', title: 'Amazon', imageUrl: Amazon },
-        { child: 'channels', title: 'Amazon Direct', imageUrl: Amazon },
-        // { child: 'amazon-direct', title: 'Amazon Direct', imageUrl: Amazon },
+        { child: 'channels', title: 'Flipkart', imageUrl: Flipkart },
+        // { child: 'amazon-direct', title: 'Flipkart', imageUrl: Flipkart },
         // Add more data as needed
     ];
 
