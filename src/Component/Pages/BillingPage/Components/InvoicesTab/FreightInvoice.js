@@ -41,10 +41,13 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const componentRef = useRef();
     const [allinvoicedata, setAllInvoiceData] = useState([]);
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingInvoiceDownloadCard)
+    const billingSellerCard = useSelector(state => state?.billingSectionReducer?.billingSellerCard);
+
+    console.log("billingSellerCardbillingSellerCard",billingSellerCard[0]?.company_name);
 
     useEffect(() => {
-        console.log("All Invoice Data Updated", allinvoicedata);
-    }, [allinvoicedata]);
+        dispatch({ type: "BILLING_SELLER_DATA_ACTION" });
+    }, [dispatch]);
 
 
     // Handler for "Select All" checkbox
@@ -260,8 +263,8 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             <tr>
                                                 <td style={{ width: "60%", paddingLeft: "25px" }}>
                                                     <strong>Invoice To:</strong><br />
-                                                    vaghela<br />
-                                                    vinitm,SURAT,GUJARAT,394221
+                                                    {billingSellerCard[0]?.company_name}<br />
+                                                    {billingSellerCard[0]?.street},{billingSellerCard[0]?.city},{billingSellerCard[0]?.state},{billingSellerCard[0]?.pincode}
                                                 </td>
                                                 <td style={{ width: "40%" }}>
                                                     <p>
@@ -370,7 +373,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                             </div>
 
                             <div style={{ borderRadius: '10px', background: '#fff', padding: '0mm 0 2mm 0' }}>
-                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' >Download Now</a></span>
+                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData?.id} target='_blank' style={{ backgroundColor: '#285eda',color:'white',padding:'3px' }} >Download Now</a></span>
                             </div>
 
                         </div>
