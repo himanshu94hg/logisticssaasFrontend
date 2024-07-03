@@ -1,9 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { Modal } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
-const ChannelsView = () => {
-    const integrations = [
-       
-    ];
+const DateFormatter = ({ dateTimeString }) => {
+    const [formattedDate, setFormattedDate] = useState('');
+
+    useEffect(() => {
+        const formattedDateTime = formatDateTime(dateTimeString);
+        setFormattedDate(formattedDateTime);
+    }, [dateTimeString]);
+
+    const formatDateTime = (dateTimeString) => {
+        const options = {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            hour12: true,
+        };
+
+        const dateObject = new Date(dateTimeString);
+        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
+
+        return formattedDateTime;
+    };
+
+    return <p>{formattedDate}</p>;
+};
+
+
+const ChannelsView = ({channelData}) => {
+
+    const [show, setShow] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
+    const [backDrop, setBackDrop] = useState(false);
+
+    const handleShow = (row) => {
+        setSelectedRow(row);
+        setShow(true);
+    };
+
+    const handleClose = () => setShow(false);
+
 
     return (
         <>
@@ -15,33 +54,38 @@ const ChannelsView = () => {
                                 <tr className="table-row box-shadow">
                                     <th>Store Name/Channel ID</th>
                                     <th>Sales Channel</th>
-                                    <th>Sync Info.</th>
+                                    <th>Last Sync</th>
                                     <th>Connection Status</th>
                                     <th>Channel Status</th>
+                                    <th>Action</th>
                                 </tr>
                                 <tr className="blank-row"><td></td></tr>
                             </thead>
                             <tbody>
-                                {integrations?.map((row, index) => (
+                                {channelData?.map((row, index) => (
                                     <React.Fragment key={row?.id}>
                                         {index > 0 && <tr className="blank-row"><td colSpan="6"></td></tr>}
                                         <tr className='table-row box-shadow'>
                                             <td>
-                                                <strong>{row?.storeName}</strong><br />
-                                                {row?.channelID}
+                                                <strong>{row?.channel_name}</strong><br />
                                             </td>
                                             <td>
-                                                <img src={row?.logoUrl} alt={`${row?.storeName} logo`} width={50} height={50} className='integration-logo me-2' />
-                                                {row?.salesChannel}
+                                                <img src="https://shipease.in/public/assets/images/channel/shopify.jpg" alt={`${row?.channel_name} logo`} width={50} height={50} className='integration-logo me-2' />
+                                                {row?.channel}
                                             </td>
                                             <td>
-                                                Last sync: {row?.syncInfo}
+                                                {<DateFormatter dateTimeString={row?.channel_configuration?.last_executed} />}
                                             </td>
                                             <td>
-                                                {row?.connectionStatus}
+                                                {"Active"}
                                             </td>
                                             <td>
-                                                {row?.channelStatus}
+                                                {"Active"}
+                                            </td>
+                                            <td>
+                                                <div className='cell-inside-box'>
+                                                    <button className='btn main-button' onClick={() => handleShow(row)}>View</button>
+                                                </div>
                                             </td>
                                         </tr>
                                     </React.Fragment>
@@ -49,6 +93,8 @@ const ChannelsView = () => {
                             </tbody>
                         </table>
                     </div>
+                    <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
+                    <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
                 </div>
             </div>
         </>
@@ -56,3 +102,42 @@ const ChannelsView = () => {
 }
 
 export default ChannelsView;
+
+const Preview = ({ show, handleClose, selectedRow }) => {
+    return (
+        <Modal show={show} onHide={handleClose} size="md">
+            <Modal.Header closeButton>
+                <Modal.Title>Channel Information</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+                <table className="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th>Store Name</th>
+                            <td>{selectedRow?.channel_name}</td>
+                        </tr>
+                        <tr>
+                            <th>Store URL</th>
+                            <td>{selectedRow?.channel_configuration?.store_url}</td>
+                        </tr>
+                        <tr>
+                            <th>API Key</th>
+                            <td>{selectedRow?.channel_configuration?.api_key}</td>
+                        </tr>
+                        <tr>
+                            <th>Shopify Password</th>
+                            <td>{selectedRow?.channel_configuration?.password}</td>
+                        </tr>
+                        <tr>
+                            <th>Shopify Shared Secret</th>
+                            <td>{selectedRow?.channel_configuration?.shared_secret}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button variant="secondary" onClick={handleClose}>Close</Button>
+            </Modal.Footer>
+        </Modal>
+    );
+};

@@ -188,6 +188,7 @@ export const API_URL = {
 
    //CHANNEL
    GET_CHANNEL_URL: "/core-api/channel/channel/",
+   GET_CHANNEL_API_URL:"/core-api/channel/get-channel/",
 
    GET_COURIER_PARTNER:"/core-api/features/partner-list/",
 

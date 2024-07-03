@@ -1,7 +1,8 @@
-import { SET_CHANNEL_DATA } from "../../constants/channel";
+import { SET_CHANNEL_DATA,GET_CHANNEL_DATA } from "../../constants/channel";
 
 const initialState = {
     channelSetCard:[],
+    channelGetCard:[]
 };
 
 export const channelSectionReducer = (state = initialState, action) => {
@@ -9,7 +10,12 @@ export const channelSectionReducer = (state = initialState, action) => {
         case SET_CHANNEL_DATA:
             return {
                 ...state,
-                paymentSetCard: action?.payload
+                channelSetCard: action?.payload
+            };
+        case GET_CHANNEL_DATA:
+            return {
+                ...state,
+                channelGetCard: action?.payload
             };
         default:
             return state
