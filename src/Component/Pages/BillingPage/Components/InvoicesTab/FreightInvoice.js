@@ -101,7 +101,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata}`
+    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata?.id}`
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
 
@@ -268,9 +268,9 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                 </td>
                                                 <td style={{ width: "40%" }}>
                                                     <p>
-                                                        <strong>State Code:</strong> GUJARAT<br />
-                                                        <strong>Place of Supply:</strong> SURAT<br />
-                                                        <strong>GSTIN:</strong> SFDVDFG4564DFGB<br />
+                                                        <strong>State Code:</strong> {billingSellerCard[0]?.state}<br />
+                                                        <strong>Place of Supply:</strong> {billingSellerCard[0]?.city}<br />
+                                                        <strong>GSTIN:</strong> {billingSellerCard[0]?.city}<br />
                                                         <strong>Reverse Charge:</strong> No
                                                     </p>
                                                 </td>
@@ -373,7 +373,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                             </div>
 
                             <div style={{ borderRadius: '10px', background: '#fff', padding: '0mm 0 2mm 0' }}>
-                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData?.id} target='_blank' style={{ backgroundColor: '#285eda',color:'white',padding:'3px' }} >Download Now</a></span>
+                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' style={{ backgroundColor: '#285eda',color:'white',padding:'3px' }} >Download Now</a></span>
                             </div>
 
                         </div>
