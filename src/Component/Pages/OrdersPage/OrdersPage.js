@@ -75,7 +75,7 @@ const OrdersPage = () => {
     const [pickupStatus, setPickupStatus] = useState('')
     const [filterData, setFilterData] = useState({});
     const [selectAll, setSelectAll] = useState(false);
-    const [rateRef,setRateRef]=useState(null)
+    const [rateRef, setRateRef] = useState(null)
 
     const orderStatus = {
         "pending": "Pending",
@@ -105,13 +105,12 @@ const OrdersPage = () => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [orderCancelled])
 
-    console.log(location.state,"object")
-    
+
     useEffect(() => {
         if (location?.state?.data === "ratecalc") {
             setActiveTab("Processing")
             setRateRef(new Date())
-        }else{
+        } else {
             setActiveTab("Processing")
         }
     }, [location])
@@ -126,6 +125,7 @@ const OrdersPage = () => {
             setSearchOption(SearchOptions[0])
             setBulkActionShow(false)
             setSelectedRows([])
+            setCurrentPage(1)
             setOrders([])
         }
     }, [activeTab])

@@ -58,6 +58,7 @@ const MoreOnOrders = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
     const [selectAll, setSelectAll] = useState(false);
+    const [mergeOrd, setMergeOrd] = useState([]);
 
     const apiEndpoint = `${BASE_URL_CORE}`;
     const { pathName } = useSelector(state => state?.authDataReducer)
@@ -94,37 +95,6 @@ const MoreOnOrders = () => {
                     ? "orders-api/orders/split-order/"
                     : "";
 
-    const handleSidePanel = () => {
-        setMoreFilters(true);
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        setMoreFilters(false);
-        setBackDrop(false)
-    }
-
-    const handleSearch = () => {
-        axios.get(`${apiEndpoint}/${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-                pageStatusSet(false)
-            })
-            .catch(error => {
-                customErrorFunction(error)
-            });
-        setQueryParamTemp({
-            search_by: searchType,
-            q: searchValue
-        })
-        setCurrentPage(1)
-    }
-
 
     useEffect(() => {
         if (activeTab) {
@@ -134,23 +104,6 @@ const MoreOnOrders = () => {
             setSearchOption(SearchOptions[0])
         }
     }, [activeTab])
-
-    const handleMoreFilter = (data) => {
-        setItemsPerPage(20)
-        setCurrentPage(1)
-        const queryParams = {};
-        Object.keys(data).forEach(key => {
-            if (data[key] !== '' && data[key] !== null) {
-                if (key === 'start_date' || key === 'end_date') {
-                    queryParams[key] = moment(data[key]).format('YYYY-MM-DD');
-                } else {
-                    queryParams[key] = data[key];
-                }
-            }
-        });
-        setQueryParamTemp(queryParams);
-    };
-
 
     useEffect(() => {
         if (pathName === "Reassign Orders") {
@@ -165,9 +118,6 @@ const MoreOnOrders = () => {
 
     }, [pathName]);
 
-
-    console.log(pathName,"pathNamepathNamepathNamepathName")
-
     useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
@@ -178,9 +128,6 @@ const MoreOnOrders = () => {
                 apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             case "Split Order":
-                apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
-                break;
-            case "Reverse Order":
                 apiUrl = `${apiEndpoint}/${activeTabValueSet}?page_size=${itemsPerPage}&page=${currentPage}`;
                 break;
             default:
@@ -203,71 +150,17 @@ const MoreOnOrders = () => {
             })
                 .then(response => {
                     setTotalItems(response?.data?.count)
-                    setOrders(response.data.results);
+                    if (activeTab === "Merge Order") {
+                        setMergeOrd(response.data.results)
+                    } else {
+                        setOrders(response.data.results);
+                    }
                 })
                 .catch(error => {
                     customErrorFunction(error)
                 });
         }
     }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
-
-    const handleChange = (option) => {
-        setSearchOption(option);
-        setsearchType(option.value)
-    };
-
-    useEffect(() => {
-        if (BulkActionShow) {
-            setBulkActionShow(false)
-            setSelectedRows([])
-
-        }
-    }, [activeTab])
-
-    const handleClick = () => {
-        setSearchValue("")
-        setHandleResetFrom(true)
-        setQueryParamTemp({})
-        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-            })
-            .catch(error => {
-                customErrorFunction(error)
-            });
-    }
-
-    const debouncedHandleClick = useCallback(
-        debounce((param) => handleClick(param), 1000),
-        []
-    );
-
-    const handleReset = () => {
-        debouncedHandleClick();
-        setSearchOption(SearchOptions[0])
-
-    }
-
-    const handleQueryfilter = (value) => {
-        setQueryParamTemp({})
-        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}&${value}`, {
-            headers: {
-                Authorization: `Bearer ${authToken}`
-            }
-        })
-            .then(response => {
-                setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-            })
-            .catch(error => {
-                customErrorFunction(error)
-            });
-    }
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -282,6 +175,106 @@ const MoreOnOrders = () => {
             setQueryName(temp)
         }
     }, [favListData])
+
+    useEffect(() => {
+        if (BulkActionShow) {
+            setBulkActionShow(false)
+            setSelectedRows([])
+
+        }
+    }, [activeTab])
+
+
+    const handleSidePanel = () => {
+        setMoreFilters(true);
+        setBackDrop(true)
+    }
+
+    const CloseSidePanel = () => {
+        setMoreFilters(false);
+        setBackDrop(false)
+    }
+
+    const handleSearch = () => {
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+                setMergeOrd(response.data.results)
+                pageStatusSet(false)
+            })
+            .catch(error => {
+                customErrorFunction(error)
+            });
+        setQueryParamTemp({
+            search_by: searchType,
+            q: searchValue
+        })
+        setCurrentPage(1)
+    }
+
+    const handleChange = (option) => {
+        setSearchOption(option);
+        setsearchType(option.value)
+    };
+
+    const handleReset = () => {
+        setSearchValue("")
+        setHandleResetFrom(true)
+        setQueryParamTemp({})
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+                setMergeOrd(response.data.results)
+            })
+            .catch(error => {
+                customErrorFunction(error)
+            });
+        setSearchOption(SearchOptions[0])
+
+    }
+
+    const handleQueryfilter = (value) => {
+        setQueryParamTemp({})
+        axios.get(`${apiEndpoint}/${activeTabValueSet}?page_size=${20}&page=${1}&${value}`, {
+            headers: {
+                Authorization: `Bearer ${authToken}`
+            }
+        })
+            .then(response => {
+                setTotalItems(response?.data?.count)
+                setOrders(response.data.results);
+                setMergeOrd(response.data.results)
+            })
+            .catch(error => {
+                customErrorFunction(error)
+            });
+    }
+
+    const handleMoreFilter = (data) => {
+        setItemsPerPage(20)
+        setCurrentPage(1)
+        const queryParams = {};
+        Object.keys(data).forEach(key => {
+            if (data[key] !== '' && data[key] !== null) {
+                if (key === 'start_date' || key === 'end_date') {
+                    queryParams[key] = moment(data[key]).format('YYYY-MM-DD');
+                } else {
+                    queryParams[key] = data[key];
+                }
+            }
+        });
+        setQueryParamTemp(queryParams);
+    };
 
     return (
         <>
@@ -373,7 +366,7 @@ const MoreOnOrders = () => {
                 {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
                     <MergeOrder
-                        orders={orders}
+                        orders={mergeOrd}
                         selectAll={selectAll}
                         activeTab={activeTab}
                         orderStatus={orderStatus}

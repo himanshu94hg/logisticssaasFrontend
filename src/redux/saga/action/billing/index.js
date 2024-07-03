@@ -1,8 +1,8 @@
 import axios from "../../../../axios/index"
 import { call, put, takeLatest } from "@redux-saga/core/effects";
 import { API_URL, BASE_URL_DUMMY,BASE_URL_BILLING } from "../../../../axios/config";
-import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION,BILLING_PASSBOOK_COUNTER_DATA_ACTION,BILLING_RECHARGE_COUNTER_DATA_ACTION,BILLING_SHIPPING_COUNTER_DATA_ACTION,BILLING_REMITANCE_EXPORT_DATA_ACTION } from "../../constant/billing";
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA,GET_BILLING_PASSBOOK_COUNTER_DATA,GET_BILLING_RECHARGE_COUNTER_DATA,GET_BILLING_SHIPPING_COUNTER_DATA,GET_BILLING_REMITANCE_EXPORT_DATA } from "../../../constants/billing";
+import { BILLING_DATA_ACTION,BILLING_SHIPING_DATA_ACTION,BILLING_SHIPING_REMITANCE_DATA_ACTION,BILLING_SHIPING_RECHARGE_DATA_ACTION,BILLING_SHIPING_INVOICE_DATA_ACTION,BILLING_SHIPING_RECEIPT_DATA_ACTION,BILLING_SHIPING_RECEIPT_EXPORT_DATA_ACTION,BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA_ACTION,BILLING_PASSBOOK_COUNTER_DATA_ACTION,BILLING_RECHARGE_COUNTER_DATA_ACTION,BILLING_SHIPPING_COUNTER_DATA_ACTION,BILLING_REMITANCE_EXPORT_DATA_ACTION,BILLING_INVOICE_DOWNLOAD_DATA_ACTION,BILLING_SELLER_DATA_ACTION } from "../../constant/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA,GET_BILLING_PASSBOOK_COUNTER_DATA,GET_BILLING_RECHARGE_COUNTER_DATA,GET_BILLING_SHIPPING_COUNTER_DATA,GET_BILLING_REMITANCE_EXPORT_DATA,GET_BILLING_INVOICE_DOWNLOAD_DATA,GET_BILLING_SELLER_DATA } from "../../../constants/billing";
 import {toast} from "react-toastify";
 import { customErrorFunction } from '../../../../customFunction/errorHandling';
 
@@ -270,6 +270,54 @@ function* billingRemitanceExportFilesAction(action) {
     }
 }
 
+async function billingInvoiceDownloadFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        responseType: 'blob',
+        url: `${BASE_URL_BILLING}${API_URL.GET_BILLING_INVOICE_DOWNLOAD_URL}?invoice_id=${data}`,
+        // data: data
+    });
+    return listData;
+}
+
+function* billingInvoiceDownloadFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingInvoiceDownloadFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_INVOICE_DOWNLOAD_DATA, payload: response?.data })
+        }
+        else {
+        }
+    } catch (error) {
+        customErrorFunction(error);
+    }
+}
+
+
+async function billingSellerFileAPI(data) {
+    let listData = axios.request({
+        method: "GET",
+        url: `${BASE_URL_BILLING}${API_URL.GET_SELLER_URL}`,
+        // data: data
+    });
+    return listData;
+}
+
+function* billingSellerFilesAction(action) {
+    let { payload, reject } = action;
+    try {
+        let response = yield call(billingSellerFileAPI, payload);
+        if (response.status === 200) {
+            yield put({ type: GET_BILLING_SELLER_DATA, payload: response?.data })
+        }
+    } catch (error) {
+        customErrorFunction(error);
+    }
+}
+
+
+
 export function* getBillingWatcher() {
     yield takeLatest(BILLING_DATA_ACTION,billingFilesAction);
     yield takeLatest(BILLING_SHIPING_DATA_ACTION,billingShipingFilesAction);
@@ -284,5 +332,8 @@ export function* getBillingWatcher() {
     yield takeLatest(BILLING_RECHARGE_COUNTER_DATA_ACTION,billingRechargeCounterFilesAction);
     yield takeLatest(BILLING_SHIPPING_COUNTER_DATA_ACTION,billingShippingCounterFilesAction);
     yield takeLatest(BILLING_REMITANCE_EXPORT_DATA_ACTION,billingRemitanceExportFilesAction);
+
+    yield takeLatest(BILLING_INVOICE_DOWNLOAD_DATA_ACTION,billingInvoiceDownloadFilesAction);
+    yield takeLatest(BILLING_SELLER_DATA_ACTION,billingSellerFilesAction);
 }
 
