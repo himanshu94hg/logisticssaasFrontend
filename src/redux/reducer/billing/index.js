@@ -1,4 +1,4 @@
-import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA ,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA,GET_BILLING_PASSBOOK_COUNTER_DATA,GET_BILLING_RECHARGE_COUNTER_DATA,GET_BILLING_SHIPPING_COUNTER_DATA,GET_BILLING_REMITANCE_EXPORT_DATA } from "../../constants/billing";
+import { GET_BILLING_DATA,GET_BILLING_SHIPING_DATA,GET_BILLING_SHIPING_REMITANCE_DATA ,GET_BILLING_SHIPING_RECHARGE_DATA,GET_BILLING_SHIPING_INVOICE_DATA,GET_BILLING_SHIPING_RECEIPT_DATA,GET_BILLING_SHIPING_RECEIPT_EXPORT_DATA,GET_BILLING_SHIPING_REMITANCE_DOWNLOAD_DATA,GET_BILLING_PASSBOOK_COUNTER_DATA,GET_BILLING_RECHARGE_COUNTER_DATA,GET_BILLING_SHIPPING_COUNTER_DATA,GET_BILLING_REMITANCE_EXPORT_DATA,GET_BILLING_INVOICE_DOWNLOAD_DATA,GET_BILLING_SELLER_DATA } from "../../constants/billing";
 
 
 const initialState = {
@@ -13,7 +13,9 @@ const initialState = {
     billingPassbookCounterCard:null,
     billingRechargeCounterCard:null,
     billingShippingCounterCard:null,
-    billingRemitanceExportCard:null
+    billingRemitanceExportCard:null,
+    billingInvoiceDownloadCard:null,
+    billingSellerCard:[]
 };
 
 export const billingSectionReducer = (state = initialState, action) => {
@@ -81,6 +83,18 @@ export const billingSectionReducer = (state = initialState, action) => {
                 ...state,
                 billingRemitanceExportCard: action?.payload
             };
+
+        case GET_BILLING_INVOICE_DOWNLOAD_DATA:
+            return {
+                ...state,
+                billingInvoiceDownloadCard: action?.payload
+            };
+        case GET_BILLING_SELLER_DATA:
+            return {
+                ...state,
+                billingSellerCard: action?.payload
+            };
+    
         default:
             return state
     }

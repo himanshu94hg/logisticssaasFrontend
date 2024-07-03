@@ -61,7 +61,7 @@ const ShipmentsPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
     const [filterData, setFilterData] = useState(null);
-
+    const [selectAll, setSelectAll] = useState(false);
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
 
@@ -263,8 +263,8 @@ const ShipmentsPage = () => {
     const debouncedHandleClick = useCallback(
         debounce((param) => handleClick(param), 1000),
         []
-      );
-      const handleReset = () => {
+    );
+    const handleReset = () => {
         debouncedHandleClick();
         setSearchOption(SearchOptions[0])
 
@@ -372,7 +372,10 @@ const ShipmentsPage = () => {
             </div>}
             <div className='orders-section-tabs'>
                 <div className={`${activeTab === "Action Required" ? "d-block" : "d-none"}`}>
-                    <ActionRequired shipmentCard={shipmentCard}
+                    <ActionRequired
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
@@ -383,7 +386,10 @@ const ShipmentsPage = () => {
                 </div>
 
                 <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
-                    <ActionRequested shipmentCard={shipmentCard}
+                    <ActionRequested
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
@@ -394,7 +400,10 @@ const ShipmentsPage = () => {
                 </div>
 
                 <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
-                    <RTOShipment shipmentCard={shipmentCard}
+                    <RTOShipment
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
@@ -405,7 +414,10 @@ const ShipmentsPage = () => {
                 </div>
 
                 <div className={`${activeTab === "Delivered" ? "d-block" : "d-none"}`}>
-                    <DeliveredShipment shipmentCard={shipmentCard}
+                    <DeliveredShipment
+                        selectAll={selectAll}
+                        setSelectAll={setSelectAll}
+                        shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
@@ -423,7 +435,7 @@ const ShipmentsPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent activeTab={activeTab} selectedRows={selectedRows} setSelectedRows={setSelectedRows} filterData={filterData} setFilterData={setFilterData}/>
+                    <BulkActionsComponent setSelectAll={setSelectAll} activeTab={activeTab} setBulkActionShow={setBulkActionShow} selectedRows={selectedRows} setSelectedRows={setSelectedRows} filterData={filterData} setFilterData={setFilterData} />
                 )
                 }
             </div>
