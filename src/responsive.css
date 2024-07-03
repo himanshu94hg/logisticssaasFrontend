@@ -55,6 +55,28 @@
     .status-container-item .status-item .status-counter {
         margin-inline: 20px;
     }
+
+    #shipEaseNavTabs .nav-item {
+        border: 1px solid var(--sh-primary-middle);
+        padding: 2px 5px;
+        border-radius: 0.5rem;
+        width: 150px;
+    }
+
+    #shipEaseNavTabs .nav-item .dropdown-toggle {
+        position: relative;
+    }
+
+    #shipEaseNavTabs .nav-item .dropdown-toggle::after {
+        position: absolute;
+        right: 0;
+        top: 14px;
+    }
+
+    #shipEaseNavTabs .dropdown-menu {
+        top: 51px;
+        left: 14px;
+    }
 }
 
 @media screen and (max-width:767px) {
