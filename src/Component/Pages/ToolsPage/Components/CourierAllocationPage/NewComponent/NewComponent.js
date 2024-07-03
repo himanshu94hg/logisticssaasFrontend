@@ -82,7 +82,6 @@ const NewComponent = () => {
         const destinationItems = Array.from(getList(destination.droppableId));
         const [movedItem] = sourceItems.splice(source.index, 1);
 
-        console.log(source, destination, "llllllllllllll")
 
         if (!(movedItem.courier_category_id.toString() === destination.droppableId.toString() || destination.droppableId.toString() === "0")) {
             if (source.droppableId == "0" && destination.droppableId === "1") {
@@ -170,6 +169,52 @@ const NewComponent = () => {
         }
     }, [sequenceOne, sequenceTwo]);
 
+
+    useEffect(() => {
+        if (pool && pool.length > 0) {
+            const removeDuplicates = (arr) => {
+                const seen = new Set();
+                return arr.filter(item => {
+                    const duplicate = seen.has(item.id);
+                    seen.add(item.id);
+                    return !duplicate;
+                });
+            };
+    
+            setPool(removeDuplicates(pool));
+        }
+    }, [pool]);
+
+    useEffect(() => {
+        if (sequenceOne && sequenceOne.length > 0) {
+            const removeDuplicates = (arr) => {
+                const seen = new Set();
+                return arr.filter(item => {
+                    const duplicate = seen.has(item.id);
+                    seen.add(item.id);
+                    return !duplicate;
+                });
+            };
+    
+            setSequenceOne(removeDuplicates(sequenceOne));
+        }
+    }, [sequenceOne]);
+
+    useEffect(() => {
+        if (sequenceTwo && sequenceTwo.length > 0) {
+            const removeDuplicates = (arr) => {
+                const seen = new Set();
+                return arr.filter(item => {
+                    const duplicate = seen.has(item.id);
+                    seen.add(item.id);
+                    return !duplicate;
+                });
+            };
+    
+            setSequenceTwo(removeDuplicates(sequenceTwo));
+        }
+    }, [pool]);
+    
 
     return (
         <>
