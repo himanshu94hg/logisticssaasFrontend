@@ -109,7 +109,7 @@ function TotalInfoDashboard() {
                     <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.avg_selling_price || 0}
                     </h2>
-                    <p className="font12 text-blue">Seller </p>
+                    <p className="font12 text-blue invisible">Seller </p>
                   </div>
                 </div>
               </div>
@@ -141,7 +141,7 @@ function TotalInfoDashboard() {
                     <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.today_revenue || 0}
                     </h2>
-                    <p className="font12 text-red">Yesterday
+                    <p className="font12 text-red invisible">Yesterday
                       {todayRevenue?.yesterday_revenue}
                     </p>
                   </div>
