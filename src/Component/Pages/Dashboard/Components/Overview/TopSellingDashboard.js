@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { percentage } from "../../../../../customFunction/functionLogic";
 
 function CustomTable({ data }) {
- const total=data.reduce((acc,data)=>acc+data.total,0) 
+  const total = data.reduce((acc, data) => acc + data.total, 0)
   return (
     <table className="custom-table w-100">
       <thead>
         <tr>
           <th>S.No</th>
           <th>Product Name</th>
-          <th>Revenue</th>
+          <th>Shipments</th>
           <th>Delivered %</th>
           <th>RTO %</th>
         </tr>
@@ -25,10 +25,10 @@ function CustomTable({ data }) {
             <td>{product.total}</td>
             <td>
               <span className="text-green">
-                {percentage(product.total,total)}
+                {(product.delivered / product.total) * 100}
               </span>
             </td>
-            <td>  {percentage(product.total,total)}</td>
+            <td>{(product.rto_count / product.total) * 100}</td>
           </tr>
         ))}
       </tbody>
