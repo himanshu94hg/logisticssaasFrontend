@@ -264,3 +264,8 @@ export const ProofOfDeliveryPattern = "/Proof-Of-Delivery";
 export const ProofOfDeliveryRoutes = () => {
     return generatePath(ProofOfDeliveryPattern);
 };
+
+export const shopifyRedirectIntegrationPattern = "/shopify/redirect";
+export const shopifyRedirectIntegrationRoutes = () => {
+    return generatePath(shopifyRedirectIntegrationPattern);
+};
