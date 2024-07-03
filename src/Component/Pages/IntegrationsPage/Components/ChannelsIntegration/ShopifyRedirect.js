@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { toast } from 'react-toastify';
 
 const ShopifyRedirect = () => {
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const query = new URLSearchParams(location.search);
         const queryString = query.toString();
         const apiUrl = `${BASE_URL_CORE}/core-api/features/channel/validate-shopify-redirect/?${queryString}`;
+
         const sendRedirectData = async () => {
             try {
                 const response = await axios.get(apiUrl, {
@@ -23,18 +26,19 @@ const ShopifyRedirect = () => {
                 });
 
                 if (response.status === 200) {
+                    navigate('/integrations');
+                    toast.success("Shopify Channel Integration successful");
                     console.log('Shopify integration successful', response.data);
                 } else {
-                    console.error('Failed to send Shopify redirect data:', response.status, response.statusText);
+                    toast.error("Failed to send Shopify redirect data");
                 }
             } catch (error) {
-                console.error('Error occurred while sending redirect data:', error);
                 customErrorFunction(error);
             }
         };
 
         sendRedirectData();
-    }, [location.search]);
+    }, [location.search, navigate]);
 
     return (
         <>
