@@ -82,8 +82,21 @@ const NewComponent = () => {
         const destinationItems = Array.from(getList(destination.droppableId));
         const [movedItem] = sourceItems.splice(source.index, 1);
 
+        console.log(source, destination, "llllllllllllll")
+
         if (!(movedItem.courier_category_id.toString() === destination.droppableId.toString() || destination.droppableId.toString() === "0")) {
-            toast.error("You can not move")
+            if (source.droppableId == "0" && destination.droppableId === "1") {
+                toast.error("This Courier doesn't belong to B2C category")
+            }
+            else if (source.droppableId == "2" && destination.droppableId === "1") {
+                toast.error("This Courier doesn't belong to B2C category")
+            }
+            else if (source.droppableId == "0" && destination.droppableId === "2") {
+                toast.error("This Courier doesn't belong to B2B category")
+            }
+            else if (source.droppableId == "1" && destination.droppableId === "2") {
+                toast.error("This Courier doesn't belong to B2B category")
+            }
             return;
         }
 

@@ -49,10 +49,9 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const ActionRequired = ({ shipmentCard, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo,setOrderTracking,orderStatus }) => {
+const ActionRequired = ({selectAll,setSelectAll ,shipmentCard, selectedRows, setSelectedRows, setBulkActionShow ,setAwbNo,setOrderTracking,orderStatus }) => {
 
     const dispatch = useDispatch()
-    const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [orders, setAllOrders] = useState([]);
     const [allShipment, setAllShipment] = useState([]);
