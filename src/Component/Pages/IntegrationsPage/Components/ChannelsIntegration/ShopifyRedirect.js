@@ -1,16 +1,40 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
-import DatePicker from 'react-datepicker';
-import axios from "axios";
-import 'react-datepicker/dist/react-datepicker.css';
-import Swal from "sweetalert2";
+import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import axios from 'axios';
 import Cookies from 'js-cookie';
-import moment from 'moment';
+import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../../customFunction/errorHandling';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const ShopifyRedirect = () => {
+    const location = useLocation();
+
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+        const queryString = query.toString();
+        const apiUrl = `${BASE_URL_CORE}/core-api/features/channel/validate-shopify-redirect/?${queryString}`;
+        const sendRedirectData = async () => {
+            try {
+                const response = await axios.get(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${Cookies.get('access_token')}`,
+                        'Content-Type': 'application/json',
+                    }
+                });
+
+                if (response.status === 200) {
+                    console.log('Shopify integration successful', response.data);
+                } else {
+                    console.error('Failed to send Shopify redirect data:', response.status, response.statusText);
+                }
+            } catch (error) {
+                console.error('Error occurred while sending redirect data:', error);
+                customErrorFunction(error);
+            }
+        };
+
+        sendRedirectData();
+    }, [location.search]);
 
     return (
         <>
@@ -46,7 +70,6 @@ const ShopifyRedirect = () => {
                         </ul>
                     </section>
                     <section className='box-shadow shadow-sm int-form'>
-
                     </section>
                 </div>
             </div>

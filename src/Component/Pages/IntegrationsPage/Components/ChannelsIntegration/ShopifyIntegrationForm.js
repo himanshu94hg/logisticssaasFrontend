@@ -1,47 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Logo from '../../../../../assets/image/integration/ShopifyLogo.png';
-import DatePicker from 'react-datepicker';
-import axios from "axios";
 import 'react-datepicker/dist/react-datepicker.css';
-import Swal from "sweetalert2";
 import Cookies from 'js-cookie';
-import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../../../customFunction/errorHandling';
 
 const ShopifyIntegrationForm = () => {
     const navigation = useNavigate();
-    const [selectedDate, setSelectedDate] = useState(null);
     const hardcodedToken = Cookies.get("access_token");
-    const sellerData = Cookies.get("user_id");
-    const [errors, setErrors] = useState({});
-
-    const [formData, setFormData] = useState({
-        seller_id: sellerData,
-        channel: {
-            channel_name: "",
-            channel: "shopify"
-        },
-        channel_configuration: {
-            api_key: "",
-            password: "",
-            store_url: "",
-            shared_secret: "",
-            auto_fulfill: true,   
-            auto_cancel: true,    
-            auto_cod_paid: true,  
-            send_abandon_sms: false,
-            last_executed: ''
-        }
-    });
-
-    const checkboxDescriptions = {
-        auto_fulfill: "Fulfill orders (Enabling this will auto fulfill order in Shopify when an order is shipped with ShipEase)",
-        auto_cancel: "Cancel orders (Enabling this will auto cancel order in Shopify when order is cancelled in ShipEase)",
-        auto_cod_paid: "Mark as paid (Mark COD orders as paid in Shopify when orders are delivered to customer)",
-        send_abandon_sms: "Send Abandon Checkout SMS (Enabling this will charge 1RS per sms)"
-    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -77,34 +43,6 @@ const ShopifyIntegrationForm = () => {
         }
     };
     
-
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
-        const formattedDate = date ? moment(date).format("YYYY-MM-DD 00:00:00") : '';
-        setFormData(prevState => ({
-            ...prevState,
-            channel_configuration: {
-                ...prevState.channel_configuration,
-                last_executed: formattedDate
-            }
-        }));
-    };
-
-    const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
-        const val = type === 'checkbox' ? checked : value;
-
-        const [objectName, propName] = name.split('.');
-
-        setFormData(prevState => ({
-            ...prevState,
-            [objectName]: {
-                ...prevState[objectName],
-                [propName]: val
-            }
-        }));
-    };
-
     return (
         <>
             <div className='p10'>
