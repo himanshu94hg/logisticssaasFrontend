@@ -17,7 +17,7 @@ import Modal from 'react-bootstrap/Modal';
 import Swal from 'sweetalert2'; 
 import moment from 'moment';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow,filterData,setFilterData }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow,filterData,setFilterData,queryParamTemp,setQueryParamTemp }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
@@ -29,7 +29,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
     const [show, setShow] = useState(false);
     
     const handleClose = () => setShow(false);
-
     
     useEffect(() => {
         if (labelData) {
@@ -245,7 +244,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
                         "max_awb_assign_date": "",
                         "status": filterData?.status || "",
                         "order_type": filterData?.order_type || "",
-                        "customer_order_number": filterData?.customer_order_number || "",
+                        "customer_order_number": queryParamTemp?.order_id || "",
                         "channel": filterData?.channel || "",
                         "min_invoice_amount": filterData?.min_invoice_amount || "",
                         "max_invoice_amount": filterData?.max_invoice_amount || "",
@@ -266,6 +265,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
                     setBulkActionShow(false);
                     setSelectedRows([])
                     setFilterData({});
+                    // setQueryParamTemp({});
                 } else {
                     toast.info("Report canceled.");
                 }
@@ -275,6 +275,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
     useEffect(() => {
         if (exportAllCard?.message === "Go to MIS->Downloads to download your report") {
             setFilterData({});
+            // setQueryParamTemp({});
         }
     },[exportAllCard]);
 

@@ -597,6 +597,8 @@ const OrdersPage = () => {
                         setUpdateWeight={setUpdateWeight}
                         filterData={filterData}
                         setFilterData={setFilterData}
+                        queryParamTemp={queryParamTemp}
+                        setQueryParamTemp={setQueryParamTemp}
                     />
                 )
                 }
