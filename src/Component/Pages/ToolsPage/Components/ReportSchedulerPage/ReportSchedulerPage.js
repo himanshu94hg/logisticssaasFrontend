@@ -113,10 +113,21 @@ const ReportSchedulerPage = () => {
     }
   }, [reportSchedularData])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     setNewScheduler(false);
     dispatch({ type: "REPORT_SCHEDULER_POST_ACTION", payload: reportData })
+  }
+
+  const handleCancel = () => {
+    setReportData({
+      report_title: "",
+      recipients: "",
+      report_type: "Order",
+      order_type: "Prepaid",
+      order_status: "Forward",
+      order_sub_status: "Forward"
+    })
+    setNewScheduler(false);
   }
 
   const handleChange = (e, selectFileds) => {
@@ -148,10 +159,11 @@ const ReportSchedulerPage = () => {
   const customStyles = {
     menuList: (provided) => ({
       ...provided,
-      maxHeight: '150px',  // Set the maximum height
-      overflowY: 'auto',   // Enable vertical scrolling
+      maxHeight: '130px',
+      overflowY: 'auto',
     }),
   };
+
 
   return (
     <>
@@ -159,6 +171,7 @@ const ReportSchedulerPage = () => {
         <h4>Scheduled Reports</h4>
         <button onClick={() => setNewScheduler(!NewScheduler)} className='btn main-button'>Schedule Reports</button>
       </div>
+
       <div className='rs-page-container'>
         <div className='table-container'>
           <table className="w-100">
@@ -237,7 +250,6 @@ const ReportSchedulerPage = () => {
         />
       </div>
 
-      {/* Slider */}
       <section className={`new-scheduler-slider ${NewScheduler ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => setNewScheduler(!NewScheduler)}>
           <FontAwesomeIcon icon={faChevronRight} />
@@ -246,160 +258,166 @@ const ReportSchedulerPage = () => {
           <h2 className='mb-0'>Schedule a Report!</h2>
         </section>
         <section className='ticket-slider-body'>
-          <form onSubmit={handleSubmit}>
-            <div class="grid-container">
-              <div class="grid-item component-1">
-                <h5>Report Details</h5>
-                <div className='d-flex flex-column gap-4'>
-                  <label>
-                    Please Select a report Type
-                    <Select
-                      options={reportType}
-                      onChange={(e) => handleChange(e, "report_type")}
-                    />
-                  </label>
-                  <label>
-                    Report Name
-                    <input className='input-field' placeholder='Enter Report Name' type="text" name={"report_title"} onChange={(e) => handleChange(e, "report_title")} />
-                  </label>
-                  <label>Recipients Email IDs
-                    {/* <input className='input-field' type="text" name={"recipients"} onChange={(e)=>handleChange(e,"recipients")} /> */}
-                    <ReactMultiEmail
-                      placeholder='Enter Recipients email ID and press enter'
-                      emails={emails}
-                      onChange={(e) => handleChange(e, "recipients")}
-                      // onChange={(_emails) => {
-                      //   setEmails(_emails);
-                      //   console.log(_emails,"this is email data")
-                      // }}
-                      autoFocus={true}
-                      onFocus={() => setFocused(true)}
-                      onBlur={() => setFocused(false)}
-                      getLabel={(email, index, removeEmail) => {
-                        return (
-                          <div data-tag key={index}>
-                            <div data-tag-item>{email}</div>
-                            <span data-tag-handle onClick={() => removeEmail(index)}>
-                              ×
-                            </span>
-                          </div>
-                        );
-                      }}
-                    />
-                  </label>
-                </div>
+          <div class="grid-container">
+            <div class="grid-item component-1">
+              <h5>Report Details</h5>
+              <div className='d-flex flex-column gap-4'>
+                <label>
+                  Please Select a report Type
+                  <Select
+                    options={reportType}
+                    // value={reportData.report_type}
+                    onChange={(e) => handleChange(e, "report_type")}
+                  />
+                </label>
+                <label>
+                  Report Name
+                  <input
+                    type="text"
+                    value={reportData.report_title}
+                    name={"report_title"}
+                    className='input-field'
+                    placeholder='Enter Report Name'
+                    onChange={(e) => handleChange(e, "report_title")}
+                  />
+                </label>
+                <label>Recipients Email IDs
+                  <ReactMultiEmail
+                    emails={emails}
+                    autoFocus={true}
+                    value={reportData.recipients}
+                    onFocus={() => setFocused(true)}
+                    onBlur={() => setFocused(false)}
+                    onChange={(e) => handleChange(e, "recipients")}
+                    placeholder='Enter Recipients email ID and press enter'
+                    getLabel={(email, index, removeEmail) => {
+                      return (
+                        <div data-tag key={index}>
+                          <div data-tag-item>{email}</div>
+                          <span data-tag-handle onClick={() => removeEmail(index)}>
+                            ×
+                          </span>
+                        </div>
+                      );
+                    }}
+                  />
+                </label>
               </div>
+            </div>
 
-              <div class="grid-item component-2">
-                <h5>Frequency Details</h5>
-                <div className='d-flex flex-column gap-4'>
-                  <label className='d-flex gap-5 align-items-center'>
-                    Send Reports:
-                    <label className='d-flex gap-2 align-items-center'>
-                      <input type="radio" name="Send_Reports" id="" />
-                      Every Month
-                    </label>
-                    <label className='d-flex gap-2 align-items-center'>
-                      <input type="radio" name="Send_Reports" id="" />
-                      Every Week
-                    </label>
-                    <label className='d-flex gap-2 align-items-center'>
-                      <input type="radio" name="Send_Reports" id="" />
-                      Every Day
-                    </label>
+            <div class="grid-item component-2">
+              <h5>Frequency Details</h5>
+              <div className='d-flex flex-column gap-4'>
+                <label className='d-flex gap-5 align-items-center'>
+                  Send Reports:
+                  <label className='d-flex gap-2 align-items-center'>
+                    <input type="radio" name="Send_Reports" id="" />
+                    Every Month
                   </label>
-                  <label>
-                    Selected Dates for sending reports
-                    <Select
-                      isMulti
-                      options={generateDateOptions()}
-                      placeholder="Select a date"
-                      onChange={handleDateChange}
-                    />
+                  <label className='d-flex gap-2 align-items-center'>
+                    <input type="radio" name="Send_Reports" id="" />
+                    Every Week
                   </label>
-                  <label>
-                    Select Time
-                    <Select
-                      isMulti
-                      options={timeOptions}
-                    />
+                  <label className='d-flex gap-2 align-items-center'>
+                    <input type="radio" name="Send_Reports" id="" />
+                    Every Day
                   </label>
-                  <label className='d-flex flex-column'>
-                    Get data for the last
-                    <div className='d-flex align-items-center w-100 gap-3'>
-                      <label className='w-100'>
-                        <Select
-                          options={generateDateOptions()}
-                          placeholder="Select a date"
-                          onChange={handleDateChange}
-                        />
-                      </label>
-                      <label className='w-100'>
-                        <Select
-                          value={dataForLast}
-                          onChange={handledataForLast}
-                          options={dataForLastOptions}
-                          placeholder="Select option..."
-                        />
-                      </label>
-                    </div>
-                  </label>
-                  <p className='font13'><strong>Note:</strong> It can take upto 24 hours in sending your first report.</p>
-                  <p>We'll send reports on your email <strong>every month</strong> on <strong>19th</strong> with the last <strong>1 day</strong> data with the selected report content.</p>
-                </div>
-              </div>
-
-              <div class="grid-item component-3">
-                <h5>Report Content</h5>
-                {reportData.report_type === 'Non-order' ? <>
-                  <div className='d-flex flex-column gap-4'>
-                    <label>
-                      Content Type
+                </label>
+                <label>
+                  Selected Dates for sending reports
+                  <Select
+                    isMulti
+                    options={generateDateOptions()}
+                    placeholder="Select a date"
+                    onChange={handleDateChange}
+                  />
+                </label>
+                <label>
+                  Select Time
+                  <Select
+                    isMulti
+                    options={timeOptions}
+                  />
+                </label>
+                <label className='d-flex flex-column'>
+                  Get data for the last
+                  <div className='d-flex align-items-center w-100 gap-3'>
+                    <label className='w-100'>
                       <Select
-                        options={contentType}
-                        styles={customStyles}
-                      // onChange={(e) => handleChange(e, "")}
+                        options={generateDateOptions()}
+                        placeholder="Select a date"
+                        onChange={handleDateChange}
                       />
                     </label>
-                    <label className='invisible'>
-                      #############
+                    <label className='w-100'>
                       <Select
+                        value={dataForLast}
+                        onChange={handledataForLast}
+                        options={dataForLastOptions}
+                        placeholder="Select option..."
                       />
                     </label>
                   </div>
-                </> :
-                  <div className='d-flex flex-column gap-4'>
-                    <label>
-                      Order Type
-                      <Select
-                        options={orderType}
-                        onChange={(e) => handleChange(e, "order_type")}
-                      />
-                    </label>
-                    <label>
-                      Order Status
-                      <Select
-                        options={orderStatus}
-                        onChange={(e) => handleChange(e, "order_status")}
-                      />
-                    </label>
-                    <label>
-                      Order Sub-status
-                      <Select
-                        options={orderSubStatus}
-                        onChange={(e) => handleChange(e, "order_sub_status")}
-                      />
-                    </label>
-                  </div>
-                }
+                </label>
+                <p className='font13'><strong>Note:</strong> It can take upto 24 hours in sending your first report.</p>
+                <p>We'll send reports on your email <strong>every month</strong> on <strong>19th</strong> with the last <strong>1 day</strong> data with the selected report content.</p>
               </div>
+            </div>
 
+            <div class="grid-item component-3">
+              <h5>Report Content</h5>
+              {reportData.report_type === 'Non-order' ? <>
+                <div className='d-flex flex-column gap-4'>
+                  <label>
+                    Content Type
+                    <Select
+                      options={contentType}
+                      styles={customStyles}
+                        // value={reportData.report_type}
+                    // onChange={(e) => handleChange(e, "")}
+                    />
+                  </label>
+                  <label className='invisible'>
+                    #############
+                    <Select
+                    />
+                  </label>
+                </div>
+              </> :
+                <div className='d-flex flex-column gap-4'>
+                  <label>
+                    Order Type
+                    <Select
+                      options={orderType}
+                      // value={reportData.order_type}
+                      onChange={(e) => handleChange(e, "order_type")}
+                    />
+                  </label>
+                  <label>
+                    Order Status
+                    <Select
+                      options={orderStatus}
+                      // value={reportData.order_status}
+                      onChange={(e) => handleChange(e, "order_status")}
+                    />
+                  </label>
+                  <label>
+                    Order Sub-status
+                    <Select
+                      options={orderSubStatus}
+                      // value={reportData.order_sub_status}
+                      onChange={(e) => handleChange(e, "order_sub_status")}
+                    />
+                  </label>
+                </div>
+              }
             </div>
-            <div className='d-flex gap-3 justify-content-end my-3'>
-              <button className='btn cancel-button'>Cancel</button>
-              <button className='btn main-button'>Schedule Report</button>
-            </div>
-          </form>
+
+          </div>
+          <div className='d-flex gap-3 justify-content-end my-3'>
+            <button className='btn cancel-button' onClick={handleCancel}>Cancel</button>
+            <button className='btn main-button' onClick={handleSubmit}>Schedule Report</button>
+          </div>
         </section>
 
       </section>
