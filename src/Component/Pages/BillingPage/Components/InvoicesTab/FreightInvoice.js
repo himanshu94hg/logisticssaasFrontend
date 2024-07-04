@@ -270,7 +270,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                     <p>
                                                         <strong>State Code:</strong> {billingSellerCard[0]?.state}<br />
                                                         <strong>Place of Supply:</strong> {billingSellerCard[0]?.city}<br />
-                                                        <strong>GSTIN:</strong> {billingSellerCard[0]?.city}<br />
+                                                        <strong>GSTIN:</strong> {billingSellerCard[0]?.gst_number}<br />
                                                         <strong>Reverse Charge:</strong> No
                                                     </p>
                                                 </td>
