@@ -217,6 +217,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                     <img style={{ height: '50px', paddingLeft: '10px' }} src="https://shipease.in/public/assets/admin/images/20201125223903LOGO.png" alt="Logo" />
                                                 </td>
                                             </tr>
+                                            <br></br>
                                             <tr>
                                                 <td style={{ width: '60%', paddingLeft: '25px' }}>
                                                     <p><b>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</b> <br />
