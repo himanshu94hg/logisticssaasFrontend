@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrashCan, faChevronRight, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPenToSquare, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import RuleRow from './RuleRow';
 import './SetPreferenceRules.css';
 import AddRuleSidePanel from './AddRuleSidePanel';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 
+import Cookies from 'js-cookie';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const SetPreferenceRules = () => {
+const SetPreferenceRules = ({ activeTab }) => {
     const dispatch = useDispatch();
     const [rulePanel, setRulePanel] = useState(false);
     const [ruleName, setRuleName] = useState('');
@@ -21,6 +26,9 @@ const SetPreferenceRules = () => {
     const [trigger, setTrigger] = useState(false);
     const [formErrors, setFormErrors] = useState({});
     const [onRowsChange, setOnRowsChange] = useState([]);
+    const authToken = Cookies.get('access_token');
+    const [preferData, setPreferData] = useState([])
+    const [refresh, setRefresh] = useState("")
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
@@ -29,7 +37,6 @@ const SetPreferenceRules = () => {
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
-    console.log("onRowsChangeonRowsChangeonRowsChange", onRowsChange);
 
     useEffect(() => {
         if (courierRules?.data) {
@@ -127,10 +134,10 @@ const SetPreferenceRules = () => {
             errors["ruleName"] = "Rule Name cannot be empty";
         }
 
-        if (!priority) {
-            formIsValid = false;
-            errors["priority"] = "Priority cannot be empty";
-        }
+        // if (!priority) {
+        //     formIsValid = false;
+        //     errors["priority"] = "Priority cannot be empty";
+        // }
 
         for (let i = 0; i < selectedPartners.length; i++) {
             if (!selectedPartners[i]) {
@@ -189,8 +196,11 @@ const SetPreferenceRules = () => {
     };
 
     useEffect(() => {
-        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
-    }, [dispatch]);
+        if (activeTab === "Set preference Rules" || refresh) {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            setFormErrors({})
+        }
+    }, [activeTab, refresh]);
 
     const handlePartnerChange = (index, value) => {
         const updatedPartners = [...selectedPartners];
@@ -219,14 +229,51 @@ const SetPreferenceRules = () => {
         setAllRules(reorderedRules);
     };
 
+    useEffect(() => {
+        if (rulePanel) {
+            setFormErrors({})
+        }
+    }, [rulePanel])
+
+    useEffect(() => {
+        if (allRules) {
+            const temp = []
+            allRules?.map((item, index) => {
+                temp.push({
+                    rule_id: item.id,
+                    position: index + 1
+                })
+            })
+            setPreferData(temp)
+        }
+    }, [allRules])
+
+
+    const handleSaveRule = async () => {
+        try {
+            const response = await axios.post(`${BASE_URL_CORE}/core-api/features/courier-allocation/rules/save-rule-positions/`, preferData, {
+                headers: {
+                    Authorization: `Bearer ${authToken}`,
+                    'Content-Type': 'application/json',
+                },
+            });
+            if (response.status === 200) {
+                toast.success('Priority updated successfully!');
+                setRefresh(new Date())
+            }
+        } catch (error) {
+            customErrorFunction(error);
+        }
+    }
+
     return (
         <>
             <div className='set-of-rules'>
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
             <div className={`d-flex mt-2 gap-3 ${allRules?.length > 0 ? 'justify-content-end w-100' : ''}`}>
-                {/* <button className='btn main-button'>Save Changes</button> */}
-                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
+                <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
+                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} />Add Rule</button>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="rules">
@@ -248,7 +295,7 @@ const SetPreferenceRules = () => {
                                             <div className='cr-rule-name'>
                                                 <div className='rule-name'>
                                                     <p>Rule Name: {rule?.rule_name}</p>
-                                                    <p>Priority: #{rule?.priority}</p>
+                                                    <p>Priority: #{index + 1}</p>
                                                 </div>
                                                 <div className="toggle-switch">
                                                     <input
@@ -266,9 +313,7 @@ const SetPreferenceRules = () => {
                                             <div className='cr-rule-conditions'>
                                                 <div className='rule-row text-capitalize'>
                                                     {rule?.preference_choices?.map((condition, index) => (
-
                                                         <div key={index} className='rule-item'>
-                                                            {console.log(index, "this is rule data", index, condition)}
                                                             <p>{condition.criteria}</p>
                                                             <p>{condition.match_type}</p>
                                                             <p className={`${rule?.preference_choices.length < 2 ? 'match-value-item' : ''}`}>{condition.match_value}</p>
@@ -300,7 +345,10 @@ const SetPreferenceRules = () => {
                     )}
                 </Droppable>
             </DragDropContext>
+            <div className="d-flex justify-content-end my-3">
+                <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
 
+            </div>
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
                 <AddRuleSidePanel

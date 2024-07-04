@@ -259,7 +259,7 @@ const NewComponent = () => {
                 </div>
             </section>
             <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === TABS.SET_PREFERENCE_RULES ? 'd-block' : 'd-none'}`}>
-                <SetPreferenceRules />
+                <SetPreferenceRules activeTab={activeTab} />
             </section>
         </>
     );
