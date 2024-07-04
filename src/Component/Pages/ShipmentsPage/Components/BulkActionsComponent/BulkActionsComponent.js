@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 // import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterData,setFilterData }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterData,setFilterData,queryParamTemp,setQueryParamTemp }) => {
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -93,7 +93,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                         "max_awb_assign_date": filterData?.end_date ? moment(filterData.end_date).format("YYYY-MM-DD") : "",
                         "status": filterData?.status || "",
                         "order_type": filterData?.order_type || "",
-                        "customer_order_number": filterData?.customer_order_number || "",
+                        "customer_order_number": queryParamTemp?.order_id || "",
                         "channel": filterData?.channel || "",
                         "min_invoice_amount": filterData?.min_invoice_amount || "",
                         "max_invoice_amount": filterData?.max_invoice_amount || "",
@@ -114,6 +114,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
                     // setBulkActionShow(false);
                     setSelectedRows([])
                     setFilterData({});
+                    // setQueryParamTemp({});
                 } else {
                     toast.info("Report canceled.");
                 }
@@ -123,6 +124,7 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
     useEffect(() => {
         if (exportShipmentAllCard?.message === "Go to MIS->Downloads to download your report") {
             setFilterData({});
+            // setQueryParamTemp({});
         }
     },[exportShipmentAllCard]);
 
