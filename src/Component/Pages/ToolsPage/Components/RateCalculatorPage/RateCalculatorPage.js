@@ -294,23 +294,23 @@ const RateCalculatorPage = () => {
   }, [])
   let authToken = Cookies.get("access_token")
 
-const navigate=useNavigate()
+  const navigate = useNavigate()
   const handleShip = (option) => {
     if (orderId) {
       axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${orderNum}/?courier_partner=${option}`, {
         headers: {
-            Authorization: `Bearer ${authToken}`
+          Authorization: `Bearer ${authToken}`
         }
-    })
+      })
         .then((response) => {
-            if (response?.data?.status) {
-                navigate('/Orders',{state:{data:"ratecalc"}});
-                toast.success('Order Shipped Successfully!');
-                dispatch({ type: "PAYMENT_DATA_ACTION" });
-            }
-            
+          if (response?.data?.status) {
+            navigate('/Orders', { state: { data: "ratecalc" } });
+            toast.success('Order Shipped Successfully!');
+            dispatch({ type: "PAYMENT_DATA_ACTION" });
+          }
+
         }).catch((error) => {
-            customErrorFunction(error)
+          customErrorFunction(error)
         });
     } else {
       navigate("/create-order")
@@ -587,8 +587,8 @@ const navigate=useNavigate()
                     </div>
                     <div className='ss-shipment-charges'>
                       <p><strong>₹{(item?.rate + item?.cod_charge + item?.early_cod_charge).toFixed(2)} </strong> <span>(Inclusive of all taxes )</span><br />
-                        <span>Freight Charges:₹ {item?.rate} <strong></strong></span><br />
-                        <span>+ COD Charges:₹{item?.cod_charge} <strong> </strong></span><br />
+                        <span>Freight Charges: <strong>₹ {item?.rate}</strong></span><br />
+                        <span>+ COD Charges: <strong>₹ {item?.cod_charge}</strong></span><br />
                         <span>+Early COD Charges: <strong>₹ {item?.early_cod_charge}</strong></span><br />
                       </p>
                     </div>
