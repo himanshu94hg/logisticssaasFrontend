@@ -54,7 +54,7 @@ const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, pri
                                         <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                     ))}
                                 </select>
-                                <div className="custom-error">{formErrors["selectedPartners"]}</div>
+                                <div className="custom-error">{selectedPartners[index]?"":"Partner should be selected for each priority"}</div>
                             </label>
                         ))}
                        

@@ -139,6 +139,9 @@ const SetPreferenceRules = ({ activeTab }) => {
         //     errors["priority"] = "Priority cannot be empty";
         // }
 
+
+
+
         for (let i = 0; i < selectedPartners.length; i++) {
             if (!selectedPartners[i]) {
                 formIsValid = false;
@@ -146,6 +149,8 @@ const SetPreferenceRules = ({ activeTab }) => {
                 break;
             }
         }
+
+        console.log(errors,"errorserrors",selectedPartners)
 
         for (let i = 0; i < onRowsChange.length; i++) {
             const condition = onRowsChange[i];
@@ -295,7 +300,6 @@ const SetPreferenceRules = ({ activeTab }) => {
                                             <div className='cr-rule-name'>
                                                 <div className='rule-name'>
                                                     <p>Rule Name: {rule?.rule_name}</p>
-                                                    <p>Priority: #{index + 1}</p>
                                                 </div>
                                                 <div className="toggle-switch">
                                                     <input
