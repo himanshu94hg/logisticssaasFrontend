@@ -27,6 +27,7 @@
     width: 100%;
     bottom: 41px;
     box-shadow: 8px -8px 7px rgba(0, 0, 0, 0.1) !important;
+    padding-top: 4px;
 }
 
 .wd-search-input {
@@ -39,10 +40,11 @@
 }
 
 .wd-options {
-    height: 18rem;
-    overflow-y: scroll;
+    height: auto;
+    overflow-y: auto;
     border-radius: 0 0 0.5rem 0.5rem;
     overflow-x: clip;
+    max-height: 18rem;
 }
 
 .wd-option {

@@ -168,6 +168,10 @@
     padding-left: 10px;
 }
 
+.warehouse-edit.open {
+    width: 44em;
+}
+
 
 .warehouse-edit .ticket-slider-footer {
     padding-inline: 30px 20px;
