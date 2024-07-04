@@ -863,3 +863,8 @@ input:disabled {
 .react-datepicker__navigation-icon::before {
   border-color: #000000;
 }
+
+.btn.main-button:disabled {
+  color: #fff;
+  border: none;
+}
