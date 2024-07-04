@@ -119,8 +119,12 @@ const WeightUpdatePop = ({ setUpdateWeight, UpdateWeight, selectedRows }) => {
                             {dimension && dimension.length > 0 && dimension.map((data, index) => (
                                 <div key={index} className='lbh-labels'>
                                     <label>
-                                        Order Number
+                                        Order ID
                                         <input className='input-field' value={dimension[index].order} readOnly />
+                                    </label>
+                                    <label>
+                                        Order Number
+                                        <input className='input-field' value={dimension[index].order__customer_order_number} readOnly />
                                     </label>
                                     <label>
                                         Dead Weight
