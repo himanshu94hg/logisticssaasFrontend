@@ -5,18 +5,18 @@ import { useSelector } from 'react-redux';
 const WeightOrdersChart = () => {
     const [chartWidth, setChartWidth] = useState(380);
     const [resOffsetX, setresOffsetX] = useState(180)
-    const {weightProfile}=useSelector(state=>state?.dashboardShipmentReducer)
+    const { weightProfile } = useSelector(state => state?.dashboardShipmentReducer)
 
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
     useEffect(() => {
         const handleResize = () => {
-            const screenWidth = window.innerWidth;
-            if (screenWidth >= 1720) {
+            if (screenWidthData >= 1720) {
                 setChartWidth(380);
                 setresOffsetX(180);
-            } else if (screenWidth >= 768) {
-                setChartWidth(300); 
-                setresOffsetX(100); 
+            } else if (screenWidthData >= 768) {
+                setChartWidth(300);
+                setresOffsetX(100);
             } else {
                 setChartWidth(200);
                 setresOffsetX(100);
@@ -139,30 +139,30 @@ const WeightOrdersChart = () => {
 
 
     useEffect(() => {
-       if(weightProfile){
-        const orders = Object.entries(weightProfile)?.map(([key, count], index) => ({ id: index, count }));
-        const slabs = Object.entries(weightProfile)?.map(([label, value], index) => ({ id: index, label, value }));
-        // const slabs = Object.entries(weightProfile)?.map(([key, value], index) => ({ id: index, key, value }));
-        // const slabs = [
-        //     { id: 1, min: 0.5, max: 3, label: '0.5kg - 3kg' },
-        //     { id: 2, min: 3, max: 5, label: '3kg - 5kg' },
-        //     { id: 3, min: 5, max: 10, label: '5kg - 10kg' },
-        //     { id: 4, min: 10, max: Infinity, label: '10kg Above' },
-        // ];
+        if (weightProfile) {
+            const orders = Object.entries(weightProfile)?.map(([key, count], index) => ({ id: index, count }));
+            const slabs = Object.entries(weightProfile)?.map(([label, value], index) => ({ id: index, label, value }));
+            // const slabs = Object.entries(weightProfile)?.map(([key, value], index) => ({ id: index, key, value }));
+            // const slabs = [
+            //     { id: 1, min: 0.5, max: 3, label: '0.5kg - 3kg' },
+            //     { id: 2, min: 3, max: 5, label: '3kg - 5kg' },
+            //     { id: 3, min: 5, max: 10, label: '5kg - 10kg' },
+            //     { id: 4, min: 10, max: Infinity, label: '10kg Above' },
+            // ];
 
-        const ordersInSlabs = slabs.map(slab => ({
-            weight_slab_id: slab.id,
-            number_of_orders: orders.find(order => order.id === slab.id).count
-        }));
-        setChartData(prevState => ({
-            ...prevState,
-            series: ordersInSlabs.map(slabs => slabs.number_of_orders),
-            options: {
-                ...prevState.options,
-                labels: slabs.map(slab => slab.label.split("_").join(' '))
-            }
-        }));
-       }
+            const ordersInSlabs = slabs.map(slab => ({
+                weight_slab_id: slab.id,
+                number_of_orders: orders.find(order => order.id === slab.id).count
+            }));
+            setChartData(prevState => ({
+                ...prevState,
+                series: ordersInSlabs.map(slabs => slabs.number_of_orders),
+                options: {
+                    ...prevState.options,
+                    labels: slabs.map(slab => slab.label.split("_").join(' '))
+                }
+            }));
+        }
     }, [weightProfile]);
 
     return (
