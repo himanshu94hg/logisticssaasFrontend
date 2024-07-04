@@ -45,6 +45,7 @@ const NewComponent = () => {
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
+        console.log(source, destination,"hhhhhhhhhhhhhhhh")
         if (!destination) return;
 
         if (source.droppableId === destination.droppableId && source.index === destination.index) return;
