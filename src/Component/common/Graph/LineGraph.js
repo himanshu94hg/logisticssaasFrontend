@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Line } from 'react-chartjs-2';
+import { useSelector } from 'react-redux';
 
 const ScreenWidth = window.innerWidth
 
@@ -19,6 +20,7 @@ const LineGraph = ({ cardColor }) => {
       },
     ],
   };
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   const options = {
     scales: {
@@ -48,11 +50,10 @@ const LineGraph = ({ cardColor }) => {
     },
   };
 
-
   return (
     <>
       {
-        ScreenWidth > 991 &&
+        screenWidthData > 991 &&
         <div style={{ height: '2rem', width: '6rem', display: 'flex', justifyContent: 'flex-end' }}>
           {/* <h2>Linear Line Graph</h2> */}
           <Line data={data} options={options} />
