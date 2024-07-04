@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios'; // Import Axios
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TbBuildingWarehouse } from "react-icons/tb";
+import { FiDownload } from "react-icons/fi";
 import './ManageWarehouse.css';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
@@ -173,6 +174,8 @@ const ManageWarehouse = () => {
   const [wareHouseId, setWareHouseId] = useState(null);
   const [editWarehouse, setEditWarehouse] = useState(false);
   const [bulkReset, setBulkReset] = useState(new Date())
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [ValidateShow, setValidateShow] = useState(false)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -207,40 +210,48 @@ const ManageWarehouse = () => {
   const handleEditWarehouse = (index) => {
     setEditWarehouse(!editWarehouse);
   };
-  const [selectedFile, setSelectedFile] = useState(null);
 
   const handleClose = () => {
     setShow(false)
     setSelectedFile(null)
+    setValidateShow(false)
   };
 
   const handleShow = () => setShow(true);
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-
+    setValidateShow(false);
   };
 
   const handleUpload = async () => {
-    handleClose();
-    try {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      const response = await axios.post(
-        `${BASE_URL_CORE}/core-api/features/import-warehouse/`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${authToken}`,
-            'Content-Type': 'multipart/form-data',
-          },
+
+    if (!selectedFile) {
+      setValidateShow(true)
+    }
+    else {
+      setValidateShow(false)
+      handleClose();
+
+      try {
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+        const response = await axios.post(
+          `${BASE_URL_CORE}/core-api/features/import-warehouse/`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${authToken}`,
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        if (response.status === 201) {
+          toast.success('Warehouse created successfully!');
+          setBulkReset(response?.status + new Date())
         }
-      );
-      if (response.status === 201) {
-        toast.success('Warehouse created successfully!');
-        setBulkReset(response?.status + new Date())
+      } catch (error) {
+        customErrorFunction(error);
       }
-    } catch (error) {
-      customErrorFunction(error);
     }
   };
 
@@ -270,6 +281,15 @@ const ManageWarehouse = () => {
   const handleReset = () => {
     setSearchQuery('');
     setInitialData(boxes); // Reset to initial data
+  };
+
+  const handleDownloadTemplate = () => {
+    const templateUrl = 'shipease_bulk_order.xlsx';
+    const tempAnchor = document.createElement('a');
+    tempAnchor.setAttribute('download', 'shipease_bulk_order.xlsx');
+    tempAnchor.setAttribute('href', templateUrl);
+    tempAnchor.click();
+    tempAnchor.remove();
   };
 
   return (
@@ -321,26 +341,23 @@ const ManageWarehouse = () => {
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
-      <Modal show={show} onHide={handleClose}>
+      <Modal className='bulk-import-modal' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Upload Bulk Warehouse</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="bulk-upload-container">
-
-            <Form.Control
-              type="file"
-              onChange={handleFileChange}
-            />
+            <input className='form-control input-field' type="file" onChange={handleFileChange} />
+            <a className='float-end mt-2 text-sh-primary font13 d-flex align-items-center gap-1' href='./warehouse_import.xlsx' download><FiDownload /> Download sample file</a>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleUpload} disabled={!selectedFile}>
-            Upload
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Close
-          </Button>
+          {/* validation message */}
+          {
+            ValidateShow && <p className='text-danger font12'>Please Select a file first</p>
+          }
+          <button className='btn cancel-button' onClick={handleClose}>Cancel</button>
+          <button className='btn main-button' onClick={handleUpload}>Upload</button>
         </Modal.Footer>
       </Modal>
     </>
