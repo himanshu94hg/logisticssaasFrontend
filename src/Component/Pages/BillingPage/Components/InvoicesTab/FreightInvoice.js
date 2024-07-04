@@ -41,10 +41,13 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const componentRef = useRef();
     const [allinvoicedata, setAllInvoiceData] = useState([]);
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingInvoiceDownloadCard)
+    const billingSellerCard = useSelector(state => state?.billingSectionReducer?.billingSellerCard);
+
+    console.log("billingSellerCardbillingSellerCard",billingSellerCard[0]?.company_name);
 
     useEffect(() => {
-        console.log("All Invoice Data Updated", allinvoicedata);
-    }, [allinvoicedata]);
+        dispatch({ type: "BILLING_SELLER_DATA_ACTION" });
+    }, [dispatch]);
 
 
     // Handler for "Select All" checkbox
@@ -98,7 +101,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata}`
+    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata?.id}`
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
 
@@ -214,6 +217,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                     <img style={{ height: '50px', paddingLeft: '10px' }} src="https://shipease.in/public/assets/admin/images/20201125223903LOGO.png" alt="Logo" />
                                                 </td>
                                             </tr>
+                                            <br></br>
                                             <tr>
                                                 <td style={{ width: '60%', paddingLeft: '25px' }}>
                                                     <p><b>SHIPEASE TECHNOLOGIES PRIVATE LIMITED</b> <br />
@@ -260,14 +264,14 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             <tr>
                                                 <td style={{ width: "60%", paddingLeft: "25px" }}>
                                                     <strong>Invoice To:</strong><br />
-                                                    vaghela<br />
-                                                    vinitm,SURAT,GUJARAT,394221
+                                                    {billingSellerCard[0]?.company_name}<br />
+                                                    {billingSellerCard[0]?.street},{billingSellerCard[0]?.city},{billingSellerCard[0]?.state},{billingSellerCard[0]?.pincode}
                                                 </td>
                                                 <td style={{ width: "40%" }}>
                                                     <p>
-                                                        <strong>State Code:</strong> GUJARAT<br />
-                                                        <strong>Place of Supply:</strong> SURAT<br />
-                                                        <strong>GSTIN:</strong> SFDVDFG4564DFGB<br />
+                                                        <strong>State Code:</strong> {billingSellerCard[0]?.state}<br />
+                                                        <strong>Place of Supply:</strong> {billingSellerCard[0]?.city}<br />
+                                                        <strong>GSTIN:</strong> {billingSellerCard[0]?.gst_number}<br />
                                                         <strong>Reverse Charge:</strong> No
                                                     </p>
                                                 </td>
@@ -370,7 +374,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                             </div>
 
                             <div style={{ borderRadius: '10px', background: '#fff', padding: '0mm 0 2mm 0' }}>
-                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' >Download Now</a></span>
+                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' style={{ backgroundColor: '#285eda',color:'white',padding:'3px' }} >Download Now</a></span>
                             </div>
 
                         </div>
