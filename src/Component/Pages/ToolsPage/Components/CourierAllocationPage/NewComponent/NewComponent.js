@@ -45,7 +45,6 @@ const NewComponent = () => {
 
     const onDragEnd = (result) => {
         const { source, destination } = result;
-        console.log(source, destination,"hhhhhhhhhhhhhhhh")
         if (!destination) return;
 
         if (source.droppableId === destination.droppableId && source.index === destination.index) return;
@@ -171,50 +170,6 @@ const NewComponent = () => {
     }, [sequenceOne, sequenceTwo]);
 
 
-    // useEffect(() => {
-    //     if (pool && pool.length > 0) {
-    //         const removeDuplicates = (arr) => {
-    //             const seen = new Set();
-    //             return arr.filter(item => {
-    //                 const duplicate = seen.has(item.id);
-    //                 seen.add(item.id);
-    //                 return !duplicate;
-    //             });
-    //         };
-    
-    //         setPool(removeDuplicates(pool));
-    //     }
-    // }, [pool]);
-
-    // useEffect(() => {
-    //     if (sequenceOne && sequenceOne.length > 0) {
-    //         const removeDuplicates = (arr) => {
-    //             const seen = new Set();
-    //             return arr.filter(item => {
-    //                 const duplicate = seen.has(item.id);
-    //                 seen.add(item.id);
-    //                 return !duplicate;
-    //             });
-    //         };
-    
-    //         setSequenceOne(removeDuplicates(sequenceOne));
-    //     }
-    // }, [sequenceOne]);
-
-    // useEffect(() => {
-    //     if (sequenceTwo && sequenceTwo.length > 0) {
-    //         const removeDuplicates = (arr) => {
-    //             const seen = new Set();
-    //             return arr.filter(item => {
-    //                 const duplicate = seen.has(item.id);
-    //                 seen.add(item.id);
-    //                 return !duplicate;
-    //             });
-    //         };
-    
-    //         setSequenceTwo(removeDuplicates(sequenceTwo));
-    //     }
-    // }, [pool]);
     
 
     return (
