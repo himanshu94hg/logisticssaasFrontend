@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, priorityOptions, courierPartnerData, priority, handlePriorityChange, selectedPartners, handlePartnerChange, RuleRow, conditions, setConditions, setOnRowsChange, handleSubmit }) => {
+
     return (
         <>
             <div id='sidepanel-closer' onClick={() => setRulePanel(false)}>
@@ -17,11 +18,17 @@ const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, pri
                 <div className='rule-name-container'>
                     <label>
                         Rule Name
-                        <input placeholder='Enter the rule name' className='input-field' type="text" value={ruleName} onChange={(e) => setRuleName(e.target.value)} />
+                        <input
+                            type="text"
+                            value={ruleName}
+                            className={`input-field`}
+                            placeholder='Enter the rule name'
+                            onChange={(e) => setRuleName(e.target.value)}
+                        />
                         <div className="custom-error">{formErrors["ruleName"]}</div>
                     </label>
 
-                    <label>
+                    {/* <label>
                         Set Priority for this rule
                         <select className='select-field' value={priority} onChange={(e) => handlePriorityChange(e)}>
                             <option value="">Select Priority</option>
@@ -30,7 +37,7 @@ const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, pri
                             ))}
                         </select>
                         <div className="custom-error">{formErrors["priority"]}</div>
-                    </label>
+                    </label> */}
                 </div>
                 <div style={{ width: '100%' }} className='mb-5'>
                     <div className='priority-container'>
@@ -50,6 +57,7 @@ const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, pri
                                 <div className="custom-error">{formErrors["selectedPartners"]}</div>
                             </label>
                         ))}
+                       
                     </div>
                 </div>
                 <div className='ar-items-scroll mt-3 d-flex gap-3 flex-column position-relative'>
