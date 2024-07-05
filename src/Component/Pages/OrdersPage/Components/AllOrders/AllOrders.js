@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -125,24 +125,31 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
         }
     };
 
-    const handleDownloadLabel = async (orderId) => {
-        dispatch({
-            type: "BULK_ORDER_GENERATE_LABEL_ACTION",
-            payload: {
-                order_ids: `${orderId}`
-            }
-        });
-        setGenaratelabel(true)
-
+    const handleDownloadLabel = async (orderId, status) => {
+        if (status === "pending") {
+            toast.error("Order not shipped yet")
+        } else {
+            dispatch({
+                type: "BULK_ORDER_GENERATE_LABEL_ACTION",
+                payload: {
+                    order_ids: `${orderId}`
+                }
+            });
+            setGenaratelabel(true)
+        }
     };
 
-    const handleDownloadInvoice = async (orderId) => {
-        dispatch({
-            type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
-                order_ids: `${orderId}`
-            }
-        });
-        setGenerateinvoice(true)
+    const handleDownloadInvoice = async (orderId, status) => {
+        if (status === "pending") {
+            toast.error("Order not shipped yet")
+        } else {
+            dispatch({
+                type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
+                    order_ids: `${orderId}`
+                }
+            });
+            setGenerateinvoice(true)
+        }
     };
 
     const handleShipNow = (orderId) => {
@@ -164,10 +171,15 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
         }
     };
 
-    const handleShipReassign = (orderId) => {
-        setSelectedOrderId(orderId);
-        dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
-        setSingleShipReassign(true);
+    const handleShipReassign = (orderId, status) => {
+        console.log(status, "lllllllllllllllllllll")
+        if (status === "pending") {
+            toast.error("Order not shipped yet")
+        } else {
+            dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
+            setSelectedOrderId(orderId);
+            setSingleShipReassign(true);
+        }
     };
 
     const handleGeneratePickup = async (orderId) => {
@@ -187,6 +199,7 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
             });
             if (response?.status === 200) {
                 toast.success("Generate Pickup successfully")
+                setRateRef(new Date())
             }
         } catch (error) {
             toast.error("Something went wrong!")
@@ -527,9 +540,9 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li onClick={() => handleShowCancel(row?.id, row?.id, row.status)}>Cancel Order</li>
                                                                 <li onClick={() => handleShowDelete(row?.id)}>Delete Order</li>
-                                                                <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id))}>Reassign Order</li>
-                                                                <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id))}>Download label</li>
-                                                                <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id))}>Download Invoice</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleShipReassign(row?.id, row.status))}>Reassign Order</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleDownloadLabel(row?.id, row.status))}>Download label</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleDownloadInvoice(row?.id, row.status))}>Download Invoice</li>
                                                             </ul>
                                                         </div>
                                                     </div>

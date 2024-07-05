@@ -21,6 +21,7 @@ export const authDataReducer = (state = initialState, action) => {
                 signUpRes: action?.payload
             };
         case PATHNAME_ACTION:
+            console.log(action.payload,'aaaaaaaaaaaaaaaaa')
             return {
                 ...state,
                 pathName: action?.payload
