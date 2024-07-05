@@ -1,3 +1,16 @@
+@media screen and (max-width:1140px) {
+
+    .status-container-item .status-item {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .status-container-item .status-item .status-counter {
+        margin-inline: 20px;
+    }
+}
+
+
 @media screen and (max-width:991px) {
 
     /* #shipEaseNavTabs {
@@ -45,15 +58,6 @@
 
     .cardsSpace:last-of-type {
         order: 3;
-    }
-
-    .status-container-item .status-item {
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    .status-container-item .status-item .status-counter {
-        margin-inline: 20px;
     }
 
     #shipEaseNavTabs .nav-item {
