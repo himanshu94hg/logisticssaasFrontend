@@ -49,7 +49,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const RTOShipment = ({ selectAll,setSelectAll,shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo,orderStatus }) => {
+const RTOShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, orderStatus }) => {
 
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
@@ -250,7 +250,11 @@ const RTOShipment = ({ selectAll,setSelectAll,shipmentCard, selectedRows, setSel
                                                     >
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
