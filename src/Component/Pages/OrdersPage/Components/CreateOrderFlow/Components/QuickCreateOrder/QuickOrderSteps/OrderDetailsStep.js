@@ -8,18 +8,13 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
     const location = useLocation();
     const dispatch = useDispatch();
     const [orderStaus, setOrderStatus] = useState(false)
-
     const { pathName } = useSelector(state => state?.authDataReducer)
-
 
     useEffect(() => {
         if (location.pathname === "/create-order" && location?.state?.orderType === "normalOrder") {
             dispatch(pathClearAction('ddd'))
         }
     }, [location.pathname])
-
-
-
 
     const validateFormData = () => {
         const newErrors = {};

@@ -79,7 +79,7 @@ const SetPreferenceRules = ({ activeTab }) => {
         const newIsActive = [...isActive];
         newIsActive[index] = !newIsActive[index];
         setIsActive(newIsActive);
-        dispatch({ type: "COURIER_ALLOCATION_RULE_STATUS_ACTION", payload: { togglestatus: newIsActive[index], id: id } });
+        // dispatch({ type: "COURIER_ALLOCATION_RULE_STATUS_ACTION", payload: { togglestatus: newIsActive[index], id: id } });
     };
 
     const addRuleRow = () => {
@@ -349,10 +349,11 @@ const SetPreferenceRules = ({ activeTab }) => {
                     )}
                 </Droppable>
             </DragDropContext>
-            <div className="d-flex justify-content-end my-3">
-                <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
-
-            </div>
+            {allRules.length>10 &&
+              <div className="d-flex justify-content-end my-3">
+              <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
+          </div>
+            }
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
                 <AddRuleSidePanel
