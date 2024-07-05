@@ -42,8 +42,12 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const [allinvoicedata, setAllInvoiceData] = useState([]);
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingInvoiceDownloadCard)
     const billingSellerCard = useSelector(state => state?.billingSectionReducer?.billingSellerCard);
+    const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
 
-    console.log("billingSellerCardbillingSellerCard",billingSellerCard[0]?.company_name);
+    const gstNumber = billingSellerCard[0]?.gst_number || "";
+    const configGstIn = configurationCard[0]?.gstin || "";
+
+    const isSameState = gstNumber.substring(0, 2) === configGstIn.substring(0, 2);
 
     useEffect(() => {
         dispatch({ type: "BILLING_SELLER_DATA_ACTION" });
@@ -243,12 +247,12 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             </tr>
                                             <tr>
                                                 <td style={{ width: '60%', paddingLeft: '25px', verticalAlign: 'top' }}>
-                                                    <strong>PAN Number:</strong> ABICS4825P<br />
-                                                    <strong>CIN Number:</strong> U63030HR2022PTC103527<br />
-                                                    <strong>GSTIN:</strong> 06ABICS4825P1ZQ<br />
-                                                    <strong>Phone:</strong> 9399262217 <br />
-                                                    <strong>Email:</strong> info@shipease.in <br />
-                                                    <strong>IRN:</strong>
+                                                    <strong>PAN Number:</strong> {configurationCard[0]?.pan_number}<br />
+                                                    <strong>CIN Number:</strong> {configurationCard[0]?.cin_number}<br />
+                                                    <strong>GSTIN:</strong> {configurationCard[0]?.gstin}<br />
+                                                    <strong>Phone:</strong> {configurationCard[0]?.mobile} <br />
+                                                    <strong>Email:</strong> {configurationCard[0]?.email} <br />
+                                                    <strong>IRN:</strong>{configurationCard[0]?.irn_number}
                                                 </td>
                                                 <td style={{ width: '40%', verticalAlign: 'top' }}>
                                                     <strong>Invoice No. : </strong> {allinvoicedata?.invoice_number}<br />
@@ -295,15 +299,36 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <td style={{ paddingLeft: '50px' }}>996812</td>
+                                                <td style={{ paddingLeft: '50px' }}>{configurationCard[0]?.sac_number}</td>
                                                 <td style={{ paddingLeft: '50px' }}>ShipEase V2 Freight<sup>*</sup></td>
                                                 <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>Rs. {allinvoicedata?.invoice_amount}</td>
                                             </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td style={{ paddingLeft: '50px' }}>18.00% IGST</td>
-                                                <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>Rs. {allinvoicedata?.gst_amount}</td>
-                                            </tr>
+                                            {isSameState ? (
+                                                <>
+                                                    <tr>
+                                                    <td></td>
+                                                    <td style={{ paddingLeft: '50px' }}>9.00% CGST</td>
+                                                    <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
+                                                        Rs. {Math.round(allinvoicedata?.gst_amount / 2)}
+                                                    </td>
+                                                    </tr>
+                                                    <tr>
+                                                    <td></td>
+                                                    <td style={{ paddingLeft: '50px' }}>9.00% SGST</td>
+                                                    <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
+                                                        Rs. {Math.round(allinvoicedata?.gst_amount / 2)}
+                                                    </td>
+                                                    </tr>
+                                                </>
+                                                ) : (
+                                                <tr>
+                                                    <td></td>
+                                                    <td style={{ paddingLeft: '50px' }}>18.00% IGST</td>
+                                                    <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
+                                                        Rs. {Math.round(allinvoicedata?.gst_amount)}
+                                                    </td>
+                                                </tr>
+                                                )}
                                             <tr>
                                                 <td></td>
                                                 <td style={{ paddingLeft: '50px' }}><strong>Grand Total Value</strong></td>
@@ -329,11 +354,11 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             <tr>
                                                 <td style={{ paddingLeft: '50px', width: '70%' }}>
                                                     All Payments by transfer/check/DD should be draw in favour of<br />
-                                                    <strong>Entity Name:</strong> SHIPEASE TECHNOLOGIES PRIVATE LIMITED<br />
-                                                    <strong>Account number:</strong> 165105002442<br />
-                                                    <strong>Bank:</strong> ICICI Bank <br />
-                                                    <strong>Branch:</strong> Gurgaon, Sec 49 Branch, Pin-122101<br />
-                                                    <strong>RTGS/NEFT/IFSC Code:</strong> ICIC0001651<br />
+                                                    <strong>Entity Name:</strong> {configurationCard[0]?.account_holder}<br />
+                                                    <strong>Account number:</strong> {configurationCard[0]?.account_number}<br />
+                                                    <strong>Bank:</strong> {configurationCard[0]?.bank_name} <br />
+                                                    <strong>Branch:</strong> {configurationCard[0]?.bank_branch}<br />
+                                                    <strong>RTGS/NEFT/IFSC Code:</strong> {configurationCard[0]?.ifsc_code}<br />
                                                 </td>
                                             </tr>
                                         </tbody>
