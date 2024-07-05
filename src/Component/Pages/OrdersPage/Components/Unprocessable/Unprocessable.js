@@ -26,7 +26,7 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
 
-const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,orderStatus }) => {
+const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, orderStatus }) => {
     const [selectAll, setSelectAll] = useState(false);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
 
@@ -148,6 +148,9 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.order_date).format('DD MMM YYYY')} || ${moment(row?.order_date).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
                                                     <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
                                                             <OrderTagsIcon />
