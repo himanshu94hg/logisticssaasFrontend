@@ -32,7 +32,7 @@ export default function NavTabs(props) {
             {navItems.map((item) => (
               <Nav.Link
                 key={item.name}
-                className={`d-none d-md-block ${props.activeTab === item.name ? "active" : ""}`}
+                className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
                 onClick={() => props.setActiveTab(item.name)}
                 title={item.title}
               >
@@ -48,7 +48,7 @@ export default function NavTabs(props) {
               id="nav-dropdown"
               onSelect={handleSelect}
               // Show on mobile
-              className="d-block d-md-none"
+              className="d-block d-lg-none"
               drop="left"
             >
               {navItems.map((item) => (
