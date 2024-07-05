@@ -16,7 +16,7 @@ import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import Cookies from 'js-cookie';
 import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
 
-const Overview = ({ activeTab, ScreenWidth }) => {
+const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
   let authToken = Cookies.get("access_token")
 

@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from 'react'
 import ReactApexChart from 'react-apexcharts';
+import { useSelector } from 'react-redux';
 
 const TopStatusChart = () => {
 
     const [chartHeight, setChartHeight] = useState(380);
 
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
     useEffect(() => {
         const handleResize = () => {
-            const screenWidth = window.innerWidth;
             // Adjust the chart width based on screen size
-            if (screenWidth >= 1694) {
+            if (screenWidthData >= 1694) {
                 setChartHeight(220); // for larger screens
-            } else if (screenWidth >= 768) {
+            } else if (screenWidthData >= 768) {
                 setChartHeight(240); // for medium screens
             } else {
                 setChartHeight(200); // default width for smaller screens
