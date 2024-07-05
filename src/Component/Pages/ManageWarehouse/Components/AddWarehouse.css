@@ -1,6 +1,6 @@
 .add-warehouse-section {
     height: calc(100vh - 149px);
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .add-warehouse-section label {

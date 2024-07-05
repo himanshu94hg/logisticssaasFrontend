@@ -70,6 +70,7 @@ import PostpaidSettingsPage from "./Component/Pages/SettingsPage/components/Post
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import "./responsive.css";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
+import screenWidth from "./redux/action/screenWidth";
 
 
 function App() {
@@ -107,6 +108,7 @@ function App() {
   useEffect(() => {
     const updateWidth = () => {
       setScreenWidth(window.innerWidth);
+      dispatch(screenWidth(window.innerWidth))
     };
 
     updateWidth(); // Set initial width

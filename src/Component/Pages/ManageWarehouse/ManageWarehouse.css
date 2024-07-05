@@ -168,6 +168,10 @@
     padding-left: 10px;
 }
 
+.warehouse-edit.open {
+    width: 44em;
+}
+
 
 .warehouse-edit .ticket-slider-footer {
     padding-inline: 30px 20px;
@@ -197,6 +201,31 @@
     min-width: 60px;
 }
 
+.bulk-import-modal .modal-header {
+    padding: 20px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--sh-primary-light);
+}
+
+.bulk-import-modal .modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.bulk-import-modal .btn-close {
+    display: none;
+}
+
+.bulk-import-modal .modal-header .modal-title {
+    line-height: normal;
+}
+
+.bulk-import-modal .modal-content {
+    min-height: 290px;
+}
 
 @media (max-width: 768px) {
     .box-grid {
