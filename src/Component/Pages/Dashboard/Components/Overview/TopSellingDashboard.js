@@ -25,10 +25,10 @@ function CustomTable({ data }) {
             <td>{product.total}</td>
             <td>
               <span className="text-green">
-                {(product.delivered / product.total) * 100}
+                {((product.delivered / product.total) * 100).toFixed(2)}
               </span>
             </td>
-            <td>{(product.rto_count / product.total) * 100}</td>
+            <td>{((product.rto_count / product.total) * 100).toFixed(2)}</td>
           </tr>
         ))}
       </tbody>

@@ -106,14 +106,14 @@ const OrdersPage = () => {
     }, [orderCancelled])
 
 
-    useEffect(() => {
-        if (location?.state?.data === "ratecalc") {
-            setActiveTab("Processing")
-            setRateRef(new Date())
-        } else {
-            setActiveTab("Processing")
-        }
-    }, [location])
+    // useEffect(() => {
+    //     if (location?.state?.data === "ratecalc") {
+    //         setActiveTab("Processing")
+    //         setRateRef(new Date())
+    //     } else {
+    //         setActiveTab("Processing")
+    //     }
+    // }, [location])
 
 
     useEffect(() => {
@@ -341,7 +341,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab, moreorderShipCardStatus]);
+    }, [orderCancelled,rateRef, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab, moreorderShipCardStatus]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {
@@ -469,6 +469,7 @@ const OrdersPage = () => {
                         orderStatus={orderStatus}
                         selectAll={selectAll}
                         setSelectAll={setSelectAll}
+                        setRateRef={setRateRef}
                     />
                 </div>
 
