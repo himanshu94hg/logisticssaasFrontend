@@ -322,7 +322,6 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                                 value={formData.order_details.channel}
                                 onChange={(e) => handleSelectChange(e, 'channel')}
                             >
-                                <option value="">Select Order Channel</option>
                                 <option value="custom">Custom</option>
                                 <option value="amazon">Amazon</option>
                                 <option value="shopify">Shopify</option>
