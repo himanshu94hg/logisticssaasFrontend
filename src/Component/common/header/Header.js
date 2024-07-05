@@ -27,6 +27,7 @@ import globalDebouncedClick from "../../../debounce";
 import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
+import { clearAllCookies } from "../../Pages/Dashboard/Dashboard";
 
 export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
   const dispatch = useDispatch()
@@ -84,6 +85,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   const handleLogout = () => {
     localStorage.clear();
     Cookies.remove('access_token');
+    clearAllCookies()
     navigate(indexPattern)
     if (indexPattern) {
       window.location.reload()

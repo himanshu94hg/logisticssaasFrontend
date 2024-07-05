@@ -7,3 +7,6 @@ export const ZONE_MAPPING_PATH_ACTION="ZONE_MAPPING_PATH_ACTION"
 
 //screen width type
 export const SCREEN_WIDTH_DATA="SCREEN_WIDTH_DATA"
+
+export const CHECK_AUTH_DATA="CHECK_AUTH_DATA"
+
