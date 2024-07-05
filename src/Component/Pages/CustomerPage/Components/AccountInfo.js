@@ -74,6 +74,9 @@ const AccountInfo = ({ activeTab }) => {
     });
   }
 
+  console.log(errors,"errorerrorerrorerror")
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     let isValid = true;

@@ -36,7 +36,6 @@ const MoreOnOrders = () => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [pageStatus, pageStatusSet] = useState(true)
-    const [orders, setOrders] = useState([])
     const [searchValue, setSearchValue] = useState("")
     const [splitStatus, setSplitStatus] = useState(null)
     const [currentPage, setCurrentPage] = useState(1);
@@ -58,7 +57,10 @@ const MoreOnOrders = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
     const [selectAll, setSelectAll] = useState(false);
-    const [mergeOrd, setMergeOrd] = useState([]);
+    const [mergeOrders, setMergeOrders] = useState([]);
+    const [reassOrders, setReassOrders] = useState([])
+    const [splitOrders, setSplitOrders] = useState([])
+
 
     const apiEndpoint = `${BASE_URL_CORE}`;
     const { pathName } = useSelector(state => state?.authDataReducer)
@@ -98,6 +100,7 @@ const MoreOnOrders = () => {
 
     useEffect(() => {
         if (activeTab) {
+            setCurrentPage(1)
             setSearchValue("");
             setQueryParamTemp({});
             setQueryParamSearch(null);
@@ -117,6 +120,8 @@ const MoreOnOrders = () => {
         }
 
     }, [pathName]);
+
+    console.log(activeTab, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 
     useEffect(() => {
         let apiUrl = '';
@@ -150,17 +155,21 @@ const MoreOnOrders = () => {
             })
                 .then(response => {
                     setTotalItems(response?.data?.count)
-                    if (activeTab === "Merge Order") {
-                        setMergeOrd(response.data.results)
-                    } else {
-                        setOrders(response.data.results);
+                    if (activeTab === "Reassign Order") {
+                        setReassOrders(response.data.results);
+                    }
+                    else if (activeTab === "Merge Order") {
+                        setMergeOrders(response.data.results)
+                    }
+                    else if (activeTab === "Split Order") {
+                        setSplitOrders(response.data.results);
                     }
                 })
                 .catch(error => {
                     customErrorFunction(error)
                 });
         }
-    }, [activeTab, JSON.stringify(queryParamTemp), currentPage, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
+    }, [JSON.stringify(queryParamTemp), currentPage,activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -203,8 +212,9 @@ const MoreOnOrders = () => {
         })
             .then(response => {
                 setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-                setMergeOrd(response.data.results)
+                setReassOrders(response.data.results);
+                setMergeOrders(response.data.results)
+                setSplitOrders(response.data.results)
                 pageStatusSet(false)
             })
             .catch(error => {
@@ -233,8 +243,9 @@ const MoreOnOrders = () => {
         })
             .then(response => {
                 setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-                setMergeOrd(response.data.results)
+                setMergeOrders(response.data.results);
+                setReassOrders(response.data.results)
+                setSplitOrders(response.data.results)
             })
             .catch(error => {
                 customErrorFunction(error)
@@ -252,8 +263,9 @@ const MoreOnOrders = () => {
         })
             .then(response => {
                 setTotalItems(response?.data?.count)
-                setOrders(response.data.results);
-                setMergeOrd(response.data.results)
+                setReassOrders(response.data.results)
+                setMergeOrders(response.data.results)
+                setSplitOrders(response.data.results)
             })
             .catch(error => {
                 customErrorFunction(error)
@@ -349,7 +361,7 @@ const MoreOnOrders = () => {
                 {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
                     <ReassignOrder
-                        orders={orders}
+                        orders={reassOrders}
                         setAwbNo={setAwbNo}
                         selectAll={selectAll}
                         activeTab={activeTab}
@@ -366,7 +378,7 @@ const MoreOnOrders = () => {
                 {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
                     <MergeOrder
-                        orders={mergeOrd}
+                        orders={mergeOrders}
                         selectAll={selectAll}
                         activeTab={activeTab}
                         orderStatus={orderStatus}
@@ -381,7 +393,7 @@ const MoreOnOrders = () => {
                 {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
                     <SplitOrder
-                        orders={orders}
+                        orders={splitOrders}
                         activeTab={activeTab}
                         orderStatus={orderStatus}
                         handleSearch={handleSearch}
