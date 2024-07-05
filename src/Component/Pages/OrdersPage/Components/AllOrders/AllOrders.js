@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, activeTab, selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -415,6 +415,9 @@ const AllOrders = ({ orders, activeTab,selectAll, setSelectAll, bulkAwb, setbulk
                                                             addClassName='verified-hover'
                                                         />
                                                         <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                        {row.is_mps === true &&
+                                                            <span className="mps-flag">MPS</span>
+                                                        }
                                                         {row?.order_tag.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />

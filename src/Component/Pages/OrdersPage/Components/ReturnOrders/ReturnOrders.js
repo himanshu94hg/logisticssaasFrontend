@@ -29,7 +29,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
-const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows,setOrderTracking,setAwbNo,orderStatus }) => {
+const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo, orderStatus }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -40,10 +40,10 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,BulkActionSho
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
 
     useEffect(() => {
-        if (activeTab||MoreFilters) {
+        if (activeTab || MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab,MoreFilters])
+    }, [activeTab, MoreFilters])
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -219,6 +219,9 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,BulkActionSho
                                                     />
 
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
                                                     {row?.order_tag.length > 0 && <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
                                                             <OrderTagsIcon />
