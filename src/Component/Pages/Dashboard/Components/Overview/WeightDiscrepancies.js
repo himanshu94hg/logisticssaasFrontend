@@ -9,12 +9,12 @@ const MixedWeightChart = () => {
   const seriesData = [
     {
       name: 'Total Orders',
-      type: 'column',
+      type: 'line',
       data: deliveryData?.map(item=>item.total_order),
     },
     {
       name: 'Orders with Discrepancies',
-      type: 'line',
+      type: 'column',
       data: deliveryData?.map(item=>item.disputed_order), 
     },
   ];
@@ -22,7 +22,7 @@ const MixedWeightChart = () => {
   const optionsData = {
     chart: {
       height: '100%', 
-      type: 'line',
+      type: 'column',
       toolbar: {
         show: false, 
       },
