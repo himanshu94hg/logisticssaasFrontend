@@ -4,6 +4,7 @@ import { API_URL, BASE_URL_CORE, BASE_URL_DUMMY } from "../../../../axios/config
 import { PAYMENT_DATA_ACTION,PAYMENT_SET_DATA_ACTION,CONFIGURATION_DATA_ACTION,SELLER_PROFILE_DATA_ACTION } from "../../constant/payment";
 import { GET_PAYMENT_DATA,SET_PAYMENT_DATA,GET_CONFIGURATION_DATA,GET_SELLER_PROFILE_DATA } from "../../../constants/payment";
 import { customErrorFunction } from "../../../../customFunction/errorHandling";
+import { CHECK_AUTH_DATA } from "../../../constants/auth";
 
 
 
@@ -95,6 +96,10 @@ function* profileFilesAction(action) {
         }
     } catch (error) {
         if (reject) reject(error);
+        if(error.response.data.code==="token_not_valid"){
+            yield put({type:CHECK_AUTH_DATA,payload:error.response.data.code})
+        }
+        console.log(error.response.data.code,"kkkkkkkkkkkk")
     }
 }
 

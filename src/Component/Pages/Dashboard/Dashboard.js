@@ -1,7 +1,7 @@
 import "./Dashboard.css";
 import PnL from "./DashboardTabs/PnL";
 import Row from "react-bootstrap/Row";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import NavTabs from "./navTabs/NavTabs";
 import Overview from "./DashboardTabs/Overview";
 import SubAccounts from "./DashboardTabs/SubAccounts";
@@ -14,12 +14,25 @@ import CourierDelays from "./DashboardTabs/CourierDelays";
 import OrdersDashboard from "./DashboardTabs/OrdersDashboard";
 import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
 import CourierDashboard from "./DashboardTabs/CourierDashboard";
+import { useNavigate } from "react-router-dom";
+import { loginPattern } from "../../../Routes";
+
+
+export function clearAllCookies() {
+  const cookies = document.cookie.split(";");
+  for (let cookie of cookies) {
+    const eqPos = cookie.indexOf("=");
+    const name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
+    document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+  }
+}
 
 
 function Dashboard({ ScreenWidth }) {
+  const navigate = useNavigate()
   const [activeTab, setActiveTab] = useState("Overview");
+  const { checkAuthIsValid } = useSelector(state => state?.authDataReducer)
 
-  const { checkAuth } = useSelector(state => state?.authDataReducer)
 
   return (
     <>

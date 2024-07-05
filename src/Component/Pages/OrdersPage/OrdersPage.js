@@ -341,7 +341,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled,rateRef, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, activeTab, moreorderShipCardStatus]);
+    }, [orderCancelled,rateRef, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage,  moreorderShipCardStatus]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {

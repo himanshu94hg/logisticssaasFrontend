@@ -46,27 +46,65 @@ const BasicInfo = ({ activeTab }) => {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
+  
     setFormData(prev => ({
       ...prev,
       [name]: value
-    }))
-    if (name === "pincode" && value.length === 6) {
-      try {
-        const response = await axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`);
-        if (response.data && response.data.length > 0) {
-          const district = response.data[0]?.PostOffice[0]?.District;
-          const state = response.data[0]?.PostOffice[0]?.State;
-          setFormData(prev => ({
+    }));
+  
+    const validateLength = (fieldName, length, message) => {
+      setErrors(prev => ({
+        ...prev,
+        [fieldName]: value.length !== length ? message : ""
+      }));
+    };
+    switch (name) {
+      case "mobile":
+        validateLength("mobile", 10, "Mobile Number should be 10 digits!");
+        break;
+      case "pan_number":
+        validateLength("pan_number", 10, "PAN Number should be 10 digits!");
+        break;
+      case "gst_number":
+        validateLength("gst_number", 15, "GST Number should be 15 digits!");
+        break;
+      case "pincode":
+        if (value.length === 6) {
+          setErrors(prev => ({
             ...prev,
-            city: district || '',
-            state: state || '',
+            pincode: ""
+          }));
+          try {
+            const response = await axios.get(`https://api.postalpincode.in/pincode/${value}`);
+            if (response?.data[0]?.Message === "No records found") {
+              setErrors(prev => ({
+                ...prev,
+                pincode: "Please enter valid pincode!"
+              }));
+            } else if (response.data && response.data.length > 0) {
+              const district = response.data[0]?.PostOffice[0]?.District;
+              const state = response.data[0]?.PostOffice[0]?.State;
+              setFormData(prev => ({
+                ...prev,
+                city: district || '',
+                state: state || '',
+              }));
+            }
+          } catch (error) {
+            customErrorPincode();
+          }
+        } else {
+          setErrors(prev => ({
+            ...prev,
+            pincode: "Pincode should be 6 digits!"
           }));
         }
-      } catch (error) {
-        customErrorPincode()
-      }
+        break;
+      default:
+        break;
     }
   };
+  
 
   useEffect(() => {
     if (activeTab === "Basic Information") {
@@ -101,7 +139,7 @@ const BasicInfo = ({ activeTab }) => {
     }
   }, [activeTab]);
 
-  const handleClickSubmit=async(formData)=>{
+  const handleClickSubmit = async (formData) => {
     try {
       const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
         headers: {
@@ -119,21 +157,40 @@ const BasicInfo = ({ activeTab }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newErrors = Object.keys(formData).reduce((errors, key) => {
-      // if (!formData[key] && key !== "company_logo") {
-      //   errors[key] = `${key.split('_').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} is required !`;
-      // }
-        if (key === 'mobile' && formData[key].length !== 10) {
-        errors[key] = "Mobile no should be 10 digits!.";
-      } else if (key === 'pan_number' && formData[key].length !== 10) {
-        errors[key] = "PAN number must consist of exactly 10 characters.";
-      } else if (key === 'gst_number' && formData[key].length !== 15) {
-        errors[key] = "GST number must consist of exactly 15 characters.";
-      } else if (key === 'pincode' && formData[key].length !== 6) {
-        errors[key] = "Pincode should be 6 digits!.";
-      }
-      return errors;
-    }, {});
+    const newErrors = {}
+    if (!formData.company_name) {
+      newErrors.company_name = "Company name is required!"
+    }
+    if (!formData.website_url) {
+      newErrors.website_url = "Website Url is required!"
+    }
+    if (!formData.mobile) {
+      newErrors.mobile = "Mobile number is required!"
+    }
+    if (!formData.email) {
+      newErrors.email = "Email is required!"
+    }
+    if (!formData.street) {
+      newErrors.street = "Street name is required!"
+    }
+    if (!formData.pincode) {
+      newErrors.pincode = "Pincode is required!"
+    }
+    if (!formData.city) {
+      newErrors.city = "City is required!"
+    }
+    if (!formData.state) {
+      newErrors.state = "State is required!"
+    }
+    if (!formData.country) {
+      newErrors.country = "Country is required!"
+    }
+    if (!formData.pan_number) {
+      newErrors.pan_number = "PAN Number is required!"
+    }
+    if (!formData.gst_number) {
+      newErrors.gst_number = "GST Number is required!"
+    }
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
       globalDebouncedClick(() => handleClickSubmit(formData))
@@ -347,7 +404,7 @@ const BasicInfo = ({ activeTab }) => {
                       maxLength={150}
                       value={formData.street}
                       onChange={handleChange}
-                      className={`input-field`}
+                      className={`input-field ${errors.street && "input-field-error"}`}
                       onKeyDown={(e) => handleKeyPress(e, "street")}
                       placeholder="House/Floor No. Building Name or Street, Locality"
                     />
