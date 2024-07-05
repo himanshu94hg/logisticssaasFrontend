@@ -17,10 +17,10 @@ import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import { toast } from 'react-toastify';
 import NoData from '../../../../common/noData';
-import {  weightGreater } from '../../../../../customFunction/functionLogic';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { Link } from 'react-router-dom';
 
-const ReassignOrder = ({ orders,selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
+const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
@@ -192,7 +192,11 @@ const ReassignOrder = ({ orders,selectAll, setSelectAll, selectedRows, setSelect
                                                     >
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
+                                                </p>
                                             </div>
                                         </td>
                                         <td>
