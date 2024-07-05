@@ -30,17 +30,19 @@ function TotalInfoDashboard() {
         <div className="">
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-10 col-lg-10 col-sm-12 col-md-12">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
                 <div className="d-flex justify-content-start gap-10">
-                  <div className="infoCardIconContainer bg-green-light">
-                    <TotalCustomersIcon />
+                  <div className="">
+                    <div className="infoCardIconContainer bg-green-light">
+                      <TotalCustomersIcon />
+                    </div>
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Total Customer</p>
                     <h2 className="font20r title-text p-y bold-600 m0">
                       {counterCard?.total_customers || 0}
                     </h2>
-                    <p className="font12 text-green">Active customers</p>
+                    <p className="font12 text-green ws-nowrap">Active customers</p>
                   </div>
                 </div>
               </div>
@@ -63,10 +65,12 @@ function TotalInfoDashboard() {
         <div className="">
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-10 col-lg-10 col-sm-12 col-md-12">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
                 <div className="d-flex justify-content-start gap-10">
-                  <div className="infoCardIconContainer bg-orange-light">
-                    <OrangeShipmentIcon />
+                  <div className="">
+                    <div className="infoCardIconContainer bg-orange-light">
+                      <OrangeShipmentIcon />
+                    </div>
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Daily Shipment</p>
@@ -99,10 +103,12 @@ function TotalInfoDashboard() {
         <div className="">
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-10 col-lg-10 col-sm-12 col-md-12">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
                 <div className="d-flex justify-content-start gap-10">
-                  <div className="infoCardIconContainer bg-blue-light">
-                    <AverageSellingPriceIcon />
+                  <div className="">
+                    <div className="infoCardIconContainer bg-blue-light">
+                      <AverageSellingPriceIcon />
+                    </div>
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Average Selling Price</p>
@@ -131,10 +137,12 @@ function TotalInfoDashboard() {
         <div className="">
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
-              <div className="col-10 col-lg-10 col-sm-12 col-md-12">
+              <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
                 <div className="d-flex justify-content-start gap-10">
-                  <div className="infoCardIconContainer bg-red-light">
-                    <TodayRevenueIcon />
+                  <div className="">
+                    <div className="infoCardIconContainer bg-red-light">
+                      <TodayRevenueIcon />
+                    </div>
                   </div>
                   <div className="alignWord">
                     <p className="font13 text-gray m-0">Today’s Revenue</p>
