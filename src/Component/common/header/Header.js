@@ -28,7 +28,7 @@ import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
 
-export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge, ScreenWidth }) {
+export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   let authToken = Cookies.get("access_token")
@@ -43,6 +43,8 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
   const paymentSetCard = useSelector(state => state?.paymentSectionReducer?.paymentSetCard);
   const userData = useSelector(state => state?.paymentSectionReducer.sellerProfileCard);
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
 
   function handleKeyPress(event) {
     if (event.key === 'Enter') {
@@ -127,7 +129,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
           <Nav className="ml-auto w-100 alignContent">
             <div className="d-flex justify-content-between w-100 align-items-center">
               {
-                ScreenWidth < 992 &&
+                screenWidthData < 992 &&
                 <>
                   <div className="sidenav-toggle-icon">
                     <button onClick={handlesideMenu} type="button"><SideNavToggleIcon /></button>
@@ -136,7 +138,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                 </>
               }
               {
-                ScreenWidth > 991 &&
+                screenWidthData > 991 &&
                 <div className="quick-actions-container">
                   <div className="quick-action-text">
                     <EarnAndGrow />Earn & Grow
@@ -153,7 +155,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
               <div className="d-flex align-items-center" style={{ gap: "10px" }}>
                 {
-                  ScreenWidth > 991 &&
+                  screenWidthData > 991 &&
                   <>
                     <div className="header-search-input">
                       <input className="input-field"
@@ -196,7 +198,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
                   </div>
                 </Nav.Link>
                 {
-                  ScreenWidth > 991 &&
+                  screenWidthData > 991 &&
                   <>
                     <div className="icons links ">
                       <div className="iconContainer notificationIcon bell">
@@ -258,7 +260,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
 
       {
-        ScreenWidth < 992 &&
+        screenWidthData < 992 &&
         <div onClick={() => setExpanded(false)} className={`backdrop ${!isExpanded && 'd-none'}`}></div>
       }
 
