@@ -160,7 +160,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                 <td>
                                     <div className='cell-inside-box'>
                                         <p className=''>
-                                            {row?.id ?? 1}
+                                            {row?.invoice_id}
                                         </p>
                                     </div>
                                 </td>
