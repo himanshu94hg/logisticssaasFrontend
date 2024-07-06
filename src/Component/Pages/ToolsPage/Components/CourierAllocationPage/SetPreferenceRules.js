@@ -75,11 +75,15 @@ const SetPreferenceRules = ({ activeTab }) => {
         setIsActive(initialActiveState);
     };
 
-    const handleToggle = (index, id) => {
+    const handleToggle = (index, id,value) => {
         const newIsActive = [...isActive];
         newIsActive[index] = !newIsActive[index];
         setIsActive(newIsActive);
-        // dispatch({ type: "COURIER_ALLOCATION_RULE_STATUS_ACTION", payload: { togglestatus: newIsActive[index], id: id } });
+        setAllRules(prevRules => 
+            prevRules.map(rule => 
+                rule.id === id ? { ...rule, status: !rule.status } : rule
+            )
+        );
     };
 
     const addRuleRow = () => {
@@ -246,7 +250,8 @@ const SetPreferenceRules = ({ activeTab }) => {
             allRules?.map((item, index) => {
                 temp.push({
                     rule_id: item.id,
-                    position: index + 1
+                    position: index + 1,
+                    status:item.status
                 })
             })
             setPreferData(temp)
@@ -270,6 +275,8 @@ const SetPreferenceRules = ({ activeTab }) => {
             customErrorFunction(error);
         }
     }
+
+    console.log(allRules,"allRulesallRules")
 
     return (
         <>
@@ -306,7 +313,7 @@ const SetPreferenceRules = ({ activeTab }) => {
                                                         type="checkbox"
                                                         id={`toggle-${index}`}
                                                         checked={isActive[index]}
-                                                        onChange={() => handleToggle(index, rule?.id)}
+                                                        onChange={(e) => handleToggle(index, rule?.id,e.target.checked)}
                                                     />
                                                     <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
                                                         <span className="toggle-inner" />
