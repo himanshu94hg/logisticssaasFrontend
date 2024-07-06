@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import NoData from '../../../../../common/noData'
 
-const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll,setAwbNo,setOrderTracking,orderStatus }) => {
+const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus }) => {
     const [ordersData, setOrdersData] = useState([]);
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
 
@@ -124,6 +124,9 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                         <p className='ws-nowrap d-flex align-items-center'>
                                             <img src={ForwardIcon} className={`${row.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                             <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                            {row.is_mps === true &&
+                                                <span className="mps-flag">MPS</span>
+                                            }
                                         </p>
                                     </div>
                                 </td>
@@ -145,7 +148,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                     {/* Package Details */}
                                     <div className='cell-inside-box'>
                                         <p className='width-eclipse'>{row.order_products.product_name}</p>
-                                        <p>Wt:  {row?.dimension_detail?.weight/1000} kg
+                                        <p>Wt:  {row?.dimension_detail?.weight / 1000} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
                                                 <span style={{ width: '250px' }}>
@@ -198,7 +201,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_image && <img src={row.courier_image} title='partner' />}
                                         <div>
-                                            <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row?.awb_number )}>{row?.awb_number ?? ""} </p>
+                                            <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner ?? ""}</p>
                                         </div>
                                     </div>

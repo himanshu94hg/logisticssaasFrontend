@@ -56,7 +56,7 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
         }
     };
 
-   
+
     const CloseSidePanel = () => {
         document.getElementById("sidePanel").style.right = "-50em"
         setBackDrop(false)
@@ -126,7 +126,11 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
                                                     >
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
+                                                </p>
                                             </div>
                                         </td>
                                         <td>

@@ -428,6 +428,9 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setSelectAll, bul
                                                             addClassName='verified-hover'
                                                         />
                                                         <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                        {row.is_mps === true &&
+                                                            <span className="mps-flag">MPS</span>
+                                                        }
                                                         {row?.order_tag.length > 0 && <CustomTooltip
                                                             triggerComponent={<span className='ms-1'>
                                                                 <OrderTagsIcon />
