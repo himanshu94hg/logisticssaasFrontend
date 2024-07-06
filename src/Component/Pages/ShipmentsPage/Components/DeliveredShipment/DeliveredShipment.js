@@ -50,7 +50,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const DeliveredShipment = ({selectAll,setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow ,  setOrderTracking,setAwbNo,orderStatus}) => {
+const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, orderStatus }) => {
 
     const dispatch = useDispatch()
     const [backDrop, setBackDrop] = useState(false);
@@ -136,7 +136,7 @@ const DeliveredShipment = ({selectAll,setSelectAll, shipmentCard, selectedRows, 
 
     const handleClose = () => setShow(false);
 
-    const handleClickAWB = ( orders) => {
+    const handleClickAWB = (orders) => {
         // event.preventDefault();
         // console.log(orders, "this is orders");
         // const url = `https://shipease.in/order-tracking/`;
@@ -253,7 +253,11 @@ const DeliveredShipment = ({selectAll,setSelectAll, shipmentCard, selectedRows, 
                                                     >
                                                         <img src={ForwardIcon} className={`${row?.order_type === 'Forward' ? '' : 'icon-rotate'}`} alt="Forward/Reverse" width={24} />
                                                     </OverlayTrigger>
-                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>                                                </p>
+                                                    <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
+                                                </p>
                                             </div>
                                         </td>
                                         <td>

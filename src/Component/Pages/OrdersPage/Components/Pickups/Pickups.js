@@ -37,7 +37,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows , setOrderTracking,setAwbNo,orderStatus}) => {
+const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo, orderStatus }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -54,10 +54,10 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
         }
     }, [orderdelete])
     useEffect(() => {
-        if (activeTab||MoreFilters) {
+        if (activeTab || MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab,MoreFilters])
+    }, [activeTab, MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {
@@ -122,17 +122,17 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
                 order_ids: `${param}`
             }
         })
-      };
+    };
     const debouncedHandleClick = useCallback(
         debounce((param) => handleClick(param), 1000),
         []
-      );
-      
+    );
+
     const generateManifest = (value) => {
         debouncedHandleClick(value);
     }
-    const downloadManifest = async(value) => {
-              const requestData = {
+    const downloadManifest = async (value) => {
+        const requestData = {
             order_ids: `${value}`
         };
         try {
@@ -225,8 +225,8 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
 
     const handleClickAWB = (event, awb) => {
         event.preventDefault();
-         setAwbNo(awb)
-         setOrderTracking(true)
+        setAwbNo(awb)
+        setOrderTracking(true)
         // const url = `https://shipease.in/order-tracking/`;
         // window.open(url, '_blank');
     };
@@ -277,13 +277,13 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
 
     const handleShow = (args1) => {
         setShow(true)
-      
+
     };
-    const handleCancelOrder=(awb)=>{
+    const handleCancelOrder = (awb) => {
         setShow(true)
         setAwb(awb)
     }
-    
+
     const makeApiCall = () => {
         dispatch({
             type: "BULK_CANCEL_ORDER_ACTION", payload: {
@@ -372,6 +372,9 @@ const Pickups = ({ orders, activeTab,MoreFilters, BulkActionShow, bulkAwb, setbu
                                                         addClassName='verified-hover'
                                                     />
                                                     <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                    {row.is_mps === true &&
+                                                        <span className="mps-flag">MPS</span>
+                                                    }
                                                     {row?.order_tag.length > 0 && <CustomTooltip
                                                         triggerComponent={<span className='ms-1'>
                                                             <OrderTagsIcon />

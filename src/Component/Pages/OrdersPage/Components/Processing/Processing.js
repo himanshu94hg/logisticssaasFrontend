@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab,MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
+const Processing = React.memo(({ orders, activeTab, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
@@ -53,10 +53,10 @@ const Processing = React.memo(({ orders, activeTab,MoreFilters, bulkAwb, setbulk
     }, [orderdelete])
 
     useEffect(() => {
-        if (activeTab||MoreFilters) {
+        if (activeTab || MoreFilters) {
             setSelectAll(false)
         }
-    }, [activeTab,MoreFilters])
+    }, [activeTab, MoreFilters])
 
     const handleSelectAll = (data) => {
         if (data === "selectAll") {
@@ -243,8 +243,7 @@ const Processing = React.memo(({ orders, activeTab,MoreFilters, bulkAwb, setbulk
                                                                         : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                                 : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                    : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                                        : ""}
+                                                                                    : <CustomIcon />}
                                                         <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                             <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                             {row?.other_details?.is_verified &&
@@ -270,6 +269,9 @@ const Processing = React.memo(({ orders, activeTab,MoreFilters, bulkAwb, setbulk
                                                             addClassName='verified-hover'
                                                         />
                                                         <span className='ms-2'>{`${moment(row?.created_at).format('DD MMM YYYY')} || ${moment(row?.created_at).format('h:mm A')}`}</span>
+                                                        {row.is_mps === true &&
+                                                            <span className="mps-flag">MPS</span>
+                                                        }
                                                         {
                                                             row?.order_tag.length > 0 && <CustomTooltip
                                                                 triggerComponent={<span className='ms-1'>

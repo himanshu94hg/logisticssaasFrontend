@@ -15,11 +15,13 @@ import { useDispatch } from 'react-redux';
 import { dateRangeDashboard } from '../../../../customFunction/dateRange';
 import Cookies from 'js-cookie';
 import OverviewStatusCard from '../Components/Overview/OverviewStatusCard';
+import { useSelector } from 'react-redux';
 
 const Overview = ({ activeTab }) => {
   const dispatch = useDispatch()
   let authToken = Cookies.get("access_token")
 
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
     if (activeTab === "Overview" && authToken) {
@@ -41,7 +43,7 @@ const Overview = ({ activeTab }) => {
 
 
   return (
-    <Row className='mb-3'>
+    <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
       <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
         <TotalShipment />
         <DeliveryPerformance />
