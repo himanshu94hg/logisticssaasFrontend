@@ -4,6 +4,7 @@ import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
 import { EXPORT_DATA_ACTION,EXPORT_PASSBOOK_DATA_ACTION,EXPORT_SHIPPING_DATA_ACTION,EXPORT_RECHARGE_DATA_ACTION,EXPORT_INVOICE_DATA_ACTION,EXPORT_WEIGHT_DATA_ACTION,EXPORT_REMITANCE_DATA_ACTION,EXPORT_RECEIPT_DATA_ACTION,EXPORT_ALL_DATA_ACTION,EXPORT_SHIPMENT_DATA_ACTION,EXPORT_SHIPMENT_ALL_DATA_ACTION } from "../../constant/exports";
 import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA,GET_EXPORT_RECEIPT_DATA,GET_EXPORT_ALL_DATA,GET_EXPORT_SHIPMENT_DATA,GET_EXPORT_SHIPMENT_ALL_DATA } from "../../../constants/exports";
 import { toast } from "react-toastify";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 
@@ -50,9 +51,9 @@ function* exportPassbookFilesAction(action) {
     try {
         let response = yield call(exportPassbookFileAPI, payload);
 
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_PASSBOOK_DATA, payload: response?.data })
+            toast.success("Data Export Successfully!");
         }
         else {
         }
@@ -77,15 +78,14 @@ function* exportShippingFilesAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(exportShippingFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_SHIPPING_DATA, payload: response?.data })
+            toast.success("Data Export Successfully!");
         }
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+      customErrorFunction(error)
     }
 }
 
@@ -105,15 +105,14 @@ function* exportRechargeFilesAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(exportRechargeFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_RECHARGE_DATA, payload: response?.data })
+            toast.success("Data Export Successfully!");
         }
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -133,15 +132,14 @@ function* exportInvoiceFilesAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(exportInvoiceFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_INVOICE_DATA, payload: response?.data })
+            toast.success("Data Export Successfully!");
         }
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -169,7 +167,7 @@ function* exportWeightFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -197,7 +195,7 @@ function* exportRemitanceFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -217,15 +215,14 @@ function* exportReceiptFilesAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(exportReceiptFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
+            toast.success("Data Export Successfully!");
             yield put({ type: GET_EXPORT_RECEIPT_DATA, payload: response?.data })
         }
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -252,7 +249,7 @@ function* exportAllFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -279,7 +276,7 @@ function* exportShipmentFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
@@ -306,7 +303,7 @@ function* exportShipmentAllFilesAction(action) {
         else {
         }
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 

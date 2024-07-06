@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { toast } from 'react-toastify';
 
 const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
     const dispatch = useDispatch()
@@ -33,7 +34,6 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
             dispatch({ type: "EXPORT_INVOICE_DATA_ACTION", payload: requestData });
         }
         else if (activeTab === "Remittance Logs") {
-
             try {
                 const response = await axios.post(`${BASE_URL_CORE}/core-api/features/billing/remittance-download/`, requestData, {
                     headers: {
@@ -44,6 +44,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
                 });
 
                 if (response.status === 200) {
+                    toast.success("Data Export Successfully!");
                     const FileSaver = require('file-saver');
                     const blob = new Blob([response.data], { type: 'application/ms-excel' });
                     FileSaver.saveAs(blob, `remittance.xlsx`);
