@@ -81,6 +81,7 @@
     "react-select": "^5.8.0",
     "react-sidebar": "^3.0.2",
     "react-simple-maps": "^3.0.0",
+    "react-spinners-kit": "^1.9.1",
     "react-switch": "^7.0.0",
     "react-table": "^7.8.0",
     "react-tag-autocomplete": "^7.2.0",

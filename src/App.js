@@ -72,7 +72,7 @@ import "./responsive.css";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 import screenWidth from "./redux/action/screenWidth";
 import { Audio, ColorRing } from 'react-loader-spinner'
-
+import LoaderScreen from "./Component/LoaderScreen/LoaderScreen";
 
 function App() {
   const dispatch = useDispatch()
@@ -118,7 +118,6 @@ function App() {
 
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
-
 
   return (
     <>
@@ -221,16 +220,6 @@ function App() {
 
       />
 
-      <ColorRing
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="color-ring-loading"
-        wrapperStyle={{}}
-        wrapperClass="color-ring-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      />
-
       {/* 
       <Audio
         height="80"
@@ -245,6 +234,7 @@ function App() {
       {/* <MigrationNewsPop /> */}
       {/* Same as */}
 
+      <LoaderScreen />
     </>
 
   );
