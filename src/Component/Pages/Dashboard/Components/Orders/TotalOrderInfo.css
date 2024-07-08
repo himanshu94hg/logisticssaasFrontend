@@ -1,87 +1,56 @@
-.card-upper {
+.chartContainer {
     display: flex;
-    align-items: center;
-    width: 100%;
+    flex-direction: column;
     justify-content: space-between;
+    align-items: flex-end;
+    margin-top: 16px;
 }
 
-.left-text {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 8px;
-}
-
-.card-footer1 {
-    position: absolute;
-    bottom: 10px;
-    padding-bottom: 0%;
-    padding-right: 2%;
-}
-
-.wave-bg {
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: bottom;
-}
-
-.red-wave {
-    background-image: url(../../../../../assets/image/waves/RedWave.png);
-}
-
-.yellow-wave {
-    background-image: url(../../../../../assets/image/waves/YellowWave.png);
-}
-
-.green-wave {
-    background-image: url(../../../../../assets/image/waves/GreenWave.png);
-}
-
-.blue-wave {
-    background-image: url(../../../../../assets/image/waves/BlueWave.png);
-}
-
-.CardIconContainer {
+.infoCardIconContainer {
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 0.9rem;
+    margin: 5px;
+    box-sizing: border-box;
 }
 
-.green-wave .icon-bg {
-    background-color: #3BB54B;
+.alignWord {
+    /* width: 85px; */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-word;
 }
 
-.yellow-wave .icon-bg {
-    background-color: #F6B954;
+.h-160 {
+    height: 160px;
 }
 
-.blue-wave .icon-bg {
-    background-color: #A278FD;
+.card-height {
+    position: relative;
 }
 
-.red-wave .icon-bg {
-    background-color: #F31429;
+.card-footer {
+    position: absolute;
+    bottom: 10px;
 }
 
-.green-wave .trending-icon path {
-    fill: #3BB54B;
+.datatable-container {
+    background: white;
+    padding: 7px;
+    border-radius: 10px;
 }
 
-.yellow-wave .trending-icon {
-    fill: #F6B954;
-}
-
-.blue-wave .trending-icon {
-    fill: var(--sh-primary);
-}
-
-.red-wave .trending-icon {
-    fill: #F31429;
-}
-
-.trending-icon {
-    height: 24px;
-    width: 24px;
+.dx-pager .dx-page-sizes .dx-selection,
+.dx-pager .dx-pages .dx-selection {
+    background-color: #dbdbdb;
+    padding: 0;
+    height: 30px;
+    width: 30px;
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
 }
