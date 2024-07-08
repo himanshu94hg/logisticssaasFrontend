@@ -71,6 +71,7 @@ import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import "./responsive.css";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 import screenWidth from "./redux/action/screenWidth";
+import LoaderScreen from "./Component/LoaderScreen/loaderScreen";
 
 function App() {
   const dispatch = useDispatch()
