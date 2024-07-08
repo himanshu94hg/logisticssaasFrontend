@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React, { useEffect } from 'react';
 import ReactApexChart from 'react-apexcharts';
-import {useDispatch, useSelector} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 
 const MixedWeightChart = () => {
@@ -8,31 +8,31 @@ const MixedWeightChart = () => {
 
   const seriesData = [
     {
-      name: 'Total Orders',
-      type: 'line',
-      data: deliveryData?.map(item=>item.total_order),
-    },
-    {
       name: 'Orders with Discrepancies',
       type: 'column',
-      data: deliveryData?.map(item=>item.disputed_order), 
+      data: deliveryData?.map(item => item.disputed_order),
+    },
+    {
+      name: 'Total Orders',
+      type: 'line',
+      data: deliveryData?.map(item => item.total_order),
     },
   ];
 
   const optionsData = {
     chart: {
-      height: '100%', 
-      type: 'column',
+      height: '100%',
+      type: 'line',
       toolbar: {
-        show: false, 
+        show: false,
       },
     },
-    colors: ['#008FFB', '#FF4560'], 
+    colors: ['#FF4560', '#008FFB'],
     stroke: {
       width: [0, 4],
     },
     title: {
-      text: '', 
+      text: '',
     },
     dataLabels: {
       enabled: true,
@@ -40,9 +40,9 @@ const MixedWeightChart = () => {
     },
     xaxis: {
       type: 'category',
-      categories: deliveryData?.map((item,index)=>`Week ${index+1}`),
+      categories: deliveryData?.map((item, index) => `Week ${index + 1}`),
       labels: {
-        rotateAlways: true, 
+        rotateAlways: true,
         rotate: -45,
       },
     },
@@ -50,15 +50,15 @@ const MixedWeightChart = () => {
       title: {
         text: 'Orders',
       },
-      min: 0, 
+      min: 0,
     },
     responsive: [
       {
-      
-        breakpoint: 1366, 
+
+        breakpoint: 1366,
         options: {
           chart: {
-            height: 400, 
+            height: 400,
           },
         },
       },
