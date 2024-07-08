@@ -14,24 +14,29 @@ import LabelIcon from './Components/BulkIcons/LabelIcon';
 import InvoiceIcon from './Components/BulkIcons/InvoiceIcon';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import Swal from 'sweetalert2'; 
+import Swal from 'sweetalert2';
 import moment from 'moment';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow,filterData,setFilterData,queryParamTemp,setQueryParamTemp }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, filterData, setFilterData, queryParamTemp, setQueryParamTemp }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
-    const {exportCard,exportAllCard} = useSelector(state => state?.exportSectionReducer);
+    const { exportCard, exportAllCard } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
     const [actionType, setActionType] = useState("");
     const [show, setShow] = useState(false);
-    
+    const [LoaderRing, setLoaderRing] = useState(false)
+
     const handleClose = () => setShow(false);
-    
+
+    console.log(labelData, "labelDatalabelDatalabelDatalabelData")
+
     useEffect(() => {
         if (labelData) {
+            console.log(labelData,"labelDatalabelDatalabelData")
             if (labelData?.message === "Go to MIS -> Download and download the labels.") {
                 console.log("MIS instruction received for labels.");
             } else if (genaratelabel) {
@@ -117,7 +122,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
         setShow(true)
         setSelectAll(false)
     }
-
     const makeApiCall = () => {
         setShow(false);
         setSelectAll(false)
@@ -136,22 +140,38 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
         dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
         setSelectAll(false)
     };
-    
-    const generatePickup = () =>{
+
+    const generatePickup = () => {
         setSelectAll(false)
         dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
     };
 
     const generateLabel = () => {
-        setSelectAll(false)
         setGenaratelabel(true);
+        setLoaderRing(true)
+        setSelectAll(false)
+        // setBulkActionShow(false)
+        setSelectedRows([])
+        // setTimeout(() => {
+        //     setLoaderRing(false)
+        // }, 2000);
         dispatch({ type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: { order_ids: selectedRows.join(',') } });
     };
+
+    console.log(LoaderRing,"ppppppppppppppppppppppppppppppppppppppppppp")
+
     const generateInvoice = () => {
-        setSelectAll(false)
         setGenerateinvoice(true);
+        setLoaderRing(true)
+        setSelectAll(false)
+        // setBulkActionShow(false)
+        setSelectedRows([])
+        setTimeout(() => {
+            setLoaderRing(false)
+        }, 2000);
         dispatch({ type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: { order_ids: selectedRows.join(',') } });
     };
+
     const bulkDimesionDetailUpdate = () => {
         setUpdateWeight(true)
         setSelectAll(false)
@@ -232,44 +252,44 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
             }
         }).then((result) => {
             if (result.isConfirmed) {
-                    const requestData = {
-                        "order_tab": {
-                            "type": "Orders",
-                            "subtype": activeTab === "All" ? "all_orders" : activeTab === "Unprocessable" ? "unprocessable" : activeTab === "Processing" ? "processing_orders" : activeTab === "Ready to Ship" ? "ready_to_ship" : activeTab === "Pickup" ? "pickups" : activeTab === "Returns" ? "returns" : ""
-                        },
-                        "order_id": "",
-                        "courier": filterData?.courier || "",
-                        "awb_number": filterData?.awb_number || "",
-                        "min_awb_assign_date": "",
-                        "max_awb_assign_date": "",
-                        "status": filterData?.status || "",
-                        "order_type": filterData?.order_type || "",
-                        "customer_order_number": queryParamTemp?.order_id || "",
-                        "channel": filterData?.channel || "",
-                        "min_invoice_amount": filterData?.min_invoice_amount || "",
-                        "max_invoice_amount": filterData?.max_invoice_amount || "",
-                        "warehouse_id": filterData?.warehouse_id || "",
-                        "product_name": filterData?.product_name || "",
-                        "delivery_address": filterData?.delivery_address || "",
-                        "min_weight": filterData?.min_weight || "",
-                        "max_weight": filterData?.max_weight || "",
-                        "min_product_qty": filterData?.min_product_qty || "",
-                        "max_product_qty": filterData?.max_product_qty || "",
-                        "rto_status": filterData?.rto_status || "",
-                        "global_type": filterData?.global_type || "",
-                        "payment_type": filterData?.payment_type || "",
-                        ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
-                        ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
-                    };
-                    dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
-                    setBulkActionShow(false);
-                    setSelectedRows([])
-                    setFilterData({});
-                    // setQueryParamTemp({});
-                } else {
-                    toast.info("Report canceled.");
-                }
-            });
+                const requestData = {
+                    "order_tab": {
+                        "type": "Orders",
+                        "subtype": activeTab === "All" ? "all_orders" : activeTab === "Unprocessable" ? "unprocessable" : activeTab === "Processing" ? "processing_orders" : activeTab === "Ready to Ship" ? "ready_to_ship" : activeTab === "Pickup" ? "pickups" : activeTab === "Returns" ? "returns" : ""
+                    },
+                    "order_id": "",
+                    "courier": filterData?.courier || "",
+                    "awb_number": filterData?.awb_number || "",
+                    "min_awb_assign_date": "",
+                    "max_awb_assign_date": "",
+                    "status": filterData?.status || "",
+                    "order_type": filterData?.order_type || "",
+                    "customer_order_number": queryParamTemp?.order_id || "",
+                    "channel": filterData?.channel || "",
+                    "min_invoice_amount": filterData?.min_invoice_amount || "",
+                    "max_invoice_amount": filterData?.max_invoice_amount || "",
+                    "warehouse_id": filterData?.warehouse_id || "",
+                    "product_name": filterData?.product_name || "",
+                    "delivery_address": filterData?.delivery_address || "",
+                    "min_weight": filterData?.min_weight || "",
+                    "max_weight": filterData?.max_weight || "",
+                    "min_product_qty": filterData?.min_product_qty || "",
+                    "max_product_qty": filterData?.max_product_qty || "",
+                    "rto_status": filterData?.rto_status || "",
+                    "global_type": filterData?.global_type || "",
+                    "payment_type": filterData?.payment_type || "",
+                    ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
+                    ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
+                };
+                dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
+                setBulkActionShow(false);
+                setSelectedRows([])
+                setFilterData({});
+                // setQueryParamTemp({});
+            } else {
+                toast.info("Report canceled.");
+            }
+        });
     };
 
     useEffect(() => {
@@ -277,7 +297,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
             setFilterData({});
             // setQueryParamTemp({});
         }
-    },[exportAllCard]);
+    }, [exportAllCard]);
 
     return (
         <>
@@ -369,6 +389,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb,setSelectAll, setbulkAwb, sel
                     </div>
                 </section>
             )}
+
+            <LoaderScreen LoaderRing={LoaderRing} />
 
             <Modal
                 show={show}

@@ -202,7 +202,7 @@ function* bulkGenerateLabelAction(action) {
     try {
         let response = yield call(bulkGenerateLabelApi, payload);
         if (response.status === 200) {
-            toast.success(` Label generated successfully!`)
+            toast.success(` Label downloaded successfully!`)
             yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
             yield put({ type: ORDERS_LABEL_LIST_DATA, payload: response?.data })
         }
