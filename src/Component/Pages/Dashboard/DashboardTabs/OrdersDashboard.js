@@ -13,10 +13,13 @@ import ForwardReverseOrder from '../Components/Orders/ForwardReverseOrder'
 import WarehouseInformation from '../Components/Orders/WarehouseInformation'
 import DomesticInternational from '../Components/Orders/DomesticInternational'
 import PopularOrdersLocation from '../Components/Orders/PopularOrdersLocation'
+import { useSelector } from 'react-redux'
 
 
 const OrdersDashboard = ({ activeTab }) => {
   const dispatch = useDispatch()
+
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   useEffect(() => {
     if (activeTab === "Orders") {
@@ -37,7 +40,7 @@ const OrdersDashboard = ({ activeTab }) => {
 
   return (
     <>
-      <Row className='mb-3'>
+      <Row className={`mb-3 ${screenWidthData < 992 && 'm-inline-1'}`}>
         <Col className="col-sm-12 col-lg-3 col-md-6 cardsSpace">
           <ChannelByOrder />
           <OrderDetails />
