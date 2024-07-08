@@ -5,7 +5,6 @@ import { Provider } from 'react-redux'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Suspense } from 'react';
-import Loading from './Component/loader';
 import App from './App';
 import './index.css';
 

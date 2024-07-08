@@ -72,7 +72,6 @@ import "./responsive.css";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 import screenWidth from "./redux/action/screenWidth";
 
-
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
@@ -117,7 +116,6 @@ function App() {
 
     return () => window.removeEventListener('resize', updateWidth);
   }, []);
-
 
   return (
     <>
@@ -220,7 +218,6 @@ function App() {
 
       />
 
-  
       {/* 
       <Audio
         height="80"
@@ -235,6 +232,7 @@ function App() {
       {/* <MigrationNewsPop /> */}
       {/* Same as */}
 
+      <LoaderScreen />
     </>
 
   );
