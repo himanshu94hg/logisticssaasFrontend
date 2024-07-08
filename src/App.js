@@ -71,7 +71,6 @@ import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import "./responsive.css";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 import screenWidth from "./redux/action/screenWidth";
-import { Audio, ColorRing } from 'react-loader-spinner'
 
 
 function App() {
@@ -221,16 +220,7 @@ function App() {
 
       />
 
-      <ColorRing
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="color-ring-loading"
-        wrapperStyle={{}}
-        wrapperClass="color-ring-wrapper"
-        colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
-      />
-
+  
       {/* 
       <Audio
         height="80"
