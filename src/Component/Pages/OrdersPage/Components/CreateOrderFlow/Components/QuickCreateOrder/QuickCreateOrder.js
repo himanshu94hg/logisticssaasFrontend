@@ -33,6 +33,9 @@ const QuickCreateOrder = (activeTab) => {
     const [shipingResponse, setShipingResponse] = useState(null);
     const [dataRefresh, setDataRefresh] = useState(null)
     const [Exitpop, setExitpop] = useState(false)
+    const [pincodeError, setPincodeError] = useState(false)
+    const [pincodeError1, setPincodeError1] = useState(false)
+
 
 
     const [formData, setFormData] = useState({
@@ -185,7 +188,10 @@ const QuickCreateOrder = (activeTab) => {
         }
         setIsChecked(true)
         setErrors({})
+        setPincodeError(false)
     }, [dataRefresh,activeTab])
+
+    console.log(pincodeError,"pincodeError")
 
     const validatequickFormData = () => {
         const newErrors = {};
@@ -212,7 +218,11 @@ const QuickCreateOrder = (activeTab) => {
         }
         if (!formData.shipping_details.pincode) {
             newErrors.pincode = 'Pincode is required!';
-        } else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
+        } 
+        if (pincodeError) {
+            newErrors.pincode = 'Please enter valid pincode!';
+        } 
+        else if (!/^[0-9]{6}$/.test(formData.shipping_details.pincode)) {
             newErrors.pincode = 'Pincode should be 6 digits!';
         }
         if (!formData.order_details.invoice_amount) {
@@ -261,6 +271,9 @@ const QuickCreateOrder = (activeTab) => {
             if (!formData.billing_details.address) {
                 newErrors.billing_address = 'Address is required!';
             }
+            if (pincodeError) {
+                newErrors.billing_pincode = 'Please enter valid pincode!';
+            } 
             if (!formData.billing_details.pincode) {
                 newErrors.billing_pincode = 'Pincode is required!';
             } else if (!/^[0-9]{6}$/.test(formData.billing_details.pincode)) {
@@ -360,6 +373,8 @@ console.log(errors,"this is a from data")
                         setErrors={setErrors}
                         formData={formData}
                         setFormData={setFormData}
+                        setPincodeError={setPincodeError}
+                        setPincodeError1={setPincodeError1}
                     />
                     {/* <hr /> */}
                     <div className='my-4'></div>

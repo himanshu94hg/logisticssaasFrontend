@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { toast } from 'react-toastify';
 
-const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked, setIsChecked }) => {
+const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked, setIsChecked, setPincodeError, setPincodeError1 }) => {
     const [BillingDetails, setBillingDetails] = useState(true);
 
     const handleChangeShiping = (e, field) => {
@@ -53,6 +53,9 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 ...prevErrors,
                                 pincode: "Please enter valid pincode!"
                             }));
+                            setPincodeError(true)
+                        } else {
+                            setPincodeError(false)
                         }
                         if (response.data && response.data.length > 0) {
                             const data = response.data[0];
@@ -134,7 +137,6 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                     const { billing_pincode, ...restErrors } = prevErrors;
                     return restErrors;
                 });
-
                 axios.get(`https://api.postalpincode.in/pincode/${e.target.value}`)
                     .then(response => {
                         if (response?.data[0]?.Message === "No records found") {
@@ -142,6 +144,9 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 ...prevErrors,
                                 billing_pincode: "Please enter valid pincode!"
                             }));
+                            setPincodeError1(true)
+                        }else{
+                            setPincodeError1(false)
                         }
                         if (response.data && response.data.length > 0) {
                             const data = response.data[0];
