@@ -7,7 +7,7 @@ import { RotateSpinner } from 'react-spinners-kit';
 // import { Spinner } from 'react-spinners-kit';
 
 const LoaderScreen = () => {
-  const [LoaderRing, setLoaderRing] = useState(true)
+  const [LoaderRing, setLoaderRing] = useState(false)
   return (
     <>
       {LoaderRing &&
