@@ -269,3 +269,5 @@ export const shopifyRedirectIntegrationPattern = "/shopify/redirect";
 export const shopifyRedirectIntegrationRoutes = () => {
     return generatePath(shopifyRedirectIntegrationPattern);
 };
+
+
