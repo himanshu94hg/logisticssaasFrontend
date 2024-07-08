@@ -451,7 +451,7 @@ p {
   position: relative;
 }
 
-.list-ui-point:before {
+/* .list-ui-point:before {
   content: "";
   display: inline-block;
   width: 1px;
@@ -460,16 +460,17 @@ p {
   left: 3px;
   top: 5px;
   height: calc(100% - 10px);
-}
+} */
 
 
 
 .list-ui-point li {
   position: relative;
-  padding-left: 25px;
+  padding-left: 0px;
   margin-bottom: 15px;
 }
 
+/* 
 .list-ui-point li:before {
   content: "";
   display: inline-block;
@@ -506,7 +507,7 @@ p {
 
 .list-ui-point li:nth-child(6):before {
   background: #845ADF;
-}
+} */
 
 
 .avatar {

@@ -6,7 +6,7 @@ import { percentage } from "../../../../../customFunction/functionLogic";
 
 function CourierWiseDashboard() {
   const { courierWiseData } = useSelector(state => state?.dashboardOverviewReducer);
-  
+
   // Sort the courierWiseData array alphabetically by courier_name
   const sortedCourierWiseData = [...courierWiseData].sort((a, b) => {
     if (a.courier_name < b.courier_name) return -1;
@@ -24,11 +24,11 @@ function CourierWiseDashboard() {
           <li key={index} className="d-flex justify-content-between">
             <p className="font12 bold-600 mb-10">
               <img src={courier.courier_image} className="inline-block" alt={courier.courier_name} style={{ width: '35px', height: '35px', borderRadius: '50%' }} />
-              <span className="ms-2">{courier.courier_name}</span>
+              <span className="ms-3">{courier.courier_name}</span>
             </p>
             <p className="font12 bold-600 mb-10 hover-effect">
-              <HiMiniArrowTrendingUp className=" font15 text-green" /> {courier.value}
-              <span className="text-gray-light ">{percentage(courier.value, totalValue)}</span>
+              <HiMiniArrowTrendingUp className="font15 text-green me-2" />{courier.value}
+              <span className="text-gray-light ms-2">{percentage(courier.value, totalValue)}</span>
               <div className="hover-box">
                 <p>NDR: 0</p>
                 <p>RTO: 0</p>
