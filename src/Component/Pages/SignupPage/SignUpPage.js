@@ -253,13 +253,12 @@ const SignUpPage = () => {
                                         </div>
                                         <label className="inputBox">
                                             <select value={numberOfOrders} onChange={handleNumberOfOrders} className='select-field'>
-                                                <option value=""></option>
-                                                <option value="Setting up a new business">Setting up a new business</option>
                                                 <option value="Between 1-10 orders">Between 1-10 orders</option>
                                                 <option value="11-100 orders">11-100 orders</option>
                                                 <option value="101-1000 orders">101-1000 orders</option>
                                                 <option value="1001-5000 orders">1001-5000 orders</option>
                                                 <option value="More than 5000 orders">More than 5000 orders</option>
+                                                <option value="Setting up a new business">Setting up a new business</option>
                                             </select>
                                             <i className={`${numberOfOrders == null || numberOfOrders === "" ? '' : 'd-none'}`}>How many orders do you ship in a month ?</i>
                                         </label>

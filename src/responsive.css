@@ -94,6 +94,14 @@
     .m-inline-1 {
         margin-inline: 1px;
     }
+
+    .last-thirty-table {
+        overflow-x: auto;
+    }
+
+    .last-thirty-table::-webkit-scrollbar {
+        height: 3px;
+    }
 }
 
 @media screen and (max-width:767px) {
