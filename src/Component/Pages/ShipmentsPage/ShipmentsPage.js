@@ -22,6 +22,7 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { debounce } from 'lodash';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -62,6 +63,7 @@ const ShipmentsPage = () => {
     const [awbNo, setAwbNo] = useState(null)
     const [filterData, setFilterData] = useState(null);
     const [selectAll, setSelectAll] = useState(false);
+    const [loader, setLoader] = useState(false)
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
 
@@ -234,9 +236,13 @@ const ShipmentsPage = () => {
     };
 
     useEffect(() => {
-        if (BulkActionShow) {
+        if (activeTab) {
+            setLoader(true)
             setBulkActionShow(false)
             setSelectedRows([])
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
         }
     }, [activeTab])
 
@@ -452,6 +458,7 @@ const ShipmentsPage = () => {
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }

@@ -15,6 +15,7 @@ import { customErrorFunction, customErrorPincode } from '../../../../customFunct
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye } from "@fortawesome/free-solid-svg-icons";
 import globalDebouncedClick from "../../../../debounce";
+import LoaderScreen from "../../../LoaderScreen/LoaderScreen";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const BasicInfo = ({ activeTab }) => {
@@ -27,6 +28,7 @@ const BasicInfo = ({ activeTab }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [logoPreview, setLogoPreview] = useState(dummyLogo);
   const [viewAttachmentContent, setViewAttachmentContent] = useState(false);
+  const [LoaderRing, setLoaderRing] = useState(false)
   const [formData, setFormData] = useState({
     company_name: '',
     email: '',
@@ -148,6 +150,7 @@ const BasicInfo = ({ activeTab }) => {
       });
       if (response?.status === 201) {
         toast.success("Details update successfully")
+        setLoaderRing(false)
       }
     } catch (error) {
       customErrorFunction(error)
@@ -156,6 +159,7 @@ const BasicInfo = ({ activeTab }) => {
 
 
   const handleSubmit = async (e) => {
+    setLoaderRing(true)
     e.preventDefault();
     const newErrors = {}
     if (!formData.company_name) {
@@ -555,6 +559,7 @@ const BasicInfo = ({ activeTab }) => {
         className={`backdrop ${viewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
 
       <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} />
+      <LoaderScreen loading={LoaderRing} />
     </>
   );
 };

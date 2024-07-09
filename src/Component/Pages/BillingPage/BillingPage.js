@@ -12,6 +12,7 @@ import Pagination from '../../common/Pagination/Pagination';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import moment from 'moment';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const BillingPage = () => {
     const [selectedOrderRows, setSelectedOrderRows] = useState([]);
     const [MoreFilters, setMoreFilters] = useState(false);
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
+    const [loader, setLoader] = useState(false)
 
 
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
@@ -62,9 +64,13 @@ const BillingPage = () => {
         }
     }, [activeTab, dispatch, itemsPerPage, currentPage]);
 
-    
+
     useEffect(() => {
+        setLoader(true)
         if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
             setSelectAll(false)
         }
     }, [activeTab])
@@ -229,6 +235,7 @@ const BillingPage = () => {
                 billingRemitanceExportCard={billingRemitanceExportCard}
             />
             <div onClick={() => setMoreFilters(false)} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
+            <LoaderScreen loading={loader} />
         </>
     );
 };

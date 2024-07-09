@@ -6,17 +6,32 @@ import BasicInfo from './Components/BasicInfo';
 import KYCInfo from './Components/KYCInfo';
 import AgreementInfo from './Components/AgreementInfo';
 import AccountInfo from './Components/AccountInfo';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const CustomerPage = () => {
   const location = useLocation();
   const defaultTab = location.state?.activeTab || "Basic Information";
   const [activeTab, setActiveTab] = useState(defaultTab);
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     if (location.state?.activeTab) {
       setActiveTab(location.state.activeTab);
     }
   }, [location.state?.activeTab]);
+
+  useEffect(() => {
+    setLoader(true)
+    if (activeTab) {
+        setTimeout(() => {
+            setLoader(false)
+        }, 500);
+    }
+}, [activeTab])
+
+
+console.log(activeTab,"activeTabactiveTab")
+
 
   return (
     <>
@@ -41,6 +56,7 @@ const CustomerPage = () => {
       <div className={`${activeTab === "Agreement" ? "d-block" : "d-none"}`}>
         <AgreementInfo />
       </div>
+      <LoaderScreen loading={loader} />
     </>
   );
 };

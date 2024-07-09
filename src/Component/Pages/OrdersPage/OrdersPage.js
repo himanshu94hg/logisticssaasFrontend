@@ -31,6 +31,7 @@ import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { debounce } from 'lodash';
 import { useLocation } from 'react-router-dom';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -78,6 +79,8 @@ const OrdersPage = () => {
     const [rateRef, setRateRef] = useState(null)
     const [LoaderRing, setLoaderRing] = useState(false)
     const [statusType, setStatusType] = useState([])
+    const [loader, setLoader] = useState(false)
+    
 
     const orderStatus = {
         "pending": "Pending",
@@ -120,7 +123,11 @@ const OrdersPage = () => {
 
 
     useEffect(() => {
+        setLoader(true)
         if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
             setSearchValue("");
             setQueryParamTemp({});
             setItemsPerPage(20)
@@ -661,6 +668,7 @@ const OrdersPage = () => {
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }

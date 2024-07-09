@@ -7,6 +7,7 @@ import ReportsMIS from './Components/ReportsMIS/ReportsMIS';
 import Pagination from '../../common/Pagination/Pagination';
 import { useDispatch } from 'react-redux';
 import './MISPage.css'
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const MISPage = () => {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const MISPage = () => {
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [activeTab, setActiveTab] = useState("ScheduledReportsMIS");
     const [selectedOption, setSelectedOption] = useState("Domestic");
+    const [loader, setLoader] = useState(false)
 
     const handleOptionSelect = (option) => {
         setSelectedOption(option);
@@ -28,6 +30,15 @@ const MISPage = () => {
     const [selectedRows, setSelectedRows] = useState([]);
     const [BulkActionShow, setBulkActionShow] = useState(false)
 
+
+    useEffect(() => {
+        setLoader(true)
+        if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
+    }, [activeTab])
 
     return (
         <>
@@ -52,6 +63,7 @@ const MISPage = () => {
                 <div className={`${activeTab === "DownloadMIS" ? "d-block" : "d-none"}`}>
                     <DownloadMIS activeTab={activeTab}setBulkActionShow={setBulkActionShow}  selectedRows={selectedRows} setSelectedRows={setSelectedRows}  />
                 </div>
+                <LoaderScreen loading={loader} />
 
                 {/* <Pagination
                     totalItems={totalItems}

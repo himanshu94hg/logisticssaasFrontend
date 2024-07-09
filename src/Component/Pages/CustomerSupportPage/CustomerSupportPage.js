@@ -18,6 +18,7 @@ import { useSelector } from 'react-redux';
 import AllTickets from './Components/AllTickets';
 import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -39,6 +40,7 @@ const CustomerSupportPage = () => {
   const [queryParamTemp, setQueryParamTemp] = useState({})
   const popRef = useRef(null);
   const [categoryStatus, setCategoryStatus] = useState(false);
+  const [loader, setLoader] = useState(false)
 
 
   const authToken = Cookies.get("access_token")
@@ -157,7 +159,13 @@ const CustomerSupportPage = () => {
   };
 
   useEffect(() => {
-    setSearchValue('')
+    setLoader(true)
+    if (activeTab) {
+          setSearchValue('')
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
   }, [activeTab])
 
   useEffect(() => {
@@ -337,6 +345,7 @@ const CustomerSupportPage = () => {
         <ViewTicketSlider tktId={allTicket} setViewTicketInfo={setViewTicketInfo} ViewTicketInfo={ViewTicketInfo} viewId={viewId} />
       </div>
       <div className={`backdrop ${NewTicket || FilterTickets || ViewTicketInfo ? 'd-block' : 'd-none'}`}></div>
+      <LoaderScreen loading={loader} />
     </>
   );
 };

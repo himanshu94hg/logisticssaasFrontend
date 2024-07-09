@@ -21,6 +21,7 @@ import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -60,6 +61,7 @@ const MoreOnOrders = () => {
     const [mergeOrders, setMergeOrders] = useState([]);
     const [reassOrders, setReassOrders] = useState([])
     const [splitOrders, setSplitOrders] = useState([])
+    const [loader, setLoader] = useState(false)
 
 
     const apiEndpoint = `${BASE_URL_CORE}`;
@@ -99,7 +101,11 @@ const MoreOnOrders = () => {
 
 
     useEffect(() => {
+        setLoader(true)
         if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
             setCurrentPage(1)
             setSearchValue("");
             setQueryParamTemp({});
@@ -441,7 +447,7 @@ const MoreOnOrders = () => {
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
-
+            <LoaderScreen loading={loader} />
         </>
     )
 }

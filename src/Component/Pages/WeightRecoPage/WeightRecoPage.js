@@ -17,6 +17,7 @@ import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsC
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { debounce } from 'lodash';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -48,6 +49,8 @@ const WeightRecoPage = () => {
     const [queryName, setQueryName] = useState([])
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
+    const [loader, setLoader] = useState(false)
+
 
     const orderStatus = {
         "pending": "Pending",
@@ -74,7 +77,7 @@ const WeightRecoPage = () => {
 
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
     const { weightData, holdData, setteledData } = recoSectionReducer;
-    console.log(setteledData, "Setteled Data")
+ 
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -190,8 +193,12 @@ const WeightRecoPage = () => {
     }, [favListData])
 
     useEffect(() => {
+        setLoader(true)
         if (activeTab) {
             setSearchOption(SearchOptions[0])
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
         }
     }, [activeTab])
 
@@ -312,6 +319,7 @@ const WeightRecoPage = () => {
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
+            <LoaderScreen loading={loader} />
         </>
     );
 };
