@@ -14,6 +14,7 @@ import { BASE_URL_CORE } from '../../../../../axios/config';
 
 import Cookies from 'js-cookie';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
@@ -31,6 +32,7 @@ const RateCalculatorPage = () => {
   const [errors, setErrors] = useState({});
   const [isChecked, setIsChecked] = useState(false);
   const [shipData, setShipData] = useState([])
+  const [loader, setLoader] = useState(false)
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -154,6 +156,10 @@ const RateCalculatorPage = () => {
     console.log(newErrors, "this is key data");
 
     if (Object.keys(newErrors).length === 0) {
+      setLoader(true)
+      setTimeout(() => {
+        setLoader(false)
+      }, 1000);
       dispatch({
         type: "RATE_CALCULATOR_ACTION",
         payload: formData
@@ -272,6 +278,10 @@ const RateCalculatorPage = () => {
 
   const orderIdApiCAll = () => {
     if (orderId !== "") {
+      setLoader(true)
+      setTimeout(() => {
+        setLoader(false)
+    }, 500);
       dispatch({
         type: "RATE_CALCULATOR_ACTION_ORDER_ID",
         payload: orderId
@@ -542,6 +552,7 @@ const RateCalculatorPage = () => {
               </div>
             </form>
           </section>
+          <LoaderScreen loading={loader} />
           {shipData.length > 0 && <section className='mt-5'>  {shipData?.map((item) => {
             return (
               <div className={`mb-5 ${sellerData ? '' : 'd-none'}`}>
