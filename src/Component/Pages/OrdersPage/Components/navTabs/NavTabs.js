@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
 import React, { useCallback, useState } from "react";
-import { Navbar, Nav } from "react-bootstrap";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
 import 'react-toastify/dist/ReactToastify.css';
 import { Link, useNavigate } from "react-router-dom";
 import { createOrderPattern } from "../../../../../Routes";
@@ -12,6 +12,8 @@ import { AiOutlineImport } from "react-icons/ai";
 import { IoMdSync } from "react-icons/io";
 import { BASE_URL_CORE } from "../../../../../axios/config";
 import { debounce } from "lodash";
+import { useSelector } from "react-redux";
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
@@ -36,7 +38,7 @@ export default function NavTabs(props) {
   );
   const handleSubmit = () => {
     debouncedHandleClick();
-}
+  }
 
   const handleOptionSelect = (option) => {
     setSelectedOption(option);
@@ -46,130 +48,121 @@ export default function NavTabs(props) {
   const toggleOptions = () => {
     setIsOpen(!isOpen);
   };
+
+  const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
+
+  const handleSelect = (selectedKey) => {
+    props.setActiveTab(selectedKey);
+  };
+
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
   return (
     <Navbar
-      className="w-100 box-shadow shadow-sm p7 gap-10"
+      className="w-100 box-shadow shadow-sm p7"
       variant="light"
       id="shipEaseNavTabs"
     >
       <Navbar.Toggle aria-controls="navTabs" />
-      <Navbar.Collapse id="navTabs">
+      <Navbar.Collapse id="navTabs" className="d-none d-lg-block">
         <Nav className="ml-auto w-100 alignContent">
-          <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "All" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("All");
+          {screenWidthData > 991 &&
+            <div className="alignContent">
+              {navItems.map((tab) => (
+                <Nav.Link
+                  key={tab}
+                  className={`d-none d-lg-block ${props.activeTab === tab ? "active" : ""}`}
+                  onClick={() => props.setActiveTab(tab)}
+                >
+                  <div className="navItemsContainer">{tab}</div>
+                </Nav.Link>
+              ))}
+            </div>
+          }
 
-              }}
+          {screenWidthData < 992 &&
+            <NavDropdown
+              title={props.activeTab || "Select Option"}
+              id="nav-dropdown"
+              onSelect={handleSelect}
+              drop="left"
             >
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                All
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Unprocessable" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Unprocessable");
+              {navItems.map((item) => (
+                <NavDropdown.Item
+                  key={item}
+                  eventKey={item}
+                  active={props.activeTab === item}
+                >
+                  {item}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
+          }
 
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Unprocessable
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Processing" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Processing");
+          <div className="d-flex gap-2">
+            {screenWidthData > 991 &&
+              <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
+                <div className="selected-option">
+                  {selectedOption || "Select an option"}
+                  <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
 
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Processing
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Ready to Ship" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Ready to Ship");
+                </div>
 
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Ready to Ship
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Pickup" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Pickup");
-              }}
-            >
-              <div className="navItemsContainer">
-                Pickups
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Manifest" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Manifest");
+                <div className={`options-container ${isOpen ? "open" : ""}`}>
+                  <div
+                    className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
+                    onClick={() => handleOptionSelect("Domestic")}
+                  >
+                    Domestic
+                  </div>
+                  <div
+                    title="Disabled"
+                    // className={`option ${selectedOption === "International" ? "selected" : ""}`}
+                    className={`option`}
+                  // onClick={() => handleOptionSelect("International")}
+                  >
+                    International <br />(Will Be Active Shortly)
+                  </div>
+                </div>
 
-              }}
-            >
-              <div className="navItemsContainer">
-                Manifest
               </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Returns" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Returns");
-              }}
-            >
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Returns
+            }
+            {screenWidthData > 991 &&
+              <div className="d-flex gap-10 align-items-center">
+                <button
+                  className="btn main-button-outline"
+                  onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
+                >
+                  <AiOutlineImport className="align-text-bottom" /> Import
+                </button>
+                <button className="btn main-button-outline" onClick={handleSubmit}><IoMdSync /> Sync</button>
+                <button onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create</button>
               </div>
-            </Nav.Link>
+            }
+
+            {screenWidthData < 992 &&
+              <div className="nav-actions-container">
+                <div className="nav-action-dots">
+                  <img src={ThreeDots} alt="ThreeDots" width={24} />
+                </div>
+                <ul className="nav-actions-list">
+                  <li
+                    className=""
+                    onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
+                  >
+                    <AiOutlineImport className="align-text-bottom" /> Import
+                  </li>
+                  <li className="" onClick={handleSubmit}><IoMdSync /> Sync</li>
+                  <li onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="">
+                    <FontAwesomeIcon icon={faPlus} /> Create
+                  </li>
+                </ul>
+              </div>
+            }
           </div>
         </Nav>
       </Navbar.Collapse>
-      <div className={`down-sliding-select ${isOpen ? "open" : ""}`} onMouseEnter={() => { setIsOpen(true); }} onMouseLeave={() => { setIsOpen(false); }}>
-        <div className="selected-option">
-          {selectedOption || "Select an option"}
-          <FontAwesomeIcon icon={isOpen ? faChevronUp : faChevronDown} />
 
-        </div>
-
-        <div className={`options-container ${isOpen ? "open" : ""}`}>
-          <div
-            className={`option ${selectedOption === "Domestic" ? "selected" : ""}`}
-            onClick={() => handleOptionSelect("Domestic")}
-          >
-            Domestic
-          </div>
-          <div
-            title="Disabled"
-            // className={`option ${selectedOption === "International" ? "selected" : ""}`}
-            className={`option`}
-          // onClick={() => handleOptionSelect("International")}
-          >
-            International <br />(Will Be Active Shortly)
-          </div>
-        </div>
-
-      </div>
-      <div className="d-flex gap-10 align-items-center">
-        <button
-          className="btn main-button-outline"
-          onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
-        >
-          <AiOutlineImport className="align-text-bottom" /> Import
-        </button>
-        <button className="btn main-button-outline" onClick={handleSubmit}><IoMdSync /> Sync</button>
-        <button onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="btn main-button"><FontAwesomeIcon icon={faPlus} /> Create</button>
-      </div>
     </Navbar>
   );
 }
