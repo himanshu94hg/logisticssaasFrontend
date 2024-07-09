@@ -28,6 +28,7 @@ import SellerProfilePage from "./SellerProfilePage/SellerProfilePage";
 import FullLogo from '../../../assets/image/logo/logo.svg'
 import SideNavToggleIcon from "./Icons/SideNavToggleIcon";
 import { clearAllCookies } from "../../Pages/Dashboard/Dashboard";
+import LoaderScreen from "../../LoaderScreen/LoaderScreen";
 
 export default function Header({ isExpanded, setExpanded, WalletRecharge, setWalletRecharge }) {
   const dispatch = useDispatch()
@@ -35,6 +36,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
   let authToken = Cookies.get("access_token")
   let staticToken = Cookies.get("static_token")
   // const [userData, setUserData] = useState(null)
+  const [LoaderRing, setLoaderRing] = useState(false)
   const [inputValue, setInputValue] = useState('');
   const [temp, setTemp] = useState({
     var1: null,
@@ -84,12 +86,16 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
   const handleLogout = () => {
     localStorage.clear();
+    setLoaderRing(true)
     Cookies.remove('access_token');
     clearAllCookies()
     navigate(indexPattern)
     if (indexPattern) {
       window.location.reload()
     }
+    setTimeout(() => {
+      setLoaderRing(false)
+    }, 2000);
   };
 
   useEffect(() => {
@@ -260,6 +266,7 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
       {ViewProfile}
 
       <SellerProfilePage userData={userData} setViewProfile={setViewProfile} ViewProfile={ViewProfile} />
+      <LoaderScreen loading={LoaderRing} />
 
       {
         screenWidthData < 992 &&

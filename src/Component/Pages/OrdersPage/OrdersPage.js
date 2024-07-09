@@ -76,6 +76,8 @@ const OrdersPage = () => {
     const [filterData, setFilterData] = useState({});
     const [selectAll, setSelectAll] = useState(false);
     const [rateRef, setRateRef] = useState(null)
+    const [LoaderRing, setLoaderRing] = useState(false)
+    const [statusType, setStatusType] = useState([])
 
     const orderStatus = {
         "pending": "Pending",
@@ -103,6 +105,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
+        // setLoaderRing(false)
     }, [orderCancelled])
 
 
@@ -341,7 +344,7 @@ const OrdersPage = () => {
                 });
         }
         // }
-    }, [orderCancelled,rateRef, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage,  moreorderShipCardStatus]);
+    }, [orderCancelled,rateRef,activeTab, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage,  moreorderShipCardStatus]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {
@@ -470,6 +473,7 @@ const OrdersPage = () => {
                         selectAll={selectAll}
                         setSelectAll={setSelectAll}
                         setRateRef={setRateRef}
+                        setStatusType={setStatusType}
                     />
                 </div>
 
@@ -600,6 +604,8 @@ const OrdersPage = () => {
                         setFilterData={setFilterData}
                         queryParamTemp={queryParamTemp}
                         setQueryParamTemp={setQueryParamTemp}
+                        LoaderRing={LoaderRing}
+                        setLoaderRing={setLoaderRing}
                     />
                 )
                 }

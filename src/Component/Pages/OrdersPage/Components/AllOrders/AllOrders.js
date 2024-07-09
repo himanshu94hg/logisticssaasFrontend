@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType,setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -74,7 +74,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setSelectAll, bul
         if (data === "selectAll") {
             setSelectAll(!selectAll);
             if (!selectAll) {
-                setbulkAwb(orders.map(row => row?.awb_number));
+                setbulkAwb(orders.map(row => row?.status));
                 setSelectedRows(orders.map(row => row?.id));
                 setBulkActionShow(true)
             } else {
@@ -87,7 +87,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setSelectAll, bul
         else {
             setSelectAll(!selectAll);
             if (!selectAll) {
-                setbulkAwb(orders.map(row => row?.awb_number));
+                setbulkAwb(orders.map(row => row?.status));
                 setSelectedRows(orders.map(row => row?.id));
                 setBulkActionShow(true)
             } else {
@@ -388,7 +388,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setSelectAll, bul
                                                 <input
                                                     type="checkbox"
                                                     checked={selectedRows?.includes(row?.id)}
-                                                    onChange={() => handleSelectRow(row?.id, row?.awb_number)}
+                                                    onChange={() => handleSelectRow(row?.id, row?.status)}
                                                 />
                                             </td>
                                             <td>

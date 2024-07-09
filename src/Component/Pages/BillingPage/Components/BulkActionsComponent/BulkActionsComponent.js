@@ -6,11 +6,13 @@ import axios from 'axios';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { toast } from 'react-toastify';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, selectedRows, selectedOrderRows, setSelectedRows, setSelectedOrderRows }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token");
     const [exportButtonClick, setExportButtonClick] = useState(false)
+    const [loading, setLoading] = useState(false)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard } = useSelector(state => state?.exportSectionReducer)
     const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
@@ -18,6 +20,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
 
     const handleExport = async () => {
         setExportButtonClick(true);
+        setLoading(true)
         const requestData = {
             "ids": `${activeTab === "Shipping Charges" ? selectedOrderRows.join(',') : selectedRows.join(',')}`
         };
@@ -44,14 +47,12 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
                 });
 
                 if (response.status === 200) {
+                    setSelectAll(false)
                     toast.success("Data Export Successfully!");
                     const FileSaver = require('file-saver');
                     const blob = new Blob([response.data], { type: 'application/ms-excel' });
                     FileSaver.saveAs(blob, `remittance.xlsx`);
                     setBulkActionShow(false)
-                    setSelectAll(false)
-                    
-
                 }
             } catch (error) {
                 customErrorFunction(error)
@@ -81,18 +82,9 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
             FileSaver.saveAs(blob, `${activeTab}.xlsx`);
             setExportButtonClick(false);
             setSelectAll(false)
+            setLoading(false)
         }
     }, [exportPassbookCard, exportShippingCard, exportRechargeCard, exportInvoiceCard, exportRemitanceCard, exportReceiptCard, exportCard]);
-
-    useEffect(() => {
-        if (billingShipingRemitanceDOWNLOADCard) {
-            var FileSaver = require('file-saver');
-            var blob = new Blob([billingShipingRemitanceDOWNLOADCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `remitance.xlsx`);
-            setExportButtonClick(false);
-            setSelectAll(false)
-        }
-    }, [billingShipingRemitanceDOWNLOADCard]);
 
 
     return (
@@ -114,6 +106,7 @@ const BulkActionsComponent = ({ activeTab, setSelectAll, setBulkActionShow, sele
                     </div>
                 </section>
             )}
+            <LoaderScreen loading={loading} />
         </>
     )
 }
