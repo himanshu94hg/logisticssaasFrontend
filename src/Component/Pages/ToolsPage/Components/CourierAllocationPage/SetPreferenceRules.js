@@ -146,13 +146,13 @@ const SetPreferenceRules = ({ activeTab }) => {
 
 
 
-        for (let i = 0; i < selectedPartners.length; i++) {
-            if (!selectedPartners[i]) {
-                formIsValid = false;
-                errors["selectedPartners"] = "Partner should be selected for each priority";
-                break;
-            }
-        }
+        // for (let i = 0; i < selectedPartners.length; i++) {
+        //     if (!selectedPartners[i]) {
+        //         formIsValid = false;
+        //         errors["selectedPartners"] = "Partner should be selected for each priority";
+        //         break;
+        //     }
+        // }
 
         console.log(errors,"errorserrors",selectedPartners)
 
