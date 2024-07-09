@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
 import moment from 'moment';
 import NoData from '../../../../common/noData';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -145,7 +146,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    {row?.order_detail?.awb_number}
+                                                    {row?.awb_number}
                                                 </p>
                                             </div>
                                         </td>
@@ -153,7 +154,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
                                                 <p className='text-capitalize'>
-                                                    {row?.order_detail?.courier_partner}
+                                                    {row?.courier_partner}
                                                 </p>
                                             </div>
                                         </td>
@@ -177,7 +178,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             {/* Applied Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    -
+                                                    {row?.charge_detail?.total_charges || "-"}
                                                 </p>
                                             </div>
                                         </td>
@@ -185,26 +186,26 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             {/* Excess Weight Charges */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    -
+                                                    {row?.charge_detail?.excess_weight_charges || "-"}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* Entered Weight and dimensions */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    -
-                                                </p>
-
+                                                {row?.dimension_detail?.weight ?
+                                                    <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
+                                                        LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}
+                                                    </p> : ""
+                                                }
                                             </div>
                                         </td>
                                         <td>
                                             {/* Charged Weight and Dimensions */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
-                                                    -
-                                                </p>
-
+                                                {row.charge_detail?.c_weight ? <p>Wt:  {row?.charge_detail?.c_weight} kg
+                                                    LBH(cm): {row?.charge_detail?.c_length} x {row?.charge_detail?.c_breadth} x {row?.charge_detail?.c_height}
+                                                </p> : "-"}
                                             </div>
 
                                         </td>
@@ -244,16 +245,14 @@ function Preview({ show, handleClose, selectedRow }) {
                         <tr>
                             <th>Date</th>
                             <th>AWB CODE</th>
-                            <th>Balance</th>
                             <th>Amount</th>
                             <th>Description</th>
                         </tr>
                         <tr>
-                            <td>{selectedRow?.datetime ? <DateFormatter dateTimeString={selectedRow?.datetime} /> : ''}</td>
-                            <td>{selectedRow?.order_detail?.awb_number}</td>
-                            <td>{selectedRow?.balance}</td>
-                            <td>{selectedRow?.amount}</td>
-                            <td>{selectedRow?.description}</td>
+                            <td>{moment(selectedRow?.awb_assigned_date).format("DD MMM YYYY") || moment(selectedRow?.awb_assigned_date).format("h:mm A")}</td>
+                            <td>{selectedRow?.awb_number}</td>
+                            <td>{selectedRow?.charge_detail?.total_charges}</td>
+                            <td> Order Shipping Charges Deducted</td>
                         </tr>
                     </tbody>
                 </table>

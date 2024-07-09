@@ -601,26 +601,15 @@ ul.order-label-list li {
 }
 
 .mps-flag {
-  font-size: 12px;
+  font-size: 11px;
   /* border: 1px solid var(--sh-primary); */
   font-weight: 700;
   border-radius: 0.5rem;
-  background: var(--sh-primary);
-  padding: 4px 10px;
+  background: var(--sh-primary-light);
+  padding: 1px 12px;
   color: #fff;
-  /* color: var(--sh-primary); */
+  color: var(--sh-primary);
   margin-left: 10px;
-  /* background-color: #c5dcf1;
-  padding: 4px 10px;
-  color: #1975C9;
-  font-size: 12px !important;
-  width: -moz-fit-content;
-  width: fit-content;
-  border-radius: 10px;
-  text-transform: capitalize;
-  margin-bottom: 0;
-  font-weight: 700;
-  white-space: nowrap; */
 }
 
 @media screen and (max-width:1366px) {

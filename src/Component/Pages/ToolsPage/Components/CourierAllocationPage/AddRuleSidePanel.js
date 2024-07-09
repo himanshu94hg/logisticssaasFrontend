@@ -4,6 +4,9 @@ import React from 'react'
 
 const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, priorityOptions, courierPartnerData, priority, handlePriorityChange, selectedPartners, handlePartnerChange, RuleRow, conditions, setConditions, setOnRowsChange, handleSubmit }) => {
 
+console.log(formErrors,"formErrorsformErrorsformErrors")
+
+
     return (
         <>
             <div id='sidepanel-closer' onClick={() => setRulePanel(false)}>
@@ -54,7 +57,7 @@ const AddRuleSidePanel = ({ setRulePanel, ruleName, setRuleName, formErrors, pri
                                         <option key={partner.id} value={partner.keyword}>{partner.title}</option>
                                     ))}
                                 </select>
-                                <div className="custom-error">{selectedPartners[index]?"":"Partner should be selected for each priority"}</div>
+                                {/* <div className="custom-error">{selectedPartners[index]?"":"Partner should be selected for each priority"}</div> */}
                             </label>
                         ))}
                        
