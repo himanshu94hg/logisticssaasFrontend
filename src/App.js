@@ -112,7 +112,6 @@ function App() {
     };
 
     updateWidth(); // Set initial width
-
     window.addEventListener('resize', updateWidth);
 
     return () => window.removeEventListener('resize', updateWidth);
