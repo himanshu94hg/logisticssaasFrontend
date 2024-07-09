@@ -18,7 +18,7 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, filterData, setFilterData, queryParamTemp, setQueryParamTemp }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, filterData, setFilterData, queryParamTemp, setQueryParamTemp }) => {
     const dispatch = useDispatch();
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
@@ -28,77 +28,47 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, se
     const [generateinvoice, setGenerateinvoice] = useState(false);
     const [actionType, setActionType] = useState("");
     const [show, setShow] = useState(false);
-    const [LoaderRing, setLoaderRing] = useState(false)
 
     const handleClose = () => setShow(false);
 
-    console.log(labelData, "labelDatalabelDatalabelDatalabelData")
+
+    console.log(bulkAwb, "bulkAwbbulkAwbbulkAwb")
 
     useEffect(() => {
-        if (labelData) {
-            console.log(labelData,"labelDatalabelDatalabelData")
-            if (labelData?.message === "Go to MIS -> Download and download the labels.") {
-                console.log("MIS instruction received for labels.");
-            } else if (genaratelabel) {
-                const blob = new Blob([labelData], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'label.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                setGenaratelabel(false);
-            }
+        if (labelData && genaratelabel) {
+            const blob = new Blob([labelData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setGenaratelabel(false);
         }
-    }, [labelData, genaratelabel]);
+    }, [labelData]);
 
     useEffect(() => {
-        if (labelData?.message === "Go to MIS -> Download and download the labels.") {
-        }
-        else {
-            if (labelData) {
-                if (genaratelabel === true) {
-                    const blob = new Blob([labelData], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'label.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    setGenaratelabel(false)
-                }
-            }
-        }
-    }, [invoiceData, generateinvoice]);
-
-    useEffect(() => {
-        if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
-        }
-        else {
-            if (invoiceData) {
-                if (generateinvoice === true) {
-                    const blob = new Blob([invoiceData], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'Invoice.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    setGenerateinvoice(false)
-                }
-            }
+        if (invoiceData && generateinvoice) {
+            const blob = new Blob([invoiceData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setGenerateinvoice(false)
         }
     }, [invoiceData])
+
 
     const addTag = () => {
         setaddTagShow(true)
     }
+
     const markedVerified = () => {
         dispatch({
             type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
@@ -127,11 +97,23 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, se
         setSelectAll(false)
         if (actionType === "bulkDelete") {
             dispatch({ type: "BULK_DELETE_ORDER_ACTION", payload: { order_ids: selectedRows } });
+            setLoaderRing(true)
+            setTimeout(() => {
+                setLoaderRing(false)
+            }, 2000);
         } else {
             if (activeTab === "Processing" || activeTab === "Pickups") {
                 dispatch({ type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: { order_ids: selectedRows } });
+                setLoaderRing(true)
+                setTimeout(() => {
+                    setLoaderRing(false)
+                }, 2000);
             } else {
                 dispatch({ type: "BULK_CANCEL_ORDER_ACTION", payload: { ids: selectedRows } });
+                setLoaderRing(true)
+                setTimeout(() => {
+                    setLoaderRing(false)
+                }, 2000);
             }
         }
     };
@@ -147,29 +129,37 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, se
     };
 
     const generateLabel = () => {
-        setGenaratelabel(true);
-        setLoaderRing(true)
-        setSelectAll(false)
-        // setBulkActionShow(false)
-        setSelectedRows([])
-        // setTimeout(() => {
-        //     setLoaderRing(false)
-        // }, 2000);
-        dispatch({ type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: { order_ids: selectedRows.join(',') } });
+        const valuesToCheck = ["pending", "cancelled"];
+        const atLeastOneExists = valuesToCheck.some(value => bulkAwb.includes(value));
+        if (atLeastOneExists) {
+            toast.error(" Oops... You can not select Pending or Cancelled Orders!")
+        } else {
+            setGenaratelabel(true);
+            setLoaderRing(true)
+            setTimeout(() => {
+                setLoaderRing(false)
+            }, 2000);
+            setSelectAll(false)
+            setSelectedRows([])
+            dispatch({ type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: { order_ids: selectedRows.join(',') } });
+        }
     };
 
-    console.log(LoaderRing,"ppppppppppppppppppppppppppppppppppppppppppp")
-
     const generateInvoice = () => {
-        setGenerateinvoice(true);
-        setLoaderRing(true)
-        setSelectAll(false)
-        // setBulkActionShow(false)
-        setSelectedRows([])
-        setTimeout(() => {
-            setLoaderRing(false)
-        }, 2000);
-        dispatch({ type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: { order_ids: selectedRows.join(',') } });
+        const valuesToCheck = ["pending", "cancelled"];
+        const atLeastOneExists = valuesToCheck.some(value => bulkAwb.includes(value));
+        if (atLeastOneExists) {
+            toast.error(" Oops... You can not select Pending or Cancelled Orders!")
+        } else {
+            setGenerateinvoice(true);
+            setLoaderRing(true)
+            setSelectAll(false)
+            setSelectedRows([])
+            setTimeout(() => {
+                setLoaderRing(false)
+            }, 2000);
+            dispatch({ type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: { order_ids: selectedRows.join(',') } });
+        }
     };
 
     const bulkDimesionDetailUpdate = () => {
@@ -180,6 +170,10 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, se
     const handleExport = () => {
         setExportButtonClick(true);
         setSelectAll(false)
+        setLoaderRing(true)
+        setTimeout(() => {
+            setLoaderRing(false)
+        }, 2000);
         const requestData = {
             "order_tab": {
                 "type": activeTab === "All" ? "" : activeTab,
@@ -221,6 +215,10 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, se
 
     const handelBulkShip = () => {
         setShipButtonClicked(true);
+        setLoaderRing(true)
+        setTimeout(() => {
+            setLoaderRing(false)
+        }, 2000);
         const data = { "order_ids": selectedRows.map(id => id.toString()) };
         dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
         setSelectAll(false)
@@ -390,7 +388,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, setSelectAll, setbulkAwb, se
                 </section>
             )}
 
-            <LoaderScreen LoaderRing={LoaderRing} />
+            <LoaderScreen loading={LoaderRing} />
 
             <Modal
                 show={show}

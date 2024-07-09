@@ -168,7 +168,7 @@ function* billingShipingReceiptExportFilesAction(action) {
 }
 
 function* billingShipingRemitanceDownloadFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(billingShippingRemitanceDownloadFileAPI, payload);
         if (response.status === 200) {

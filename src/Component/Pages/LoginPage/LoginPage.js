@@ -17,6 +17,7 @@ import { BASE_URL_CORE } from '../../../axios/config';
 import globalDebouncedClick from '../../../debounce';
 import { IoIosEyeOff } from "react-icons/io";
 import { IoIosEye } from "react-icons/io";
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const LoginPage = ({ setTokenExists, tokenExists }) => {
   const navigate = useNavigate();
@@ -33,6 +34,8 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   const [timer, setTimer] = useState(20);
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [PasswordShow, setPasswordShow] = useState(false)
+  const [LoaderRing, setLoaderRing] = useState(false)
+
 
   useEffect(() => {
     let intervalId;
@@ -46,6 +49,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
 
 
   const handleClickLogin = async () => {
+    setLoaderRing(true)
     try {
       const response = await axios.post(`${BASE_URL_CORE}/core-api/accounts/user-sign/`, {
         contact_number: username,
@@ -53,6 +57,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       });
       if (response.status == 200) {
         toast.success("User Logged in succesfully!")
+        setLoaderRing(false)
         setTokenExists(true)
         navigate(indexPattern);
         Cookies.set('access_token', response?.data?.access_token)
@@ -62,6 +67,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       }
     } catch (error) {
       customErrorFunction(error)
+      setLoaderRing(false)
     }
   }
 
@@ -225,6 +231,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
             </div>
           </div>
         </div>
+        <LoaderScreen loading={LoaderRing} />
       </section>
     </>
   );
