@@ -71,7 +71,7 @@
 
     #shipEaseNavTabs .nav-item {
         border: 1px solid var(--sh-primary-middle);
-        padding: 2px 5px;
+        padding: 5px 10px;
         border-radius: 0.5rem;
         width: 150px;
     }
@@ -83,7 +83,7 @@
     #shipEaseNavTabs .nav-item .dropdown-toggle::after {
         position: absolute;
         right: 0;
-        top: 14px;
+        top: 10px;
     }
 
     #shipEaseNavTabs .dropdown-menu {

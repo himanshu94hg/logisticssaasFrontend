@@ -4,8 +4,6 @@ import React from 'react';
 import { Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 
-const ScreenWidth = window.innerWidth
-
 const LineGraph = ({ cardColor }) => {
   const data = {
     labels: ['January', 'February', 'March', 'April', 'May'],
