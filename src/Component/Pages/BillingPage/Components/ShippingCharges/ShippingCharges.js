@@ -162,7 +162,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box'>
                                                 <p className=''>
-                                                    <span className=''>{`${moment(row?.datetime).format('DD MMM YYYY')} || ${moment(row?.datetime).format('h:mm A')}`}</span>
+                                                    <span className=''>{`${moment(row?.awb_assigned_date).format('DD MMM YYYY')} || ${moment(row?.awb_assigned_date).format('h:mm A')}`}</span>
                                                 </p>
                                             </div>
                                         </td>

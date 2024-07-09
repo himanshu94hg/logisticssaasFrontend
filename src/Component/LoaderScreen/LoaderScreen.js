@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import './LoaderScreen.css'
 import { RotateSpinner } from 'react-spinners-kit';
 
-const LoaderScreen = ({LoaderRing}) => {
+const LoaderScreen = ({loading}) => {
   return (
     <>
-      {LoaderRing &&
+      {loading &&
         <>
           <div className="loader-screen">
             <RotateSpinner size={100} color="#60a9eb" />

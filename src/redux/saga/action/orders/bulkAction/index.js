@@ -207,12 +207,6 @@ function* bulkGenerateLabelAction(action) {
             yield put({ type: ORDERS_LABEL_LIST_DATA, payload: response?.data })
         }
 
-        if (response.status === 201) {
-            toast.success(response?.data?.message)
-            yield put({ type: ORDERS_DELETE_RES_DATA, payload: response?.status })
-            yield put({ type: ORDERS_LABEL_LIST_DATA, payload: response?.data })
-        }
-
     } catch (error) {
         customErrorFunction(error);
     }

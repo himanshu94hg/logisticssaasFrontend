@@ -39,7 +39,7 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.billingSectionReducer?.billingShipingRemitanceDOWNLOADCard)
+    const {billingShipingRemitanceDOWNLOADCard} = useSelector(state => state?.billingSectionReducer)
     const { codDetails } = useSelector(state => state?.dashboardOverviewReducer)
 
     useEffect(() => {
@@ -103,20 +103,15 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     };
 
     useEffect(() => {
-        if (exportButtonClick) {
+        if (exportButtonClick && billingShipingRemitanceDOWNLOADCard)  {
             var FileSaver = require('file-saver');
-            var blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            var blob = new Blob([billingShipingRemitanceDOWNLOADCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${"Remitance Logs"}.xlsx`);
             setExportButtonClick(false);
         }
-    }, [exportCard]);
+    }, [billingShipingRemitanceDOWNLOADCard]);
 
 
-    // useEffect(() => {
-    //   first
-
-
-    // }, [])
 
 
     return (
