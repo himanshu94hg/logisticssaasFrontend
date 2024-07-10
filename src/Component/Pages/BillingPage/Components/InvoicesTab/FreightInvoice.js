@@ -7,56 +7,27 @@ import { BASE_URL_ORDER } from '../../../../../../src/axios/config';
 import InvoiceIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/InvoiceIcon';
 import { MdOutlineFileDownload } from "react-icons/md";
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
 
 const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
-    const dispatch = useDispatch();
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
-    const [data, setData] = useState([]);
-    const [showPdf, setShowPdf] = useState(false);
     const componentRef = useRef();
+    const dispatch = useDispatch();
+    const [data, setData] = useState([]);
+    const [selectAll, setSelectAll] = useState(false);
     const [allinvoicedata, setAllInvoiceData] = useState([]);
+    const [exportButtonClick, setExportButtonClick] = useState(false)
+
     const exportCard = useSelector(state => state?.billingSectionReducer?.billingInvoiceDownloadCard)
     const billingSellerCard = useSelector(state => state?.billingSectionReducer?.billingSellerCard);
     const configurationCard = useSelector(state => state?.paymentSectionReducer.configurationCard)
-
+    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata?.id}`
     const gstNumber = billingSellerCard[0]?.gst_number || "";
     const configGstIn = configurationCard[0]?.gstin || "";
-
     const isSameState = gstNumber.substring(0, 2) === configGstIn.substring(0, 2);
 
     useEffect(() => {
         dispatch({ type: "BILLING_SELLER_DATA_ACTION" });
     }, [dispatch]);
 
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -68,21 +39,17 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
         if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -94,10 +61,6 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         content: () => componentRef.current,
     });
 
-    const handleViewPdf = () => {
-        setShowPdf(!showPdf);
-    };
-
     const handleDataAndView = (row) => {
         if (row.id !== null) {
             setAllInvoiceData(row);
@@ -105,16 +68,6 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                 handlePrint();
             }, 100);
         }
-    };
-
-    const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata?.id}`
-    console.log(invoiceUrlData, "invoiceUrlData")
-
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-
-    const handleDownloadInvoice = () => {
-        setExportButtonClick(true);
-        dispatch({ type: "BILLING_INVOICE_DOWNLOAD_DATA_ACTION", payload: allinvoicedata });
     };
 
     useEffect(() => {
@@ -131,11 +84,6 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         fontSize: '24px',
         height: '30px',
         alignItems: 'center'
-    };
-    const [fileUrl, setFileUrl] = useState('');
-    const viewFile = () => {
-        const url = 'https://example.com/yourfile'; // Replace with your file link
-        setFileUrl(url);
     };
 
     return (
@@ -209,7 +157,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                 <td>
                                     <div className='cell-inside-box'>
                                         <div className='d-flex gap-3'>
-                                            {row.uploaded_invoice ?
+                                            {row.uploaded_invoice !== null ?
                                                 <button title='Download Working' style={downloadButton} className='btn p-0'
                                                     onClick={() => {
                                                         window.open(row.uploaded_invoice?.invoice_file)
@@ -220,7 +168,6 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                         <InvoiceIcon />
                                                     </button>
                                                 </>}
-
                                             {row.uploaded_invoice ?
                                                 <button title='Download Working' style={downloadButton} className='btn p-0'
                                                     onClick={() => {
