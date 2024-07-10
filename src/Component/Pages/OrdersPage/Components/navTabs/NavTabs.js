@@ -121,7 +121,7 @@ export default function NavTabs(props) {
                     className={`option`}
                   // onClick={() => handleOptionSelect("International")}
                   >
-                    International <br />(Will Be Active Shortly)
+                    International <br />(Will be activated on Request)
                   </div>
                 </div>
 
