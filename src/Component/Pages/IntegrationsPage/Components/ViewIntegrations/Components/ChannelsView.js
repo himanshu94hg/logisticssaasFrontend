@@ -1,40 +1,10 @@
-import React, { useState,useEffect } from 'react';
-import { Modal } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Modal, Button } from 'react-bootstrap';
+import React, { useState, useEffect } from 'react';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
-
-const ChannelsView = ({channelData}) => {
-
+const ChannelsView = ({ channelData }) => {
     const [show, setShow] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
     const [backDrop, setBackDrop] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     const handleShow = (row) => {
         setSelectedRow(row);
@@ -42,7 +12,6 @@ const ChannelsView = ({channelData}) => {
     };
 
     const handleClose = () => setShow(false);
-
 
     return (
         <>
@@ -74,7 +43,7 @@ const ChannelsView = ({channelData}) => {
                                                 {row?.channel}
                                             </td>
                                             <td>
-                                                {<DateFormatter dateTimeString={row?.channel_configuration?.last_executed} />}
+                                                NA
                                             </td>
                                             <td>
                                                 {"Active"}
