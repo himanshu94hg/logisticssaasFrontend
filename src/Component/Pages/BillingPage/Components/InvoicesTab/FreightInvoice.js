@@ -223,7 +223,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                     }}
                                                 ><MdOutlineFileDownload /></button>
                                                 :
-                                                <button title='Download Working' style={downloadButton} className='btn p-0'><MdOutlineFileDownload /></button>
+                                                <button title='Download Working' style={downloadButton} className='btn p-0'  onClick={() => handleDataAndView(row)}><MdOutlineFileDownload /></button>
                                             }
                                         </div>
                                     </div>

@@ -7,12 +7,15 @@ import OthersView from './Components/OthersView';
 import CourierView from './Components/CourierView';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const ViewIntegrations = () => {
     const location = useLocation()
     const dispatch = useDispatch()
-    const [activeTab, setActiveTab] = useState("Channel")
+    const [loader, setLoader] = useState(false)
     const [channelData,setChannelData] = useState([]);
+    const [activeTab, setActiveTab] = useState("Channel")
+
 
     const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
 
@@ -36,6 +39,15 @@ const ViewIntegrations = () => {
         }
     }, [location.state]);
 
+    useEffect(() => {
+        setLoader(true)
+        if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
+    }, [activeTab])
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -56,6 +68,7 @@ const ViewIntegrations = () => {
                 <div className={`${activeTab === "Courier" ? "d-block" : "d-none"}`}>
                     <CourierView />
                 </div>
+                <LoaderScreen loading={loader} />
             </div>
 
         </>
