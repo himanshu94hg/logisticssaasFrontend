@@ -146,6 +146,26 @@
     background-color: #bce5ea;
 }
 
+.clickpost .int-header {
+    background-color: #c4cad0;
+}
+
+.easycom .int-header {
+    background-color: #a2d3bb;
+}
+
+.omsguru .int-header {
+    background-color: #b5d2e9;
+}
+
+.vineretail .int-header {
+    background-color: #ead2da;
+}
+
+.unicommerce .int-header {
+    background-color: #c7daf7;
+}
+
 /* .int-form {
     width: 60%;
     margin-inline: auto;
@@ -213,6 +233,26 @@
     background-color: #8CD3DB;
 }
 
+.unicommerce .int-header-right:after {
+    background-color: #4786ed;
+}
+
+.easycom .int-header-right:after {
+    background-color: #1f9e47;
+}
+
+.omsguru .int-header-right:after {
+    background-color: #0e76bc;
+}
+
+.clickpost .int-header-right:after {
+    background-color: #414141;
+}
+
+.vineretail .int-header-right:after {
+    background-color: #f47374;
+}
+
 .int-body {
     display: flex;
     margin-block: 1rem;
@@ -256,10 +296,12 @@
     bottom: 0;
     left: 28px;
     margin-left: -3px;
+    height: 84%;
 }
 
 .magento .timeline::after {
     background-color: #fdd1b4;
+    height: 94%;
 }
 
 .amazon .timeline::after {
@@ -272,10 +314,35 @@
 
 .woo .timeline::after {
     background-color: #E4DBEF;
+    height: 88%;
 }
 
 .easyship .timeline::after {
     background-color: #bce5ea;
+    height: 94%;
+}
+
+.unicommerce .timeline::after {
+    background-color: #c7daf7;
+    height: 77%;
+}
+
+.easycom .timeline::after {
+    background-color: #a2d3bb;
+}
+
+.omsguru .timeline::after {
+    background-color: #b5d2e9;
+    height: 88%;
+}
+
+.clickpost .timeline::after {
+    background-color: #c4cad0;
+}
+
+.vineretail .timeline::after {
+    background-color: #ead2da;
+    height: 90%;
 }
 
 .timeline-list {
@@ -290,7 +357,7 @@
     position: absolute;
     width: 25px;
     height: 25px;
-    left: -17px;
+    left: -1rem;
     background-color: white;
     border: 4px solid #95bf47;
     top: 9px;
@@ -316,4 +383,24 @@
 
 .easyship .timeline-list:after {
     border: 4px solid #8CD3DB;
+}
+
+.unicommerce .timeline-list:after {
+    border: 4px solid #4786ed;
+}
+
+.easycom .timeline-list:after {
+    border: 4px solid #1f9e47;
+}
+
+.omsguru .timeline-list:after {
+    border: 4px solid #0e76bc;
+}
+
+.clickpost .timeline-list:after {
+    border: 4px solid #414141;
+}
+
+.vineretail .timeline-list:after {
+    border: 4px solid #f47374;
 }

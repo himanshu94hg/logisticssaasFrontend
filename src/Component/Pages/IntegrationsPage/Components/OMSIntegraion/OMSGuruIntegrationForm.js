@@ -13,7 +13,7 @@ const OMSGuruIntegrationForm = () => {
 
     return (
         <>
-            <div className='magento'>
+            <div className='omsguru'>
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src='https://www.shipease.in/public/assets/images/oms/omsguru.png' alt="Logo" />
