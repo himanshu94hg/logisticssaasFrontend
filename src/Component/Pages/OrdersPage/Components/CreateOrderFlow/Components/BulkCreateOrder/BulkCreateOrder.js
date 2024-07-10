@@ -7,17 +7,20 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BASE_URL_ORDER } from '../../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../../customFunction/errorHandling';
+import LoaderScreen from '../../../../../../LoaderScreen/LoaderScreen';
 
 const BulkCreateOrder = () => {
+    const [loader, setLoader] = useState(false)
+    const [inputKey, setInputKey] = useState(0);
     const [bulkOrders, setBulkOrders] = useState([]);
     const [selectedFile, setSelectedFile] = useState(null);
     const [bulkOrdersStatus, setBulkOrdersStatus] = useState(false);
-    const [inputKey, setInputKey] = useState(0); // Add input key state
 
     const authToken = Cookies.get("access_token");
     const sellerId = Cookies.get("user_id");
 
     const handleFileUpload = async (event) => {
+        setLoader(true)
         const formData = new FormData();
         formData.append('order_file', event.target.files[0]);
         formData.append('seller_id', sellerId);
@@ -32,12 +35,11 @@ const BulkCreateOrder = () => {
                 const responseData = response.data;
                 toast.success('Bulk Order Created Successfully');
                 setBulkOrdersStatus(true);
-            } else {
-                const errorData = response.data;
-                // toast.error(error?.response?.data?.detail);
+                setLoader(false)
             }
         } catch (error) {
             customErrorFunction(error);
+            setLoader(false)
         }
     };
 
@@ -86,58 +88,61 @@ const BulkCreateOrder = () => {
     };
 
     return (
-        <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
-            <section className='bulk-orders-head'>
-                <div className='d-flex gap-2 align-items-center justify-content-between'>
-                    <h3>Import Bulk Orders</h3>
-                    <button className='btn main-button' onClick={handleDownloadTemplate}>Download Template</button>
-                </div>
-                <p>Download the sample file and replace its data with your order data. Make sure all mandatory fields are filled. Save the file and upload it back.</p>
-            </section>
-            <section className='inputs-container mx-auto mb-3 bulk-import-input'>
-                <div className='mid-text-container'>
-                    <input key={inputKey} type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
-                    <LuUploadCloud className='font30 mb-3' />
-                    <p>Drag And Drop to upload the file here.</p>
-                    <p className='bo-or-text'>OR</p>
-                    <p className='upload-click ml-5'>Click to Upload File</p>
-                    {/* <p className='accepted-note'>Only csv, xls & xlsx file format will be accepted.</p> */}
-                    <p className='accepted-note'>Only .xls & .xlsx file format will be accepted.</p>
-                </div>
-            </section>
-            <section className='bo-upload-data'>
-                <div className='d-flex justify-content-between align-items-center'>
-                    <h4>Recent Uploads</h4>
-                    <p>Last 10 days activity</p>
-                </div>
-                <table className='w-100'>
-                    <thead>
-                        <tr>
-                            <th>File Name</th>
-                            <th>Date</th>
-                            <th>No. Of Orders</th>
-                            <th>Successful Orders</th>
-                            <th>Error Orders</th>
-                        </tr>
-                    </thead>
-                    <thead>
-                        {bulkOrders?.slice(0, 10)?.map((item) => {
-                            return (
-                                <tr>
-                                    <td><Link className='anchor-order' onClick={() => handleDownloadlinkTemplate(item?.original_file)}>{item?.file_name}</Link></td>
-                                    <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
-                                    <td>{item?.total_orders}</td>
-                                    <td>{item?.success_orders}</td>
-                                    <td><Link className='anchor-error' onClick={() => handleDownloadError(item?.failed_orders_file)}>{item?.failed_orders}</Link></td>
-                                </tr>
-                            )
-                        })}
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </section>
-        </div>
+        <>
+            <div className='box-shadow shadow-sm p10 w-100 bulk-orders-page'>
+                <section className='bulk-orders-head'>
+                    <div className='d-flex gap-2 align-items-center justify-content-between'>
+                        <h3>Import Bulk Orders</h3>
+                        <button className='btn main-button' onClick={handleDownloadTemplate}>Download Template</button>
+                    </div>
+                    <p>Download the sample file and replace its data with your order data. Make sure all mandatory fields are filled. Save the file and upload it back.</p>
+                </section>
+                <section className='inputs-container mx-auto mb-3 bulk-import-input'>
+                    <div className='mid-text-container'>
+                        <input key={inputKey} type="file" accept=".xlsx,.csv" onChange={handleFileUpload} />
+                        <LuUploadCloud className='font30 mb-3' />
+                        <p>Drag And Drop to upload the file here.</p>
+                        <p className='bo-or-text'>OR</p>
+                        <p className='upload-click ml-5'>Click to Upload File</p>
+                        {/* <p className='accepted-note'>Only csv, xls & xlsx file format will be accepted.</p> */}
+                        <p className='accepted-note'>Only .xls & .xlsx file format will be accepted.</p>
+                    </div>
+                </section>
+                <section className='bo-upload-data'>
+                    <div className='d-flex justify-content-between align-items-center'>
+                        <h4>Recent Uploads</h4>
+                        <p>Last 10 days activity</p>
+                    </div>
+                    <table className='w-100'>
+                        <thead>
+                            <tr>
+                                <th>File Name</th>
+                                <th>Date</th>
+                                <th>No. Of Orders</th>
+                                <th>Successful Orders</th>
+                                <th>Error Orders</th>
+                            </tr>
+                        </thead>
+                        <thead>
+                            {bulkOrders?.slice(0, 10)?.map((item) => {
+                                return (
+                                    <tr>
+                                        <td><Link className='anchor-order' onClick={() => handleDownloadlinkTemplate(item?.original_file)}>{item?.file_name}</Link></td>
+                                        <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
+                                        <td>{item?.total_orders}</td>
+                                        <td>{item?.success_orders}</td>
+                                        <td><Link className='anchor-error' onClick={() => handleDownloadError(item?.failed_orders_file)}>{item?.failed_orders}</Link></td>
+                                    </tr>
+                                )
+                            })}
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </section>
+            </div>
+            <LoaderScreen loading={loader} />
+        </>
     );
 };
 

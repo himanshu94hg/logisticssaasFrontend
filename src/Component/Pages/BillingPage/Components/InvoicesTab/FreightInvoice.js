@@ -210,7 +210,21 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             <button title='View Invoice' onClick={() => handleDataAndView(row)} className='btn p-0'>
                                                 <InvoiceIcon />
                                             </button>
-                                            <button title='Download Working' style={downloadButton} className='btn p-0'><MdOutlineFileDownload /></button>
+                                            {row.uploaded_invoice ?
+                                                <button title='Download Working' style={downloadButton} className='btn p-0'
+                                                    onClick={() => {
+                                                        const pdfUrl = row.uploaded_invoice?.awb_file 
+                                                        const link = document.createElement('a');
+                                                        link.href = pdfUrl;
+                                                        link.download = 'invoice.pdf'; 
+                                                        document.body.appendChild(link);
+                                                        link.click();
+                                                        document.body.removeChild(link);
+                                                    }}
+                                                ><MdOutlineFileDownload /></button>
+                                                :
+                                                <button title='Download Working' style={downloadButton} className='btn p-0'><MdOutlineFileDownload /></button>
+                                            }
                                         </div>
                                     </div>
                                 </td>
