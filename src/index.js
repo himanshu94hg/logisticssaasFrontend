@@ -7,6 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Suspense } from 'react';
 import App from './App';
 import './index.css';
+import './responsive.css'
 
 createRoot(document.getElementById('root')).render(
   <>

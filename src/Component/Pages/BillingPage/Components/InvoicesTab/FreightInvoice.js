@@ -4,6 +4,8 @@ import { useReactToPrint } from 'react-to-print';
 import NoData from '../../../../common/noData';
 import { useDispatch, useSelector } from 'react-redux';
 import { BASE_URL_ORDER } from '../../../../../../src/axios/config';
+import InvoiceIcon from '../../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/InvoiceIcon';
+import { MdOutlineFileDownload } from "react-icons/md";
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -123,6 +125,13 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         }
     }, [exportCard]);
 
+    const downloadButton = {
+        display: 'flex',
+        fontSize: '24px',
+        height: '30px',
+        alignItems: 'center'
+    };
+
 
     return (
         <div className='table-container'>
@@ -141,7 +150,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                         <th>Due Date</th>
                         <th>Total</th>
                         <th>Status</th>
-                        <th>Action</th>
+                        <th>Actions</th>
                     </tr>
                     <tr className="blank-row"><td></td></tr>
                 </thead>
@@ -197,9 +206,12 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                 </td>
                                 <td>
                                     <div className='cell-inside-box'>
-                                        <p className=''>
-                                            <button className='btn main-button' style={{ width: '100px' }} onClick={() => handleDataAndView(row)}>View</button>
-                                        </p>
+                                        <div className='d-flex gap-3'>
+                                            <button title='View Invoice' onClick={() => handleDataAndView(row)} className='btn p-0'>
+                                                <InvoiceIcon />
+                                            </button>
+                                            <button title='Download Working' style={downloadButton} className='btn p-0'><MdOutlineFileDownload /></button>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -306,21 +318,21 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                             {isSameState ? (
                                                 <>
                                                     <tr>
-                                                    <td></td>
-                                                    <td style={{ paddingLeft: '50px' }}>9.00% CGST</td>
-                                                    <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
-                                                        Rs. {Math.round(allinvoicedata?.gst_amount / 2)}
-                                                    </td>
+                                                        <td></td>
+                                                        <td style={{ paddingLeft: '50px' }}>9.00% CGST</td>
+                                                        <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
+                                                            Rs. {Math.round(allinvoicedata?.gst_amount / 2)}
+                                                        </td>
                                                     </tr>
                                                     <tr>
-                                                    <td></td>
-                                                    <td style={{ paddingLeft: '50px' }}>9.00% SGST</td>
-                                                    <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
-                                                        Rs. {Math.round(allinvoicedata?.gst_amount / 2)}
-                                                    </td>
+                                                        <td></td>
+                                                        <td style={{ paddingLeft: '50px' }}>9.00% SGST</td>
+                                                        <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>
+                                                            Rs. {Math.round(allinvoicedata?.gst_amount / 2)}
+                                                        </td>
                                                     </tr>
                                                 </>
-                                                ) : (
+                                            ) : (
                                                 <tr>
                                                     <td></td>
                                                     <td style={{ paddingLeft: '50px' }}>18.00% IGST</td>
@@ -328,7 +340,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                         Rs. {Math.round(allinvoicedata?.gst_amount)}
                                                     </td>
                                                 </tr>
-                                                )}
+                                            )}
                                             <tr>
                                                 <td></td>
                                                 <td style={{ paddingLeft: '50px' }}><strong>Grand Total Value</strong></td>
@@ -399,7 +411,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                             </div>
 
                             <div style={{ borderRadius: '10px', background: '#fff', padding: '0mm 0 2mm 0' }}>
-                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' style={{ backgroundColor: '#285eda',color:'white',padding:'3px' }} >Download Now</a></span>
+                                <span><b>Download Itemized Shipment Details:</b> <a href={invoiceUrlData} target='_blank' style={{ backgroundColor: '#285eda', color: 'white', padding: '3px' }} >Download Now</a></span>
                             </div>
 
                         </div>

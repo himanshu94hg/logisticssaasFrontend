@@ -68,7 +68,7 @@ import BuyerCommunicationPage from "./Component/Pages/SettingsPage/components/Bu
 import SellerNotificationsPage from "./Component/Pages/SettingsPage/components/SellerNotificationsPage/SellerNotificationsPage";
 import PostpaidSettingsPage from "./Component/Pages/SettingsPage/components/PostpaidSettingsPage/PostpaidSettingsPage";
 import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
-import "./responsive.css";
+// import "./responsive.css";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 import screenWidth from "./redux/action/screenWidth";
 import LoaderScreen from "./Component/LoaderScreen/LoaderScreen";
