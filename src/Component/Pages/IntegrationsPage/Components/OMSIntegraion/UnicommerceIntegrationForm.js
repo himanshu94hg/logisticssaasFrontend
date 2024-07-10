@@ -13,7 +13,7 @@ const UnicommerceIntegrationForm = () => {
 
     return (
         <>
-            <div className='magento'>
+            <div className='unicommerce'>
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src='https://www.shipease.in/public/assets/images/oms/unicommerce.jpg' alt="Logo" />
