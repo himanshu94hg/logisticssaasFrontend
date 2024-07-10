@@ -58,7 +58,7 @@ const CreateOrderFlow = () => {
                 {/* All */}
                 <div className={`non-active-flow ${activeTab === "InternationalCreateOrders" ? "d-block" : "d-none"}`}>
                     <InternationalCreateOrders />
-                    <div className='not-active-message'>This service will be active shortly.</div>
+                    <div className='not-active-message'>Will be activated on Request</div>
                 </div>
 
                 {/* All */}
