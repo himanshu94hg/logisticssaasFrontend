@@ -145,18 +145,20 @@ export default function NavTabs(props) {
                 <div className="nav-action-dots">
                   <img src={ThreeDots} alt="ThreeDots" width={24} />
                 </div>
-                <ul className="nav-actions-list">
-                  <li
-                    className=""
-                    onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
-                  >
-                    <AiOutlineImport className="align-text-bottom" /> Import
-                  </li>
-                  <li className="" onClick={handleSubmit}><IoMdSync /> Sync</li>
-                  <li onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="">
-                    <FontAwesomeIcon icon={faPlus} /> Create
-                  </li>
-                </ul>
+                <div className="nav-actions-list">
+                  <ul>
+                    <li
+                      className=""
+                      onClick={() => navigate(createOrderPattern, { state: { orderType: "BulkCreateOrder" } })}
+                    >
+                      <AiOutlineImport className="align-text-bottom" /> Import
+                    </li>
+                    <li className="" onClick={handleSubmit}><IoMdSync /> Sync</li>
+                    <li onClick={() => navigate(createOrderPattern, { state: { orderType: "normalOrder" } })} className="">
+                      <FontAwesomeIcon icon={faPlus} /> Create
+                    </li>
+                  </ul>
+                </div>
               </div>
             }
           </div>
