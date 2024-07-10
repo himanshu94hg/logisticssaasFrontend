@@ -108,6 +108,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     };
 
     const invoiceUrlData = `${BASE_URL_ORDER}/core-api/features/billing/download-invoice-detail/?invoice_id=${allinvoicedata?.id}`
+    console.log(invoiceUrlData, "invoiceUrlData")
 
     const [exportButtonClick, setExportButtonClick] = useState(false)
 
@@ -131,7 +132,11 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
         height: '30px',
         alignItems: 'center'
     };
-
+    const [fileUrl, setFileUrl] = useState('');
+    const viewFile = () => {
+        const url = 'https://example.com/yourfile'; // Replace with your file link
+        setFileUrl(url);
+    };
 
     return (
         <div className='table-container'>
@@ -177,8 +182,6 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                     <div className='cell-inside-box'>
                                         <p className=''>
                                             <span>{`${moment(row?.invoice_date).format('DD MMM YYYY')}`}</span>
-
-                                            {/* {row?.invoice_date} */}
                                         </p>
                                     </div>
                                 </td>
@@ -186,7 +189,6 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                     <div className='cell-inside-box'>
                                         <p className=''>
                                             <span>{`${moment(row?.due_date).format('DD MMM YYYY')}`}</span>
-                                            {/* {row?.due_date ?? "2024-01-01"} */}
                                         </p>
                                     </div>
                                 </td>
@@ -207,23 +209,32 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                 <td>
                                     <div className='cell-inside-box'>
                                         <div className='d-flex gap-3'>
-                                            <button title='View Invoice' onClick={() => handleDataAndView(row)} className='btn p-0'>
-                                                <InvoiceIcon />
-                                            </button>
                                             {row.uploaded_invoice ?
                                                 <button title='Download Working' style={downloadButton} className='btn p-0'
                                                     onClick={() => {
-                                                        const pdfUrl = row.uploaded_invoice?.awb_file 
+                                                        window.open(row.uploaded_invoice?.invoice_file)
+                                                    }}
+                                                >    <InvoiceIcon /></button>
+                                                : <>
+                                                    <button title='View Invoice' onClick={() => handleDataAndView(row)} className='btn p-0'>
+                                                        <InvoiceIcon />
+                                                    </button>
+                                                </>}
+
+                                            {row.uploaded_invoice ?
+                                                <button title='Download Working' style={downloadButton} className='btn p-0'
+                                                    onClick={() => {
+                                                        const pdfUrl = row.uploaded_invoice?.awb_file
                                                         const link = document.createElement('a');
                                                         link.href = pdfUrl;
-                                                        link.download = 'invoice.pdf'; 
+                                                        link.download = 'invoice.pdf';
                                                         document.body.appendChild(link);
                                                         link.click();
                                                         document.body.removeChild(link);
                                                     }}
                                                 ><MdOutlineFileDownload /></button>
                                                 :
-                                                <button title='Download Working' style={downloadButton} className='btn p-0'  onClick={() => handleDataAndView(row)}><MdOutlineFileDownload /></button>
+                                                <button title='Download Working' style={downloadButton} className='btn p-0' onClick={() => handleDataAndView(row)}><MdOutlineFileDownload /></button>
                                             }
                                         </div>
                                     </div>
@@ -282,8 +293,8 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                 </td>
                                                 <td style={{ width: '40%', verticalAlign: 'top' }}>
                                                     <strong>Invoice No. : </strong> {allinvoicedata?.invoice_number}<br />
-                                                    <strong>Invoice Date :</strong> {allinvoicedata?.invoice_date}<br />
-                                                    <strong>Due Date :</strong> {allinvoicedata?.due_date}<br />
+                                                    <strong>Invoice Date :</strong> {moment(allinvoicedata?.invoice_date).format("DD MMM YYYY")}<br />
+                                                    <strong>Due Date :</strong>{moment(allinvoicedata?.due_date).format("DD MMM YYYY")}<br />
                                                 </td>
                                             </tr>
                                             <tr>
@@ -408,7 +419,7 @@ const FreightInvoice = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td style={{ paddingLeft: '50px' }}>{allinvoicedata?.invoice_date}</td>
+                                                <td style={{ paddingLeft: '50px' }}>{moment(allinvoicedata?.invoice_date).format("DD MMM YYYY")}</td>
                                                 <td style={{ paddingLeft: '50px' }}>Credit Balance</td>
                                                 <td style={{ paddingLeft: '50px' }}>NA</td>
                                                 <td style={{ paddingLeft: '50px', textAlign: 'right', paddingRight: '50px' }}>Rs. {allinvoicedata?.total}</td>
