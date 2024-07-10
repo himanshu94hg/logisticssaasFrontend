@@ -7,6 +7,7 @@ import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
 import SetPreferenceRules from './SetPreferenceRules';
 import { useDispatch, useSelector } from "react-redux";
 import globalDebouncedClick from '../../../../../debounce';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const CourierAllocationPage = () => {
   const dispatch = useDispatch();

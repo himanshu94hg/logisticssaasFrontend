@@ -12,6 +12,7 @@ import DragIcon from '../../../../../common/Icons/DragIcon';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import '../CourierAllocationPage.css';
+import LoaderScreen from '../../../../../LoaderScreen/LoaderScreen';
 
 const DROPPABLE_IDS = {
     POOL: '0',
@@ -27,10 +28,20 @@ const TABS = {
 const NewComponent = () => {
     const [activeTab, setActiveTab] = useState(TABS.COURIER_PREFERENCES);
     const [pool, setPool] = useState([]);
+    const [loader, setLoader] = useState(false)
     const [sequenceOne, setSequenceOne] = useState([]);
     const [sequenceTwo, setSequenceTwo] = useState([]);
     const [allocatedData, setAllocatedData] = useState([]);
     const authToken = Cookies.get('access_token');
+
+    useEffect(() => {
+        setLoader(true)
+        if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
+    }, [activeTab])
 
     useEffect(() => {
         if (activeTab === TABS.COURIER_PREFERENCES) {
@@ -109,6 +120,7 @@ const NewComponent = () => {
     };
 
     const handleClick = async () => {
+        setLoader(true)
         try {
             const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/tools/save-general-preference/`, allocatedData, {
                 headers: {
@@ -119,9 +131,11 @@ const NewComponent = () => {
 
             if (response.status === 200) {
                 toast.success('Preference updated successfully!');
+                setLoader(false)
             }
         } catch (error) {
             customErrorFunction(error);
+            setLoader(false)
         }
     };
 
@@ -261,6 +275,7 @@ const NewComponent = () => {
             <section className={`box-shadow shadow-sm white-block p10 mb-3 ${activeTab === TABS.SET_PREFERENCE_RULES ? 'd-block' : 'd-none'}`}>
                 <SetPreferenceRules activeTab={activeTab} />
             </section>
+            <LoaderScreen loading={loader} />
         </>
     );
 };

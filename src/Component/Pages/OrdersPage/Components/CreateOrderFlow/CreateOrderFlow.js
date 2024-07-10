@@ -1,31 +1,31 @@
-import React, { useEffect, useState } from 'react';
 import './CreateOrderFlow.css'
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
+import BulkCreateOrder from './Components/BulkCreateOrder/BulkCreateOrder';
+import QuickCreateOrder from './Components/QuickCreateOrder/QuickCreateOrder';
 import DomesticCreateOrder from './Components/DomesticCreateOrder/DomesticCreateOrder';
 import InternationalCreateOrders from './Components/InternationalCreateOrders/InternationalCreateOrders';
-import QuickCreateOrder from './Components/QuickCreateOrder/QuickCreateOrder';
-import BulkCreateOrder from './Components/BulkCreateOrder/BulkCreateOrder';
-import { useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 
 const CreateOrderFlow = () => {
-
     const location = useLocation();
-    const [activeTab, setActiveTab] = useState("DomesticCreateOrder");
-
-    const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
+    const [loader, setLoader] = useState(false)
+    const [selectedOption, setSelectedOption] = useState("Domestic");
+    const [activeTab, setActiveTab] = useState("DomesticCreateOrder");
     const { pathName } = useSelector(state => state?.authDataReducer)
 
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
-    const toggleOptions = () => {
-        setIsOpen(!isOpen);
-    };
+    useEffect(() => {
+        setLoader(true)
+        if (activeTab) {
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
+    }, [activeTab])
 
 
     useEffect(() => {
@@ -46,7 +46,6 @@ const CreateOrderFlow = () => {
         // }
     }, [location, pathName, location?.state?.orderType]);
 
-    console.log(location.pathname, location.state?.orderType, "location.pathnamelocation.pathname")
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -71,6 +70,7 @@ const CreateOrderFlow = () => {
                 <div className={`${activeTab === "QuickCreateOrder" ? "d-block" : "d-none"}`}>
                     <QuickCreateOrder />
                 </div>
+                <LoaderScreen loading={loader} />
             </div>
         </>
     )

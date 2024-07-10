@@ -17,6 +17,7 @@ import { AiOutlineCloudDownload, AiOutlineCloudUpload } from "react-icons/ai";
 import { faChevronRight, faCircleXmark, faMagnifyingGlass, faPenToSquare, faPlus, faTrashCan } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-toastify';
 import FileSaver from 'file-saver';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -176,6 +177,7 @@ const ManageWarehouse = () => {
   const [bulkReset, setBulkReset] = useState(new Date())
   const [selectedFile, setSelectedFile] = useState(null);
   const [ValidateShow, setValidateShow] = useState(false)
+  const [loader, setLoader] = useState(false)
 
   useEffect(() => {
     fetchDataFromApi();
@@ -292,6 +294,14 @@ const ManageWarehouse = () => {
     tempAnchor.remove();
   };
 
+  useEffect(() => {
+    setLoader(true)
+        setTimeout(() => {
+            setLoader(false)
+        }, 500);
+  
+}, [])
+
   return (
     <>
       <div className="position-relative manage-warehouse">
@@ -341,6 +351,7 @@ const ManageWarehouse = () => {
         </section>
       </section>
       <section className={`backdrop ${editWarehouse ? 'd-block' : 'd-none'}`}></section>
+      <LoaderScreen loading={loader} />
       <Modal className='bulk-import-modal' show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Upload Bulk Warehouse</Modal.Title>

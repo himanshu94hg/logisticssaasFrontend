@@ -16,6 +16,7 @@ import ShipmentDashboard from "./DashboardTabs/ShipmentDashboard";
 import CourierDashboard from "./DashboardTabs/CourierDashboard";
 import { useNavigate } from "react-router-dom";
 import { loginPattern } from "../../../Routes";
+import LoaderScreen from "../../LoaderScreen/LoaderScreen";
 
 
 export function clearAllCookies() {
@@ -30,8 +31,18 @@ export function clearAllCookies() {
 
 function Dashboard({ ScreenWidth }) {
   const navigate = useNavigate()
+  const [loader, setLoader] = useState(false)
   const [activeTab, setActiveTab] = useState("Overview");
   const { checkAuthIsValid } = useSelector(state => state?.authDataReducer)
+
+  useEffect(() => {
+    setLoader(true)
+    if (activeTab) {
+        setTimeout(() => {
+            setLoader(false)
+        }, 230);
+    }
+}, [activeTab])
 
 
   return (
@@ -87,7 +98,7 @@ function Dashboard({ ScreenWidth }) {
       <div className={`${activeTab === "P & L" ? "d-block" : "d-none"}`}>
         <PnL activeTab={activeTab} />
       </div>
-
+      <LoaderScreen loading={loader} />
     </>
   );
 }

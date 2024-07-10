@@ -12,6 +12,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const SetPreferenceRules = ({ activeTab }) => {
     const dispatch = useDispatch();
@@ -29,6 +30,8 @@ const SetPreferenceRules = ({ activeTab }) => {
     const authToken = Cookies.get('access_token');
     const [preferData, setPreferData] = useState([])
     const [refresh, setRefresh] = useState("")
+    const [loader, setLoader] = useState(false)
+
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
@@ -260,6 +263,7 @@ const SetPreferenceRules = ({ activeTab }) => {
 
 
     const handleSaveRule = async () => {
+        setLoader(true)
         try {
             const response = await axios.post(`${BASE_URL_CORE}/core-api/features/courier-allocation/rules/save-rule-positions/`, preferData, {
                 headers: {
@@ -270,13 +274,13 @@ const SetPreferenceRules = ({ activeTab }) => {
             if (response.status === 200) {
                 toast.success('Priority updated successfully!');
                 setRefresh(new Date())
+                setLoader(false)
             }
         } catch (error) {
             customErrorFunction(error);
+            setLoader(false)
         }
     }
-
-    console.log(allRules,"allRulesallRules")
 
     return (
         <>
@@ -382,7 +386,7 @@ const SetPreferenceRules = ({ activeTab }) => {
                 />
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
-
+            <LoaderScreen loading={loader} />
         </>
     );
 };
