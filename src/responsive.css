@@ -107,9 +107,31 @@
     .search-container label {
         width: fit-content;
     }
+
+    .pagination-container {
+        flex-direction: column;
+    }
+
+    .pagination-container .pagination {
+        gap: 5px;
+    }
+
+    .pagination-container .pagination p {
+        white-space: nowrap;
+    }
+
+    .pagination-container .items-per-page-dropdown select,
+    .pagination-container .go-to-page input {
+        width: 62px;
+    }
 }
 
 @media screen and (max-width:767px) {
+
+    .signup-section .signup,
+    .login-section .login {
+        overflow-y: auto;
+    }
 
     .signup-section .right-side,
     .login-section .right-side {
@@ -119,6 +141,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        padding-block: 20px 200px;
     }
 
     .signup-section .left-side,
@@ -148,6 +171,7 @@
 
     .signup-section .signup .content {
         padding-inline: 20px;
+        margin-bottom: 20px;
     }
 
     .signup-section .signup .signup-with-social {

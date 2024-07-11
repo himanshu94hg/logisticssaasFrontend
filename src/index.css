@@ -268,10 +268,6 @@ p {
   background-color: #FF2E92;
 }
 
-.gap-3 {
-  gap: 1rem !important;
-}
-
 .grid {
   display: grid;
   grid-template-rows: repeat(2, 1fr);
