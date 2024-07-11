@@ -28,21 +28,35 @@ import { useSelector } from 'react-redux';
 
 
 const Dropdown = ({ links, isOpen, setExpanded }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { sellerProfileCard } = useSelector(state => state?.paymentSectionReducer);
+
+  const [ZoneService, setZoneService] = useState(sellerProfileCard?.seller_admin?.zone_service);
+
+  useEffect(() => {
+    setZoneService(sellerProfileCard?.seller_admin?.zone_service);
+  }, [sellerProfileCard]);
+
+  console.log(sellerProfileCard, ZoneService, "sellerProfileCard");
 
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
-      {links.map((link, index) => (
-        <NavLink key={index} to={link.to}
-          onClick={(e) => {
-            dispatch(zonePathClearAction(link.label));
-            dispatch(pathAction(link.label));
-            setExpanded(false)
-          }}
-        >
-          <span className='submenu-icon'><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
-        </NavLink>
-      ))}
+      {links.map((link, index) => {
+        if (link.label === "Zone Mapping" && ZoneService === false) {
+          return null; // Skip rendering this link
+        }
+        return (
+          <NavLink key={index} to={link.to}
+            onClick={() => {
+              dispatch(zonePathClearAction(link.label));
+              dispatch(pathAction(link.label));
+              setExpanded(false);
+            }}
+          >
+            <span className="submenu-icon"><FontAwesomeIcon icon={faAnglesRight} /></span> {link.label}
+          </NavLink>
+        );
+      })}
     </div>
   );
 };
@@ -52,8 +66,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   // const [isDropdownOpen, setDropdownOpen] = useState(true);
-  const {sellerProfileCard}=useSelector(state=>state?.paymentSectionReducer)
-  console.log(sellerProfileCard,"sellerProfileCard")
+  const { sellerProfileCard } = useSelector(state => state?.paymentSectionReducer)
+  console.log(sellerProfileCard, "sellerProfileCard")
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
