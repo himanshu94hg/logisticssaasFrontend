@@ -2,7 +2,7 @@ import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
-const AddRuleSidePanel = ({ setRulePanel, selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4, ruleName, setRuleName, formErrors, courierPartnerData, handlePartnerChange, RuleRow, conditions, setConditions, setOnRowsChange, handleSubmit }) => {
+const AddRuleSidePanel = ({ setRulePanel,formType, selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4, ruleName, setRuleName, formErrors, courierPartnerData, handlePartnerChange, RuleRow, conditions, setConditions, setOnRowsChange, handleSubmit }) => {
 
     return (
         <>
@@ -11,7 +11,7 @@ const AddRuleSidePanel = ({ setRulePanel, selectedPartners1, selectedPartners2, 
             </div>
             <section className='edit-order-header'>
                 <div>
-                    <h5 className='mb-0'>Create a rule to set preference for Courier!</h5>
+                    <h5 className='mb-0'>{formType?"Edit":"Create"} a rule to set preference for Courier!</h5>
                 </div>
             </section>
             <section className='ar-panel-body'>
