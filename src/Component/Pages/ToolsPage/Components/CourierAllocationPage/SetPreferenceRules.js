@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import RuleRow from './RuleRow';
 import './SetPreferenceRules.css';
-import AddRuleSidePanel from './AddRuleSidePanel';
-import { BASE_URL_CORE } from '../../../../../axios/config';
-
-import Cookies from 'js-cookie';
-import axios from 'axios';
 import { toast } from 'react-toastify';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import AddRuleSidePanel from './AddRuleSidePanel';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { BASE_URL_CORE } from '../../../../../axios/config';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { faPenToSquare, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const SetPreferenceRules = ({ activeTab }) => {
     const dispatch = useDispatch();
     const [rulePanel, setRulePanel] = useState(false);
     const [ruleName, setRuleName] = useState('');
     const [priority, setPriority] = useState('');
-    const [selectedPartners, setSelectedPartners] = useState(Array(4).fill(''));
+    const [selectedPartners1, setSelectedPartners1] = useState("");
+    const [selectedPartners2, setSelectedPartners2] = useState("");
+    const [selectedPartners3, setSelectedPartners3] = useState("");
+    const [selectedPartners4, setSelectedPartners4] = useState("");
     const [conditions, setConditions] = useState([]);
     const [editingRuleId, setEditingRuleId] = useState(null);
     const [isActive, setIsActive] = useState([]);
@@ -32,14 +34,12 @@ const SetPreferenceRules = ({ activeTab }) => {
     const [refresh, setRefresh] = useState("")
     const [loader, setLoader] = useState(false)
 
-
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
     const courierPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRulePostData);
     const courierDeleteRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleDeleteData);
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
-
 
     useEffect(() => {
         if (courierRules?.data) {
@@ -70,47 +70,44 @@ const SetPreferenceRules = ({ activeTab }) => {
 
     useEffect(() => {
         dispatch({ type: "COURIER_PARTNER_ACTION" });
-    }, [dispatch]);
+    }, []);
 
+    useEffect(() => {
+        if (activeTab === "Set preference Rules" || refresh) {
+            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+            setFormErrors({})
+        }
+    }, [activeTab, refresh]);
 
-    const initializeIsActiveState = (rules) => {
-        const initialActiveState = rules.map(rule => rule.status);
-        setIsActive(initialActiveState);
-    };
+    useEffect(() => {
+        if (rulePanel) {
+            setFormErrors({})
+        }
+    }, [rulePanel])
 
-    const handleToggle = (index, id,value) => {
-        const newIsActive = [...isActive];
-        newIsActive[index] = !newIsActive[index];
-        setIsActive(newIsActive);
-        setAllRules(prevRules => 
-            prevRules.map(rule => 
-                rule.id === id ? { ...rule, status: !rule.status } : rule
-            )
-        );
-    };
-
-    const addRuleRow = () => {
-        setRulePanel(true);
-        setEditingRuleId(null);
-        setRuleName('');
-        setPriority('');
-        setSelectedPartners(Array(4).fill(''));
-        setConditions([]);
-        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
-    };
-
-    const editRuleRow = (id) => {
-        setRulePanel(true);
-        setEditingRuleId(id);
-        dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_ACTION", payload: id });
-    };
+    useEffect(() => {
+        if (allRules) {
+            const temp = []
+            allRules?.map((item, index) => {
+                temp.push({
+                    rule_id: item.id,
+                    position: index + 1,
+                    status: item.status
+                })
+            })
+            setPreferData(temp)
+        }
+    }, [allRules])
 
     useEffect(() => {
         if (editingRuleId && courierEditRules && courierEditRules.data) {
             const rule = courierEditRules.data;
             setRuleName(rule.rule_name);
             setPriority(rule.priority);
-            setSelectedPartners([rule.priority_1, rule.priority_2, rule.priority_3, rule.priority_4]);
+            setSelectedPartners1(rule.priority_1);
+            setSelectedPartners2(rule.priority_2);
+            setSelectedPartners3(rule.priority_3);
+            setSelectedPartners4(rule.priority_4);
             if (rule.preference_choices && Array.isArray(rule.preference_choices)) {
                 setConditions(rule.preference_choices.map(condition => ({
                     condition: condition.condition_type,
@@ -124,6 +121,41 @@ const SetPreferenceRules = ({ activeTab }) => {
         }
     }, [editingRuleId, courierEditRules]);
 
+    const initializeIsActiveState = (rules) => {
+        const initialActiveState = rules.map(rule => rule.status);
+        setIsActive(initialActiveState);
+    };
+
+    const handleToggle = (index, id, value) => {
+        const newIsActive = [...isActive];
+        newIsActive[index] = !newIsActive[index];
+        setIsActive(newIsActive);
+        setAllRules(prevRules =>
+            prevRules.map(rule =>
+                rule.id === id ? { ...rule, status: !rule.status } : rule
+            )
+        );
+    };
+
+    const addRuleRow = () => {
+        setRulePanel(true);
+        setEditingRuleId(null);
+        setRuleName('');
+        setPriority('');
+        setSelectedPartners1("");
+        setSelectedPartners2("");
+        setSelectedPartners3("");
+        setSelectedPartners4("");
+        setConditions([]);
+        dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
+    };
+
+    const editRuleRow = (id) => {
+        setRulePanel(true);
+        setEditingRuleId(id);
+        dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_ACTION", payload: id });
+    };
+
     const handleRuleDelete = (id) => {
         if (id !== null) {
             const updatedRules = allRules.filter(rule => rule.id !== id);
@@ -134,39 +166,26 @@ const SetPreferenceRules = ({ activeTab }) => {
 
     const handleSubmit = () => {
         let errors = {};
-        let formIsValid = true;
-
+        let formIsValid = true
         if (!ruleName) {
             formIsValid = false;
             errors["ruleName"] = "Rule Name cannot be empty";
         }
-
-        // if (!priority) {
-        //     formIsValid = false;
-        //     errors["priority"] = "Priority cannot be empty";
-        // }
-
-
-
-
-        // for (let i = 0; i < selectedPartners.length; i++) {
-        //     if (!selectedPartners[i]) {
-        //         formIsValid = false;
-        //         errors["selectedPartners"] = "Partner should be selected for each priority";
-        //         break;
-        //     }
-        // }
-
-        console.log(errors,"errorserrors",selectedPartners)
-
-        for (let i = 0; i < onRowsChange.length; i++) {
-            const condition = onRowsChange[i];
-            console.log('Validating condition:', condition);
-            if (!condition.condition_type || !condition.match_type || !condition.match_value) {
-                formIsValid = false;
-                errors["conditions"] = "All condition fields are required!";
-                break;
-            }
+        if (!selectedPartners1) {
+            formIsValid = false;
+            errors.priority_1 = "Priority 1 is required!"
+        }
+        if (!selectedPartners2) {
+            formIsValid = false;
+            errors.priority_2 = "Priority 2 is required!"
+        }
+        if (!selectedPartners3) {
+            formIsValid = false;
+            errors.priority_3 = "Priority 3 is required!"
+        }
+        if (!selectedPartners4) {
+            formIsValid = false;
+            errors.priority_4 = "Priority 4 is required!"
         }
 
         if (!formIsValid) {
@@ -177,10 +196,10 @@ const SetPreferenceRules = ({ activeTab }) => {
         const requestData = {
             rule_name: ruleName,
             priority: priority,
-            priority_1: selectedPartners[0],
-            priority_2: selectedPartners[1],
-            priority_3: selectedPartners[2],
-            priority_4: selectedPartners[3],
+            priority_1: selectedPartners1,
+            priority_2: selectedPartners2,
+            priority_3: selectedPartners3,
+            priority_4: selectedPartners4,
             rules: conditions.map(condition => ({
                 condition: condition.condition,
                 condition_type: condition.condition_type,
@@ -203,21 +222,27 @@ const SetPreferenceRules = ({ activeTab }) => {
         setFormErrors({});
         setRuleName('');
         setPriority('');
-        setSelectedPartners(Array(4).fill(''));
+        setSelectedPartners1("");
+        setSelectedPartners2("");
+        setSelectedPartners3("");
+        setSelectedPartners4("");
         setConditions([]);
     };
 
-    useEffect(() => {
-        if (activeTab === "Set preference Rules" || refresh) {
-            dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
-            setFormErrors({})
+    const handlePartnerChange = (e) => {
+        const { name, value } = e.target
+        if (name === "priority_1") {
+            setSelectedPartners1(value)
         }
-    }, [activeTab, refresh]);
-
-    const handlePartnerChange = (index, value) => {
-        const updatedPartners = [...selectedPartners];
-        updatedPartners[index] = value;
-        setSelectedPartners(updatedPartners);
+        if (name === "priority_2") {
+            setSelectedPartners2(value)
+        }
+        if (name === "priority_3") {
+            setSelectedPartners3(value)
+        }
+        if (name === "priority_4") {
+            setSelectedPartners4(value)
+        }
     };
 
     const handlePriorityChange = (e) => {
@@ -225,42 +250,15 @@ const SetPreferenceRules = ({ activeTab }) => {
         setPriority(selectedValue);
     };
 
-    const priorityOptions = Array.from({ length: allRules.length + 1 }, (_, index) => ({
-        value: index + 1
-    }));
-
     const onDragEnd = (result) => {
         if (!result.destination) {
             return;
         }
-
         const reorderedRules = Array.from(allRules);
         const [movedRule] = reorderedRules.splice(result.source.index, 1);
         reorderedRules.splice(result.destination.index, 0, movedRule);
-
         setAllRules(reorderedRules);
     };
-
-    useEffect(() => {
-        if (rulePanel) {
-            setFormErrors({})
-        }
-    }, [rulePanel])
-
-    useEffect(() => {
-        if (allRules) {
-            const temp = []
-            allRules?.map((item, index) => {
-                temp.push({
-                    rule_id: item.id,
-                    position: index + 1,
-                    status:item.status
-                })
-            })
-            setPreferData(temp)
-        }
-    }, [allRules])
-
 
     const handleSaveRule = async () => {
         setLoader(true)
@@ -281,6 +279,11 @@ const SetPreferenceRules = ({ activeTab }) => {
             setLoader(false)
         }
     }
+
+    const priorityOptions = Array.from({ length: allRules.length + 1 }, (_, index) => ({
+        value: index + 1
+    }));
+
 
     return (
         <>
@@ -317,7 +320,7 @@ const SetPreferenceRules = ({ activeTab }) => {
                                                         type="checkbox"
                                                         id={`toggle-${index}`}
                                                         checked={isActive[index]}
-                                                        onChange={(e) => handleToggle(index, rule?.id,e.target.checked)}
+                                                        onChange={(e) => handleToggle(index, rule?.id, e.target.checked)}
                                                     />
                                                     <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
                                                         <span className="toggle-inner" />
@@ -360,10 +363,10 @@ const SetPreferenceRules = ({ activeTab }) => {
                     )}
                 </Droppable>
             </DragDropContext>
-            {allRules.length>10 &&
-              <div className="d-flex justify-content-end my-3">
-              <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
-          </div>
+            {allRules.length > 10 &&
+                <div className="d-flex justify-content-end my-3">
+                    <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
+                </div>
             }
             {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
@@ -376,13 +379,16 @@ const SetPreferenceRules = ({ activeTab }) => {
                     courierPartnerData={courierPartnerData}
                     priority={priority}
                     handlePriorityChange={handlePriorityChange}
-                    selectedPartners={selectedPartners}
                     handlePartnerChange={handlePartnerChange}
                     RuleRow={RuleRow}
                     conditions={conditions}
                     setConditions={setConditions}
                     setOnRowsChange={setOnRowsChange}
                     handleSubmit={handleSubmit}
+                    selectedPartners1={selectedPartners1}
+                    selectedPartners2={selectedPartners2}
+                    selectedPartners3={selectedPartners3}
+                    selectedPartners4={selectedPartners4}
                 />
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
