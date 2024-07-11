@@ -48,7 +48,7 @@
 
 .down-sliding-select {
   position: relative;
-  width: 200px;
+  width: 12.5rem;
 }
 
 .selected-option {
@@ -618,11 +618,10 @@ ul.order-label-list li {
   }
 
   .orders-section-tabs .table-container {
-    height: calc(100vh - 288px);
+    height: calc(100vh - 291px);
   }
 
   .orders-section-tabs .table-container.m-table-height {
     height: calc(100vh - 203px);
   }
-
 }

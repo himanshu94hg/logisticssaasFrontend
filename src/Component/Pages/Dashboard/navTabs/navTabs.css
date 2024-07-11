@@ -25,7 +25,7 @@
     position: relative;
 }
 
-.nav-actions-container .nav-action-dots{
+.nav-actions-container .nav-action-dots {
     transform: rotate(90deg);
 }
 
@@ -33,7 +33,7 @@
     list-style: none;
     background: #fff;
     position: absolute;
-    transition: 0.5s;
+    transition: 0.7s;
     right: 0;
     width: 0px;
     height: 0px;
@@ -51,7 +51,7 @@
 
 .nav-actions-container:hover .nav-actions-list {
     width: 140px;
-    height: auto;
+    height: 160px;
 }
 
 .nav-actions-container .nav-actions-list ul {
@@ -69,7 +69,7 @@
     padding: 8px;
     border-radius: 0.5rem;
     background-color: #ffffff;
-    font-size: 0.8rem;
+    font-size: 1rem;
     display: flex;
     align-items: center;
     gap: 15px;
@@ -78,4 +78,8 @@
     justify-content: flex-start;
     cursor: pointer;
     border: 1px solid transparent;
+}
+
+.nav-actions-container .nav-actions-list ul li svg{
+    font-size: 1.4rem;
 }
