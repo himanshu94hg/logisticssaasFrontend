@@ -43,7 +43,7 @@ const APIIntegration = () => {
                         </form>
                     </div>
                     <div className="col-sm-12 mt-3">
-                        API Documentation: <a href="https://documenter.getpostman.com/view/14597142/2s9Y5R26CS" target="_blank&quot;" className="text-info">Click Here</a>
+                        API Documentation: <a href="https://documenter.getpostman.com/view/14597142/2sA3e2eUo1" target="_blank&quot;" className="text-info">Click Here</a>
                     </div>
                 </div>
             </div>
