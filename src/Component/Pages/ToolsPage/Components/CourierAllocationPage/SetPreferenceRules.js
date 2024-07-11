@@ -12,6 +12,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 import { faPenToSquare, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
 
 const SetPreferenceRules = ({ activeTab }) => {
     const dispatch = useDispatch();
@@ -33,6 +35,8 @@ const SetPreferenceRules = ({ activeTab }) => {
     const [preferData, setPreferData] = useState([])
     const [refresh, setRefresh] = useState("")
     const [loader, setLoader] = useState(false)
+    const [ruleId, setRuleId] = useState('')
+    const [show, setShow] = useState(false);
 
     const courierRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleData);
     const courierEditRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditData);
@@ -157,11 +161,13 @@ const SetPreferenceRules = ({ activeTab }) => {
     };
 
     const handleRuleDelete = (id) => {
-        if (id !== null) {
-            const updatedRules = allRules.filter(rule => rule.id !== id);
-            setAllRules(updatedRules);
-            dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
-        }
+        // if (id !== null) {
+        //     const updatedRules = allRules.filter(rule => rule.id !== id);
+        //     setAllRules(updatedRules);
+        //     dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
+        // }
+        setRuleId(id)
+        setShow(true)
     };
 
     const handleSubmit = () => {
@@ -262,20 +268,26 @@ const SetPreferenceRules = ({ activeTab }) => {
 
     const handleSaveRule = async () => {
         setLoader(true)
-        try {
-            const response = await axios.post(`${BASE_URL_CORE}/core-api/features/courier-allocation/rules/save-rule-positions/`, preferData, {
-                headers: {
-                    Authorization: `Bearer ${authToken}`,
-                    'Content-Type': 'application/json',
-                },
-            });
-            if (response.status === 200) {
-                toast.success('Priority updated successfully!');
-                setRefresh(new Date())
+        if (preferData.length > 0) {
+            try {
+                const response = await axios.post(`${BASE_URL_CORE}/core-api/features/courier-allocation/rules/save-rule-positions/`, preferData, {
+                    headers: {
+                        Authorization: `Bearer ${authToken}`,
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (response.status === 200) {
+                    toast.success('Rule Positions Saved Successfully!');
+                    setRefresh(new Date())
+                    setLoader(false)
+                }
+            } catch (error) {
+                customErrorFunction(error);
                 setLoader(false)
             }
-        } catch (error) {
-            customErrorFunction(error);
+        }
+        else {
+            toast.error("Please add rule first!")
             setLoader(false)
         }
     }
@@ -284,6 +296,20 @@ const SetPreferenceRules = ({ activeTab }) => {
         value: index + 1
     }));
 
+    const handleClose = () =>{ 
+        setShow(false)
+        setRuleId("")
+    };
+
+    const makeApiCall = () => {
+        if (ruleId !== '') {
+            const updatedRules = allRules.filter(rule => rule.id !== ruleId);
+            setAllRules(updatedRules);
+            dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: ruleId });
+            setShow(false)
+            setRuleId("")
+        }
+    }
 
     return (
         <>
@@ -393,6 +419,25 @@ const SetPreferenceRules = ({ activeTab }) => {
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
             <LoaderScreen loading={loader} />
+
+
+
+            <Modal
+                show={show}
+                onHide={handleClose}
+                keyboard={false}
+            >
+                <Modal.Header>
+                    <Modal.Title>Are you sure you want to delete the rule ?</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button variant="secondary" className="px-5" onClick={handleClose}>
+                        No
+                    </Button>
+                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
         </>
     );
 };
