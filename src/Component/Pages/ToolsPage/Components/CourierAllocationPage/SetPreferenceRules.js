@@ -154,7 +154,10 @@ const SetPreferenceRules = ({ activeTab }) => {
         dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
     };
 
-    const editRuleRow = (id) => {
+    const [formType,setFormType]=useState("")
+
+    const editRuleRow = (id,args) => {
+        setFormType(args)
         setRulePanel(true);
         setEditingRuleId(id);
         dispatch({ type: "COURIER_ALLOCATION_RULE_EDIT_ACTION", payload: id });
@@ -366,13 +369,13 @@ const SetPreferenceRules = ({ activeTab }) => {
                                                     ))}
                                                 </div>
                                                 <div className='rule-preference text-capitalize'>
-                                                    <p><span>01</span> <img src={rule?.courier_image_1} alt="" /> {rule?.priority_1}</p>
-                                                    <p><span>02</span> <img src={rule?.courier_image_2} alt="" /> {rule?.priority_2}</p>
-                                                    <p><span>03</span> <img src={rule?.courier_image_3} alt="" /> {rule?.priority_3}</p>
-                                                    <p><span>04</span> <img src={rule?.courier_image_4} alt="" /> {rule?.priority_4}</p>
+                                                    <p><span>01</span> <img src={rule?.courier_image_1} alt="" /> {rule?.courier_title_1}</p>
+                                                    <p><span>02</span> <img src={rule?.courier_image_2} alt="" /> {rule?.courier_title_2}</p>
+                                                    <p><span>03</span> <img src={rule?.courier_image_3} alt="" /> {rule?.courier_title_3}</p>
+                                                    <p><span>04</span> <img src={rule?.courier_image_4} alt="" /> {rule?.courier_title_4}</p>
                                                 </div>
                                                 <div className='rules-action-btn'>
-                                                    <button className='btn main-button' onClick={() => editRuleRow(rule?.id)}>
+                                                    <button className='btn main-button' onClick={() => editRuleRow(rule?.id,"edit-rule")}>
                                                         <FontAwesomeIcon icon={faPenToSquare} />
                                                     </button>
                                                     <button className='btn main-button ms-2' onClick={() => handleRuleDelete(rule?.id)}>
@@ -407,6 +410,7 @@ const SetPreferenceRules = ({ activeTab }) => {
                     handlePriorityChange={handlePriorityChange}
                     handlePartnerChange={handlePartnerChange}
                     RuleRow={RuleRow}
+                    formType={formType}
                     conditions={conditions}
                     setConditions={setConditions}
                     setOnRowsChange={setOnRowsChange}
