@@ -23,6 +23,7 @@ import { indexPattern } from '../../../Routes';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight } from '@fortawesome/free-solid-svg-icons';
 import zonePathClearAction from '../../../redux/action/pathname/zonePath';
+import { useSelector } from 'react-redux';
 
 
 
@@ -48,9 +49,11 @@ const Dropdown = ({ links, isOpen, setExpanded }) => {
 
 
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle, setExpanded }) => {
+  const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   // const [isDropdownOpen, setDropdownOpen] = useState(true);
-  const location = useLocation();
+  const {sellerProfileCard}=useSelector(state=>state?.paymentSectionReducer)
+  console.log(sellerProfileCard,"sellerProfileCard")
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);
