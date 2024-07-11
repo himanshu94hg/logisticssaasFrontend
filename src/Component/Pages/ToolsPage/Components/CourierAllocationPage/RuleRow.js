@@ -132,17 +132,80 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             </>
                         )}
                     </select>
-                    <input
-                        className='input-field'
-                        type="text"
-                        value={row.match_value}
-                        onChange={(e) => handleInputChange(index, e.target.value)}
-                        placeholder="Enter text"
-                    />
+                    {row.condition_type === "" && (
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            placeholder="Enter text"
+                            disabled
+                        />
+                    )}{row.condition_type === "order_amount" && (
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter text"
+                        />
+                    )}
+                    {row.condition_type === "payment_type" && (
+                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                            <option value="">Prepaid</option>
+                            <option value="">COD</option>
+                        </select>
+                    )}
+                    {row.condition_type === "pickup_pincode" && (
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter text"
+                        />
+                    )}
+                    {row.condition_type === "delivery_pincode" && (
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter text"
+                        />
+                    )}
+                    {row.condition_type === "weight" && (
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter text"
+                        />
+                    )}
+                    {row.condition_type === "product_name" && (
+                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                            <option value="">Product 1</option>
+                            <option value="">Product 2</option>
+                        </select>
+                    )}
+                    {row.condition_type === "product_sku" && (
+                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                            <option value="">Product 1</option>
+                            <option value="">Product 2</option>
+                        </select>
+                    )}
+                    {row.condition_type === "order_type" && (
+                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                            <option value="">Select Option</option>
+                            <option value="forward">Forward</option>
+                            <option value="reverse">Reverse</option>
+                        </select>
+                    )}
+
                     <div className='add-rule-btns'>
                         {index > 0 && (
                             <button className='btn delete-btn' onClick={() => handleRemoveRow(index)}><FontAwesomeIcon icon={faTrashCan} /></button>
-                        )}  
+                        )}
                         {index === rows.length - 1 && (
                             <button className='btn main-button' onClick={handleAddRow}><FontAwesomeIcon icon={faPlus} /></button>
                         )}
