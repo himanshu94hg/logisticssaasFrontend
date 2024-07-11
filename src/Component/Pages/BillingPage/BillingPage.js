@@ -1,40 +1,49 @@
+import './BillingPage.css';
+import moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import NavTabs from './Components/navTabs/NavTabs';
-import ShippingCharges from './Components/ShippingCharges/ShippingCharges';
-import RemittanceLogs from './Components/RemittanceLogs/RemittanceLogs';
-import CreditReceipt from './Components/CreditReceipt/CreditReceipt';
-import RechargeLogs from './Components/RechargeLogs/RechargeLogs';
+import { useDispatch, useSelector } from 'react-redux';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import Pagination from '../../common/Pagination/Pagination';
 import InvoicesTab from './Components/InvoicesTab/InvoicesTab';
 import PassbookTab from './Components/PassbookTab/PassbookTab';
-import { useDispatch, useSelector } from 'react-redux';
-import './BillingPage.css';
-import Pagination from '../../common/Pagination/Pagination';
-import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import RechargeLogs from './Components/RechargeLogs/RechargeLogs';
+import CreditReceipt from './Components/CreditReceipt/CreditReceipt';
+import RemittanceLogs from './Components/RemittanceLogs/RemittanceLogs';
+import ShippingCharges from './Components/ShippingCharges/ShippingCharges';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
-import moment from 'moment';
-import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
     const [isOpen, setIsOpen] = useState(false);
+    const [loader, setLoader] = useState(false)
+    const [totalItems, setTotalItems] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
     const [selectAll, setSelectAll] = useState(false);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [MoreFilters, setMoreFilters] = useState(false);
+    const [BulkActionShow, setBulkActionShow] = useState(false);
+    const [selectedOrderRows, setSelectedOrderRows] = useState([]);
     const [activeTab, setActiveTab] = useState("Shipping Charges");
     const [selectedOption, setSelectedOption] = useState("Domestic");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalItems] = useState("");
-    const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [BulkActionShow, setBulkActionShow] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [selectedOrderRows, setSelectedOrderRows] = useState([]);
-    const [MoreFilters, setMoreFilters] = useState(false);
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
-    const [loader, setLoader] = useState(false)
-
 
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard, billingPassbookCounterCard, billingRechargeCounterCard, billingShippingCounterCard, billingRemitanceExportCard } = billingSectionReducer;
 
-
+    useEffect(() => {
+        setLoader(true)
+        if (activeTab) {
+            setSelectAll(false)
+            setSelectedRows([]);
+            setBulkActionShow(false);
+            setTimeout(() => {
+                setLoader(false)
+            }, 500);
+        }
+    }, [activeTab])
 
     useEffect(() => {
         switch (activeTab) {
@@ -63,17 +72,6 @@ const BillingPage = () => {
                 break;
         }
     }, [activeTab, dispatch, itemsPerPage, currentPage]);
-
-
-    useEffect(() => {
-        setLoader(true)
-        if (activeTab) {
-            setTimeout(() => {
-                setLoader(false)
-            }, 500);
-            setSelectAll(false)
-        }
-    }, [activeTab])
 
     useEffect(() => {
         if (billingShipingCard?.count !== undefined) {
@@ -112,21 +110,6 @@ const BillingPage = () => {
         }
     }, [billingShipingReceiptCard]);
 
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
-    const toggleOptions = () => {
-        setIsOpen(!isOpen);
-    };
-
-    useEffect(() => {
-        if (BulkActionShow) {
-            setBulkActionShow(false);
-            setSelectedRows([]);
-        }
-    }, [activeTab]);
 
     const handleMoreFilter = (filterParams) => {
         const queryParams = {};
@@ -139,15 +122,12 @@ const BillingPage = () => {
                 }
             }
         });
-
         dispatch({
             type: "BILLING_SHIPING_REMITANCE_DATA_ACTION",
             payload: queryParams,
         });
-
         setMoreFilters(false);
     };
-
 
     return (
         <>
