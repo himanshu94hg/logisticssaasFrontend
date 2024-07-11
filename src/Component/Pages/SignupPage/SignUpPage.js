@@ -12,6 +12,7 @@ import loginBG from '../../../assets/image/login_bg2.svg'
 import Logo from '../../../assets/image/logo/logo.svg'
 import { IoIosEyeOff } from "react-icons/io";
 import { IoIosEye } from "react-icons/io";
+import Select from 'react-select';
 
 const SignUpPage = () => {
     const [UserRole, setUserRole] = useState("seller")
@@ -21,6 +22,20 @@ const SignUpPage = () => {
     const navigate = useNavigate()
     const { register, handleSubmit, formState: { errors } } = useForm();
     const [PasswordShow, setPasswordShow] = useState(false)
+    const [selectedOption, setSelectedOption] = useState(null);
+
+    const handleSelectChange = (selectedOption) => {
+        setSelectedOption(selectedOption);
+    };
+
+    const options = [
+        { value: 'Between 1-10 orders', label: 'Between 1-10 orders' },
+        { value: '11-100 orders', label: '11-100 orders' },
+        { value: '101-1000 orders', label: '101-1000 orders' },
+        { value: '1001-5000 orders', label: '1001-5000 orders' },
+        { value: 'More than 5000 orders', label: 'More than 5000 orders' },
+        { value: 'Setting up a new business', label: 'Setting up a new business' }
+    ];
 
     const onSubmit = (data) => {
         dispatch({ type: "SELLER_SIGNUP_ACTION", payload: data })
@@ -252,15 +267,22 @@ const SignUpPage = () => {
                                             </label>
                                         </div>
                                         <label className="inputBox">
-                                            <select value={numberOfOrders} onChange={handleNumberOfOrders} className='select-field'>
+                                            {/* <select value={numberOfOrders} onChange={handleNumberOfOrders} className='select-field'>
+                                                <option value="">How many orders do you ship in a month ?</option>
                                                 <option value="Between 1-10 orders">Between 1-10 orders</option>
                                                 <option value="11-100 orders">11-100 orders</option>
                                                 <option value="101-1000 orders">101-1000 orders</option>
                                                 <option value="1001-5000 orders">1001-5000 orders</option>
                                                 <option value="More than 5000 orders">More than 5000 orders</option>
                                                 <option value="Setting up a new business">Setting up a new business</option>
-                                            </select>
-                                            <i className={`${numberOfOrders == null || numberOfOrders === "" ? '' : 'd-none'}`}>How many orders do you ship in a month ?</i>
+                                            </select> */}
+                                            <Select
+                                                value={selectedOption}
+                                                onChange={handleSelectChange}
+                                                options={options}
+                                                placeholder='How many orders do you ship in a month?'
+                                            />
+                                            {/* <i className={`${numberOfOrders == null || numberOfOrders === "" ? '' : 'd-none'}`}>How many orders do you ship in a month ?</i> */}
                                         </label>
                                     </div>
                                     <button type="submit" className="btn main-button">Sign Up</button>
