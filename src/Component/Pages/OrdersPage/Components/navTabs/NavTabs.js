@@ -26,6 +26,7 @@ export default function NavTabs(props) {
     const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
       .then((response) => {
         toast.success('Order fetch successfully');
+        props.setRateRef(new Date())
       }).catch((error) => {
         toast.error('Order Fetch Failed!');
       });
