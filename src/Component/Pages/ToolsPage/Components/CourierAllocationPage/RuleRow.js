@@ -184,18 +184,22 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                         />
                     )}
                     {row.condition_type === "product_name" && (
-                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
-                            <option value="">Select Option</option>
-                            <option value="">Product 1</option>
-                            <option value="">Product 2</option>
-                        </select>
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter product name"
+                        />
                     )}
                     {row.condition_type === "product_sku" && (
-                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
-                            <option value="">Select Option</option>
-                            <option value="">Product 1</option>
-                            <option value="">Product 2</option>
-                        </select>
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter product SKU"
+                        />
                     )}
                     {row.condition_type === "order_type" && (
                         <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
