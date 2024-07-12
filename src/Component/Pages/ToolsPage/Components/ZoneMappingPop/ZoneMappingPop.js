@@ -1,15 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
 import './ZoneMappingPop.css';
 import { PiExport } from 'react-icons/pi';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import React, { useEffect, useRef, useState } from 'react';
 
 const ZoneMappingPop = ({ setZoneMapping }) => {
   const dispatch = useDispatch();
   const popRef = useRef(null);
-  const [zoneData, setZoneData] = useState([])
   const [pincode, setPincode] = useState("")
   const [zoneStatus, setZoneStatus] = useState(false)
   const { zonePathName, pathName } = useSelector(state => state?.authDataReducer)
@@ -21,8 +19,6 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
     }
   }, [zonePathName]);
 
-  console.log(zonePathName, pathName, "this is zone mapping data")
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -31,7 +27,6 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
         setZoneStatus(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -45,7 +40,6 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
     } else {
       dispatch({ type: 'ZONE_MAPPING_ACTION', payload: pincode });
     }
-
     setZoneMapping(false)
     setZoneStatus(false)
   };

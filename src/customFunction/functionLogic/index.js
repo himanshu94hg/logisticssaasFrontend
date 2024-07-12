@@ -27,7 +27,7 @@ export const weightCalculation = (res) => {
 
 export const weightGreater = (args1, args2) => {
   const data1=parseFloat(args1/1000)
-  const data2=parseFloat(args2)
+  const data2=parseFloat(args2/1000)
   if (data1 > data2) {
     return `${parseFloat(data1)}`;
   } else if (data1 < data2) {
