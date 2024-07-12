@@ -32,7 +32,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
     const handleClose = () => setShow(false);
 
 
-    console.log(bulkAwb, "bulkAwbbulkAwbbulkAwb")
+    console.log("queryParamTempqueryParamTempqueryParamTempqueryParamTemp",queryParamTemp)
 
     useEffect(() => {
         if (labelData && genaratelabel) {
@@ -256,28 +256,28 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                         "subtype": activeTab === "All" ? "all_orders" : activeTab === "Unprocessable" ? "unprocessable" : activeTab === "Processing" ? "processing_orders" : activeTab === "Ready to Ship" ? "ready_to_ship" : activeTab === "Pickup" ? "pickups" : activeTab === "Returns" ? "returns" : ""
                     },
                     "order_id": "",
-                    "courier": filterData?.courier || "",
-                    "awb_number": filterData?.awb_number || "",
+                    "courier": queryParamTemp?.courier_partner || "",
+                    "awb_number": queryParamTemp?.awb_number || "",
                     "min_awb_assign_date": "",
                     "max_awb_assign_date": "",
-                    "status": filterData?.status || "",
-                    "order_type": filterData?.order_type || "",
+                    "status": queryParamTemp?.status || "",
+                    "order_type": queryParamTemp?.order_type || "",
                     "customer_order_number": queryParamTemp?.order_id || "",
-                    "channel": filterData?.channel || "",
-                    "min_invoice_amount": filterData?.min_invoice_amount || "",
-                    "max_invoice_amount": filterData?.max_invoice_amount || "",
-                    "warehouse_id": filterData?.warehouse_id || "",
-                    "product_name": filterData?.product_name || "",
-                    "delivery_address": filterData?.delivery_address || "",
-                    "min_weight": filterData?.min_weight || "",
-                    "max_weight": filterData?.max_weight || "",
-                    "min_product_qty": filterData?.min_product_qty || "",
-                    "max_product_qty": filterData?.max_product_qty || "",
-                    "rto_status": filterData?.rto_status || "",
-                    "global_type": filterData?.global_type || "",
-                    "payment_type": filterData?.payment_type || "",
-                    ...(filterData?.start_date && { "start_date": moment(filterData.start_date).format("YYYY-MM-DD") }),
-                    ...(filterData?.end_date && { "end_date": moment(filterData.end_date).format("YYYY-MM-DD") })
+                    "channel": queryParamTemp?.order_source || "",
+                    "min_invoice_amount": queryParamTemp?.min_invoice_amount || "",
+                    "max_invoice_amount": queryParamTemp?.max_invoice_amount || "",
+                    "warehouse_id": queryParamTemp?.warehouse_id || "",
+                    "product_name": queryParamTemp?.sku || "",
+                    "delivery_address": queryParamTemp?.delivery_address || "",
+                    "min_weight": queryParamTemp?.min_weight || "",
+                    "max_weight": queryParamTemp?.max_weight || "",
+                    "min_product_qty": queryParamTemp?.min_product_qty || "",
+                    "max_product_qty": queryParamTemp?.max_product_qty || "",
+                    "rto_status": queryParamTemp?.rto_status || "",
+                    "global_type": queryParamTemp?.global_type || "",
+                    "payment_type": queryParamTemp?.payment_type || "",
+                    ...(queryParamTemp?.start_date && { "start_date": moment(queryParamTemp?.start_date).format("YYYY-MM-DD") }),
+                    ...(queryParamTemp?.end_date && { "end_date": moment(queryParamTemp?.end_date).format("YYYY-MM-DD") })
                 };
                 dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
                 setBulkActionShow(false);
