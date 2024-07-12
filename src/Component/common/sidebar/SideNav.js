@@ -30,20 +30,18 @@ import { useSelector } from 'react-redux';
 const Dropdown = ({ links, isOpen, setExpanded }) => {
   const dispatch = useDispatch();
   const { sellerProfileCard } = useSelector(state => state?.paymentSectionReducer);
-
   const [ZoneService, setZoneService] = useState(sellerProfileCard?.seller_admin?.zone_service);
 
   useEffect(() => {
     setZoneService(sellerProfileCard?.seller_admin?.zone_service);
   }, [sellerProfileCard]);
 
-  console.log(sellerProfileCard, ZoneService, "sellerProfileCard");
 
   return (
     <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
       {links.map((link, index) => {
         if (link.label === "Zone Mapping" && ZoneService === false) {
-          return null; // Skip rendering this link
+          return null; 
         }
         return (
           <NavLink key={index} to={link.to}
@@ -65,7 +63,6 @@ const Dropdown = ({ links, isOpen, setExpanded }) => {
 const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropdown, onDropdownToggle, setExpanded }) => {
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
-  // const [isDropdownOpen, setDropdownOpen] = useState(true);
   const { sellerProfileCard } = useSelector(state => state?.paymentSectionReducer)
   console.log(sellerProfileCard, "sellerProfileCard")
 
@@ -75,9 +72,7 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
   };
 
 
-
   useEffect(() => {
-    // Close the dropdown when another dropdown is opened
     if (label !== openDropdown) {
       setDropdownOpen(false);
     }
@@ -87,11 +82,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 
   const isActive = () => {
     if (!hasDropdown) {
-      // If there's no dropdown, check if the current route matches the main menu item
       return location.pathname === to;
     }
-
-    // If there's a dropdown, check if the current route matches either the main menu item or any dropdown option
     return (
       location.pathname === to || dropdownLinks.some((link) => location.pathname === link.to)
     );
@@ -121,8 +113,6 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
           {label === "MIS" && <MISIcon />}
           {label === "Support" && <CustomerSupportIcon />}
           {label === "Settings" && <SettingsIcon />}
-          {/* Add other icons based on the menu item */}
-
 
           {isExpanded && <span className="mx-2">{label}
             {hasDropdown && (
@@ -134,7 +124,6 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
         </NavLinkComponent>
       </div>
 
-      {/* {isDropdownOpen && hasDropdown && <Dropdown links={dropdownLinks} />} */}
       {hasDropdown && <Dropdown setExpanded={setExpanded} links={dropdownLinks} isOpen={isDropdownOpen} />}
     </div>
   );
@@ -142,10 +131,8 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
 
 const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
   const navigate = useNavigate()
-  // const [isExpanded, setExpanded] = useState(true);
   const [Logo, setLogo] = useState(mobileLogo);
   const [openDropdown, setOpenDropdown] = useState(null);
-
 
 
   useEffect(() => {
@@ -222,7 +209,6 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
 
   const handleMenuItemClick = () => {
     setExpanded(false);
-    // setOpenDropdown(null);
   };
 
   return (
@@ -237,7 +223,6 @@ const SideNav = ({ ZoneMapping, setZoneMapping, isExpanded, setExpanded }) => {
           src={Logo}
           alt="Logo"
           onClick={() => navigate(indexPattern)}
-        // className={`${isExpanded===true ? 'full-logo' : 'mobile-logo'}`}
         />
       </div>
       <div className="menu-container">
