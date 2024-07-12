@@ -267,9 +267,6 @@ const OrdersPage = () => {
         setQueryParamTemp(queryParams);
     };
 
-
-    console.log(activeTab, "this is active tab data")
-
     const handleReset = () => {
         setSearchValue("")
         setHandleResetFrom(true)
@@ -351,7 +348,7 @@ const OrdersPage = () => {
                     customErrorFunction(error)
                 });
         }
-        // }
+     
     }, [orderCancelled, rateRef, activeTab, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, moreorderShipCardStatus]);
 
     useEffect(() => {

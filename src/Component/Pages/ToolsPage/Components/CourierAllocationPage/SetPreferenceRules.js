@@ -45,6 +45,7 @@ const SetPreferenceRules = ({ activeTab }) => {
     const courierEditPostRules = useSelector(state => state?.toolsSectionReducer?.courierAllocationRuleEditPostData);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
 
+
     useEffect(() => {
         if (courierRules?.data) {
             setAllRules(courierRules.data);
@@ -154,9 +155,9 @@ const SetPreferenceRules = ({ activeTab }) => {
         dispatch({ type: "COURIER_ALLOCATION_RULE_ACTION" });
     };
 
-    const [formType,setFormType]=useState("")
+    const [formType, setFormType] = useState("")
 
-    const editRuleRow = (id,args) => {
+    const editRuleRow = (id, args) => {
         setFormType(args)
         setRulePanel(true);
         setEditingRuleId(id);
@@ -164,11 +165,6 @@ const SetPreferenceRules = ({ activeTab }) => {
     };
 
     const handleRuleDelete = (id) => {
-        // if (id !== null) {
-        //     const updatedRules = allRules.filter(rule => rule.id !== id);
-        //     setAllRules(updatedRules);
-        //     dispatch({ type: "COURIER_ALLOCATION_RULE_DELETE_ACTION", payload: id });
-        // }
         setRuleId(id)
         setShow(true)
     };
@@ -176,26 +172,42 @@ const SetPreferenceRules = ({ activeTab }) => {
     const handleSubmit = () => {
         let errors = {};
         let formIsValid = true
+        const selectedPartners = [selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4];
+        const hasEmptyValue = selectedPartners.every(value => value === '');
+
         if (!ruleName) {
             formIsValid = false;
             errors["ruleName"] = "Rule Name cannot be empty";
         }
-        if (!selectedPartners1) {
+        if (hasEmptyValue) {
             formIsValid = false;
-            errors.priority_1 = "Priority 1 is required!"
+            errors.priority = "Atleast 1 Priority  is required!"
         }
-        if (!selectedPartners2) {
+
+        if (conditions.length > 0) {
+            conditions.map((item, index) => {
+                if (item.condition) {
+                    formIsValid = false;
+                    errors.conditions = "All fields are mandatory!";
+                }
+                if (!item.condition_type) {
+                    formIsValid = false;
+                    errors.conditions = "All fields are mandatory!";
+                }
+                if (!item.match_type) {
+                    formIsValid = false;
+                    errors.conditions = "All fields are mandatory!";
+                }
+                if (!item.match_value) {
+                    formIsValid = false;
+                    errors.conditions = "All fields are mandatory!";
+                }
+            });
+        } else {
             formIsValid = false;
-            errors.priority_2 = "Priority 2 is required!"
+            errors.conditions = "At least one condition is required!";
         }
-        if (!selectedPartners3) {
-            formIsValid = false;
-            errors.priority_3 = "Priority 3 is required!"
-        }
-        if (!selectedPartners4) {
-            formIsValid = false;
-            errors.priority_4 = "Priority 4 is required!"
-        }
+
 
         if (!formIsValid) {
             setFormErrors(errors);
@@ -209,11 +221,11 @@ const SetPreferenceRules = ({ activeTab }) => {
             priority_2: selectedPartners2,
             priority_3: selectedPartners3,
             priority_4: selectedPartners4,
-            rules: conditions.map(condition => ({
-                condition: condition.condition,
-                condition_type: condition.condition_type,
-                match_type: condition.match_type,
-                match_value: condition.match_value
+            rules: conditions.map(item => ({
+                condition: item.condition,
+                condition_type: item.condition_type,
+                match_type: item.match_type,
+                match_value: item.match_value
             }))
         };
 
@@ -299,7 +311,7 @@ const SetPreferenceRules = ({ activeTab }) => {
         value: index + 1
     }));
 
-    const handleClose = () =>{ 
+    const handleClose = () => {
         setShow(false)
         setRuleId("")
     };
@@ -375,7 +387,7 @@ const SetPreferenceRules = ({ activeTab }) => {
                                                     <p><span>04</span> <img src={rule?.courier_image_4} alt="" /> {rule?.courier_title_4}</p>
                                                 </div>
                                                 <div className='rules-action-btn'>
-                                                    <button className='btn main-button' onClick={() => editRuleRow(rule?.id,"edit-rule")}>
+                                                    <button className='btn main-button' onClick={() => editRuleRow(rule?.id, "edit-rule")}>
                                                         <FontAwesomeIcon icon={faPenToSquare} />
                                                     </button>
                                                     <button className='btn main-button ms-2' onClick={() => handleRuleDelete(rule?.id)}>
@@ -397,7 +409,6 @@ const SetPreferenceRules = ({ activeTab }) => {
                     <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
                 </div>
             }
-            {/* Add Rule Side Panel */}
             <section className={`add-rule-panel ${rulePanel ? 'open' : ''}`}>
                 <AddRuleSidePanel
                     setRulePanel={setRulePanel}
@@ -423,9 +434,6 @@ const SetPreferenceRules = ({ activeTab }) => {
             </section>
             <div onClick={() => setRulePanel(false)} className={`backdrop ${rulePanel ? 'd-block' : 'd-none'}`}></div>
             <LoaderScreen loading={loader} />
-
-
-
             <Modal
                 show={show}
                 onHide={handleClose}

@@ -64,7 +64,6 @@ const MenuItem = ({ to, label, hasDropdown, dropdownLinks, isExpanded, openDropd
   const location = useLocation();
   const [isDropdownOpen, setDropdownOpen] = useState(false);
   const { sellerProfileCard } = useSelector(state => state?.paymentSectionReducer)
-  console.log(sellerProfileCard, "sellerProfileCard")
 
   const handleDropdownToggle = () => {
     setDropdownOpen(!isDropdownOpen);

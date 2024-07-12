@@ -29,7 +29,6 @@ export default function NavTabs(props) {
       }).catch((error) => {
         toast.error('Order Fetch Failed!');
       });
-    console.log("Data", response);
   };
 
   const debouncedHandleClick = useCallback(

@@ -354,8 +354,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const sku_err = checkValuePresence(editErrors, "SKU is required!");
 
 
-    console.log(formData, "this is a form data page")
-
     return (
         <>
             <section className={`edit-order-section ${EditOrderSection ? 'open-edit' : ''}`}>
