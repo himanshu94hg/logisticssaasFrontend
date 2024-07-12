@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 
+
+
 const NDRPieChart = () => {
-    const ndrSplit =useSelector(state=>state?.dashboardNdrReducer?.splitStatus)
+
+    const ndrSplit = useSelector(state => state?.dashboardNdrReducer?.splitStatus || [])
+    // const dummyData = [
+    //     { reason: 'Reason 1', count: 10 },
+    //     { reason: 'Reason 2', count: 20 },
+    //     { reason: 'Reason 3', count: 30 },
+    //     { reason: 'Reason 4', count: 40 },
+    //     { reason: 'Reason 4', count: 40 },
+    // ];
+
+    // const dataToUse = ndrSplit?.length ? ndrSplit : dummyData;
+    // const seriesData = useMemo(() => dataToUse.map(item => item.count), [dataToUse]);
+    // const reasonsLabels = useMemo(() => dataToUse.map(item => item.reason), [dataToUse]);
+
+
     const seriesData = ndrSplit?.map(item => item?.count) || [];
     const reasonsLabels = ndrSplit?.map(item => item?.reason) || [];
 
@@ -35,11 +51,12 @@ const NDRPieChart = () => {
             },
             style: {
                 fontWeight: "Medium",
-                colors: ["#000000"] 
+                colors: ["#00000000"]
             }
         },
         legend: {
-            show: false
+            show: true,
+            position: 'bottom'
         }
     };
 
