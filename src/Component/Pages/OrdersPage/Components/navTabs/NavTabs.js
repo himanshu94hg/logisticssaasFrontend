@@ -25,7 +25,7 @@ export default function NavTabs(props) {
   const handleClick = () => {
     const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
       .then((response) => {
-        toast.error('No channel integrated right now!');
+        toast.success('Order fetch successfully');
       }).catch((error) => {
         toast.error('Order Fetch Failed!');
       });
