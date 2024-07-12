@@ -512,6 +512,20 @@
     position: fixed;
 }
 
+#ndr-chart .apexcharts-legend-text{
+    text-transform: lowercase;
+}
+
+/* #ndr-chart>div,
+#ndr-chart>div>div {
+    min-height: 400px !important;
+}
+
+#ndr-chart>div>div>svg,
+#ndr-chart>div>div>svg>foreignObject {
+    height: 400px;
+} */
+
 @media screen and (max-width: 1800px) {
     .top-rto-pincodes .pincode-search {
         width: 100%;

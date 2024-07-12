@@ -22,16 +22,17 @@ const ApexChart = () => {
                 }
             }],
             labels: [],
+            colors: ['#008FFB', '#FF4560', '#00E396', '#775DD0', '#FEB019'], // Custom colors
             dataLabels: {
                 enabled: true,
                 enabledOnSeries: undefined,
                 formatter(val, opts) {
-                   // const name = opts.w.globals.labels[opts.seriesIndex];
-                    return [ val.toFixed(1) + '%'];
+                    // const name = opts.w.globals.labels[opts.seriesIndex];
+                    return [val.toFixed(1) + '%'];
                 },
                 style: {
                     fontWeight: "Medium",
-                    colors: ["#000000"] 
+                    colors: ["#00000000"]
                 }
             }
         }
@@ -39,8 +40,8 @@ const ApexChart = () => {
 
     useEffect(() => {
         if (ndrDelivery) {
-            const seriesData = ndrDelivery.map(item => item.total) || [];
-            const labelsData = ndrDelivery.map(item => `Attempt ${item.ndr_attempt}`) || [];
+            const seriesData = ndrDelivery.slice(0, 4).map(item => item.total) || [];
+            const labelsData = ndrDelivery.slice(0, 4).map(item => `Attempt ${item.ndr_attempt}`) || [];
             setChartData(prevState => ({
                 ...prevState,
                 series: seriesData,

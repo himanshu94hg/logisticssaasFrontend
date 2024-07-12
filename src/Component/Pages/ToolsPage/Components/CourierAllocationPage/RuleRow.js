@@ -146,13 +146,14 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             type="text"
                             value={row.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
-                            placeholder="Enter text"
+                            placeholder="Enter amount"
                         />
                     )}
                     {row.condition_type === "payment_type" && (
                         <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
-                            <option value="">Prepaid</option>
-                            <option value="">COD</option>
+                            <option value="">Select Option</option>
+                            <option value="prepaid">Prepaid</option>
+                            <option value="cod">COD</option>
                         </select>
                     )}
                     {row.condition_type === "pickup_pincode" && (
@@ -161,7 +162,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             type="text"
                             value={row.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
-                            placeholder="Enter text"
+                            placeholder="Enter pickup pincode"
                         />
                     )}
                     {row.condition_type === "delivery_pincode" && (
@@ -170,7 +171,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             type="text"
                             value={row.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
-                            placeholder="Enter text"
+                            placeholder="Enter delivery pincode"
                         />
                     )}
                     {row.condition_type === "weight" && (
@@ -179,17 +180,19 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                             type="text"
                             value={row.match_value}
                             onChange={(e) => handleInputChange(index, e.target.value)}
-                            placeholder="Enter text"
+                            placeholder="Enter weight"
                         />
                     )}
                     {row.condition_type === "product_name" && (
                         <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                            <option value="">Select Option</option>
                             <option value="">Product 1</option>
                             <option value="">Product 2</option>
                         </select>
                     )}
                     {row.condition_type === "product_sku" && (
                         <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                            <option value="">Select Option</option>
                             <option value="">Product 1</option>
                             <option value="">Product 2</option>
                         </select>
