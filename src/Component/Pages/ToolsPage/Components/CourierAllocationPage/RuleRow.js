@@ -153,7 +153,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                         />
                     )}
                     {row.condition_type === "payment_type" && (
-                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                        <select className='select-field'  value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
                             <option value="prepaid">Prepaid</option>
                             <option value="cod">COD</option>
@@ -187,18 +187,22 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                         />
                     )}
                     {row.condition_type === "product_name" && (
-                        <select className='select-field' value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
-                            <option value="">Select Option</option>
-                            <option value="product1">Product 1</option>
-                            <option value="product1">Product 2</option>
-                        </select>
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter product name"
+                        />
                     )}
                     {row.condition_type === "product_sku" && (
-                        <select className='select-field'  value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
-                            <option value="">Select Option</option>
-                            <option value="sku1">Product 1</option>
-                            <option value="sku2">Product 2</option>
-                        </select>
+                        <input
+                            className='input-field'
+                            type="text"
+                            value={row.match_value}
+                            onChange={(e) => handleInputChange(index, e.target.value)}
+                            placeholder="Enter product SKU"
+                        />
                     )}
                     {row.condition_type === "order_type" && (
                         <select className='select-field' value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
