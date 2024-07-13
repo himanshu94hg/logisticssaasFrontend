@@ -168,12 +168,13 @@ const SetPreferenceRules = ({ activeTab }) => {
         setRuleId(id)
         setShow(true)
     };
-
     const handleSubmit = () => {
         let errors = {};
         let formIsValid = true
         const selectedPartners = [selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4];
         const hasEmptyValue = selectedPartners.every(value => value === '');
+
+        console.log(selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4,"pppppppppppppppppppppp")
 
         if (!ruleName) {
             formIsValid = false;
@@ -185,7 +186,7 @@ const SetPreferenceRules = ({ activeTab }) => {
         }
 
         if (conditions.length > 0) {
-            conditions.map((item, index) => {
+            conditions.map((item) => {
                 if (item.condition) {
                     formIsValid = false;
                     errors.conditions = "All fields are mandatory!";
@@ -207,6 +208,8 @@ const SetPreferenceRules = ({ activeTab }) => {
             formIsValid = false;
             errors.conditions = "At least one condition is required!";
         }
+
+        console.log(conditions,"selectedPartnersselectedPartnersselectedPartners")
 
 
         if (!formIsValid) {

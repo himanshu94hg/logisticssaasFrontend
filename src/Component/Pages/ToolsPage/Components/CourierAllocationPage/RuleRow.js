@@ -25,6 +25,7 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
     };
 
     const handleInputChange = (index, value) => {
+        console.log(index,value,"lllllllllllllllll")
         const newRows = [...rows];
         newRows[index].match_value = value;
         setRows(newRows);
@@ -44,6 +45,8 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
         setRows(newRows);
         setConditions(newRows);
     };
+
+    console.log(rows,"dsddddddddddddd")
 
     return (
         <>
@@ -184,21 +187,21 @@ const RuleRow = ({ initialRows, setConditions, setOnRowsChange }) => {
                         />
                     )}
                     {row.condition_type === "product_name" && (
-                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                        <select className='select-field' value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
-                            <option value="">Product 1</option>
-                            <option value="">Product 2</option>
+                            <option value="product1">Product 1</option>
+                            <option value="product1">Product 2</option>
                         </select>
                     )}
                     {row.condition_type === "product_sku" && (
-                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                        <select className='select-field'  value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
-                            <option value="">Product 1</option>
-                            <option value="">Product 2</option>
+                            <option value="sku1">Product 1</option>
+                            <option value="sku2">Product 2</option>
                         </select>
                     )}
                     {row.condition_type === "order_type" && (
-                        <select className='select-field' onChange={(e) => handleInputChange(index, e.target.value)}>
+                        <select className='select-field' value={row.match_value} onChange={(e) => handleInputChange(index, e.target.value)}>
                             <option value="">Select Option</option>
                             <option value="forward">Forward</option>
                             <option value="reverse">Reverse</option>
