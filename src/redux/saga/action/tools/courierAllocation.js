@@ -104,10 +104,9 @@ function* courierAllocationRulePostAction(action) {
     let { payload, reject } = action;
     try {
         let response = yield call(courierAllocationRulePostAPI, payload);
-        console.log("courierAllocationRulePostAction",response);
         if (response.status === 201) {
             yield put({ type: GET_COURIER_ALLOCATION_RULE_POST_DATA, payload: response });
-            toast.success(response.data.message);
+            toast.success("Rules created successfully!");
         }
     } catch (error) {
        customErrorFunction(error)
