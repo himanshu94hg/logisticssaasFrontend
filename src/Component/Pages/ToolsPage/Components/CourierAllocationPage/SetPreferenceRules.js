@@ -187,10 +187,10 @@ const SetPreferenceRules = ({ activeTab }) => {
 
         if (conditions.length > 0) {
             conditions.map((item) => {
-                if (item.condition) {
-                    formIsValid = false;
-                    errors.conditions = "All fields are mandatory!";
-                }
+                // if (item.condition) {
+                //     formIsValid = false;
+                //     errors.conditions = "All fields are mandatory!";
+                // }
                 if (!item.condition_type) {
                     formIsValid = false;
                     errors.conditions = "All fields are mandatory!";

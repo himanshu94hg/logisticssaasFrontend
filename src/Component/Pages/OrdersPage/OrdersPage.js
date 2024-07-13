@@ -138,6 +138,7 @@ const OrdersPage = () => {
             setSelectedRows([])
             setCurrentPage(1)
             setOrders([])
+            setErrors({})
         }
     }, [activeTab])
 
