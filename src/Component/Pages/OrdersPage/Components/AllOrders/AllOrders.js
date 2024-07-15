@@ -59,6 +59,9 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
 
+
+    console.log(orderStatus,"orderStatusorderStatus")
+
     useEffect(() => {
         if (orderdelete) {
             setSelectAll(false)

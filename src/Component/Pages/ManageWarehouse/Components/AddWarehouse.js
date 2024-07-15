@@ -105,6 +105,8 @@ const AddWarehouse = () => {
                 newErrors.rto_state = "State is required!"
             }
 
+            console.log(newErrors, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
+
             setErrors(newErrors)
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);
@@ -135,6 +137,8 @@ const AddWarehouse = () => {
         '2:00 PM', '3:00 PM', '4:00 PM', '5:00 PM', '6:00 PM', '7:00 PM', '8:00 PM',
         '9:00 PM', '10:00 PM', '11:00 PM'
     ];
+
+    console.log(warehouseData, "uuuuuuuuuuuuuuuuuuuuuuuuuu")
 
 
 
@@ -303,7 +307,7 @@ const AddWarehouse = () => {
     };
 
     useEffect(() => {
-        if (SameRTO) {
+        if (SameRTO && warehouseData.pincode !== "" && warehouseData.city !== "" && warehouseData.state !== "") {
             setWareHouseData((prev) => ({
                 ...prev,
                 rto_details: {
@@ -315,7 +319,7 @@ const AddWarehouse = () => {
                     address: prev.address_line1 + "," + prev.address_line2,
                     landmark: prev.city,
                     pincode: prev.pincode,
-                    city: prev.city,
+                    city: prev.city,    
                     state: prev.state,
                     country: "India"
                 }
@@ -338,7 +342,7 @@ const AddWarehouse = () => {
                 }
             }));
         }
-    }, [SameRTO])
+    }, [SameRTO, warehouseData.pincode,warehouseData.city,warehouseData.state])
 
 
     const handleReset = () => {
