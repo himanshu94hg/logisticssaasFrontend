@@ -19,19 +19,19 @@ const ShopifyIntegrationForm = () => {
                     'Content-Type': 'application/json',
                 },
             });
-    
+
             if (response.status === 200) {
                 const data = await response.json();
                 const { redirect_url, nonce } = data;
-    
-                Cookies.set('redirect_url', redirect_url, { expires: 1 }); 
+
+                Cookies.set('redirect_url', redirect_url, { expires: 1 });
                 Cookies.set('nonce', nonce, { expires: 1 });
-    
+
                 console.log("Redirect URL", redirect_url);
                 console.log("Nonce", nonce);
-    
+
                 const finalRedirectUrl = `${redirect_url}&redirect_uri=${encodeURIComponent(window.location.href)}`;
-    
+
                 setTimeout(() => {
                     window.location.href = finalRedirectUrl;
                 }, 2000);
@@ -42,7 +42,7 @@ const ShopifyIntegrationForm = () => {
             console.error('Error occurred:', error);
         }
     };
-    
+
     return (
         <>
             <div className='p10'>
@@ -57,10 +57,10 @@ const ShopifyIntegrationForm = () => {
                 </section>
                 <div className='int-body'>
                     <section className='box-shadow shadow-sm int-instructions'>
-                        <h4>Instruction to integrate Shopify to ShipEase</h4>
+                        <h4>Instruction to integrate Shopify to Shipease</h4>
                         <ul className='timeline'>
                             {[
-                                "To proceed, please click on the 'Connect Shopify With Shipease' button on your screen.",
+                                "To proceed, please click on the 'One Click Integration' button on your screen.",
                                 "You'll be diverted to the Shopify seller login page. Log in to your Shopify account by entering your email address/username and password.",
                                 "Once logged in, the app authorization page will open where you can verify your account integration with Shipease by clicking 'Install app'.",
                                 "Now, you will be redirected to the Shipease channel page. Here you can edit your Shopify channel to modify it as per your preferences.",
@@ -72,10 +72,10 @@ const ShopifyIntegrationForm = () => {
                     <section className='box-shadow shadow-sm int-form'>
                         <form onSubmit={handleSubmit}>
                             <div className='int-checkbox mt-3'>
-                                <h3>Integrate shopify to ShipEase</h3>
+                                <h3>Integrate Shopify to Shipease</h3>
                             </div>
                             <div className='mt-3 d-flex justify-content-end'>
-                                <button type='submit' className='btn main-button'>CONNECT SHOPIFY WITH SHIPEASE</button>
+                                <button type='submit' className='btn main-button'>One Click Integration</button>
                             </div>
                         </form>
                     </section>

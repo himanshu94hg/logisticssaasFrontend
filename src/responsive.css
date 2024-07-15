@@ -205,10 +205,27 @@
     .orders-section-tabs .table-container {
         height: calc(100vh - 348px);
     }
+
+    .pagination-container .go-to-page input {
+        width: 30px;
+        padding-left: 5px;
+    }
+
+    .pagination-container .go-to-page button {
+        width: 30px;
+    }
+
+    .search-container label input {
+        max-width: 320px;
+    }
 }
 
 @media screen and (max-width:375px) {
     .orders-section-tabs .table-container {
         height: calc(100vh - 348px);
+    }
+
+    .search-container label input {
+        max-width: 311px;
     }
 }

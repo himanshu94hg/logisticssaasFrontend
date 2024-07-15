@@ -17,7 +17,7 @@ const AmazonDirectIntegrationForm = () => {
                 <section className='int-header'>
                     <div className='int-header-left'>
                         <img src={Logo} alt="Logo" />
-                        <h2 className='mb-0'>Amazon Direct</h2>
+                        <h2 className='mb-0'>Amazon</h2>
                     </div>
                     <div className='int-header-right'>
                         <p className='mb-0'>Need Help?</p>
@@ -25,7 +25,7 @@ const AmazonDirectIntegrationForm = () => {
                 </section>
                 <div className='int-body'>
                     <section className='box-shadow shadow-sm int-instructions'>
-                        <h4>Instruction to integrate Amazon Direct to ShipEase</h4>
+                        <h4>Instruction to integrate Amazon to Shipease</h4>
 
                         <ul className='timeline mb-3'>
                             {[
@@ -33,7 +33,7 @@ const AmazonDirectIntegrationForm = () => {
                                 "You will be redirected to consent screen",
                                 "Login to your amazon seller central with your credentials",
                                 "Select All the Permission required to fetch details from your account",
-                                "You will be redirected to shipease again",
+                                "You will be redirected to Shipease again",
                                 "If successful the channel is integrated to Shipease",
                             ].map(
                                 instruction => <li className='timeline-list' key={instruction}>{instruction}</li>)
@@ -43,13 +43,10 @@ const AmazonDirectIntegrationForm = () => {
                     <section className='box-shadow shadow-sm int-form'>
                         <form action="">
                             <div className='d-flex w-100 gap-5 mt-4'>
-                                <label>
-                                    Store Name
-                                    <input className="input-field" type="text" placeholder='Enter Store Name' />
-                                </label>
+                                <h3>Integrate Amazon to Shipease</h3>
                             </div>
                             <div className='mt-3 d-flex justify-content-end'>
-                                <button type='submit' className='btn main-button'>Submit</button>
+                                <button type='submit' className='btn main-button'>One Click Integration</button>
                             </div>
                         </form>
                     </section>
