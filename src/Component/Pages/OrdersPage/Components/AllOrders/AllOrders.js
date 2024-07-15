@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType,setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -456,7 +456,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType,set
                                                         <span className='details-on-hover ms-2'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
-                                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                                                {row?.shipping_detail?.address && `${row.shipping_detail.address}, `}
+                                                                {row?.shipping_detail?.landmark && `${row.shipping_detail.landmark}, `}
+                                                                {row?.shipping_detail?.city && `${row.shipping_detail.city}, `}
+                                                                {row?.shipping_detail?.state && `${row.shipping_detail.state}, `}
+                                                                {row?.shipping_detail?.pincode}
                                                             </span>
                                                         </span>
                                                     </p>

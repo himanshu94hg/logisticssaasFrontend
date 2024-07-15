@@ -300,7 +300,11 @@ const Processing = React.memo(({ orders, activeTab, MoreFilters, bulkAwb, setbul
                                                         <span className='details-on-hover ms-2'>
                                                             <InfoIcon />
                                                             <span style={{ width: '250px' }}>
-                                                                {row?.shipping_detail?.address}, {row?.shipping_detail?.landmark}, {row?.shipping_detail?.city},{row?.shipping_detail?.state}, {row?.shipping_detail?.pincode}
+                                                                {row?.shipping_detail?.address && `${row.shipping_detail.address}, `}
+                                                                {row?.shipping_detail?.landmark && `${row.shipping_detail.landmark}, `}
+                                                                {row?.shipping_detail?.city && `${row.shipping_detail.city}, `}
+                                                                {row?.shipping_detail?.state && `${row.shipping_detail.state}, `}
+                                                                {row?.shipping_detail?.pincode}
                                                             </span>
                                                         </span>
                                                     </p>
