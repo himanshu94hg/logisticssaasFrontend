@@ -103,7 +103,7 @@ const PassbookTab = ({ billingCard, selectedRows, selectAll, setSelectAll, setSe
                                         <td>
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
+                                                <p className='details-on-hover anchor-awb'>
                                                     {row?.order_detail?.awb_number}
                                                 </p>
                                             </div>
