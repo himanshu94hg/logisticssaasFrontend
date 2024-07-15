@@ -219,7 +219,6 @@ const OrdersPage = () => {
         if (searchType === 'awb_number' && !searchValue) {
             newErrors.customer_order_number = 'AWB is required!';
         }
-
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
