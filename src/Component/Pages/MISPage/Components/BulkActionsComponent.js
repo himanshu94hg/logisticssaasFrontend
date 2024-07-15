@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import './BulkActionsComponent.css'; 
+// import './BulkActionsComponent.css'; 
 import ExportIcon from '../../OrdersPage/Components/BulkActionsComponent/Components/BulkIcons/ExportIcon'; 
 import FileSaver from 'file-saver'; 
 import Swal from 'sweetalert2'; 

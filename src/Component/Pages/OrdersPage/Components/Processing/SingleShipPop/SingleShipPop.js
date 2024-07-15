@@ -23,6 +23,8 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
 
     const handleClick = (param1, param2) => {
         axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-order/${param2}/?courier_partner=${param1}`, {
@@ -72,17 +74,25 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
         setExitpop(false)
     }
 
+    const handleClose = () => {
+        setSingleShip(false);
+    };
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
                 <div className='d-flex justify-content-between p10 align-items-center'>
-                    {/* <h4 className='mb-0'>Choose Shipping Partner</h4>
-                <button
-                    onClick={handleClose}
-                    className='btn close-button'
-                >
-                    <FontAwesomeIcon icon={faTimes} />
-                </button> */}
+                    {
+                        screenWidthData < 544 &&
+                        <>
+                            <h4 className='mb-0 invisible'>Choose Shipping Partner</h4>
+                            <button
+                                onClick={handleClose}
+                                className='btn close-button'
+                            >
+                                <FontAwesomeIcon icon={faTimes} />
+                            </button>
+                        </>
+                    }
                 </div>
                 <div className='ss-container-main'>
                     {/* Iterate over ship options and render details */}
@@ -98,7 +108,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                                     <p>RTO Charges: ₹{option.rto_charge}</p>
                                 </div>
                             </div>
-                            <div className='d-flex align-items-center gap-2'>
+                            <div className='d-flex align-items-center gap-2 ship-ratings'>
                                 <table className='performance-rating'>
                                     <tbody>
                                         <tr>
