@@ -154,6 +154,7 @@ const BasicInfo = ({ activeTab }) => {
       }
     } catch (error) {
       customErrorFunction(error)
+      setLoaderRing(false)
     }
   }
 

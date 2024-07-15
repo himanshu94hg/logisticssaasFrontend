@@ -4,32 +4,7 @@ import moment from 'moment';
 import NoData from '../../../../common/noData';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
 
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
 
 const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
 
@@ -145,7 +120,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className=''>
+                                                <p className='details-on-hover anchor-awb'>
                                                     {row?.awb_number}
                                                 </p>
                                             </div>

@@ -7,6 +7,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
 import { BASE_URL_CORE } from '../../../../axios/config';
 
+
+
+const StatusOptions = [
+  { value: 'All', label: 'All' },
+  { value: 'Open', label: 'Open' },
+  { value: 'In-progess', label: 'In-progess' },
+  { value: 'Closed', label: 'Closed' },
+];
+const SeverityOptions = [
+  { value: 'All', label: 'All' },
+  { value: 'Critical', label: 'Critical' },
+  { value: 'Medium', label: 'Medium' },
+  { value: 'High', label: 'High' },
+  { value: 'Low', label: 'Low' },
+];
+
 const FilterTicketsForm = (props) => {
   const [subcatList, setSubcategory] = useState([]);
   const [endDate, setEndDate] = useState();
@@ -17,8 +33,8 @@ const FilterTicketsForm = (props) => {
   const [selectedSeverity, setSelectedSeverity] = useState('');
   const [severty, setSeverty] = useState([]);
   const [statusData, setStatusData] = useState([]);
-
   const authToken = Cookies.get("access_token")
+
 
   useEffect(() => {
     if (props?.clearTicket) {
@@ -96,12 +112,6 @@ const FilterTicketsForm = (props) => {
     });
   }, []);
 
-  const StatusOptions = [
-    { value: 'All', label: 'All' },
-    { value: 'Open', label: 'Open' },
-    { value: 'In-progess', label: 'In-progess' },
-    { value: 'Closed', label: 'Closed' },
-  ];
 
 
   useEffect(() => {
@@ -110,13 +120,7 @@ const FilterTicketsForm = (props) => {
     });
   }, []);
 
-  const SeverityOptions = [
-    { value: 'All', label: 'All' },
-    { value: 'Critical', label: 'Critical' },
-    { value: 'Medium', label: 'Medium' },
-    { value: 'High', label: 'High' },
-    { value: 'Low', label: 'Low' },
-  ];
+
   const handleKeyDown = (e) => {
     const allowedCharacters = /[0-9/]/;
     if (e.key === 'Backspace' || e.key === 'Delete') {

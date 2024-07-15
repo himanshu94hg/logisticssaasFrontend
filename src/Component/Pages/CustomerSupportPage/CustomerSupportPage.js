@@ -47,18 +47,18 @@ const CustomerSupportPage = () => {
   const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
   const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popRef.current && !popRef.current.contains(event.target)) {
-        setFilterTickets(false)
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = (event) => {
+  //     if (popRef.current && !popRef.current.contains(event.target)) {
+  //       setFilterTickets(false)
+  //     }
+  //   };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [setFilterTickets]);
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, [setFilterTickets]);
 
   useEffect(() => {
     let url = apiUrl;
@@ -161,11 +161,11 @@ const CustomerSupportPage = () => {
   useEffect(() => {
     setLoader(true)
     if (activeTab) {
-          setSearchValue('')
-            setTimeout(() => {
-                setLoader(false)
-            }, 500);
-        }
+      setSearchValue('')
+      setTimeout(() => {
+        setLoader(false)
+      }, 500);
+    }
   }, [activeTab])
 
   useEffect(() => {
@@ -319,7 +319,7 @@ const CustomerSupportPage = () => {
         />
       </div>
 
-      <div ref={popRef} className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
+      <div className={`ticket-slider ${FilterTickets ? 'open' : ''}`}>
         <div id='sidepanel-closer' onClick={() => { setFilterTickets(!FilterTickets); setFilterClick(true) }}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
@@ -344,7 +344,8 @@ const CustomerSupportPage = () => {
       <div className={`ticket-slider ${ViewTicketInfo ? 'open' : ''}`}>
         <ViewTicketSlider tktId={allTicket} setViewTicketInfo={setViewTicketInfo} ViewTicketInfo={ViewTicketInfo} viewId={viewId} />
       </div>
-      <div className={`backdrop ${NewTicket || FilterTickets || ViewTicketInfo ? 'd-block' : 'd-none'}`}></div>
+      {/* <div className={`backdrop ${NewTicket || FilterTickets || ViewTicketInfo ? 'd-block' : 'd-none'}`}></div> */}
+      <div onClick={() => { setNewTicket(false); setFilterTickets(false); setViewTicketInfo(false) }} className={`backdrop ${NewTicket || FilterTickets || ViewTicketInfo ? 'd-block' : 'd-none'}`}></div>
       <LoaderScreen loading={loader} />
     </>
   );
