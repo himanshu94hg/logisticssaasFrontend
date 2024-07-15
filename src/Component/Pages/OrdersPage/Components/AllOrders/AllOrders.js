@@ -526,8 +526,9 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className='align-middle status-box'>
+                                            <td className='align-middle status-box position-relative'>
                                                 <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                                {row?.manifest_status && <p className='text-success fw-bold position-absolute' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3 justify-content-end'>

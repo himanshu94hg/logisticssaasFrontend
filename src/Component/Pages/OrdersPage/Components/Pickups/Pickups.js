@@ -475,12 +475,10 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setb
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className='align-middle status-box'>
+                                        <td className='align-middle status-box position-relative'>
                                             {/*  Status section  */}
-                                            <div className='d-flex flex-column gap-2 justify-content-center'>
-                                                <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
-                                                {row?.manifest_status && <p className='text-success fw-bold' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
-                                            </div>
+                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            {row?.manifest_status && <p className='text-success fw-bold position-absolute' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
