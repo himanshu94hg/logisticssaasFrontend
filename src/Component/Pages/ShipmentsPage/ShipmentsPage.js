@@ -441,7 +441,16 @@ const ShipmentsPage = () => {
                     setCurrentPage={setCurrentPage}
                 />
                 {BulkActionShow && (
-                    <BulkActionsComponent setSelectAll={setSelectAll} activeTab={activeTab} setBulkActionShow={setBulkActionShow} selectedRows={selectedRows} setSelectedRows={setSelectedRows} filterData={filterData} setFilterData={setFilterData} queryParamTemp={queryParamTemp} setQueryParamTemp={setQueryParamTemp} />
+                    <BulkActionsComponent
+                        setSelectAll={setSelectAll}
+                        activeTab={activeTab}
+                        setBulkActionShow={setBulkActionShow}
+                        selectedRows={selectedRows}
+                        setSelectedRows={setSelectedRows}
+                        filterData={filterData}
+                        setFilterData={setFilterData}
+                        queryParamTemp={queryParamTemp}
+                        setQueryParamTemp={setQueryParamTemp} />
                 )
                 }
             </div>

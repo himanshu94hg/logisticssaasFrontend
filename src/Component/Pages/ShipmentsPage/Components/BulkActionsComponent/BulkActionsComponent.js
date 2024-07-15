@@ -9,7 +9,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 // import './BulkActionsComponent.css'
 
-const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterData,setFilterData,queryParamTemp,setQueryParamTemp }) => {
+const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterData,setFilterData,queryParamTemp,setSelectAll,setBulkActionShow }) => {
     const dispatch = useDispatch()
     const reattemptOrderIds = selectedRows.join(',');
     const [exportButtonClick, setExportButtonClick] = useState(false)
@@ -54,6 +54,9 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
             var blob = new Blob([exportShipmentCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${activeTab === "Action Required" ? "action_required" : activeTab === "Action Requested" ? "action_requested" : activeTab === "Delivered" ? "delivered" : activeTab === "RTO" ? "rto" : ""}.xlsx`);
             setExportButtonClick(false);
+            setBulkActionShow(false)
+            setSelectedRows([])
+            setSelectAll(false)
         }
     }, [exportShipmentCard]);
 
@@ -66,7 +69,6 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows,filterD
     });
 
     const handleExportAll = () => {
-        console.log("filterDatafilterDatafilterData",filterData);
         Swal.fire({
             title: 'Confirmation Required!',
             text: 'Are you sure to export all report?',
