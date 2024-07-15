@@ -37,7 +37,7 @@ const OrderStatus = [
 
 const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
-    { label: "COD", value: "cod" },
+    { label: "COD", value: "COD" },
 ]
 
 const Ordertags = [
