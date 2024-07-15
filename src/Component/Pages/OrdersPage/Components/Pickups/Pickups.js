@@ -478,7 +478,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setb
                                         <td className='align-middle status-box position-relative'>
                                             {/*  Status section  */}
                                             <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
-                                            {row?.manifest_status && <p className='text-success fw-bold position-absolute' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
+                                            {row?.manifest_status && <p className='text-success fw-bold position-absolute ws-nowrap' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
