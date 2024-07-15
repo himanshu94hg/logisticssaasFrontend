@@ -1,13 +1,9 @@
-import moment from "moment";
-import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { AiOutlineArrowUp } from "react-icons/ai";
 
 function RevenueDashboard() {
-  const dispatch = useDispatch()
   const [selectedInterval, setSelectedInterval] = useState("1W");
-  const [revenueData, setRevenueData] = useState({ prepade_revenue_data: 0, cod_revenue_data: 0 });
+  const { revenueCard } = useSelector(state => state?.dashboardOverviewReducer)
 
   const fetchRevenueData = (interval) => {
     const endpointMap = {
@@ -18,10 +14,7 @@ function RevenueDashboard() {
       "6M": "six-month-revenue",
       "1Y": "one-year-revenue",
     };
-    const endpoint = endpointMap[interval];
   };
-
-  const { revenueCard } = useSelector(state => state?.dashboardOverviewReducer)
 
   useEffect(() => {
     fetchRevenueData(selectedInterval);
@@ -44,30 +37,17 @@ function RevenueDashboard() {
       </div>
 
       <ul className="list-ui mt20">
-        <li className={`bg-sh-primary-light text-sh-primary`}>
+        <li className={`bg-sh-primary-light text-sh-primary d-flex justify-content-between`}>
           <p>Prepaid Revenue</p>
-          <p className="">
-            {/* <AiOutlineArrowUp className=" font15" /> */}
-            {/* {revenueData.prepade_revenue_data}% */}
-          </p>
           <p className="cardvalue">{revenueCard?.prepaid_revenue || "NA"}</p>
         </li>
-
-        <li className={`bg-sh-primary-light text-sh-primary`}>
+        <li className={`bg-sh-primary-light text-sh-primary d-flex justify-content-between`}>
           <p>COD Revenue</p>
-          <p>
-            {/* <AiOutlineArrowUp className=" font15" /> */}
-            {/* {revenueData.cod_revenue_data}% */}
-          </p>
           <p className="cardvalue">{revenueCard?.cod_revenue || "NA"}</p>
         </li>
-        {/* Add other items based on your API response structure */}
-        <li className={`bg-sh-primary-light text-sh-primary`}>
+        <li className={`bg-sh-primary-light text-sh-primary d-flex justify-content-between`}>
           <p>Total Revenue</p>
-          <p>
-            {/* <AiOutlineArrowUp className=" font15" /> */}
-          </p>
-          <p className="cardvalue">{revenueCard?.prepaid_revenue + revenueCard?.cod_revenue}</p>
+          <p className="cardvalue">{parseFloat(revenueCard?.prepaid_revenue + revenueCard?.cod_revenue).toFixed(2) || "NA"}</p>
         </li>
       </ul>
     </div>
