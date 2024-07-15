@@ -21,8 +21,8 @@ const ChannelsIntegration = () => {
     ];
 
     const OnlineMarketplaces = [
-        { child: 'channels', title: 'Amazon', imageUrl: Amazon },
-        // { child: 'amazon', title: 'Amazon', imageUrl: Amazon },
+        // { child: 'channels', title: 'Amazon', imageUrl: Amazon },
+        { child: 'amazon-direct', title: 'Amazon', imageUrl: Amazon },
         { child: 'channels', title: 'Flipkart', imageUrl: Flipkart },
         // { child: 'amazon-direct', title: 'Flipkart', imageUrl: Flipkart },
         // Add more data as needed
