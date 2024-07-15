@@ -109,19 +109,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
-        // setLoaderRing(false)
     }, [orderCancelled])
-
-
-    // useEffect(() => {
-    //     if (location?.state?.data === "ratecalc") {
-    //         setActiveTab("Processing")
-    //         setRateRef(new Date())
-    //     } else {
-    //         setActiveTab("Processing")
-    //     }
-    // }, [location])
-
 
     useEffect(() => {
         setLoader(true)
@@ -273,7 +261,6 @@ const OrdersPage = () => {
         setItemsPerPage(20)
         setQueryParamTemp({})
         setSearchOption(SearchOptions[0])
-
         axios.get(`${BASE_URL_ORDER}/orders-api/orders/?page_size=${20}&page=${1}&courier_status=${activeTab === "All" ? '' : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab === "Pickup" ? "manifest" : activeTab}`, {
             headers: {
                 Authorization: `Bearer ${authToken}`
@@ -287,14 +274,6 @@ const OrdersPage = () => {
                 customErrorFunction(error)
             });
     }
-    // const debouncedHandleClick = useCallback(
-    //     debounce((param) => handleClick(param), 1000),
-    //     []
-    //   );
-
-    // const handleReset = () => {
-    //     debouncedHandleClick();
-    // }
 
     useEffect(() => {
         let apiUrl = '';
@@ -348,7 +327,7 @@ const OrdersPage = () => {
                     customErrorFunction(error)
                 });
         }
-     
+
     }, [orderCancelled, rateRef, activeTab, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, moreorderShipCardStatus]);
 
     useEffect(() => {
@@ -389,7 +368,7 @@ const OrdersPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab}  setRateRef={setRateRef}/>
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setRateRef={setRateRef} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
@@ -443,7 +422,7 @@ const OrdersPage = () => {
                                             minWidth: '110px',
                                         }}
                                     >
-                                        {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
+                                        {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)} key={item?.filter_name}>{item?.filter_name}</li>)}
                                     </ul>
                                 </div>
                                 <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>

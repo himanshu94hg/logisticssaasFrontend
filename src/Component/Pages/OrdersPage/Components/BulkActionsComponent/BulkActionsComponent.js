@@ -20,50 +20,16 @@ import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, filterData, setFilterData, queryParamTemp, setQueryParamTemp }) => {
     const dispatch = useDispatch();
+    const [show, setShow] = useState(false);
+    const [actionType, setActionType] = useState("");
+    const [genaratelabel, setGenaratelabel] = useState(false);
+    const [generateinvoice, setGenerateinvoice] = useState(false);
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
     const { exportCard, exportAllCard } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
-    const [genaratelabel, setGenaratelabel] = useState(false);
-    const [generateinvoice, setGenerateinvoice] = useState(false);
-    const [actionType, setActionType] = useState("");
-    const [show, setShow] = useState(false);
 
     const handleClose = () => setShow(false);
-
-
-    console.log("queryParamTempqueryParamTempqueryParamTempqueryParamTemp",queryParamTemp)
-
-    useEffect(() => {
-        if (labelData && genaratelabel) {
-            const blob = new Blob([labelData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'label.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            setGenaratelabel(false);
-        }
-    }, [labelData]);
-
-    useEffect(() => {
-        if (invoiceData && generateinvoice) {
-            const blob = new Blob([invoiceData], { type: 'application/pdf' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'Invoice.pdf';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            setGenerateinvoice(false)
-        }
-    }, [invoiceData])
-
 
     const addTag = () => {
         setaddTagShow(true)
@@ -82,16 +48,19 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         setUpdateWarehouse(true)
         setSelectAll(false)
     }
+
     const bulkDeleted = (args) => {
         setShow(true)
         setSelectAll(false)
         setActionType(args)
     }
+
     const bulkCancelled = (args) => {
         setActionType(args)
         setShow(true)
         setSelectAll(false)
     }
+
     const makeApiCall = () => {
         setShow(false);
         setSelectAll(false)
@@ -204,37 +173,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         dispatch({ type: "EXPORT_DATA_ACTION", payload: requestData });
     };
 
-    useEffect(() => {
-        if (exportButtonClick) {
-            const FileSaver = require('file-saver');
-            const blob = new Blob([exportCard], { type: 'application/ms-excel' });
-            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
-            setExportButtonClick(false);
-        }
-    }, [exportCard]);
-
-    const handelBulkShip = () => {
-        setShipButtonClicked(true);
-        setLoaderRing(true)
-        setTimeout(() => {
-            setLoaderRing(false)
-        }, 2000);
-        const data = { "order_ids": selectedRows.map(id => id.toString()) };
-        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
-        setSelectAll(false)
-    };
-
-    useEffect(() => {
-        if (shipButtonClicked) {
-            if (bulkShipData && Object.keys(bulkShipData).length > 0) {
-                setShipButtonClicked(false);
-                setBulkActionShow(false);
-                setSelectedRows([]);
-            }
-        }
-    }, [shipButtonClicked, bulkShipData, selectedRows, setBulkActionShow, setSelectedRows]);
-
-
     const handleExportAll = () => {
         Swal.fire({
             title: 'Confirmation Required!',
@@ -290,10 +228,69 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         });
     };
 
+    const handelBulkShip = () => {
+        setShipButtonClicked(true);
+        setLoaderRing(true)
+        setTimeout(() => {
+            setLoaderRing(false)
+        }, 2000);
+        const data = { "order_ids": selectedRows.map(id => id.toString()) };
+        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
+        setSelectAll(false)
+    };
+
+    useEffect(() => {
+        if (labelData && genaratelabel) {
+            const blob = new Blob([labelData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'label.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setGenaratelabel(false);
+        }
+    }, [labelData]);
+
+    useEffect(() => {
+        if (invoiceData && generateinvoice) {
+            const blob = new Blob([invoiceData], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Invoice.pdf';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            setGenerateinvoice(false)
+        }
+    }, [invoiceData])
+
+    useEffect(() => {
+        if (exportButtonClick) {
+            const FileSaver = require('file-saver');
+            const blob = new Blob([exportCard], { type: 'application/ms-excel' });
+            FileSaver.saveAs(blob, `${activeTab}.xlsx`);
+            setExportButtonClick(false);
+        }
+    }, [exportCard]);
+
+    useEffect(() => {
+        if (shipButtonClicked) {
+            if (bulkShipData && Object.keys(bulkShipData).length > 0) {
+                setShipButtonClicked(false);
+                setBulkActionShow(false);
+                setSelectedRows([]);
+            }
+        }
+    }, [shipButtonClicked, bulkShipData, selectedRows, setBulkActionShow, setSelectedRows]);
+
     useEffect(() => {
         if (exportAllCard?.message === "Go to MIS->Downloads to download your report") {
             setFilterData({});
-            // setQueryParamTemp({});
         }
     }, [exportAllCard]);
 
