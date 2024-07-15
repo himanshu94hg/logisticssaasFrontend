@@ -479,7 +479,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setb
                                             {/*  Status section  */}
                                             <div className='d-flex flex-column gap-2 justify-content-center'>
                                                 <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
-                                                <p className='text-success fw-bold' style={{ paddingInline: '10px', fontSize: 11 }}>{row?.manifest_status ? "Manifest Generated" : ""}</p>
+                                                {row?.manifest_status && <p className='text-success fw-bold' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
@@ -527,7 +527,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setb
                     <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
                 </Modal.Footer>
             </Modal>
-        </section>
+        </section >
     );
 };
 
