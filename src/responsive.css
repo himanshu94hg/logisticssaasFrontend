@@ -216,12 +216,16 @@
     }
 
     .search-container label input {
-        width: 320px;
+        max-width: 320px;
     }
 }
 
 @media screen and (max-width:375px) {
     .orders-section-tabs .table-container {
         height: calc(100vh - 348px);
+    }
+
+    .search-container label input {
+        max-width: 311px;
     }
 }
