@@ -60,8 +60,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
 
 
-    console.log(orderStatus,"orderStatusorderStatus")
-
     useEffect(() => {
         if (orderdelete) {
             setSelectAll(false)
@@ -175,7 +173,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
     };
 
     const handleShipReassign = (orderId, status) => {
-        console.log(status, "lllllllllllllllllllll")
         if (status === "pending") {
             toast.error("Order not shipped yet")
         } else {

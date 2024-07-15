@@ -1,22 +1,17 @@
-import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
+import axios from 'axios';
+import moment from 'moment';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import React, { useEffect, useState } from 'react'
+import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const SourceOptions = [
-    { label: "Amazon", value: "amazon" },
-    { label: "Custom", value: "custom" },
-    { label: "Shopify", value: "shopify" },
-];
 
 const OrderStatus = [
     { label: "Shipped", value: "shipped" },
@@ -41,33 +36,21 @@ const paymentOptions = [
     { label: "COD", value: "COD" },
 ]
 
-const CourierPartner = [
-    { label: "Smartr", value: "smartr" },
-    { label: "Ekart", value: "ekart" },
-    { label: "Ekart 5kg", value: "ekart_5kg" },
-    { label: "Bluedart", value: "bluedart" },
-    { label: "Shadowfax", value: "shadowfax" },
-    { label: "Delhivery", value: "delhivery" },
-    { label: "Amazon Swa", value: "amazon_swa" },
-    { label: "Xpressbees", value: "xpressbees" },
-    { label: "Professional", value: "professional" },
-    { label: "Ecom Express", value: "ecom_express" },
-];
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
     const dispatch = useDispatch()
+    const [errors, setErrors] = useState({})
     const sellerData = Cookies.get("user_id")
-    const authToken = Cookies.get("access_token")
     const [favName, setFavName] = useState("");
+    const [orderTag, setorderTag] = useState([]);
+    const authToken = Cookies.get("access_token")
     const [saveFav, setSaveFav] = useState(false);
+    const [orderSource, setOrderSource] = useState([]);
     const [SaveFilter, setSaveFilter] = useState(false);
-    const [clearState, setClearState] = useState(false);
     const [pickupAddresses, setPickupAddresses] = useState([]);
+    const [courierPartners, setCourierPartners] = useState([]);
     const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
     const courierPartnerData = useSelector(state => state?.toolsSectionReducer?.courierPartnerData);
-    const [orderTag, setorderTag] = useState([]);
-    const [orderSource, setOrderSource] = useState([]);
-    const [errors, setErrors] = useState({})
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -83,12 +66,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address: ""
     })
 
-    const handleCheckboxChange = (select) => {
-        setSaveFilter(prevState => !prevState);
-        setSaveFav(true)
-    };
-
-
     useEffect(() => {
         if (orderSourceListData && orderSourceListData.length > 0) {
             const formattedData = orderSourceListData
@@ -102,53 +79,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setOrderSource([]);
         }
     }, [orderSourceListData]);
-
-    const handleSubmit = e => {
-        e.preventDefault();
-
-        const encodedParams = Object.entries(filterParams)
-            .filter(([key, value]) => value !== null && value !== '')
-            .map(([key, value]) => {
-                if (key === 'start_date' || key === 'end_date') {
-                    const formattedDate = moment(value).format('YYYY-MM-DD');
-                    return `${key}=${formattedDate}`;
-                }
-                else {
-                    const trimmedValue = value.replace(/,+$/, '');
-                    return `${key}=${trimmedValue}`;
-                }
-            })
-            .join('&');
-
-        if (SaveFilter && favName.trim() === "") {
-            const validationErrors = {};
-            if (!favName.trim() & favName !== null) {
-                validationErrors.favName = "Required";
-            }
-            setErrors(validationErrors);
-            return;
-        }
-
-        if ((!filterParams.start_date && filterParams.end_date) || (filterParams.start_date && !filterParams.end_date)) {
-            setErrors({ ...errors, start_date: 'Please select both start and end dates', end_date: 'Please select both start and end dates' });
-            return;
-        } else {
-            setErrors({});
-        }
-
-        handleMoreFilter(filterParams)
-        CloseSidePanel()
-        if (saveFav && SaveFilter) {
-            dispatch({
-                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
-                    filter_query: encodedParams,
-                    filter_name: favName
-                }
-            })
-        }
-        setSaveFilter(false)
-        setFavName("")
-    };
 
     useEffect(() => {
         if (activeTab) {
@@ -168,40 +98,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             setErrors({})
         }
     }, [activeTab])
-
-    const handleChange = (name, value) => {
-        if (name === "start_date" || name === "end_date") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value
-            }));
-        }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag" || name === "payment_type") {
-            let temp_data = ''
-            let temp = value.map((item, index) => {
-                temp_data += item.value;
-                if (index !== value.length - 1) {
-                    temp_data += ",";
-                }
-            })
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: temp_data
-            }));
-        }
-        if (name === "order_id" || name === "sku") {
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: value.target.value
-            }));
-        }
-        if (name === "sku_match_type") {
-            setFilterParams(prev => ({
-                ...prev,
-                sku_match_type: value
-            }))
-        }
-    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -239,7 +135,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [MoreFilters])
 
-
     useEffect(() => {
         if (tagListData && tagListData.length > 0) {
             const formattedData = tagListData.map(item => ({
@@ -274,6 +169,71 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }, [handleResetFrom])
 
+    useEffect(() => {
+        dispatch({ type: "COURIER_PARTNER_ACTION" });
+    }, []);
+
+    useEffect(() => {
+        if (courierPartnerData?.data?.length) {
+            const formattedData = courierPartnerData?.data.map(item => ({
+                value: item.keyword,
+                label: item.title
+            }));
+            setCourierPartners(formattedData);
+        } else {
+            setCourierPartners([]);
+        }
+    }, [courierPartnerData])
+
+    const handleCheckboxChange = (select) => {
+        setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        const encodedParams = Object.entries(filterParams)
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/, '');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
+            .join('&');
+        if (SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            return;
+        }
+        if ((!filterParams.start_date && filterParams.end_date) || (filterParams.start_date && !filterParams.end_date)) {
+            setErrors({ ...errors, start_date: 'Please select both start and end dates', end_date: 'Please select both start and end dates' });
+            return;
+        } else {
+            setErrors({});
+        }
+
+        handleMoreFilter(filterParams)
+        CloseSidePanel()
+        if (saveFav && SaveFilter) {
+            dispatch({
+                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                    filter_query: encodedParams,
+                    filter_name: favName
+                }
+            })
+        }
+        setSaveFilter(false)
+        setFavName("")
+    };
+
     const handleReset = () => {
         setFilterParams({
             start_date: null,
@@ -290,6 +250,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         })
         setErrors({})
     };
+
     const handleKeyDown = (e) => {
         const allowedCharacters = /[0-9/]/;
         if (e.key === 'Backspace' || e.key === 'Delete') {
@@ -300,23 +261,64 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }
 
-    useEffect(() => {
-        dispatch({ type: "COURIER_PARTNER_ACTION" });
-    }, [dispatch]);
+    // const handleChange = (name, value) => {
+    //     if (name === "start_date" || name === "end_date") {
+    //         setFilterParams(prev => ({
+    //             ...prev,
+    //             [name]: value
+    //         }));
+    //     }
+    //     if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag" || name === "payment_type") {
+    //         let temp_data = ''
+    //         let temp = value.map((item, index) => {
+    //             temp_data += item.value;
+    //             if (index !== value.length - 1) {
+    //                 temp_data += ",";
+    //             }
+    //         })
+    //         setFilterParams(prev => ({
+    //             ...prev,
+    //             [name]: temp_data
+    //         }));
+    //     }
+    //     if (name === "order_id" || name === "sku") {
+    //         setFilterParams(prev => ({
+    //             ...prev,
+    //             [name]: value.target.value
+    //         }));
+    //     }
+    //     if (name === "sku_match_type") {
+    //         setFilterParams(prev => ({
+    //             ...prev,
+    //             sku_match_type: value
+    //         }))
+    //     }
+    // };
 
-    const [courierPartners, setCourierPartners] = useState([]);
-
-    useEffect(() => {
-        if (courierPartnerData?.data?.length) {
-            const formattedData = courierPartnerData?.data.map(item => ({
-                value: item.keyword,
-                label: item.title
+    const handleChange = (name, value) => {
+        if (["start_date", "end_date"].includes(name)) {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value
             }));
-            setCourierPartners(formattedData);
-        } else {
-            setCourierPartners([]);
+        } else if (["status", "order_source", "courier_partner", "pickup_address", "order_tag", "payment_type"].includes(name)) {
+            const temp_data = value.map(item => item.value).join(",");
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: temp_data
+            }));
+        } else if (name === "order_id" || name === "sku") {
+            setFilterParams(prev => ({
+                ...prev,
+                [name]: value.target.value
+            }));
+        } else if (name === "sku_match_type") {
+            setFilterParams(prev => ({
+                ...prev,
+                sku_match_type: value
+            }));
         }
-    }, [courierPartnerData])
+    };
 
     const customStyles = {
         menuList: (provided) => ({
@@ -387,7 +389,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isMulti
                                         isSearchable
                                         onChange={(e) => handleChange("status", e)}
-                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                        // value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                        value={OrderStatus.filter(option => filterParams.status.split(",").includes(option.value))}
                                         styles={customStyles}
                                     />
                                 </label>
@@ -400,7 +403,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isMulti
                                         isSearchable
                                         styles={customStyles}
-                                        value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
+                                        value={orderSource.filter(option => filterParams.order_source.split(",").includes(option.value))}
+                                        // value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -412,7 +416,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isMulti
                                         isSearchable
                                         styles={customStyles}
-                                        value={courierPartners?.value}
+                                        // value={courierPartners?.value}
+                                        value={courierPartners.filter(option => filterParams.courier_partner.split(",").includes(option.value))}
+
                                     />
                                 </label>
                             </div>
@@ -435,7 +441,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         options={pickupAddresses}
                                         onChange={(e) => handleChange("pickup_address", e)}
                                         styles={customStyles}
-                                        value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
+                                        // value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
+                                        value={pickupAddresses.filter(option => filterParams.pickup_address.split(",").includes(option.value))}
+
                                     />
                                 </label>
                             </div>
@@ -447,7 +455,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
                                         styles={customStyles}
-                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null} />
+                                        // value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null} 
+                                        value={orderTag.filter(option => filterParams.order_tag.split(",").includes(option.value))}
+
+                                        />
                                 </label>
                             </div>
                             <div className='filter-row'>

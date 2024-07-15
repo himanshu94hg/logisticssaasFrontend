@@ -27,10 +27,7 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
     };
 
     const handleSubmit = (option,shipCharge) => {
-        console.log(paymentCard,shipCharge,option,'this is a reassign data')
-
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
-            console.log(paymentCard,shipCharge,option,'this is a reassign data>>>>>>>>>>>>')
             dispatch({ type: "REASSIGN_SHIP_DATA_ACTION", payload: { "courier": option, "order_id": orderId } });
             setShipingData(true);
         } else {
@@ -44,7 +41,6 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
     };
 
     useEffect(() => {
-        console.log(shipingData, "All shipping Data Reflect", moreorderCard)
         if (shipingData === true) {
             if (moreorderCard?.status) {
                 setSingleShipReassign(false);
