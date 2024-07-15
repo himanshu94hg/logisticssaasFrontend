@@ -174,7 +174,7 @@ const SetPreferenceRules = ({ activeTab }) => {
         const selectedPartners = [selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4];
         const hasEmptyValue = selectedPartners.every(value => value === '');
 
-        console.log(selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4,"pppppppppppppppppppppp")
+        console.log(selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4, "pppppppppppppppppppppp")
 
         if (!ruleName) {
             formIsValid = false;
@@ -209,7 +209,7 @@ const SetPreferenceRules = ({ activeTab }) => {
             errors.conditions = "At least one condition is required!";
         }
 
-        console.log(conditions,"selectedPartnersselectedPartnersselectedPartners")
+        console.log(conditions, "selectedPartnersselectedPartnersselectedPartners")
 
 
         if (!formIsValid) {
@@ -335,8 +335,8 @@ const SetPreferenceRules = ({ activeTab }) => {
                 <p>Create Custom Courier Allocation Rules for Efficient Delivery Management.</p>
             </div>
             <div className={`d-flex mt-2 gap-3 ${allRules?.length > 0 ? 'justify-content-end w-100' : ''}`}>
-                <button className='btn main-button' onClick={handleSaveRule}>Save Changes</button>
-                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} />Add Rule</button>
+                <button className={`btn main-button ${allRules?.length === 0 && 'd-none'}`} onClick={handleSaveRule}>Save Changes</button>
+                <button className='btn main-button' onClick={addRuleRow}><FontAwesomeIcon icon={faPlus} /> Add Rule</button>
             </div>
             <DragDropContext onDragEnd={onDragEnd}>
                 <Droppable droppableId="rules">

@@ -1,3 +1,9 @@
+@media screen and (max-width:1240px) {
+    .ship-container-row {
+        flex-wrap: wrap;
+    }
+}
+
 @media screen and (max-width:1187px) {
 
     .orders-section-tabs .table-container::-webkit-scrollbar {
@@ -146,6 +152,44 @@
         height: calc(100vh - 333px);
     }
 
+    .bulk-action-container {
+        left: unset;
+        right: 0px;
+        z-index: 1;
+        bottom: 44px;
+    }
+
+    .ba-inner-container {
+        flex-direction: column;
+        width: 102px;
+        gap: 15px;
+    }
+
+    .ba-actions {
+        flex-direction: column;
+        gap: 10px;
+        padding-inline: 10px;
+    }
+
+    .ba-rows-selected {
+        padding: 10px 0;
+        width: 100%;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+
+    .ba-rows-selected span:last-of-type {
+        font-size: 0.8rem;
+    }
+
+    .ba-actions li::after {
+        top: unset;
+        width: 100%;
+        height: 1px;
+    }
+
+    .ship-container-row .img-container {
+        box-shadow: none;
+    }
 }
 
 @media screen and (max-width:767px) {
@@ -198,6 +242,43 @@
 
     .signup-section .signup .signup-with-social {
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width:543px) {
+
+    .single-ship-container {
+        top: 4%;
+        height: 92vh;
+        width: 90vw;
+    }
+
+    .single-ship-container.open {
+        right: 4%;
+    }
+
+    .ship-container-row .ship-ratings {
+        flex-direction: column-reverse;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .rating label {
+        font-size: 20px;
+    }
+
+    .ship-container-row {
+        gap: 10px;
+        padding-top: 21px;
+        justify-content: end;
+    }
+
+    .ship-container-row p {
+        font-size: 12px;
+    }
+
+    .ss-shipment-charges p {
+        text-align: end;
     }
 }
 

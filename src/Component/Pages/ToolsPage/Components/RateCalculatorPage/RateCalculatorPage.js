@@ -281,7 +281,7 @@ const RateCalculatorPage = () => {
       setLoader(true)
       setTimeout(() => {
         setLoader(false)
-    }, 500);
+      }, 500);
       dispatch({
         type: "RATE_CALCULATOR_ACTION_ORDER_ID",
         payload: orderId
@@ -570,7 +570,7 @@ const RateCalculatorPage = () => {
                         </div>
                       </div>
                     </div>
-                    <div className='d-flex align-items-center gap-2'>
+                    <div className='d-flex align-items-center gap-2 ship-ratings'>
                       <table className='performance-rating'>
                         <tbody>
                           <tr>
