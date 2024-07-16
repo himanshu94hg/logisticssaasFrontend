@@ -469,6 +469,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                         e.preventDefault();
                                     }
                                 }}
+                                onPaste={(e) => {
+                                    const pastedText = e.clipboardData.getData('Text');
+                                    if (!/^\d+$/.test(pastedText)) {
+                                        e.preventDefault();
+                                    }
+                                }}
                             />
                             {(errors.pincode || editErrors?.pincode) && <div className="custom-error">{errors.pincode || editErrors?.pincode}</div>}
                         </label>
@@ -683,6 +689,12 @@ export const AddressDetailStep = ({ onPrev, onNext, formData, activeTab, setForm
                                     maxLength={6}
                                     onKeyPress={(e) => {
                                         if (!/\d/.test(e.key)) {
+                                            e.preventDefault();
+                                        }
+                                    }}
+                                    onPaste={(e) => {
+                                        const pastedText = e.clipboardData.getData('Text');
+                                        if (!/^\d+$/.test(pastedText)) {
                                             e.preventDefault();
                                         }
                                     }}
