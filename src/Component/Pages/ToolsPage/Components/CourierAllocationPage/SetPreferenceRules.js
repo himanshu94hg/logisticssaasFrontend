@@ -174,8 +174,6 @@ const SetPreferenceRules = ({ activeTab }) => {
         const selectedPartners = [selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4];
         const hasEmptyValue = selectedPartners.every(value => value === '');
 
-        console.log(selectedPartners1, selectedPartners2, selectedPartners3, selectedPartners4,"pppppppppppppppppppppp")
-
         if (!ruleName) {
             formIsValid = false;
             errors["ruleName"] = "Rule Name cannot be empty";
@@ -209,7 +207,7 @@ const SetPreferenceRules = ({ activeTab }) => {
             errors.conditions = "At least one condition is required!";
         }
 
-        console.log(conditions,"selectedPartnersselectedPartnersselectedPartners")
+        console.log(conditions, "selectedPartnersselectedPartnersselectedPartners")
 
 
         if (!formIsValid) {
@@ -329,6 +327,9 @@ const SetPreferenceRules = ({ activeTab }) => {
         }
     }
 
+
+    console.log(allRules, "allRulesallRulesallRules", isActive)
+
     return (
         <>
             <div className='set-of-rules'>
@@ -358,18 +359,20 @@ const SetPreferenceRules = ({ activeTab }) => {
                                             <div className='cr-rule-name'>
                                                 <div className='rule-name'>
                                                     <p>Rule Name: {rule?.rule_name}</p>
+                                                    <input type="checkbox" value="Bike" />
                                                 </div>
-                                                <div className="toggle-switch">
+                                                <div className="">
                                                     <input
                                                         type="checkbox"
                                                         id={`toggle-${index}`}
-                                                        checked={isActive[index]}
+                                                        checked={rule.status}
                                                         onChange={(e) => handleToggle(index, rule?.id, e.target.checked)}
                                                     />
-                                                    <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
+                                                    <span className="slider"></span>
+                                                    {/* <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
                                                         <span className="toggle-inner" />
                                                         <span className="toggle-switch" />
-                                                    </label>
+                                                    </label> */}
                                                 </div>
                                             </div>
                                             <div className='cr-rule-conditions'>
