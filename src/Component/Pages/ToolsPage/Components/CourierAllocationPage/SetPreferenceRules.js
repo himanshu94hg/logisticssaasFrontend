@@ -14,6 +14,8 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import { faPenToSquare, faTrashCan, faPlus } from '@fortawesome/free-solid-svg-icons';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Form from 'react-bootstrap/Form';
+
 
 const SetPreferenceRules = ({ activeTab }) => {
     const dispatch = useDispatch();
@@ -207,9 +209,6 @@ const SetPreferenceRules = ({ activeTab }) => {
             errors.conditions = "At least one condition is required!";
         }
 
-        console.log(conditions, "selectedPartnersselectedPartnersselectedPartners")
-
-
         if (!formIsValid) {
             setFormErrors(errors);
             return;
@@ -328,8 +327,6 @@ const SetPreferenceRules = ({ activeTab }) => {
     }
 
 
-    console.log(allRules, "allRulesallRulesallRules", isActive)
-
     return (
         <>
             <div className='set-of-rules'>
@@ -359,20 +356,14 @@ const SetPreferenceRules = ({ activeTab }) => {
                                             <div className='cr-rule-name'>
                                                 <div className='rule-name'>
                                                     <p>Rule Name: {rule?.rule_name}</p>
-                                                    <input type="checkbox" value="Bike" />
                                                 </div>
                                                 <div className="">
-                                                    <input
-                                                        type="checkbox"
-                                                        id={`toggle-${index}`}
+                                                    <Form.Check
+                                                        type="switch"
+                                                        id="custom-switch"
                                                         checked={rule.status}
                                                         onChange={(e) => handleToggle(index, rule?.id, e.target.checked)}
                                                     />
-                                                    <span className="slider"></span>
-                                                    {/* <label htmlFor={`toggle-${index}`} className={`toggle-label ${isActive[index] ? 'checked' : ''}`}>
-                                                        <span className="toggle-inner" />
-                                                        <span className="toggle-switch" />
-                                                    </label> */}
                                                 </div>
                                             </div>
                                             <div className='cr-rule-conditions'>
