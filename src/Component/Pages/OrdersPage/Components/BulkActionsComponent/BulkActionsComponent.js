@@ -205,7 +205,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     "min_invoice_amount": queryParamTemp?.min_invoice_amount || "",
                     "max_invoice_amount": queryParamTemp?.max_invoice_amount || "",
                     "warehouse_id": queryParamTemp?.pickup_address_id || "",
-                    "product_name": queryParamTemp?.sku || "",
+                    "product_name": "",
                     "delivery_address": queryParamTemp?.delivery_address || "",
                     "min_weight": queryParamTemp?.min_weight || "",
                     "max_weight": queryParamTemp?.max_weight || "",
