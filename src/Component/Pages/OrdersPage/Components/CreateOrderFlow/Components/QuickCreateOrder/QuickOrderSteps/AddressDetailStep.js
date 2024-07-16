@@ -339,6 +339,12 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                         e.preventDefault();
                                     }
                                 }}
+                                onPaste={(e) => {
+                                    const pastedText = e.clipboardData.getData('Text');
+                                    if (!/^\d+$/.test(pastedText)) {
+                                      e.preventDefault();
+                                    }
+                                  }}
                             />
                             {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                         </label>

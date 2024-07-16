@@ -528,6 +528,12 @@ const AddWarehouse = () => {
                                             e.preventDefault();
                                         }
                                     }}
+                                    onPaste={(e) => {
+                                        const pastedText = e.clipboardData.getData('Text');
+                                        if (!/^\d+$/.test(pastedText)) {
+                                          e.preventDefault();
+                                        }
+                                      }}
                                     onChange={handleChangeWarehouse}
                                 />
                                 {errors.pincode && <div className="custom-error">{errors.pincode}</div>}

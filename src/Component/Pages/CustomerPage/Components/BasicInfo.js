@@ -48,12 +48,12 @@ const BasicInfo = ({ activeTab }) => {
 
   const handleChange = async (e) => {
     const { name, value } = e.target;
-  
+
     setFormData(prev => ({
       ...prev,
       [name]: value
     }));
-  
+
     const validateLength = (fieldName, length, message) => {
       setErrors(prev => ({
         ...prev,
@@ -106,7 +106,7 @@ const BasicInfo = ({ activeTab }) => {
         break;
     }
   };
-  
+
 
   useEffect(() => {
     if (activeTab === "Basic Information") {
@@ -440,6 +440,12 @@ const BasicInfo = ({ activeTab }) => {
                       value={formData.pincode} onChange={handleChange}
                       onKeyPress={(e) => {
                         if (!/\d/.test(e.key)) {
+                          e.preventDefault();
+                        }
+                      }}
+                      onPaste={(e) => {
+                        const pastedText = e.clipboardData.getData('Text');
+                        if (!/^\d+$/.test(pastedText)) {
                           e.preventDefault();
                         }
                       }}
