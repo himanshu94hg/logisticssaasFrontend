@@ -6,10 +6,10 @@ import { weightGreater } from '../../../../../customFunction/functionLogic';
 
 
 
-const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
-
-    const [backDrop, setBackDrop] = useState(false);
+const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, selectedOrderRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
     const [data, setData] = useState([]);
+    const [show, setShow] = useState(false);
+    const [selectedRow, setSelectedRow] = useState(null);
 
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
@@ -24,10 +24,8 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId, order_id) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setSelectedOrderRows(selectedRows.filter(id => id !== order_id));
@@ -36,12 +34,9 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
             setSelectedRows([...selectedRows, orderId]);
             setSelectedOrderRows([...selectedRows, order_id]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -49,8 +44,8 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         }
     };
 
-    const [show, setShow] = useState(false);
-    const [selectedRow, setSelectedRow] = useState(null);
+     
+
 
     const handleShow = (row) => {
         setSelectedRow(row);
@@ -59,7 +54,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
 
     const handleClose = () => setShow(false);
 
-    console.log("Billing Count", billingCard);
 
 
     return (
@@ -114,7 +108,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                             <input
                                                 type="checkbox"
                                                 checked={selectedRows.includes(row.id)}
-                                                onChange={() => handleSelectRow(row.id, row.order_id)}
+                                                onChange={() => handleSelectRow(row.id, row.id)}
                                             />
                                         </td>
                                         <td>
@@ -199,7 +193,6 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                     {billingCard?.length === 0 && <NoData />}
                 </div>
 
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
             </div>
         </section>

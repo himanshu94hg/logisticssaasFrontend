@@ -140,6 +140,7 @@ const BillingPage = () => {
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}
+                    selectedOrderRows={selectedOrderRows}
                     setSelectedOrderRows={setSelectedOrderRows}
                     billingShippingCounterCard={billingShippingCounterCard} />}
 
