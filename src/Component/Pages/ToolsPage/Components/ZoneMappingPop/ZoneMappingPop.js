@@ -25,6 +25,7 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
       if (popRef.current && !popRef.current.contains(event.target)) {
         setZoneMapping(false);
         setZoneStatus(false);
+        setPincode('')
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -42,6 +43,7 @@ const ZoneMappingPop = ({ setZoneMapping }) => {
     }
     setZoneMapping(false)
     setZoneStatus(false)
+    setPincode('')
   };
 
   return (

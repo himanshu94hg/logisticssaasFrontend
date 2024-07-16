@@ -205,7 +205,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     "min_invoice_amount": queryParamTemp?.min_invoice_amount || "",
                     "max_invoice_amount": queryParamTemp?.max_invoice_amount || "",
                     "warehouse_id": queryParamTemp?.pickup_address_id || "",
-                    "product_name": queryParamTemp?.sku || "",
+                    "product_name": "",
                     "delivery_address": queryParamTemp?.delivery_address || "",
                     "min_weight": queryParamTemp?.min_weight || "",
                     "max_weight": queryParamTemp?.max_weight || "",
@@ -305,7 +305,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                             <span className='fw-bold font20'>{selectedRows.length}</span>
                             <span>Rows Selected</span>
                         </div>
-                        <ul className='ba-actions'>
+                        <ul className={`ba-actions ${activeTab}`}>
                             {activeTab === "All" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
