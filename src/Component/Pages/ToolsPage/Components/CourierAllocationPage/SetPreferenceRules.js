@@ -209,9 +209,6 @@ const SetPreferenceRules = ({ activeTab }) => {
             errors.conditions = "At least one condition is required!";
         }
 
-        console.log(conditions, "selectedPartnersselectedPartnersselectedPartners")
-
-
         if (!formIsValid) {
             setFormErrors(errors);
             return;
@@ -329,8 +326,6 @@ const SetPreferenceRules = ({ activeTab }) => {
         }
     }
 
-
-    console.log(allRules, "allRulesallRulesallRules", isActive)
 
     return (
         <>

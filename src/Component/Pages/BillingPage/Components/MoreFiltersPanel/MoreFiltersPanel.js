@@ -22,10 +22,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
         utr_number: "",
     });
 
-
-
-    console.log(filterParams,"filterParamsfilterParamsfilterParams")
-
     const handleSubmit = (e) => {
         e.preventDefault();
 
