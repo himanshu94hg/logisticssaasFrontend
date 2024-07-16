@@ -249,6 +249,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
             setErrors({})
         }
     }, [activeTab])
+
     return (
         <>
             {/* Order Details Section */}
@@ -281,7 +282,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                             {(errors.customer_order_number || editErrors?.customer_order_number) && <div className="custom-error">{errors.customer_order_number || editErrors?.customer_order_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-4 gap-2'>
+                    <div className='row mt-4 row-gap-3'>
                         {/* Order Type */}
                         <label className='col'>
                             <span> Order Type <span className='mandatory'>*</span></span>
