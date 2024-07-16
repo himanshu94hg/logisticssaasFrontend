@@ -71,10 +71,30 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const [saveFav, setSaveFav] = useState(false);
     const [favName, setFavName] = useState("");
     const dispatch = useDispatch()
+    const [orderTag, setorderTag] = useState([]);
     const [errors, setErrors] = useState({})
 
     const sellerData = Cookies.get("user_id")
     const authToken = Cookies.get("access_token")
+    const { tagListData, orderSourceListData } = useSelector(state => state?.orderSectionReducer);
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setorderTag(formattedData);
+        } else {
+            setorderTag([]);
+        }
+    }, [tagListData]);
+
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [MoreFilters])
 
 
     const handleCheckboxChange = () => {
@@ -378,9 +398,9 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <Select
                                         isMulti
                                         isSearchable
-                                        options={Ordertags}
+                                        options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
-                                        value={filterParams.order_tag ? Ordertags?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
