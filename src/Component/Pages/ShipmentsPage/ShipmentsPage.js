@@ -239,6 +239,7 @@ const ShipmentsPage = () => {
         if (activeTab) {
             setLoader(true)
             setBulkActionShow(false)
+            setErrors({})
             setSelectedRows([])
             setTimeout(() => {
                 setLoader(false)
