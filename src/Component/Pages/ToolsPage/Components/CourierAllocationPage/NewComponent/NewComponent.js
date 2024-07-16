@@ -34,6 +34,7 @@ const NewComponent = () => {
     const [allocatedData, setAllocatedData] = useState([]);
     const authToken = Cookies.get('access_token');
 
+
     useEffect(() => {
         setLoader(true)
         if (activeTab) {
