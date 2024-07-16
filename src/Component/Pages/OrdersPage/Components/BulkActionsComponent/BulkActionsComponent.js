@@ -305,7 +305,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                             <span className='fw-bold font20'>{selectedRows.length}</span>
                             <span>Rows Selected</span>
                         </div>
-                        <ul className='ba-actions'>
+                        <ul className={`ba-actions ${activeTab}`}>
                             {activeTab === "All" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
