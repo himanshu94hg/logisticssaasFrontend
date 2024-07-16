@@ -63,8 +63,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_tag: "",
         sku: "",
         sku_match_type: "",
-        pickup_address: ""
+        pickup_address: "",
+        pickup_address_id: ""
     })
+
+    console.log("filterParamsfilterParamsfilterParams",filterParams);
 
     useEffect(() => {
         if (orderSourceListData && orderSourceListData.length > 0) {
@@ -93,7 +96,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
-                pickup_address: ""
+                pickup_address: "",
+                pickup_address_id: ""
             })
             setErrors({})
         }
@@ -109,6 +113,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                         }
                     });
                     const temp = response?.data?.map((item, index) => ({
+                        id: item.id,
                         label: item.warehouse_name,
                         value: item.warehouse_name,
                     }));
@@ -160,7 +165,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
-                pickup_address: ""
+                pickup_address: "",
+                pickup_address_id: ""
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
@@ -246,7 +252,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_tag: "",
             sku: "",
             sku_match_type: "",
-            pickup_address: ""
+            pickup_address: "",
+            pickup_address_id: ""
         })
         setErrors({})
     };
@@ -261,47 +268,13 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         }
     }
 
-    // const handleChange = (name, value) => {
-    //     if (name === "start_date" || name === "end_date") {
-    //         setFilterParams(prev => ({
-    //             ...prev,
-    //             [name]: value
-    //         }));
-    //     }
-    //     if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag" || name === "payment_type") {
-    //         let temp_data = ''
-    //         let temp = value.map((item, index) => {
-    //             temp_data += item.value;
-    //             if (index !== value.length - 1) {
-    //                 temp_data += ",";
-    //             }
-    //         })
-    //         setFilterParams(prev => ({
-    //             ...prev,
-    //             [name]: temp_data
-    //         }));
-    //     }
-    //     if (name === "order_id" || name === "sku") {
-    //         setFilterParams(prev => ({
-    //             ...prev,
-    //             [name]: value.target.value
-    //         }));
-    //     }
-    //     if (name === "sku_match_type") {
-    //         setFilterParams(prev => ({
-    //             ...prev,
-    //             sku_match_type: value
-    //         }))
-    //     }
-    // };
-
     const handleChange = (name, value) => {
         if (["start_date", "end_date"].includes(name)) {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value
             }));
-        } else if (["status", "order_source", "courier_partner", "pickup_address", "order_tag", "payment_type"].includes(name)) {
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type"].includes(name)) {
             const temp_data = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
@@ -318,6 +291,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 sku_match_type: value
             }));
         }
+        else if (name === "pickup_address") {
+            const ids = value.map(item => item.id).join(",");
+            const names = value.map(item => item.value).join(",");
+            setFilterParams(prev => ({
+                ...prev,
+                pickup_address: names,
+                pickup_address_id: ids
+            }));
+        } 
     };
 
     const customStyles = {

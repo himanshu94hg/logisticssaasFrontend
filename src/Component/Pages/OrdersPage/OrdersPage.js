@@ -83,6 +83,7 @@ const OrdersPage = () => {
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
 
+    console.log("queryParamTempqueryParamTempqueryParamTempqueryParamTemp",queryParamTemp);
     const orderStatus = {
         "pending": "Pending",
         "shipped": "Shipped",

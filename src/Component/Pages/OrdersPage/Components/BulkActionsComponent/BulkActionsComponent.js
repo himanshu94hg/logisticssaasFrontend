@@ -204,7 +204,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     "channel": queryParamTemp?.order_source || "",
                     "min_invoice_amount": queryParamTemp?.min_invoice_amount || "",
                     "max_invoice_amount": queryParamTemp?.max_invoice_amount || "",
-                    "warehouse_id": queryParamTemp?.warehouse_id || "",
+                    "warehouse_id": queryParamTemp?.pickup_address_id || "",
                     "product_name": queryParamTemp?.sku || "",
                     "delivery_address": queryParamTemp?.delivery_address || "",
                     "min_weight": queryParamTemp?.min_weight || "",
@@ -214,6 +214,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     "rto_status": queryParamTemp?.rto_status || "",
                     "global_type": queryParamTemp?.global_type || "",
                     "payment_type": queryParamTemp?.payment_type || "",
+                    "sku": queryParamTemp?.sku || "",
+                    "match_type": queryParamTemp?.sku_match_type || "",
+                    "order_tag": queryParamTemp?.order_tag || "",
                     ...(queryParamTemp?.start_date && { "start_date": moment(queryParamTemp?.start_date).format("YYYY-MM-DD") }),
                     ...(queryParamTemp?.end_date && { "end_date": moment(queryParamTemp?.end_date).format("YYYY-MM-DD") })
                 };
@@ -221,7 +224,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                 setBulkActionShow(false);
                 setSelectedRows([])
                 setFilterData({});
-                // setQueryParamTemp({});
             } else {
                 toast.info("Report canceled.");
             }

@@ -66,8 +66,7 @@ const ShipmentsPage = () => {
     const [loader, setLoader] = useState(false)
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
-
-
+    
     useEffect(() => {
         if (favListData) {
             let temp = [];

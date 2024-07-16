@@ -99,8 +99,8 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
                     "channel": queryParamTemp?.order_source || "",
                     "min_invoice_amount": queryParamTemp?.min_invoice_amount || "",
                     "max_invoice_amount": queryParamTemp?.max_invoice_amount || "",
-                    "warehouse_id": filterData?.warehouse_id || "",
-                    "product_name": queryParamTemp?.sku || "",
+                    "warehouse_id": filterData?.pickup_address_id || "",
+                    "product_name": "",
                     "delivery_address": queryParamTemp?.delivery_address || "",
                     "min_weight": queryParamTemp?.min_weight || "",
                     "max_weight": queryParamTemp?.max_weight || "",
@@ -109,6 +109,9 @@ const BulkActionsComponent = ({ activeTab, selectedRows, setSelectedRows, filter
                     "rto_status": queryParamTemp?.rto_status || "",
                     "global_type": queryParamTemp?.global_type || "",
                     "payment_type": queryParamTemp?.payment_type || "",
+                    "sku": queryParamTemp?.sku || "",
+                    "match_type": queryParamTemp?.sku_match_type || "",
+                    "order_tag": queryParamTemp?.order_tag || "",
                 };
                 dispatch({ type: "EXPORT_SHIPMENT_ALL_DATA_ACTION", payload: requestData });
                 setSelectedRows([])

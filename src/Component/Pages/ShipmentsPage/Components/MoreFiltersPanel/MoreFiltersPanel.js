@@ -134,7 +134,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         order_tag: "",
         sku: "",
         sku_match_type: "",
-        pickup_address: ""
+        pickup_address: "",
+        pickup_address_id: ""
     })
 
 
@@ -151,7 +152,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
-                pickup_address: ""
+                pickup_address: "",
+                pickup_address_id: ""
             })
             setErrors({})
         }
@@ -170,7 +172,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 order_tag: "",
                 sku: "",
                 sku_match_type: "",
-                pickup_address: ""
+                pickup_address: "",
+                pickup_address_id: ""
             })
             setHandleResetFrom(false)
             setSaveFilter(false)
@@ -186,7 +189,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 [name]: value
             }));
         }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
+        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "order_tag") {
             let temp_data = ''
             let temp = value.map((item, index) => {
                 temp_data += item.value;
@@ -218,6 +221,15 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 skuType: value
             }))
         }
+        if (name === "pickup_address") {
+            const ids = value.map(item => item.id).join(",");
+            const names = value.map(item => item.value).join(",");
+            setFilterParams(prev => ({
+                ...prev,
+                pickup_address: names,
+                pickup_address_id: ids
+            }));
+        } 
     };
 
 
@@ -231,6 +243,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                         }
                     });
                     const temp = response?.data?.map((item) => ({
+                        id: item.id,
                         label: item.warehouse_name,
                         value: item.warehouse_name,
                     }));
@@ -257,7 +270,8 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             order_tag: "",
             sku: "",
             sku_match_type: "",
-            pickup_address: ""
+            pickup_address: "",
+            pickup_address_id: ""
         })
         setSaveFilter(false)
         // setSaveFav(true)
