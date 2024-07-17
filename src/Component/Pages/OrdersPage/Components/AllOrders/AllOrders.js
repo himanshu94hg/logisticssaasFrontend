@@ -65,6 +65,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
             setSelectAll(false)
         }
     }, [orderdelete])
+
     useEffect(() => {
         if (activeTab) {
             setSelectAll(false)
