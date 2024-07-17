@@ -108,6 +108,9 @@ const OrdersPage = () => {
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
 
+
+    console.log(SearchOption,"searchValue")
+
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [orderCancelled])
@@ -128,6 +131,7 @@ const OrdersPage = () => {
             setCurrentPage(1)
             setOrders([])
             setErrors({})
+            setsearchType(SearchOptions[0].value)
         }
     }, [activeTab])
 
@@ -397,7 +401,7 @@ const OrdersPage = () => {
                                     }
                                 }}
                                 placeholder="Search for AWB | Order ID | Mobile Number | Email | SKU"
-                                className={`input-field ${errors.customer_order_number || errors.shipping_detail__mobile_number || errors.shipping_detail__email || errors.shipping_detail__recipient_name || errors.shipping_detail__pincode || errors.shipping_detail__city || errors.awb_number ? 'input-field-error' : ''}`}
+                                className={`input-field`}
                             />
                             <button onClick={() => globalDebouncedClick(() => handleSearch())}>
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
