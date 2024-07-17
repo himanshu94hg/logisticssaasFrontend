@@ -18,6 +18,7 @@ import { faChevronRight, faCircleXmark, faMagnifyingGlass, faPenToSquare, faPlus
 import { toast } from 'react-toastify';
 import FileSaver from 'file-saver';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import { RxReset } from "react-icons/rx";
 
 const BoxGrid = ({ boxData, editWarehouse, setWareHouseId }) => {
   const dispatch = useDispatch()
@@ -296,17 +297,17 @@ const ManageWarehouse = () => {
 
   useEffect(() => {
     setLoader(true)
-        setTimeout(() => {
-            setLoader(false)
-        }, 500);
-  
-}, [])
+    setTimeout(() => {
+      setLoader(false)
+    }, 500);
+
+  }, [])
 
   return (
     <>
       <div className="position-relative manage-warehouse">
         <section className="box-shadow shadow-sm p7 mb-3 filter-container">
-          <div className="search-container d-flex">
+          <div className="search-container d-flex" style={{ width: '40%' }}>
             <label>
               <input
                 className='input-field'
@@ -319,8 +320,8 @@ const ManageWarehouse = () => {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </button>
             </label>
-            <button className='btn main-button-outline ms-2' onClick={handleReset} style={{ marginRight: '300px' }}>
-              Reset
+            <button className='btn main-button-outline ms-2' onClick={handleReset}>
+              <RxReset className='align-text-bottom' /> Reset
             </button>
           </div>
           <div className='button-container'>

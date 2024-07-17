@@ -32,6 +32,8 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
     const handleLastPage = () => {
         if(totalPages>1){
             setCurrentPage(totalPages);
+        }else if(totalPages<20 && totalPages>0){
+            setCurrentPage(totalPages);
         }else{
             setCurrentPage(totalPages+1);
         }
