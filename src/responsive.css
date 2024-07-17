@@ -166,7 +166,6 @@
     }
 
     .ba-actions {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
         align-items: start;
         gap: unset;
@@ -201,6 +200,10 @@
     .ba-pop-show.weight-update.open {
         width: 80%;
         max-width: unset;
+    }
+
+    .ba-actions li {
+        flex: 1 1;
     }
 }
 
@@ -311,6 +314,9 @@
         max-width: 130px;
     }
 
+    .ba-actions {
+        display: grid;
+    }
 }
 
 @media screen and (max-width:472px) {

@@ -296,10 +296,14 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         }
     }, [exportAllCard]);
 
+    const returnsBulkActions = {
+        width: '210px',
+    }
+
     return (
         <>
             {selectedRows.length > 0 && (
-                <section className='bulk-action-container box-shadow'>
+                <section style={activeTab === 'Returns' ? returnsBulkActions : {}} className='bulk-action-container box-shadow'>
                     <div className='ba-inner-container'>
                         <div className='ba-rows-selected'>
                             <span className='fw-bold font20'>{selectedRows.length}</span>
@@ -327,7 +331,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                                     <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
-                                    <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
+                                    <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}>
                                         <ExportIcon /><span>Export All</span>
@@ -341,7 +345,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                                     <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
-                                    <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight/Dimension update</span></li>
+                                    <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
                                     <li onClick={handelBulkShip}><ShippingIcon /><span>Ship</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}>
