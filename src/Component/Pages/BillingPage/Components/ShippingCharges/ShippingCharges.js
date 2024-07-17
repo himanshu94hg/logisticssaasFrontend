@@ -15,7 +15,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         setSelectAll(!selectAll);
         if (!selectAll) {
             setSelectedRows(billingCard.map(row => row.id));
-            setSelectedOrderRows(billingCard.map(row => row.order_id));
+            setSelectedOrderRows(billingCard.map(row => row.id));
             setBulkActionShow(true)
         } else {
             setSelectedRows([]);
@@ -28,11 +28,11 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         const isSelected = selectedRows.includes(orderId);
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
-            setSelectedOrderRows(selectedRows.filter(id => id !== order_id));
+            setSelectedOrderRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
-            setSelectedOrderRows([...selectedRows, order_id]);
+            setSelectedOrderRows([...selectedRows, orderId]);
         }
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
