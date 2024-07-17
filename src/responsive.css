@@ -166,7 +166,6 @@
     }
 
     .ba-actions {
-        display: grid;
         grid-template-columns: repeat(3, 1fr);
         align-items: start;
         gap: unset;
@@ -192,6 +191,19 @@
 
     .ba-actions li::after {
         display: none;
+    }
+
+    .ba-popup-container .ba-pop-show.open {
+        max-width: 320px;
+    }
+
+    .ba-pop-show.weight-update.open {
+        width: 80%;
+        max-width: unset;
+    }
+
+    .ba-actions li {
+        flex: 1 1;
     }
 }
 
@@ -246,6 +258,14 @@
     .signup-section .signup .signup-with-social {
         flex-direction: column;
     }
+
+    .ba-pop-show.weight-update.open {
+        width: 95%;
+    }
+
+    .weight-update .pop-content .lbh-labels .unit {
+        width: 29px;
+    }
 }
 
 @media screen and (max-width:543px) {
@@ -283,6 +303,20 @@
     .ss-shipment-charges p {
         text-align: end;
     }
+
+    .weight-update .pop-content .lbh-labels {
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+        gap: 0;
+    }
+
+    .weight-update .pop-content label {
+        max-width: 130px;
+    }
+
+    .ba-actions {
+        display: grid;
+    }
 }
 
 @media screen and (max-width:472px) {
@@ -311,5 +345,12 @@
 
     .search-container label input {
         max-width: 311px;
+    }
+
+    .ba-pop-show .pop-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding-block: 10px;
     }
 }
