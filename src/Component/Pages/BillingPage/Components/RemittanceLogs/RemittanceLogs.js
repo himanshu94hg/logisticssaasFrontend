@@ -4,32 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { dateRangeDashboard } from '../../../../../customFunction/dateRange';
 import NoData from '../../../../common/noData';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
 
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
 
 const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkActionShow }) => {
 
