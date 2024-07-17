@@ -44,17 +44,12 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         }
     };
 
-     
-
-
     const handleShow = (row) => {
         setSelectedRow(row);
         setShow(true);
     };
 
     const handleClose = () => setShow(false);
-
-
 
     return (
         <section className='position-relative'>
