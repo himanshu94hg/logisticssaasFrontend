@@ -38,6 +38,7 @@ const BillingPage = () => {
         if (activeTab) {
             setSelectAll(false)
             setSelectedRows([]);
+            setCurrentPage(1)
             setBulkActionShow(false);
             setTimeout(() => {
                 setLoader(false)
@@ -109,7 +110,6 @@ const BillingPage = () => {
             setTotalItems(billingShipingReceiptCard.count);
         }
     }, [billingShipingReceiptCard]);
-
 
     const handleMoreFilter = (filterParams) => {
         const queryParams = {};

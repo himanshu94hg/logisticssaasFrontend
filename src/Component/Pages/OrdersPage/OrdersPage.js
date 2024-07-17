@@ -326,7 +326,7 @@ const OrdersPage = () => {
 
                 })
                 .catch(error => {
-                    customErrorFunction(error)
+                    // customErrorFunction(error)
                 });
         }
 
