@@ -7,6 +7,7 @@
     z-index: 6;
     transition: 1s;
     width: 59vw;
+    min-width: 331px;
 }
 
 .edit-order-section.open-edit {
