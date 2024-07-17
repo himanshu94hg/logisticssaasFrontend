@@ -1,3 +1,9 @@
+@media screen and (max-width:1600px) {
+    .chat-container {
+        height: calc(100vh - 385px);
+    }
+}
+
 @media screen and (max-width:1240px) {
     .ship-container-row {
         flex-wrap: wrap;
@@ -316,6 +322,16 @@
 
     .ba-actions {
         display: grid;
+    }
+
+    .edit-order-body .navigation-side ul li {
+        font-size: 12px;
+        padding-inline: 10px;
+    }
+
+    .edit-order-section.open-edit #sidepanel-closer {
+        bottom: 36%;
+        top: unset;
     }
 }
 
