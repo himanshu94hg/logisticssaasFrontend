@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import globalDebouncedClick from '../../../../../debounce';
+import NoData from '../../../../common/noData';
 
 
 const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows,orderStatus }) => {
@@ -283,6 +284,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                             ))}
                         </tbody>
                     </table>
+                    {manifestOrders?.length === 0 && <NoData/>}
                 </div>
             </div>
         </section>
