@@ -1,11 +1,15 @@
 import React from 'react';
 import "./nodata.css"
+import noDataFound from '../../../assets/image/noDataFound.png'
+
 const NoData = ({ label }) => {
 
     return (
         <div style={{}}>
-            <div className='nodata-box' style={{ padding: 25, textAlign: 'center', fontWeight: "bold", borderRadius: 5 }}>
-                <p>{label === undefined || "" || null ? "No data Found!" : label}</p>
+            <div className='nodata-box'>
+                {label === undefined || "" || null ?
+                    <img src={noDataFound} alt="noDataFound" />
+                    : label}
             </div>
         </div>
     );

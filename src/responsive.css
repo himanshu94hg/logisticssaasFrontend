@@ -2,6 +2,10 @@
     .chat-container {
         height: calc(100vh - 385px);
     }
+
+    .edit-order-body span.unit.pd-lbh {
+        right: 12px;
+    }
 }
 
 @media screen and (max-width:1240px) {
@@ -272,7 +276,29 @@
     .weight-update .pop-content .lbh-labels .unit {
         width: 29px;
     }
+
+    .volumetric-weight {
+        font-size: 1rem;
+    }
+
+    .edit-order-section {
+        width: 92%;
+    }
 }
+
+@media screen and (max-width:633px) {
+    .edit-order-header h2 {
+        font-size: 20px;
+    }
+}
+
+
+@media screen and (max-width:567px) {
+    .edit-order-body .details-side .details-component .warehouse-options .sm-warehouse-item {
+        width: 100%;
+    }
+}
+
 
 @media screen and (max-width:543px) {
 
@@ -329,9 +355,20 @@
         padding-inline: 10px;
     }
 
+
+
     .edit-order-section.open-edit #sidepanel-closer {
         bottom: 36%;
         top: unset;
+    }
+
+    .mps-inputs label:nth-of-type(2) {
+        width: auto;
+    }
+
+    .mps-inputs label:nth-of-type(2) input {
+        min-width: unset;
+        width: 100%;
     }
 }
 
@@ -352,6 +389,19 @@
     .search-container label input {
         max-width: 320px;
     }
+
+    .inputs-container label .select-field {
+        min-width: unset;
+        width: 100%;
+    }
+
+    .edit-order-body .details-side .details-component .inputs-container .row:nth-of-type(5)>label {
+        width: 100%;
+    }
+
+    .edit-order-body .details-side .details-component .inputs-container .row:nth-of-type(5) {
+        flex-direction: column;
+    }
 }
 
 @media screen and (max-width:375px) {
@@ -368,5 +418,15 @@
         align-items: flex-start;
         gap: 10px;
         padding-block: 10px;
+    }
+
+    .edit-order-body label,
+    .edit-order-body .input-field {
+        width: 181px;
+        min-width: unset;
+    }
+
+    .mps-inputs label {
+        width: 47px
     }
 }
