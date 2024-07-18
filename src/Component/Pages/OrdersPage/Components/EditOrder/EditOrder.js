@@ -27,6 +27,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
     const [editErrors, seteditErrors] = useState({});
     const [isChecked, setIsChecked] = useState(true);
     const [editForm, setEditForm] = useState(true)
+    const [tagData, setTagData] = useState([])
+
     const { orderDetailsData, orderUpdateRes } = useSelector(state => state?.orderSectionReducer)
 
 
@@ -218,7 +220,8 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 newErrors[`product_name_${index}`] = 'Product Name is required!';
             }
             if (!product?.quantity) {
-                newErrors.quantity = 'Product Quantity is required!'
+                newErrors[`quantity_${index}`]='Product Quantity is required!'
+                // newErrors.quantity = 'Product Quantity is required!'
             }
             if (!product?.sku?.trim()) {
                 newErrors[`sku_${index}`] = 'SKU is required!';
@@ -242,7 +245,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     };
 
-
     useEffect(() => {
         if (orderId && EditOrderSection) {
             dispatch({ type: "ORDERS_DETAILS_GET_ACTION", payload: orderId })
@@ -250,11 +252,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
             seteditErrors({})
         }
     }, [orderId, EditOrderSection, dispatch])
-
-    const [tagData, setTagData] = useState([])
-
-
-
 
     useEffect(() => {
         if (orderDetailsData) {
@@ -264,7 +261,6 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
                 value: item?.id,
             }));
             setTagData(orderTagTemp)
-
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
@@ -345,10 +341,10 @@ const EditOrder = ({ EditOrderSection, setEditOrderSection, orderId }) => {
         }
     }, [orderDetailsData])
 
+
     const checkValuePresence = (obj, valueToCheck) => {
         return Object.values(obj).includes(valueToCheck);
     };
-
     const pname_err = checkValuePresence(editErrors, "Product Name is required!");
     const qty_err = checkValuePresence(editErrors, "Product Quantity is required!");
     const sku_err = checkValuePresence(editErrors, "SKU is required!");
