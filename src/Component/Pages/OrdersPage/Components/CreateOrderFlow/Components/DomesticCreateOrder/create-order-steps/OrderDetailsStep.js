@@ -379,7 +379,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                     </div>
                     <hr />
                     {/* Payment Section */}
-                    <div className='row gap-2'>
+                    <div className='row row-gap-2'>
                         <label className='col'>
                             <span> Payment Type<span className='mandatory'>*</span>                            </span>
                             <select
@@ -400,9 +400,9 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                             </select>
                             {(errors.payment_type || editErrors?.payment_type) && <div className="custom-error">{errors.payment_type || editErrors?.payment_type}</div>}
                         </label>
-                        <div className='col d-flex gap-4'>
+                        <div className='col mps-inputs'>
                             {formData.order_details.order_type !== "Reverse" &&
-                                <label style={{ height: '54px' }}>
+                                <label style={{ height: '61px' }}>
                                     MPS
                                     <div className="toggle-switch mt-1">
                                         <label className='col'>
