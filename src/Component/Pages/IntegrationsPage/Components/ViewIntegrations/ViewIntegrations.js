@@ -13,18 +13,15 @@ const ViewIntegrations = () => {
     const location = useLocation()
     const dispatch = useDispatch()
     const [loader, setLoader] = useState(false)
-    const [channelData,setChannelData] = useState([]);
+    const [channelData, setChannelData] = useState([]);
     const [activeTab, setActiveTab] = useState("Channel")
-
-
     const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
 
     useEffect(() => {
-        if(activeTab === "Channel")
-        {
+        if (activeTab === "Channel") {
             dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
         }
-    }, [dispatch,activeTab])
+    }, [, activeTab])
 
     useEffect(() => {
         if (channelGetCard?.count > 0) {
@@ -39,6 +36,7 @@ const ViewIntegrations = () => {
         }
     }, [location.state]);
 
+
     useEffect(() => {
         setLoader(true)
         if (activeTab) {
@@ -48,13 +46,16 @@ const ViewIntegrations = () => {
         }
     }, [activeTab])
 
+
+    console.log(channelGetCard, "channelGetCardchannelGetCard")
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
 
             <div className='view-integrations-page'>
                 <div className={`${activeTab === "Channel" ? "d-block" : "d-none"}`}>
-                    <ChannelsView channelData={channelData}/>
+                    <ChannelsView channelData={channelData} />
                 </div>
 
                 <div className={`${activeTab === "OMS" ? "d-block" : "d-none"}`}>

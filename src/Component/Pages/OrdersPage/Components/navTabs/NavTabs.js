@@ -1,35 +1,48 @@
 import axios from "axios";
 import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
-import React, { useCallback, useState } from "react";
-import { Navbar, Nav, NavDropdown } from "react-bootstrap";
-import 'react-toastify/dist/ReactToastify.css';
-import { Link, useNavigate } from "react-router-dom";
-import { createOrderPattern } from "../../../../../Routes";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { AiOutlineImport } from "react-icons/ai";
-import { IoMdSync } from "react-icons/io";
-import { BASE_URL_CORE } from "../../../../../axios/config";
 import { debounce } from "lodash";
+import { toast } from 'react-toastify';
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { IoMdSync } from "react-icons/io";
+import 'react-toastify/dist/ReactToastify.css';
+import { AiOutlineImport } from "react-icons/ai";
+import { Link, useNavigate } from "react-router-dom";
+import { Navbar, Nav, NavDropdown } from "react-bootstrap";
+import { BASE_URL_CORE } from "../../../../../axios/config";
+import { createOrderPattern } from "../../../../../Routes";
+import React, { useCallback, useEffect, useState } from "react";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 // import "./navTabs.css";
 
 export default function NavTabs(props) {
   const navigate = useNavigate();
-  const [selectedOption, setSelectedOption] = useState("Domestic");
+  const dispatch = useDispatch();
   const [isOpen, setIsOpen] = useState(false);
   const sellerData = Cookies.get("user_id");
+  const [selectedOption, setSelectedOption] = useState("Domestic");
+  const channelGetCard = useSelector(state => state?.channelSectionReducer?.channelGetCard)
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
+
+  useEffect(() => {
+    dispatch({ type: "CHANNEL_GET_DATA_ACTION" });
+  }, [])
 
   const handleClick = () => {
-    const response = axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}&channel=shopify`)
-      .then((response) => {
-        toast.success('Order fetch successfully');
-        props.setRateRef(new Date())
-      }).catch((error) => {
-        toast.error('Order Fetch Failed!');
-      });
+    if (channelGetCard?.results?.length > 0) {
+      axios.get(`${BASE_URL_CORE}/core-api/channel/channel/?seller_id=${sellerData}`)
+        .then((response) => {
+          toast.success('Order fetch successfully');
+          props.setRateRef(new Date())
+        }).catch((error) => {
+          toast.error('Order Fetch Failed!');
+        });
+    } else {
+      toast.error('No channel integrated right now!');
+    }
   };
 
   const debouncedHandleClick = useCallback(
@@ -45,17 +58,12 @@ export default function NavTabs(props) {
     setIsOpen(false);
   };
 
-  const toggleOptions = () => {
-    setIsOpen(!isOpen);
-  };
-
   const navItems = ["All", "Unprocessable", "Processing", "Ready to Ship", "Pickup", "Manifest", "Returns"];
 
   const handleSelect = (selectedKey) => {
     props.setActiveTab(selectedKey);
   };
 
-  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   return (
     <Navbar

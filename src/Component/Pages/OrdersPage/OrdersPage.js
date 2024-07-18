@@ -225,7 +225,7 @@ const OrdersPage = () => {
 
     const handleSearch = () => {
         if (validateData()) {
-            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab==="Pickup"?"manifest":activeTab==="Ready To Ship"?"Ready_to_ship": activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab==="Pickup"?"manifest":activeTab==="Ready to Ship"?"Ready_to_ship": activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }

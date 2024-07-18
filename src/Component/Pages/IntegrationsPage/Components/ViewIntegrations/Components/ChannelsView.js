@@ -1,5 +1,13 @@
 import { Modal, Button } from 'react-bootstrap';
 import React, { useState, useEffect } from 'react';
+import shopify from "../../../../../../assets/image/integration/shopify.jpg"
+import WCLogo from '../../../../../../assets/image/integration/WCLogo.png'
+import Magento from '../../../../../../assets/image/integration/magento.png'
+import OpenCart from '../../../../../../assets/image/integration/OpenCart.png'
+import Amazon from '../../../../../../assets/image/integration/Amazon.png'
+import Flipkart from '../../../../../../assets/image/integration/Flipkart.png'
+import Manual from '../../../../../../assets/image/integration/Manual.png'
+
 
 const ChannelsView = ({ channelData }) => {
     const [show, setShow] = useState(false);
@@ -39,7 +47,10 @@ const ChannelsView = ({ channelData }) => {
                                                 <strong>{row?.channel_name}</strong><br />
                                             </td>
                                             <td>
-                                                <img src="https://shipease.in/public/assets/images/channel/shopify.jpg" alt={`${row?.channel_name} logo`} width={50} height={50} className='integration-logo me-2' />
+                                                <img src={
+                                                    row?.channel === "shopify" ? shopify : row?.channel === "amazon_direct" ? Amazon : ""
+                                                }
+                                                    alt={`${row?.channel_name} logo`} width={50} height={50} className='integration-logo me-2' />
                                                 {row?.channel}
                                             </td>
                                             <td>

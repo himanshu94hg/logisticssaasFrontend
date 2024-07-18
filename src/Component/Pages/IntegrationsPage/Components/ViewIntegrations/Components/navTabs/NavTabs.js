@@ -1,7 +1,9 @@
 import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export default function NavTabs({ activeTab, setActiveTab }) {
+  const navigate = useNavigate()
 
   return (
     <Navbar
@@ -58,6 +60,7 @@ export default function NavTabs({ activeTab, setActiveTab }) {
           </div>
         </Nav>
       </Navbar.Collapse>
+      <button className="btn main-button-outline" onClick={() => navigate(-1)}>Go Back</button>
     </Navbar>
   );
 }

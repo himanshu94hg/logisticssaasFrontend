@@ -24,7 +24,7 @@ const BypassPage = () => {
                 if (response.status === 200) {
                     navigate(indexPattern);
                     Cookies.set('access_token', response?.data?.access);
-                    Cookies.set('user_id', response?.data?.seller_id)
+                    Cookies.set('user_id', response?.data?.seller)
                     window.location.reload();
                 }
             } catch (error) {
