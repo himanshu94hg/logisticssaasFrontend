@@ -177,10 +177,9 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
         if (status === "pending") {
             toast.error("Order not shipped yet")
         }
-        if (status === "cancelled") {
+        else if (status === "cancelled") {
             toast.error("Cancelled order can't be reassign!")
         }
-
         else {
             dispatch({ type: "REASSIGN_DATA_ACTION", payload: orderId });
             setSelectedOrderId(orderId);
