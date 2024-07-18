@@ -26,6 +26,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
         return Object.keys(newErrors).length === 0;
     };
 
+
     const onNextClicked = () => {
         if (validateFormData()) {
             if (formData.product_details && formData.product_details.length > 0) {
@@ -216,7 +217,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                                 <label className='col' style={{ height: 'fit-content' }}>
                                     <span>Quantity <span className='mandatory'>*</span></span>
                                     <input
-                                        className={`input-field ${(errors[`quantity_${index}`] || editErrors?.quantity) ? 'input-field-error' : ''}`}
+                                        className={`input-field ${(errors[`quantity_${index}`] ||  editErrors?.[`quantity_${index}`]) ? 'input-field-error' : ''}`}
                                         placeholder='Enter Quantity'
                                         onInput
                                         ={(e) => handlePriceValidation(e.target.value, index)}
@@ -227,7 +228,7 @@ export const ProductDetailStep = ({ onPrev, onNext, formData,activeTab, setFormD
                                             }
                                         }}
                                     />
-                                    {(errors[`quantity_${index}`] || editErrors?.quantity) && <span className="custom-error">{errors[`quantity_${index}`] || editErrors?.quantity}</span>}
+                                    {(errors[`quantity_${index}`] || editErrors?.[`quantity_${index}`]) && <span className="custom-error">{errors[`quantity_${index}`] ||  editErrors?.[`quantity_${index}`]}</span>}
                                 </label>
                                 {/* SKU */}
                                 <label className='col'>
