@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './CloneOrder.css';
+import '../EditOrder/EditOrder.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { PackageDetailStep } from '../CreateOrderFlow/Components/DomesticCreateOrder/create-order-steps/PackageDetailStep';
@@ -241,7 +241,7 @@ const CloneOrder = ({ CloneOrderSection, setCloneOrderSection, orderId }) => {
             setFormData(prevData => ({
                 ...prevData,
                 order_details: {
-                    customer_order_number:   orderDetailsData?.customer_order_number?.endsWith("_c")?orderDetailsData?.customer_order_number: orderDetailsData?.customer_order_number+"_c",
+                    customer_order_number: orderDetailsData?.customer_order_number?.endsWith("_c") ? orderDetailsData?.customer_order_number : orderDetailsData?.customer_order_number + "_c",
                     invoice_amount: orderDetailsData?.invoice_amount,
                     is_mps: orderDetailsData?.is_mps,
                     warehouse_id: orderDetailsData?.warehouse_id,
