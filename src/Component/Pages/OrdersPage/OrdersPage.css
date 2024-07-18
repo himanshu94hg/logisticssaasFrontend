@@ -127,7 +127,7 @@
 
 .orders-section-tabs .table-container {
   height: calc(100vh - 302px);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .orders-section-tabs .table-container.m-table-height {
