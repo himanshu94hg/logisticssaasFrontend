@@ -105,8 +105,6 @@ const AddWarehouse = () => {
                 newErrors.rto_state = "State is required!"
             }
 
-            console.log(newErrors, "wwwwwwwwwwwwwwwwwwwwwwwwwwwwwww")
-
             setErrors(newErrors)
             if (Object.keys(newErrors).length > 0) {
                 setErrors(newErrors);

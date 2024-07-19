@@ -1,39 +1,60 @@
-import React, { useEffect, useState } from 'react';
 import './AddTagPop.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleCheck, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { BASE_URL_ORDER } from '../../../../../../../axios/config';
+import { faCircleCheck, faPlus, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { customErrorFunction } from '../../../../../../../customFunction/errorHandling';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const AddTagPop = ({ addTagShow, setaddTagShow, selectedRows,setSelectedRows,setBulkActionShow }) => {
+const AddTagPop = ({ addTagShow, orderTagId, setaddTagShow, selectedRows, setSelectedRows, setBulkActionShow }) => {
     const dispatch = useDispatch();
-    const [addToggle, setAddToggle] = useState(false);
-    const [newLabel, setNewLabel] = useState('');
     const [labels, setLabels] = useState([]);
-    const [activeLabels, setActiveLabels] = useState([]); 
+    const [newLabel, setNewLabel] = useState('');
+    const [addToggle, setAddToggle] = useState(false);
+    const hardcodedToken = Cookies.get("access_token");
+    const [activeLabels, setActiveLabels] = useState([]);
     const { tagListData } = useSelector(state => state?.orderSectionReducer);
+
+    useEffect(() => {
+        if (orderTagId.length > 0) {
+            const temp = []
+            orderTagId.map((item) => {
+                temp.push(item.id)
+            })
+            setActiveLabels(temp)
+        } else {
+            setActiveLabels([])
+            setSelectedRows([])
+        }
+    }, [orderTagId])
 
     useEffect(() => {
         let temp = [];
         if (tagListData) {
-            temp = tagListData.map((item) => ({ id: item.id, name: item.name })); 
+            temp = tagListData.map((item) => ({ id: item.id, name: item.name }));
         }
         setLabels(temp);
     }, [tagListData]);
 
     const handleAddTag = () => {
         if (newLabel.trim() !== '') {
-            setLabels([...labels, { id: labels.length + 1, name: newLabel.trim() }]); // Add new label with auto-incremented ID
+            setLabels([...labels, { id: labels.length + 1, name: newLabel.trim() }]);
             setNewLabel('');
             setAddToggle(false);
         }
-       dispatch({type:"CREATE_ORDERS_TAG_ACTION",payload:{
-        name:newLabel
-       }})
+        dispatch({
+            type: "CREATE_ORDERS_TAG_ACTION", payload: {
+                name: newLabel
+            }
+        })
     };
 
     const handleLabelClick = (label) => {
-        const index = activeLabels.indexOf(label.id); // Find index of label ID
+        const index = activeLabels.indexOf(label.id);
         if (index === -1) {
             setActiveLabels([...activeLabels, label.id]);
         } else {
@@ -43,14 +64,32 @@ const AddTagPop = ({ addTagShow, setaddTagShow, selectedRows,setSelectedRows,set
         }
     };
 
-    const handleLabelDelete = (label) => {
+    const handleLabelDelete = async (label, id) => {
         const updatedLabels = labels.filter(item => item !== label);
         setLabels(updatedLabels);
+
+        try {
+            const response = await axios.delete(`${BASE_URL_ORDER}/orders-api/orders/order-tags/${id}/`, {
+                headers: {
+                    'Authorization': `Bearer ${hardcodedToken}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+            if (response.status === 204) {
+                toast.success(" Tag deleted successfully!")
+            }
+        } catch (error) {
+            customErrorFunction(error)
+        }
     };
 
     useEffect(() => {
-        if(addTagShow){
+        if (addTagShow) {
             dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" });
+        } else {
+            setNewLabel("")
+            setAddToggle(false)
+            setSelectedRows([])
         }
     }, [addTagShow]);
 
@@ -86,7 +125,7 @@ const AddTagPop = ({ addTagShow, setaddTagShow, selectedRows,setSelectedRows,set
                                         >
                                             {label.name}
                                         </button>
-                                        <span className="delete-label" onClick={() => handleLabelDelete(label)}>
+                                        <span className="delete-label" onClick={() => handleLabelDelete(label, label.id)}>
                                             <FontAwesomeIcon icon={faTimes} />
                                         </span>
                                     </div>

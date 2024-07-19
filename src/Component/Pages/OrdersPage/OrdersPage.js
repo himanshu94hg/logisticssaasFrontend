@@ -80,6 +80,8 @@ const OrdersPage = () => {
     const [LoaderRing, setLoaderRing] = useState(false)
     const [statusType, setStatusType] = useState([])
     const [loader, setLoader] = useState(false)
+    const [orderTagId, setOrderTagId] = useState([])
+
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
     const orderStatus = {
@@ -490,6 +492,7 @@ const OrdersPage = () => {
                         setOrderId={setOrderId}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
+                        setOrderTagId={setOrderTagId}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
@@ -613,7 +616,9 @@ const OrdersPage = () => {
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
             <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
                 <AddTagPop
+                    orderTagId={orderTagId}
                     addTagShow={addTagShow}
+                    setOrderTagId={setOrderTagId}
                     setaddTagShow={setaddTagShow}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
