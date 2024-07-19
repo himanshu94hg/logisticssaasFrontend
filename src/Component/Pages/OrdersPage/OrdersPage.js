@@ -80,6 +80,8 @@ const OrdersPage = () => {
     const [LoaderRing, setLoaderRing] = useState(false)
     const [statusType, setStatusType] = useState([])
     const [loader, setLoader] = useState(false)
+    const [orderTagId, setOrderTagId] = useState([])
+
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
     const orderStatus = {
@@ -217,8 +219,11 @@ const OrdersPage = () => {
     };
 
     const handleSearch = () => {
+        let sanitizedSearchValue = searchValue;
+        sanitizedSearchValue = sanitizedSearchValue.replace(/#/g, '');
+      
         if (validateData()) {
-            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab==="Pickup"?"manifest":activeTab==="Ready to Ship"?"Ready_to_ship": activeTab}&search_by=${searchType}&q=${searchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab==="Pickup"?"manifest":activeTab==="Ready to Ship"?"Ready_to_ship": activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -490,6 +495,7 @@ const OrdersPage = () => {
                         setOrderId={setOrderId}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
+                        setOrderTagId={setOrderTagId}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
@@ -613,7 +619,9 @@ const OrdersPage = () => {
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
             <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
                 <AddTagPop
+                    orderTagId={orderTagId}
                     addTagShow={addTagShow}
+                    setOrderTagId={setOrderTagId}
                     setaddTagShow={setaddTagShow}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}

@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
+const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow, orderStatus }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
@@ -380,7 +380,7 @@ const Processing = React.memo(({ orders, activeTab, MoreFilters, bulkAwb, setbul
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) }}>Add Tag</li>
+                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) ;setOrderTagId(row.order_tag) }}>Add Tag</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>
