@@ -77,7 +77,7 @@ const ReportsMIS = ({ activeTab }) => {
     const firstOptions = [
         { value: '', label: 'Select Option' },
         { value: 'Orders', label: 'Orders' },
-        { value: 'Shipment', label: 'Shipment' },
+        { value: 'Shipment', label: 'NDR' },
         { value: 'Billing', label: 'Billing' },
         { value: 'Returns', label: 'Returns' },
     ];
@@ -94,9 +94,10 @@ const ReportsMIS = ({ activeTab }) => {
         ],
         Shipment: [
             { value: '', label: 'Select Option' },
-            { value: 'all_ndr', label: 'All NDR' },
-            { value: 'ndr_delivered', label: 'NDR Delivered' },
-            { value: 'rto_report', label: 'RTO Report' },
+            { value: 'all_ndr', label: 'All' },
+            { value: 'active', label: 'Active' },
+            { value: 'ndr_delivered', label: 'Delivered' },
+            { value: 'rto_report', label: 'RTO' },
         ],
         Billing: [
             { value: '', label: 'Select Option' },

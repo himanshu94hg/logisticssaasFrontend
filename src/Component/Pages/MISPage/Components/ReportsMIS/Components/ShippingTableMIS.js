@@ -8,15 +8,12 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
-
     useEffect(() => {
         if (reportShipmentsData && reportShipmentsData?.results !== null) {
             setShipmentData(reportShipmentsData?.results);
             setTotalItems(reportShipmentsData?.count)
         }
     }, [reportShipmentsData])
-
-
 
     // setSelectedRows(shipmentData?.map(row => row.id));
     const handleSelectAll = () => {
@@ -107,7 +104,7 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                 <td>
                                     <div className='cell-inside-box'>
                                         <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                        <p>Wt:  {row?.dimension_detail?.weight} kg
+                                        <p>Wt:  {(row?.dimension_detail?.weight/1000).toFixed(2)} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
                                                 <span style={{ width: '250px' }}>
@@ -155,7 +152,7 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                     ))}
                 </tbody>
             </table>
-            {shipmentData?.length === 0 && <NoData label={"No Records Found!"} />}
+            {shipmentData?.length === 0 && <NoData />}
 
         </>
     )

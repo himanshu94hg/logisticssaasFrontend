@@ -214,7 +214,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                     ))}
                 </tbody>
             </table>
-            {ordersData?.length < 1 && <NoData label={"No Records Found!"} />}
+            {ordersData?.length < 1 && <NoData />}
         </>
     )
 }

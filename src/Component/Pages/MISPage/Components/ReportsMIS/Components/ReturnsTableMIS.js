@@ -205,7 +205,7 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                     ))}
                 </tbody>
             </table>
-            {returnsData?.length < 1 && <NoData label={"No Records Found!"} />}
+            {returnsData?.length < 1 && <NoData />}
         </>
 
     )
