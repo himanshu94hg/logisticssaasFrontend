@@ -6,6 +6,10 @@
     .edit-order-body span.unit.pd-lbh {
         right: 12px;
     }
+
+    .form-box-h {
+        height: calc(100vh - 285px);
+    }
 }
 
 @media screen and (max-width:1240px) {
@@ -104,13 +108,14 @@
 
     #shipEaseNavTabs .nav-item {
         border: 1px solid var(--sh-primary-middle);
-        padding: 5px 10px;
+        padding: 0px 10px;
         border-radius: 0.5rem;
         width: 150px;
     }
 
     #shipEaseNavTabs .nav-item .dropdown-toggle {
         position: relative;
+        padding-block: 3px;
     }
 
     #shipEaseNavTabs .nav-item .dropdown-toggle::after {
@@ -291,6 +296,11 @@
 
     .stepper-form-container .inputs-container {
         width: 100%;
+        max-width: 263px;
+    }
+
+    .stepper-form-container .inputs-container .row:nth-of-type(5) {
+        flex-direction: column;
     }
 
     .stepper-form-container .steps-header {
