@@ -2,7 +2,7 @@ import moment from 'moment';
 import React, { useState, useEffect } from 'react';
 import NoData from '../../../../common/noData';
 
-const RechargeLogs = ({ billingCard, selectedRows,selectAll,setSelectAll, setSelectedRows, setBulkActionShow,billingRechargeCounterCard }) => {
+const RechargeLogs = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingRechargeCounterCard }) => {
 
     const [data, setData] = useState([]);
 
@@ -50,19 +50,19 @@ const RechargeLogs = ({ billingCard, selectedRows,selectAll,setSelectAll, setSel
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Successful Recharge: <span>&#8377; {billingRechargeCounterCard?.successful_recharge || 0}</span></p>
+                        <p>Successful Recharge: <span>&#8377; {billingRechargeCounterCard?.successful_recharge || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Total Credit: <span>&#8377; {billingRechargeCounterCard?.total_credit || 0}</span></p>
+                        <p>Total Credit: <span>&#8377; {billingRechargeCounterCard?.total_credit || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Total Debit: <span>&#8377; {billingRechargeCounterCard?.total_debit || 0}</span></p>
+                        <p>Total Debit: <span>&#8377; {billingRechargeCounterCard?.total_debit || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Cashback: <span>&#8377; {billingRechargeCounterCard?.cashback || 0}</span> </p>
+                        <p>Cashback: <span>&#8377; {billingRechargeCounterCard?.cashback || 0}</span> </p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p style={{ fontSize: "13px" }}>Referral: <span>&#8377; {billingRechargeCounterCard?.referral || 0}</span></p>
+                        <p>Referral: <span>&#8377; {billingRechargeCounterCard?.referral || 0}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>

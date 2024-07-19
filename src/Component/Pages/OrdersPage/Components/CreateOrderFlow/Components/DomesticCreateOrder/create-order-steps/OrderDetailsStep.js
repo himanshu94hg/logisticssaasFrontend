@@ -492,7 +492,7 @@ export const OrderDetailsStep = ({ onNext, activeTab, formData, setFormData, edi
                     </div>
                 </div>
             </div>
-            <div className='d-flex justify-content-end my-3 cof-btn-container'>
+            <div className='d-flex justify-content-end cof-btn-container'>
                 <button className='btn main-button' onClick={onNextClicked}>
                     Next
                 </button>

@@ -4,15 +4,15 @@ import '@fortawesome/fontawesome-svg-core/styles.css';
 import "./navTabs.css";
 
 const navItems = [
-  { name: "Overview", title: "" },
-  { name: "Orders", title: "" },
-  { name: "Shipment", title: "" },
-  { name: "NDR", title: "Non-Delivery Report" },
-  { name: "RTO", title: "Return to Origin" },
-  { name: "Courier Delays", title: "" },
-  { name: "Whatsapp Comm", title: "" },
-  { name: "Sub Accounts", title: "" },
-  { name: "Employees", title: "" },
+  { name: "Overview", title: "Overview" },
+  { name: "Orders", title: "Orders" },
+  { name: "Shipment", title: "Shipment" },
+  { name: "NDR", title: "NDR" },
+  { name: "RTO", title: "RTO" },
+  { name: "Courier Delays", title: "Couriers" },
+  { name: "Whatsapp Comm", title: "Whatsapp Comm" },
+  { name: "Sub Accounts", title: "Sub Accounts" },
+  { name: "Employees", title: "Employees" },
   { name: "P & L", title: "Business Health" }
 ];
 
@@ -37,7 +37,7 @@ export default function NavTabs(props) {
                 title={item.title}
               >
                 <div className="navItemsContainer">
-                  {item.name}
+                  {item.title}
                 </div>
               </Nav.Link>
             ))}

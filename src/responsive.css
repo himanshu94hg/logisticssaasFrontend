@@ -215,6 +215,10 @@
     .ba-actions li {
         flex: 1 1;
     }
+
+    .stepper-form-container .stepper-line {
+        width: 98%;
+    }
 }
 
 @media screen and (max-width:767px) {
@@ -284,6 +288,52 @@
     .edit-order-section {
         width: 92%;
     }
+
+    .stepper-form-container .inputs-container {
+        width: 100%;
+    }
+
+    .stepper-form-container .steps-header {
+        padding-top: 0;
+    }
+
+    .steps-header {
+        height: 50px;
+        position: relative;
+        /* overflow: hidden; */
+    }
+
+    .steps-header>div:first-of-type {
+        width: 288px;
+        overflow: hidden;
+        position: relative;
+        height: 40px;
+        margin-inline: auto;
+    }
+
+    .stepper-form-container .stepper-line {
+        white-space: nowrap;
+        transition: 1s;
+        position: absolute;
+        top: 12px;
+    }
+
+    .stepper-form-container .stepper-line .step-marker {
+        margin-right: 21px;
+        transition: 1s;
+    }
+
+    .stepper-form-container .stepper-line .step-marker {
+        width: 100%;
+    }
+
+    .stepper-form-container .stepper-line .step-marker.completed {
+        width: 0;
+        overflow: hidden;
+        margin-right: 0;
+        transition: 1s;
+    }
+
 }
 
 @media screen and (max-width:633px) {

@@ -5,20 +5,25 @@
 
 .billing-count-container .count-card {
     height: 50px;
-    width: 245px;
+    width: 100%;
     display: flex;
     justify-content: center;
     flex-direction: column;
     padding: 7px;
+    align-items: center;
 }
 
 .billing-count-container p {
     margin-bottom: 0;
-    font-size: 14px;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    white-space: nowrap;
 }
 
 .count-card span {
-    font-size: 15px;
+    font-size: 1.1rem;
     font-weight: 600;
     color: var(--sh-primary);
 }

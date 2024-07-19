@@ -211,27 +211,29 @@ const DomesticCreateOrder = (activeTab) => {
     return (
         <div className="stepper-form-container">
             <div className='box-shadow shadow-sm p10 w-100 steps-header mb-4'>
-                <div className="stepper-line mx-auto mb-3">
-                    {/* Stepper line with markers for each step */}
-                    <div className="step-marker">
-                        <span className={`${step > 1 ? 'completed' : ''}`}>1</span>
-                        Order Details
-                    </div>
-                    <div className="step-marker">
-                        <span className={`${step > 2 ? 'completed' : ''}`}>2</span>
-                        Shipping Details
-                    </div>
-                    <div className="step-marker">
-                        <span className={`${step > 3 ? 'completed' : ''}`}>3</span>
-                        Product Details
-                    </div>
-                    <div className="step-marker">
-                        <span className={`${step > 4 ? 'completed' : ''}`}>4</span>
-                        Package Details
-                    </div>
-                    <div className="step-marker">
-                        <span className={`${step > 5 ? 'completed' : ''}`}>5</span>
-                        Warehouse Details
+                <div>
+                    <div className={`stepper-line mx-auto mb-3`}>
+                        {/* Stepper line with markers for each step */}
+                        <div className={`step-marker ${step > 2 ? 'completed' : ''}`}>
+                            <span className={`${step > 1 ? 'completed' : ''}`}>1</span>
+                            Order Details
+                        </div>
+                        <div className={`step-marker ${step > 3 ? 'completed' : ''}`}>
+                            <span className={`${step > 2 ? 'completed' : ''}`}>2</span>
+                            Shipping Details
+                        </div>
+                        <div className={`step-marker ${step > 4 ? 'completed' : ''}`}>
+                            <span className={`${step > 3 ? 'completed' : ''}`}>3</span>
+                            Product Details
+                        </div>
+                        <div className={`step-marker ${step > 5 ? 'completed' : ''}`}>
+                            <span className={`${step > 4 ? 'completed' : ''}`}>4</span>
+                            Package Details
+                        </div>
+                        <div className={`step-marker ${step > 6 ? 'completed' : ''}`}>
+                            <span className={`${step > 5 ? 'completed' : ''}`}>5</span>
+                            Warehouse Details
+                        </div>
                     </div>
                 </div>
                 <div className="progress-container">
@@ -240,7 +242,7 @@ const DomesticCreateOrder = (activeTab) => {
                 </div>
                 <div className="progress-container">
                     {/* Manual Progress Bar */}
-                    <div className="progress-bar" style={{ width: '5%' }}></div>
+                    <div className="progress-bar" style={{ width: '2%' }}></div>
                 </div>
             </div>
 
