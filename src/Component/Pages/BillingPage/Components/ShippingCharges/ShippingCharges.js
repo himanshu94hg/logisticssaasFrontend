@@ -6,7 +6,7 @@ import { weightGreater } from '../../../../../customFunction/functionLogic';
 
 
 
-const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, selectedOrderRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
+const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows,setAwbNo, setOrderTracking, selectedOrderRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
     const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -48,6 +48,12 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
         setSelectedRow(row);
         setShow(true);
     };
+
+    const handleClickAWB = (awb) => {
+        setOrderTracking(true)
+        setAwbNo(awb)
+    };
+
 
     const handleClose = () => setShow(false);
 
@@ -109,7 +115,7 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>
+                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB( row.awb_number)}>
                                                     {row?.awb_number}
                                                 </p>
                                             </div>

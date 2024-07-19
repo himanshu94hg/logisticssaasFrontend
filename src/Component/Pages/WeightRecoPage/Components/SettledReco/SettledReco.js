@@ -296,8 +296,6 @@ export default SettledReco;
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
-
-    console.log(historyRecord, "All data")
     useEffect(() => {
         if (show && selectedRow) {
             dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });

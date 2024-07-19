@@ -4,10 +4,9 @@ import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
 
-const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll ,setAwbNo,setOrderTracking,orderStatus}) => {
+const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus }) => {
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
-
 
     useEffect(() => {
         if (reportShipmentsData && reportShipmentsData?.results !== null) {
@@ -15,8 +14,6 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
             setTotalItems(reportShipmentsData?.count)
         }
     }, [reportShipmentsData])
-
-
 
     // setSelectedRows(shipmentData?.map(row => row.id));
     const handleSelectAll = () => {
@@ -78,7 +75,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     <tr className="blank-row"><td></td></tr>
                 </thead>
                 <tbody>
-                    {shipmentData?.length>0  && shipmentData?.map((row, index) => (
+                    {shipmentData?.length > 0 && shipmentData?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
@@ -107,7 +104,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                                 <td>
                                     <div className='cell-inside-box'>
                                         <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                        <p>Wt:  {row?.dimension_detail?.weight} kg
+                                        <p>Wt:  {(row?.dimension_detail?.weight/1000).toFixed(2)} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
                                                 <span style={{ width: '250px' }}>
@@ -142,7 +139,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_image && <img src={row?.courier_image} title='partner' />}
                                         <div>
-                                            <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row?.awb_number )} >{row?.awb_number ?? ""} </p>
+                                            <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)} >{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
                                         </div>
                                     </div>
@@ -155,7 +152,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     ))}
                 </tbody>
             </table>
-            {shipmentData?.length ===0 && <NoData label={"No Records Found!"} />}
+            {shipmentData?.length === 0 && <NoData />}
 
         </>
     )

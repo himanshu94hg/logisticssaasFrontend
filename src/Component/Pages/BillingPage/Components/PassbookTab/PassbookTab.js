@@ -3,13 +3,11 @@ import React, { useState, useEffect } from 'react';
 import NoData from '../../../../common/noData';
 
 
-const PassbookTab = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
+const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
 
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
 
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -21,28 +19,29 @@ const PassbookTab = ({ billingCard, selectedRows, selectAll, setSelectAll, setSe
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
-
         if (isSelected) {
             setSelectedRows(selectedRows.filter(id => id !== orderId));
             setBulkActionShow(true)
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === data.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
+
+    const handleClickAWB = (awb) => {
+        setOrderTracking(true)
+        setAwbNo(awb)
+    };
+
 
     return (
         <section className='position-relative'>
@@ -103,7 +102,7 @@ const PassbookTab = ({ billingCard, selectedRows, selectAll, setSelectAll, setSe
                                         <td>
                                             {/* Courier detail */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb'>
+                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order_detail?.awb_number)}>
                                                     {row?.order_detail?.awb_number}
                                                 </p>
                                             </div>

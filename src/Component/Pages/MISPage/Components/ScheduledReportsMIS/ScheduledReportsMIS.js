@@ -42,15 +42,12 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         }
     }, [scheduleReportsData])
 
-    // Dummy data
     const dummyData = [
         { id: 1, reportTitle: 'Report 1', reportType: 'Type 1', status: 'Pending', recipients: 'Recipient 1' },
         { id: 2, reportTitle: 'Report 2', reportType: 'Type 2', status: 'Completed', recipients: 'Recipient 2' },
         { id: 3, reportTitle: 'Report 3', reportType: 'Type 1', status: 'Pending', recipients: 'Recipient 3' },
-        // Add more dummy data as needed
     ];
 
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -60,7 +57,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
 
@@ -69,8 +65,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         } else {
             setSelectedRows([...selectedRows, orderId]);
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === scheduledReport.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
@@ -85,7 +79,6 @@ const ScheduledReportsMIS = ({ activeTab }) => {
         }).then(response => {
             console.log(response, "this is response")
             setscheduledReport(response.data.results)
-            // setSearchValue("")
         })
             .catch(error => {
                 customErrorFunction(error)

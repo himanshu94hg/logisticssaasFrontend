@@ -129,8 +129,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address: ""
     })
 
-    console.log(activeTab, "this is a activeTabactiveTabactiveTabactiveTab", filterParams)
-
     useEffect(() => {
         if (activeTab || clearState) {
             setFilterParams({
