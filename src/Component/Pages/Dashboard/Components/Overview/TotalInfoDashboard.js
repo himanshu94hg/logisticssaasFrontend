@@ -22,6 +22,7 @@ function TotalInfoDashboard() {
   const [avarageSelling, setAverageSelling] = useState(null);
   const { counterCard } = useSelector(state => state?.dashboardOverviewReducer)
 
+  const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
   return (
     <>
@@ -31,7 +32,7 @@ function TotalInfoDashboard() {
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
               <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
-                <div className="d-flex justify-content-start gap-10">
+                <div className={`d-flex justify-content-start ${screenWidthData > 376 && 'gap-10'}`}>
                   <div className="">
                     <div className="infoCardIconContainer bg-green-light">
                       <TotalCustomersIcon />
@@ -66,7 +67,7 @@ function TotalInfoDashboard() {
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
               <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
-                <div className="d-flex justify-content-start gap-10">
+                <div className={`d-flex justify-content-start ${screenWidthData > 376 ? 'gap-10' : 'ws-nowrap'}`}>
                   <div className="">
                     <div className="infoCardIconContainer bg-orange-light">
                       <OrangeShipmentIcon />
@@ -104,7 +105,7 @@ function TotalInfoDashboard() {
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
               <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
-                <div className="d-flex justify-content-start gap-10">
+                <div className={`d-flex justify-content-start ${screenWidthData > 376 && 'gap-10'}`}>
                   <div className="">
                     <div className="infoCardIconContainer bg-blue-light">
                       <AverageSellingPriceIcon />
@@ -138,7 +139,7 @@ function TotalInfoDashboard() {
           <div className="box-shadow shadow-sm p10 card-height">
             <div className="row">
               <div className="col-10 col-lg-10 col-sm-12 col-md-12 px-0">
-                <div className="d-flex justify-content-start gap-10">
+                <div className={`d-flex justify-content-start ${screenWidthData > 376 && 'gap-10'}`}>
                   <div className="">
                     <div className="infoCardIconContainer bg-red-light">
                       <TodayRevenueIcon />

@@ -35,6 +35,7 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
   const [isTimerRunning, setIsTimerRunning] = useState(false);
   const [PasswordShow, setPasswordShow] = useState(false)
   const [LoaderRing, setLoaderRing] = useState(false)
+  console.log(pathname, "this is a pathname")
 
 
   useEffect(() => {
@@ -70,6 +71,19 @@ const LoginPage = ({ setTokenExists, tokenExists }) => {
       setLoaderRing(false)
     }
   }
+
+  const token = Cookies.get('access_token');
+  useEffect(() => {
+    if (token) {
+      setTokenExists(true);
+      navigate('/');
+    } if (token && pathname.pathname === "/login") {
+      window.location.reload()
+    }
+  }, [navigate, setTokenExists, pathname]);
+
+
+  console.log(token , pathname.pathname,"llllllllllllll")
 
   const handleLogin = async (e) => {
     setStatus(true)

@@ -164,8 +164,8 @@
 }
 
 .form-box-h {
-    min-height: calc(100vh - 327px);
-    overflow-y: scroll;
+    height: calc(100vh - 299px);
+    overflow-y: auto;
 }
 
 .form-box-h hr {
@@ -458,6 +458,10 @@
     gap: 15px;
 }
 
+.cof-btn-container {
+    margin-block: 10px;
+}
+
 @media screen and (max-width:1600px) {
     .bulk-import-input {
         min-height: 200px;
@@ -473,11 +477,5 @@
 @media screen and (max-width:1200px) {
     .cr-wh-select {
         width: 73%;
-    }
-}
-
-@media (max-width: 600px) {
-    .stepper-form-container {
-        padding: 20px;
     }
 }
