@@ -25,6 +25,7 @@ import { FaCheckSquare, FaTimes } from 'react-icons/fa';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const DateFormatter = ({ dateTimeString }) => {
     const [formattedDate, setFormattedDate] = useState('');
@@ -55,7 +56,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking,orderStatus }) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
 
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
@@ -65,9 +66,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
 
-
     //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
-    console.log(acceptRecord, "weightRecoDataweightRecoDataweightRecoData")
 
 
     const reasons = [
@@ -371,8 +370,6 @@ export default WeightRecoTab;
 function Preview({ show, handleClose, selectedRow }) {
     const dispatch = useDispatch();
     const historyRecord = useSelector(state => state?.weightRecoReducer?.historyData);
-
-    console.log(historyRecord, "All data")
     useEffect(() => {
         if (show && selectedRow) {
             dispatch({ type: "HISTORY_ACTION", payload: selectedRow?.id });
@@ -425,8 +422,6 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
     });
     const commentRecord = useSelector(state => state?.weightRecoReducer?.commentData);
 
-    console.log("All Comment Data", commentRecord)
-
     const handleRemarkChange = (event) => {
         setRemark(event.target.value);
     };
@@ -436,22 +431,19 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
             const file = event.target.files[0];
             const logoFileSize = parseFloat((file.size / (1024 * 1024)).toFixed(2));
 
-            console.log(logoFileSize, "logoFileSize");
             if (logoFileSize > 2) {
                 setLogoError("File shouldn't be greater than 2 MB");
             } else {
                 await uploadFile(event, "image");
             }
         } catch (error) {
-            console.error('Error handling file change:', error);
+            customErrorFunction(error)
         }
     };
 
     const uploadFile = async (e, type) => {
         const file = e.target.files[0];
         const logoFileSize = parseFloat((file.size / (1024 * 1024)).toFixed(2));
-
-        console.log(logoFileSize, "logoFileSize")
         if (type === "image") {
             if (logoFileSize > 2) {
                 setLogoError("File shouldn't be greater than 2 mb")
@@ -476,7 +468,7 @@ function PreviewComment({ showComment, handleCloseComment, selectedRow }) {
                     }
                     setLogoError('');
                 } catch (error) {
-                    console.error('Error handling file change:', error);
+                    customErrorFunction(error)
                 }
             }
         }

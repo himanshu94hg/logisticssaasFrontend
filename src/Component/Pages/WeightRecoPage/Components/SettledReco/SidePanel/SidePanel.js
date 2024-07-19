@@ -76,8 +76,6 @@ const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMo
         // order_tag: ""
     })
 
-    console.log(activeTab,"this is a activeTabactiveTabactiveTabactiveTab",filterParams)
-
     useEffect(() => {
         if (activeTab || clearState) {
             setFilterParams({

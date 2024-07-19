@@ -23,19 +23,17 @@ const Pagination = ({ totalItems, itemsPerPage, setItemsPerPage, currentPage, se
 
     const totalPages = itemsPerPage === "All" ? 1 : Math.ceil(totalItemsCount / itemsPerPage);
 
-    console.log(totalPages,"totalPages",itemsPerPage,currentPage)
-
     const handleFirstPage = () => {
         setCurrentPage(1);
     };
 
     const handleLastPage = () => {
-        if(totalPages>1){
+        if (totalPages > 1) {
             setCurrentPage(totalPages);
-        }else if(totalPages<20 && totalPages>0){
+        } else if (totalPages < 20 && totalPages > 0) {
             setCurrentPage(totalPages);
-        }else{
-            setCurrentPage(totalPages+1);
+        } else {
+            setCurrentPage(totalPages + 1);
         }
     };
 

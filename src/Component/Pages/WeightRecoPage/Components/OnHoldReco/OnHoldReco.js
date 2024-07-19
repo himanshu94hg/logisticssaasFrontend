@@ -47,8 +47,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const [data, setData] = useState([]);
 
     // const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
-    // console.log(weightRecoData, "weightRecoDataweightRecoDataweightRecoData")
-
+ 
 
 
     const reasons = [

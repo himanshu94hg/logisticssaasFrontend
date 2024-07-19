@@ -4,7 +4,7 @@ import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
 
-const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBulkActionShow, selectAll, setSelectAll ,setAwbNo,setOrderTracking,orderStatus}) => {
+const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus }) => {
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
@@ -78,7 +78,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     <tr className="blank-row"><td></td></tr>
                 </thead>
                 <tbody>
-                    {shipmentData?.length>0  && shipmentData?.map((row, index) => (
+                    {shipmentData?.length > 0 && shipmentData?.map((row, index) => (
                         <React.Fragment key={row.id}>
                             {index > 0 && <tr className="blank-row"><td></td></tr>}
                             <tr className='table-row box-shadow'>
@@ -142,7 +142,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                                     <div className='cell-inside-box shipping-details'>
                                         {row?.courier_image && <img src={row?.courier_image} title='partner' />}
                                         <div>
-                                            <p className='details-on-hover anchor-awb' onClick={()=>handleClickAWB(row?.awb_number )} >{row?.awb_number ?? ""} </p>
+                                            <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)} >{row?.awb_number ?? ""} </p>
                                             <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
                                         </div>
                                     </div>
@@ -155,7 +155,7 @@ const ShippingTableMIS = ({ setTotalItems,selectedRows, setSelectedRows,  setBul
                     ))}
                 </tbody>
             </table>
-            {shipmentData?.length ===0 && <NoData label={"No Records Found!"} />}
+            {shipmentData?.length === 0 && <NoData label={"No Records Found!"} />}
 
         </>
     )

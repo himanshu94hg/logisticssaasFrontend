@@ -67,8 +67,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         pickup_address_id: ""
     })
 
-    console.log("filterParamsfilterParamsfilterParams",filterParams);
-
     useEffect(() => {
         if (orderSourceListData && orderSourceListData.length > 0) {
             const formattedData = orderSourceListData

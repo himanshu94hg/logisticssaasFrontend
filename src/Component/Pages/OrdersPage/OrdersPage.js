@@ -82,8 +82,6 @@ const OrdersPage = () => {
     const [loader, setLoader] = useState(false)
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
-
-    console.log("queryParamTempqueryParamTempqueryParamTempqueryParamTemp",queryParamTemp);
     const orderStatus = {
         "pending": "Pending",
         "shipped": "Shipped",
@@ -107,9 +105,6 @@ const OrdersPage = () => {
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
-
-
-    console.log(SearchOption,"searchValue")
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
@@ -220,8 +215,6 @@ const OrdersPage = () => {
         setSearchOption(option);
         setsearchType(option.value)
     };
-
-    console.log(activeTab,"activeTab")
 
     const handleSearch = () => {
         if (validateData()) {
