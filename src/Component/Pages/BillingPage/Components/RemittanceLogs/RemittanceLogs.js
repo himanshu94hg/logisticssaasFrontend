@@ -14,7 +14,7 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
     const [exportButtonClick, setExportButtonClick] = useState(false)
-    const {billingShipingRemitanceDOWNLOADCard} = useSelector(state => state?.billingSectionReducer)
+    const { billingShipingRemitanceDOWNLOADCard } = useSelector(state => state?.billingSectionReducer)
     const { codDetails } = useSelector(state => state?.dashboardOverviewReducer)
 
     useEffect(() => {
@@ -78,7 +78,7 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
     };
 
     useEffect(() => {
-        if (exportButtonClick && billingShipingRemitanceDOWNLOADCard)  {
+        if (exportButtonClick && billingShipingRemitanceDOWNLOADCard) {
             var FileSaver = require('file-saver');
             var blob = new Blob([billingShipingRemitanceDOWNLOADCard], { type: 'application/ms-excel' });
             FileSaver.saveAs(blob, `${"Remitance Logs"}.xlsx`);
@@ -94,19 +94,22 @@ const RemittanceLogs = ({ billingCard, selectedRows, setSelectedRows, setBulkAct
             <div className="position-relative">
                 <div className="mb-3 billing-count-container">
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Total COD:     <span>&#8377; {codDetails?.total_cod || 0}</span></p>
+                        <p>Total COD: <span>&#8377; {codDetails?.total_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Remitted:     <span>&#8377; {codDetails?.remitted_cod || 0}</span></p>
+                        <p>COD Remitted: <span>&#8377; {codDetails?.remitted_cod || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>COD Pending:     <span>&#8377; {codDetails?.cod_pending || 0}</span></p>
+                        <p>COD Pending: <span>&#8377; {codDetails?.cod_pending || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remittance Date:     <span> {codDetails?.next_remit_date || moment(new Date()).format("DD MMM")}</span></p>
+                        <p>Today's Remittance: <span>&#8377; {codDetails?.todays_remittance || 0}</span></p>
                     </div>
                     <div className='box-shadow shadow-sm count-card'>
-                        <p>Next Remit Amount:     <span>&#8377; {codDetails?.next_remit_amount ?? 0}</span></p>
+                        <p>Next Remit Amount: <span>&#8377; {codDetails?.next_remit_amount ?? 0}</span></p>
+                    </div>
+                    <div className='box-shadow shadow-sm count-card'>
+                        <p>Next Remittance Date: <span> {moment(codDetails?.next_remit_date).format("DD MMM YYYY")}</span></p>
                     </div>
                 </div>
                 <div className='table-container'>
