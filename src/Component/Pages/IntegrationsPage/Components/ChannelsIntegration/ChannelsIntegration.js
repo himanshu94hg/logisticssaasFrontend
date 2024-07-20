@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router';
 import WCLogo from '../../../../../assets/image/integration/WCLogo.png'
@@ -7,9 +7,19 @@ import OpenCart from '../../../../../assets/image/integration/OpenCart.png'
 import Amazon from '../../../../../assets/image/integration/Amazon.png'
 import Flipkart from '../../../../../assets/image/integration/Flipkart.png'
 import Manual from '../../../../../assets/image/integration/Manual.png'
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const ChannelsIntegration = () => {
     let navigate = useNavigate()
+    const [loader, setLoader] = useState(false)
+
+    useEffect(() => {
+        setLoader(true)
+            setTimeout(() => {
+                setLoader(false)
+            }, 230);
+    }, [])
+
     const ShoppingCarts = [
         { child: 'shopify', title: 'Shopify', imageUrl: '../shopify.jpg' },
         { child: 'wooCommerce', title: 'WooCommerce', imageUrl: WCLogo },
@@ -88,6 +98,7 @@ const ChannelsIntegration = () => {
                     ))}
                 </div>
             </div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }

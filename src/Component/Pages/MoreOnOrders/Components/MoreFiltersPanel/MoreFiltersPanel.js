@@ -60,69 +60,17 @@ const CourierPartner = [
 
 
 const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMoreFilter, handleResetFrom, setHandleResetFrom }) => {
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
-    const [name, setName] = useState('');
-    const [location, setLocation] = useState('');
-    const [SaveFilter, setSaveFilter] = useState(false)
-    const [clearState, setClearState] = useState(false)
-    const [saveFav, setSaveFav] = useState(false);
-    const [pickupAddresses, setPickupAddresses] = useState([]);
-    const [favName, setFavName] = useState("");
     const dispatch = useDispatch()
     const [errors, setErrors] = useState({})
-
     const sellerData = Cookies.get("user_id")
+    const [favName, setFavName] = useState("");
     const authToken = Cookies.get("access_token")
-
-
-    const handleCheckboxChange = () => {
-        setSaveFilter(prevState => !prevState);
-        setSaveFav(true)
-    };
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        const moment = require('moment');
-
-        const encodedParams = Object.entries(filterParams)
-            .filter(([key, value]) => value !== null && value !== '')
-            .map(([key, value]) => {
-                if (key === 'start_date' || key === 'end_date') {
-                    const formattedDate = moment(value).format('YYYY-MM-DD');
-                    return `${key}=${formattedDate}`;
-                }
-                else {
-                    const trimmedValue = value.replace(/,+$/, '');
-                    return `${key}=${trimmedValue}`;
-                }
-            })
-            .join('&');
-
-        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
-        if (SaveFilter && favName.trim() === "") {
-            const validationErrors = {};
-            if (!favName.trim() & favName !== null) {
-                validationErrors.favName = "Required";
-            }
-            setErrors(validationErrors);
-            console.error(validationErrors, "Favorite name cannot be empty!");
-            return;
-        }
-
-        handleMoreFilter(filterParams)
-        CloseSidePanel()
-        // if (saveFav) {
-        //     dispatch({
-        //         type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
-        //             filter_query: encodedParams,
-        //             filter_name: favName
-        //         }
-        //     })
-        // }
-        setSaveFilter(false)
-        setFavName("")
-    };
+    const [saveFav, setSaveFav] = useState(false);
+    const [SaveFilter, setSaveFilter] = useState(false)
+    const [orderTag, setorderTag] = useState([]);
+    const [clearState, setClearState] = useState(false)
+    const [pickupAddresses, setPickupAddresses] = useState([]);
+    const { tagListData, } = useSelector(state => state?.orderSectionReducer);
 
     const [filterParams, setFilterParams] = useState({
         start_date: "",
@@ -137,6 +85,73 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         sku_match_type: "",
         pickup_address: ""
     })
+
+    useEffect(() => {
+        if (MoreFilters) {
+            dispatch({ type: "ORDERS_TAG_LIST_API_ACTION" })
+        }
+    }, [MoreFilters])
+
+    useEffect(() => {
+        if (tagListData && tagListData.length > 0) {
+            const formattedData = tagListData.map(item => ({
+                value: item.id,
+                label: item.name
+            }));
+            setorderTag(formattedData);
+        } else {
+            setorderTag([]);
+        }
+    }, [tagListData]);
+
+
+    const handleCheckboxChange = () => {
+        setSaveFilter(prevState => !prevState);
+        setSaveFav(true)
+    };
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        const moment = require('moment');
+        const encodedParams = Object.entries(filterParams)
+            .filter(([key, value]) => value !== null && value !== '')
+            .map(([key, value]) => {
+                if (key === 'start_date' || key === 'end_date') {
+                    const formattedDate = moment(value).format('YYYY-MM-DD');
+                    return `${key}=${formattedDate}`;
+                }
+                else {
+                    const trimmedValue = value.replace(/,+$/, '');
+                    return `${key}=${trimmedValue}`;
+                }
+            })
+            .join('&');
+
+        if (SaveFilter && favName.trim() === "") {
+            const validationErrors = {};
+            if (!favName.trim() & favName !== null) {
+                validationErrors.favName = "Required";
+            }
+            setErrors(validationErrors);
+            return;
+        }
+
+        handleMoreFilter(filterParams)
+        CloseSidePanel()
+        if (saveFav) {
+            dispatch({
+                type: "SAVE_FAVOURITE_ORDERS_ACTION", payload: {
+                    filter_query: encodedParams,
+                    filter_name: favName
+                }
+            })
+        }
+        setSaveFilter(false)
+        setSaveFav(false)
+        setFavName("")
+    };
+
+    console.log(saveFav, "saveFavsaveFavsaveFavsaveFav")
 
 
     useEffect(() => {
@@ -181,47 +196,38 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     }, [handleResetFrom])
 
     const handleChange = (name, value) => {
-        if (name === "start_date" || name === "end_date") {
+        if (["start_date", "end_date"].includes(name)) {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value
             }));
-        }
-        if (name === "status" || name === "order_source" || name === "courier_partner" || name === "pickup_address" || name === "order_tag") {
-            let temp_data = ''
-            let temp = value.map((item, index) => {
-                temp_data += item.value;
-                if (index !== value.length - 1) {
-                    temp_data += ",";
-                }
-            })
+        } else if (["status", "order_source", "courier_partner", "order_tag", "payment_type"].includes(name)) {
+            const temp_data = value.map(item => item.value).join(",");
             setFilterParams(prev => ({
                 ...prev,
                 [name]: temp_data
             }));
-        }
-        if (name === "payment_type") {
-            let tempValue = Array.isArray(value) ? value.map(option => option.value).join(",") : value.value;
-            setFilterParams(prev => ({
-                ...prev,
-                [name]: tempValue
-            }));
-        }
-
-        if (name === "order_id" || name === "sku") {
+        } else if (name === "order_id" || name === "sku") {
             setFilterParams(prev => ({
                 ...prev,
                 [name]: value.target.value
             }));
-        }
-        if (name === "sku_match_type") {
+        } else if (name === "sku_match_type") {
             setFilterParams(prev => ({
                 ...prev,
-                skuType: value
-            }))
+                sku_match_type: value
+            }));
+        }
+        else if (name === "pickup_address") {
+            const ids = value.map(item => item.id).join(",");
+            const names = value.map(item => item.value).join(",");
+            setFilterParams(prev => ({
+                ...prev,
+                pickup_address: names,
+                pickup_address_id: ids
+            }));
         }
     };
-
 
     useEffect(() => {
         const fetchData = async () => {
@@ -239,11 +245,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     setPickupAddresses(temp)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
             }
         };
 
-        fetchData(); // Call the fetchData function
+        fetchData();
 
     }, [MoreFilters, sellerData, authToken]);
 
@@ -299,8 +304,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         placeholderText='Select Start Date'
                                     />
                                 </div>
-                                {/* </label> */}
-                                {/* <label> */}
+
                                 <div className="date-picker-container">
                                     End Date
                                     <DatePicker
@@ -381,9 +385,11 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <Select
                                         isMulti
                                         isSearchable
-                                        options={Ordertags}
+                                        options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
-                                        value={filterParams.order_tag ? Ordertags?.filter(option => filterParams.order_tag?.includes(option.value)) : null}
+                                        // styles={customStyles}
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
+                                    // value={orderTag.filter(option => filterParams.order_tag.split(",").includes(option.value))}
                                     />
                                 </label>
                             </div>
