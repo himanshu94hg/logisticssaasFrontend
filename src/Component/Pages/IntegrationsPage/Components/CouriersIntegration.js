@@ -1,10 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../IntegrationsPage.css'
 import { useNavigate } from 'react-router-dom';
+import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 
 const CouriersIntegration = () => {
-
     const navigate = useNavigate();
+    const [loader, setLoader] = useState(false)
+
+    useEffect(() => {
+        setLoader(true)
+            setTimeout(() => {
+                setLoader(false)
+            }, 230);
+    }, [])
 
     const data = [
         { title: 'Blue Dart', imageUrl: 'https://app.shiprocket.in/app/img/couriers/Bluedart.png' },
@@ -41,6 +49,7 @@ const CouriersIntegration = () => {
                     ))}
                 </div>
             </div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }

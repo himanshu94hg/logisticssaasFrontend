@@ -142,12 +142,15 @@ const BasicInfo = ({ activeTab }) => {
   }, [activeTab]);
 
   const handleClickSubmit = async (formData) => {
+    setLoaderRing(true)
     try {
       const response = await axios.post(`${BASE_URL_CORE}/core-api/seller/basic-info/`, formData, {
         headers: {
           'Authorization': `Bearer ${hardcodedToken}`,
         },
       });
+
+      console.log(response.status,"this is  a a a a a a")
       if (response?.status === 201) {
         toast.success("Details update successfully")
         setLoaderRing(false)
@@ -160,7 +163,6 @@ const BasicInfo = ({ activeTab }) => {
 
 
   const handleSubmit = async (e) => {
-    setLoaderRing(true)
     e.preventDefault();
     const newErrors = {}
     if (!formData.company_name) {
@@ -169,7 +171,7 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.website_url) {
       newErrors.website_url = "Website Url is required!"
     }
-    if (!formData.mobile) {
+    if (!formData.mobile ||errors.mobile.trim(""))  {
       newErrors.mobile = "Mobile number is required!"
     }
     if (!formData.email) {
@@ -178,7 +180,7 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.street) {
       newErrors.street = "Street name is required!"
     }
-    if (!formData.pincode) {
+    if (!formData.pincode || errors.pincode.trim("")) {
       newErrors.pincode = "Pincode is required!"
     }
     if (!formData.city) {
@@ -190,17 +192,18 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.country) {
       newErrors.country = "Country is required!"
     }
-    if (!formData.pan_number) {
+    if (!formData.pan_number||errors.pan_number.trim("")) {
       newErrors.pan_number = "PAN Number is required!"
     }
-    if (!formData.gst_number) {
+    if (!formData.gst_number||errors.gst_number.trim("")) {
       newErrors.gst_number = "GST Number is required!"
     }
     setErrors(newErrors);
-    if (Object.keys(newErrors).length === 0) {
+    if (Object.keys(errors).length === 0) {
       globalDebouncedClick(() => handleClickSubmit(formData))
     }
   };
+
 
   const uploadFile = async (e, type) => {
     const file = e.target.files[0];

@@ -1,10 +1,19 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import '../IntegrationsPage.css'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
+import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 
 const APIIntegration = () => {
     const dispatch = useDispatch()
+    const [loader, setLoader] = useState(false)
+
+    useEffect(() => {
+        setLoader(true)
+            setTimeout(() => {
+                setLoader(false)
+            }, 230);
+    }, [])
     const data = [
         { title: 'Shopify', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
         { title: 'WooCommerce', imageUrl: 'https://www.shipease.in/public/assets/images/channel/woocommerce.png' },
@@ -47,6 +56,7 @@ const APIIntegration = () => {
                     </div>
                 </div>
             </div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }
