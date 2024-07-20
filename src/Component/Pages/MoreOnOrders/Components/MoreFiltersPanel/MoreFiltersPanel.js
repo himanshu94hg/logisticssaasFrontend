@@ -84,7 +84,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
     const handleSubmit = e => {
         e.preventDefault();
         const moment = require('moment');
-
         const encodedParams = Object.entries(filterParams)
             .filter(([key, value]) => value !== null && value !== '')
             .map(([key, value]) => {
@@ -99,14 +98,12 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             })
             .join('&');
 
-        console.log(encodedParams, "encodedParams1encodedParams1encodedParams1")
         if (SaveFilter && favName.trim() === "") {
             const validationErrors = {};
             if (!favName.trim() & favName !== null) {
                 validationErrors.favName = "Required";
             }
             setErrors(validationErrors);
-            console.error(validationErrors, "Favorite name cannot be empty!");
             return;
         }
 
@@ -239,11 +236,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                     setPickupAddresses(temp)
                 }
             } catch (error) {
-                console.error('Error fetching data:', error);
             }
         };
 
-        fetchData(); // Call the fetchData function
+        fetchData();
 
     }, [MoreFilters, sellerData, authToken]);
 
@@ -299,8 +295,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         placeholderText='Select Start Date'
                                     />
                                 </div>
-                                {/* </label> */}
-                                {/* <label> */}
+                             
                                 <div className="date-picker-container">
                                     End Date
                                     <DatePicker
