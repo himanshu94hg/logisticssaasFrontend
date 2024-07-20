@@ -1,10 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../../IntegrationsPage.css'
 import { useNavigate } from 'react-router-dom';
 import EasyShipLogo from '../../../../../assets/image/integration/EasyShipLogo.png'
+import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
 const OMSIntegration = () => {
     let navigate = useNavigate()
+    const [loader, setLoader] = useState(false)
+
+    useEffect(() => {
+        setLoader(true)
+            setTimeout(() => {
+                setLoader(false)
+            }, 230);
+    }, [])
 
     const OMSData = [
         { child: 'unicommerce', title: 'Unicommerce', imageUrl: 'https://www.shipease.in/public/assets/images/oms/unicommerce.jpg' },
@@ -56,6 +65,7 @@ const OMSIntegration = () => {
                     ))}
                 </div>
             </div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }

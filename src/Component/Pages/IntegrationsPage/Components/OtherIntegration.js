@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import '../IntegrationsPage.css'
 import { useNavigate } from 'react-router-dom';
+import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
 
 const OtherIntegration = () => {
     const navigate = useNavigate()
+    const [loader, setLoader] = useState(false)
+
+    useEffect(() => {
+        setLoader(true)
+            setTimeout(() => {
+                setLoader(false)
+            }, 230);
+    }, [])
+
     const data = [
         { title: 'WhatsApp', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
         { title: 'IVR (Cloud Connect)', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
@@ -33,6 +43,7 @@ const OtherIntegration = () => {
                     ))}
                 </div>
             </div>
+            <LoaderScreen loading={loader} />
         </>
     )
 }
