@@ -140,8 +140,8 @@
     }
 
     #shipEaseNavTabs .dropdown-menu {
-        top: 51px;
-        left: 14px;
+        top: 35px;
+        left: 8px;
     }
 
     .m-inline-1 {
@@ -496,6 +496,15 @@
 
     .edit-order-body .details-side .details-component .inputs-container .row:nth-of-type(5) {
         flex-direction: column;
+    }
+
+    .wallet-container.show {
+        right: unset;
+        left: unset;
+    }
+
+    .wallet-box {
+        width: 95%;
     }
 }
 
