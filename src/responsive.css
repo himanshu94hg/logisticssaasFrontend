@@ -38,6 +38,13 @@
 
 }
 
+@media screen and (max-width:1142px) {
+
+    .orders-section-tabs .table-container.m-table-height {
+        height: calc(100vh - 256px);
+    }
+}
+
 @media screen and (max-width:1140px) {
 
     .status-container-item .status-item {
@@ -227,6 +234,10 @@
 
     .stepper-form-container .stepper-line {
         width: 98%;
+    }
+
+    .orders-section-tabs .table-container.m-table-height {
+        height: calc(100vh - 239px);
     }
 }
 
