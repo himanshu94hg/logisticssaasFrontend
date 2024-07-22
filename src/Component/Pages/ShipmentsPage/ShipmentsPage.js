@@ -66,7 +66,8 @@ const ShipmentsPage = () => {
     const [loader, setLoader] = useState(false)
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
-    
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
     useEffect(() => {
         if (favListData) {
             let temp = [];
@@ -342,29 +343,34 @@ const ShipmentsPage = () => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <div className="btn-group">
-                            <button
-                                onClick={handleSidePanel}
-                                type="button"
-                                className="btn main-button-outline ms-2"
-                            >
-                                <HiOutlineFilter className='align-text-bottom' /> More Filters
-                            </button>
-                            <button className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span className="visually-hidden" >Toggle Dropdown</span>
-                            </button>
-                            <ul
-                                className="dropdown-menu"
-                                type="button"
-                                style={{
-                                    paddingInline: '0px',
-                                    minWidth: '110px',
-                                }}
-                            >
-                                {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
-                            </ul>
-                        </div>
-                        <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        {
+                            screenWidthData > 675 &&
+                            <>
+                                <div className="btn-group">
+                                    <button
+                                        onClick={handleSidePanel}
+                                        type="button"
+                                        className="btn main-button-outline ms-2"
+                                    >
+                                        <HiOutlineFilter className='align-text-bottom' /> More Filters
+                                    </button>
+                                    <button className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="visually-hidden" >Toggle Dropdown</span>
+                                    </button>
+                                    <ul
+                                        className="dropdown-menu"
+                                        type="button"
+                                        style={{
+                                            paddingInline: '0px',
+                                            minWidth: '110px',
+                                        }}
+                                    >
+                                        {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
+                                    </ul>
+                                </div>
+                                <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                            </>
+                        }
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |

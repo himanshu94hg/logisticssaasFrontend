@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import {
   Navbar,
-  Nav
+  Nav,
+  NavDropdown
 } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 // import "./navTabs.css";
+
+const navItems = [
+  { name: 'Action Required', title: 'Action Required' },
+  { name: 'Action Requested', title: 'Action Requested' },
+  { name: 'Delivered', title: 'Delivered' },
+  { name: 'RTO', title: 'RTO' },
+]
 
 export default function NavTabs(props) {
   const [selectedOption, setSelectedOption] = useState("Domestic");
@@ -19,6 +27,11 @@ export default function NavTabs(props) {
   const toggleOptions = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleSelect = (selectedTab) => {
+    props.setActiveTab(selectedTab);
+  };
+
   return (
     <Navbar
       className="w-100 box-shadow shadow-sm p7 gap-10"
@@ -29,55 +42,47 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "Action Required" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Action Required");
-              }}
+            {
+              navItems.map((item) => (
+                <Nav.Link
+                  key={item.name}
+                  className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
+                  onClick={() => {
+                    props.setActiveTab(item.name);
+                  }}
+                  title={item.title}
+                >
+                  <div className="navItemsContainer">
+                    {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+                    {item.title}
+                  </div>
+                </Nav.Link>
+              ))
+            }
+            <NavDropdown
+              title={props.activeTab || "Select Option"} // Set default value based on activeTab
+              id="nav-dropdown"
+              onSelect={handleSelect}
+              // Show on mobile
+              className="d-block d-lg-none"
+              drop="left"
             >
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Action Required
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Action Requested" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Action Requested");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                Action Requested
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Delivered" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Delivered");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Delivered
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "RTO" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("RTO");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                RTO
-              </div>
-            </Nav.Link>
-            
-            
+              {navItems.map((item) => (
+                <NavDropdown.Item
+                  key={item.name}
+                  eventKey={item.name}
+                  active={props.activeTab === item.name}
+                >
+                  {item.name}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
+
+
           </div>
         </Nav>
       </Navbar.Collapse>
-      
+
       <div className="d-flex gap-10">
         {/* <button className="btn main-button">Sync Orders</button>
         <button className="btn main-button">Import CSV</button>
