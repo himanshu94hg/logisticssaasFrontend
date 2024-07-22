@@ -40,7 +40,7 @@ export default function NavTabs(props) {
     >
       <Navbar.Toggle aria-controls="navTabs" />
       <Navbar.Collapse id="navTabs">
-        <Nav className="ml-auto w-100 alignContent">
+        <Nav className="ml-auto w-100">
           <div className="alignContent">
             {
               navItems.map((item) => (
@@ -77,8 +77,6 @@ export default function NavTabs(props) {
                 </NavDropdown.Item>
               ))}
             </NavDropdown>
-
-
           </div>
         </Nav>
       </Navbar.Collapse>
