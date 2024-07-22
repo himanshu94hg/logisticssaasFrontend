@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking, orderStatus }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -510,8 +510,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
                                                                     {row?.pickup_details?.p_state},
                                                                     {row?.pickup_details?.p_pincode}
                                                                 </span>
-                                                                {/* )} */}
-
                                                             </span>
                                                         </p>
                                                     ) : ''}
@@ -532,7 +530,7 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
                                                 </div>
                                             </td>
                                             <td className='align-middle status-box position-relative'>
-                                                <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                                <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                                 {row?.status === "pickup_requested" && row?.manifest_status && <p className='text-success fw-bold position-absolute ws-nowrap' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                             </td>
                                             <td className='align-middle'>

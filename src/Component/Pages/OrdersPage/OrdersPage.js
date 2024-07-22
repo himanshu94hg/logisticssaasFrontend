@@ -29,7 +29,6 @@ import { BASE_URL_ORDER } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
 import globalDebouncedClick from '../../../debounce';
 import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
-import { debounce } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
@@ -72,7 +71,7 @@ const OrdersPage = () => {
     const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
     const [UpdateWeight, setUpdateWeight] = useState(false)
     const [orderTracking, setOrderTracking] = useState(false)
-    const [awbNo, setAwbNo] = useState(null)
+    const [awbNo, setAwbNo] = useState("")
     const [pickupStatus, setPickupStatus] = useState('')
     const [filterData, setFilterData] = useState({});
     const [selectAll, setSelectAll] = useState(false);
@@ -81,29 +80,7 @@ const OrdersPage = () => {
     const [statusType, setStatusType] = useState([])
     const [loader, setLoader] = useState(false)
     const [orderTagId, setOrderTagId] = useState([])
-
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
-    const orderStatus = {
-        "pending": "Pending",
-        "shipped": "Shipped",
-        "pickup_requested": "Pickup Requested",
-        "pickup_scheduled": "Pickup Scheduled",
-        "picked_up": "Picked Up",
-        "cancelled": "Cancelled",
-        "manifested": "Manifested",
-        "in_transit": "In Transit",
-        "out_for_delivery": "Out for Delivery",
-        "rto_initiated": "RTO Initiated",
-        "rto_delivered": "RTO Delivered",
-        "rto_in_transit": "RTO Transit",
-        "delivered": "Delivered",
-        "ndr": "NDR",
-        "lost": "Lost",
-        "damaged": "Damaged",
-        "hold": "Hold"
-    };
-
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
@@ -221,9 +198,9 @@ const OrdersPage = () => {
     const handleSearch = () => {
         let sanitizedSearchValue = searchValue;
         sanitizedSearchValue = sanitizedSearchValue.replace(/#/g, '');
-      
+
         if (validateData()) {
-            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab==="Pickup"?"manifest":activeTab==="Ready to Ship"?"Ready_to_ship": activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${20}&page=${1}`, {
+            axios.get(`${BASE_URL_ORDER}/orders-api/orders/?courier_status=${activeTab === "All" ? "" : activeTab === "Pickup" ? "manifest" : activeTab === "Ready to Ship" ? "Ready_to_ship" : activeTab}&search_by=${searchType}&q=${sanitizedSearchValue}&page_size=${20}&page=${1}`, {
                 headers: {
                     Authorization: `Bearer ${authToken}`
                 }
@@ -280,6 +257,14 @@ const OrdersPage = () => {
             });
     }
 
+    const [dis, setDis] = useState(null)
+
+    useEffect(() => {
+        if (currentPage || itemsPerPage) {
+            setDis(new Date())
+        }
+    }, [currentPage, itemsPerPage])
+
     useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
@@ -333,7 +318,7 @@ const OrdersPage = () => {
                 });
         }
 
-    }, [orderCancelled, rateRef, activeTab, orderdelete, JSON.stringify(queryParamTemp), pickupStatus, orderClone, orderUpdateRes, currentPage, itemsPerPage, moreorderShipCardStatus]);
+    }, [activeTab, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
     useEffect(() => {
         if (activeTab === "Manifest") {
@@ -463,7 +448,6 @@ const OrdersPage = () => {
                         setOrderId={setOrderId}
                         setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                         selectAll={selectAll}
                         setSelectAll={setSelectAll}
                         setRateRef={setRateRef}
@@ -480,7 +464,7 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setBulkActionShow={setBulkActionShow}
                         activeTab={activeTab} orders={orders}
-                        orderStatus={orderStatus}
+
                     />
                 </div>
 
@@ -502,8 +486,6 @@ const OrdersPage = () => {
                         setCloneOrderSection={setCloneOrderSection}
                         setaddTagShow={setaddTagShow}
                         BulkActionShow={BulkActionShow}
-                        orderStatus={orderStatus}
-
                     />
                 </div>
 
@@ -522,7 +504,6 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                         setPickupStatus={setPickupStatus}
                     />
                 </div>
@@ -542,7 +523,7 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
+                     
                     />
                 </div>
 
@@ -556,7 +537,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
                         setBulkActionShow={setBulkActionShow}
-                        orderStatus={orderStatus}
+                       
                     />
                 </div>
 
@@ -573,7 +554,6 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                     />
                 </div>
                 <Pagination
@@ -655,7 +635,7 @@ const OrdersPage = () => {
             </section>
 
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} setAwbNo={setAwbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
             <LoaderScreen loading={loader} />
