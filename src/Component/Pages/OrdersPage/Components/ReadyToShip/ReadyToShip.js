@@ -39,7 +39,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, orderStatus }) => {
+const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -371,8 +371,6 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
                                                     </span>
                                                 </p>
                                                 <p className='ws-nowrap d-flex align-items-center'>
-                                                    {/* {formatDate(row.inserted)} */}
-                                                    {/*<DateFormatter dateTimeString={row.inserted} />*/}
                                                     <CustomTooltip
                                                         triggerComponent={
                                                             <img
@@ -423,15 +421,11 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
                                                         </span>
                                                     </span>
                                                 </p>
-                                                {/* <p>{row.s_city}</p>
-                                                <p>{row.s_pincode}</p>
-                                                <p>{row.s_state}</p> */}
                                             </div>
                                         </td>
                                         <td>
                                             {/* package  details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className='width-eclipse'>{row?.order_products?.product_name}</p> */}
                                                 <p>Wt:  {weightGreater(row?.dimension_detail?.weight, row?.dimension_detail?.vol_weight)} kg
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -487,11 +481,9 @@ const ReadyToShip = ({ setOrderTracking, orders, MoreFilters, activeTab, bulkAwb
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className="btn main-button" onClick={() => handleGeneratePickup(row.id)} disabled={row?.status === "cancelled" && true}>
                                                     Generate Pickup
