@@ -62,6 +62,7 @@ const MoreOnOrders = () => {
     const [reassOrders, setReassOrders] = useState([])
     const [splitOrders, setSplitOrders] = useState([])
     const [loader, setLoader] = useState(false)
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
 
     const apiEndpoint = `${BASE_URL_CORE}`;
@@ -175,7 +176,7 @@ const MoreOnOrders = () => {
                     customErrorFunction(error)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), currentPage,activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
+    }, [JSON.stringify(queryParamTemp), currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -297,7 +298,7 @@ const MoreOnOrders = () => {
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
-            {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
+            <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
                         <label>
@@ -329,29 +330,34 @@ const MoreOnOrders = () => {
                                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                             </button>
                         </label>
-                        <div className="btn-group">
-                            <button
-                                onClick={handleSidePanel}
-                                type="button"
-                                className="btn main-button-outline ms-2"
-                            >
-                                <HiOutlineFilter className='align-text-bottom' /> More Filters
-                            </button>
-                            <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
-                                <span className="visually-hidden">Toggle Dropdown</span>
-                            </button>
-                            <ul
-                                className="dropdown-menu"
-                                type="button"
-                                style={{
-                                    paddingInline: '0px',
-                                    minWidth: '110px',
-                                }}
-                            >
-                                {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
-                            </ul>
-                        </div>
-                        <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                        {
+                            screenWidthData > 675 &&
+                            <>
+                                <div className="btn-group">
+                                    <button
+                                        onClick={handleSidePanel}
+                                        type="button"
+                                        className="btn main-button-outline ms-2"
+                                    >
+                                        <HiOutlineFilter className='align-text-bottom' /> More Filters
+                                    </button>
+                                    <button type="button" className="btn main-button dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <span className="visually-hidden">Toggle Dropdown</span>
+                                    </button>
+                                    <ul
+                                        className="dropdown-menu"
+                                        type="button"
+                                        style={{
+                                            paddingInline: '0px',
+                                            minWidth: '110px',
+                                        }}
+                                    >
+                                        {queryName?.map((item) => <li onClick={() => handleQueryfilter(item?.filter_query)}>{item?.filter_name}</li>)}
+                                    </ul>
+                                </div>
+                                <button className='btn main-button-outline ms-2' onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</button>
+                            </>
+                        }
                     </div>
                     <p className='font10'>Most Popular Search by
                         <span>COD</span> |
@@ -362,7 +368,7 @@ const MoreOnOrders = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
-            </div>}
+            </div>
             <div className='orders-section-tabs'>
                 {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
