@@ -37,7 +37,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo, orderStatus }) => {
+const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -477,7 +477,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setb
                                         </td>
                                         <td className='align-middle status-box position-relative'>
                                             {/*  Status section  */}
-                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                             {row?.manifest_status && <p className='text-success fw-bold position-absolute ws-nowrap' style={{ paddingInline: '10px', fontSize: 11 }}>Manifest Generated</p>}
                                         </td>
                                         <td className='align-middle'>

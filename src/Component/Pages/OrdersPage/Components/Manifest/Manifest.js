@@ -14,7 +14,7 @@ import globalDebouncedClick from '../../../../../debounce';
 import NoData from '../../../../common/noData';
 
 
-const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows,orderStatus }) => {
+const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
     const dispatch = useDispatch();
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -194,23 +194,12 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                     <table className=" w-100">
                         <thead className="sticky-header">
                             <tr className="table-row box-shadow">
-                                <th style={{ width: '1%' }}>
-                                    {/* <div className='d-flex gap-1 align-items-center'>
-                                        <input
-                                            type="checkbox"
-                                            checked={selectAll}
-                                            onChange={handleSelectAll}
-                                        />
-                                        <SelectAllDrop />
-                                    </div> */}
-                                </th>
                                 <th style={{ width: '10%' }}>Manifest Id</th>
                                 <th style={{ width: '12.5%' }}>Created</th>
                                 <th style={{ width: '12%' }}>Created By</th>
                                 <th style={{ width: '14%' }}>Courier</th>
                                 <th style={{ width: '16%' }}>Number of Order(s)</th>
                                 <th style={{ width: '20%' }}>Pickup Reference Number</th>
-                                {/* <th style={{ width: '10%' }}>Status</th> */}
                                 <th style={{ width: '15%' }}>Download</th>
 
                             </tr>
@@ -221,14 +210,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                                 <React.Fragment key={row?.id}>
                                     {index > 0 && <tr className="blank-row"><td></td></tr>}
                                     <tr className='table-row box-shadow'>
-                                        <td className='checkbox-cell'>
-                                            {/* <input
-                                                type="checkbox"
-                                                checked={selectedRows?.includes(row?.id)}
-                                                onChange={() => handleSelectRow(row?.id)}
-                                            /> */}
-                                        </td>
-
                                         <td>
                                             <div className='cell-inside-box'>
                                                 <p>{row?.id}</p>
@@ -246,8 +227,8 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                                         </td>
                                         <td>
                                             <div className='cell-inside-box'>
-                                                <p className='order-Status-box mt-1'>{row?.courier}</p>
-                                            </div>
+                                                <p className='order-Status-box mt-1'>{row?.courier.split("_").join(" ")}</p>
+                                                </div>
                                         </td>
                                         <td className='align-middle'>
                                             <td className='align-middle'>

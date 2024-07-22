@@ -10,31 +10,33 @@ import axios from 'axios'
 import { BASE_URL_CORE } from '../../../axios/config'
 import moment from 'moment'
 
-const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo }) => {
+const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo,setAwbNo }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
     const CloseSidePanel = () => {
         setOrderTracking(false)
+        setAwbNo("")
+
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${BASE_URL_CORE}/core-api/shipping/track-order/${awbNo}`, {
-                    headers: {
-                        Authorization: `Bearer ${authToken}`
-                    }
-                });
-
-                setOrderStatus(response.data);
-            } catch (error) {
-                customErrorFunction(error)
+        const fetchOrderStatus = async () => {
+            if (awbNo !== "" && orderTracking) {
+                try {
+                    const response = await axios.get(`${BASE_URL_CORE}/core-api/shipping/track-order/${awbNo}`, {
+                        headers: {
+                            Authorization: `Bearer ${authToken}`
+                        }
+                    });
+                    setOrderStatus(response.data);
+                } catch (error) {
+                    customErrorFunction(error);
+                } 
             }
         };
-        if (orderTracking && authToken) {
-            fetchData();
-        }
-    }, [orderTracking]);
+
+        fetchOrderStatus();
+    }, [awbNo, orderTracking, authToken]);
 
     return (
         <>
