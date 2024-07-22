@@ -90,6 +90,21 @@
     /* background-color: #8CD3DB; */
 }
 
+.card-img-container.WhatsApp {
+    background-color: #cdf5dc;
+    /* background-color: #8CD3DB; */
+}
+
+.card-img-container.IVR {
+    background-color: #e0ecf8;
+    /* background-color: #8CD3DB; */
+}
+
+.card-img-container.Pragma {
+    background-color: #acc8f9;
+    /* background-color: #8CD3DB; */
+}
+
 .card-img-container img {
     position: absolute;
     right: -18px;
