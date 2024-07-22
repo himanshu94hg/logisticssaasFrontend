@@ -19,7 +19,7 @@ export default function NavTabs(props) {
   const activeTabTitle = navItems.find(item => item.name === props.activeTab)?.title;
 
   return (
-    <Navbar className="w-100 box-shadow shadow-sm p10" variant="light" id="shipEaseNavTabs">
+    <Navbar className="w-100 box-shadow shadow-sm p7 gap-10" variant="light" id="shipEaseNavTabs">
       <Navbar.Toggle aria-controls="navTabs" />
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100">
