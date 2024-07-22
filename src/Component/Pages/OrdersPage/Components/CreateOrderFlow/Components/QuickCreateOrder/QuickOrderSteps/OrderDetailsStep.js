@@ -126,7 +126,7 @@ const OrderDetailsStep = ({ onNext, formData, setFormData, editStatus, errors, s
             <div className='box-shadow p10 w-100'>
                 <div className='inputs-container mx-auto mb-3'>
                     <h3 className='mb-5'>Create a quick order!</h3>
-                    <div className='row'>
+                    <div className='row row-gap-3 flex-column flex-lg-row'>
                         <label className='col'>
                             <span>Order Number <span className='mandatory'>*</span></span>
                             <input

@@ -621,7 +621,4 @@ ul.order-label-list li {
     height: calc(100vh - 291px);
   }
 
-  .orders-section-tabs .table-container.m-table-height {
-    height: calc(100vh - 203px);
-  }
 }

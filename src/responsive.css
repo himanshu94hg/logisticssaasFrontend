@@ -10,6 +10,14 @@
     .form-box-h {
         height: calc(100vh - 285px);
     }
+
+    .table-row th {
+        white-space: nowrap;
+    }
+
+    .bulk-import-input {
+        min-height: 200px;
+    }
 }
 
 @media screen and (max-width:1240px) {
@@ -32,6 +40,13 @@
         white-space: nowrap;
     }
 
+}
+
+@media screen and (max-width:1142px) {
+
+    .orders-section-tabs .table-container.m-table-height {
+        height: calc(100vh - 256px);
+    }
 }
 
 @media screen and (max-width:1140px) {
@@ -110,7 +125,7 @@
         border: 1px solid var(--sh-primary-middle);
         padding: 0px 10px;
         border-radius: 0.5rem;
-        width: 150px;
+        width: 164px;
     }
 
     #shipEaseNavTabs .nav-item .dropdown-toggle {
@@ -223,6 +238,10 @@
 
     .stepper-form-container .stepper-line {
         width: 98%;
+    }
+
+    .orders-section-tabs .table-container.m-table-height {
+        height: calc(100vh - 239px);
     }
 }
 
@@ -344,6 +363,20 @@
         transition: 1s;
     }
 
+    .not-active-message {
+        width: 90%;
+        left: 5%;
+    }
+
+    .bulk-import-input {
+        width: 95%;
+    }
+
+    .bo-or-text::after,
+    .bo-or-text::before {
+        width: 104px;
+    }
+
 }
 
 @media screen and (max-width:633px) {
@@ -386,6 +419,8 @@
         gap: 10px;
         padding-top: 21px;
         justify-content: end;
+        margin-inline: 12px;
+        margin-top: 0px;
     }
 
     .ship-container-row p {

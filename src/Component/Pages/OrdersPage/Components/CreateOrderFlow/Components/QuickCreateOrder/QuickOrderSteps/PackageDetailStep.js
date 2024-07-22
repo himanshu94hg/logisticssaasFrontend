@@ -53,7 +53,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
         const charge = e.target.value.trim();
         const regex = /^\d*\.?\d{0,2}$/;
 
-            if (regex.test(charge) || charge === '') {
+        if (regex.test(charge) || charge === '') {
             if (field === 'weight' && charge.includes('.')) {
                 const parts = charge.split('.');
                 if (parts[1].length > 2) {
@@ -98,7 +98,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 4 content */}
                     {/* <h3 className='mb-4'>Package Details</h3> */}
-                    <div className='row'>
+                    <div className='row row-gap-3'>
                         {/* Invoice Amount */}
                         <label className='col'>
                             <span>Invoice Amount (₹) <span className='mandatory'>*</span></span>
@@ -165,8 +165,7 @@ const PackageDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                             </span>
                         </p>
                     </div>
-                    <div className="row gap-2">
-
+                    <div className="row row-gap-3">
                         {/* Length (cm) */}
                         <label className='col'>
                             <span>Length <span className='mandatory'>*</span></span>

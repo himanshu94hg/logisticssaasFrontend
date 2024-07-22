@@ -80,7 +80,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
-                <div className='d-flex justify-content-between p10 align-items-center'>
+                <div className='d-flex justify-content-between p-1 align-items-center'>
                     {
                         screenWidthData < 544 &&
                         <>
