@@ -307,13 +307,30 @@
     margin-inline: auto;
 }
 
-.bo-upload-data table {
+.bo-upload-data .bulk-import-table {
     margin-block: 0.5rem;
+    overflow-x: auto;
 }
+
+.bo-upload-data .bulk-import-table::-webkit-scrollbar {
+    height: 1px;
+}
+
+.bo-upload-data .bulk-import-table table tbody tr td {
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 
 .bo-upload-data table tr th,
 .bo-upload-data table tr td {
     padding: 0.7rem;
+}
+
+.bo-upload-data tr td,
+.bo-upload-data tr th {
+    white-space: nowrap;
 }
 
 .bo-upload-data tr:nth-of-type(odd) td {
@@ -460,12 +477,6 @@
 
 .cof-btn-container {
     margin-block: 10px;
-}
-
-@media screen and (max-width:1600px) {
-    .bulk-import-input {
-        min-height: 200px;
-    }
 }
 
 @media screen and (max-width:1500px) {

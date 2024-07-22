@@ -55,7 +55,7 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
 
     return (
         <section className={`single-ship-container ${SingleShipReassign ? 'open' : ''}`}>
-            <div className='d-flex justify-content-between p10 align-items-center'>
+            <div className='d-flex justify-content-between p-1 align-items-center'>
                 {
                     screenWidthData < 544 &&
                     <>

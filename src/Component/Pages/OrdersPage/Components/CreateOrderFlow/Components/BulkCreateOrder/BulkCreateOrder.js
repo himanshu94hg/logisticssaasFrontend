@@ -113,32 +113,32 @@ const BulkCreateOrder = () => {
                         <h4>Recent Uploads</h4>
                         <p>Last 10 days activity</p>
                     </div>
-                    <table className='w-100'>
-                        <thead>
-                            <tr>
-                                <th>File Name</th>
-                                <th>Date</th>
-                                <th>No. Of Orders</th>
-                                <th>Successful Orders</th>
-                                <th>Error Orders</th>
-                            </tr>
-                        </thead>
-                        <thead>
-                            {bulkOrders?.slice(0, 10)?.map((item) => {
-                                return (
-                                    <tr>
-                                        <td><Link className='anchor-order' onClick={() => handleDownloadlinkTemplate(item?.original_file)}>{item?.file_name}</Link></td>
-                                        <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
-                                        <td>{item?.total_orders}</td>
-                                        <td>{item?.success_orders}</td>
-                                        <td><Link className='anchor-error' onClick={() => handleDownloadError(item?.failed_orders_file)}>{item?.failed_orders}</Link></td>
-                                    </tr>
-                                )
-                            })}
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
+                    <div className="bulk-import-table">
+                        <table className='w-100'>
+                            <thead>
+                                <tr>
+                                    <th style={{ width: '40%' }}>File Name</th>
+                                    <th style={{ width: '30%' }}>Date</th>
+                                    <th style={{ width: '10%' }}>No. Of Orders</th>
+                                    <th style={{ width: '10%' }}>Successful Orders</th>
+                                    <th style={{ width: '10%' }}>Error Orders</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bulkOrders?.slice(0, 10)?.map((item) => {
+                                    return (
+                                        <tr>
+                                            <td><Link className='anchor-order' title={item?.file_name} onClick={() => handleDownloadlinkTemplate(item?.original_file)}>{item?.file_name}</Link></td>
+                                            <td>{moment(item?.created_at).format("DD MMM YYYY")} || {moment(item?.created_at).format("hh:mm A")}</td>
+                                            <td>{item?.total_orders}</td>
+                                            <td>{item?.success_orders}</td>
+                                            <td><Link className='anchor-error' onClick={() => handleDownloadError(item?.failed_orders_file)}>{item?.failed_orders}</Link></td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </section>
             </div>
             <LoaderScreen loading={loader} />

@@ -104,7 +104,7 @@ const ProductDetailStep = ({ onPrev, onNext, formData, setFormData, errors, setE
                     {formData.product_details?.map((product, index) => (
                         <div key={index}>
                             {formData.product_details.length === 1 ? '' : ''}
-                            <div className='row gap-2'>
+                            <div className='row row-gap-3'>
                                 {/* Name */}
                                 <label className='col'>
                                     <span>Product Name <span className='mandatory'>*</span></span>
