@@ -145,7 +145,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 billing_pincode: "Please enter valid pincode!"
                             }));
                             setPincodeError1(true)
-                        }else{
+                        } else {
                             setPincodeError1(false)
                         }
                         if (response.data && response.data.length > 0) {
@@ -247,7 +247,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                 <div className='inputs-container mx-auto mb-3'>
                     {/* Step 2 content */}
                     {/* <h3 className='mb-4'>Shipping Details</h3> */}
-                    <div className='row gap-2'>
+                    <div className='row row-gap-3'>
                         {/* Customer Name */}
                         <label className='col'>
                             <span>Recipient Name <span className='mandatory'>*</span></span>
@@ -300,7 +300,7 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                             {errors.mobile_number && <div className="custom-error">{errors.mobile_number}</div>}
                         </label>
                     </div>
-                    <div className='row mt-3'>
+                    <div className='row row-gap-3 mt-3'>
                         {/* Address */}
                         <label className='col'>
                             <span>Address <span className='mandatory'>*</span></span>
@@ -342,9 +342,9 @@ const AddressDetailStep = ({ formData, setFormData, errors, setErrors, isChecked
                                 onPaste={(e) => {
                                     const pastedText = e.clipboardData.getData('Text');
                                     if (!/^\d+$/.test(pastedText)) {
-                                      e.preventDefault();
+                                        e.preventDefault();
                                     }
-                                  }}
+                                }}
                             />
                             {errors.pincode && <div className="custom-error">{errors.pincode}</div>}
                         </label>
