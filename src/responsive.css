@@ -14,6 +14,10 @@
     .table-row th {
         white-space: nowrap;
     }
+
+    .bulk-import-input {
+        min-height: 200px;
+    }
 }
 
 @media screen and (max-width:1240px) {
@@ -362,6 +366,15 @@
     .not-active-message {
         width: 90%;
         left: 5%;
+    }
+
+    .bulk-import-input {
+        width: 95%;
+    }
+
+    .bo-or-text::after,
+    .bo-or-text::before {
+        width: 104px;
     }
 
 }
