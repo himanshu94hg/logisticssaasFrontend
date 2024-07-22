@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setOrderTagId, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [selectAll, setSelectAll] = useState(false);
@@ -345,10 +345,10 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
-                                                                        {row?.pickup_details?.p_address_line1},
-                                                                        {row?.pickup_details?.p_address_line2},<br />
-                                                                        {row?.pickup_details?.p_city},
-                                                                        {row?.pickup_details?.p_state},
+                                                                        {row?.pickup_details?.p_address_line1 && `${row?.pickup_details?.p_address_line1},`}
+                                                                        {row?.pickup_details?.p_address_line2 && `${row?.pickup_details?.p_address_line2},`}<br />
+                                                                        {row?.pickup_details?.p_city && `${row?.pickup_details?.p_city},`}
+                                                                        {row?.pickup_details?.p_state && `${row?.pickup_details?.p_state},`}
                                                                         {row?.pickup_details?.p_pincode}
                                                                     </span>
                                                                 </span>
@@ -356,10 +356,10 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
                                                                 <span className='details-on-hover ms-2'>
                                                                     <InfoIcon />
                                                                     <span style={{ width: '250px' }}>
-                                                                        {row?.shipping_detail?.address},
-                                                                        {row?.shipping_detail?.landmark},<br />
-                                                                        {row?.shipping_detail?.city},
-                                                                        {row?.shipping_detail?.state},
+                                                                        {row?.shipping_detail?.address && `${row?.shipping_detail?.address},`}
+                                                                        {row?.shipping_detail?.landmark && `${row?.shipping_detail?.landmark},`} < br />
+                                                                        {row?.shipping_detail?.city && `${row?.shipping_detail?.city},`}
+                                                                        {row?.shipping_detail?.state && `${row?.shipping_detail?.state},`}
                                                                         {row?.shipping_detail?.pincode}
                                                                     </span>
                                                                 </span>
@@ -368,7 +368,7 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
                                                 </div>
                                             </td>
                                             <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
+                                                <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3'>
@@ -380,7 +380,7 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) ;setOrderTagId(row.order_tag) }}>Add Tag</li>
+                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>
