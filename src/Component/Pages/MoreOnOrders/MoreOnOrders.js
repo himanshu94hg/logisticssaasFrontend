@@ -64,7 +64,8 @@ const MoreOnOrders = () => {
     const [loader, setLoader] = useState(false)
     const apiEndpoint = `${BASE_URL_CORE}`;
     const { pathName } = useSelector(state => state?.authDataReducer)
-    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)   
+     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
 
