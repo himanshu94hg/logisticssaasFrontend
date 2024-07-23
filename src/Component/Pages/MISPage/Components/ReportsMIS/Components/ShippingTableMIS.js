@@ -4,7 +4,7 @@ import InfoIcon from '../../../../../common/Icons/InfoIcon'
 import { useSelector } from 'react-redux';
 import NoData from '../../../../../common/noData';
 
-const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus }) => {
+const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus, partnerList }) => {
     const [shipmentData, setShipmentData] = useState([]);
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
 
@@ -104,7 +104,7 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                 <td>
                                     <div className='cell-inside-box'>
                                         <p className='width-eclipse'>{row?.order_products?.product_name}</p>
-                                        <p>Wt:  {(row?.dimension_detail?.weight/1000).toFixed(2)} kg
+                                        <p>Wt:  {(row?.dimension_detail?.weight / 1000).toFixed(2)} kg
                                             <span className='details-on-hover ms-2 align-middle'>
                                                 <InfoIcon />
                                                 <span style={{ width: '250px' }}>
@@ -137,15 +137,15 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                 </td>
                                 <td>
                                     <div className='cell-inside-box shipping-details'>
-                                        {row?.courier_image && <img src={row?.courier_image} title='partner' />}
+                                        {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)} >{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
+                                            {row && row?.courier_partner?.split("_").join(" ")}
                                         </div>
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>
-                                    <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                    <p className='order-Status-box'> {row && row?.status?.split("_").join(" ")}</p>
                                 </td>
                             </tr>
                         </React.Fragment>

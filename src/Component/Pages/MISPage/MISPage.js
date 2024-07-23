@@ -11,25 +11,12 @@ import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const MISPage = () => {
     const dispatch = useDispatch();
-    const [isOpen, setIsOpen] = useState(false);
-    const [totalItems, setTotalItems] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [activeTab, setActiveTab] = useState("ScheduledReportsMIS");
-    const [selectedOption, setSelectedOption] = useState("Domestic");
     const [loader, setLoader] = useState(false)
-
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
-    const toggleOptions = () => {
-        setIsOpen(!isOpen);
-    };
+    const [isOpen, setIsOpen] = useState(false);
     const [selectedRows, setSelectedRows] = useState([]);
     const [BulkActionShow, setBulkActionShow] = useState(false)
-
+    const [activeTab, setActiveTab] = useState("ScheduledReportsMIS");
+    const [selectedOption, setSelectedOption] = useState("Domestic");
 
     useEffect(() => {
         setLoader(true)

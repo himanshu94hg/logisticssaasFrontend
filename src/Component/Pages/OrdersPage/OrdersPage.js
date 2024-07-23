@@ -1,36 +1,35 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import NavTabs from './Components/navTabs/NavTabs';
-import './OrdersPage.css'
-import Unprocessable from './Components/Unprocessable/Unprocessable';
-import Processing from './Components/Processing/Processing';
-import ReadyToShip from './Components/ReadyToShip/ReadyToShip';
-import Manifest from './Components/Manifest/Manifest';
-import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
-import AllOrders from './Components/AllOrders/AllOrders';
-import { useDispatch, useSelector } from 'react-redux';
+import './OrdersPage.css';
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import EditOrder from './Components/EditOrder/EditOrder';
-import Pagination from '../../common/Pagination/Pagination';
-import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import Pickups from './Components/Pickups/Pickups';
-import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import moment from 'moment';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
 import Select from 'react-select';
-import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
-import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/AddTagPop';
-import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WarehouseUpdatePop/WarehouseUpdatePop';
-import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
-import CloneOrder from './Components/CloneOrder/CloneOrder';
-import { BASE_URL_ORDER } from '../../../axios/config';
-import { customErrorFunction } from '../../../customFunction/errorHandling';
+import { HiOutlineFilter } from "react-icons/hi";
+import React, { useEffect, useState } from 'react';
+import Pickups from './Components/Pickups/Pickups';
+import NavTabs from './Components/navTabs/NavTabs';
 import globalDebouncedClick from '../../../debounce';
-import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
-import { useLocation } from 'react-router-dom';
+import Manifest from './Components/Manifest/Manifest';
+import { BASE_URL_ORDER } from '../../../axios/config';
+import { useDispatch, useSelector } from 'react-redux';
+import EditOrder from './Components/EditOrder/EditOrder';
+import AllOrders from './Components/AllOrders/AllOrders';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import Processing from './Components/Processing/Processing';
+import CloneOrder from './Components/CloneOrder/CloneOrder';
+import Pagination from '../../common/Pagination/Pagination';
+import ReadyToShip from './Components/ReadyToShip/ReadyToShip';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ReturnOrders from './Components/ReturnOrders/ReturnOrders';
+import Unprocessable from './Components/Unprocessable/Unprocessable';
+import { faMagnifyingGlass, } from '@fortawesome/free-solid-svg-icons';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
+import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import AddTagPop from './Components/BulkActionsComponent/Components/AddTagPop/AddTagPop';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import WeightUpdatePop from './Components/BulkActionsComponent/Components/WeightUpdatePop/WeightUpdatePop';
+import WarehouseUpdatePop from './Components/BulkActionsComponent/Components/WarehouseUpdatePop/WarehouseUpdatePop';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -44,50 +43,50 @@ const SearchOptions = [
 
 const OrdersPage = () => {
     const dispatch = useDispatch()
-    const location = useLocation()
     let authToken = Cookies.get("access_token")
+    const [awbNo, setAwbNo] = useState("")
     const [orders, setOrders] = useState([])
-    const [manifestOrders, setManifestOrders] = useState([])
-    const [searchValue, setSearchValue] = useState("")
+    const [errors, setErrors] = useState({});
+    const [bulkAwb, setbulkAwb] = useState([]);
+    const [loader, setLoader] = useState(false)
+    const [rateRef, setRateRef] = useState(null)
     const [orderId, setOrderId] = useState(null)
-    const [currentPage, setCurrentPage] = useState(1);
+    const [queryName, setQueryName] = useState([])
+    const [backDrop, setBackDrop] = useState(false);
+    const [orderTagId, setOrderTagId] = useState([])
+    const [filterData, setFilterData] = useState({});
     const [totalItems, setTotalItems] = useState("");
+    const [selectAll, setSelectAll] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [searchValue, setSearchValue] = useState("")
+    const [LoaderRing, setLoaderRing] = useState(false)
+    const [addTagShow, setaddTagShow] = useState(false)
+    const [pickupStatus, setPickupStatus] = useState('')
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [MoreFilters, setMoreFilters] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [UpdateWeight, setUpdateWeight] = useState(false)
     const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [manifestOrders, setManifestOrders] = useState([])
+    const [orderTracking, setOrderTracking] = useState(false)
     const [activeTab, setActiveTab] = useState("Processing");
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [CloneOrderSection, setCloneOrderSection] = useState(false)
-    const [BulkActionShow, setBulkActionShow] = useState(false)
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [bulkAwb, setbulkAwb] = useState([]);
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
-    const [addTagShow, setaddTagShow] = useState(false)
-    const [errors, setErrors] = useState({});
-    const [handleResetFrom, setHandleResetFrom] = useState(false);
-    const [queryName, setQueryName] = useState([])
-    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
-    const [UpdateWeight, setUpdateWeight] = useState(false)
-    const [orderTracking, setOrderTracking] = useState(false)
-    const [awbNo, setAwbNo] = useState("")
-    const [pickupStatus, setPickupStatus] = useState('')
-    const [filterData, setFilterData] = useState({});
-    const [selectAll, setSelectAll] = useState(false);
-    const [rateRef, setRateRef] = useState(null)
-    const [LoaderRing, setLoaderRing] = useState(false)
-    const [statusType, setStatusType] = useState([])
-    const [loader, setLoader] = useState(false)
-    const [orderTagId, setOrderTagId] = useState([])
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
+    const { orderCancelled, orderdelete, orderClone, orderUpdateRes, favListData } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
         dispatch({ type: "PAYMENT_DATA_ACTION" });
     }, [orderCancelled])
+
 
     useEffect(() => {
         setLoader(true)
@@ -261,7 +260,7 @@ const OrdersPage = () => {
 
     useEffect(() => {
         if (currentPage || itemsPerPage) {
-        setDis(new Date())
+            setDis(new Date())
         }
     }, [currentPage, itemsPerPage])
 
@@ -454,7 +453,7 @@ const OrdersPage = () => {
                         selectAll={selectAll}
                         setSelectAll={setSelectAll}
                         setRateRef={setRateRef}
-                        setStatusType={setStatusType}
+                        partnerList={partnerList}
                     />
                 </div>
 
@@ -508,6 +507,7 @@ const OrdersPage = () => {
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
                         setPickupStatus={setPickupStatus}
+                        partnerList={partnerList}
                     />
                 </div>
 
@@ -526,7 +526,8 @@ const OrdersPage = () => {
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                     
+                        partnerList={partnerList}
+
                     />
                 </div>
 
@@ -540,7 +541,7 @@ const OrdersPage = () => {
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
                         setBulkActionShow={setBulkActionShow}
-                       
+
                     />
                 </div>
 
@@ -557,6 +558,7 @@ const OrdersPage = () => {
                         setBulkActionShow={setBulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
+                        partnerList={partnerList}
                     />
                 </div>
                 <Pagination

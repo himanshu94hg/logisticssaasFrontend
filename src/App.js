@@ -72,19 +72,20 @@ import PODPage from "./Component/Pages/SettingsPage/components/PODPage/PODPage";
 import ShopifyRedirect from "./Component/Pages/IntegrationsPage/Components/ChannelsIntegration/ShopifyRedirect";
 import screenWidth from "./redux/action/screenWidth";
 import LoaderScreen from "./Component/LoaderScreen/LoaderScreen";
+import { customErrorFunction } from "./customFunction/errorHandling";
 
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate();
-  const [WalletRecharge, setWalletRecharge] = useState(false)
+  const [userID, setUserID] = useState("")
+  const token = Cookies.get('access_token');
+  const [isExpanded, setExpanded] = useState(false);
   const [ZoneMapping, setZoneMapping] = useState(false)
   const [tokenExists, setTokenExists] = useState(false);
   const [tokenChecked, setTokenChecked] = useState(false);
-  const [userID, setUserID] = useState("")
-  const [isExpanded, setExpanded] = useState(false);
+  const [WalletRecharge, setWalletRecharge] = useState(false)
 
   useEffect(() => {
-    const token = Cookies.get('access_token');
     const user_id = Cookies.get('user_id');
     setUserID(user_id)
     setTokenExists(!!token);
@@ -96,6 +97,35 @@ function App() {
       navigate(loginPattern);
     }
   }, [tokenChecked, tokenExists, navigate]);
+
+
+  const temp_data={
+    "name":"Sanjeev"
+  }
+
+
+
+  useEffect(() => {
+    if (token) {
+      const fetchData = async () => {
+        try {
+          const response = await axios.get("https://uat.shipease.in/core-api/features/partner-list/", {
+            headers: {
+              Authorization: `Bearer ${token}`
+            }
+          });
+          const temp_data = response.data.reduce((acc, item) => {
+            acc[item.keyword] = item.image;
+            return acc;
+          }, {});
+          localStorage.setItem('partnerList', JSON.stringify(temp_data));
+        } catch (error) {
+          customErrorFunction(error)
+        }
+      };
+      fetchData();
+    }
+  }, [token]); //
 
 
   // useEffect(() => {

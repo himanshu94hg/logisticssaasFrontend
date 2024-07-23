@@ -1,37 +1,38 @@
-import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useState, useEffect } from 'react';
-import DatePicker from 'react-datepicker';
-import "react-datepicker/dist/react-datepicker.css";
-import Select from 'react-select';
-import OrdersTableMIS from './Components/OrdersTableMIS';
-import ShippingTableMIS from './Components/ShippingTableMIS';
-import Swal from 'sweetalert2';
-import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
-import ReturnsTableMIS from './Components/ReturnsTableMIS';
-import { useDispatch } from 'react-redux';
 import moment from 'moment';
+import Swal from 'sweetalert2';
+import Select from 'react-select';
 import { useSelector } from 'react-redux';
-import Pagination from '../../../../common/Pagination/Pagination';
+import { useDispatch } from 'react-redux';
+import DatePicker from 'react-datepicker';
+import React, { useState, useEffect } from 'react';
+import "react-datepicker/dist/react-datepicker.css";
+import OrdersTableMIS from './Components/OrdersTableMIS';
+import ReturnsTableMIS from './Components/ReturnsTableMIS';
 import BulkActionsComponent from '../BulkActionsComponent';
+import ShippingTableMIS from './Components/ShippingTableMIS';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarAlt } from '@fortawesome/free-solid-svg-icons';
+import Pagination from '../../../../common/Pagination/Pagination';
 import AWBTrackingPage from '../../../AWBTrackingPage/AWBTrackingPage';
+import BillingTableMIS from './Components/BillingTableMIS/BillingTableMIS';
 
 
 const ReportsMIS = ({ activeTab }) => {
     const dispatch = useDispatch()
-    const [showComponent, setShowComponent] = useState(null);
-    const [firstSelectedOption, setFirstSelectedOption] = useState(null);
-    const [secondSelectedOption, setSecondSelectedOption] = useState(null);
-    const [startDate, setStartDate] = useState(new Date());
-    const [endDate, setEndDate] = useState(new Date());
     const [stateData, setStateData] = useState(false)
-    const [stateData1, setStateData1] = useState(new Date())
-    const [BulkActionShow, setBulkActionShow] = useState(false)
-    const [selectedRows, setSelectedRows] = useState([]);
     const [selectAll, setSelectAll] = useState(false);
     const [totalItems, setTotalItems] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
+    const [endDate, setEndDate] = useState(new Date());
+    const [selectedRows, setSelectedRows] = useState([]);
     const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [startDate, setStartDate] = useState(new Date());
+    const [stateData1, setStateData1] = useState(new Date())
+    const [showComponent, setShowComponent] = useState(null);
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [firstSelectedOption, setFirstSelectedOption] = useState(null);
+    const [secondSelectedOption, setSecondSelectedOption] = useState(null);
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
     const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
     const { reportShipmentsData } = useSelector(state => state?.misSectionReducer)
@@ -43,27 +44,6 @@ const ReportsMIS = ({ activeTab }) => {
         startDate: null,
         endDate: null
     });
-
-    const orderStatus = {
-        "pending": "Pending",
-        "shipped": "Shipped",
-        "pickup_requested": "Pickup Requested",
-        "pickup_scheduled": "Pickup Scheduled",
-        "picked_up": "Picked Up",
-        "cancelled": "Cancelled",
-        "manifested": "Manifested",
-        "in_transit": "In Transit",
-        "out_for_delivery": "Out for Delivery",
-        "rto_initiated": "RTO Initiated",
-        "rto_delivered": "RTO Delivered",
-        "rto_in_transit": "RTO Transit",
-        "delivered": "Delivered",
-        "ndr": "NDR",
-        "lost": "Lost",
-        "damaged": "Damaged",
-        "hold": "Hold"
-    };
-
 
 
     useEffect(() => {
@@ -344,7 +324,7 @@ const ReportsMIS = ({ activeTab }) => {
                                 setBulkActionShow={setBulkActionShow}
                                 setAwbNo={setAwbNo}
                                 setOrderTracking={setOrderTracking}
-                                orderStatus={orderStatus}
+                                partnerList={partnerList}
                             />
                         ) : showComponent === 'Shipment' ? (
                             <ShippingTableMIS
@@ -359,8 +339,8 @@ const ReportsMIS = ({ activeTab }) => {
                                 setBulkActionShow={setBulkActionShow}
                                 setSelectedRows={setSelectedRows}
                                 setAwbNo={setAwbNo}
+                                partnerList={partnerList}
                                 setOrderTracking={setOrderTracking}
-                                orderStatus={orderStatus}
                             />
                         ) : showComponent === 'Billing' ? (
                             <BillingTableMIS
@@ -369,6 +349,7 @@ const ReportsMIS = ({ activeTab }) => {
                                 endDate={endDate}
                                 selectAll={selectAll}
                                 setSelectAll={setSelectAll}
+                                partnerList={partnerList}
                                 setTotalItems={setTotalItems}
                                 BulkActionShow={BulkActionShow}
                                 setBulkActionShow={setBulkActionShow}
@@ -376,14 +357,14 @@ const ReportsMIS = ({ activeTab }) => {
                                 setSelectedRows={setSelectedRows}
                                 setAwbNo={setAwbNo}
                                 setOrderTracking={setOrderTracking}
-                                orderStatus={orderStatus}
                             />
                         ) : showComponent === 'Returns' ? (
                             <ReturnsTableMIS
-                                subType={secondSelectedOption.value}
                                 startDate={startDate}
                                 endDate={endDate}
+                                partnerList={partnerList}
                                 selectAll={selectAll}
+                                subType={secondSelectedOption.value}
                                 setSelectAll={setSelectAll}
                                 setTotalItems={setTotalItems}
                                 BulkActionShow={BulkActionShow}
@@ -392,7 +373,6 @@ const ReportsMIS = ({ activeTab }) => {
                                 setSelectedRows={setSelectedRows}
                                 setAwbNo={setAwbNo}
                                 setOrderTracking={setOrderTracking}
-                                orderStatus={orderStatus}
                             />
                         ) : ''
                     )}
