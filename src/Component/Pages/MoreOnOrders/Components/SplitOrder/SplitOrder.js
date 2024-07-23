@@ -22,7 +22,7 @@ import { weightCalculation, weightGreater } from '../../../../../customFunction/
 import { Link } from 'react-router-dom';
 
 
-const SplitOrder = ({ orders, orderStatus, setSplitStatus }) => {
+const SplitOrder = ({ orders, setSplitStatus }) => {
     const [backDrop, setBackDrop] = useState(false);
     const [orderDetails, setOrderDetails] = useState(null);
     const [show, setShow] = useState(false);
@@ -167,7 +167,7 @@ const SplitOrder = ({ orders, orderStatus, setSplitStatus }) => {
                                         </td>
 
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            <p className='order-Status-box'>{row && row.status?.split("_").join(" ")}</p>
                                         </td>
                                         <td className='align-middle'>
                                             {/* action section */}

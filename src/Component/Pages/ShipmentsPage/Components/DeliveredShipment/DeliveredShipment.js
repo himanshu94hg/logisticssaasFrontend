@@ -23,39 +23,12 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
-const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, orderStatus }) => {
-
-    const dispatch = useDispatch()
-    const [backDrop, setBackDrop] = useState(false);
+const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows, setSelectedRows, setBulkActionShow, setOrderTracking, setAwbNo, partnerList }) => {
+    const [show, setShow] = useState(false);
     const [orders, setAllOrders] = useState([]);
+    const [backDrop, setBackDrop] = useState(false);
     const [allShipment, setAllShipment] = useState([]);
+    const [selectedData, setSelectedData] = useState(null);
 
     useEffect(() => {
         if (shipmentCard) {
@@ -68,17 +41,6 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
         { count: 4, data: "Reattempt Requested" },
         { count: 3, data: "Reattempt Requested" },
     ];
-
-    const getRandomCount = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].count;
-    };
-
-    const getRandomReason = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].data;
-    };
-
 
     // Handler for "Select All" checkbox
     const handleSelectAll = () => {
@@ -106,27 +68,12 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-
-        // Check if all rows are selected, then select/deselect "Select All"
         if (selectedRows.length === orders.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
         }
     };
-    const handleSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "0"
-        setBackDrop(true)
-    }
-
-    const CloseSidePanel = () => {
-        document.getElementById("sidePanel").style.right = "-50em"
-        setBackDrop(false)
-    }
-
-
-    const [show, setShow] = useState(false);
-    const [selectedData, setSelectedData] = useState(null);
 
     const handleShow = (row) => {
         console.log("Modal", row);
@@ -137,10 +84,6 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
     const handleClose = () => setShow(false);
 
     const handleClickAWB = (orders) => {
-        // event.preventDefault();
-        // console.log(orders, "this is orders");
-        // const url = `https://shipease.in/order-tracking/`;
-        // window.open(url, '_blank');
         setOrderTracking(true)
         setAwbNo(orders)
     };
@@ -264,14 +207,8 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                             {/* NDR Reason*/}
                                             <div className='cell-inside-box'>
                                                 <p ><strong>Attempts: </strong>{row?.ndr_details.length}<span>{" "}</span>
-                                                    {/* <FontAwesomeIcon onClick={() => handleShow(row)} icon={faEye} /> */}
                                                     <InfoIcon onClick={() => handleShow(row)} />
                                                 </p>
-                                                {/* {row?.ndr_details.length > 0 && (
-                                                    row.ndr_details.map((detail, index) => (
-                                                        <p key={index}>NDR Reason: {detail.reason}</p>
-                                                    ))
-                                                )} */}
                                             </div>
                                         </td>
                                         <td>
@@ -314,19 +251,19 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                         {row.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row && row.courier_partner}
+                                                        {row && row?.courier_partner?.split("_").join(" ")}
                                                     </p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            <p className='order-Status-box'>{row?.status?.split("_").join(" ")}</p>
                                         </td>
                                     </tr>
                                 </React.Fragment>
@@ -335,12 +272,6 @@ const DeliveredShipment = ({ selectAll, setSelectAll, shipmentCard, selectedRows
                     </table>
                     {allShipment?.length === 0 && <NoData />}
                 </div>
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
 
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedData={selectedData} />
@@ -371,7 +302,7 @@ function Preview({ show, handleClose, selectedData }) {
                         </tr>
                         {selectedData?.ndr_details?.map((row, index) => (
                             <tr key={index}>
-                                <td>{row?.raised_date ? <DateFormatter dateTimeString={row?.raised_date} /> : ''}</td>
+                                <td>{row?.raised_date ? moment(row?.raised_date).format("DD MMM YYYY") : "NA"}</td>
                                 <td>{row?.action_by}</td>
                                 <td>{row?.reason}</td>
                                 <td>{row?.remark}</td>

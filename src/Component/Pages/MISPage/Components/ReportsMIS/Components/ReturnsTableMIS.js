@@ -1,5 +1,10 @@
-import React, { useState, useEffect } from 'react'
 import moment from 'moment'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react'
+import NoData from '../../../../../common/noData'
+import InfoIcon from '../../../../../common/Icons/InfoIcon'
+import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import shopifyImg from "../../../../../../assets/image/integration/shopify.png"
 import woocomImg from "../../../../../../assets/image/integration/WCLogo.png"
 import openCartImg from "../../../../../../assets/image/integration/OpenCart.png"
@@ -9,13 +14,8 @@ import amazonImg from "../../../../../../assets/image/logo/AmazonLogo.png"
 import amazonDirImg from "../../../../../../assets/image/integration/AmazonLogo.png"
 import customImg from "../../../../../../assets/image/integration/Manual.png"
 import ForwardIcon from '../../../../../../assets/image/icons/ForwardIcon.png'
-import InfoIcon from '../../../../../common/Icons/InfoIcon'
-import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
-import CustomIcon from '../../../../../common/Icons/CustomIcon'
-import NoData from '../../../../../common/noData'
 
-const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus }) => {
+const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, partnerList }) => {
 
     const [returnsData, setReturnsData] = useState([]);
     const { reportsReturnsData } = useSelector(state => state?.misSectionReducer)
@@ -172,7 +172,6 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                             <p>{row?.pickup_details?.p_warehouse_name}
                                                 <span className='details-on-hover ms-2'>
                                                     <InfoIcon />
-                                                    {/* {!row?.pickup_details?.p_warehouse_name && ( */}
                                                     <span style={{ width: '250px' }}>
                                                         {row?.pickup_details?.p_address_line1},
                                                         {row?.pickup_details?.p_address_line2},<br />
@@ -180,8 +179,6 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                                         {row?.pickup_details?.p_state},
                                                         {row?.pickup_details?.p_pincode}
                                                     </span>
-                                                    {/* )} */}
-
                                                 </span>
                                             </p>
                                         ) : ''}
@@ -190,15 +187,15 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                 <td>
                                     {/* Shipping Details */}
                                     <div className='cell-inside-box shipping-details'>
-                                        {row?.courier_image && <img src={row?.courier_image} title='partner' />}
+                                    {row?.courier_partner && <img src={partnerList[row?.courier_partner]} title='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'>{row?.courier_partner ?? ""} </p>
+                                            <p className='text-capitalize'> {row && row?.courier_partner?.split("_").join(" ")}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>
-                                    <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                    <p className='order-Status-box'> {row && row?.status?.split("_").join(" ")}</p>
                                 </td>
                             </tr>
                         </React.Fragment>

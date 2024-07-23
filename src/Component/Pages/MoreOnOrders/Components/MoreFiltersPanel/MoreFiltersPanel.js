@@ -1,15 +1,14 @@
-import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import Select from 'react-select';
+import axios from 'axios';
 import './MoreFiltersPanel.css'
 import Cookies from 'js-cookie';
-import axios from 'axios';
+import Select from 'react-select';
+import DatePicker from 'react-datepicker';
+import React, { useEffect, useState } from 'react'
+import 'react-datepicker/dist/react-datepicker.css';
 import { useDispatch, useSelector } from 'react-redux';
-import moment from 'moment';
 import { BASE_URL_CORE } from '../../../../../axios/config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faCalendarAlt, faChevronRight } from '@fortawesome/free-solid-svg-icons'
 
 const SourceOptions = [
     { label: "Amazon", value: "amazon" },
@@ -38,12 +37,6 @@ const paymentOptions = [
     { label: "Prepaid", value: "Prepaid" },
     { label: "COD", value: "cod" },
 ]
-
-const Ordertags = [
-    { label: "Tag 1", value: "tag1" },
-    { label: "Tag 2", value: "tag2" },
-    { label: "Tag 3", value: "tag3" },
-];
 
 const CourierPartner = [
     { label: "Smartr", value: "smartr" },
@@ -151,9 +144,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
         setFavName("")
     };
 
-    console.log(saveFav, "saveFavsaveFavsaveFavsaveFav")
-
-
     useEffect(() => {
         if (activeTab) {
             setFilterParams({
@@ -247,9 +237,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
             } catch (error) {
             }
         };
-
         fetchData();
-
     }, [MoreFilters, sellerData, authToken]);
 
     const handleReset = () => {
@@ -387,9 +375,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
-                                        // styles={customStyles}
                                         value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
-                                    // value={orderTag.filter(option => filterParams.order_tag.split(",").includes(option.value))}
                                     />
                                 </label>
                             </div>
@@ -412,7 +398,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         name="skuType"
                                         id="singleSku"
                                         value="single"
-                                        // checked={filterParams.skuType === "single"}
                                         onChange={() => handleChange("sku_match_type", "single")}
                                     />
                                 </label>
@@ -423,7 +408,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         name="skuType"
                                         id="multiSku"
                                         value="multi"
-                                        // checked={filterParams.skuType === "multi"}
                                         onChange={() => handleChange("sku_match_type", "multi")}
                                     />
                                 </label>
@@ -434,7 +418,6 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         name="skuType"
                                         id="matchExact"
                                         value="exact"
-                                        // checked={filterParams.skuType === "exact"}
                                         onChange={() => handleChange("sku_match_type", "exact")}
                                     />
                                 </label>

@@ -1,13 +1,8 @@
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
 import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
 
-
-const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard }) => {
-
-    const [backDrop, setBackDrop] = useState(false);
-    const [data, setData] = useState([]);
-
+const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard,partnerList }) => {
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -30,7 +25,7 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
         if (setSelectedRows !== ([])) {
             setBulkActionShow(true)
         }
-        if (selectedRows.length === data.length - 1 && isSelected) {
+        if (selectedRows.length === billingCard.length - 1 && isSelected) {
             setSelectAll(false);
         } else {
             setSelectAll(false);
@@ -109,10 +104,13 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                         </td>
                                         <td>
                                             {/* AWB Assigned Date */}
-                                            <div className='cell-inside-box'>
-                                                <p className='text-capitalize'>
-                                                    {row?.order_detail?.courier_partner}
-                                                </p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.order_detail?.courier_partner && <img src={partnerList[row?.order_detail?.courier_partner]} title='Partner' />}
+                                                <div>
+                                                    <p className='mt-1 cursor-pointer text-capitalize'>
+                                                        {row && row?.order_detail?.courier_partner?.split("_").join(" ")}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
@@ -153,11 +151,7 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                         </tbody>
                     </table>
                     {billingCard?.length === 0 && <NoData />}
-
                 </div>
-
-                <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
-
             </div>
         </section>
     );

@@ -39,7 +39,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking,orderStatus }) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking ,partnerList}) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -184,7 +184,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             <div className='cell-inside-box'>
 
                                                 <p className='mt-1'>
-                                                    {row?.order?.courier_image && <img src={row?.order?.courier_image} title='partner' />}
+                                                {row?.order?.courier_partner && <img src={partnerList[row?.order?.courier_partner]} title='Partner' />}     
                                                     <p className='text-capitalize'>{row?.order?.courier_partner}</p>
                                                 </p>
                                             </div>

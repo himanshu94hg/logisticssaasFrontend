@@ -17,6 +17,7 @@ import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 
 const BillingPage = () => {
     const dispatch = useDispatch();
+    const [awbNo, setAwbNo] = useState(null)
     const [isOpen, setIsOpen] = useState(false);
     const [loader, setLoader] = useState(false)
     const [totalItems, setTotalItems] = useState("");
@@ -31,7 +32,8 @@ const BillingPage = () => {
     const [selectedOption, setSelectedOption] = useState("Domestic");
     const [remitanceOrderRows, setRemitanceOrderRows] = useState([]);
     const [orderTracking, setOrderTracking] = useState(false)
-    const [awbNo, setAwbNo] = useState(null)
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+
 
     const billingSectionReducer = useSelector(state => state?.billingSectionReducer);
     const { billingCard, billingShipingCard, billingShipingRemitanceCard, billingShipingRechargeCard, billingShipingInvoiceCard, billingShipingReceiptCard, billingPassbookCounterCard, billingRechargeCounterCard, billingShippingCounterCard, billingRemitanceExportCard } = billingSectionReducer;
@@ -140,6 +142,7 @@ const BillingPage = () => {
                 {activeTab === "Shipping Charges" && <ShippingCharges billingCard={billingShipingCard.results}
                     setAwbNo={setAwbNo}
                     selectAll={selectAll}
+                    partnerList={partnerList}
                     setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
@@ -178,6 +181,7 @@ const BillingPage = () => {
                 {activeTab === "Passbook" && <PassbookTab billingCard={billingCard.results}
                     setAwbNo={setAwbNo}
                     selectAll={selectAll}
+                    partnerList={partnerList}
                     setSelectAll={setSelectAll}
                     selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}

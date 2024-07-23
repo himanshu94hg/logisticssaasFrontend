@@ -22,7 +22,7 @@ import { Link } from 'react-router-dom';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
-const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, orderStatus, selectAll, setSelectAll }) => {
+const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll }) => {
     const [backDrop, setBackDrop] = useState(false);
 
     const handleSelectAll = () => {
@@ -197,7 +197,7 @@ const MergeOrder = ({ orders, selectedRows, setSelectedRows, setBulkActionShow, 
                                             </td>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            <p className='order-Status-box'>{row && row.status?.split("_").join(" ")}</p>
                                         </td>
                                     </tr>
                                 </React.Fragment>

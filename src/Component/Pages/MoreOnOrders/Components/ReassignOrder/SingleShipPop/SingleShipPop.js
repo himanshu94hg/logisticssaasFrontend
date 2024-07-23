@@ -1,35 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from 'react-redux';
+import './SingleShipPop';
+import Swal from 'sweetalert2';
 import PieChart from './PieChart';
 import StarRating from './StarRating';
-import './SingleShipPop';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => {
-    const navigation = useNavigate();
     const dispatch = useDispatch()
-    const [currentDate, setCurrentDate] = useState(new Date());
     const [shipingData, setShipingData] = useState(false);
-    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
-    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
-
-    const addDays = (date, days) => {
-        const result = new Date(date);
-        result.setDate(result.getDate() + days);
-        return result;
-    };
-
-    const formatDate = (date) => {
-        const options = { day: '2-digit', month: 'short', year: 'numeric' };
-        return date.toLocaleDateString('en-GB', options);
-    };
-    const dateAfter2Days = addDays(currentDate, 2);
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
     const handleSubmit = (option, shipCharge) => {
         if (paymentCard?.balance - shipCharge.toFixed(2) > paymentCard?.tolerance_limit) {
@@ -57,6 +41,7 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
     const handleClose = () => {
         setSingleShip(false);
     };
+
     return (
         <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
             <div className='d-flex justify-content-between p-1 align-items-center'>
@@ -73,7 +58,6 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                     </>}
             </div>
             <div className='ss-container-main'>
-                {/* Iterate over ship options and render details */}
                 {reassignCard && reassignCard?.map((option, index) => (
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>

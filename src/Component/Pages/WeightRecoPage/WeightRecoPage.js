@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import NavTabs from './Components/navTabs/NavTabs';
-import './WeightRecoPage.css';
 import moment from 'moment';
-import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
-import SettledReco from './Components/SettledReco/SettledReco';
-import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
-import { useDispatch, useSelector } from 'react-redux';
-import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
-import Pagination from '../../common/Pagination/Pagination';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import './WeightRecoPage.css';
 import Select from 'react-select';
-import { HiOutlineFilter } from "react-icons/hi";
-import { RxReset } from "react-icons/rx";
-import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import globalDebouncedClick from '../../../debounce';
-import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { debounce } from 'lodash';
+import { RxReset } from "react-icons/rx";
+import { HiOutlineFilter } from "react-icons/hi";
+import NavTabs from './Components/navTabs/NavTabs';
+import globalDebouncedClick from '../../../debounce';
+import { useDispatch, useSelector } from 'react-redux';
 import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import Pagination from '../../common/Pagination/Pagination';
+import OnHoldReco from './Components/OnHoldReco/OnHoldReco';
+import SettledReco from './Components/SettledReco/SettledReco';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
+import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -32,12 +32,10 @@ const SearchOptions = [
 const WeightRecoPage = () => {
     const dispatch = useDispatch();
     const [activeTab, setActiveTab] = useState("Weight Reconciliation");
-    const [selectedOption, setSelectedOption] = useState("Domestic");
     const [isOpen, setIsOpen] = useState(false);
     const [itemsPerPage, setItemsPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState("");
-    const [exportButtonClick, setExportButtonClick] = useState(false)
     const [selectedRows, setSelectedRows] = useState([]);
     const [queryParamTemp, setQueryParamTemp] = useState({})
     const [MoreFilters, setMoreFilters] = useState(false);
@@ -50,34 +48,13 @@ const WeightRecoPage = () => {
     const [orderTracking, setOrderTracking] = useState(false)
     const [awbNo, setAwbNo] = useState(null)
     const [loader, setLoader] = useState(false)
-
-
-    const orderStatus = {
-        "pending": "Pending",
-        "shipped": "Shipped",
-        "pickup_requested": "Pickup Requested",
-        "pickup_scheduled": "Pickup Scheduled",
-        "picked_up": "Picked Up",
-        "cancelled": "Cancelled",
-        "manifested": "Manifested",
-        "in_transit": "In Transit",
-        "out_for_delivery": "Out for Delivery",
-        "rto_initiated": "RTO Initiated",
-        "rto_delivered": "RTO Delivered",
-        "rto_in_transit": "RTO Transit",
-        "delivered": "Delivered",
-        "ndr": "NDR",
-        "lost": "Lost",
-        "damaged": "Damaged",
-        "hold": "Hold"
-    };
-
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const { favListData } = useSelector(state => state?.orderSectionReducer)
-
     const recoSectionReducer = useSelector(state => state?.weightRecoReducer);
     const { weightData, holdData, setteledData } = recoSectionReducer;
- 
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+    const { favListData } = useSelector(state => state?.orderSectionReducer)
+    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+
+
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -169,8 +146,8 @@ const WeightRecoPage = () => {
     const debouncedHandleClick = useCallback(
         debounce((param) => handleClick(param), 1000),
         []
-      );
-      const handleReset = () => {
+    );
+    const handleReset = () => {
         debouncedHandleClick();
         setSearchOption(SearchOptions[0])
 
@@ -253,42 +230,36 @@ const WeightRecoPage = () => {
                 </div>
             </div>}
             <div className='wt-page-container'>
-                {/* Weight Reconciliation */}
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
                     <WeightRecoTab weightRecoData={weightData?.results}
+                        setAwbNo={setAwbNo}
+                        partnerList={partnerList}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
-                        setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
-
-                {/* Settled Reco */}
                 <div className={`${activeTab === "Settled Reconciliation" ? "d-block" : "d-none"}`}>
                     <SettledReco weightRecoData={setteledData?.results}
+                        setAwbNo={setAwbNo}
+                        partnerList={partnerList}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                     />
                 </div>
-
-                {/* On-Hold Reco */}
                 <div className={`${activeTab === "On Hold Reconciliation" ? "d-block" : "d-none"}`}>
                     <OnHoldReco weightRecoData={holdData?.results}
+                        setAwbNo={setAwbNo}
+                        partnerList={partnerList}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
-                        setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
-
                 <Pagination
                     totalItems={totalItems}
                     currentPage={currentPage}

@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setStatusType, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -58,7 +58,6 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
-
 
     useEffect(() => {
         if (orderdelete) {
@@ -518,13 +517,13 @@ const AllOrders = ({ orders, setRateRef, activeTab, selectAll, setStatusType, se
                                             <td>
                                                 {/* shiping section here */}
                                                 <div className='cell-inside-box shipping-details'>
-                                                    {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                                    {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                                     <div>
                                                         <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                             {row.awb_number}
                                                         </p>
                                                         <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                            {row && row.courier_partner}
+                                                            {row && row.courier_partner?.split("_").join(" ")}
                                                         </p>
                                                     </div>
                                                 </div>
