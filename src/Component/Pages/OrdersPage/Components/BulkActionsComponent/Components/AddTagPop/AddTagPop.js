@@ -28,7 +28,7 @@ const AddTagPop = ({ addTagShow, orderTagId, setaddTagShow, selectedRows, setSel
             setActiveLabels(temp)
         } else {
             setActiveLabels([])
-            setSelectedRows([])
+            // setSelectedRows([])
         }
     }, [orderTagId])
 

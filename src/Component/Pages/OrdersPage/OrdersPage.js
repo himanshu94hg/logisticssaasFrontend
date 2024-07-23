@@ -261,9 +261,10 @@ const OrdersPage = () => {
 
     useEffect(() => {
         if (currentPage || itemsPerPage) {
-            setDis(new Date())
+        setDis(new Date())
         }
     }, [currentPage, itemsPerPage])
+
 
     useEffect(() => {
         let apiUrl = '';
@@ -319,6 +320,8 @@ const OrdersPage = () => {
         }
 
     }, [activeTab, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
+
+
 
     useEffect(() => {
         if (activeTab === "Manifest") {
