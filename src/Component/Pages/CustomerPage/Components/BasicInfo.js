@@ -171,7 +171,7 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.website_url) {
       newErrors.website_url = "Website Url is required!"
     }
-    if (!formData.mobile ||errors.mobile.trim(""))  {
+    if (!formData.mobile ||!formData.mobile.trim())  {
       newErrors.mobile = "Mobile number is required!"
     }
     if (!formData.email) {
@@ -180,7 +180,7 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.street) {
       newErrors.street = "Street name is required!"
     }
-    if (!formData.pincode || errors.pincode.trim("")) {
+    if (!formData.pincode || !formData.pincode.trim()) {
       newErrors.pincode = "Pincode is required!"
     }
     if (!formData.city) {
@@ -192,10 +192,10 @@ const BasicInfo = ({ activeTab }) => {
     if (!formData.country) {
       newErrors.country = "Country is required!"
     }
-    if (!formData.pan_number||errors.pan_number.trim("")) {
+    if (!formData.pan_number||!formData.pan_number.trim()) {
       newErrors.pan_number = "PAN Number is required!"
     }
-    if (!formData.gst_number||errors.gst_number.trim("")) {
+    if (!formData.gst_number||!formData.gst_number.trim()) {
       newErrors.gst_number = "GST Number is required!"
     }
     setErrors(newErrors);
