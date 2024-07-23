@@ -171,8 +171,6 @@ const AllTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonC
                                         </td>
 
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button
                                                     onClick={() => { setViewTicketInfo(true); handleViewButtonClick(item?.id) }}
