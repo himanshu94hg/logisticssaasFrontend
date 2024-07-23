@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react'
 import '../IntegrationsPage.css'
 import { useNavigate } from 'react-router-dom';
 import LoaderScreen from '../../../LoaderScreen/LoaderScreen';
+import whatsappIcon from '../../../../assets/image/integration/whatsappIcon.png'
+import IVRIcon from '../../../../assets/image/integration/IVRIcon.png'
+import pragma from '../../../../assets/image/integration/pragma.png'
 
 const OtherIntegration = () => {
     const navigate = useNavigate()
@@ -9,15 +12,15 @@ const OtherIntegration = () => {
 
     useEffect(() => {
         setLoader(true)
-            setTimeout(() => {
-                setLoader(false)
-            }, 230);
+        setTimeout(() => {
+            setLoader(false)
+        }, 230);
     }, [])
 
     const data = [
-        { title: 'WhatsApp', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
-        { title: 'IVR (Cloud Connect)', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
-        { title: 'Pragma', imageUrl: 'https://www.shipease.in/public/assets/images/channel/shopify.jpg' },
+        { child: 'WhatsApp', title: 'WhatsApp', imageUrl: whatsappIcon },
+        { child: 'IVR', title: 'IVR (Cloud Connect)', imageUrl: IVRIcon },
+        { child: 'Pragma', title: 'Pragma', imageUrl: pragma },
         // Add more data as needed
 
     ];
@@ -32,12 +35,12 @@ const OtherIntegration = () => {
                 <div className="card-grid-container">
                     {data.map((item, index) => (
                         <div key={index} className="card">
-                            <div className={`card-img-container ${item.title}`}>
+                            <div className={`card-img-container ${item.child}`}>
                                 <img src={item.imageUrl} alt={item.title} width={40} />
                             </div>
                             <div className="card-content">
                                 <h3 className="card-title">{item.title}</h3>
-                                <button className='btn main-button'>Integrate</button>
+                                <button onClick={() => navigate(`/${item.child}-integration`)} className='btn main-button'>Integrate</button>
                             </div>
                         </div>
                     ))}

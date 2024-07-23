@@ -442,7 +442,7 @@
     position: absolute;
     background: #00000059;
     width: 100%;
-    height: calc(100% - 61px);
+    height: calc(100% - 56px);
     z-index: 3;
     border-radius: 0.5rem;
     display: flex;

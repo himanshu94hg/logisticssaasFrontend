@@ -226,8 +226,8 @@ const WalletRechargeComponent = (props) => {
                                 <button className="btn main-button-outline" onClick={() => handlePredefinedAmountClick(20000)}>20000</button>
                             </div>
                         </div>
-                        <label className='d-flex gap-3 my-3 px-3'>
-                            <span style={{ fontSize: '0.9rem' }}>Payment Mode:</span>
+                        <label className='d-flex gap-3 my-3 px-3 flex-wrap row-gap-0'>
+                            <span className="ws-nowrap" style={{ fontSize: '0.9rem' }}>Payment Mode:</span>
                             <div className='d-flex gap-2'>
                                 <label className='d-flex gap-1 align-items-center'>
                                     <input
