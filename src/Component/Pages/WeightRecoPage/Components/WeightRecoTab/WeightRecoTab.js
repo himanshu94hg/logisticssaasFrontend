@@ -27,71 +27,15 @@ import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-
-        return formattedDateTime;
-    };
-
-    return <p>{formattedDate}</p>;
-};
-
-const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
 
     const dispatch = useDispatch();
-    const [selectAll, setSelectAll] = useState(false);
-    // const [selectedRows, setSelectedRows] = useState([]);
-    const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
+    const [backDrop, setBackDrop] = useState(false);
+    const [selectAll, setSelectAll] = useState(false);
     const acceptRecord = useSelector(state => state?.weightRecoReducer?.acceptData);
     const disputeRecord = useSelector(state => state?.weightRecoReducer?.disputeData);
 
-    //const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
-
-
-    const reasons = [
-        { count: "Dabur Hingoli Gas Par Asar Zabardast 90N Tablets Unique B0BKSVZG23", data: "dtdc_surface" },
-
-        { count: "Bru Green Label Ground Coffee, 500g Pouch,Bag B075MN16MZ", data: "dtdc_surface" },
-
-        { count: "UNIQUE FORTUNE KACHI GHANI PURE MUSTARD OIL 1lt  4V-7JZR-OL83", data: "dtdc_surface" },
-
-    ];
-
-    const getRandomCount = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].count;
-    };
-
-    const getRandomReason = (reasons) => {
-        const randomIndex = Math.floor(Math.random() * reasons.length);
-        return reasons[randomIndex].data;
-    };
-
-
-
-
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -103,7 +47,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
 
@@ -245,9 +188,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                             </div>
                                         </td>
                                         <td>
-                                            {/* package details */}
                                             <div className='cell-inside-box'>
-                                                {/* <p className='width-eclipse'>{row?.order?.order_products[0]?.product_name}</p> */}
                                                 <p>{row?.order?.order_products[0]?.product_name}
                                                     <span className='details-on-hover ms-2 align-middle'>
                                                         <InfoIcon />
@@ -264,48 +205,38 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                                 </p>
                                             </div>
                                         </td>
-
-
                                         <td>
-                                            {/* package  details */}
                                             <div className='cell-inside-box'>
                                                 <p>₹ {row?.order?.invoice_amount}</p>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.order?.courier_image && <img src={row?.order?.courier_image} title='partner' />}
-                                                <div>
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}                                                <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
                                                         {row?.order?.awb_number}
                                                     </p>
-                                                    <p className='text-capitalize'>{row?.order?.courier_partner}</p>
+                                                    <p className='text-capitalize'> {row && row?.order?.courier_partner?.split("_").join(" ")}</p>
                                                 </div>
                                             </div>
 
                                         </td>
                                         <td className='align-middle'>
-                                            {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.e_weight} kg</p>
                                                 <p>LBH(cm): {row?.e_length} x {row?.e_breadth} x {row?.e_height}</p>
-                                                {/* <p className=''>Applied Amount : {row?.applied_amount}</p> */}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* Entered Weight & Dimensions (CM) */}
                                             <div className='cell-inside-box'>
                                                 <p>Wt:  {row?.c_weight} kg</p>
                                                 <p>LBH(cm): {row?.c_length} x {row?.c_breadth} x {row?.c_height}</p>
-                                                {/* <p className=''>Charged Amount : {row?.charged_amount}</p> */}
                                             </div>
                                         </td>
 
                                         <td className='align-middle'>
-                                            {/*  Status section  */}
                                             {row?.status &&
-                                                <p className='order-Status-box'>{row?.status}</p>
+                                                <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                             }
                                         </td>
                                         <td className='align-middle'>
@@ -350,12 +281,6 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                     {weightRecoData?.length === 0 && <NoData />}
                 </div>
                 <SidePanel CloseSidePanel={CloseSidePanel} />
-
-                {/* <div id='sidePanel' className="side-panel">
-                    <div className='sidepanel-closer'>
-                        <FontAwesomeIcon icon={faChevronRight} />
-                    </div>
-                </div> */}
                 <div className={`backdrop ${backDrop ? 'd-block' : 'd-none'}`}></div>
                 <Preview show={show} handleClose={handleClose} selectedRow={selectedRow} />
                 <PreviewComment showComment={showComment} handleCloseComment={handleCloseComment} selectedRow={selectedRow} />
@@ -395,7 +320,7 @@ function Preview({ show, handleClose, selectedRow }) {
                         </tr>
                         {historyRecord?.map((row, index) => (
                             <tr key={index}>
-                                <td>{row?.created_at ? <DateFormatter dateTimeString={row?.created_at} /> : ''}</td>
+                                 <td>{moment(row?.created_at).format("DD MMM YYYY")}</td>
                                 <td>{row?.status}</td>
                                 <td>{selectedRow?.c_weight}</td>
                                 <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>

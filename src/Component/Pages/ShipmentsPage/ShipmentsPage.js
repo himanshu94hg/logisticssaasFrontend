@@ -1,28 +1,27 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import NavTabs from './Components/navTabs/NavTabs';
-import { useDispatch, useSelector } from 'react-redux';
-import RTOShipment from './Components/RTOShipment/RTOShipment';
-import ActionRequired from './Components/ActionRequired/ActionRequired';
-import ActionRequested from './Components/ActionRequested/ActionRequested';
-import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
-import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
-import Pagination from '../../common/Pagination/Pagination';
+import axios from 'axios';
+import moment from 'moment';
+import Cookies from 'js-cookie';
+import { debounce } from 'lodash';
 import Select from 'react-select';
+import { RxReset } from "react-icons/rx";
+import { HiOutlineFilter } from "react-icons/hi";
+import NavTabs from './Components/navTabs/NavTabs';
+import globalDebouncedClick from '../../../debounce';
+import { BASE_URL_ORDER } from '../../../axios/config';
+import { useDispatch, useSelector } from 'react-redux';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import Pagination from '../../common/Pagination/Pagination';
+import RTOShipment from './Components/RTOShipment/RTOShipment';
+import React, { useCallback, useEffect, useState } from 'react';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { HiOutlineFilter } from "react-icons/hi";
-import { RxReset } from "react-icons/rx";
-import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
-import axios from 'axios';
-import Cookies from 'js-cookie';
-import { toast } from 'react-toastify';
-import moment from 'moment';
-import { BASE_URL_ORDER } from '../../../axios/config';
+import ActionRequired from './Components/ActionRequired/ActionRequired';
+import ActionRequested from './Components/ActionRequested/ActionRequested';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
-import globalDebouncedClick from '../../../debounce';
-import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
-import { debounce } from 'lodash';
-import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
+import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
+import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -36,36 +35,38 @@ const SearchOptions = [
 
 
 const ShipmentsPage = () => {
-    const [activeTab, setActiveTab] = useState("Action Required");
     const dispatch = useDispatch()
-    const [selectedOption, setSelectedOption] = useState("Domestic");
+    const apiEndpoint = `${BASE_URL_ORDER}`;
+    const [errors, setErrors] = useState({});
+    const [awbNo, setAwbNo] = useState(null)
+    let authToken = Cookies.get("access_token")
+    const [loader, setLoader] = useState(false)
     const [isOpen, setIsOpen] = useState(false);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalItems] = useState("");
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
+    const [queryName, setQueryName] = useState([])
     const [selectedRows, setSelectedRows] = useState([]);
-    const [searchValue, setSearchValue] = useState("")
+    const [backDrop, setBackDrop] = useState(false);
+    const [shipmentCard, setShipment] = useState([])
+    const [totalItems, setTotalItems] = useState("");
     const reattemptOrderIds = selectedRows.join(',');
+    const [selectAll, setSelectAll] = useState(false);
+    const [filterData, setFilterData] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageStatus, pageStatusSet] = useState(true)
+    const [searchValue, setSearchValue] = useState("")
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [MoreFilters, setMoreFilters] = useState(false);
+    const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [activeTab, setActiveTab] = useState("Action Required");
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryParamSearch, setQueryParamSearch] = useState(null)
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
-    const [BulkActionShow, setBulkActionShow] = useState(false)
-    const [errors, setErrors] = useState({});
-    let authToken = Cookies.get("access_token")
-    const [pageStatus, pageStatusSet] = useState(true)
-    const [queryName, setQueryName] = useState([])
-    const [shipmentCard, setShipment] = useState([])
-    const [handleResetFrom, setHandleResetFrom] = useState(false);
-    const [queryParamTemp, setQueryParamTemp] = useState({})
-    const [queryParamSearch, setQueryParamSearch] = useState(null)
-    const [orderTracking, setOrderTracking] = useState(false)
-    const [awbNo, setAwbNo] = useState(null)
-    const [filterData, setFilterData] = useState(null);
-    const [selectAll, setSelectAll] = useState(false);
-    const [loader, setLoader] = useState(false)
-    const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
+    const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
+    const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
     
     useEffect(() => {
         if (favListData) {
@@ -77,28 +78,6 @@ const ShipmentsPage = () => {
         }
     }, [favListData])
 
-    const orderStatus = {
-        "pending": "Pending",
-        "shipped": "Shipped",
-        "pickup_requested": "Pickup Requested",
-        "pickup_scheduled": "Pickup Scheduled",
-        "picked_up": "Picked Up",
-        "cancelled": "Cancelled",
-        "manifested": "Manifested",
-        "in_transit": "In Transit",
-        "out_for_delivery": "Out for Delivery",
-        "rto_initiated": "RTO Initiated",
-        "rto_delivered": "RTO Delivered",
-        "rto_in_transit": "RTO Transit",
-        "delivered": "Delivered",
-        "ndr": "NDR",
-        "lost": "Lost",
-        "damaged": "Damaged",
-        "hold": "Hold"
-    };
-
-    const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
-    const apiEndpoint = `${BASE_URL_ORDER}`;
 
     const handleSidePanel = () => {
         setMoreFilters(true);
@@ -109,15 +88,6 @@ const ShipmentsPage = () => {
         setMoreFilters(false);
         setBackDrop(false)
     }
-
-    const handleOptionSelect = (option) => {
-        setSelectedOption(option);
-        setIsOpen(false);
-    };
-
-    const toggleOptions = () => {
-        setIsOpen(!isOpen);
-    };
 
     useEffect(() => {
         let apiUrl = '';
@@ -379,57 +349,57 @@ const ShipmentsPage = () => {
             <div className='orders-section-tabs'>
                 <div className={`${activeTab === "Action Required" ? "d-block" : "d-none"}`}>
                     <ActionRequired
+                        setAwbNo={setAwbNo}
                         selectAll={selectAll}
+                        partnerList={partnerList}
                         setSelectAll={setSelectAll}
                         shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                     />
                 </div>
 
                 <div className={`${activeTab === "Action Requested" ? "d-block" : "d-none"}`}>
                     <ActionRequested
+                        setAwbNo={setAwbNo}
                         selectAll={selectAll}
                         setSelectAll={setSelectAll}
                         shipmentCard={shipmentCard}
+                        partnerList={partnerList}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                     />
                 </div>
 
                 <div className={`${activeTab === "RTO" ? "d-block" : "d-none"}`}>
                     <RTOShipment
+                        setAwbNo={setAwbNo}
                         selectAll={selectAll}
+                        partnerList={partnerList}
                         setSelectAll={setSelectAll}
                         shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
                     />
                 </div>
 
                 <div className={`${activeTab === "Delivered" ? "d-block" : "d-none"}`}>
                     <DeliveredShipment
+                        setAwbNo={setAwbNo}
                         selectAll={selectAll}
+                        partnerList={partnerList}
                         setSelectAll={setSelectAll}
                         shipmentCard={shipmentCard}
                         selectedRows={selectedRows}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
-                        setAwbNo={setAwbNo}
                         setOrderTracking={setOrderTracking}
-                        orderStatus={orderStatus}
 
                     />
                 </div>

@@ -37,7 +37,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
+const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -464,13 +464,13 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow, bulkAwb, setb
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                            {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
                                                         {row.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row && row.courier_partner}
+                                                        {row && row.courier_partner?.split("_").join(" ")}
                                                     </p>
                                                 </div>
                                             </div>

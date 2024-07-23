@@ -62,33 +62,11 @@ const MoreOnOrders = () => {
     const [reassOrders, setReassOrders] = useState([])
     const [splitOrders, setSplitOrders] = useState([])
     const [loader, setLoader] = useState(false)
-
-
     const apiEndpoint = `${BASE_URL_CORE}`;
     const { pathName } = useSelector(state => state?.authDataReducer)
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
-
-    const orderStatus = {
-        "pending": "Pending",
-        "shipped": "Shipped",
-        "pickup_requested": "Pickup Requested",
-        "pickup_scheduled": "Pickup Scheduled",
-        "picked_up": "Picked Up",
-        "cancelled": "Cancelled",
-        "manifested": "Manifested",
-        "in_transit": "In Transit",
-        "out_for_delivery": "Out for Delivery",
-        "rto_initiated": "RTO Initiated",
-        "rto_delivered": "RTO Delivered",
-        "rto_in_transit": "RTO Transit",
-        "delivered": "Delivered",
-        "ndr": "NDR",
-        "lost": "Lost",
-        "damaged": "Damaged",
-        "hold": "Hold"
-    };
 
     const activeTabValueSet =
         activeTab === "Reassign Order"
@@ -127,8 +105,6 @@ const MoreOnOrders = () => {
 
     }, [pathName]);
 
-    console.log(activeTab, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-
     useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
@@ -144,7 +120,6 @@ const MoreOnOrders = () => {
             default:
                 apiUrl = '';
         }
-
         if (apiUrl) {
             const queryParams = { ...queryParamTemp };
             const queryString = Object.keys(queryParams)
@@ -175,7 +150,7 @@ const MoreOnOrders = () => {
                     customErrorFunction(error)
                 });
         }
-    }, [JSON.stringify(queryParamTemp), currentPage,activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
+    }, [JSON.stringify(queryParamTemp), currentPage, activeTab, itemsPerPage, moreorderShipCardStatus, orderdelete, splitStatus]);
 
     useEffect(() => {
         dispatch({ type: "GET_SAVE_FAVOURITE_ORDERS_ACTION" })
@@ -364,14 +339,12 @@ const MoreOnOrders = () => {
                 </div>
             </div>}
             <div className='orders-section-tabs'>
-                {/* reassign */}
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>
                     <ReassignOrder
                         orders={reassOrders}
                         setAwbNo={setAwbNo}
                         selectAll={selectAll}
                         activeTab={activeTab}
-                        orderStatus={orderStatus}
                         setSelectAll={setSelectAll}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
@@ -380,14 +353,11 @@ const MoreOnOrders = () => {
                         setOrderTracking={setOrderTracking}
                     />
                 </div>
-
-                {/* merge */}
                 <div className={`${activeTab === "Merge Order" ? "d-block" : "d-none"}`}>
                     <MergeOrder
                         orders={mergeOrders}
                         selectAll={selectAll}
                         activeTab={activeTab}
-                        orderStatus={orderStatus}
                         setSelectAll={setSelectAll}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
@@ -395,13 +365,10 @@ const MoreOnOrders = () => {
                         setBulkActionShow={setBulkActionShow}
                     />
                 </div>
-
-                {/* split */}
                 <div className={`${activeTab === "Split Order" ? "d-block" : "d-none"}`}>
                     <SplitOrder
                         orders={splitOrders}
                         activeTab={activeTab}
-                        orderStatus={orderStatus}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         setSplitStatus={setSplitStatus}
@@ -409,7 +376,6 @@ const MoreOnOrders = () => {
                         setBulkActionShow={setBulkActionShow}
                     />
                 </div>
-
                 <Pagination
                     totalItems={totalItems}
                     currentPage={currentPage}
@@ -431,7 +397,6 @@ const MoreOnOrders = () => {
                 )
                 }
             </div>
-
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
@@ -441,8 +406,6 @@ const MoreOnOrders = () => {
                 setHandleResetFrom={setHandleResetFrom}
             />
             <div onClick={CloseSidePanel} className={`backdrop ${!MoreFilters && 'd-none'}`}></div>
-
-
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
                 <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
             </section>

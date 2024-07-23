@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom'
 import CustomIcon from '../../../../../common/Icons/CustomIcon'
 import NoData from '../../../../../common/noData'
 
-const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus }) => {
+const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelectedRows, setBulkActionShow, selectAll, setSelectAll, setAwbNo, setOrderTracking, orderStatus, partnerList }) => {
     const [ordersData, setOrdersData] = useState([]);
     const { reportsOrderData } = useSelector(state => state?.misSectionReducer)
 
@@ -207,7 +207,7 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                     </div>
                                 </td>
                                 <td className='align-middle status-box'>
-                                    <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                    <p className='order-Status-box'> {row && row?.status?.split("_").join(" ")}</p>
                                 </td>
                             </tr>
                         </React.Fragment>

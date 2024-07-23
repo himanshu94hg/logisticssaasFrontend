@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Modal } from 'react-bootstrap';
 import moment from 'moment';
+import { Modal } from 'react-bootstrap';
 import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 
-
-
-const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows,setAwbNo, setOrderTracking, selectedOrderRows, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard }) => {
+const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, setSelectedRows, setAwbNo, setOrderTracking, setBulkActionShow, setSelectedOrderRows, billingShippingCounterCard, partnerList }) => {
     const [data, setData] = useState([]);
     const [show, setShow] = useState(false);
     const [selectedRow, setSelectedRow] = useState(null);
@@ -115,17 +113,20 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                         <td>
                                             {/* order detail */}
                                             <div className='cell-inside-box'>
-                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB( row.awb_number)}>
+                                                <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row.awb_number)}>
                                                     {row?.awb_number}
                                                 </p>
                                             </div>
                                         </td>
                                         <td>
                                             {/* Courier detail */}
-                                            <div className='cell-inside-box'>
-                                                <p className='text-capitalize'>
-                                                    {row?.courier_partner}
-                                                </p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
+                                                <div>
+                                                    <p className='mt-1 cursor-pointer text-capitalize'>
+                                                        {row && row?.courier_partner?.split("_").join(" ")}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>

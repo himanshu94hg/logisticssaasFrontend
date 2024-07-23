@@ -1,33 +1,31 @@
+import moment from 'moment';
+import { Link } from 'react-router-dom';
+import Tooltip from 'react-bootstrap/Tooltip';
+import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import InfoIcon from '../../../../common/Icons/InfoIcon';
-import InfoMissingIcon from '../../../../common/Icons/InfoMissingIcon';
-import moment from 'moment';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
-import { toast } from 'react-toastify';
-import NoData from '../../../../common/noData';
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import SingleShipPop from '../ReassignOrder/SingleShipPop/SingleShipPop';
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import magentoImg from "../../../../../assets/image/integration/magento.png"
 import { weightGreater } from '../../../../../customFunction/functionLogic';
-import { Link } from 'react-router-dom';
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
-const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, orderStatus }) => {
+const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
-    const [backDrop, setBackDrop] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const moreorderShipCardStatusData = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCardStatus)
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+
 
     useEffect(() => {
         if (moreorderShipCardStatusData) {
@@ -73,9 +71,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     };
 
     const handleClickAWB = (orders) => {
-        // event.preventDefault();
-        // const url = `https://shipease.in/order-tracking/`;
-        // window.open(url, '_blank');
         setAwbNo(orders)
         setOrderTracking(true)
     };
@@ -125,7 +120,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
     }
 
     const handleBackdropClick = () => {
-        setBackDrop(false)
         setSingleShip(false)
     }
 
@@ -260,39 +254,20 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row.awb_number)}>{row.awb_number ?? ""}
                                                     </p>
-                                                    <p className='mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner}</p>
+                                                    <p className='text-capitalize mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner?.split("_").join(" ")}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{orderStatus[row?.status] || 'New'}</p>
+                                            <p className='order-Status-box'>{row && row.status?.split("_").join(" ")}</p>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* action section */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button' onClick={() => handleShipNow(row?.id)}>Reassign Order</button>
-                                                {/* <div className='action-options'>
-                                                    <div className='threedots-img'>
-                                                        <img src={ThreeDots} alt="ThreeDots" width={24} />
-                                                    </div>
-                                                    <div className='action-list'>
-                                                        <ul>
-                                                            <li>Add Tag</li>
-                                                            <li>Verify Order</li>
-                                                            <li className='action-hr'></li>
-                                                            <li>Call Buyer</li>
-                                                            <li onClick={() => dispatch({ type: "CLONE_ORDERS_UPDATE_ACTION",payload:row?.id })}>Clone Order</li>
-                                                            <li>Mark As Verified</li>
-                                                            <li className='action-hr'></li>
-                                                            <li onClick={() => dispatch({ type: "ORDERS_DETAILS_CANCEL_ACTION",payload:row?.id })}>Cancel Order</li>
-
-                                                        </ul>
-                                                    </div>
-                                                </div> */}
                                             </div>
                                         </td>
                                     </tr>
@@ -304,7 +279,6 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                 </div>
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
                 <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
-
             </div>
         </section>
     );

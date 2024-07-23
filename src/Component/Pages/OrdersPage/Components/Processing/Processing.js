@@ -116,7 +116,7 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
         debouncedHandleClick(orderId);
         setSelectedOrderId(orderId)
     }
-
+    
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
         const isSelected1 = bulkAwb.includes(awb);
