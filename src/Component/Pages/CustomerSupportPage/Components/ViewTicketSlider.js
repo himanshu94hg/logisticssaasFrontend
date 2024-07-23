@@ -1,25 +1,26 @@
 import axios from 'axios';
-import Cookies from 'js-cookie';
-import React, { useEffect, useState } from 'react'
-import { AiOutlineDownload } from "react-icons/ai";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import Cookies from 'js-cookie';
 import Modal from "react-bootstrap/Modal";
 import { Document, Page } from "react-pdf";
+import React, { useEffect, useState } from 'react'
+import { AiOutlineDownload } from "react-icons/ai";
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
 import { BASE_URL_CORE } from '../../../../axios/config';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronRight, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
-  const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
   const [allTicket, setAllTicket] = useState();
-  const [newComment, setNewComment] = useState('');
-  const [currentDate, setCurrentDate] = useState('');
-  const [currentTime, setCurrentTime] = useState('');
   const authToken = Cookies.get("access_token")
-  const [fileType, setfileType] = useState('image')
-
+  const [newComment, setNewComment] = useState('');
+  const [currentTime, setCurrentTime] = useState('');
+  const [currentDate, setCurrentDate] = useState('');
+  const [previewImage, setPreviewImage] = useState("");
+  const [handelAWSImage, sethandelAWSImage] = useState("");
+  const [ViewAttachmentContent, setViewAttachmentContent] = useState(false);
 
   useEffect(() => {
     if (ViewTicketInfo) {
@@ -46,16 +47,14 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
       const seconds = today.getSeconds();
       const ampm = hours >= 12 ? 'PM' : 'AM';
       hours = hours % 12;
-      hours = hours ? hours : 12; // Handle midnight (0 hours)
+      hours = hours ? hours : 12;
       const formattedDate = `${day} ${month} ${year}`;
       const formattedTime = `${hours}:${minutes}${ampm}`;
       setCurrentTime(`${formattedTime}`);
       setCurrentDate(`${formattedDate}`);
     };
     updateDateTime();
-
   }, [ViewTicketInfo]);
-
 
 
   const handleCommentSubmit = async (e) => {
@@ -82,23 +81,18 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
       console.error('Error adding comment:', error);
     }
   };
+
   function extractFileName(fullPath) {
-    // Split the fullPath string by '/' to get an array of parts.
     const parts = fullPath.split('/');
-    // Get the last part of the array, which should be the file name
     const fileName = parts[parts.length - 1];
     return fileName;
   }
 
-  const [handelAWSImage, sethandelAWSImage] = useState("");
-  const [previewImage, setPreviewImage] = useState("");
-  const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
   const handleShow = async (pdfUrl) => {
     try {
-      sethandelAWSImage(pdfUrl)
+      sethandelAWSImage(pdfUrl);
       const response = await axios.get(pdfUrl, {
-        responseType: 'blob'
+        responseType: 'blob',
       });
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const objectUrl = URL.createObjectURL(blob);
@@ -107,9 +101,8 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
     } catch (error) {
       console.error('Error fetching PDF:', error);
     }
-  }
+  };
 
-  console.log("handelAWSImage", handelAWSImage)
   return (
     <>
       <div
@@ -127,10 +120,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
           <p className='ticket-status ms-2'>{allTicket?.status}</p>
         </div>
         <section className='ticket-description d-flex flex-column gap-2'>
-          {/* <div className='d-flex gap-2'>
-            <p>Description:</p>
-            <p className='fw-bold'>{allTicket?.description}</p>
-          </div> */}
           <div className='ticket-view-field'>
             <div className='d-flex gap-2'>
               <p>Last Updated:</p>
@@ -156,7 +145,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
             <div className='d-flex gap-2'>
               <p>AWB(s):</p>
               <p className='fw-bold'>{allTicket?.awb_number}
-                {/* <span className='fw-normal'>2 others</span> */}
               </p>
             </div>
 
@@ -227,7 +215,6 @@ const ViewTicketSlider = ({ viewId, ViewTicketInfo, setViewTicketInfo, }) => {
       <div
         onClick={() => setViewAttachmentContent(!ViewAttachmentContent)}
         className={`backdrop ${ViewAttachmentContent ? 'd-block' : 'd-none'}`}></div>
-
       <Preview show={show} setShow={setShow} handleClose={handleClose} handleShow={handleShow} previewImage={previewImage} handelAWSImage={handelAWSImage} />
 
     </>
