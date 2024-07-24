@@ -161,7 +161,7 @@ async function bulkGenerateManifestApi(data) {
     });
 }
 function* bulkGenerateManifestAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkGenerateManifestApi, payload);
         if (response.status === 200) {
@@ -181,7 +181,7 @@ async function bulkGeneratePickupApi(data) {
     });
 }
 function* bulkGeneratePickupAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkGeneratePickupApi, payload);
         if (response.status === 200) {
@@ -191,6 +191,7 @@ function* bulkGeneratePickupAction(action) {
 
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 
@@ -202,7 +203,7 @@ async function bulkGenerateLabelApi(data) {
     });
 }
 function* bulkGenerateLabelAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkGenerateLabelApi, payload);
         if (response.status === 200) {
@@ -225,7 +226,7 @@ async function bulkGenerateInvoiceApi(data) {
     });
 }
 function* bulkGenerateInvoiceAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkGenerateInvoiceApi, payload);
         if (response.status === 200) {
@@ -256,7 +257,7 @@ async function bulkDownloadManifestApi(data) {
     });
 }
 function* bulkDownloadManifestAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkDownloadManifestApi, payload);
         if (response.status === 200) {
@@ -280,7 +281,7 @@ async function bulkOrderDimensionApi(data) {
     });
 }
 function* bulkOrderDimensionAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkOrderDimensionApi, payload);
         if (response.status === 200) {
@@ -302,7 +303,7 @@ async function bulkCancelOrderProcessingApi(data) {
     });
 }
 function* bulkCancelOrderProcessingAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(bulkCancelOrderProcessingApi, payload);
         if (response.status === 200) {
