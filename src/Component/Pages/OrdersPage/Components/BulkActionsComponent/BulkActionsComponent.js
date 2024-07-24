@@ -31,11 +31,11 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const [exportButtonClick, setExportButtonClick] = useState(false);
 
     const { loaderState } = useSelector(state => state?.errorLoaderReducer);
-    const { exportCard, exportAllCard ,} = useSelector(state => state?.exportSectionReducer);
-    const { bulkShipData, orderdelete,orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
+    const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
+    const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
 
-    console.log(loaderState,"loaderStateloaderStateloaderStateloaderState")
+    console.log(loaderState, "loaderStateloaderStateloaderStateloaderState")
 
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
@@ -56,7 +56,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
 
     const handleBulkCancelDeleteModalShow = (args) => {
         setShow(true)
-        setSelectAll(false)
+        // setSelectAll(false)
         setActionType(args)
     }
 
@@ -140,7 +140,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         setExportButtonClick(true);
         setSelectAll(false)
         setLoader(true)
-       
+
         const requestData = {
             "order_tab": {
                 "type": activeTab === "All" ? "" : activeTab,
@@ -288,7 +288,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         if (orderdelete || orderCancelled || loaderState) {
             setLoader(false)
         }
-    }, [orderdelete,orderCancelled,loaderState])
+    }, [orderdelete, orderCancelled, loaderState])
 
     const returnsBulkActions = {
         width: '210px',
@@ -382,15 +382,19 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                 show={show}
                 onHide={handleClose}
                 keyboard={false}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} the order ?</Modal.Title>
+                    <Modal.Title>Confirmation Required!</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} <span className='fw-bold font20'>{selectedRows.length}</span> order{selectedRows.length > 1 && 's'}?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={cancelDeleteApiCall}>Yes</Button>
+                    <button className="btn cancel-button" onClick={handleClose}>
+                        Cancel
+                    </button>
+                    <button className="btn main-button" onClick={cancelDeleteApiCall}>Continue</button>
                 </Modal.Footer>
             </Modal>
 
@@ -398,15 +402,21 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                 show={shipShow}
                 onHide={handleShipClose}
                 keyboard={false}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionName === "mark-verified" ? "Mark" : "Ship"} the bulk order ?</Modal.Title>
+                    <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {actionName === "mark-verified" ? "mark" : "ship"} <span className='fw-bold font20'>{selectedRows.length}</span> ordersorder{selectedRows.length > 1 && 's'}?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleShipClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={bulkActionApiCall}>Yes</Button>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleShipClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={bulkActionApiCall}>Continue</button>
+                    </div>
                 </Modal.Footer>
             </Modal>
             <LoaderScreen loading={loader} />
