@@ -5,6 +5,7 @@ import { API_URL, BASE_URL_ORDER } from "../../../../../axios/config";
 import { GET_ORDERS_DETAILS_DATA, ORDERS_DETAILS_RES_DATA, BULK_SHIP_DATA, BULK_ORDERS_TAG_LIST_DATA, SAVE_FAV_LIST_DATA, ORDERS_DETAILS_CLONE_DATA, ORDERS_CLONE_RES_DATA, ORDER_SOURCE_DATA, ORDERS_DELETE_RES_DATA, ORDER_DATA, ORDERS_CANCEL_RES_DATA } from "../../../../constants/orders";
 import { ORDERS_DETAILS_GET_ACTION, ORDERS_DETAILS_UPDATE_ACTION, SAVE_FAVOURITE_ORDERS_ACTION, BULK_SHIP_ORDERS_ACTION, ORDERS_TAG_LIST_API_ACTION, GET_SAVE_FAVOURITE_ORDERS_ACTION, ORDERS_DETAILS_CLONE_ACTION, CREATE_ORDERS_TAG_ACTION, GET_ORDER_SOURCE_API_ACTION, GET_ORDER_DATA_ACTION } from "../../../constant/orders";
 import { customErrorFunction } from "../../../../../customFunction/errorHandling";
+import { ERROR_RESPONSE_DATA } from "../../../../constants/error";
 
 async function fetchOrderListDataApi(data) {
     let listData = axios.request({
@@ -142,6 +143,7 @@ function* bulkShipOrdersAction(action) {
         }
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 
