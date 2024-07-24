@@ -22,6 +22,10 @@
     .support-page .table-container {
         height: calc(100vh - 270px);
     }
+
+    .billing-page-container .table-container {
+        height: calc(100vh - 269px);
+    }
 }
 
 @media screen and (max-width:1366px) {}
@@ -260,6 +264,12 @@
 
     .support-page .table-container {
         height: calc(100vh - 300px);
+    }
+
+
+
+    .billing-page-container .table-container {
+        height: calc(100vh - 299px);
     }
 }
 
