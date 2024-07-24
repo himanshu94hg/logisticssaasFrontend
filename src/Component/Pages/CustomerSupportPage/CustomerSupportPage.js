@@ -278,7 +278,7 @@ const CustomerSupportPage = () => {
       <div className='support-page position-relative'>
         <div onClick={() => handleNeedHelpPage()} className='help-button'>
           <FontAwesomeIcon icon={faCircleQuestion} />
-          <div className='ms-2'>
+          <div className='ms-2 d-none d-lg-block'>
             <p className='mb-0 fw-bold'>Need Help?</p>
             <p className='mb-0 font12'>Click me!</p>
           </div>
