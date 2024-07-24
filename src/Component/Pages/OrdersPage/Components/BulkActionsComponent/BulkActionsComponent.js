@@ -1,34 +1,41 @@
+import moment from 'moment';
+import Swal from 'sweetalert2';
+import './BulkActionsComponent.css';
+import { toast } from 'react-toastify';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
-import './BulkActionsComponent.css';
+import LabelIcon from './Components/BulkIcons/LabelIcon';
 import DeleteIcon from './Components/BulkIcons/DeleteIcon';
 import ExportIcon from './Components/BulkIcons/ExportIcon';
 import CancelIcon from './Components/BulkIcons/CancelIcon';
-import ShippingIcon from './Components/BulkIcons/ShippingIcon';
-import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
-import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
-import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
 import AddTagIcon from './Components/BulkIcons/AddTagIcon';
-import LabelIcon from './Components/BulkIcons/LabelIcon';
 import InvoiceIcon from './Components/BulkIcons/InvoiceIcon';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import Swal from 'sweetalert2';
-import moment from 'moment';
+import ShippingIcon from './Components/BulkIcons/ShippingIcon';
+import VerifiedIcon from './Components/BulkIcons/VerifiedIcon';
+import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
+import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const [loader, setLoader] = useState(false)
     const [shipShow, setShipShow] = useState(false);
     const [actionType, setActionType] = useState("");
+    const [actionName, setActionName] = useState("");
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
     const [shipButtonClicked, setShipButtonClicked] = useState(false);
     const [exportButtonClick, setExportButtonClick] = useState(false);
-    const { exportCard, exportAllCard } = useSelector(state => state?.exportSectionReducer);
-    const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
+
+    const { loaderState } = useSelector(state => state?.errorLoaderReducer);
+    const { exportCard, exportAllCard ,} = useSelector(state => state?.exportSectionReducer);
+    const { bulkShipData, orderdelete,orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
+
+
+    console.log(loaderState,"loaderStateloaderStateloaderStateloaderState")
 
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
@@ -37,57 +44,54 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         setaddTagShow(true)
     }
 
-    const markedVerified = () => {
-        dispatch({
-            type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
-                order_ids: selectedRows,
-            }
-        })
-        setSelectAll(false)
-    }
-
     const rtoUpdate = () => {
         setUpdateWarehouse(true)
         setSelectAll(false)
     }
 
-    const bulkDeleted = (args) => {
+    const handelBulkModalShow = (args) => {
+        setShipShow(true)
+        setActionName(args)
+    };
+
+    const handleBulkCancelDeleteModalShow = (args) => {
         setShow(true)
         setSelectAll(false)
         setActionType(args)
     }
 
-    const bulkCancelled = (args) => {
-        setActionType(args)
-        setShow(true)
-        setSelectAll(false)
-    }
-
-    const makeApiCall = () => {
+    const cancelDeleteApiCall = () => {
         setShow(false);
         setSelectAll(false)
         if (actionType === "bulkDelete") {
             dispatch({ type: "BULK_DELETE_ORDER_ACTION", payload: { order_ids: selectedRows } });
-            setLoaderRing(true)
-            setTimeout(() => {
-                setLoaderRing(false)
-            }, 2000);
         } else {
             if (activeTab === "Processing" || activeTab === "Pickups") {
                 dispatch({ type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: { order_ids: selectedRows } });
-                setLoaderRing(true)
-                setTimeout(() => {
-                    setLoaderRing(false)
-                }, 2000);
+
             } else {
                 dispatch({ type: "BULK_CANCEL_ORDER_ACTION", payload: { ids: selectedRows } });
-                setLoaderRing(true)
-                setTimeout(() => {
-                    setLoaderRing(false)
-                }, 2000);
             }
         }
     };
+
+    const bulkActionApiCall = () => {
+        if (actionName === "mark-verified") {
+            setLoader(true)
+            dispatch({
+                type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
+                    order_ids: selectedRows,
+                }
+            })
+        } else if (actionName === "bulk-ship") {
+            setShipShow(false)
+            setSelectedRows([])
+            setSelectAll(false)
+            setLoader(true)
+            const data = { "order_ids": selectedRows.map(id => id.toString()) };
+            dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
+        }
+    }
 
     const generateManifest = () => {
         dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
@@ -106,11 +110,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
             toast.error(" Oops... You can not select Pending or Cancelled Orders!")
         } else {
             setGenaratelabel(true);
-            setLoaderRing(true)
-            setTimeout(() => {
-                setLoaderRing(false)
-            }, 2000);
             setSelectAll(false)
+            setLoader(true)
             setSelectedRows([])
             dispatch({ type: "BULK_ORDER_GENERATE_LABEL_ACTION", payload: { order_ids: selectedRows.join(',') } });
         }
@@ -122,13 +123,10 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         if (atLeastOneExists) {
             toast.error(" Oops... You can not select Pending or Cancelled Orders!")
         } else {
-            setGenerateinvoice(true);
-            setLoaderRing(true)
+            setLoader(true)
             setSelectAll(false)
             setSelectedRows([])
-            setTimeout(() => {
-                setLoaderRing(false)
-            }, 2000);
+            setGenerateinvoice(true);
             dispatch({ type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: { order_ids: selectedRows.join(',') } });
         }
     };
@@ -141,10 +139,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
     const handleExport = () => {
         setExportButtonClick(true);
         setSelectAll(false)
-        setLoaderRing(true)
-        setTimeout(() => {
-            setLoaderRing(false)
-        }, 2000);
+        setLoader(true)
+       
         const requestData = {
             "order_tab": {
                 "type": activeTab === "All" ? "" : activeTab,
@@ -223,32 +219,15 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     ...(queryParamTemp?.end_date && { "end_date": moment(queryParamTemp?.end_date).format("YYYY-MM-DD") })
                 };
                 dispatch({ type: "EXPORT_ALL_DATA_ACTION", payload: requestData });
-                setBulkActionShow(false);
-                setSelectedRows([])
+                setLoader(true)
                 setFilterData({});
+                setSelectedRows([])
+                setBulkActionShow(false);
             } else {
                 toast.info("Report canceled.");
             }
         });
     };
-
-    const handelBulkShip = () => {
-        setShipShow(true)
-        // setShipButtonClicked(true);
-    };
-
-
-    const bulkShipApiCall = () => {
-        setShipShow(false)
-        setSelectedRows([])
-        setSelectAll(false)
-        setLoaderRing(true)
-        setTimeout(() => {
-            setLoaderRing(false)
-        }, 2000);
-        const data = { "order_ids": selectedRows.map(id => id.toString()) };
-        dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
-    }
 
     useEffect(() => {
         if (labelData && genaratelabel) {
@@ -288,7 +267,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
             setExportButtonClick(false);
         }
     }, [exportCard]);
-    
 
     useEffect(() => {
         if (shipButtonClicked) {
@@ -306,11 +284,15 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
         }
     }, [exportAllCard]);
 
+    useEffect(() => {
+        if (orderdelete || orderCancelled || loaderState) {
+            setLoader(false)
+        }
+    }, [orderdelete,orderCancelled,loaderState])
+
     const returnsBulkActions = {
         width: '210px',
     }
-
-
 
 
     return (
@@ -326,40 +308,36 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                             {activeTab === "All" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
-                                    <li onClick={markedVerified}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
+                                    <li onClick={() => handelBulkModalShow("mark-verified")}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li>
+                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
                                 </>
                             )}
                             {activeTab === "Unprocessable" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
-                                    <li onClick={markedVerified}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
+                                    <li onClick={() => handelBulkModalShow("mark-verified")}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
                                     <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li>
+                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
                                 </>
                             )}
                             {activeTab === "Processing" && (
                                 <>
                                     <li onClick={addTag}><AddTagIcon /><span>Add Tag</span></li>
-                                    <li onClick={markedVerified}><VerifiedIcon /><span>Mark as verified</span></li>
-                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
-                                    <li onClick={() => bulkDeleted("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
+                                    <li onClick={() => handelBulkModalShow("mark-verified")}><VerifiedIcon /><span>Mark as verified</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkDelete")}><DeleteIcon /><span>Delete</span></li>
                                     <li onClick={rtoUpdate}><WarehouseIcon /><span>Warehouse update</span></li>
                                     <li onClick={bulkDimesionDetailUpdate}><WeightDimensionIcon /><span>Weight / Dimension update</span></li>
-                                    <li onClick={handelBulkShip}><ShippingIcon /><span>Ship</span></li>
+                                    <li onClick={() => handelBulkModalShow("bulk-ship")}><ShippingIcon /><span>Ship</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
                                     <li onClick={handleExportAll}>
                                         <ExportIcon /><span>Export All</span>
@@ -371,11 +349,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                                     <li onClick={generatePickup}><ShippingIcon /><span>Generate Pickup</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li>
+                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
                                 </>
                             )}
                             {activeTab === "Pickup" && (
@@ -383,19 +359,15 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                                     <li onClick={generateManifest}><ExportIcon /><span>Generate Manifest</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
-                                    <li onClick={() => bulkCancelled("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
+                                    <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li>
+                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
                                 </>
                             )}
                             {activeTab === "Returns" && (
                                 <>
                                     <li onClick={handleExport}><ExportIcon /><span>Export</span></li>
-                                    <li onClick={handleExportAll}>
-                                        <ExportIcon /><span>Export All</span>
-                                    </li>
+                                    <li onClick={handleExportAll}><ExportIcon /><span>Export All</span></li>
                                 </>
                             )}
                         </ul>
@@ -418,7 +390,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     <Button variant="secondary" className="px-5" onClick={handleClose}>
                         No
                     </Button>
-                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                    <Button variant="primary" className="px-5" onClick={cancelDeleteApiCall}>Yes</Button>
                 </Modal.Footer>
             </Modal>
 
@@ -428,15 +400,16 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to ship the bulk order ?</Modal.Title>
+                    <Modal.Title>Are you sure you want to {actionName === "mark-verified" ? "Mark" : "Ship"} the bulk order ?</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" className="px-5" onClick={handleShipClose}>
                         No
                     </Button>
-                    <Button variant="primary" className="px-5" onClick={bulkShipApiCall}>Yes</Button>
+                    <Button variant="primary" className="px-5" onClick={bulkActionApiCall}>Yes</Button>
                 </Modal.Footer>
             </Modal>
+            <LoaderScreen loading={loader} />
 
         </>
     );

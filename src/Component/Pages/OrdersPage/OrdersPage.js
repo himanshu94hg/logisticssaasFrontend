@@ -59,7 +59,6 @@ const OrdersPage = () => {
     const [selectAll, setSelectAll] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [searchValue, setSearchValue] = useState("")
-    const [LoaderRing, setLoaderRing] = useState(false)
     const [addTagShow, setaddTagShow] = useState(false)
     const [pickupStatus, setPickupStatus] = useState('')
     const [selectedRows, setSelectedRows] = useState([]);
@@ -568,12 +567,10 @@ const OrdersPage = () => {
                         activeTab={activeTab}
                         setbulkAwb={setbulkAwb}
                         filterData={filterData}
-                        LoaderRing={LoaderRing}
                         selectedRows={selectedRows}
                         setSelectAll={setSelectAll}
                         setaddTagShow={setaddTagShow}
                         setFilterData={setFilterData}
-                        setLoaderRing={setLoaderRing}
                         queryParamTemp={queryParamTemp}
                         setSelectedRows={setSelectedRows}
                         setUpdateWeight={setUpdateWeight}
