@@ -37,10 +37,9 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setSelectAll, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
-    const [selectAll, setSelectAll] = useState(false);
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
@@ -116,7 +115,7 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
         debouncedHandleClick(orderId);
         setSelectedOrderId(orderId)
     }
-    
+
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows.includes(orderId);
         const isSelected1 = bulkAwb.includes(awb);
@@ -368,7 +367,7 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
                                                 </div>
                                             </td>
                                             <td className='align-middle status-box'>
-                                            <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
+                                                <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                             </td>
                                             <td className='align-middle'>
                                                 <div className='d-flex align-items-center gap-3'>
@@ -380,7 +379,7 @@ const Processing = React.memo(({ orders, activeTab,setOrderTagId, MoreFilters, b
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => openEditingSection(row?.id)}>Edit Order</li>
-                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]) ;setOrderTagId(row.order_tag) }}>Add Tag</li>
+                                                                <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
                                                                 <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>

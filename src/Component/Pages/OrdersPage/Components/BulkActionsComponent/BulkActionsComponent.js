@@ -18,9 +18,10 @@ import Swal from 'sweetalert2';
 import moment from 'moment';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, setSelectAll, setbulkAwb, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, filterData, setFilterData, queryParamTemp, setQueryParamTemp }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
+    const [shipShow, setShipShow] = useState(false);
     const [actionType, setActionType] = useState("");
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
@@ -30,6 +31,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
     const { bulkShipData, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
     const handleClose = () => setShow(false);
+    const handleShipClose = () => setShipShow(false);
 
     const addTag = () => {
         setaddTagShow(true)
@@ -231,15 +233,22 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
     };
 
     const handelBulkShip = () => {
-        setShipButtonClicked(true);
+        setShipShow(true)
+        // setShipButtonClicked(true);
+    };
+
+
+    const bulkShipApiCall = () => {
+        setShipShow(false)
+        setSelectedRows([])
+        setSelectAll(false)
         setLoaderRing(true)
         setTimeout(() => {
             setLoaderRing(false)
         }, 2000);
         const data = { "order_ids": selectedRows.map(id => id.toString()) };
         dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
-        setSelectAll(false)
-    };
+    }
 
     useEffect(() => {
         if (labelData && genaratelabel) {
@@ -279,6 +288,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
             setExportButtonClick(false);
         }
     }, [exportCard]);
+    
 
     useEffect(() => {
         if (shipButtonClicked) {
@@ -299,6 +309,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
     const returnsBulkActions = {
         width: '210px',
     }
+
+
+
 
     return (
         <>
@@ -408,6 +421,23 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setLoaderRing, s
                     <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
                 </Modal.Footer>
             </Modal>
+
+            <Modal
+                show={shipShow}
+                onHide={handleShipClose}
+                keyboard={false}
+            >
+                <Modal.Header>
+                    <Modal.Title>Are you sure you want to ship the bulk order ?</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button variant="secondary" className="px-5" onClick={handleShipClose}>
+                        No
+                    </Button>
+                    <Button variant="primary" className="px-5" onClick={bulkShipApiCall}>Yes</Button>
+                </Modal.Footer>
+            </Modal>
+
         </>
     );
 };

@@ -1,81 +1,70 @@
 import moment from 'moment';
+import NoData from '../../../../common/noData';
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
-import { faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { toast } from 'react-toastify';
-import Cookies from 'js-cookie';
-import { BASE_URL_CORE } from '../../../../../axios/config';
 import globalDebouncedClick from '../../../../../debounce';
-import NoData from '../../../../common/noData';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 
 
-const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows }) => {
+const Manifest = ({ manifestOrders, activeTab, partnerList }) => {
     const dispatch = useDispatch();
-    const [selectAll, setSelectAll] = useState(false);
-    const [BulkActions, setBulkActions] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
-    const token = Cookies.get("access_token")
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
 
-    const { orderdelete, manifestList, downloadManifest } = useSelector(state => state?.orderSectionReducer)
+    const { downloadManifest } = useSelector(state => state?.orderSectionReducer)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
 
-
-    /* useEffect(()=>{
-         if(manifestList){
-             setTotalItems(manifestList?.length)
-         }
-     },[manifestList])
- 
- 
- 
- 
-     useEffect(() => {
-         if (activeTab === "Manifest") {
- 
-             dispatch({ type: "MANIFEST_LIST_API_ACTION" })
-         }
-     }, [activeTab])
- 
-     */
+    useEffect(() => {
+        if (labelData) {
+            if (genaratelabel === true) {
+                const blob = new Blob([labelData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'label.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenaratelabel(false)
+            }
+        }
+    }, [labelData])
 
     useEffect(() => {
-        if (orderdelete) {
-            setSelectAll(false)
+        if (invoiceData) {
+            if (generateinvoice === true) {
+                const blob = new Blob([invoiceData], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'Invoice.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                setGenerateinvoice(false)
+            }
         }
-    }, [orderdelete])
+    }, [invoiceData])
 
-    const handleSelectAll = () => {
-        // setSelectAll(!selectAll);
-        // if (!selectAll) {
-        //     setSelectedRows(orders.map(row => row?.id));
-        //     setBulkActionShow(true)
-        // } else {
-        //     setSelectedRows([]);
-        //     setBulkActionShow(false)
-        // }
-    };
+    useEffect(() => {
+        if (downloadManifest) {
+            if (activeTab === "Manifest") {
+                const blob = new Blob([downloadManifest], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'manifest.pdf';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            }
+        }
+    }, [downloadManifest])
 
-    const handleSelectRow = (orderId) => {
-        // const isSelected = selectedRows?.includes(orderId);
-        // setBulkActions(true)
-        // if (isSelected) {
-        //     setSelectedRows(selectedRows.filter(id => id !== orderId));
-        // } else {
-        //     setSelectedRows([...selectedRows, orderId]);
-        // }
-        // if (selectedRows.length === orders.length - 1 && isSelected) {
-        //     setSelectAll(false);
-        // } else {
-        //     setSelectAll(false);
-        // }
-    };
+
     const handleClick = (data) => {
         if (activeTab === "Manifest") {
             dispatch({
@@ -100,28 +89,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         setGenaratelabel(true)
     }
 
-    useEffect(() => {
-        if (labelData?.message === "Go to MIS -> Download and download the labels.") {
-        }
-        else{
-            if(labelData)
-            {
-                if (genaratelabel === true) {
-                    const blob = new Blob([labelData], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'label.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    setGenaratelabel(false)
-                }
-            }
-        }
-    }, [labelData])
-
     const handleClickDownloadInvoice = async (data) => {
         let temp = []
         data.map((item) => {
@@ -135,27 +102,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
         setGenerateinvoice(true)
     }
 
-    useEffect(() => {
-        if (invoiceData?.message === "Go to MIS -> Download and download the invoices.") {
-        }
-        else{
-            if (invoiceData) {
-                if (generateinvoice === true) {
-                    const blob = new Blob([invoiceData], { type: 'application/pdf' });
-                    const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.href = url;
-                    a.download = 'Invoice.pdf';
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                    URL.revokeObjectURL(url);
-                    setGenerateinvoice(false)
-                }
-            }
-        }
-    }, [invoiceData])
-
     const manifestDownload = (data) => {
         globalDebouncedClick(() => handleClick(data));
     }
@@ -167,24 +113,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
     const handleDownloadInvoice = async (data) => {
         globalDebouncedClick(() => handleClickDownloadInvoice(data));
     };
-
-
-    useEffect(() => {
-        if (downloadManifest) {
-            if (activeTab === "Manifest") {
-                const blob = new Blob([downloadManifest], { type: 'application/pdf' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'manifest.pdf';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            }
-        }
-
-    }, [downloadManifest])
 
 
     return (
@@ -226,9 +154,14 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                                             </div>
                                         </td>
                                         <td>
-                                            <div className='cell-inside-box'>
-                                                <p className='order-Status-box mt-1'>{row?.courier.split("_").join(" ")}</p>
+                                            <div className='cell-inside-box shipping-details'>
+                                                {row?.courier && <img src={partnerList[row.courier]} title='Partner' />}
+                                                <div>
+                                                    <p className='mt-1 cursor-pointer text-capitalize' >
+                                                        {row && row.courier?.split("_").join(" ")}
+                                                    </p>
                                                 </div>
+                                            </div>
                                         </td>
                                         <td className='align-middle'>
                                             <td className='align-middle'>
@@ -242,8 +175,6 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                                                 <p className=''>{row?.p_ref_no} </p>
                                             </div>
                                         </td>
-
-
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button className='btn main-button' onClick={() => manifestDownload(row?.id)}> Download Manifest</button>
@@ -265,7 +196,7 @@ const Manifest = ({ manifestOrders, activeTab, setEditOrderSection, setOrderId, 
                             ))}
                         </tbody>
                     </table>
-                    {manifestOrders?.length === 0 && <NoData/>}
+                    {manifestOrders?.length === 0 && <NoData />}
                 </div>
             </div>
         </section>

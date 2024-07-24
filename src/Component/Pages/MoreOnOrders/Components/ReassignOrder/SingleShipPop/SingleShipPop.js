@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => {
+const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId, partnerList }) => {
     const dispatch = useDispatch()
     const [shipingData, setShipingData] = useState(false);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
@@ -62,12 +62,12 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
-                                <img src={option.partner_image} alt={option.partner_title} />
+                                {option.partner_keyword && <img src={partnerList[option.partner_keyword]} alt={option.partner_title} />}
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
                                 <p>{option.partner_title}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
-                                <p>RTO Charges: ₹{option.rto_charge}</p>
+                                <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
                             </div>
                         </div>
                         <div className='d-flex align-items-center gap-2 ship-ratings'>
@@ -98,9 +98,9 @@ const SingleShipPop = ({ reassignCard, SingleShip, setSingleShip, orderId }) => 
                         </div>
                         <div className='ss-shipment-charges'>
                             <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
-                                <span>Freight Charges: <strong>₹ {option.rate}</strong></span><br />
-                                <span>+ COD Charges: <strong>₹ {option.cod_charge}</strong></span><br />
-                                <span>+ Early COD Charges: <strong>₹  {option?.early_cod_charge}</strong></span><br />
+                                <span>Freight Charges: <strong>₹ {option.rate.toFixed(2)}</strong></span><br />
+                                <span>+ COD Charges: <strong>₹ {option.cod_charge.toFixed(2)}</strong></span><br />
+                                <span>+ Early COD Charges: <strong>₹  {option?.early_cod_charge.toFixed(2)}</strong></span><br />
                             </p>
                         </div>
                         <div className='d-flex flex-column gap-2 align-items-end'>

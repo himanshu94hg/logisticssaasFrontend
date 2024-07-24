@@ -76,8 +76,8 @@ const OrdersPage = () => {
     const [EditOrderSection, setEditOrderSection] = useState(false)
     const [CloneOrderSection, setCloneOrderSection] = useState(false)
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
-    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
@@ -256,15 +256,6 @@ const OrdersPage = () => {
             });
     }
 
-    const [dis, setDis] = useState(null)
-
-    useEffect(() => {
-        if (currentPage || itemsPerPage) {
-            setDis(new Date())
-        }
-    }, [currentPage, itemsPerPage])
-
-
     useEffect(() => {
         let apiUrl = '';
         switch (activeTab) {
@@ -437,23 +428,23 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "All" ? "d-block" : "d-none"}`}>
                     <AllOrders
                         orders={orders}
-                        activeTab={activeTab}
                         bulkAwb={bulkAwb}
-                        MoreFilters={MoreFilters}
-                        setbulkAwb={setbulkAwb}
-                        handleSearch={handleSearch}
-                        selectedRows={selectedRows}
-                        setSelectedRows={setSelectedRows}
-                        BulkActionShow={BulkActionShow}
-                        setBulkActionShow={setBulkActionShow}
-                        setCloneOrderSection={setCloneOrderSection}
-                        setOrderId={setOrderId}
                         setAwbNo={setAwbNo}
-                        setOrderTracking={setOrderTracking}
+                        activeTab={activeTab}
                         selectAll={selectAll}
-                        setSelectAll={setSelectAll}
+                        setOrderId={setOrderId}
+                        setbulkAwb={setbulkAwb}
                         setRateRef={setRateRef}
                         partnerList={partnerList}
+                        MoreFilters={MoreFilters}
+                        setSelectAll={setSelectAll}
+                        handleSearch={handleSearch}
+                        selectedRows={selectedRows}
+                        BulkActionShow={BulkActionShow}
+                        setSelectedRows={setSelectedRows}
+                        setOrderTracking={setOrderTracking}
+                        setBulkActionShow={setBulkActionShow}
+                        setCloneOrderSection={setCloneOrderSection}
                     />
                 </div>
 
@@ -462,8 +453,8 @@ const OrdersPage = () => {
                     <Unprocessable
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
-                        setSelectedRows={setSelectedRows}
                         BulkActionShow={BulkActionShow}
+                        setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         activeTab={activeTab} orders={orders}
 
@@ -474,40 +465,42 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Processing" ? "d-block" : "d-none"}`}>
                     <Processing
                         orders={orders}
-                        activeTab={activeTab}
-                        MoreFilters={MoreFilters}
                         bulkAwb={bulkAwb}
+                        activeTab={activeTab}
+                        selectAll={selectAll}
                         setbulkAwb={setbulkAwb}
                         setOrderId={setOrderId}
+                        MoreFilters={MoreFilters}
+                        setSelectAll={setSelectAll}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         setOrderTagId={setOrderTagId}
+                        setaddTagShow={setaddTagShow}
+                        BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setBulkActionShow={setBulkActionShow}
                         setEditOrderSection={setEditOrderSection}
                         setCloneOrderSection={setCloneOrderSection}
-                        setaddTagShow={setaddTagShow}
-                        BulkActionShow={BulkActionShow}
                     />
                 </div>
 
                 {/* ReadyToShip */}
                 <div className={`${activeTab === "Ready to Ship" ? "d-block" : "d-none"}`}>
                     <ReadyToShip
+                        orders={orders}
                         bulkAwb={bulkAwb}
                         setAwbNo={setAwbNo}
-                        setbulkAwb={setbulkAwb}
-                        orders={orders}
-                        MoreFilters={MoreFilters}
                         activeTab={activeTab}
-                        handleSearch={handleSearch}
-                        setBulkActionShow={setBulkActionShow}
+                        setbulkAwb={setbulkAwb}
+                        partnerList={partnerList}
+                        MoreFilters={MoreFilters}
                         selectedRows={selectedRows}
+                        handleSearch={handleSearch}
                         BulkActionShow={BulkActionShow}
+                        setPickupStatus={setPickupStatus}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                        setPickupStatus={setPickupStatus}
-                        partnerList={partnerList}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
 
@@ -517,16 +510,16 @@ const OrdersPage = () => {
                         orders={orders}
                         bulkAwb={bulkAwb}
                         setAwbNo={setAwbNo}
-                        MoreFilters={MoreFilters}
-                        setbulkAwb={setbulkAwb}
                         activeTab={activeTab}
+                        setbulkAwb={setbulkAwb}
+                        MoreFilters={MoreFilters}
+                        partnerList={partnerList}
                         handleSearch={handleSearch}
-                        setBulkActionShow={setBulkActionShow}
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                        partnerList={partnerList}
+                        setBulkActionShow={setBulkActionShow}
 
                     />
                 </div>
@@ -534,12 +527,13 @@ const OrdersPage = () => {
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest
-                        manifestOrders={manifestOrders}
-                        setManifestOrders={setManifestOrders}
                         activeTab={activeTab}
+                        partnerList={partnerList}
                         MoreFilters={MoreFilters}
                         handleSearch={handleSearch}
                         setTotalItems={setTotalItems}
+                        manifestOrders={manifestOrders}
+                        setManifestOrders={setManifestOrders}
                         setBulkActionShow={setBulkActionShow}
 
                     />
@@ -549,16 +543,16 @@ const OrdersPage = () => {
                 <div className={`${activeTab === "Returns" ? "d-block" : "d-none"}`}>
                     <ReturnOrders
                         orders={orders}
+                        setAwbNo={setAwbNo}
                         activeTab={activeTab}
                         MoreFilters={MoreFilters}
-                        setAwbNo={setAwbNo}
+                        partnerList={partnerList}
                         handleSearch={handleSearch}
                         selectedRows={selectedRows}
                         BulkActionShow={BulkActionShow}
-                        setBulkActionShow={setBulkActionShow}
                         setSelectedRows={setSelectedRows}
                         setOrderTracking={setOrderTracking}
-                        partnerList={partnerList}
+                        setBulkActionShow={setBulkActionShow}
                     />
                 </div>
                 <Pagination
@@ -570,22 +564,22 @@ const OrdersPage = () => {
                 />
                 {BulkActionShow && (
                     <BulkActionsComponent
-                        activeTab={activeTab}
-                        setSelectAll={setSelectAll}
                         bulkAwb={bulkAwb}
+                        activeTab={activeTab}
                         setbulkAwb={setbulkAwb}
+                        filterData={filterData}
+                        LoaderRing={LoaderRing}
                         selectedRows={selectedRows}
+                        setSelectAll={setSelectAll}
                         setaddTagShow={setaddTagShow}
+                        setFilterData={setFilterData}
+                        setLoaderRing={setLoaderRing}
+                        queryParamTemp={queryParamTemp}
                         setSelectedRows={setSelectedRows}
+                        setUpdateWeight={setUpdateWeight}
+                        setQueryParamTemp={setQueryParamTemp}
                         setBulkActionShow={setBulkActionShow}
                         setUpdateWarehouse={setUpdateWarehouse}
-                        setUpdateWeight={setUpdateWeight}
-                        filterData={filterData}
-                        setFilterData={setFilterData}
-                        queryParamTemp={queryParamTemp}
-                        setQueryParamTemp={setQueryParamTemp}
-                        LoaderRing={LoaderRing}
-                        setLoaderRing={setLoaderRing}
                     />
                 )
                 }
@@ -640,7 +634,7 @@ const OrdersPage = () => {
             </section>
 
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} setAwbNo={setAwbNo} />
+                <AWBTrackingPage partnerList={partnerList} setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} setAwbNo={setAwbNo} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
             <LoaderScreen loading={loader} />

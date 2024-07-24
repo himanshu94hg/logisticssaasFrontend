@@ -1,38 +1,40 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { faQuestion } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
-import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
-import { debounce } from 'lodash';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 import Toggle from 'react-toggle';
-import globalDebouncedClick from '../../../../../debounce';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useRef, useState } from 'react';
+import globalDebouncedClick from '../../../../../debounce';
 import { BASE_URL_CORE } from '../../../../../axios/config';
-
-import Cookies from 'js-cookie';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import PieChart from '../../../OrdersPage/Components/Processing/SingleShipPop/PieChart';
+import StarRating from '../../../OrdersPage/Components/Processing/SingleShipPop/StarRating';
+
 
 const RateCalculatorPage = () => {
   const sellerDataRef = useRef()
   const dispatch = useDispatch();
+  const [errors, setErrors] = useState({});
   const [length, setLength] = useState(null);
   const [height, setHeight] = useState(null);
+  const [orderId, setOrderId] = useState("");
+  const [loader, setLoader] = useState(false)
   const [breadth, setBreadth] = useState(null);
+  const [shipData, setShipData] = useState([])
+  const [orderNum, setOrderNum] = useState("");
   const [volWeight, setVolWeight] = useState(0);
   const [RateTable, setRateTable] = useState(false);
-  const [invoiceField, setInvoiceField] = useState(false);
-  const [orderField, setOrderField] = useState(false);
-  const [orderId, setOrderId] = useState("");
-  const [orderNum, setOrderNum] = useState("");
-  const [chargedWeight, setChargedWeight] = useState(0);
-  const [errors, setErrors] = useState({});
   const [isChecked, setIsChecked] = useState(false);
-  const [shipData, setShipData] = useState([])
-  const [loader, setLoader] = useState(false)
+  const [orderField, setOrderField] = useState(false);
+  const [chargedWeight, setChargedWeight] = useState(0);
+  const [invoiceField, setInvoiceField] = useState(false);
+  const partnerList = JSON.parse(localStorage.getItem('partnerList'));
+  const { zonePathName } = useSelector(state => state?.authDataReducer)
+  const { sellerData, reportSchedulerRes, ratePrefilledData } = useSelector(state => state?.toolsSectionReducer)
 
   const [formData, setFormData] = useState({
     shipment_type: "Forward",
@@ -46,8 +48,6 @@ const RateCalculatorPage = () => {
     height: null
 
   });
-  const { zonePathName } = useSelector(state => state?.authDataReducer)
-  const { sellerData, reportSchedulerRes, ratePrefilledData, ratingCardData } = useSelector(state => state?.toolsSectionReducer)
 
   const handleToggle = () => {
     setIsChecked(!isChecked);
@@ -118,8 +118,6 @@ const RateCalculatorPage = () => {
 
   const handleSubmit = () => {
     const newErrors = {};
-
-    // Check each field individually
     if (!formData.shipment_type) {
       newErrors.shipment_type = "Shipment Type is required!";
     }
@@ -209,10 +207,8 @@ const RateCalculatorPage = () => {
 
   const handleChangeOrder = (e, value) => {
     if (e.target.value !== '') {
-      // setOrderField(true)
       setOrderId(e.target.value)
     } else {
-      // setOrderField(false);
       setOrderId('')
     }
   }
@@ -561,12 +557,12 @@ const RateCalculatorPage = () => {
                     <div className='d-flex flex-column justify-content-center'>
                       <div className='d-flex gap-2 '>
                         <div className='img-container'>
-                          <img src={item.partner_image} alt={item.partner_title} />
+                          {item?.partner_keyword && <img src={partnerList[item.partner_keyword]} title='Partner' />}
                         </div>
                         <div className='d-flex flex-column justify-content-center'>
                           <p>{item.partner_title}</p>
                           <p>{"Delivering Excellence, Every Mile"}</p>
-                          <p>RTO Charges: ₹{item?.rto_charge}</p>
+                          <p>RTO Charges: ₹{item?.rto_charge.toFixed(2)}</p>
                         </div>
                       </div>
                     </div>
@@ -598,18 +594,16 @@ const RateCalculatorPage = () => {
                     </div>
                     <div className='ss-shipment-charges'>
                       <p><strong>₹{(item?.rate + item?.cod_charge + item?.early_cod_charge).toFixed(2)} </strong> <span>(Inclusive of all taxes )</span><br />
-                        <span>Freight Charges: <strong>₹ {item?.rate}</strong></span><br />
-                        <span>+ COD Charges: <strong>₹ {item?.cod_charge}</strong></span><br />
-                        <span>+Early COD Charges: <strong>₹ {item?.early_cod_charge}</strong></span><br />
+                        <span>Freight Charges: <strong>₹ {(item?.rate).toFixed(2)}</strong></span><br />
+                        <span>+ COD Charges: <strong>₹ {(item?.cod_charge).toFixed(2)}</strong></span><br />
+                        <span>+Early COD Charges: <strong>₹ {(item?.early_cod_charge).toFixed(2)}</strong></span><br />
                       </p>
                     </div>
                     <div className='d-flex flex-column gap-2 align-items-end'>
                       <button className='btn main-button' onClick={() => handleShip(item.partner_keyword)}>Ship Now</button>
                       <p><span>EDD: <strong>{item?.estimate_days} days</strong></span></p>
                     </div>
-                    {item?.is_recommended &&
-                      <span className="recommended"></span>
-                    }
+                    {item?.is_recommended && <span className="recommended"></span>}
                   </div>
                 </section>
               </div>
