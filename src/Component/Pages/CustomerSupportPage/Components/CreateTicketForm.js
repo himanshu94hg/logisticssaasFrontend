@@ -332,69 +332,79 @@ const CreateTicketForm = (props) => {
   return (
     <form onSubmit={handleSubmit} ref={formRef}>
       <div className='slider-scroll-body'>
-        {escalateAwbNumber ? (
+        <div className='position-relative'>
+          {escalateAwbNumber ? (
+            <FormInput
+              label="AWB Numbers (Comma Separated)"
+              type="text"
+              name={"awb_number"}
+              value={escalateAwbNumber}
+              onChange={(e) => handleCreateTicket(e)}
+              placeholder='Enter AWB number(s)'
+            />
+          ) : (
+            <FormInput
+              label="AWB Numbers (Comma Separated)"
+              type="text"
+              name={"awb_number"}
+              value={ticketData.awb_number}
+              onChange={(e) => handleCreateTicket(e)}
+              onBlur={(e) => handleBlurAWB(e)}
+              placeholder='Enter AWB number(s)'
+            />
+          )}
+          {errors.awb_number && <span className='custom-error'>{errors.awb_number}</span>}
+        </div>
+        <div className="position-relative">
           <FormInput
-            label="AWB Numbers (Comma Separated)"
-            type="text"
-            name={"awb_number"}
-            value={escalateAwbNumber}
+            type="select"
+            mandatory={"*"}
+            name={"category"}
+            label="Choose a Category"
+            options={categoryOptions}
             onChange={(e) => handleCreateTicket(e)}
-            placeholder='Enter AWB number(s)'
+            customClass={`${errors.category && "custom-input"}`}
           />
-        ) : (
+          {errors.category && <span className='custom-error'>{errors.category}</span>}
+        </div>
+        <div className="position-relative">
           <FormInput
-            label="AWB Numbers (Comma Separated)"
-            type="text"
-            name={"awb_number"}
-            value={ticketData.awb_number}
+            type="select"
+            mandatory={"*"}
+            name={"sub_category"}
+            label="Choose a Subcategory"
+            options={subcategoryOptions}
             onChange={(e) => handleCreateTicket(e)}
-            onBlur={(e) => handleBlurAWB(e)}
-            placeholder='Enter AWB number(s)'
+            customClass={`${errors.sub_category && "custom-input"}`}
           />
-        )}
-        {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
-        <FormInput
-          type="select"
-          mandatory={"*"}
-          name={"category"}
-          label="Choose a Category"
-          options={categoryOptions}
-          onChange={(e) => handleCreateTicket(e)}
-          customClass={`${errors.category && "custom-input"}`}
-        />
-        {errors.category && <span className='error-text'>{errors.category}</span>}
-        <FormInput
-          type="select"
-          mandatory={"*"}
-          name={"sub_category"}
-          label="Choose a Subcategory"
-          options={subcategoryOptions}
-          onChange={(e) => handleCreateTicket(e)}
-          customClass={`${errors.sub_category && "custom-input"}`}
-        />
-        {errors.sub_category && <span className='error-text'>{errors.sub_category}</span>}
-        <FormInput
-          label="Remarks"
-          type="textarea"
-          mandatory={"*"}
-          name={"description"}
-          value={ticketData.description}
-          onChange={(e) => handleCreateTicket(e)}
-          customClass={`${errors.description && "custom-input"}`}
-          placeholder='Enter your remarks'
-        />
-        {errors.description && <span className='error-text'>{errors.description}</span>}
-        <FormInput
-          type="file"
-          fileInput="fileInput"
-          name="escalate_image"
-          clearFile={clearFile}
-          selectFile={selectFile}
-          label="Attachments (If any)"
-          onChange={handleFileChange}
-          accept=".pdf, image/*"
-        />
-        {fileError !== '' && <span className='error-text'>{fileError}</span>}
+          {errors.sub_category && <span className='custom-error'>{errors.sub_category}</span>}
+        </div>
+        <div className="position-relative">
+          <FormInput
+            label="Remarks"
+            type="textarea"
+            mandatory={"*"}
+            name={"description"}
+            value={ticketData.description}
+            onChange={(e) => handleCreateTicket(e)}
+            customClass={`${errors.description && "custom-input"}`}
+            placeholder='Enter your remarks'
+          />
+          {errors.description && <span className='custom-error'>{errors.description}</span>}
+        </div>
+        <div className="position-relative">
+          <FormInput
+            type="file"
+            fileInput="fileInput"
+            name="escalate_image"
+            clearFile={clearFile}
+            selectFile={selectFile}
+            label="Attachments (If any)"
+            onChange={handleFileChange}
+            accept=".pdf, image/*"
+          />
+          {fileError !== '' && <span className='custom-error'>{fileError}</span>}
+        </div>
       </div>
       <div className='ticket-form-btn'>
         <button className='btn cancel-button' type="button" onClick={handleCancel}>

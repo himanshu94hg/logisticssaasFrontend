@@ -39,7 +39,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
+const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -48,8 +48,8 @@ const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, active
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
     useEffect(() => {
         if (moreorderCard?.status) {
@@ -180,9 +180,11 @@ const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, active
             if (response?.status === 200) {
                 toast.success("Generate Pickup successfully")
                 setPickupStatus(new Date())
+                setLoader(false)
             }
         } catch (error) {
             toast.error("Something went wrong!")
+            setLoader(false)
         }
     };
 
@@ -194,6 +196,7 @@ const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, active
     );
 
     const handleGeneratePickup = (orderId) => {
+        setLoader(true)
         debouncedHandleClick(orderId);
     };
 
@@ -492,7 +495,7 @@ const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, active
                                                     <div className='threedots-img' disabled={true}>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
+                                                    {row.status !== "cancelled" ? ( 
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>

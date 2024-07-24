@@ -2,23 +2,21 @@ import axios from 'axios';
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import './CustomerSupportPage.css';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import React, { useState, useEffect, useRef } from 'react';
+import AllTickets from './Components/AllTickets';
 import NavTabs from './Components/navTabs/NavTabs';
+import { BASE_URL_CORE } from '../../../axios/config';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import React, { useState, useEffect, useRef } from 'react';
 import CreateTicketForm from './Components/CreateTicketForm';
+import Pagination from '../../common/Pagination/Pagination';
+import ViewTicketSlider from './Components/ViewTicketSlider';
 import FilterTicketsForm from './Components/FilterTicketsForm';
 import InProgressTickets from './Components/InProgressTickets';
-import ViewTicketSlider from './Components/ViewTicketSlider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { customErrorFunction } from '../../../customFunction/errorHandling';
 import { faChevronRight, faCircleQuestion } from '@fortawesome/free-solid-svg-icons';
-import Pagination from '../../common/Pagination/Pagination';
-import { toast } from 'react-toastify';
-import { RxReset } from "react-icons/rx";
-import { useSelector } from 'react-redux';
-import AllTickets from './Components/AllTickets';
-import { BASE_URL_CORE } from '../../../axios/config';
-import { customErrorFunction, errorHandleSecond, errorHandlefirst, errorinApi } from '../../../customFunction/errorHandling';
-import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const CustomerSupportPage = () => {
   let navigate = useNavigate();
@@ -38,27 +36,12 @@ const CustomerSupportPage = () => {
   const [errors, setErrors] = useState({});
   const [clearTicket, setClearTicket] = useState(false)
   const [queryParamTemp, setQueryParamTemp] = useState({})
-  const popRef = useRef(null);
   const [categoryStatus, setCategoryStatus] = useState(false);
   const [loader, setLoader] = useState(false)
-
-
   const authToken = Cookies.get("access_token")
   const apiUrl = `${BASE_URL_CORE}/core-api/features/support-tickets/`;
   const { ticketStatus } = useSelector(state => state?.customerSupportReducer)
 
-  // useEffect(() => {
-  //   const handleClickOutside = (event) => {
-  //     if (popRef.current && !popRef.current.contains(event.target)) {
-  //       setFilterTickets(false)
-  //     }
-  //   };
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, [setFilterTickets]);
 
   useEffect(() => {
     let url = apiUrl;
@@ -84,9 +67,6 @@ const CustomerSupportPage = () => {
       const queryString = Object.keys(queryParams)
         .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(queryParams[key]))
         .join('&');
-
-      console.log(queryString, "queryStringqueryString")
-
       if (queryString) {
         url += '&' + queryString;
       }
@@ -149,9 +129,6 @@ const CustomerSupportPage = () => {
         console.error("API request failed: ", error);
         customErrorFunction(error);
       });
-    /*setQueryParamTemp({
-      sub_category: categories.value        
-    })*/
   };
 
   const handleViewButtonClick = (ticketId) => {
@@ -183,9 +160,6 @@ const CustomerSupportPage = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  /*const handleSearch = (value) => {
-    setSearchValue(value)
-  }*/
   const handleSearch = () => {
     if (validateData()) {
       axios.get(`${BASE_URL_CORE}/core-api/features/support-tickets/?q=${searchValue}&page_size=${20}&page=${1}`, {
@@ -278,7 +252,7 @@ const CustomerSupportPage = () => {
       <div className='support-page position-relative'>
         <div onClick={() => handleNeedHelpPage()} className='help-button'>
           <FontAwesomeIcon icon={faCircleQuestion} />
-          <div className='ms-2'>
+          <div className='ms-2 d-none d-lg-block'>
             <p className='mb-0 fw-bold'>Need Help?</p>
             <p className='mb-0 font12'>Click me!</p>
           </div>
@@ -331,7 +305,7 @@ const CustomerSupportPage = () => {
       </div>
 
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
+        <div id='sidepanel-closer' onClick={() => setNewTicket(false)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>

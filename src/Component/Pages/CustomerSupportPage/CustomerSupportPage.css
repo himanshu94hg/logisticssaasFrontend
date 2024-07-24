@@ -1,5 +1,5 @@
 .support-page .table-container {
-    height: calc(100vh - 281px);
+    height: calc(100vh - 287px);
 }
 
 
@@ -163,7 +163,7 @@
 .ticket-filter-inputs {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 18px;
     /* padding-inline: 15px; */
 }
 
@@ -193,7 +193,7 @@
 .ticket-form-row {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
+    margin-top: 15px;
     gap: 5px;
 }
 
@@ -276,10 +276,11 @@
     display: flex;
     flex-direction: column;
     background-color: #F2F2F2;
-    min-height: 276px;
+    min-height: 100%;
     padding: 10px;
     height: calc(100vh - 415px);
-    overflow: scroll;
+    overflow: auto;
+    border-radius: 0.5rem;
 }
 
 .user-comment {
@@ -372,8 +373,6 @@
     vertical-align: bottom;
 }
 
-@media screen and (max-width:1600px) {
-    .support-page .table-container {
-        height: calc(100vh - 266px);
-    }
+.support-page .nav-actions-container:hover .nav-actions-list {
+    width: 160px;
 }

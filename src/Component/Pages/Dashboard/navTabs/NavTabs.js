@@ -22,6 +22,9 @@ export default function NavTabs(props) {
     props.setActiveTab(selectedTab);
   };
 
+  const activeTabTitle = navItems.find(item => item.name === props.activeTab)?.title;
+
+
   return (
     <Navbar className="w-100 box-shadow shadow-sm p-3" variant="light" id="shipEaseNavTabs">
       <Navbar.Toggle aria-controls="navTabs" />
@@ -44,10 +47,9 @@ export default function NavTabs(props) {
 
             {/* Render NavDropdown for mobile */}
             <NavDropdown
-              title={props.activeTab || "Select Option"} // Set default value based on activeTab
+              title={activeTabTitle}
               id="nav-dropdown"
               onSelect={handleSelect}
-              // Show on mobile
               className="d-block d-lg-none"
               drop="left"
             >
@@ -57,7 +59,7 @@ export default function NavTabs(props) {
                   eventKey={item.name}
                   active={props.activeTab === item.name}
                 >
-                  {item.name}
+                  {item.title}
                 </NavDropdown.Item>
               ))}
             </NavDropdown>

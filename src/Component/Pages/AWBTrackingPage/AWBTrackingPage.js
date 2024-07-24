@@ -1,3 +1,4 @@
+import moment from 'moment'
 import { faChevronRight, faCircleCheck, faCircleDot } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useEffect, useState } from 'react'
@@ -8,9 +9,10 @@ import Cookies from 'js-cookie';
 import { customErrorFunction } from '../../../customFunction/errorHandling'
 import axios from 'axios'
 import { BASE_URL_CORE } from '../../../axios/config'
-import moment from 'moment'
 
-const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo,setAwbNo }) => {
+
+
+const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, partnerList }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
     const CloseSidePanel = () => {
@@ -31,7 +33,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo,setAwbNo }) =>
                     setOrderStatus(response.data);
                 } catch (error) {
                     customErrorFunction(error);
-                } 
+                }
             }
         };
 
@@ -46,8 +48,8 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo,setAwbNo }) =>
             <section className='tracking-header'>
                 <h4><span>AWB:</span> {orderStatus?.awb_number}</h4>
                 <div className='d-flex align-items-center gap-3'>
-                    <p className='text-capitalize'>{orderStatus?.courier_partner}</p>
-                    <img src={orderStatus?.courier_image} alt={orderStatus?.courier_partner} />
+                    <p className='text-capitalize'>{orderStatus?.courier_partner?.split("_").join(" ")}</p>
+                    {orderStatus?.courier_partner && <img src={partnerList[orderStatus?.courier_partner]} alt={orderStatus?.courier_partner} />}
                 </div>
             </section>
             <section className='tracking-body'>

@@ -18,7 +18,17 @@
     .bulk-import-input {
         min-height: 200px;
     }
+
+    .support-page .table-container {
+        height: calc(100vh - 270px);
+    }
+
+    .billing-page-container .table-container {
+        height: calc(100vh - 269px);
+    }
 }
+
+@media screen and (max-width:1366px) {}
 
 @media screen and (max-width:1240px) {
     .ship-container-row {
@@ -60,13 +70,16 @@
         margin-inline: 20px;
     }
 
-}
-
-@media screen and (max-width:1095px) {
     #navTabs .alignContent {
         gap: 8px;
     }
+
+    .support-right-section .search-container {
+        width: auto;
+    }
 }
+
+@media screen and (max-width:1095px) {}
 
 @media screen and (max-width:993px) {}
 
@@ -126,6 +139,11 @@
         padding: 0px 10px;
         border-radius: 0.5rem;
         width: 164px;
+    }
+
+    .support-page #shipEaseNavTabs .nav-item {
+        padding-block: 3px;
+        width: 113px;
     }
 
     #shipEaseNavTabs .nav-item .dropdown-toggle {
@@ -242,6 +260,16 @@
 
     .orders-section-tabs .table-container.m-table-height {
         height: calc(100vh - 239px);
+    }
+
+    .support-page .table-container {
+        height: calc(100vh - 300px);
+    }
+
+
+
+    .billing-page-container .table-container {
+        height: calc(100vh - 299px);
     }
 }
 
@@ -377,6 +405,10 @@
         width: 104px;
     }
 
+    .support-page .help-button {
+        top: -3px;
+    }
+
 }
 
 @media screen and (max-width:633px) {
@@ -385,6 +417,12 @@
     }
 }
 
+
+@media screen and (max-width:628px) {
+    .support-page .table-container {
+        height: calc(100vh - 317px);
+    }
+}
 
 @media screen and (max-width:567px) {
     .edit-order-body .details-side .details-component .warehouse-options .sm-warehouse-item {
@@ -505,6 +543,28 @@
 
     .wallet-box {
         width: 95%;
+    }
+
+    .support-right-section .search-container,
+    .support-right-section .search-container label,
+    .support-right-section .search-container input {
+        width: 171px;
+    }
+
+    .support-right-section {
+        gap: 5px;
+    }
+
+    .ticket-slider {
+        width: 90%;
+    }
+
+    .ticket-view-field {
+        flex-direction: column;
+    }
+
+    .chat-container {
+        height: calc(100vh - 411px);
     }
 }
 

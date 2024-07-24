@@ -1,19 +1,19 @@
+import { toast } from "react-toastify";
 import axios from "../../../../axios/index"
+import { ERROR_RESPONSE_DATA } from "../../../constants/error";
 import { call, put, takeLatest } from "@redux-saga/core/effects";
-import { API_URL, BASE_URL_DUMMY } from "../../../../axios/config";
+import { API_URL, BASE_URL_CORE } from "../../../../axios/config";
+import { customErrorFunction } from "../../../../customFunction/errorHandling";
 import { EXPORT_DATA_ACTION,EXPORT_PASSBOOK_DATA_ACTION,EXPORT_SHIPPING_DATA_ACTION,EXPORT_RECHARGE_DATA_ACTION,EXPORT_INVOICE_DATA_ACTION,EXPORT_WEIGHT_DATA_ACTION,EXPORT_REMITANCE_DATA_ACTION,EXPORT_RECEIPT_DATA_ACTION,EXPORT_ALL_DATA_ACTION,EXPORT_SHIPMENT_DATA_ACTION,EXPORT_SHIPMENT_ALL_DATA_ACTION } from "../../constant/exports";
 import { GET_EXPORT_DATA,GET_EXPORT_PASSBOOK_DATA,GET_EXPORT_SHIPPING_DATA,GET_EXPORT_RECHARGE_DATA,GET_EXPORT_INVOICE_DATA,GET_EXPORT_WEIGHT_DATA,GET_EXPORT_REMITANCE_DATA,GET_EXPORT_RECEIPT_DATA,GET_EXPORT_ALL_DATA,GET_EXPORT_SHIPMENT_DATA,GET_EXPORT_SHIPMENT_ALL_DATA } from "../../../constants/exports";
-import { toast } from "react-toastify";
-import { customErrorFunction } from "../../../../customFunction/errorHandling";
 
 
 
 async function exportFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_URL}`,
         data: data
     });
     return listData;
@@ -21,25 +21,24 @@ async function exportFileAPI(data) {
 
 
 function* exportFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(exportFileAPI, payload);
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_DATA, payload: response?.data })
         }
-        else {
-        }
+      
     } catch (error) {
-        if (reject) reject(error);
+       customErrorFunction(error)
+       yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 
 async function exportPassbookFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_PASSBOOK_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_PASSBOOK_URL}`,
         data: data
     });
     return listData;
@@ -47,27 +46,24 @@ async function exportPassbookFileAPI(data) {
 
 
 function* exportPassbookFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload } = action;
     try {
         let response = yield call(exportPassbookFileAPI, payload);
-
         if (response.status === 200) {
             yield put({ type: GET_EXPORT_PASSBOOK_DATA, payload: response?.data })
             toast.success("Data Export Successfully!");
         }
-        else {
-        }
+      
     } catch (error) {
-        if (reject) reject(error);
+        customErrorFunction(error)
     }
 }
 
 async function exportShippingFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_SHIPPING_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_SHIPPING_URL}`,
         data: data
     });
     return listData;
@@ -75,7 +71,7 @@ async function exportShippingFileAPI(data) {
 
 
 function* exportShippingFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportShippingFileAPI, payload);
         if (response.status === 200) {
@@ -90,11 +86,10 @@ function* exportShippingFilesAction(action) {
 }
 
 async function exportRechargeFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_RECHARGE_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_RECHARGE_URL}`,
         data: data
     });
     return listData;
@@ -102,7 +97,7 @@ async function exportRechargeFileAPI(data) {
 
 
 function* exportRechargeFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportRechargeFileAPI, payload);
         if (response.status === 200) {
@@ -117,11 +112,10 @@ function* exportRechargeFilesAction(action) {
 }
 
 async function exportInvoiceFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_INVOICE_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_INVOICE_URL}`,
         data: data
     });
     return listData;
@@ -129,7 +123,7 @@ async function exportInvoiceFileAPI(data) {
 
 
 function* exportInvoiceFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportInvoiceFileAPI, payload);
         if (response.status === 200) {
@@ -144,11 +138,10 @@ function* exportInvoiceFilesAction(action) {
 }
 
 async function exportWeightFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_WEIGHT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_WEIGHT_URL}`,
         data: data
     });
     return listData;
@@ -156,7 +149,7 @@ async function exportWeightFileAPI(data) {
 
 
 function* exportWeightFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportWeightFileAPI, payload);
 
@@ -172,11 +165,10 @@ function* exportWeightFilesAction(action) {
 }
 
 async function exportRemitanceFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "GET",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_REMITANCE_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_REMITANCE_URL}`,
         data: data
     });
     return listData;
@@ -184,7 +176,7 @@ async function exportRemitanceFileAPI(data) {
 
 
 function* exportRemitanceFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportRemitanceFileAPI, payload);
 
@@ -200,11 +192,10 @@ function* exportRemitanceFilesAction(action) {
 }
 
 async function exportReceiptFileAPI(data) {
-    console.log("All Export Data",data)
     let listData = axios.request({
         method: "GET",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_RECEIPT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_RECEIPT_URL}`,
         data: data
     });
     return listData;
@@ -212,7 +203,7 @@ async function exportReceiptFileAPI(data) {
 
 
 function* exportReceiptFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportReceiptFileAPI, payload);
         if (response.status === 200) {
@@ -229,7 +220,7 @@ function* exportReceiptFilesAction(action) {
 async function exportAllFileAPI(data) {
     let listData = axios.request({
         method: "POST",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_ALL_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_ALL_URL}`,
         data: data
     });
     return listData;
@@ -237,11 +228,9 @@ async function exportAllFileAPI(data) {
 
 
 function* exportAllFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportAllFileAPI, payload);
-
-        console.log(response,"All Blob Data ....")
         if (response.status === 200) {
             toast.success(response?.data?.message);
             yield put({ type: GET_EXPORT_ALL_DATA, payload: response?.data })
@@ -250,6 +239,7 @@ function* exportAllFilesAction(action) {
         }
     } catch (error) {
         customErrorFunction(error)
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 
@@ -257,7 +247,7 @@ async function exportShipmentFileAPI(data) {
     let listData = axios.request({
         method: "POST",
         responseType: 'blob',
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_SHIPMENT_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_SHIPMENT_URL}`,
         data: data
     });
     return listData;
@@ -265,7 +255,7 @@ async function exportShipmentFileAPI(data) {
 
 
 function* exportShipmentFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportShipmentFileAPI, payload);
 
@@ -283,7 +273,7 @@ function* exportShipmentFilesAction(action) {
 async function exportShipmentAllFileAPI(data) {
     let listData = axios.request({
         method: "POST",
-        url: `${BASE_URL_DUMMY}${API_URL.GET_EXPORT_SHIPMENT_ALL_URL}`,
+        url: `${BASE_URL_CORE}${API_URL.GET_EXPORT_SHIPMENT_ALL_URL}`,
         data: data
     });
     return listData;
@@ -291,7 +281,7 @@ async function exportShipmentAllFileAPI(data) {
 
 
 function* exportShipmentAllFilesAction(action) {
-    let { payload, reject } = action;
+    let { payload,  } = action;
     try {
         let response = yield call(exportShipmentAllFileAPI, payload);
 
