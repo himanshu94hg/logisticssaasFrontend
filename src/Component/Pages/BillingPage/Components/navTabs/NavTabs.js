@@ -1,10 +1,20 @@
 import React, { useState } from "react";
 import {
   Navbar,
-  Nav
+  Nav,
+  NavDropdown
 } from "react-bootstrap";
 // import "./navTabs.css";
 import { HiOutlineFilter } from "react-icons/hi";
+
+const navItems = [
+  { name: 'Shipping Charges', title: 'Shipping Charges' },
+  { name: 'Remittance Logs', title: 'Remittance Logs' },
+  { name: 'Recharge Logs', title: 'Recharge Logs' },
+  { name: 'Invoices', title: 'Invoices' },
+  { name: 'Passbook', title: 'Passbook' },
+  { name: 'Credit Receipt', title: 'Credit Receipt' },
+]
 
 export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreFilters }) {
   const [selectedOption, setSelectedOption] = useState("Domestic");
@@ -20,6 +30,12 @@ export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreF
   };
 
 
+  const handleSelect = (selectedTab) => {
+    setActiveTab(selectedTab);
+  };
+
+  const activeTabTitle = navItems.find(item => item.name === activeTab)?.title;
+
   return (
     <>
       <Navbar
@@ -31,70 +47,41 @@ export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreF
         <Navbar.Collapse id="navTabs">
           <Nav className="ml-auto w-100 alignContent">
             <div className="alignContent">
-              <Nav.Link className={`${activeTab === "Shipping Charges" ? "active" : ""}`}
-                onClick={() => {
-                  setActiveTab("Shipping Charges");
-                }}
+              {
+                navItems.map((item) => (
+                  <Nav.Link
+                    key={item.name}
+                    className={`d-none d-lg-block ${activeTab === item.name ? "active" : ""}`}
+                    onClick={() => {
+                      setActiveTab(item.name);
+                    }}
+                    title={item.title}
+                  >
+                    <div className="navItemsContainer">
+                      {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+                      {item.title}
+                    </div>
+                  </Nav.Link>
+                ))
+              }
+              <NavDropdown
+                title={activeTabTitle}
+                id="nav-dropdown"
+                onSelect={handleSelect}
+                className="d-block d-lg-none"
+                drop="left"
               >
-                <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                  Shipping Charges
-                </div>
-              </Nav.Link>
-              <Nav.Link className={`${activeTab === "Remittance Logs" ? "active" : ""}`}
-                onClick={() => {
-                  setActiveTab("Remittance Logs");
-                }}
-              >
-                {" "}
-                <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faCube} /> */}
-                  Remittance Logs
-                </div>
-              </Nav.Link>
-              <Nav.Link className={`${activeTab === "Recharge Logs" ? "active" : ""}`}
-                onClick={() => {
-                  setActiveTab("Recharge Logs");
-                }}
-              >
-                {" "}
-                <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                  Recharge Logs
-                </div>
-              </Nav.Link>
-              <Nav.Link className={`${activeTab === "Invoices" ? "active" : ""}`}
-                onClick={() => {
-                  setActiveTab("Invoices");
-                }}
-              >
-                {" "}
-                <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faCube} /> */}
-                  Invoices
-                </div>
-              </Nav.Link>
-              <Nav.Link className={`${activeTab === "Passbook" ? "active" : ""}`}
-                onClick={() => {
-                  setActiveTab("Passbook");
-                }}
-              >
-                {" "}
-                <div className="navItemsContainer">
-                  {/* <FontAwesomeIcon icon={faCube} /> */}
-                  Passbook
-                </div>
-              </Nav.Link>
-              <Nav.Link className={`${activeTab === "Credit Receipt" ? "active" : ""}`}
-                onClick={() => {
-                  setActiveTab("Credit Receipt");
-                }}
-              >
-                {" "}
-                <div className="navItemsContainer">
-                  Credit Receipt
-                </div>
-              </Nav.Link>
+                {navItems.map((item) => (
+                  <NavDropdown.Item
+                    key={item.name}
+                    eventKey={item.name}
+                    active={activeTab === item.name}
+                  >
+                    {item.title}
+                  </NavDropdown.Item>
+                ))}
+              </NavDropdown>
+
             </div>
           </Nav>
         </Navbar.Collapse>
@@ -104,7 +91,7 @@ export default function NavTabs({ activeTab, setActiveTab, MoreFilters, setMoreF
               style={{ paddingBlock: '4px' }}
               onClick={() => setMoreFilters(true)}
               type="button"
-              className="btn main-button-outline ms-2"
+              className="btn main-button-outline"
             >
               <HiOutlineFilter className='align-text-bottom' /> More Filters
             </button>
