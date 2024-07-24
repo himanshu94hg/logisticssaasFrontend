@@ -1,29 +1,30 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import './SingleShipPop.css';
+import Swal from 'sweetalert2';
+import Cookies from 'js-cookie';
+import { debounce } from 'lodash';
 import PieChart from './PieChart';
 import StarRating from './StarRating';
-import './SingleShipPop.css';
-import axios from "axios";
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import React, { useCallback } from 'react';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from "react-router-dom";
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import shipNowAction from '../../../../../../redux/action/orders/shipNow';
 import { BASE_URL_CORE } from '../../../../../../axios/config';
 import { customErrorFunction } from '../../../../../../customFunction/errorHandling';
-import { debounce } from 'lodash';
-import { useSelector } from 'react-redux';
-import Swal from 'sweetalert2';
 
 
 const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, setDataRefresh, Exitpop, setExitpop }) => {
     const dispatch = useDispatch()
     const navigation = useNavigate();
     let authToken = Cookies.get("access_token")
-    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
 
 
     const handleClick = (param1, param2) => {
@@ -77,6 +78,7 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
     const handleClose = () => {
         setSingleShip(false);
     };
+
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
@@ -95,17 +97,17 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                     }
                 </div>
                 <div className='ss-container-main'>
-                    {/* Iterate over ship options and render details */}
                     {shipingResponse && shipingResponse.map((option, index) => (
                         <div className='ship-container-row box-shadow shadow-sm' key={index}>
                             <div className='d-flex gap-2'>
                                 <div className='img-container'>
-                                    <img src={option?.partner_image} alt={option?.partner_title} />
+                                    {option?.partner_title && <img src={partnerList[option?.partner_keyword]} alt={option?.partner_title} />}
+
                                 </div>
                                 <div className='d-flex flex-column justify-content-center'>
                                     <p className='fw-bold fs-large'>{option?.partner_title}</p>
                                     <p>{"Delivering Excellence, Every Mile"}</p>
-                                    <p>RTO Charges: ₹{option.rto_charge}</p>
+                                    <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
                                 </div>
                             </div>
                             <div className='d-flex align-items-center gap-2 ship-ratings'>
@@ -136,9 +138,9 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                             </div>
                             <div className='ss-shipment-charges'>
                                 <p><strong>₹ {(option?.rate + option?.cod_charge + option?.early_cod_charge).toFixed(2)}</strong> <span>(Inclusive of all taxes )</span><br />
-                                    <span>Freight Charges: <strong>₹ {option?.rate}</strong></span><br />
-                                    <span>+ COD Charges: <strong>₹ {option?.cod_charge}</strong></span><br />
-                                    <span>+ Early COD Charges: <strong>₹ {option?.early_cod_charge}</strong></span><br />
+                                    <span>Freight Charges: <strong>₹ {(option?.rate).toFixed(2)}</strong></span><br />
+                                    <span>+ COD Charges: <strong>₹ {(option?.cod_charge).toFixed(2)}</strong></span><br />
+                                    <span>+ Early COD Charges: <strong>₹ {(option?.early_cod_charge).toFixed(2)}</strong></span><br />
                                 </p>
                             </div>
                             <div className='d-flex flex-column gap-2 align-items-end'>
@@ -153,8 +155,6 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                     ))}
                 </div>
             </section>
-            {/* <div onClick={handleBackdropExit} className={`backdrop ${!SingleShip && 'd-none'}`}></div> */}
-
             <section className={`quick-ship-exit ${Exitpop && 'open'}`}>
                 <div className='confirmation-header'>
                     <h4 className='mb-0'>Please Confirm!</h4>

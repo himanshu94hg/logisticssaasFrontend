@@ -48,8 +48,8 @@ const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, active
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
+    const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
     useEffect(() => {
         if (moreorderCard?.status) {
@@ -492,7 +492,7 @@ const ReadyToShip = ({ setOrderTracking, orders, partnerList,MoreFilters, active
                                                     <div className='threedots-img' disabled={true}>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    {row.status !== "cancelled" ? ( // Check if status is not "cancelled"
+                                                    {row.status !== "cancelled" ? ( 
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>

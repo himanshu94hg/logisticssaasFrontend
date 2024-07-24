@@ -277,7 +277,7 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                     </table>
                     {orders?.length === 0 && <NoData />}
                 </div>
-                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
+                <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} partnerList={partnerList} />
                 <div onClick={handleBackdropClick} className={`backdrop ${!SingleShip && 'd-none'}`}></div>
             </div>
         </section>

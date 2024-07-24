@@ -3,25 +3,24 @@ import './MoreOnOrders.css'
 import moment from 'moment';
 import Cookies from 'js-cookie';
 import Select from 'react-select';
-import { debounce } from 'lodash';
-import NavTabs from './Components/navTabs/NavTabs';
-import { useDispatch, useSelector } from 'react-redux';
-import MergeOrder from './Components/MergeOrder/MergeOrder';
-import SplitOrder from './Components/SplitOrder/SplitOrder';
-import React, { useCallback, useEffect, useState } from 'react';
-import ReassignOrder from './Components/ReassignOrder/ReassignOrder';
-import Pagination from '../../common/Pagination/Pagination';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { HiOutlineFilter } from "react-icons/hi";
 import { RxReset } from "react-icons/rx";
+import { HiOutlineFilter } from "react-icons/hi";
+import NavTabs from './Components/navTabs/NavTabs';
+import globalDebouncedClick from '../../../debounce';
+import { BASE_URL_CORE } from '../../../axios/config';
+import { useDispatch, useSelector } from 'react-redux';
+import LoaderScreen from '../../LoaderScreen/LoaderScreen';
+import Pagination from '../../common/Pagination/Pagination';
+import SplitOrder from './Components/SplitOrder/SplitOrder';
+import MergeOrder from './Components/MergeOrder/MergeOrder';
+import React, { useCallback, useEffect, useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
+import ReassignOrder from './Components/ReassignOrder/ReassignOrder';
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
-import { BASE_URL_CORE } from '../../../axios/config';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
-import globalDebouncedClick from '../../../debounce';
-import AWBTrackingPage from '../AWBTrackingPage/AWBTrackingPage';
-import LoaderScreen from '../../LoaderScreen/LoaderScreen';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -35,34 +34,33 @@ const SearchOptions = [
 
 const MoreOnOrders = () => {
     const dispatch = useDispatch()
-    let authToken = Cookies.get("access_token")
-    const [pageStatus, pageStatusSet] = useState(true)
-    const [searchValue, setSearchValue] = useState("")
-    const [splitStatus, setSplitStatus] = useState(null)
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalItems, setTotalItems] = useState("");
-    const [itemsPerPage, setItemsPerPage] = useState(20);
-    const [queryParamTemp, setQueryParamTemp] = useState({})
-    const [queryParamSearch, setQueryParamSearch] = useState(null)
-    const [activeTab, setActiveTab] = useState("Reassign Order");
-    const [BulkActionShow, setBulkActionShow] = useState(false)
-    const [MoreFilters, setMoreFilters] = useState(false);
-    const [backDrop, setBackDrop] = useState(false);
-    const [selectedRows, setSelectedRows] = useState([]);
-    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
-    const [searchType, setsearchType] = useState(SearchOptions[0].value);
-    const [addTagShow, setaddTagShow] = useState(false)
-    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
-    const [handleResetFrom, setHandleResetFrom] = useState(false);
-    const [queryName, setQueryName] = useState([])
-    const [orderTracking, setOrderTracking] = useState(false)
+    const apiEndpoint = `${BASE_URL_CORE}`;
     const [awbNo, setAwbNo] = useState(null)
+    let authToken = Cookies.get("access_token")
+    const [loader, setLoader] = useState(false)
+    const [queryName, setQueryName] = useState([])
+    const [totalItems, setTotalItems] = useState("");
     const [selectAll, setSelectAll] = useState(false);
     const [mergeOrders, setMergeOrders] = useState([]);
     const [reassOrders, setReassOrders] = useState([])
     const [splitOrders, setSplitOrders] = useState([])
-    const [loader, setLoader] = useState(false)
-    const apiEndpoint = `${BASE_URL_CORE}`;
+    const [pageStatus, pageStatusSet] = useState(true)
+    const [searchValue, setSearchValue] = useState("")
+    const [currentPage, setCurrentPage] = useState(1);
+    const [addTagShow, setaddTagShow] = useState(false)
+    const [splitStatus, setSplitStatus] = useState(null)
+    const [selectedRows, setSelectedRows] = useState([]);
+    const [itemsPerPage, setItemsPerPage] = useState(20);
+    const [MoreFilters, setMoreFilters] = useState(false);
+    const [queryParamTemp, setQueryParamTemp] = useState({})
+    const [activeTab, setActiveTab] = useState("Reassign Order");
+    const [BulkActionShow, setBulkActionShow] = useState(false)
+    const [UpdateWarehouse, setUpdateWarehouse] = useState(false)
+    const [handleResetFrom, setHandleResetFrom] = useState(false);
+    const [queryParamSearch, setQueryParamSearch] = useState(null)
+    const [orderTracking, setOrderTracking] = useState(false)
+    const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
+    const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const { pathName } = useSelector(state => state?.authDataReducer)
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)   
      const { screenWidthData } = useSelector(state => state?.authDataReducer)
@@ -178,12 +176,10 @@ const MoreOnOrders = () => {
 
     const handleSidePanel = () => {
         setMoreFilters(true);
-        setBackDrop(true)
     }
 
     const CloseSidePanel = () => {
         setMoreFilters(false);
-        setBackDrop(false)
     }
 
     const handleSearch = () => {
@@ -270,6 +266,7 @@ const MoreOnOrders = () => {
         setQueryParamTemp(queryParams);
     };
 
+    
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />

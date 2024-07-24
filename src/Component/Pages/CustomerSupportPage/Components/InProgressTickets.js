@@ -1,37 +1,12 @@
 import moment from 'moment';
+import { useDispatch } from 'react-redux';
+import NoData from '../../../common/noData';
 import React, { useState, useEffect } from 'react';
+import globalDebouncedClick from '../../../../debounce';
 import { faEye } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ThreeDots from '../../../../assets/image/icons/ThreeDots.png'
-import { useDispatch } from 'react-redux';
 import { capatlize } from '../../../../customFunction/functionLogic';
-import NoData from '../../../common/noData';
-import globalDebouncedClick from '../../../../debounce';
-
-
-const DateFormatter = ({ dateTimeString }) => {
-    const [formattedDate, setFormattedDate] = useState('');
-
-    useEffect(() => {
-        const formattedDateTime = formatDateTime(dateTimeString);
-        setFormattedDate(formattedDateTime);
-    }, [dateTimeString]);
-
-    const formatDateTime = (dateTimeString) => {
-        const options = {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: true,
-        };
-        const dateObject = new Date(dateTimeString);
-        const formattedDateTime = new Intl.DateTimeFormat('en-US', options).format(dateObject);
-        return formattedDateTime;
-    };
-    return <p>{formattedDate}</p>;
-};
 
 const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleViewButtonClick }) => {
     const dispatch = useDispatch();
@@ -47,7 +22,6 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
         }
     };
 
-    // Handler for individual checkbox
     const handleSelectRow = (TicketId) => {
         const isSelected = selectedRows.includes(TicketId);
         if (isSelected) {
@@ -79,8 +53,6 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
         })
     }
 
-
-    console.log(allTicket, "activeTab")
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -120,58 +92,52 @@ const InProgressTickets = ({ setViewTicketInfo, allTicket, activeTab, handleView
                                             />
                                         </td>
                                         <td>
-                                            {/* order detail */}
                                             <div className='cell-inside-box'>
                                                 {item?.id}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB */}
-                                            <div className='cell-inside-box'>
-                                                {item?.awb_number}
+                                            <div className='cell-inside-box shipping-details'>
+                                                <div>
+                                                    <p className='details-on-hover anchor-awb'>
+                                                        {item?.awb_number}
+                                                    </p>
+                                                </div>
                                             </div>
                                         </td>
                                         <td>
-                                            {/* AWB */}
                                             <div className='cell-inside-box'>
                                                 <span className={`fw-bold ${item?.severity === "critical" ? "text-danger" : item?.severity === "high" ? "text-warning" : item?.severity === "low" ? "text-success" : "text-info"}`}> {capatlize(item?.severity)}</span>
 
                                             </div>
                                         </td>
                                         <td>
-                                            {/* subcategory */}
                                             <div className='cell-inside-box'>
                                                 {item?.sub_category}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* Status */}
                                             <div className='cell-inside-box'>
                                                 {item?.status}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
                                                 {moment(item?.resolution_due_by).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td className='align-middle'>
-                                            {/* resolutionDueBy */}
                                             <div className='cell-inside-box'>
                                                 {moment(item?.created_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
                                         <td>
-                                            {/* last Updated */}
                                             <div className='cell-inside-box'>
                                                 {moment(item?.updated_at).format("DD MMM YYYY")}
                                             </div>
                                         </td>
 
                                         <td className='align-middle'>
-                                            {/* {row.ndr_action}
-                                             {row.ndr_status} */}
                                             <div className='d-flex align-items-center gap-3'>
                                                 <button
                                                     onClick={() => { setViewTicketInfo(true); handleViewButtonClick(item?.id) }}

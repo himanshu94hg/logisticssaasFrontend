@@ -1,16 +1,15 @@
 import axios from 'axios';
 import './OrderDetail.css'
+import moment from 'moment';
 import Cookies from 'js-cookie';
 import { toast } from 'react-toastify';
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import moment from 'moment';
-import { BASE_URL_ORDER } from '../../../../../axios/config';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import { weightGreater } from '../../../../../customFunction/functionLogic';
-import { FiEdit } from "react-icons/fi";
-import { MdOutlineKeyboardBackspace } from "react-icons/md";
 import { AiOutlineExport } from 'react-icons/ai';
+import React, { useEffect, useState } from 'react';
+import { MdOutlineKeyboardBackspace } from "react-icons/md";
+import { BASE_URL_ORDER } from '../../../../../axios/config';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -18,6 +17,7 @@ const OrderDetail = () => {
     const navigate = useNavigate()
     let authToken = Cookies.get("access_token")
     const [orderDetails, setOrderDetails] = useState({})
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
 
 
     useEffect(() => {
@@ -37,7 +37,6 @@ const OrderDetail = () => {
             setOrderDetails(location?.state?.orderData)
         }
     }, [params])
-
 
     const handleExport = async () => {
         const requestData = {
@@ -89,7 +88,6 @@ const OrderDetail = () => {
         }
     }
 
-
     return (
         <>
             {orderDetails !== null &&
@@ -100,12 +98,6 @@ const OrderDetail = () => {
                             <div className='d-flex gap-2'>
                                 <button className='btn white-btn' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
                                 <button className='btn white-btn' onClick={handleExport}><AiOutlineExport className='align-text-bottom' /> Export</button>
-                                {/* {orderDetails?.status === 'pending' &&
-                                    <>
-                                        <button className='btn white-btn'><FiEdit className='align-text-bottom' /> Edit</button>
-                                        <button className='btn white-btn'>Ship Now</button>
-                                    </>
-                                } */}
                             </div>
                         </div>
                         <div className='d-flex justify-content-between'>
@@ -118,15 +110,14 @@ const OrderDetail = () => {
                                 </div>
                                 <div className='od-status-lines d-flex gap-2'>
                                     <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
-                                    {/* <p>Updated at:  {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p> */}
                                     {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.awb_assigned_date).format("DD MMM YYYY")} || {moment(orderDetails?.awb_assigned_date).format("h:mm A")}</p>}
                                 </div>
                             </div>
                             <div className='od-courier-details'>
                                 {orderDetails?.awb_number &&
                                     <>
-                                        <p className='text-ddd text-capitalize'>{orderDetails?.courier_partner}</p>
-                                        <img className='partner-image' src={orderDetails?.courier_image} alt="Partner" />
+                                        <p className='text-ddd text-capitalize'>{orderDetails?.courier_partner.split('_').join(" ")}</p>
+                                        {orderDetails?.courier_partner && <img className='partner-image' src={partnerList[orderDetails?.courier_partner]} alt="Partner" />}
                                     </>
                                 }
 
