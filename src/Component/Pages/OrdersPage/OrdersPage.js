@@ -489,6 +489,7 @@ const OrdersPage = () => {
                         orders={orders}
                         bulkAwb={bulkAwb}
                         setAwbNo={setAwbNo}
+                        setLoader={setLoader}
                         activeTab={activeTab}
                         setbulkAwb={setbulkAwb}
                         partnerList={partnerList}
@@ -509,6 +510,7 @@ const OrdersPage = () => {
                         orders={orders}
                         bulkAwb={bulkAwb}
                         setAwbNo={setAwbNo}
+                        setLoader={setLoader}
                         activeTab={activeTab}
                         setbulkAwb={setbulkAwb}
                         MoreFilters={MoreFilters}
@@ -526,6 +528,7 @@ const OrdersPage = () => {
                 {/* Manifest */}
                 <div className={`${activeTab === "Manifest" ? "d-block" : "d-none"}`}>
                     <Manifest
+                        setLoader={setLoader}
                         activeTab={activeTab}
                         partnerList={partnerList}
                         MoreFilters={MoreFilters}

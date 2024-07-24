@@ -37,7 +37,7 @@ import { customErrorFunction } from '../../../../../customFunction/errorHandling
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
-const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
+const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,partnerList, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
     const [BulkActions, setBulkActions] = useState(false)
@@ -46,7 +46,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, b
     const [awb, setAwb] = useState("");
     const handleClose = () => setShow(false);
 
-    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const { orderdelete,orderCancelled } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
         if (orderdelete) {
@@ -129,9 +129,11 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, b
     );
 
     const generateManifest = (value) => {
+        setLoader(true)
         debouncedHandleClick(value);
     }
     const downloadManifest = async (value) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${value}`
         };
@@ -145,6 +147,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, b
                 body: JSON.stringify(requestData)
             });
             if (response.status === 200) {
+                setLoader(false)
                 toast.success("Download Manifest successfully")
             }
             const data = await response.blob();
@@ -158,6 +161,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, b
             window.URL.revokeObjectURL(url);
         } catch (error) {
             customErrorFunction(error)
+            setLoader(false)
         }
     }
 
@@ -275,10 +279,13 @@ const Pickups = ({ orders, activeTab, MoreFilters, BulkActionShow,partnerList, b
         }
     }
 
-    const handleShow = (args1) => {
-        setShow(true)
+ 
+    useEffect(() => {
+        if (orderdelete || orderCancelled) {
+            setLoader(false)
+        }
+    }, [orderdelete,orderCancelled])
 
-    };
     const handleCancelOrder = (awb) => {
         setShow(true)
         setAwb(awb)

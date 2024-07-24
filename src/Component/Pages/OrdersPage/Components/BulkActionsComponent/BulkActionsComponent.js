@@ -94,11 +94,13 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     }
 
     const generateManifest = () => {
+        setLoader(true)
         dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
-        setSelectAll(false)
+        setSelectAll(false)         
     };
 
     const generatePickup = () => {
+        setLoader(true)
         setSelectAll(false)
         dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
     };
@@ -140,7 +142,6 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         setExportButtonClick(true);
         setSelectAll(false)
         setLoader(true)
-       
         const requestData = {
             "order_tab": {
                 "type": activeTab === "All" ? "" : activeTab,

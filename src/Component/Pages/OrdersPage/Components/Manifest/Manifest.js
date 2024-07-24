@@ -6,7 +6,7 @@ import globalDebouncedClick from '../../../../../debounce';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
 
 
-const Manifest = ({ manifestOrders, activeTab, partnerList }) => {
+const Manifest = ({ manifestOrders, activeTab, partnerList,setLoader }) => {
     const dispatch = useDispatch();
     const [genaratelabel, setGenaratelabel] = useState(false);
     const [generateinvoice, setGenerateinvoice] = useState(false);
@@ -60,6 +60,7 @@ const Manifest = ({ manifestOrders, activeTab, partnerList }) => {
                 a.click();
                 document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+                setLoader(false)
             }
         }
     }, [downloadManifest])
@@ -103,6 +104,7 @@ const Manifest = ({ manifestOrders, activeTab, partnerList }) => {
     }
 
     const manifestDownload = (data) => {
+        setLoader(true)
         globalDebouncedClick(() => handleClick(data));
     }
 
