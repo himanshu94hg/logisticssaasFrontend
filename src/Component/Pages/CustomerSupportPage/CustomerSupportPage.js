@@ -305,7 +305,7 @@ const CustomerSupportPage = () => {
       </div>
 
       <div className={`ticket-slider ${NewTicket ? 'open' : ''}`}>
-        <div id='sidepanel-closer' onClick={() => setNewTicket(!NewTicket)}>
+        <div id='sidepanel-closer' onClick={() => setNewTicket(false)}>
           <FontAwesomeIcon icon={faChevronRight} />
         </div>
         <section className='ticket-slider-header'>

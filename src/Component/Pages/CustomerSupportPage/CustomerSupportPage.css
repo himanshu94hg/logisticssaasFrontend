@@ -372,3 +372,7 @@
     color: var(--sh-primary);
     vertical-align: bottom;
 }
+
+.support-page .nav-actions-container:hover .nav-actions-list {
+    width: 160px;
+}
