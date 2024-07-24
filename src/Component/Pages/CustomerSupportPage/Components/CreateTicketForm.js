@@ -352,7 +352,7 @@ const CreateTicketForm = (props) => {
             placeholder='Enter AWB number(s)'
           />
         )}
-        {errors.awb_number && <span className='error-text'>{errors.awb_number}</span>}
+        {errors.awb_number && <span className='custom-error'>{errors.awb_number}</span>}
         <FormInput
           type="select"
           mandatory={"*"}
@@ -362,7 +362,7 @@ const CreateTicketForm = (props) => {
           onChange={(e) => handleCreateTicket(e)}
           customClass={`${errors.category && "custom-input"}`}
         />
-        {errors.category && <span className='error-text'>{errors.category}</span>}
+        {errors.category && <span className='custom-error'>{errors.category}</span>}
         <FormInput
           type="select"
           mandatory={"*"}
@@ -372,7 +372,7 @@ const CreateTicketForm = (props) => {
           onChange={(e) => handleCreateTicket(e)}
           customClass={`${errors.sub_category && "custom-input"}`}
         />
-        {errors.sub_category && <span className='error-text'>{errors.sub_category}</span>}
+        {errors.sub_category && <span className='custom-error'>{errors.sub_category}</span>}
         <FormInput
           label="Remarks"
           type="textarea"
@@ -383,7 +383,7 @@ const CreateTicketForm = (props) => {
           customClass={`${errors.description && "custom-input"}`}
           placeholder='Enter your remarks'
         />
-        {errors.description && <span className='error-text'>{errors.description}</span>}
+        {errors.description && <span className='custom-error'>{errors.description}</span>}
         <FormInput
           type="file"
           fileInput="fileInput"
@@ -394,7 +394,7 @@ const CreateTicketForm = (props) => {
           onChange={handleFileChange}
           accept=".pdf, image/*"
         />
-        {fileError !== '' && <span className='error-text'>{fileError}</span>}
+        {fileError !== '' && <span className='custom-error'>{fileError}</span>}
       </div>
       <div className='ticket-form-btn'>
         <button className='btn cancel-button' type="button" onClick={handleCancel}>

@@ -865,3 +865,11 @@ input:disabled {
   color: #fff;
   border: none;
 }
+
+.table-container::-webkit-scrollbar {
+  height: 2.5px;
+}
+
+.table-container td {
+  white-space: nowrap;
+}
