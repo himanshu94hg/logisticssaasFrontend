@@ -10,6 +10,7 @@ import { BASE_URL_ORDER } from '../../../../../axios/config';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { weightGreater } from '../../../../../customFunction/functionLogic';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import { useSelector } from 'react-redux';
 
 const OrderDetail = () => {
     const params = useParams();
@@ -18,7 +19,7 @@ const OrderDetail = () => {
     let authToken = Cookies.get("access_token")
     const [orderDetails, setOrderDetails] = useState({})
     const partnerList = JSON.parse(localStorage.getItem('partnerList'));
-
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
     useEffect(() => {
         if (params?.slug && location && location?.state?.path != "searchOrderData") {
@@ -93,9 +94,9 @@ const OrderDetail = () => {
             {orderDetails !== null &&
                 <section className='order-detials-page'>
                     <div className='box-shadow shadow-sm p10 d-flex flex-column gap-3 od-bg'>
-                        <div className='d-flex justify-content-between align-items-center'>
-                            <h3 className='text-white'>Order ID: {orderDetails?.customer_order_number}</h3>
-                            <div className='d-flex gap-2'>
+                        <div className='d-flex justify-content-between align-items-center flex-column-reverse flex-md-row row-gap-3'>
+                            <h3 className='text-white text-start w-100'>Order ID: {orderDetails?.customer_order_number}</h3>
+                            <div className='d-flex gap-2 w-100 justify-content-end'>
                                 <button className='btn white-btn' onClick={() => navigate(-1)}><MdOutlineKeyboardBackspace className='align-text-bottom' /> Go back</button>
                                 <button className='btn white-btn' onClick={handleExport}><AiOutlineExport className='align-text-bottom' /> Export</button>
                             </div>
@@ -108,7 +109,7 @@ const OrderDetail = () => {
                                         <p className='order-Status-box'>AWB: {orderDetails?.awb_number}</p>
                                     }
                                 </div>
-                                <div className='od-status-lines d-flex gap-2'>
+                                <div className='od-status-lines d-flex gap-2 flex-column flex-md-row'>
                                     <p>Created at: {moment(orderDetails?.created_at).format("DD MMM YYYY")} || {moment(orderDetails?.created_at).format("h:mm A")}</p>
                                     {orderDetails?.awb_assigned_date && <p>AWB Assigned at: {moment(orderDetails?.awb_assigned_date).format("DD MMM YYYY")} || {moment(orderDetails?.awb_assigned_date).format("h:mm A")}</p>}
                                 </div>
@@ -116,7 +117,9 @@ const OrderDetail = () => {
                             <div className='od-courier-details'>
                                 {orderDetails?.awb_number &&
                                     <>
-                                        <p className='text-ddd text-capitalize'>{orderDetails?.courier_partner.split('_').join(" ")}</p>
+                                        {screenWidthData > 767 &&
+                                            <p className='text-ddd text-capitalize'>{orderDetails?.courier_partner.split('_').join(" ")}</p>
+                                        }
                                         {orderDetails?.courier_partner && <img className='partner-image' src={partnerList[orderDetails?.courier_partner]} alt="Partner" />}
                                     </>
                                 }
@@ -125,8 +128,8 @@ const OrderDetail = () => {
                         </div>
                     </div>
                     <div className='mt-4'>
-                        <div className='od-row row'>
-                            <div className='col-4'>
+                        <div className='od-row row row-gap-3'>
+                            <div className='col-12 col-md-4'>
                                 <div className='od-col'>
                                     <div>
                                         <h6>Order Details</h6>
@@ -142,7 +145,7 @@ const OrderDetail = () => {
                                     </ul>
                                 </div>
                             </div>
-                            <div className='col-4'>
+                            <div className='col-12 col-md-4'>
                                 <div className='od-col'>
                                     <div>
                                         <h6>Package Details</h6>
@@ -155,7 +158,7 @@ const OrderDetail = () => {
                                     </ul>
                                 </div>
                             </div>
-                            <div className='col-4'>
+                            <div className='col-12 col-md-4'>
                                 <div className='od-col'>
                                     <div>
                                         <h6>Customer Details</h6>
@@ -173,7 +176,7 @@ const OrderDetail = () => {
                     {/* orderDetails?.order_products.length &&orderDetails?.order_products?.map((item)=> */}
 
 
-                    <div className='od-col product-details-sec mt-4'>
+                    <div className='od-col product-details-sec my-4'>
                         <div>
                             <h6>Product Details</h6>
                         </div>
@@ -218,12 +221,20 @@ const OrderDetail = () => {
                                 <table className='w-100'>
                                     <tbody>
                                         <tr>
-                                            <td style={{ width: '90%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Product Total ({orderDetails?.order_products?.length} Item)</td>
-                                            <td style={{ width: '10%', paddingBottom: '20px' }}>₹ {orderDetails?.invoice_amount || 0.00}</td>
+                                            <td style={{ width: '70%', paddingBottom: '20px', textAlign: 'end', paddingRight: '25px' }}>Product Total ({orderDetails?.order_products?.length} Item)</td>
+                                            <td style={{ width: '20%', paddingBottom: '20px' }}>
+                                                <p className='text-end'>
+                                                    ₹ {orderDetails?.invoice_amount || 0.00}
+                                                </p>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td style={{ width: '90%', textAlign: 'end', paddingRight: '25px' }}>Order Total</td>
-                                            <td style={{ width: '10%' }}>₹ {orderDetails?.invoice_amount || 0.00}</td>
+                                            <td style={{ width: '70%', textAlign: 'end', paddingRight: '25px' }}>Order Total</td>
+                                            <td style={{ width: '20%' }}>
+                                                <p className='text-end'>
+                                                    ₹ {orderDetails?.invoice_amount || 0.00}
+                                                </p>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

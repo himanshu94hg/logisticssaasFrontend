@@ -37,6 +37,7 @@
     /* text-transform: capitalize; */
     margin-bottom: 0;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .od-list {
@@ -79,8 +80,8 @@
 }
 
 .product-details-sec {
-    height: calc(100vh - 33rem);
-    overflow-y: auto;
+    /* height: calc(100vh - 33rem); */
+    /* overflow-y: auto; */
 }
 
 .product-details-sec .pd-total {
