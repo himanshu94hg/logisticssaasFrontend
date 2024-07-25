@@ -566,6 +566,7 @@ const OrdersPage = () => {
                 />
                 {BulkActionShow && (
                     <BulkActionsComponent
+                        totalItems={totalItems}
                         bulkAwb={bulkAwb}
                         activeTab={activeTab}
                         setbulkAwb={setbulkAwb}
