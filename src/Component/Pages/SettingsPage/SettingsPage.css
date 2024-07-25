@@ -1,6 +1,6 @@
 .main-container {
-    flex: 0 0 auto;
-    width: 25%;
+    flex: 1 1;
+    min-width: 320px;
     margin-bottom: 30px;
     position: relative;
 }
