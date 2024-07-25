@@ -36,6 +36,7 @@ import globalDebounce from '../../../../../debounce';
 import { debounce } from 'lodash';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
 
@@ -135,6 +136,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     };
 
     const handleDownloadLabel = async (orderId) => {
+        setLoader(true)
         try {
             const requestData = {
                 order_ids: `${orderId}`
@@ -150,6 +152,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
             });
             if (response.status === 200) {
+                setLoader(true)
                 toast.success("Download label successfully")
             }
             const data = await response.blob();
@@ -161,12 +164,15 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
+            setLoader(false)
         } catch (error) {
-            toast.error("Somethng went wrong!")
+            customErrorFunction(error)
+            setLoader(false)
         }
     };
 
     const handleDownloadInvoice = async (orderId) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${orderId}`
         };
@@ -182,7 +188,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
             if (!response.ok) {
                 throw new Error('Something went wrong');
             }
-
             const data = await response.blob();
             const url = window.URL.createObjectURL(data);
             const a = document.createElement('a');
@@ -192,7 +197,10 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
+            setLoader(false)
         } catch (error) {
+            customErrorFunction(error)
+            setLoader(false)
         }
     };
 
@@ -258,7 +266,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
         setActionType(type)
     };
 
-    const  handlePickupCancelApiCall = async () => {
+    const handlePickupCancelApiCall = async () => {
         setLoader(true)
         if (actionType === "generate-pickup") {
             try {
@@ -505,17 +513,23 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
                 <Modal
                     show={show}
-                    onHide={handleClose}
                     keyboard={false}
+                    onHide={handleClose}
+                    className='confirmation-modal'
                 >
                     <Modal.Header>
-                        <Modal.Title>Are you sure you want to {actionType === "generate-pickup" ? "Generate pickup" : "Cancel"} the order ?</Modal.Title>
+                        <Modal.Title>Confirmation Required</Modal.Title>
                     </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to {actionType === "generate-pickup" ? "Generate pickup" : "Cancel"} the order ?
+                    </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" className="px-5" onClick={handleClose}>
-                            No
-                        </Button>
-                        <Button variant="primary" className="px-5" onClick={handlePickupCancelApiCall}>Yes</Button>
+                        <div className='d-flex gap-2'>
+                            <button className="btn cancel-button"  onClick={handleClose}>
+                            Cancel
+                            </button>
+                            <button className="btn main-button"  onClick={handlePickupCancelApiCall}>Continue</button>
+                        </div>
                     </Modal.Footer>
                 </Modal>
             </div>

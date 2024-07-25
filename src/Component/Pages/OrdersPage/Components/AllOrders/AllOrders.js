@@ -40,7 +40,7 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setStatusType, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
+const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
@@ -127,9 +127,12 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setS
     };
 
     const handleDownloadLabel = async (orderId, status) => {
-        if (status === "pending") {
-            toast.error("Order not shipped yet")
-        } else {
+        setLoader(true)
+        if (status === "pending" || status === "cancelled") {
+            toast.error("Oops... You can not download the label of Pending or Cancelled Orders!")
+            setLoader(false)
+        }
+        else {
             dispatch({
                 type: "BULK_ORDER_GENERATE_LABEL_ACTION",
                 payload: {
@@ -141,9 +144,12 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setS
     };
 
     const handleDownloadInvoice = async (orderId, status) => {
-        if (status === "pending") {
-            toast.error("Order not shipped yet")
-        } else {
+        setLoader(true)
+        if (status === "pending" || status === "cancelled") {
+            toast.error("Oops... You can not download the invoice of Pending or Cancelled Orders!")
+            setLoader(false)
+        }
+        else {
             dispatch({
                 type: "BULK_ORDER_GENERATE_INVOICE_ACTION", payload: {
                     order_ids: `${orderId}`
@@ -572,34 +578,45 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setS
 
                     <Modal
                         show={show}
-                        onHide={handleClose}
                         keyboard={false}
+                        onHide={handleClose}
+                        className='confirmation-modal'
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to delete the order ?</Modal.Title>
+                            <Modal.Title>Confirmation Required</Modal.Title>
                         </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to delete the order ?
+                        </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" className="px-5" onClick={handleClose}>
-                                No
-                            </Button>
-                            <Button variant="primary" className="px-5" onClick={handleDeleteOrder}>Yes</Button>
+                            <div className='d-flex gap-2'>
+                                <button className="btn cancel-button" onClick={handleClose}>
+                                    Cancel
+                                </button>
+                                <button className="btn main-button" onClick={handleDeleteOrder}>Continue</button>
+                            </div>
                         </Modal.Footer>
                     </Modal>
 
-
                     <Modal
+                        keyboard={false}
                         show={showCancel}
                         onHide={handleCloseCancel}
-                        keyboard={false}
+                        className='confirmation-modal'
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to Cancel the order ?</Modal.Title>
+                            <Modal.Title>Confirmation Required</Modal.Title>
                         </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to Cancel the order ?
+                        </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" className="px-5" onClick={handleCloseCancel}>
-                                No
-                            </Button>
-                            <Button variant="primary" className="px-5" onClick={handleCancelOrder}>Yes</Button>
+                            <div className='d-flex gap-2'>
+                                <button className="btn cancel-button" onClick={handleCloseCancel}>
+                                    Cancel
+                                </button>
+                                <button className="btn main-button" onClick={handleCancelOrder}>Continue</button>
+                            </div>
                         </Modal.Footer>
                     </Modal>
 

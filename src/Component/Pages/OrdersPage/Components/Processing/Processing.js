@@ -37,7 +37,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
 
-const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setSelectAll, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
+const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, setLoader, setSelectAll, MoreFilters, bulkAwb, setbulkAwb, setEditOrderSection, setCloneOrderSection, setOrderId, setBulkActionShow, selectedRows, setSelectedRows, setaddTagShow }) => {
     const dispatch = useDispatch()
     let authToken = Cookies.get("access_token")
     const [SingleShip, setSingleShip] = useState(false)
@@ -153,13 +153,10 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
         setOrderId(id)
     }
 
-    const handleMarkClick = (value) => {
-        dispatch({
-            type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
-                order_ids: [value],
-            }
-        })
-    }
+    // const handleMarkClick = (value) => {
+    //     setLoader(true)
+
+    // }
 
 
     const [show, setShow] = useState(false);
@@ -179,6 +176,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
     };
 
     const makeApiCall = () => {
+        setLoader(true)
         if (actionType.action === "cancel") {
             dispatch({
                 type: "BULK_PROCESSING_ORDER_CANCEL_ACTION", payload: {
@@ -186,8 +184,16 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                 }
             }
             )
-        } else {
+        }
+        else if (actionType.action === "delete") {
             dispatch({ type: "DELETE_ORDERS_ACTION", payload: actionType?.id })
+        }
+        else {
+            dispatch({
+                type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
+                    order_ids: [actionType.id],
+                }
+            })
         }
         setShow(false)
     }
@@ -382,7 +388,7 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                                                                 <li onClick={() => { setaddTagShow(true); setSelectedRows([row.id]); setOrderTagId(row.order_tag) }}>Add Tag</li>
                                                                 <li className='action-hr'></li>
                                                                 <li>Call Buyer</li>
-                                                                <li onClick={() => globalDebouncedClick(() => handleMarkClick(row?.id))}>Mark As Verified</li>
+                                                                <li onClick={() => globalDebouncedClick(() => handleShow(row?.id, "mark-verify"))}>Mark As Verified</li>
                                                                 <li onClick={() => openCloneSection(row?.id)}>Clone Order</li>
                                                                 <li className='action-hr'></li>
                                                                 <li onClick={() => handleShow(row?.id, "cancel")}>Cancel Order</li>
@@ -408,15 +414,21 @@ const Processing = React.memo(({ orders, activeTab, setOrderTagId, selectAll, se
                 show={show}
                 onHide={handleClose}
                 keyboard={false}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionType.action} the order ?</Modal.Title>
+                    <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {actionType.action} the order ?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={makeApiCall}>Continue</button>
+                    </div>
                 </Modal.Footer>
             </Modal>
 

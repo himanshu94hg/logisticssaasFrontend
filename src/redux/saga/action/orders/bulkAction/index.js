@@ -28,6 +28,7 @@ function* bulkAddOrderTagAction(action) {
 
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 
@@ -269,6 +270,7 @@ function* bulkDownloadManifestAction(action) {
 
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 
@@ -290,6 +292,7 @@ function* bulkOrderDimensionAction(action) {
 
     } catch (error) {
         customErrorFunction(error);
+        yield put({ type: ERROR_RESPONSE_DATA, payload: error+new Date() })
     }
 }
 

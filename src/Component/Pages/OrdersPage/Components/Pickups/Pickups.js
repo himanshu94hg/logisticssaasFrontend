@@ -11,7 +11,7 @@ import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
 import React, { useState, useEffect, useCallback } from 'react';
-import {  faCircle,  } from '@fortawesome/free-solid-svg-icons';
+import { faCircle, } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -22,7 +22,7 @@ import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import magentoImg from "../../../../../assets/image/integration/magento.png"
 import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import {  weightGreater } from '../../../../../customFunction/functionLogic';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
 import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
@@ -151,6 +151,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     }
 
     const handleDownloadLabel = async (orderId) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${orderId}`
         };
@@ -164,6 +165,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                 body: JSON.stringify(requestData)
             });
             if (response.status === 200) {
+                setLoader(false)
                 toast.success("Download label successfully")
             }
             const data = await response.blob();
@@ -177,11 +179,13 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
             window.URL.revokeObjectURL(url);
         } catch (error) {
             customErrorFunction(error)
+            setLoader(false)
         }
     };
 
 
     const handleDownloadInvoice = async (orderId) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${orderId}`
         };
@@ -207,8 +211,10 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
+            setLoader(false)
         } catch (error) {
-            toast.error("Somethng went wrong!")
+            customErrorFunction(error)
+            setLoader(false)
         }
     };
 
@@ -276,7 +282,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
         setActionType(type)
     };
 
-    const makeApiCall = () => {
+    const handleApiCall = () => {
         setLoader(true)
         if (actionType === "generate-manifest") {
             dispatch({
@@ -513,17 +519,23 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
 
             <Modal
                 show={show}
-                onHide={handleClose}
                 keyboard={false}
+                onHide={handleClose}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionType === "generate-manifest" ? "Generate manifest" : "Cancel"} the order ?</Modal.Title>
+                    <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {actionType === "generate-manifest" ? "Generate manifest" : "Cancel"} the order ?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={handleApiCall}>Continue</button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         </section >
