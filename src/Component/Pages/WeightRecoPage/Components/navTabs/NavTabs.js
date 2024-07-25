@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import {
   Navbar,
-  Nav
+  Nav,
+  NavDropdown
 } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronUp, faChevronDown, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 // import "./navTabs.css";
+
+const navItems = [
+  { name: 'Weight Reconciliation', title: 'Weight Reconciliation' },
+  { name: 'On-Hold Reconciliation', title: 'On-Hold Reconciliation' },
+  { name: 'Settled Reconciliation', title: 'Settled Reconciliation' },
+]
 
 export default function NavTabs(props) {
   const [selectedOption, setSelectedOption] = useState("Domestic");
@@ -20,6 +27,15 @@ export default function NavTabs(props) {
   const toggleOptions = () => {
     setIsOpen(!isOpen);
   };
+
+  const handleSelect = (selectedTab) => {
+    props.setActiveTab(selectedTab);
+  };
+
+  const activeTabTitle = navItems.find(item => item.name === props.activeTab)?.title;
+
+
+
   return (
     <Navbar
       className="w-100 box-shadow shadow-sm p7 gap-10"
@@ -30,38 +46,40 @@ export default function NavTabs(props) {
       <Navbar.Collapse id="navTabs">
         <Nav className="ml-auto w-100 alignContent">
           <div className="alignContent">
-            <Nav.Link className={`${props.activeTab === "Weight Reconciliation" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Weight Reconciliation");
-              }}
+            {
+              navItems.map((item) => (
+                <Nav.Link
+                  key={item.name}
+                  className={`d-none d-lg-block ${props.activeTab === item.name ? "active" : ""}`}
+                  onClick={() => {
+                    props.setActiveTab(item.name);
+                  }}
+                  title={item.title}
+                >
+                  <div className="navItemsContainer">
+                    {/* <FontAwesomeIcon icon={faBinoculars} /> */}
+                    {item.title}
+                  </div>
+                </Nav.Link>
+              ))
+            }
+            <NavDropdown
+              title={activeTabTitle}
+              id="nav-dropdown"
+              onSelect={handleSelect}
+              className="d-block d-lg-none wr-nav-item"
+              drop="left"
             >
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faBinoculars} /> */}
-                Weight Reconciliation
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "On Hold Reconciliation" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("On Hold Reconciliation");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCube} /> */}
-                On-Hold Reconciliation
-              </div>
-            </Nav.Link>
-            <Nav.Link className={`${props.activeTab === "Settled Reconciliation" ? "active" : ""}`}
-              onClick={() => {
-                props.setActiveTab("Settled Reconciliation");
-              }}
-            >
-              {" "}
-              <div className="navItemsContainer">
-                {/* <FontAwesomeIcon icon={faCartFlatbed} /> */}
-                Settled Reconciliation
-              </div>
-            </Nav.Link>
+              {navItems.map((item) => (
+                <NavDropdown.Item
+                  key={item.name}
+                  eventKey={item.name}
+                  active={props.activeTab === item.name}
+                >
+                  {item.title}
+                </NavDropdown.Item>
+              ))}
+            </NavDropdown>
           </div>
         </Nav>
       </Navbar.Collapse>
