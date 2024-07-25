@@ -408,7 +408,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                     <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    Are you sure you want to {actionName === "mark-verified" ? "mark" : "ship"} <span className='fw-bold font20'>{selectedRows.length}</span> ordersorder{selectedRows.length > 1 && 's'}?
+                    Are you sure you want to {actionName === "mark-verified" ? "mark" : "ship"} <span className='fw-bold font20'>{selectedRows.length}</span> order{selectedRows.length > 1 && 's'}{actionName === "mark-verified" && " as verified"}?
                 </Modal.Body>
                 <Modal.Footer>
                     <div className='d-flex gap-2'>
