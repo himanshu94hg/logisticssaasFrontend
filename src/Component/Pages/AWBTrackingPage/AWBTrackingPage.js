@@ -16,12 +16,13 @@ import { customErrorFunction } from '../../../customFunction/errorHandling'
 const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, partnerList }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    
     const CloseSidePanel = () => {
         setOrderTracking(false)
         setAwbNo("")
 
     }
-    const { screenWidthData } = useSelector(state => state?.authDataReducer)
 
 
     useEffect(() => {

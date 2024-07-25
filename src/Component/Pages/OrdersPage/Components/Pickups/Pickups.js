@@ -283,6 +283,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     };
 
     const handleApiCall = () => {
+        setShow(false)
         setLoader(true)
         if (actionType === "generate-manifest") {
             dispatch({
@@ -297,7 +298,6 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                 }
             })
         }
-        setShow(false)
     }
 
 

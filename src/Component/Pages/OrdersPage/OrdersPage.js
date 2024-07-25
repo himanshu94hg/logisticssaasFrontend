@@ -256,6 +256,7 @@ const OrdersPage = () => {
     }
 
     useEffect(() => {
+        // setLoader(true)
         let apiUrl = '';
         switch (activeTab) {
             case "All":
@@ -298,6 +299,7 @@ const OrdersPage = () => {
             })
                 .then(response => {
                     setTotalItems(response?.data?.count)
+                    setLoader(false)
                     const start = performance.now();
                     setOrders(response.data.results);
                     const end = performance.now();
@@ -305,6 +307,7 @@ const OrdersPage = () => {
                 })
                 .catch(error => {
                     // customErrorFunction(error)
+                    //    setLoader(false)
                 });
         }
 

@@ -61,6 +61,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     }
 
     const cancelDeleteApiCall = () => {
+        setLoader(true)
         setShow(false);
         setSelectAll(false)
         if (actionType === "bulkDelete") {
@@ -76,8 +77,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     };
 
     const bulkActionApiCall = () => {
+        setLoader(true)
+        handleShipClose(false)
         if (actionName === "mark-verified") {
-            setLoader(true)
             dispatch({
                 type: "BULK_MARK_ORDER_VERIFY_ACTION", payload: {
                     order_ids: selectedRows,
@@ -87,15 +89,12 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
             setShipShow(false)
             setSelectedRows([])
             setSelectAll(false)
-            setLoader(true)
             const data = { "order_ids": selectedRows.map(id => id.toString()) };
             dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
         } else if (actionName === "generate-pickup") {
-            setLoader(true)
             setSelectAll(false)
             dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
         } else if (actionName === "") {
-            setLoader(true)
             dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
             setSelectAll(false)
         }

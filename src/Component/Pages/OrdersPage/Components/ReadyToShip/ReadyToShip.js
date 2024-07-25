@@ -267,6 +267,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     };
 
     const handlePickupCancelApiCall = async () => {
+        setShow(false)
         setLoader(true)
         if (actionType === "generate-pickup") {
             try {
@@ -298,7 +299,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                 }
             })
         }
-        setShow(false)
+       
     }
 
     return (
@@ -525,10 +526,10 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                     </Modal.Body>
                     <Modal.Footer>
                         <div className='d-flex gap-2'>
-                            <button className="btn cancel-button"  onClick={handleClose}>
-                            Cancel
+                            <button className="btn cancel-button" onClick={handleClose}>
+                                Cancel
                             </button>
-                            <button className="btn main-button"  onClick={handlePickupCancelApiCall}>Continue</button>
+                            <button className="btn main-button" onClick={handlePickupCancelApiCall}>Continue</button>
                         </div>
                     </Modal.Footer>
                 </Modal>
