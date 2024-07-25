@@ -249,7 +249,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 pickup_address: names,
                 pickup_address_id: ids
             }));
-        } 
+        }
     };
 
 
@@ -488,7 +488,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                     <input className={`input-field filter-name-ip ${errors.favName && "input-field-error"}`} type="text" value={favName} placeholder='Enter name for filter' onChange={(e) => setFavName(e.target.value)} />
                                 )}
                             </label>
-                            <div>
+                            <div className='d-flex'>
                                 <button className='btn seconadary-button' type="button" onClick={handleReset}>
                                     Reset
                                 </button>

@@ -89,7 +89,7 @@ const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMo
                 order_tag: ""
             })
         }
-    }, [activeTab,clearState])
+    }, [activeTab, clearState])
 
     const handleReset = () => {
         setFilterParams({
@@ -107,7 +107,7 @@ const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMo
         // Handle the change
         console.log(fieldName, value);
     };
-    
+
 
     return (
         <>
@@ -121,21 +121,21 @@ const SidePanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, handleMo
                 </section>
                 <section className='sidepanel-body'>
                     <form onSubmit={handleSubmit}>
-                    <div className="form-input-fields">
-                        <div className='filter-row'>
-                            <label>Order Status
-                                <Select
-                                    options={OrderStatus}
-                                    isMulti
-                                    isSearchable
-                                    onChange={(e) => handleChange("status", e)}
-                                    value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
-                                />
-                            </label>
+                        <div className="form-input-fields">
+                            <div className='filter-row'>
+                                <label>Order Status
+                                    <Select
+                                        options={OrderStatus}
+                                        isMulti
+                                        isSearchable
+                                        onChange={(e) => handleChange("status", e)}
+                                        value={filterParams.status ? OrderStatus.filter(option => filterParams.status.includes(option.value)) : null}
+                                    />
+                                </label>
+                            </div>
                         </div>
-                    </div>
                         <div className='more-filters-footer'>
-                            <div>
+                            <div className='d-flex'>
                                 <button className='btn seconadary-button' type="button" onClick={handleReset}>
                                     Reset
                                 </button>
