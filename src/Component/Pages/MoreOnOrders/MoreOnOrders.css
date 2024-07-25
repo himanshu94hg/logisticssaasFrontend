@@ -158,7 +158,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
+  align-items: start;
+}
+
+.filter-container .nav-actions-container:hover .nav-actions-list {
+  width: 170px;
+  height: 115px;
 }
 
 .search-container {

@@ -50,6 +50,10 @@
         white-space: nowrap;
     }
 
+    #navTabs .alignContent {
+        gap: 8px;
+    }
+
 }
 
 @media screen and (max-width:1142px) {
@@ -68,10 +72,6 @@
 
     .status-container-item .status-item .status-counter {
         margin-inline: 20px;
-    }
-
-    #navTabs .alignContent {
-        gap: 8px;
     }
 
     .support-right-section .search-container {
@@ -429,6 +429,14 @@
 
     .awb-tracking-slider {
         width: 92%;
+    }
+
+    .morefilters-panel {
+        width: 92%;
+    }
+
+    .filter-row {
+        flex-direction: column;
     }
 }
 
