@@ -578,34 +578,45 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
 
                     <Modal
                         show={show}
-                        onHide={handleClose}
                         keyboard={false}
+                        onHide={handleClose}
+                        className='confirmation-modal'
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to delete the order ?</Modal.Title>
+                            <Modal.Title>Confirmation Required</Modal.Title>
                         </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to delete the order ?
+                        </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" className="px-5" onClick={handleClose}>
-                                No
-                            </Button>
-                            <Button variant="primary" className="px-5" onClick={handleDeleteOrder}>Yes</Button>
+                            <div className='d-flex gap-2'>
+                                <button className="btn cancel-button" onClick={handleClose}>
+                                    Cancel
+                                </button>
+                                <button className="btn main-button" onClick={handleDeleteOrder}>Continue</button>
+                            </div>
                         </Modal.Footer>
                     </Modal>
 
-
                     <Modal
+                        keyboard={false}
                         show={showCancel}
                         onHide={handleCloseCancel}
-                        keyboard={false}
+                        className='confirmation-modal'
                     >
                         <Modal.Header>
-                            <Modal.Title>Are you sure you want to Cancel the order ?</Modal.Title>
+                            <Modal.Title>Confirmation Required</Modal.Title>
                         </Modal.Header>
+                        <Modal.Body>
+                            Are you sure you want to Cancel the order ?
+                        </Modal.Body>
                         <Modal.Footer>
-                            <Button variant="secondary" className="px-5" onClick={handleCloseCancel}>
-                                No
-                            </Button>
-                            <Button variant="primary" className="px-5" onClick={handleCancelOrder}>Yes</Button>
+                            <div className='d-flex gap-2'>
+                                <button className="btn cancel-button" onClick={handleCloseCancel}>
+                                    Cancel
+                                </button>
+                                <button className="btn main-button" onClick={handleCancelOrder}>Continue</button>
+                            </div>
                         </Modal.Footer>
                     </Modal>
 

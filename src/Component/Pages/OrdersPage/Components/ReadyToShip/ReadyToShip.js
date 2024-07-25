@@ -266,7 +266,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
         setActionType(type)
     };
 
-    const  handlePickupCancelApiCall = async () => {
+    const handlePickupCancelApiCall = async () => {
         setLoader(true)
         if (actionType === "generate-pickup") {
             try {
@@ -513,17 +513,23 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                 <SingleShipPop reassignCard={reassignCard} setSingleShip={setSingleShip} SingleShip={SingleShip} orderId={selectedOrderId} />
                 <Modal
                     show={show}
-                    onHide={handleClose}
                     keyboard={false}
+                    onHide={handleClose}
+                    className='confirmation-modal'
                 >
                     <Modal.Header>
-                        <Modal.Title>Are you sure you want to {actionType === "generate-pickup" ? "Generate pickup" : "Cancel"} the order ?</Modal.Title>
+                        <Modal.Title>Confirmation Required</Modal.Title>
                     </Modal.Header>
+                    <Modal.Body>
+                        Are you sure you want to {actionType === "generate-pickup" ? "Generate pickup" : "Cancel"} the order ?
+                    </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" className="px-5" onClick={handleClose}>
-                            No
-                        </Button>
-                        <Button variant="primary" className="px-5" onClick={handlePickupCancelApiCall}>Yes</Button>
+                        <div className='d-flex gap-2'>
+                            <button className="btn cancel-button"  onClick={handleClose}>
+                            Cancel
+                            </button>
+                            <button className="btn main-button"  onClick={handlePickupCancelApiCall}>Continue</button>
+                        </div>
                     </Modal.Footer>
                 </Modal>
             </div>
