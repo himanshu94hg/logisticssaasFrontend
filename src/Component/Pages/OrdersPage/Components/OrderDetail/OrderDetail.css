@@ -78,11 +78,11 @@
     flex-shrink: 1;
     flex-basis: 50%;
 }
-
+/* 
 .product-details-sec {
-    /* height: calc(100vh - 33rem); */
-    /* overflow-y: auto; */
-}
+    height: calc(100vh - 33rem);
+    overflow-y: auto;
+} */
 
 .product-details-sec .pd-total {
     display: flex;
