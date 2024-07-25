@@ -1,52 +1,42 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import axios from "axios";
-import { faChevronRight, faCircle, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
-import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
-import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import NoData from '../../../../common/noData';
-import { Link } from 'react-router-dom';
-import { BASE_URL_CORE } from '../../../../../axios/config';
 import { debounce } from 'lodash';
-import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import Button from 'react-bootstrap/Button';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+import NoData from '../../../../common/noData';
+import { useDispatch, useSelector } from 'react-redux';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import React, { useState, useEffect, useCallback } from 'react';
+import {  faCircle,  } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import {  weightGreater } from '../../../../../customFunction/functionLogic';
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
-const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,partnerList, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
+const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const dispatch = useDispatch()
-    const [selectAll, setSelectAll] = useState(false);
-    const [BulkActions, setBulkActions] = useState(false)
-    const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
-    const [awb, setAwb] = useState("");
     const handleClose = () => setShow(false);
-
-    const { orderdelete,orderCancelled } = useSelector(state => state?.orderSectionReducer)
+    const token = Cookies.get("access_token")
+    const [actionId, setActionId] = useState("")
+    const [actionType, setActionType] = useState("");
+    const [selectAll, setSelectAll] = useState(false);
+    const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
         if (orderdelete) {
@@ -86,7 +76,6 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
                 setSelectAll(false)
             }
         }
-
     };
 
 
@@ -117,11 +106,7 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
         }
     };
     const handleClick = (param) => {
-        dispatch({
-            type: "GENERATE_MANIFEST_ACTION", payload: {
-                order_ids: `${param}`
-            }
-        })
+
     };
     const debouncedHandleClick = useCallback(
         debounce((param) => handleClick(param), 1000),
@@ -231,8 +216,6 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
         event.preventDefault();
         setAwbNo(awb)
         setOrderTracking(true)
-        // const url = `https://shipease.in/order-tracking/`;
-        // window.open(url, '_blank');
     };
 
     const handleClickpartner = (event, row) => {
@@ -279,24 +262,35 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
         }
     }
 
- 
+
     useEffect(() => {
         if (orderdelete || orderCancelled) {
             setLoader(false)
         }
-    }, [orderdelete,orderCancelled])
+    }, [orderdelete, orderCancelled])
 
-    const handleCancelOrder = (awb) => {
+
+    const handleShow = (awb, type) => {
         setShow(true)
-        setAwb(awb)
-    }
+        setActionId(awb)
+        setActionType(type)
+    };
 
     const makeApiCall = () => {
-        dispatch({
-            type: "BULK_CANCEL_ORDER_ACTION", payload: {
-                ids: [awb],
-            }
-        })
+        setLoader(true)
+        if (actionType === "generate-manifest") {
+            dispatch({
+                type: "GENERATE_MANIFEST_ACTION", payload: {
+                    order_ids: `${actionId}`
+                }
+            })
+        } else {
+            dispatch({
+                type: "BULK_CANCEL_ORDER_ACTION", payload: {
+                    ids: [actionId],
+                }
+            })
+        }
         setShow(false)
     }
 
@@ -471,7 +465,7 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                            {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
                                                         {row.awb_number}
@@ -491,7 +485,7 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
                                             <div className='d-flex align-items-center gap-3'>
                                                 {row?.manifest_status ?
                                                     <button className='btn main-button' onClick={() => downloadManifest(row.id)}>Download Manifest</button> :
-                                                    <button className='btn main-button' onClick={() => generateManifest(row.id)}>Generate Manifest</button>
+                                                    <button className='btn main-button' onClick={() => handleShow(row.id, "generate-manifest")}>Generate Manifest</button>
                                                 }
 
                                                 <div className='action-options'>
@@ -500,7 +494,7 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
                                                     </div>
                                                     <div className='action-list'>
                                                         <ul>
-                                                            <li onClick={() => handleCancelOrder(row.id)}>Cancel Order</li>
+                                                            <li onClick={() => handleShow(row.id, "cancel-order")}>Cancel Order</li>
                                                             <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
                                                             <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                         </ul>
@@ -523,7 +517,7 @@ const Pickups = ({ orders, activeTab, MoreFilters,  setLoader,BulkActionShow,par
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to Cancel the order ?</Modal.Title>
+                    <Modal.Title>Are you sure you want to {actionType === "generate-manifest" ? "Generate manifest" : "Cancel"} the order ?</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" className="px-5" onClick={handleClose}>

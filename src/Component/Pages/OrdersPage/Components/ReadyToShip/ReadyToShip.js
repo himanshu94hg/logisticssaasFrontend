@@ -39,15 +39,18 @@ import Modal from 'react-bootstrap/Modal';
 
 
 
-const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
+const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
+    const handleClose = () => setShow(false);
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
     const [actionType, setActionType] = useState("");
     const [selectAll, setSelectAll] = useState(false);
+    const [actionId, setActionId] = useState("")
     const [SingleShip, setSingleShip] = useState(false)
     const [selectedOrderId, setSelectedOrderId] = useState(null);
-    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const { loaderState } = useSelector(state => state?.errorLoaderReducer);
+    const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
     const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
 
@@ -57,6 +60,11 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
         }
     }, [moreorderCard])
 
+    useEffect(() => {
+        if (orderCancelled || loaderState) {
+            setLoader(false)
+        }
+    }, [orderCancelled, loaderState])
 
     useEffect(() => {
         if (orderdelete) {
@@ -99,7 +107,6 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
 
     };
 
-
     const handleSelectRow = (orderId, awb) => {
         const isSelected = selectedRows?.includes(orderId);
         const isSelected1 = bulkAwb?.includes(awb);
@@ -126,8 +133,6 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
             setSelectAll(false);
         }
     };
-
-
 
     const handleDownloadLabel = async (orderId) => {
         try {
@@ -159,45 +164,6 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
         } catch (error) {
             toast.error("Somethng went wrong!")
         }
-    };
-
-
-    const handleClick = async (orderId) => {
-        let authToken = Cookies.get("access_token")
-        try {
-            const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-pickup/`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${authToken}`
-                },
-                body: JSON.stringify({
-                    orders: [
-                        orderId
-                    ]
-                })
-            });
-            if (response?.status === 200) {
-                toast.success("Generate Pickup successfully")
-                setPickupStatus(new Date())
-                setLoader(false)
-            }
-        } catch (error) {
-            toast.error("Something went wrong!")
-            setLoader(false)
-        }
-    };
-
-
-
-    const debouncedHandleClick = useCallback(
-        debounce((param) => handleClick(param), 1000),
-        []
-    );
-
-    const handleGeneratePickup = (orderId) => {
-        setLoader(true)
-        debouncedHandleClick(orderId);
     };
 
     const handleDownloadInvoice = async (orderId) => {
@@ -239,13 +205,9 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
 
     const handleClickAWB = (e, awb) => {
         e.preventDefault();
-        // const url = `https://shipease.in/order-tracking/`;
-        // window.open(url, '_blank');
         setOrderTracking(true)
         setAwbNo(awb)
     };
-
-
 
     const handleClickpartner = (event, row) => {
         event.preventDefault();
@@ -290,21 +252,44 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
         }
     }
 
-
-    const handleClose = () => setShow(false);
-
-
-    const handleShow = (args) => {
+    const handleShow = (args, type) => {
         setShow(true)
-        setActionType(args)
+        setActionId(args)
+        setActionType(type)
     };
 
-    const makeApiCall = () => {
-        dispatch({
-            type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
-                ids: [actionType]
+    const  handlePickupCancelApiCall = async () => {
+        setLoader(true)
+        if (actionType === "generate-pickup") {
+            try {
+                const response = await fetch(`${BASE_URL_CORE}/core-api/shipping/generate-pickup/`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({
+                        orders: [
+                            actionId
+                        ]
+                    })
+                });
+                if (response?.status === 200) {
+                    toast.success("Generate Pickup successfully")
+                    setPickupStatus(new Date())
+                    setLoader(false)
+                }
+            } catch (error) {
+                toast.error("Something went wrong!")
+                setLoader(false)
             }
-        })
+        } else if (actionType === "cancel-order") {
+            dispatch({
+                type: "ORDERS_DETAILS_CANCEL_ACTION", payload: {
+                    ids: [actionId]
+                }
+            })
+        }
         setShow(false)
     }
 
@@ -488,21 +473,21 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>
-                                                <button className="btn main-button" onClick={() => handleGeneratePickup(row.id)} disabled={row?.status === "cancelled" && true}>
+                                                <button className="btn main-button" onClick={() => handleShow(row.id, "generate-pickup")} disabled={row?.status === "cancelled" && true}>
                                                     Generate Pickup
                                                 </button>
                                                 <div className='action-options'>
                                                     <div className='threedots-img' disabled={true}>
                                                         <img src={ThreeDots} alt="ThreeDots" width={24} />
                                                     </div>
-                                                    {row.status !== "cancelled" ? ( 
+                                                    {row.status !== "cancelled" ? (
                                                         <div className='action-list'>
                                                             <ul>
                                                                 <li onClick={() => handleDownloadLabel(row.id)}>Download Label</li>
                                                                 <li onClick={() => handleDownloadInvoice(row.id)}>Download Invoice</li>
                                                                 <li onClick={() => handleShipNow(row.id)}>Reassign</li>
                                                                 <li className='action-hr'></li>
-                                                                <li onClick={() => handleShow(row?.id)}>Cancel Order</li>
+                                                                <li onClick={() => handleShow(row?.id, "cancel-order")}>Cancel Order</li>
                                                             </ul>
                                                         </div>
                                                     ) : null}
@@ -524,13 +509,13 @@ const ReadyToShip = ({ setOrderTracking, orders,  setLoader, partnerList,MoreFil
                     keyboard={false}
                 >
                     <Modal.Header>
-                        <Modal.Title>Are you sure you want to cancel the order ?</Modal.Title>
+                        <Modal.Title>Are you sure you want to {actionType === "generate-pickup" ? "Generate pickup" : "Cancel"} the order ?</Modal.Title>
                     </Modal.Header>
                     <Modal.Footer>
                         <Button variant="secondary" className="px-5" onClick={handleClose}>
                             No
                         </Button>
-                        <Button variant="primary" className="px-5" onClick={makeApiCall}>Yes</Button>
+                        <Button variant="primary" className="px-5" onClick={handlePickupCancelApiCall}>Yes</Button>
                     </Modal.Footer>
                 </Modal>
             </div>
