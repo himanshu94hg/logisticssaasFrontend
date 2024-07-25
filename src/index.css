@@ -873,3 +873,36 @@ input:disabled {
 .table-container td {
   white-space: nowrap;
 }
+
+.confirmation-modal .modal-dialog {
+  margin-top: 20%;
+}
+
+.confirmation-modal .modal-header {
+  font-weight: 500;
+  padding: 15px;
+  background: var(--sh-primary-light);
+  border-radius: 0.5rem 0.5rem 0 0;
+  color: var(--bs-heading-color);
+  border-bottom: none;
+  justify-content: center;
+}
+
+.confirmation-modal .modal-header .modal-title {
+  font-size: 1.25rem;
+}
+
+.confirmation-modal .modal-footer {
+  border-top: none;
+  justify-content: center;
+}
+
+.confirmation-modal .modal-body {
+  margin-block: 15px 3px;
+  padding: 0;
+  text-align: center;
+}
+
+.confirmation-modal .modal-dialog {
+  max-width: 448px;
+}
