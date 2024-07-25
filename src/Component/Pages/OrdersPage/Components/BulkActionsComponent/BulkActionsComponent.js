@@ -18,7 +18,7 @@ import WarehouseIcon from './Components/BulkIcons/WarehouseIcon';
 import LoaderScreen from '../../../../LoaderScreen/LoaderScreen';
 import WeightDimensionIcon from './Components/BulkIcons/WeightDimensionIcon';
 
-const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp }) => {
+const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, selectedRows, setaddTagShow, setUpdateWeight, setUpdateWarehouse, setSelectedRows, setBulkActionShow, setFilterData, queryParamTemp, totalItems }) => {
     const dispatch = useDispatch();
     const [show, setShow] = useState(false);
     const [loader, setLoader] = useState(false)
@@ -34,6 +34,8 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
     const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
+
+    console.log(loaderState, "loaderStateloaderStateloaderStateloaderState")
 
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
@@ -54,7 +56,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
 
     const handleBulkCancelDeleteModalShow = (args) => {
         setShow(true)
-        setSelectAll(false)
+        // setSelectAll(false)
         setActionType(args)
     }
 
@@ -137,6 +139,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         setExportButtonClick(true);
         setSelectAll(false)
         setLoader(true)
+
         const requestData = {
             "order_tab": {
                 "type": activeTab === "All" ? "" : activeTab,
@@ -170,7 +173,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const handleExportAll = () => {
         Swal.fire({
             title: 'Confirmation Required!',
-            text: 'Are you sure to export all report?',
+            html: `Are you sure you want to export <b>${totalItems}</b> orders?`,
             showCancelButton: true,
             confirmButtonText: 'Confirm',
             cancelButtonText: 'Cancel',
@@ -378,15 +381,19 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                 show={show}
                 onHide={handleClose}
                 keyboard={false}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} the order ?</Modal.Title>
+                    <Modal.Title>Confirmation Required!</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {actionType === "bulkDelete" ? "delete" : "cancel"} <span className='fw-bold font20'>{selectedRows.length}</span> order{selectedRows.length > 1 && 's'}?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={cancelDeleteApiCall}>Yes</Button>
+                    <button className="btn cancel-button" onClick={handleClose}>
+                        Cancel
+                    </button>
+                    <button className="btn main-button" onClick={cancelDeleteApiCall}>Continue</button>
                 </Modal.Footer>
             </Modal>
 
@@ -394,15 +401,21 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                 show={shipShow}
                 onHide={handleShipClose}
                 keyboard={false}
+                className='confirmation-modal'
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionName === "mark-verified" ? "Mark" : actionName === "generate-pickup" ? "Generate pickup" : actionName === "bulk-ship" ? "Ship" : "Generate Manifest"} the bulk order ?</Modal.Title>
+                    <Modal.Title>Confirmation Required</Modal.Title>
                 </Modal.Header>
+                <Modal.Body>
+                    Are you sure you want to {actionName === "mark-verified" ? "Mark" : actionName === "generate-pickup" ? "Generate pickup" : actionName === "bulk-ship" ? "Ship" : "Generate Manifest"} <span className='fw-bold font20'>{selectedRows.length}</span> order{selectedRows.length > 1 && 's'}{actionName === "mark-verified" && " as verified"}?
+                </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" className="px-5" onClick={handleShipClose}>
-                        No
-                    </Button>
-                    <Button variant="primary" className="px-5" onClick={bulkActionApiCall}>Yes</Button>
+                    <div className='d-flex gap-2'>
+                        <button className="btn cancel-button" onClick={handleShipClose}>
+                            Cancel
+                        </button>
+                        <button className="btn main-button" onClick={bulkActionApiCall}>Continue</button>
+                    </div>
                 </Modal.Footer>
             </Modal>
             <LoaderScreen loading={loader} />
