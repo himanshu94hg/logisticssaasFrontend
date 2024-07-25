@@ -190,7 +190,7 @@ const OrderDetail = () => {
                                             <th style={{ width: '10%' }}>Category</th>
                                             <th style={{ width: '10%' }}>HSN</th>
                                             <th style={{ width: '10%' }}>SKU</th>
-                                            <th style={{ width: '5%' }}>Qt.</th>
+                                            <th style={{ width: '2%' }}>Qt.</th>
                                             {/* <th style={{ width: '10%' }}>Unit Price</th> */}
                                             {/* <th style={{ width: '10%' }}>Discount</th> */}
                                             {/* <th style={{ width: '10%' }}>Tax</th> */}

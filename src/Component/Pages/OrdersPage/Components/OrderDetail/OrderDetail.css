@@ -15,7 +15,8 @@
 
 .od-col {
     background: #fff;
-    min-height: 100px;
+    /* min-height: 100px; */
+    min-height: calc(100vh - 560px);
     /* border: 1px solid #ddd; */
     border-radius: 0.5rem;
     padding: 10px;
@@ -78,6 +79,7 @@
     flex-shrink: 1;
     flex-basis: 50%;
 }
+
 /* 
 .product-details-sec {
     height: calc(100vh - 33rem);
