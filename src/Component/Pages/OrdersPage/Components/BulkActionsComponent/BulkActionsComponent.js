@@ -31,11 +31,9 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
     const [exportButtonClick, setExportButtonClick] = useState(false);
 
     const { loaderState } = useSelector(state => state?.errorLoaderReducer);
-    const { exportCard, exportAllCard ,} = useSelector(state => state?.exportSectionReducer);
-    const { bulkShipData, orderdelete,orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
+    const { exportCard, exportAllCard, } = useSelector(state => state?.exportSectionReducer);
+    const { bulkShipData, orderdelete, orderCancelled, labelData, invoiceData } = useSelector(state => state?.orderSectionReducer);
 
-
-    console.log(loaderState,"loaderStateloaderStateloaderStateloaderState")
 
     const handleClose = () => setShow(false);
     const handleShipClose = () => setShipShow(false);
@@ -90,20 +88,17 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
             setLoader(true)
             const data = { "order_ids": selectedRows.map(id => id.toString()) };
             dispatch({ type: "BULK_SHIP_ORDERS_ACTION", payload: data });
+        } else if (actionName === "generate-pickup") {
+            setLoader(true)
+            setSelectAll(false)
+            dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
+        } else if (actionName === "") {
+            setLoader(true)
+            dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
+            setSelectAll(false)
         }
+
     }
-
-    const generateManifest = () => {
-        setLoader(true)
-        dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
-        setSelectAll(false)         
-    };
-
-    const generatePickup = () => {
-        setLoader(true)
-        setSelectAll(false)
-        dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
-    };
 
     const generateLabel = () => {
         const valuesToCheck = ["pending", "cancelled"];
@@ -289,7 +284,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         if (orderdelete || orderCancelled || loaderState) {
             setLoader(false)
         }
-    }, [orderdelete,orderCancelled,loaderState])
+    }, [orderdelete, orderCancelled, loaderState])
 
     const returnsBulkActions = {
         width: '210px',
@@ -347,7 +342,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             )}
                             {activeTab === "Ready to Ship" && (
                                 <>
-                                    <li onClick={generatePickup}><ShippingIcon /><span>Generate Pickup</span></li>
+                                    <li onClick={() => handelBulkModalShow("generate-pickup")}><ShippingIcon /><span>Generate Pickup</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
@@ -357,7 +352,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             )}
                             {activeTab === "Pickup" && (
                                 <>
-                                    <li onClick={generateManifest}><ExportIcon /><span>Generate Manifest</span></li>
+                                    <li onClick={() => handelBulkModalShow("generate-pickup")}><ExportIcon /><span>Generate Manifest</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>
@@ -401,7 +396,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                 keyboard={false}
             >
                 <Modal.Header>
-                    <Modal.Title>Are you sure you want to {actionName === "mark-verified" ? "Mark" : "Ship"} the bulk order ?</Modal.Title>
+                    <Modal.Title>Are you sure you want to {actionName === "mark-verified" ? "Mark" : actionName === "generate-pickup" ? "Generate pickup" : actionName === "bulk-ship" ? "Ship" : "Generate Manifest"} the bulk order ?</Modal.Title>
                 </Modal.Header>
                 <Modal.Footer>
                     <Button variant="secondary" className="px-5" onClick={handleShipClose}>
