@@ -219,7 +219,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, setMoreFilters, h
                             </div>
                         </div>
                         <div className='more-filters-footer justify-content-end'>
-                            <div>
+                            <div className='d-flex'>
                                 <button className='btn secondary-button' type="button" onClick={handleReset}>
                                     Reset
                                 </button>

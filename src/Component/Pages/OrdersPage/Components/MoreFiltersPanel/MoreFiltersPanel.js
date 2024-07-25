@@ -297,7 +297,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                 pickup_address: names,
                 pickup_address_id: ids
             }));
-        } 
+        }
     };
 
     const customStyles = {
@@ -384,7 +384,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         isSearchable
                                         styles={customStyles}
                                         value={orderSource.filter(option => filterParams.order_source.split(",").includes(option.value))}
-                                        // value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
+                                    // value={filterParams.order_source ? orderSource.filter(option => filterParams.order_source.includes(option.value)) : null}
                                     />
                                 </label>
                             </div>
@@ -422,7 +422,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         onChange={(e) => handleChange("pickup_address", e)}
                                         styles={customStyles}
                                         value={filterParams.pickup_address ? pickupAddresses?.filter(option => filterParams.pickup_address?.includes(option.value)) : null}
-                                        // value={pickupAddresses.filter(option => filterParams.pickup_address.split(",").includes(option.value))}
+                                    // value={pickupAddresses.filter(option => filterParams.pickup_address.split(",").includes(option.value))}
 
                                     />
                                 </label>
@@ -435,10 +435,10 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                         options={orderTag}
                                         onChange={(e) => handleChange("order_tag", e)}
                                         styles={customStyles}
-                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null} 
-                                        // value={orderTag.filter(option => filterParams.order_tag.split(",").includes(option.value))}
+                                        value={filterParams.order_tag ? orderTag?.filter(option => filterParams.order_tag.includes(option.value)) : null}
+                                    // value={orderTag.filter(option => filterParams.order_tag.split(",").includes(option.value))}
 
-                                        />
+                                    />
                                 </label>
                             </div>
                             <div className='filter-row'>
@@ -510,7 +510,7 @@ const MoreFiltersPanel = React.memo(({ activeTab, MoreFilters, CloseSidePanel, h
                                 )}
                                 {/*errors.favName && <span className='error-text'></span>*/}
                             </label>
-                            <div>
+                            <div className='d-flex'>
                                 <button className='btn seconadary-button' type="button" onClick={handleReset}>
                                     Reset
                                 </button>
