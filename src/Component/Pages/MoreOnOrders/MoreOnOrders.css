@@ -46,6 +46,7 @@
   border-radius: 0.5rem;
 }
 
+/* 
 .awb-tracking-slider {
   position: fixed;
   width: 40em;
@@ -55,11 +56,11 @@
   background: #fff;
   transition: 1s;
   z-index: 6;
-}
-
+} */
+/* 
 .awb-tracking-slider.open {
   right: 0;
-}
+} */
 
 
 

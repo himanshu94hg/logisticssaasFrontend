@@ -9,6 +9,7 @@ import Cookies from 'js-cookie';
 import { customErrorFunction } from '../../../customFunction/errorHandling'
 import axios from 'axios'
 import { BASE_URL_CORE } from '../../../axios/config'
+import { useSelector } from 'react-redux'
 
 
 
@@ -20,6 +21,8 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, par
         setAwbNo("")
 
     }
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
+
 
     useEffect(() => {
         const fetchOrderStatus = async () => {
@@ -47,7 +50,7 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, par
             </div>
             <section className='tracking-header'>
                 <h4><span>AWB:</span> {orderStatus?.awb_number}</h4>
-                <div className='d-flex align-items-center gap-3'>
+                <div className={`d-flex align-items-center gap-3 ${screenWidthData < 473 && 'flex-row-reverse'}`}>
                     <p className='text-capitalize'>{orderStatus?.courier_partner?.split("_").join(" ")}</p>
                     {orderStatus?.courier_partner && <img src={partnerList[orderStatus?.courier_partner]} alt={orderStatus?.courier_partner} />}
                 </div>
