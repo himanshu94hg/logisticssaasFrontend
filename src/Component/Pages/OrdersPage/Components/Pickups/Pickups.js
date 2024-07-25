@@ -151,6 +151,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     }
 
     const handleDownloadLabel = async (orderId) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${orderId}`
         };
@@ -164,6 +165,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                 body: JSON.stringify(requestData)
             });
             if (response.status === 200) {
+                setLoader(false)
                 toast.success("Download label successfully")
             }
             const data = await response.blob();
@@ -177,11 +179,13 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
             window.URL.revokeObjectURL(url);
         } catch (error) {
             customErrorFunction(error)
+            setLoader(false)
         }
     };
 
 
     const handleDownloadInvoice = async (orderId) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${orderId}`
         };
@@ -207,8 +211,10 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
+            setLoader(false)
         } catch (error) {
-            toast.error("Somethng went wrong!")
+          customErrorFunction(error)
+          setLoader(false)
         }
     };
 

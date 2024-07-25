@@ -36,6 +36,7 @@ import globalDebounce from '../../../../../debounce';
 import { debounce } from 'lodash';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import { customErrorFunction } from '../../../../../customFunction/errorHandling';
 
 
 
@@ -135,6 +136,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     };
 
     const handleDownloadLabel = async (orderId) => {
+        setLoader(true)
         try {
             const requestData = {
                 order_ids: `${orderId}`
@@ -150,6 +152,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
             });
             if (response.status === 200) {
+                setLoader(true)
                 toast.success("Download label successfully")
             }
             const data = await response.blob();
@@ -161,12 +164,15 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
+            setLoader(false)
         } catch (error) {
-            toast.error("Somethng went wrong!")
+            customErrorFunction(error)
+            setLoader(false)
         }
     };
 
     const handleDownloadInvoice = async (orderId) => {
+        setLoader(true)
         const requestData = {
             order_ids: `${orderId}`
         };
@@ -182,7 +188,6 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
             if (!response.ok) {
                 throw new Error('Something went wrong');
             }
-
             const data = await response.blob();
             const url = window.URL.createObjectURL(data);
             const a = document.createElement('a');
@@ -192,7 +197,10 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
             document.body.appendChild(a);
             a.click();
             window.URL.revokeObjectURL(url);
+            setLoader(false)
         } catch (error) {
+            customErrorFunction(error)
+            setLoader(false)
         }
     };
 

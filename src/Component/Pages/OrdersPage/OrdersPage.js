@@ -430,6 +430,7 @@ const OrdersPage = () => {
                         bulkAwb={bulkAwb}
                         setAwbNo={setAwbNo}
                         activeTab={activeTab}
+                        setLoader={setLoader}
                         selectAll={selectAll}
                         setOrderId={setOrderId}
                         setbulkAwb={setbulkAwb}
@@ -466,6 +467,7 @@ const OrdersPage = () => {
                         orders={orders}
                         bulkAwb={bulkAwb}
                         activeTab={activeTab}
+                        setLoader={setLoader}
                         selectAll={selectAll}
                         setbulkAwb={setbulkAwb}
                         setOrderId={setOrderId}
@@ -598,11 +600,12 @@ const OrdersPage = () => {
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
             <section className={`ba-popup-container ${!addTagShow ? 'invisible' : ''}`}>
                 <AddTagPop
+                    setLoader={setLoader}
                     orderTagId={orderTagId}
                     addTagShow={addTagShow}
+                    selectedRows={selectedRows}
                     setOrderTagId={setOrderTagId}
                     setaddTagShow={setaddTagShow}
-                    selectedRows={selectedRows}
                     setSelectedRows={setSelectedRows}
                     setBulkActionShow={setBulkActionShow}
                 />

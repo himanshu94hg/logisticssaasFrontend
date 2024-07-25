@@ -441,7 +441,7 @@ const ShipmentsPage = () => {
             />
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} />
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} partnerList={partnerList}/>
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
             <LoaderScreen loading={loader} />

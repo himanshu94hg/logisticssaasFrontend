@@ -109,10 +109,12 @@ const Manifest = ({ manifestOrders, activeTab, partnerList,setLoader }) => {
     }
 
     const handleDownloadLabel = async (data) => {
+        setLoader(true)
         globalDebouncedClick(() => handleClickDownloadLabel(data));
     };
 
     const handleDownloadInvoice = async (data) => {
+        setLoader(true)
         globalDebouncedClick(() => handleClickDownloadInvoice(data));
     };
 

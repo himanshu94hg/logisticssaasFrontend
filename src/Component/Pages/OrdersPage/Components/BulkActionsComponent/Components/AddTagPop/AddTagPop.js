@@ -10,7 +10,7 @@ import { customErrorFunction } from '../../../../../../../customFunction/errorHa
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const AddTagPop = ({ addTagShow, orderTagId, setaddTagShow, selectedRows, setSelectedRows, setBulkActionShow }) => {
+const AddTagPop = ({ addTagShow, orderTagId, setaddTagShow, selectedRows, setSelectedRows, setBulkActionShow , setLoader}) => {
     const dispatch = useDispatch();
     const [labels, setLabels] = useState([]);
     const [newLabel, setNewLabel] = useState('');
@@ -137,6 +137,7 @@ const AddTagPop = ({ addTagShow, orderTagId, setaddTagShow, selectedRows, setSel
                             <button onClick={() => setaddTagShow(false)} className='btn cancel-button me-2'>Cancel</button>
                             <button onClick={() => {
                                 setaddTagShow(false);
+                                setLoader(true)
                                 setActiveLabels([])
                                 setSelectedRows([])
                                 setBulkActionShow(false)

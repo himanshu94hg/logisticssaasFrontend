@@ -1,14 +1,14 @@
+import axios from 'axios'
 import moment from 'moment'
-import { faChevronRight, faCircleCheck, faCircleDot } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import React, { useEffect, useState } from 'react'
+import Cookies from 'js-cookie';
 import './AWBTrackingPage.css'
 import TrackingIcon from './TrackingIcon'
 import TrackingDone from './TrackingDone'
-import Cookies from 'js-cookie';
-import { customErrorFunction } from '../../../customFunction/errorHandling'
-import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import { BASE_URL_CORE } from '../../../axios/config'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
+import { customErrorFunction } from '../../../customFunction/errorHandling'
 
 
 
@@ -36,9 +36,9 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, par
                 }
             }
         };
-
         fetchOrderStatus();
     }, [awbNo, orderTracking, authToken]);
+
 
     return (
         <>
