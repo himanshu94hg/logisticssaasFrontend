@@ -39,7 +39,7 @@ const DateFormatter = ({ dateTimeString }) => {
     return <p>{formattedDate}</p>;
 };
 
-const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking ,partnerList}) => {
+const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
 
     const [selectAll, setSelectAll] = useState(false);
     // const [selectedRows, setSelectedRows] = useState([]);
@@ -47,7 +47,7 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
     const [data, setData] = useState([]);
 
     // const { weightRecoData } = useSelector(state => state?.weightRecoReducer)
- 
+
 
 
     const reasons = [
@@ -182,10 +182,9 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box'>
-
                                                 <p className='mt-1'>
-                                                {row?.order?.courier_partner && <img src={partnerList[row?.order?.courier_partner]} title='Partner' />}     
-                                                    <p className='text-capitalize'>{row?.order?.courier_partner}</p>
+                                                    {row?.order?.courier_partner && <img src={partnerList[row?.Order?.courier_partner]["image"]} alt='Partner' />}
+                                                    <p className='text-capitalize'>{row?.order?.courier_partner && partnerList[row?.order?.courier_partner]["title"]}</p>
                                                 </p>
                                             </div>
 

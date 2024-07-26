@@ -212,11 +212,12 @@ const WeightRecoTab = ({ weightRecoData, selectedRows, setSelectedRows, setBulkA
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}                                                <div>
+                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
+                                                <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
                                                         {row?.order?.awb_number}
                                                     </p>
-                                                    <p className='text-capitalize'> {row && row?.order?.courier_partner?.split("_").join(" ")}</p>
+                                                    <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                                 </div>
                                             </div>
 
@@ -320,7 +321,7 @@ function Preview({ show, handleClose, selectedRow }) {
                         </tr>
                         {historyRecord?.map((row, index) => (
                             <tr key={index}>
-                                 <td>{moment(row?.created_at).format("DD MMM YYYY")}</td>
+                                <td>{moment(row?.created_at).format("DD MMM YYYY")}</td>
                                 <td>{row?.status}</td>
                                 <td>{selectedRow?.c_weight}</td>
                                 <td>(L * B * H) : {selectedRow?.c_length} * {selectedRow?.c_breadth} * {selectedRow?.c_height} </td>

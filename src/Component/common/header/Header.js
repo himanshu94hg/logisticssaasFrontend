@@ -86,16 +86,13 @@ export default function Header({ isExpanded, setExpanded, WalletRecharge, setWal
 
   const handleLogout = () => {
     localStorage.clear();
-    // setLoaderRing(true)
     Cookies.remove('access_token');
+    localStorage.removeItem('partnerList');
     clearAllCookies()
     navigate(indexPattern)
     if (indexPattern) {
       window.location.reload()
     }
-    // setTimeout(() => {
-    //   setLoaderRing(false)
-    // }, 2000);
   };
 
   useEffect(() => {

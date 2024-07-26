@@ -254,11 +254,11 @@ const ReassignOrder = ({ orders, selectAll, setSelectAll, selectedRows, setSelec
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
+                                            {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row.awb_number)}>{row.awb_number ?? ""}
+                                                    <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""}
                                                     </p>
-                                                    <p className='text-capitalize mt-1' onClick={(event) => handleClickpartner(event, row)}>{row && row.courier_partner?.split("_").join(" ")}</p>
+                                                    <p className='text-capitalize mt-1' onClick={(event) => handleClickpartner(event, row)}>{row?.courier_partner && partnerList[row?.courier_partner]["title"]}</p>
                                                 </div>
                                             </div>
                                         </td>

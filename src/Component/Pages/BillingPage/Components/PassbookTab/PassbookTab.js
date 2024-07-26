@@ -1,6 +1,6 @@
+import React from 'react';
 import moment from 'moment';
 import NoData from '../../../../common/noData';
-import React, { useState, useEffect } from 'react';
 
 const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, selectAll, setSelectAll, setSelectedRows, setBulkActionShow, billingPassbookCounterCard,partnerList }) => {
     const handleSelectAll = () => {
@@ -90,7 +90,6 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                             <div className='cell-inside-box'>
                                                 <p className=''>
                                                     <span>{`${moment(row?.datetime).format('DD MMM YYYY')}`}</span>
-                                                    {/* {moment(row.datetime).format("YYYY-MM-DD")} */}
                                                 </p>
                                             </div>
                                         </td>
@@ -105,10 +104,10 @@ const PassbookTab = ({ billingCard, selectedRows,setAwbNo, setOrderTracking, sel
                                         <td>
                                             {/* AWB Assigned Date */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.order_detail?.courier_partner && <img src={partnerList[row?.order_detail?.courier_partner]} title='Partner' />}
+                                                {row?.order_detail?.courier_partner && <img src={partnerList[row?.order_detail?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
                                                     <p className='mt-1 cursor-pointer text-capitalize'>
-                                                        {row && row?.order_detail?.courier_partner?.split("_").join(" ")}
+                                                        {row?.order_detail?.courier_partner && partnerList[row?.order_detail?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                             </div>

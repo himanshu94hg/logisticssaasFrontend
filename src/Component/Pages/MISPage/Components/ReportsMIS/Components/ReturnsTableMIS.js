@@ -187,10 +187,10 @@ const ReturnsTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBulk
                                 <td>
                                     {/* Shipping Details */}
                                     <div className='cell-inside-box shipping-details'>
-                                    {row?.courier_partner && <img src={partnerList[row?.courier_partner]} title='Partner' />}
+                                        {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'> {row && row?.courier_partner?.split("_").join(" ")}</p>
+                                            <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
                                     </div>
                                 </td>

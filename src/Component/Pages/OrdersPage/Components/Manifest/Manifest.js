@@ -159,10 +159,10 @@ const Manifest = ({ manifestOrders, activeTab, partnerList,setLoader }) => {
                                         </td>
                                         <td>
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier && <img src={partnerList[row.courier]} title='Partner' />}
+                                                {row?.courier && <img src={partnerList[row.courier]["image"]} title='Partner' />}
                                                 <div>
                                                     <p className='mt-1 cursor-pointer text-capitalize' >
-                                                        {row && row.courier?.split("_").join(" ")}
+                                                    {row.courier && partnerList[row.courier]["title"]}
                                                     </p>
                                                 </div>
                                             </div>

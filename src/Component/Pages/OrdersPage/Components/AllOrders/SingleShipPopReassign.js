@@ -16,9 +16,11 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
     const dispatch = useDispatch()
     const [currentDate, setCurrentDate] = useState(new Date());
     const [shipingData, setShipingData] = useState(false);
+
     const moreorderCard = useSelector(state => state?.moreorderSectionReducer?.moreorderShipCard)
     const paymentCard = useSelector(state => state?.paymentSectionReducer.paymentCard);
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
 
     const addDays = (date, days) => {
         const result = new Date(date);
@@ -74,10 +76,10 @@ const SingleShipPopReassign = ({ reassignCard, SingleShipReassign, setSingleShip
                     <div className='ship-container-row box-shadow shadow-sm' key={index}>
                         <div className='d-flex gap-2'>
                             <div className='img-container'>
-                                <img src={option.partner_image} alt={option.partner_title} />
+                            {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner'/>}
                             </div>
                             <div className='d-flex flex-column justify-content-center'>
-                                <p>{option.partner_title}</p>
+                                <p>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
                                 <p>{"Delivering Excellence, Every Mile"}</p>
                                 <p>RTO Charges: ₹{option.rto_charge}</p>
                             </div>
