@@ -137,10 +137,10 @@ const ShippingTableMIS = ({ setTotalItems, selectedRows, setSelectedRows, setBul
                                 </td>
                                 <td>
                                     <div className='cell-inside-box shipping-details'>
-                                        {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
+                                        {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)} >{row?.awb_number ?? ""} </p>
-                                            {row && row?.courier_partner?.split("_").join(" ")}
+                                            <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
                                     </div>
                                 </td>

@@ -13,11 +13,12 @@ import { customErrorFunction } from '../../../customFunction/errorHandling'
 
 
 
-const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, partnerList }) => {
+const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo }) => {
     let authToken = Cookies.get("access_token")
     const [orderStatus, setOrderStatus] = useState([])
+    const partnerList = JSON.parse(localStorage.getItem('partnerList'));
     const { screenWidthData } = useSelector(state => state?.authDataReducer)
-    
+
     const CloseSidePanel = () => {
         setOrderTracking(false)
         setAwbNo("")
@@ -52,8 +53,10 @@ const AWBTrackingPage = ({ orderTracking, setOrderTracking, awbNo, setAwbNo, par
             <section className='tracking-header'>
                 <h4><span>AWB:</span> {orderStatus?.awb_number}</h4>
                 <div className={`d-flex align-items-center gap-3 ${screenWidthData < 473 && 'flex-row-reverse'}`}>
-                    <p className='text-capitalize'>{orderStatus?.courier_partner?.split("_").join(" ")}</p>
-                    {orderStatus?.courier_partner && <img src={partnerList[orderStatus?.courier_partner]} alt={orderStatus?.courier_partner} />}
+                    <p className='text-capitalize'>
+                        {orderStatus?.courier_partner && partnerList[orderStatus?.courier_partner]["title"]}
+                    </p>
+                    {orderStatus?.courier_partner && <img src={partnerList[orderStatus.courier_partner]["image"]} alt={orderStatus?.courier_partner} />}
                 </div>
             </section>
             <section className='tracking-body'>

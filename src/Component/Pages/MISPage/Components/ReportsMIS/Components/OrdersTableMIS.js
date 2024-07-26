@@ -107,7 +107,6 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                     />
                                 </td>
                                 <td>
-                                    {/* User Details */}
                                     <div className='cell-inside-box'>
                                         <p className=''>
                                             {row.channel.toLowerCase() === "shopify" ? <img src={shopifyImg} alt="Manual" width="20" />
@@ -163,7 +162,6 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                             </span>
                                             <br />
                                             <span>LBH(cm): {row?.dimension_detail?.length} x {row?.dimension_detail?.breadth} x {row?.dimension_detail?.height}</span>
-
                                         </p>
                                     </div>
                                 </td>
@@ -181,7 +179,6 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                             <p>{row?.pickup_details?.p_warehouse_name}
                                                 <span className='details-on-hover ms-2'>
                                                     <InfoIcon />
-                                                    {/* {!row?.pickup_details?.p_warehouse_name && ( */}
                                                     <span style={{ width: '250px' }}>
                                                         {row?.pickup_details?.p_address_line1},
                                                         {row?.pickup_details?.p_address_line2},<br />
@@ -189,8 +186,6 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                                         {row?.pickup_details?.p_state},
                                                         {row?.pickup_details?.p_pincode}
                                                     </span>
-                                                    {/* )} */}
-
                                                 </span>
                                             </p>
                                         ) : ''}
@@ -199,10 +194,10 @@ const OrdersTableMIS = ({ setStateData, setTotalItems, selectedRows, setSelected
                                 <td>
                                     {/* Shipping Details */}
                                     <div className='cell-inside-box shipping-details'>
-                                        {row?.courier_image && <img src={row.courier_image} title='partner' />}
+                                        {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                         <div>
                                             <p className='details-on-hover anchor-awb' onClick={() => handleClickAWB(row?.awb_number)}>{row?.awb_number ?? ""} </p>
-                                            <p className='text-capitalize'>{row?.courier_partner ?? ""}</p>
+                                            <p className='text-capitalize'>{row.courier_partner && partnerList[row.courier_partner]["title"]}</p>
                                         </div>
                                     </div>
                                 </td>

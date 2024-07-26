@@ -557,10 +557,10 @@ const RateCalculatorPage = () => {
                     <div className='d-flex flex-column justify-content-center'>
                       <div className='d-flex gap-2 '>
                         <div className='img-container'>
-                          {item?.partner_keyword && <img src={partnerList[item.partner_keyword]} title='Partner' />}
+                          {item?.partner_keyword && <img src={partnerList[item?.partner_keyword]["image"]} alt='Partner' />}
                         </div>
                         <div className='d-flex flex-column justify-content-center'>
-                          <p>{item.partner_title}</p>
+                          {item.partner_keyword && partnerList[item.partner_keyword]["title"]}
                           <p>{"Delivering Excellence, Every Mile"}</p>
                           <p>RTO Charges: ₹{item?.rto_charge.toFixed(2)}</p>
                         </div>
