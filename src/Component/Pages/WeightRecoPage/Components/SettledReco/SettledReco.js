@@ -24,7 +24,7 @@ import CustomIcon from '../../../../common/Icons/CustomIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
-const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList}) => {
+const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkActionShow, setAwbNo, setOrderTracking, partnerList }) => {
     const [selectAll, setSelectAll] = useState(false);
     const [backDrop, setBackDrop] = useState(false);
     const [data, setData] = useState([]);
@@ -176,12 +176,12 @@ const SettledReco = ({ weightRecoData, selectedRows, setSelectedRows, setBulkAct
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                            {row?.order?.courier_partner && <img src={partnerList[row?.order?.courier_partner]} title='Partner' />}  
+                                                {row?.order?.courier_partner && <img src={partnerList[row?.Order?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(row?.order?.awb_number)}>
                                                         {row?.order?.awb_number}
                                                     </p>
-                                                    <p className='text-capitalize'> {row && row?.order?.courier_partner?.split("_").join(" ")}</p>
+                                                    <p className='text-capitalize'>{row?.order?.courier_partner && partnerList[row?.order?.courier_partner]["title"]}</p>
                                                 </div>
                                             </div>
 

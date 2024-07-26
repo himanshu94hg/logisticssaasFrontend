@@ -79,6 +79,9 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
         setSingleShip(false);
     };
 
+
+    console.log(partnerList,"this is partner list data")
+
     return (
         <>
             <section className={`single-ship-container ${SingleShip ? 'open' : ''}`}>
@@ -101,11 +104,10 @@ const SingleShipPop = ({ SingleShip, setSingleShip, shipingResponse, orderId, se
                         <div className='ship-container-row box-shadow shadow-sm' key={index}>
                             <div className='d-flex gap-2'>
                                 <div className='img-container'>
-                                    {option?.partner_title && <img src={partnerList[option?.partner_keyword]} alt={option?.partner_title} />}
-
+                                    {option?.partner_keyword && <img src={partnerList[option?.partner_keyword]["image"]} alt='Partner'/>}
                                 </div>
                                 <div className='d-flex flex-column justify-content-center'>
-                                    <p className='fw-bold fs-large'>{option?.partner_title}</p>
+                                    <p className='fw-bold fs-large'>{option?.partner_keyword && partnerList[option?.partner_keyword]["title"]}</p>
                                     <p>{"Delivering Excellence, Every Mile"}</p>
                                     <p>RTO Charges: ₹{option.rto_charge.toFixed(2)}</p>
                                 </div>

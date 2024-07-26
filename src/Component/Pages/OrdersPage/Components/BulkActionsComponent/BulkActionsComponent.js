@@ -94,7 +94,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
         } else if (actionName === "generate-pickup") {
             setSelectAll(false)
             dispatch({ type: "BULK_ORDER_GENERATE_PICKUP_ACTION", payload: { orders: selectedRows } })
-        } else if (actionName === "") {
+        } else if (actionName === "generate-manifest") {
             dispatch({ type: "BULK_GENERATE_MENIFEST_ACTION", payload: { order_ids: selectedRows.join(','), orderLength: selectedRows } });
             setSelectAll(false)
         }
@@ -354,7 +354,7 @@ const BulkActionsComponent = ({ activeTab, bulkAwb, LoaderRing, setSelectAll, se
                             )}
                             {activeTab === "Pickup" && (
                                 <>
-                                    <li onClick={() => handelBulkModalShow("generate-pickup")}><ExportIcon /><span>Generate Manifest</span></li>
+                                    <li onClick={() => handelBulkModalShow("generate-manifest")}><ExportIcon /><span>Generate Manifest</span></li>
                                     <li onClick={generateLabel}><LabelIcon /><span>Label</span></li>
                                     <li onClick={generateInvoice}><InvoiceIcon /><span>Invoice</span></li>
                                     <li onClick={() => handleBulkCancelDeleteModalShow("bulkCancel")}><CancelIcon /><span>Cancel</span></li>

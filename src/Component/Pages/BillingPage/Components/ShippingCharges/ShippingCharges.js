@@ -121,10 +121,10 @@ const ShippingCharges = ({ billingCard, selectedRows, selectAll, setSelectAll, s
                                         <td>
                                             {/* Courier detail */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
                                                     <p className='mt-1 cursor-pointer text-capitalize'>
-                                                        {row && row?.courier_partner?.split("_").join(" ")}
+                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                             </div>
