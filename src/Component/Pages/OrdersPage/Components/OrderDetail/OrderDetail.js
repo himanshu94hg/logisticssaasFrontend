@@ -118,9 +118,9 @@ const OrderDetail = () => {
                                 {orderDetails?.awb_number &&
                                     <>
                                         {screenWidthData > 767 &&
-                                            <p className='text-ddd text-capitalize'>{orderDetails?.courier_partner.split('_').join(" ")}</p>
+                                            <p className='text-ddd text-capitalize'> {orderDetails?.courier_partner && partnerList[orderDetails?.courier_partner]["title"]}</p>
                                         }
-                                        {orderDetails?.courier_partner && <img className='partner-image' src={partnerList[orderDetails?.courier_partner]} alt="Partner" />}
+                                        {orderDetails?.courier_partner && <img className='partner-image' src={partnerList[orderDetails?.courier_partner]["image"]} alt='Partner' />}
                                     </>
                                 }
 

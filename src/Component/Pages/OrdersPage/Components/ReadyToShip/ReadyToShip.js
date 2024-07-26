@@ -466,7 +466,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
                                                         {row.awb_number}
