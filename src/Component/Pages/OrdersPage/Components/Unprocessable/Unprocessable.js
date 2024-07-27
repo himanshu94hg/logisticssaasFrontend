@@ -123,8 +123,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                                    : ""}
+                                                                                : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         <CustomTooltip
@@ -229,7 +228,7 @@ const Unprocessable = ({ orders, activeTab, BulkActionShow, setBulkActionShow, s
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                        <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
+                                            <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                         </td>
                                         <td className='align-middle'>
                                             <div className='d-flex align-items-center gap-3'>

@@ -29,7 +29,7 @@ import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
 import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
 
-const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,partnerList, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
+const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
 
     const dispatch = useDispatch()
     const [selectAll, setSelectAll] = useState(false);
@@ -191,8 +191,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,partnerList, 
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                                    : ""}
+                                                                                : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
@@ -299,7 +298,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,partnerList, 
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                            {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]} title='Partner' />}
                                                 <div>
                                                     <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
                                                         {row.awb_number}
@@ -311,7 +310,7 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters,partnerList, 
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
-                                        <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
+                                            <p className='order-Status-box'>{row?.status.split("_").join(" ")}</p>
                                         </td>
                                     </tr>
                                 </React.Fragment>

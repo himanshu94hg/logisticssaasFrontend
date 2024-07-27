@@ -299,7 +299,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                 }
             })
         }
-       
+
     }
 
     return (
@@ -354,8 +354,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                                     : row.channel.toLowerCase() === "magento" ? <img src={magentoImg} alt="Manual" width="20" />
                                                                         : row.channel.toLowerCase() === "amazon" ? <img src={amazonImg} alt="Manual" width="20" />
                                                                             : row.channel.toLowerCase() === "amazondirect" ? <img src={amazonDirImg} alt="Manual" width="20" />
-                                                                                : row.channel.toLowerCase() === "custom" ? <CustomIcon />
-                                                                                    : ""}
+                                                                                : <CustomIcon />}
                                                     <span className='d-inline-flex align-items-center gap-1 ms-2'>
                                                         <Link to={`/orderdetail/${row?.id}`} className='anchor-order'>{row.customer_order_number}</Link>
                                                         {row?.other_details?.is_verified &&
