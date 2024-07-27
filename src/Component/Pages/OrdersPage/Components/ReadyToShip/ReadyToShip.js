@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
@@ -37,8 +37,7 @@ import { debounce } from 'lodash';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-
-
+import { FaRegCopy } from "react-icons/fa";
 
 const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFilters, activeTab, bulkAwb, setbulkAwb, setPickupStatus, setBulkActionShow, selectedRows, setSelectedRows, setAwbNo, }) => {
     const dispatch = useDispatch()
@@ -302,6 +301,23 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
     }
 
+    const textRef = useRef(null);
+    const [copyText, setcopyText] = useState("Click To Copy")
+    const handleCopy = () => {
+        if (textRef.current) {
+            navigator.clipboard.writeText(textRef.current.innerText)
+                .then(() => {
+                    setcopyText("Copied")
+                    setTimeout(() => {
+                        setcopyText('Click to copy');
+                    }, 5000);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+        }
+    };
+
     return (
         <section className='position-relative'>
             <div className="position-relative">
@@ -474,6 +490,11 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                                         {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={handleCopy}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
