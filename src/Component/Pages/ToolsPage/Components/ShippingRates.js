@@ -1,8 +1,8 @@
-import '../ToolsPage.css';
 import Select from 'react-select';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Toggle from 'react-toggle';
+import '../ToolsPage.css';
 
 const ShippingRates = () => {
     const dispatch = useDispatch();
@@ -42,7 +42,7 @@ const ShippingRates = () => {
                         <img
                             width={"40px"}
                             height={"40px"}
-                            style={{borderRadius:30,border:"1px solid lightgray",padding:2}}
+                            style={{ borderRadius: 30, border: "1px solid lightgray", padding: 2 }}
                             src={item?.partner_image} alt="" />
                         <p className='fw-bold'>  {item.partner}</p>
                     </td>

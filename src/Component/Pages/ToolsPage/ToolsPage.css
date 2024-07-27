@@ -146,7 +146,7 @@
     align-items: center;
 }
 
-.rate-card-page.table-container {
+.rate-card-page .table-container {
     height: calc(100vh - 209px);
 }
 
