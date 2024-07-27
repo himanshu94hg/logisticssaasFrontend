@@ -21,6 +21,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './BulkActionsComponent/BulkActionsComponent';
 import { customErrorFunction } from '../../../customFunction/errorHandling';
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 
 const SearchOptions = [
     { value: 'customer_order_number', label: 'Order ID' },
@@ -62,8 +63,8 @@ const MoreOnOrders = () => {
     const [SearchOption, setSearchOption] = useState(SearchOptions[0]);
     const [searchType, setsearchType] = useState(SearchOptions[0].value);
     const { pathName } = useSelector(state => state?.authDataReducer)
-    const { orderdelete } = useSelector(state => state?.orderSectionReducer)   
-     const { screenWidthData } = useSelector(state => state?.authDataReducer)
+    const { orderdelete } = useSelector(state => state?.orderSectionReducer)
+    const { screenWidthData } = useSelector(state => state?.authDataReducer)
     const { favListData } = useSelector(state => state?.orderSectionReducer)
     const { moreorderShipCardStatus } = useSelector(state => state?.moreorderSectionReducer)
 
@@ -266,7 +267,7 @@ const MoreOnOrders = () => {
         setQueryParamTemp(queryParams);
     };
 
-    
+
     return (
         <>
             <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -303,7 +304,7 @@ const MoreOnOrders = () => {
                             </button>
                         </label>
                         {
-                            screenWidthData > 675 &&
+                            screenWidthData > 591 &&
                             <>
                                 <div className="btn-group">
                                     <button
@@ -340,6 +341,19 @@ const MoreOnOrders = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
+                {screenWidthData < 592 &&
+                    <div className="nav-actions-container">
+                        <div className="nav-action-dots">
+                            <img src={ThreeDots} alt="ThreeDots" width={24} />
+                        </div>
+                        <div className="nav-actions-list">
+                            <ul>
+                                <li onClick={handleSidePanel}><HiOutlineFilter className='align-text-bottom' /> More Filters</li>
+                                <li onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
             </div>
             <div className='orders-section-tabs'>
                 <div className={`${activeTab === "Reassign Order" ? "d-block" : "d-none"}`}>

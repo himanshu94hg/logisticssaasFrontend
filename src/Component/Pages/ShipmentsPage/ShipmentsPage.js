@@ -22,6 +22,7 @@ import { customErrorFunction } from '../../../customFunction/errorHandling';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import DeliveredShipment from './Components/DeliveredShipment/DeliveredShipment';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 
 const SearchOptions = [
     { value: 'awb_number', label: 'AWB' },
@@ -69,7 +70,7 @@ const ShipmentsPage = () => {
 
     const shipmentCardData = useSelector(state => state?.shipmentSectionReducer?.shipmentCard)
     const tabData = activeTab === "Action Required" ? "pending" : activeTab === "Action Requested" ? "requested" : activeTab === "Delivered" ? "delivered" : "rto";
-    
+
     useEffect(() => {
         if (favListData) {
             let temp = [];
@@ -315,7 +316,7 @@ const ShipmentsPage = () => {
                             </button>
                         </label>
                         {
-                            screenWidthData > 675 &&
+                            screenWidthData > 591 &&
                             <>
                                 <div className="btn-group">
                                     <button
@@ -352,6 +353,19 @@ const ShipmentsPage = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
+                {screenWidthData < 592 &&
+                    <div className="nav-actions-container">
+                        <div className="nav-action-dots">
+                            <img src={ThreeDots} alt="ThreeDots" width={24} />
+                        </div>
+                        <div className="nav-actions-list">
+                            <ul>
+                                <li onClick={handleSidePanel}><HiOutlineFilter className='align-text-bottom' /> More Filters</li>
+                                <li onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
             </div>}
             <div className='orders-section-tabs'>
                 <div className={`${activeTab === "Action Required" ? "d-block" : "d-none"}`}>
@@ -441,7 +455,7 @@ const ShipmentsPage = () => {
             />
             <div onClick={CloseSidePanel} className={`backdrop ${backDrop ? 'd-flex' : 'd-none'}`}></div>
             <section className={`awb-tracking-slider ${orderTracking && 'open'}`}>
-                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} partnerList={partnerList}/>
+                <AWBTrackingPage setOrderTracking={setOrderTracking} orderTracking={orderTracking} awbNo={awbNo} partnerList={partnerList} />
             </section>
             <div onClick={() => setOrderTracking(false)} className={`backdrop ${!orderTracking && 'd-none'}`}></div>
             <LoaderScreen loading={loader} />

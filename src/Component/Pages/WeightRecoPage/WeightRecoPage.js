@@ -18,6 +18,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import WeightRecoTab from './Components/WeightRecoTab/WeightRecoTab';
 import MoreFiltersPanel from './Components/MoreFiltersPanel/MoreFiltersPanel';
 import BulkActionsComponent from './Components/BulkActionsComponent/BulkActionsComponent';
+import ThreeDots from '../../../assets/image/icons/ThreeDots.png';
 
 const SearchOptions = [
     { value: 'awb', label: 'AWB' },
@@ -196,7 +197,7 @@ const WeightRecoPage = () => {
                             </button>
                         </label>
                         {
-                            screenWidthData > 991 &&
+                            screenWidthData > 591 &&
                             <>
                                 <div className="btn-group">
                                     <button
@@ -233,6 +234,19 @@ const WeightRecoPage = () => {
                         <span>Delivered</span> |
                         <span>Cancel order</span> </p>
                 </div>
+                {screenWidthData < 592 &&
+                    <div className="nav-actions-container">
+                        <div className="nav-action-dots">
+                            <img src={ThreeDots} alt="ThreeDots" width={24} />
+                        </div>
+                        <div className="nav-actions-list">
+                            <ul>
+                                <li onClick={handleSidePanel}><HiOutlineFilter className='align-text-bottom' /> More Filters</li>
+                                <li onClick={() => handleReset()}><RxReset className='align-text-bottom' /> Reset</li>
+                            </ul>
+                        </div>
+                    </div>
+                }
             </div>}
             <div className='wt-page-container'>
                 <div className={`${activeTab === "Weight Reconciliation" ? "d-block" : "d-none"}`}>
