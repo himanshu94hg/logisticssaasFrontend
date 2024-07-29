@@ -50,6 +50,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
     const [selectAll, setSelectAll] = useState(false);
     const [actionId, setActionId] = useState("")
     const [SingleShip, setSingleShip] = useState(false)
+    const [copyText, setcopyText] = useState("Click To Copy")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const { loaderState } = useSelector(state => state?.errorLoaderReducer);
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
@@ -303,21 +304,17 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
     }
 
-    const textRef = useRef(null);
-    const [copyText, setcopyText] = useState("Click To Copy")
-    const handleCopy = () => {
-        if (textRef.current) {
-            navigator.clipboard.writeText(textRef.current.innerText)
-                .then(() => {
-                    setcopyText("Copied")
-                    setTimeout(() => {
-                        setcopyText('Click to copy');
-                    }, 5000);
-                })
-                .catch(err => {
-                    console.error('Failed to copy text: ', err);
-                });
-        }
+    // const textRef = useRef(null);
+
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+                // setcopyText("Url Copied")
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
     };
 
     return (
@@ -484,17 +481,17 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
                                         <td>
                                             {/* shiping section here */}
                                             <div className='cell-inside-box shipping-details'>
-                                                {row?.courier_partner && <img src={partnerList[row.courier_partner]["image"]} alt='Partner' />}
+                                                {row?.courier_partner && <img src={partnerList[row?.courier_partner]["image"]} alt='Partner' />}
                                                 <div>
-                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row.awb_number)}>
-                                                        {row.awb_number}
+                                                    <p className='details-on-hover anchor-awb' onClick={(e) => handleClickAWB(e, row?.awb_number)}>
+                                                        {row?.awb_number}
                                                     </p>
                                                     <p className='mt-1 cursor-pointer text-capitalize' onClick={(event) => handleClickpartner(event, row)}>
-                                                        {row.courier_partner && partnerList[row.courier_partner]["title"]}
+                                                        {row?.courier_partner && partnerList[row?.courier_partner]["title"]}
                                                     </p>
                                                 </div>
                                                 <CustomTooltip
-                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={handleCopy}><FaRegCopy /></button>}
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
                                                     tooltipComponent={copyText}
                                                     addClassName='copytext-tooltip'
                                                 />
