@@ -1,65 +1,56 @@
+import axios from 'axios';
 import moment from 'moment';
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronRight, faCircle, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-// import InfoIcon from '../../../../../assets/image/icons/InfoIcon.png'
-import InfoIcon from '../../../../common/Icons/InfoIcon';
-import { useDispatch, useSelector } from 'react-redux';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import SingleShipPop from '../Processing/SingleShipPop/SingleShipPop';
-import { toast } from 'react-toastify';
 import Cookies from 'js-cookie';
+import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
+import Modal from 'react-bootstrap/Modal';
+import { FaRegCopy } from "react-icons/fa";
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import globalDebouncedClick from '../../../../../debounce';
+import SingleShipPopReassign from './SingleShipPopReassign';
+import { BASE_URL_CORE } from '../../../../../axios/config';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import { faCircle, } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import SingleShipPop from '../Processing/SingleShipPop/SingleShipPop';
+import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import { weightGreater } from '../../../../../customFunction/functionLogic';
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
 import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
 import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import NoData from '../../../../common/noData';
-import SingleShipPopReassign from './SingleShipPopReassign';
-import { Link } from 'react-router-dom';
-import { BASE_URL_CORE } from '../../../../../axios/config';
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
 import { customErrorFunction } from '../../../../../customFunction/errorHandling';
-import axios from 'axios';
-import globalDebouncedClick from '../../../../../debounce';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import APIIcon from '../../../../common/Icons/APIIcon';
-
-
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
+import APIChannelIcon from "../../../../../assets/image/integration/APIChannelIcon.png"
 
 const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setLoader, setSelectAll, bulkAwb, setbulkAwb, setBulkActionShow, selectedRows, setSelectedRows, setCloneOrderSection, setOrderId, setAwbNo, setOrderTracking }) => {
     const dispatch = useDispatch()
     const token = Cookies.get("access_token")
     const [show, setShow] = useState(false);
+    const [cancelAwbNo, setCancelAwbNo] = useState("");
     const [showCancel, setShowCancel] = useState(false);
+    const [SingleShip, setSingleShip] = useState(false)
     const [deleteOrderId, setDeleteOrderId] = useState("");
     const [cancelOrderId, setCancelOrderId] = useState("");
-    const [cancelAwbNo, setCancelAwbNo] = useState("");
-    const [cancelOrderStatus, setCancelOrderStatus] = useState("");
-    const [SingleShip, setSingleShip] = useState(false)
     const [genaratelabel, setGenaratelabel] = useState(false);
+    const [copyText, setcopyText] = useState("Click To Copy")
     const [selectedOrderId, setSelectedOrderId] = useState(null);
     const [shipingResponse, setShipingResponse] = useState(null);
     const [generateinvoice, setGenerateinvoice] = useState(false);
+    const [cancelOrderStatus, setCancelOrderStatus] = useState("");
     const [SingleShipReassign, setSingleShipReassign] = useState(false)
     const { orderdelete } = useSelector(state => state?.orderSectionReducer)
-    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
     const { labelData, invoiceData } = useSelector(state => state?.orderSectionReducer)
+    const reassignCard = useSelector(state => state?.moreorderSectionReducer?.moreorderCard)
 
     useEffect(() => {
         if (orderdelete) {
@@ -172,13 +163,15 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
             axios.get(`${BASE_URL_CORE}/core-api/shipping/ship-rate-card/?order_id=${orderId}`, config)
                 .then((response) => {
                     setShipingResponse(response.data);
-                    setSingleShip(true);
+                    setSingleShip(true);    
 
                 }).catch((error) => {
                     customErrorFunction(error)
                 });
         }
     };
+
+    console.log(shipingResponse,"shipingResponse")
 
     const handleShipReassign = (orderId, status) => {
         if (status === "pending") {
@@ -361,6 +354,16 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
         setShowCancel(false)
     }
 
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+                // setcopyText("Url Copied")
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
 
     return (
         <>
@@ -534,6 +537,11 @@ const AllOrders = ({ orders, setRateRef, activeTab, partnerList, selectAll, setL
                                                             {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                         </p>
                                                     </div>
+                                                    {row?.awb_number && <CustomTooltip
+                                                        triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                        tooltipComponent={copyText}
+                                                        addClassName='copytext-tooltip'
+                                                    />}
                                                 </div>
                                             </td>
                                             <td className='align-middle status-box position-relative'>
