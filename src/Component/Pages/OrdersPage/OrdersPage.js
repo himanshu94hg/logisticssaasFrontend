@@ -309,7 +309,7 @@ const OrdersPage = () => {
                 });
         }
 
-    }, [orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
+    }, [activeTab, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
 
     useEffect(() => {
