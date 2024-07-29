@@ -304,9 +304,7 @@ const ReadyToShip = ({ setOrderTracking, orders, setLoader, partnerList, MoreFil
 
     }
 
-    // const textRef = useRef(null);
-
-    const handleCopy = (awb) => {
+      const handleCopy = (awb) => {
         const temp_url = `https://shipease.in/order-tracking/${awb}`
         navigator.clipboard.writeText(temp_url)
             .then(() => {

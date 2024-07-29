@@ -4,14 +4,15 @@ import { debounce } from 'lodash';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import { FaRegCopy } from "react-icons/fa";
 import Button from 'react-bootstrap/Button';
 import NoData from '../../../../common/noData';
 import { useDispatch, useSelector } from 'react-redux';
 import InfoIcon from '../../../../common/Icons/InfoIcon';
 import { BASE_URL_CORE } from '../../../../../axios/config';
 import CustomIcon from '../../../../common/Icons/CustomIcon';
-import React, { useState, useEffect, useCallback } from 'react';
 import { faCircle, } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
 import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
@@ -37,6 +38,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
     const [actionId, setActionId] = useState("")
     const [actionType, setActionType] = useState("");
     const [selectAll, setSelectAll] = useState(false);
+    const [copyText, setcopyText] = useState("Click To Copy")
     const { orderdelete, orderCancelled } = useSelector(state => state?.orderSectionReducer)
 
     useEffect(() => {
@@ -114,10 +116,7 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
         []
     );
 
-    const generateManifest = (value) => {
-        setLoader(true)
-        debouncedHandleClick(value);
-    }
+
     const downloadManifest = async (value) => {
         setLoader(true)
         const requestData = {
@@ -301,6 +300,18 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
         }
     }
 
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+                // setcopyText("Url Copied")
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
+
+
 
     return (
         <section className='position-relative'>
@@ -481,6 +492,11 @@ const Pickups = ({ orders, activeTab, MoreFilters, setLoader, partnerList, bulkA
                                                         {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box position-relative'>

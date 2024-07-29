@@ -1,50 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import SearchIcon from '../../../../../assets/image/icons/search-icon.png'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import axios from "axios";
-import { faChevronRight, faCircle, faCircleInfo, faEllipsisVertical } from '@fortawesome/free-solid-svg-icons';
-import AmazonLogo from '../../../../../assets/image/logo/AmazonLogo.png'
-import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
-import ThreeDots from '../../../../../assets/image/icons/ThreeDots.png'
-import InfoIcon from '../../../../common/Icons/InfoIcon';
 import moment from 'moment/moment';
-import { useDispatch, useSelector } from 'react-redux';
-import shopifyImg from "../../../../../assets/image/integration/shopify.png"
-import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
-import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
-import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
-import magentoImg from "../../../../../assets/image/integration/magento.png"
-import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
-import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
-import customImg from "../../../../../assets/image/integration/Manual.png"
-import MoreFiltersPanel from '../MoreFiltersPanel/MoreFiltersPanel';
-import SelectAllDrop from '../SelectAllDrop/SelectAllDrop';
-import { weightCalculation, weightGreater } from '../../../../../customFunction/functionLogic';
-import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
-import Tooltip from 'react-bootstrap/Tooltip';
-import CustomIcon from '../../../../common/Icons/CustomIcon';
-import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
-import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
-import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
-import NoData from '../../../../common/noData';
 import { Link } from 'react-router-dom';
+import { FaRegCopy } from "react-icons/fa";
+import NoData from '../../../../common/noData';
+import React, { useState, useEffect } from 'react';
+import InfoIcon from '../../../../common/Icons/InfoIcon';
+import CustomIcon from '../../../../common/Icons/CustomIcon';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import OrderTagsIcon from '../../../../common/Icons/OrderTagsIcon';
+import amazonImg from "../../../../../assets/image/logo/AmazonLogo.png"
+import woocomImg from "../../../../../assets/image/integration/WCLogo.png"
+import ForwardIcon from '../../../../../assets/image/icons/ForwardIcon.png'
+import CustomTooltip from '../../../../common/CustomTooltip/CustomTooltip';
+import VerifiedOrderIcon from '../../../../common/Icons/VerifiedOrderIcon';
+import { weightGreater } from '../../../../../customFunction/functionLogic';
+import magentoImg from "../../../../../assets/image/integration/magento.png"
+import shopifyImg from "../../../../../assets/image/integration/shopify.png"
+import openCartImg from "../../../../../assets/image/integration/OpenCart.png"
+import amazonDirImg from "../../../../../assets/image/integration/AmazonLogo.png"
+import storeHipImg from "../../../../../assets/image/integration/StoreHippoLogo.png"
 
-const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, BulkActionShow, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
-
-    const dispatch = useDispatch()
+const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList, setBulkActionShow, selectedRows, setSelectedRows, setOrderTracking, setAwbNo }) => {
     const [selectAll, setSelectAll] = useState(false);
-    // const [MoreFilters, setMoreFilters] = useState(false);
-    const [SingleShip, setSingleShip] = useState(false)
-    const [selectedOrderId, setSelectedOrderId] = useState(null);
-    const [exportButtonClick, setExportButtonClick] = useState(false)
-    const exportCard = useSelector(state => state?.exportSectionReducer?.exportCard)
+    const [copyText, setcopyText] = useState("Click To Copy")
 
     useEffect(() => {
         if (activeTab || MoreFilters) {
             setSelectAll(false)
         }
     }, [activeTab, MoreFilters])
-    // Handler for "Select All" checkbox
     const handleSelectAll = () => {
         setSelectAll(!selectAll);
         if (!selectAll) {
@@ -56,10 +41,6 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
         }
     };
 
-    const handleShipNow = (orderId) => {
-        setSelectedOrderId(orderId);
-        setSingleShip(true);
-    };
 
     const handleSelectRow = (orderId) => {
         const isSelected = selectedRows.includes(orderId);
@@ -83,19 +64,10 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
         }
     };
 
-
-
-
-    const openEditingSection = (id) => {
-        setOrderId(id)
-    }
-
     const handleClickAWB = (event, awb) => {
         event.preventDefault();
         setOrderTracking(true)
         setAwbNo(awb)
-        // const url = `https://shipease.in/order-tracking/`;
-        // window.open(url, '_blank');
     };
 
     const handleClickpartner = (event, row) => {
@@ -142,6 +114,16 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
         }
     }
 
+    const handleCopy = (awb) => {
+        const temp_url = `https://shipease.in/order-tracking/${awb}`
+        navigator.clipboard.writeText(temp_url)
+            .then(() => {
+                // setcopyText("Url Copied")
+            })
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+            });
+    };
 
     return (
         <section className='position-relative'>
@@ -307,6 +289,11 @@ const ReturnOrders = ({ orders, setOrderId, activeTab, MoreFilters, partnerList,
                                                         {row.courier_partner && partnerList[row.courier_partner]["title"]}
                                                     </p>
                                                 </div>
+                                                <CustomTooltip
+                                                    triggerComponent={<button className='btn copy-button p-0 ps-1' onClick={() => handleCopy(row?.awb_number)}><FaRegCopy /></button>}
+                                                    tooltipComponent={copyText}
+                                                    addClassName='copytext-tooltip'
+                                                />
                                             </div>
                                         </td>
                                         <td className='align-middle status-box'>
