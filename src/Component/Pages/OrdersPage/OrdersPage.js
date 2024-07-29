@@ -94,16 +94,14 @@ const OrdersPage = () => {
             setTimeout(() => {
                 setLoader(false)
             }, 500);
-            setSearchValue("");
-            setQueryParamTemp({});
-            setItemsPerPage(20)
             setbulkAwb([])
-            setSearchOption(SearchOptions[0])
-            setBulkActionShow(false)
-            setSelectedRows([])
-            setCurrentPage(1)
             setOrders([])
             setErrors({})
+            setSearchValue("")
+            setSelectedRows([])
+            setQueryParamTemp({});
+            setBulkActionShow(false)
+            setSearchOption(SearchOptions[0])
             setsearchType(SearchOptions[0].value)
         }
     }, [activeTab])
@@ -257,7 +255,6 @@ const OrdersPage = () => {
     }
 
     useEffect(() => {
-        // setLoader(true)
         let apiUrl = '';
         switch (activeTab) {
             case "All":
@@ -315,7 +312,6 @@ const OrdersPage = () => {
     }, [activeTab, orderCancelled, orderdelete, orderClone, currentPage, itemsPerPage, rateRef, JSON.stringify(queryParamTemp), pickupStatus, orderUpdateRes, moreorderShipCardStatus]);
 
 
-
     useEffect(() => {
         if (activeTab === "Manifest") {
             axios.get(`${BASE_URL_ORDER}/orders-api/orders/manifest/?page_size=${itemsPerPage}&page=${currentPage}`, {
@@ -354,7 +350,7 @@ const OrdersPage = () => {
 
     return (
         <>
-            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setRateRef={setRateRef} />
+            <NavTabs activeTab={activeTab} setActiveTab={setActiveTab} setRateRef={setRateRef} setCurrentPage={setCurrentPage} setItemsPerPage={setItemsPerPage} />
             {activeTab != "Manifest" && <div className="box-shadow shadow-sm p7 filter-container">
                 <div className="search-container ot-filters">
                     <div className='d-flex'>
@@ -609,6 +605,7 @@ const OrdersPage = () => {
 
             <EditOrder setEditOrderSection={setEditOrderSection} EditOrderSection={EditOrderSection} orderId={orderId} />
             <CloneOrder setCloneOrderSection={setCloneOrderSection} CloneOrderSection={CloneOrderSection} orderId={orderId} />
+
             <MoreFiltersPanel
                 MoreFilters={MoreFilters}
                 activeTab={activeTab}
